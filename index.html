@@ -4,6 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<title>osmaxx &mdash; OpenStreetMap Arbitrary eXcerpt eXport</title>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
 	</head>
 
@@ -14,11 +15,7 @@
 					<h1>osmaxx</h1>
 					<h2>Data selection</h2>
 				</div>
-				<div class='col-sm-7' style='background-color:green'>
-					<p>
-						(map)
-					</p>
-				</div>
+				<div id='map' class='col-sm-7' style='height: 1000px;'></div>
 			</div>
 			<div class="row">
 				<div class="col-sm-5 form-group">
@@ -26,6 +23,10 @@
 				</div>
 			</div>
 		</form>
+
+		<!-- Leaflet -->
+		<script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+		<script type="text/javascript" src="map.js"></script>
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
