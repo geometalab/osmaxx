@@ -17,7 +17,6 @@
 					<h2>Data selection</h2>
 					<label for="excerpt-select">Excerpt</label>
 					<select class="selectpicker" data-live-search="true" title='&lt;small>Choose from list or click on map&lt;/small>' id="excerpt-select">
-						<option></option>
 						<optgroup label="My own bounding boxes">
 							<option data-icon="glyphicon-user">South Sudan, Juba</option>
 							<option data-icon="glyphicon-eye-close" data-subtext="private">Hiking map for 2013 X-Mas vacation Hawaii :-) &lt;3</option>
@@ -293,6 +292,14 @@
 			$(document).ready(function(e) {
 				$('.selectpicker').selectpicker({
 				});
+
+				// Start with no option selected, so that the 'title' text is displayed instead.
+				//
+				// HACK: While
+				//     $('.selectpicker').selectpicker('deselectAll');
+				// only works when using the 'multiple' attribute, the following (currently) works
+				// for regular bootstrap-selects, too. Whether it's supposed to, I don't know.
+				$('.selectpicker').selectpicker('val', []);
 			});
 		</script>
 	</body>
