@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>osmaxx &mdash; OpenStreetMap Arbitrary eXcerpt eXport</title>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="https://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.css" />
+	</head>
+
+	<body class='container-fluid'>
+		<div class="row">
+			<div class="col-sm-5 form-group">
+				<h1>osmaxx</h1>
+				<h2>Data selection</h2>
+
+				<form action='index.html'>
+					<div class="form-group">
+						<div class="btn-group" role="group" aria-label="...">
+							<button type="submit" class="btn btn-default">
+								Create new excerpt
+							</button>
+							<button type="button" class="btn btn-default active">
+								Use existing excerpt
+							</button>
+						</div>
+					</div>
+				</form>
+
+				<form action='submit'>
+					<div class="form-group">
+						<label for="excerpt-select">Existing excerpt</label>
+						<select class="selectpicker" data-live-search="true" title='&lt;small>Choose from list or click on map&lt;/small>' id="excerpt-select">
+							<optgroup label="My own bounding boxes">
+								<option data-icon="glyphicon-user">South Sudan, Juba</option>
+								<option data-icon="glyphicon-eye-close" data-subtext="private">Hiking map for 2013 X-Mas vacation Hawaii :-) &lt;3</option>
+								<option data-icon="glyphicon-user">Malawi - Lower Shire</option>
+								<option data-icon="glyphicon-user">Central African Republic, Basse-Kotto, Mingala - sub-prefectures</option>
+								<option data-icon="glyphicon-user">Eastern Samar </option>
+								<option data-icon="glyphicon-eye-close" data-subtext="private">TOP SECRET Area 51</option>
+								<option data-icon="glyphicon-eye-close" data-subtext="private">MiB HQ</option>
+							</optgroup>
+
+							<optgroup label="Administrative areas (e.g. counties)">
+
+								<option data-icon="glyphicon-globe">Antarctica</option>
+
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Algeria</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Angola</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Benin</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Botswana</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Burkina</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Burundi</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Cameroon</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Cape Verde</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Central African Republic</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Chad</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Comoros</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Congo</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Congo, Democratic Republic of</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Djibouti</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Egypt</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Equatorial Guinea</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Eritrea</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Ethiopia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Gabon</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Gambia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Ghana</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Guinea</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Guinea-Bissau</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Ivory Coast</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Kenya</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Lesotho</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Liberia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Libya</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Madagascar</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Malawi</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Mali</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Mauritania</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Mauritius</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Morocco</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Mozambique</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Namibia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Niger</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Nigeria</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Rwanda</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Sao Tome and Principe</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Senegal</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Seychelles</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Sierra Leone</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Somalia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">South Africa</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">South Sudan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Sudan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Swaziland</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Tanzania</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Togo</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Tunisia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Uganda</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Zambia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Africa">Zimbabwe</option>
+
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Afghanistan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Bahrain</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Bangladesh</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Bhutan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Brunei</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Burma (Myanmar)</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Cambodia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">China</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">East Timor</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">India</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Indonesia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Iran</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Iraq</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Israel</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Japan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Jordan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Kazakhstan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Korea, North</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Korea, South</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Kuwait</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Kyrgyzstan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Laos</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Lebanon</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Malaysia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Maldives</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Mongolia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Nepal</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Oman</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Pakistan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Philippines</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Qatar</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia &amp; Europe">Russian Federation</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Saudi Arabia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Singapore</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Sri Lanka</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Syria</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Tajikistan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Thailand</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia & Europe">Turkey</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Turkmenistan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">United Arab Emirates</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Uzbekistan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Vietnam</option>
+								<option data-icon="glyphicon-flag" data-subtext="Asia">Yemen</option>
+
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Albania</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Andorra</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Armenia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Austria</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Azerbaijan</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Belarus</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Belgium</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Bosnia and Herzegovina</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Bulgaria</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Croatia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Cyprus</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Czech Republic</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Denmark</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Estonia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Finland</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">France</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Georgia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe" disabled>Germany</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Baden-Württemberg</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Bayern</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Berlin</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Brandenburg</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Bremen</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Hamburg</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Hessen</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Mecklenburg-Vorpommern</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Niedersachsen</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Nordrhein-Westfalen</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Rheinland-Pfalz</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Saarland</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Sachsen</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Sachsen-Anhalt</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Schleswig-Holstein</option>
+								<option data-icon="glyphicon-home" data-subtext="Germany, Europe">Thüringen</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Greece</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Hungary</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Iceland</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Ireland</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Italy</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Latvia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Liechtenstein</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Lithuania</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Luxembourg</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Macedonia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Malta</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Moldova</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Monaco</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Montenegro</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Netherlands</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Norway</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Poland</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Portugal</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Romania</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">San Marino</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Serbia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Slovakia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Slovenia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Spain</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Sweden</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Switzerland</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Ukraine</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">United Kingdom</option>
+								<option data-icon="glyphicon-flag" data-subtext="Europe">Vatican City</option>
+
+								<option data-icon="glyphicon-flag" data-subtext="North America">Antigua and Barbuda</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Bahamas</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Barbados</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Belize</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Canada</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Costa Rica</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Cuba</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Dominica</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Dominican Republic</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">El Salvador</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Grenada</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Guatemala</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Haiti</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Honduras</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Jamaica</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Mexico</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Nicaragua</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Panama</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Saint Kitts and Nevis</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Saint Lucia</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Saint Vincent and the Grenadines</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">Trinidad and Tobago</option>
+								<option data-icon="glyphicon-flag" data-subtext="North America">United States</option>
+
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Australia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Fiji</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Kiribati</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Marshall Islands</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Micronesia</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Nauru</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">New Zealand</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Palau</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Papua New Guinea</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Samoa</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Solomon Islands</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Tonga</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Tuvalu</option>
+								<option data-icon="glyphicon-flag" data-subtext="Oceania">Vanuatu</option>
+
+								<option data-icon="glyphicon-flag" data-subtext="South America">Argentina</option>
+								<option data-icon="glyphicon-flag" data-subtext="South America">Bolivia</option>
+								<option data-icon="glyphicon-flag" data-subtext="South America">Brazil</option>
+								<option data-icon="glyphicon-flag" data-subtext="South America">Chile</option>
+								<option data-icon="glyphicon-flag" data-subtext="South America">Colombia</option>
+								<option data-icon="glyphicon-flag" data-subtext="South America">Ecuador</option>
+								<option data-icon="glyphicon-flag" data-subtext="South America">Guyana</option>
+								<option data-icon="glyphicon-flag" data-subtext="South America">Paraguay</option>
+								<option data-icon="glyphicon-flag" data-subtext="South America">Peru</option>
+								<option data-icon="glyphicon-flag" data-subtext="South America">Suriname</option>
+								<option data-icon="glyphicon-flag" data-subtext="South America">Uruguay</option>
+								<option data-icon="glyphicon-flag" data-subtext="South America">Venezuela</option>
+
+							</optgroup>
+
+							<optgroup label="Others' public bounding boxes">
+								<option data-icon="glyphicon-eye-open">Central African Republic. Gbadolite and outskirts</option>
+								<option data-icon="glyphicon-eye-open">East Cameroon</option>
+								<option data-icon="glyphicon-eye-open">Guinea, N'Zerekore area</option>
+								<option data-icon="glyphicon-eye-open">Beni, DRC/RDC</option>
+								<option data-icon="glyphicon-eye-open">Gaza-Strip-2014 Map for Shelter Cluster/NRC, TDH Lausanne</option>
+								<option data-icon="glyphicon-eye-open">Davos, Switzerland</option>
+								<option data-icon="glyphicon-eye-open">North pole (66,57° N - 90° N)</option>
+								<option data-icon="glyphicon-eye-open">West Nauru</option>
+								<option data-icon="glyphicon-eye-open">Chilean-Argentinian border</option>
+								<option data-icon="glyphicon-eye-open">District of Columbia, U.S.A.</option>
+								<option data-icon="glyphicon-eye-open">Alps (D, A, CH, F, FL)</option>
+								<option data-icon="glyphicon-eye-open">Mariana Trench</option>
+								<option data-icon="glyphicon-eye-open">Middle East</option>
+							</optgroup>
+						</select>
+					</div>
+
+				</form>
+			</div>
+			<div id='map' class='col-sm-7' style='height: 1000px;'></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-5 form-group">
+				<h2>Output options</h2>
+			</div>
+		</div>
+
+		<!-- Leaflet -->
+		<script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+		<script type="text/javascript" src="map.js"></script>
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
+
+		<!-- Bootstrap -->
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+		<!-- Bootstrap plugins -->
+		<!-- Bootstrap select -->
+		<script type="text/javascript" src="https://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$('.selectpicker').selectpicker({
+				});
+
+				// Start with no option selected, so that the 'title' text is displayed instead.
+				//
+				// HACK: While
+				//     $('.selectpicker').selectpicker('deselectAll');
+				// only works when using the 'multiple' attribute, the following (currently) works
+				// for regular bootstrap-selects, too. Whether it's supposed to, I don't know.
+				$('.selectpicker').selectpicker('val', []);
+			});
+		</script>
+	</body>
+
+</html>
