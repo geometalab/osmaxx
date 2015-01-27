@@ -283,22 +283,47 @@
 					</div>
 
 					<h2>Output options</h2>
-					<h3>File formats</h3>
-					<div class="form-group">
-						<div class="checkbox">
-							<label><input type="checkbox" checked /> FileGDB</label>
-							<span class="help-block">For use in ESRi</span>
+					<div class="row">
+						<div class="col-sm-6 form-group">
+							<h3>File formats</h3>
+							<div class="form-group">
+								<div class="checkbox">
+									<label><input type="checkbox" checked /> FileGDB</label>
+									<span class="help-block">For use in ESRi</span>
+								</div>
+								<div class="checkbox">
+									<label><input type="checkbox" checked /> GeoPackage</label>
+									<span class="help-block">SQLite-based GIS format</span>
+								</div>
+								<div class="checkbox">
+									<label><input type="checkbox" /> Shapefile</label>
+									<span class="help-block">avoid if possible</span>
+								</div>
+							</div>
 						</div>
-						<div class="checkbox">
-							<label><input type="checkbox" checked /> GeoPackage</label>
-							<span class="help-block">SQLite-based GIS format</span>
-						</div>
-						<div class="checkbox">
-							<label><input type="checkbox" /> Shapefile</label>
-							<span class="help-block">avoid if possible</span>
+						<div class='col-sm-6 form-group'>
+							<h4>GIS export options</h4>
+							<div class='form-group'>
+								<label>Coordinate system</label>
+								<div>...</div>
+							</div>
+							<div class='form-group'>
+								<label>Max. zoom level</label>
+								<div>...</div>
+							</div>
 						</div>
 					</div>
-
+					<div class="row">
+						<div class="col-sm-6 form-group">
+							<label>Generate navigation / routing data:</label>
+							<div class='checkbox' name='gis-formats-checkboxes'>
+								<label>
+									<input type="checkbox" />IMG
+									<p class='help-block'>for Garmin devices</p>
+								</label>
+							</div>
+						</div>
+					</div>
 				</form>
 			</div>
 			<div id='map' class='col-sm-7' style='height: 1000px;'></div>
