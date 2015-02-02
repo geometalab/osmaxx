@@ -288,21 +288,21 @@
 							<h3>File formats</h3>
 							<div class="form-group">
 								<div class="checkbox">
-									<label>
+									<label data-toggle="tooltip" data-placement="right" title="For use in ESRi" container='body'>
 										<input type="checkbox" checked /> FileGDB
-										<span class="help-block">For use in ESRi</span>
+										<noscript><span class="help-block">For use in ESRi</span></noscript>
 									</label>
 								</div>
 								<div class="checkbox">
-									<label>
+									<label data-toggle="tooltip" data-placement="right" title="SQLite-based GIS format" container='body'>
 										<input type="checkbox" checked /> GeoPackage
-										<span class="help-block">SQLite-based GIS format</span>
+										<noscript><span class="help-block">SQLite-based GIS format</span></noscript>
 									</label>
 								</div>
 								<div class="checkbox">
-									<label>
+									<label data-toggle="tooltip" data-placement="right" title="avoid if possible" container='body'>
 										<input type="checkbox" /> Shapefile
-										<span class="help-block">avoid if possible</span>
+										<noscript><span class="help-block">avoid if possible</span></noscript>
 									</label>
 								</div>
 							</div>
@@ -316,24 +316,24 @@
 							<div class='form-group'>
 								<label>Detail level</label>
 								<div class="radio">
-									<label>
+									<label data-toggle="tooltip" data-placement="right" title="converted verbatim from OpenStreetMap" container='body'>
 										<input type="radio" name="detailLevelRadios" id="detailLevelRadio-precise" value="precise">
 										precise
-										<span class="help-block">converted verbatim from OpenStreetMap</span>
+										<noscript><span class="help-block">converted verbatim from OpenStreetMap</span></noscript>
 									</label>
 								</div>
 								<div class="radio">
-									<label>
+									<label data-toggle="tooltip" data-placement="right" title="reduced point-count" container='body'>
 										<input type="radio" name="detailLevelRadios" id="detailLevelRadio-simplified" value="simplified">
 										simplified
-										<span class="help-block">reduced point-count</span>
+										<noscript><span class="help-block">reduced point-count</span></noscript>
 									</label>
 								</div>
 								<div class="radio">
-									<label>
+									<label data-toggle="tooltip" data-placement="right" title="precise and simplified data in a single download" container='body'>
 										<input type="radio" name="detailLevelRadios" id="detailLevelRadio-both" value="both">
 										combined
-										<span class="help-block">precise and simplified data in a single download</span>
+										<noscript><span class="help-block">precise and simplified data in a single download</span></noscript>
 									</label>
 								</div>
 							</div>
@@ -343,9 +343,9 @@
 						<div class="col-sm-6 form-group">
 							<label>Generate navigation / routing data:</label>
 							<div class='checkbox' name='gis-formats-checkboxes'>
-								<label>
+								<label data-toggle="tooltip" data-placement="right" title="for Garmin devices" container='body'>
 									<input type="checkbox" />IMG
-									<p class='help-block'>for Garmin devices</p>
+									<noscript><p class='help-block'>for Garmin devices</p></noscript>
 								</label>
 							</div>
 						</div>
@@ -366,6 +366,11 @@
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 		<!-- Bootstrap plugins -->
+		<script type="text/javascript">
+			$(function() {
+				$('[data-toggle="tooltip"]').tooltip();
+			});
+		</script>
 		<!-- Bootstrap select -->
 		<script type="text/javascript" src="https://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.js"></script>
 		<script type="text/javascript">
