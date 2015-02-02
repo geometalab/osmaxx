@@ -310,8 +310,14 @@
 						<div class='col-sm-6 form-group'>
 							<h4>GIS export options</h4>
 							<div class='form-group'>
-								<label>Coordinate reference system</label>
-								<div>...</div>
+								<div class="form-group">
+									<label for="excerpt-select">Coordinate reference system</label>
+									<select class="selectpicker" data-live-search="false" title='&lt;small>Choose from list&lt;/small>' id="crs-select">
+											<option data-subtext="EPSG 4326">WGS 84</option>
+											<option data-subtext="EPSG 4629">NAD 83</option>
+											<option data-subtext="EPSG 4277">OSGB 36</option>
+									</select>
+								</div>
 							</div>
 							<div class='form-group'>
 								<label>Detail level</label>
