@@ -98,11 +98,11 @@
 							<div class='form-group'>
 								<div class="form-group">
 									<label for="excerpt-select">Coordinate reference system</label>
-									<select class="selectpicker" data-live-search="true" title='&lt;small>Choose from list&lt;/small>' id="crs-select">
+									<select class="selectpicker" data-live-search="true" id="crs-select">
 										<optgroup label="Global coordinate reference systems">
 											<option data-subtext="EPSG 3857">Pseudo-Merkator</option>
 											<option data-subtext="EPSG 4322">WGS 72</option>
-											<option data-subtext="EPSG 4326">WGS 84</option>
+											<option data-subtext="EPSG 4326" selected>WGS 84</option>
 											<option data-subtext="EPSG 4629">NAD 83</option>
 											<option data-subtext="EPSG 4277">OSGB 36</option>
 										</optgroup>
@@ -319,14 +319,6 @@
 			$(document).ready(function(e) {
 				$('.selectpicker').selectpicker({
 				});
-
-				// Start with no option selected, so that the 'title' text is displayed instead.
-				//
-				// HACK: While
-				//     $('.selectpicker').selectpicker('deselectAll');
-				// only works when using the 'multiple' attribute, the following (currently) works
-				// for regular bootstrap-selects, too. Whether it's supposed to, I don't know.
-				$('.selectpicker').selectpicker('val', []);
 			});
 		</script>
 	</body>
