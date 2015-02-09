@@ -40,23 +40,23 @@
 							<div class="row">
 								<div class="col-sm-4 col-sm-offset-4">
 									<label>North</label>
-									<input class="form-control" />
+									<input class="form-control" id="input-north" />
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-sm-4">
 									<label>West</label>
-									<input class="form-control "/>
+									<input class="form-control " id="input-west" />
 								</div>
 								<div class="col-sm-4 col-sm-offset-4">
 									<label>East</label>
-									<input class="form-control" />
+									<input class="form-control" id="input-east" />
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-sm-4 col-sm-offset-4">
 									<label>South</label>
-									<input class="form-control" />
+									<input class="form-control" id="input-south"/>
 								</div>
 							</div>
 						</div>
@@ -298,6 +298,9 @@
 			<div id='map' class='col-sm-7' style='height: 100%;'></div>
 		</div>
 
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
+
 		<!-- Leaflet -->
 		<script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 		<script type="text/javascript">L.Path.CLIP_PADDING = 1.0;</script>
@@ -306,9 +309,6 @@
 		<!-- Leaflet plugins -->
 		<script type="text/javascript" src="thirdparty/leaflet-locationfilter/src/locationfilter.js"></script>
 		<script type="text/javascript" src="leaflet-locationfilter.js"></script>
-
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
 
 		<!-- Bootstrap -->
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
