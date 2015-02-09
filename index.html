@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" media="screen" href="https://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.css" />
+		<link rel="stylesheet" type="text/css" href="thirdparty/leaflet-locationfilter/src/locationfilter.css" />
 	</head>
 
 	<body class='container-fluid' style="height: 100%;">
@@ -299,7 +300,14 @@
 
 		<!-- Leaflet -->
 		<script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+		<script type="text/javascript">L.Path.CLIP_PADDING = 1.0;</script>
 		<script type="text/javascript" src="map.js"></script>
+
+		<!-- Leaflet plugins -->
+		<script type="text/javascript" src="thirdparty/leaflet-locationfilter/src/locationfilter.js"></script>
+		<script type="text/javascript">
+			var locationFilter = new L.LocationFilter({enable: true}).addTo(map);
+		</script>
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>

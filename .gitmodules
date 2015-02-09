@@ -1,0 +1,3 @@
+[submodule "thirdparty/leaflet-locationfilter"]
+	path = thirdparty/leaflet-locationfilter
+	url = https://github.com/kajic/leaflet-locationfilter.git
