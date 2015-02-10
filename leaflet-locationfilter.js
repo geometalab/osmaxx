@@ -3,7 +3,8 @@
  */
 
 var locationFilter = new L.LocationFilter({
-	enable : true
+	enable : true,
+	enableButton : false
 }).addTo(map);
 
 function updateBboxTextInputsWith(bounds) {
