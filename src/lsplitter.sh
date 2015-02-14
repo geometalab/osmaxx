@@ -1,9 +1,9 @@
 #!/bin/bash
 
-outdir='lsplitter-out2'
-tmpdir='lsplitter-out'
+outdir='lsplitter-out2' # directory for final tiles
+tmpdir='lsplitter-out'  # directory for temporary "stripes"
 infile='planet-150202.osm.pbf'
-parallel_options="-v -j40 --noswap"
+parallel_options="-v --noswap"
 
 doit1() {
 	export TIMEFORMAT=%R # http://stackoverflow.com/a/3795634
@@ -34,9 +34,9 @@ mkdir -p $tmpdir
 echo "Starting phase 1..."
 
 export -f doit1 # see http://stackoverflow.com/a/26702789
-#time ./parallel $parallel_options doit1 $infile $outdir ::: {-180..179} #minlon
+time ./parallel $parallel_options doit1 $infile $outdir ::: {-180..179} #minlon
 
 echo "Starting phase 2..."
 
 export -f doit2 # see http://stackoverflow.com/a/26702789
-time ./parallel $parallel_options doit2 $infile $tmpdir $outdir ::: {-90..89} ::: {-180..179} # minlat, minlon 
+time ./parallel $parallel_options doit2 $infile $tmpdir $outdir ::: {-90..89} ::: {-180..179} # minlat, minlon (changing this order will make things slower)
