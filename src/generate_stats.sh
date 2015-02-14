@@ -1,9 +1,10 @@
 #!/bin/bash
 
-parallel_options="-k --eta -j50% --noswap"
+parallel_options="-k -j50% --noswap"
 
 if [[ $# -ne 2 ]]; then
 	echo "Usage: $0 directory/with/pbffiles/ outfile"
+	exit
 fi
 
 if [[ ! -d $1 ]]; then
@@ -32,5 +33,6 @@ process() {
 	echo "$minlat,$minlon,$filesize,$nodes,$ways,$relations"
 }
 
+ulimit -n 3000 # increase the allowed number of open files
 export -f process
 time ./parallel $parallel_options process $indir ::: {-90..89} ::: {-180..179} > $outfile # minlat, minlon
