@@ -17,13 +17,12 @@ if [[ -e $2 ]]; then
 	exit 2
 fi
 
-indir=$1
+export indir=$1
 outfile=$2
 
 process() {
-	indir=$1
-	minlat=$2
-	minlon=$3
+	minlat=$1
+	minlon=$2
 	infile=$indir/out_${minlat}_${minlon}.pbf
 	filesize=$(stat -c '%s' $infile)
 	stats=$(./osmconvert $infile --out-statistics)
@@ -35,4 +34,4 @@ process() {
 
 ulimit -n 3000 # increase the allowed number of open files
 export -f process
-time ./parallel $parallel_options process $indir ::: {-90..89} ::: {-180..179} > $outfile # minlat, minlon
+time ./parallel $parallel_options process ::: {-90..89} ::: {-180..179} > $outfile # minlat, minlon
