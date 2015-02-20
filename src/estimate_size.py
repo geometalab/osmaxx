@@ -4,17 +4,22 @@ import csv
 import sys
 import os
 import math
+import argparse
 
-if len(sys.argv) != 6:
-	print('Usage: ' + os.path.basename(__file__) + ' infile.csv minlon minlat maxlon maxlat')
-	sys.exit(2)
+parser = argparse.ArgumentParser()
+parser.add_argument("inputfile", help="the input file in csv format")
+parser.add_argument("minlon", help="mininum longitude of the bounding box", type=float)
+parser.add_argument("minlat", help="mininum latitude of the bounding box",  type=float)
+parser.add_argument("maxlon", help="maximum longitude of the bounding box", type=float)
+parser.add_argument("maxlat", help="maximum latitude of the bounding box",  type=float)
+args = parser.parse_args()
 
 # read command line arguments
-f = open(sys.argv[1], 'rb') # open the csv file
-minlonbbox = float(sys.argv[2])
-minlatbbox = float(sys.argv[3])
-maxlonbbox = float(sys.argv[4])
-maxlatbbox = float(sys.argv[5])
+f = open(args.inputfile, 'rb') # open the csv file
+minlonbbox = args.minlon
+minlatbbox = args.minlat
+maxlonbbox = args.maxlon
+maxlatbbox = args.maxlat
 
 if minlonbbox >= maxlonbbox:
 	print('ERROR: maxlon must be greater than minlon')
