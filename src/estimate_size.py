@@ -84,6 +84,6 @@ for mylat in range(int(minlatgrid), int(maxlatgrid)):
 	for mylon in range(int(minlongrid), int(maxlongrid)):
 		estimated_size += size[str(mylat), str(mylon)] * ratio(max(mylon,minlonbbox), max(mylat,minlatbbox), min(mylon+1,maxlonbbox), min(mylat+1,maxlatbbox))
 		
-print(round(estimated_size))
+print(int(round(estimated_size)))
 
 
