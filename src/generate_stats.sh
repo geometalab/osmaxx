@@ -1,6 +1,6 @@
 #!/bin/bash
 
-parallel_options="-k -j50% --noswap"
+parallel_options="-k -j50% --noswap" # number of parallel instances = 50 * number of cores, less if swapping occurs (50 proved itself to be a good number in a quick benchmark)
 
 if [[ $# -ne 2 ]]; then
 	echo "Usage: $0 directory/with/pbffiles/ outfile"
@@ -33,5 +33,5 @@ process() {
 }
 
 ulimit -n 3000 # increase the allowed number of open files
-export -f process
+export -f process # make function available to GNU parallel
 time ./parallel $parallel_options process ::: {-90..89} ::: {-180..179} > $outfile # minlat, minlon
