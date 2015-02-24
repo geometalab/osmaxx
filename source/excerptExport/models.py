@@ -17,6 +17,17 @@ class BoundingGeometryType(enum.Enum):
     #POLYGON = 1
 
 
+class Excerpt(models.Model):
+    name = models.CharField(max_length=128)
+    is_public = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    owner = models.ForeignKey(User, related_name='excerpts')
+
+    def __str__(self):
+        return 'Excerpt {name: '+self.name+', bounding box: '+self.bounding_box+'}'
+
+
 class BoundingGeometry(models.Model):
     # 'max_digits': number of total digits
     # 'decimal_places': number of digits following decimal point
@@ -27,6 +38,7 @@ class BoundingGeometry(models.Model):
     west = models.DecimalField(max_digits=12, decimal_places=8)
 
     type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX)
+    excerpt = models.OneToOneField(Excerpt, null=True)
 
     # TODO: replace by models.GeometryField(srid=4326)
     # geometry = models.CharField(max_length=128)
@@ -34,18 +46,6 @@ class BoundingGeometry(models.Model):
     def __str__(self):
         return 'BoundingGeometry{type: ' + self.type + ', north: ' + self.north + ', east: ' + self.east + \
                ', south: ' + self.south + ', west: ' + self.west + '}'
-
-
-class Excerpt(models.Model):
-    name = models.CharField(max_length=128)
-    is_public = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-
-    bounding_box = models.OneToOneField(BoundingGeometry)
-    owner = models.ForeignKey(User, related_name='excerpts')
-
-    def __str__(self):
-        return 'Excerpt {name: '+self.name+', bounding box: '+self.bounding_box+'}'
 
 
 class ExtractionOrder(models.Model):
