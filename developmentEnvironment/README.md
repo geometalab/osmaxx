@@ -20,6 +20,7 @@
 	* Ubuntu: Do not use the older version from sources, because of different syntax of vagrant files for older versions
 3. Download and install rsync
 	* Ubuntu:
+	
 		```shell
 			sudo apt-get install rsync
 		```
