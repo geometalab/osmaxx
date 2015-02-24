@@ -77,3 +77,11 @@ source "../environment/bin/activate"
 # run server. Replace $localIP by the ip address of the vm if you run this manually
 python manage.py runserver "$LOCALIP:8000"
 ```
+
+## Update persistence
+
+```shell
+cd /path/to/projects/folder
+source ../environment/bin/activate
+python manage.py makemigrations
+```
