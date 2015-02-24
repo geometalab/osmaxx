@@ -36,7 +36,7 @@ sudo pip3 install virtualenv
 echo ""
 echo "[setup] install postgresql and python driver ..."
 sudo apt-get -y install postgresql postgresql-client
-sudo apt-get -y install postgis osmctools apache2
+sudo apt-get -y install postgis osmctools apache2 postgresql-9.3-postgis-2.1
 sudo apt-get -y install python3-psycopg2
 
 
@@ -51,8 +51,10 @@ sudo service apache2 restart
 echo ""
 echo "[setup] configure database ..."
 sudo -u postgres psql -c "CREATE USER osmaxx WITH PASSWORD 'osmaxx';"
-sudo -u postgres psql -c "CREATE DATABASE osmaxx;"
+sudo -u postgres psql -c "CREATE DATABASE ENCODING 'UTF-8' osmaxx;"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE osmaxx TO osmaxx;"
+#sudo -u postgres psql -c "CREATE EXTENSION postgis;" "osmaxx"
+
 echo "------------ available databases ------------"
 sudo -u postgres psql -c "SELECT datname FROM pg_database WHERE datistemplate = false;"
 echo "---------------------------------------------"
@@ -80,7 +82,8 @@ if [ -d "projects" ]; then
     # python manage.py startapp "excerptExport"
 fi
 
-sudo cp /vagrant/osmaxx.vhost /etc/apache2/sites-available/osmaxx.conf
+# link virtual host file from vagrant directory
+sudo ln -s /vagrant/osmaxx.vhost /etc/apache2/sites-available/osmaxx.conf
 sudo ln -s /etc/apache2/sites-available/osmaxx.conf /etc/apache2/sites-enabled/osmaxx.conf
 sudo a2ensite osmaxx
 service apache2 restart

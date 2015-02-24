@@ -12,15 +12,27 @@ class ExtractionOrderState(enum.Enum):
     CANCELED = 5
 
 
-class BoundingBox(models.Model):
-    # 'max_digits' must be greater or equal to 'decimal_places'
-    north = models.DecimalField(max_digits=16, decimal_places=16)
-    east = models.DecimalField(max_digits=16, decimal_places=16)
-    south = models.DecimalField(max_digits=16, decimal_places=16)
-    west = models.DecimalField(max_digits=16, decimal_places=16)
+class BoundingGeometryType(enum.Enum):
+    BOUNDINGBOX = 0
+    #POLYGON = 1
+
+
+class BoundingGeometry(models.Model):
+    # 'max_digits': number of total digits
+    # 'decimal_places': number of digits following decimal point
+    # 7 digits following decimal point -> mm
+    north = models.DecimalField(max_digits=12, decimal_places=8)
+    east = models.DecimalField(max_digits=12, decimal_places=8)
+    south = models.DecimalField(max_digits=12, decimal_places=8)
+    west = models.DecimalField(max_digits=12, decimal_places=8)
+
+    type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX)
+
+    # TODO: replace by models.GeometryField(srid=4326)
+    # geometry = models.CharField(max_length=128)
 
     def __str__(self):
-        return 'BoundingBox{north: ' + self.north + ', east: ' + self.east + \
+        return 'BoundingGeometry{type: ' + self.type + ', north: ' + self.north + ', east: ' + self.east + \
                ', south: ' + self.south + ', west: ' + self.west + '}'
 
 
@@ -29,7 +41,7 @@ class Excerpt(models.Model):
     is_public = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
-    bounding_box = models.OneToOneField(BoundingBox)
+    bounding_box = models.OneToOneField(BoundingGeometry)
     owner = models.ForeignKey(User, related_name='excerpts')
 
     def __str__(self):
