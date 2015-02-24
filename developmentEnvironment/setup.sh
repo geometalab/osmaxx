@@ -65,16 +65,16 @@ if [ ! -d "eda" ]; then
 	mkdir "eda"
 fi
 cd "eda"
-if [ ! -d "projects" ]; then
-	mkdir "projects"
-fi
 
-virtualenv-3.4 environment
-sudo chown -R vagrant:www-data environment
-source environment/bin/activate
-pip3 install psycopg2
-pip3 install django
-#django-admin.py startproject osmaxx projects
+if [ -d "projects" ]; then
+    virtualenv-3.4 environment
+    sudo chown -R vagrant:www-data environment
+    source environment/bin/activate
+    pip3 install psycopg2
+    pip3 install django
+    # Type to create a new project 'osmaxx' in 'eda/projects'
+    # django-admin.py startproject osmaxx projects
+fi
 
 sudo cp /vagrant/osmaxx.vhost /etc/apache2/sites-available/osmaxx.conf
 sudo ln -s /etc/apache2/sites-available/osmaxx.conf /etc/apache2/sites-enabled/osmaxx.conf
