@@ -52,3 +52,12 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# linux trash
+*.*~
+
+# vagrant
+.vagrant
+
+# IDE trash
+.idea/*
