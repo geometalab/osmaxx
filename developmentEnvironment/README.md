@@ -20,8 +20,9 @@
 	* Ubuntu: Do not use the older version from sources, because of different syntax of vagrant files for older versions
 3. Download and install rsync
 	* Ubuntu:
+	
 		```shell
-			sudo apt-get install rsync
+		sudo apt-get install rsync
 		```
 3. Navigate to "developmentEnvironment", run "vagrant up && vagrant rsync-auto" to start bring up the machine
 4. On first start up, Vagrant will download the box. This can take some minutes.
@@ -31,18 +32,18 @@
 ### Reset the box
 
 ```shell
-	vagrant destroy -f
+vagrant destroy -f
 ```
 
 
 ### Log into the box
 
 ```shell
-	vagrant ssh
+vagrant ssh
 ```
 or
 ```shell
-	ssh -l 'vagrant' -p '2222' 'localhost'
+ssh -l 'vagrant' -p '2222' 'localhost'
 ```
 
 
@@ -66,13 +67,13 @@ to your local /etc/hosts file.
 You need to specify the ip. Otherwise you are not able to reach the application from outside of the vm.
 
 ```shell
-	# get local ip
-	LOCALIP = ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'
+# get local ip
+LOCALIP = ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'
 
-	# activate environment
-	cd "/path/to/manage.py"
-	source "../environment/bin/activate"
+# activate environment
+cd "/path/to/manage.py"
+source "../environment/bin/activate"
 
-	# run server. Replace $localIP by the ip address of the vm if you run this manually
-	python manage.py runserver "$LOCALIP:8000"
+# run server. Replace $localIP by the ip address of the vm if you run this manually
+python manage.py runserver "$LOCALIP:8000"
 ```
