@@ -70,8 +70,7 @@ if [ -d "projects" ]; then
     virtualenv-3.4 environment
     sudo chown -R vagrant:www-data environment
     source environment/bin/activate
-    pip3 install psycopg2
-    pip3 install django
+    pip3 install -r /vagrant/requirements.txt
     # Type to create a new project 'osmaxx' in 'eda/projects'
     # django-admin.py startproject osmaxx projects
 fi
