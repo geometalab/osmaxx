@@ -78,10 +78,33 @@ source "../environment/bin/activate"
 python manage.py runserver "$LOCALIP:8000"
 ```
 
+
 ## Update persistence
+
+### Update migration information
 
 ```shell
 cd /path/to/projects/folder
 source ../environment/bin/activate
 python manage.py makemigrations
+```
+
+### See domain specific migrations (e.g. sql)
+
+```shell
+python manage.py sqlmigrate excerptExport 0001
+```
+
+### Run migrations on database
+```shell
+python manage.py migrate
+```
+
+
+## Use backend
+
+### Create superuser
+
+```shell
+python manage.py createsuperuser
 ```
