@@ -71,8 +71,13 @@ if [ -d "projects" ]; then
     sudo chown -R vagrant:www-data environment
     source environment/bin/activate
     pip3 install -r /vagrant/requirements.txt
+
     # Type to create a new project 'osmaxx' in 'eda/projects'
-    # django-admin.py startproject osmaxx projects
+    # django-admin.py startproject "osmaxx" "projects"
+
+    # Type to create a new application 'excerptExport' in 'eda/projects'
+    # cd "projects"
+    # python manage.py startapp "excerptExport"
 fi
 
 sudo cp /vagrant/osmaxx.vhost /etc/apache2/sites-available/osmaxx.conf
