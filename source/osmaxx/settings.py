@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'excerptExport'
 )
 
@@ -49,6 +50,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+
 ROOT_URLCONF = 'osmaxx.urls'
 
 WSGI_APPLICATION = 'osmaxx.wsgi.application'
@@ -59,7 +66,8 @@ WSGI_APPLICATION = 'osmaxx.wsgi.application'
 
 DATABASES = {
    'default': {
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+       #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+       'ENGINE': 'django.contrib.gis.db.backends.postgis',
        'NAME': 'osmaxx',
        'USER': 'osmaxx',
        'PASSWORD': 'osmaxx',

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.gis.db import models
 from django_enumfield import enum
 from django.contrib.auth.models import User
 
@@ -25,27 +26,21 @@ class Excerpt(models.Model):
     owner = models.ForeignKey(User, related_name='excerpts')
 
     def __str__(self):
-        return 'Excerpt {name: '+self.name+', bounding box: '+self.bounding_box+'}'
+        return self.name
 
 
 class BoundingGeometry(models.Model):
-    # 'max_digits': number of total digits
-    # 'decimal_places': number of digits following decimal point
-    # 7 digits following decimal point -> mm
-    north = models.DecimalField(max_digits=12, decimal_places=8)
-    east = models.DecimalField(max_digits=12, decimal_places=8)
-    south = models.DecimalField(max_digits=12, decimal_places=8)
-    west = models.DecimalField(max_digits=12, decimal_places=8)
-
     type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX)
+    geometry = models.GeometryField(srid=4326, blank=True, null=True, spatial_index=True)
+
     excerpt = models.OneToOneField(Excerpt, null=True)
 
-    # TODO: replace by models.GeometryField(srid=4326)
-    # geometry = models.CharField(max_length=128)
+    # overriding the default manager with a GeoManager instance.
+    # required to perform spatial queries
+    objects = models.GeoManager()
 
     def __str__(self):
-        return 'BoundingGeometry{type: ' + self.type + ', north: ' + self.north + ', east: ' + self.east + \
-               ', south: ' + self.south + ', west: ' + self.west + '}'
+        return 'Bounding box' if (self.type == BoundingGeometryType.BOUNDINGBOX) else 'Polygon'
 
 
 class ExtractionOrder(models.Model):
@@ -57,17 +52,16 @@ class ExtractionOrder(models.Model):
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders')
 
     def __str__(self):
-        return 'ExtractionOrder{orderer: ' + self.orderer + ', excerpt: ' + \
-               self.excerpt + ', state: ' + self.state + '}'
+        return 'orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt.name
 
 
 class OutputFile(models.Model):
     mime_type = models.CharField(max_length=64)
-    path = models.FileField(max_length=512)
+    path = models.CharField(max_length=512)
     create_date = models.DateTimeField('create date')
     deleted_on_filesystem = models.BooleanField(default=False)
 
     extraction_order = models.ForeignKey(ExtractionOrder, related_name='output_files')
 
     def __str__(self):
-        return 'OutputFile{mime type: '+self.mime_type+', path: '+self.path+'}'
+        return self.path
