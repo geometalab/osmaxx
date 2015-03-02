@@ -6,5 +6,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'osmaxx.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+    url(r'^excerptExport/', include('excerptExport.urls', namespace='excerptExport')),
     url(r'^admin/', include(admin.site.urls)),
 )

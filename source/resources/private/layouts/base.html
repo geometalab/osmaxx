@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Osmaxx</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+    </style>
+    <link rel='stylesheet' type='text/css' href='{% static "stylesheets/main.css" %}' />
+</head>
+<body>
+    <header>
+        <h1>Osmaxx</h1>
+    </header>
+    <div class="main">
+        {% block main %}
+            <h2>Main block</h2>
+        {% endblock %}
+    </div>
+    <footer>
+        <p>&copy; osmaxx.ch 2015</p>
+    </footer>
+</body>
+</html>

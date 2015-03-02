@@ -1,0 +1,11 @@
+* { box-sizing: border-box; }
+body { padding: 0; margin: 0; }
+
+h1 { font-size: 2rem; margin: 0; }
+
+/* container */
+header, .main, footer { padding: 1rem; }
+header, footer { background: #286090; color: white; }
+header {}
+.main {}
+footer p { margin: 0; }
