@@ -81,6 +81,16 @@ source "../environment/bin/activate"
 python manage.py runserver "$LOCALIP:8000"
 ```
 
+### Clear Django cache
+
+```shell
+python manage.py shell
+
+# (InteractiveConsole)
+from django.core.cache import cache
+cache.clear()
+```
+
 
 ### Update persistence
 
