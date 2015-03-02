@@ -67,6 +67,9 @@ sudo -u postgres psql -c "CREATE EXTENSION postgis;" "osmaxx"
 sudo -u postgres psql -c "CREATE EXTENSION postgis_topology;" "osmaxx"
 
 
+echo "[setup] import test data ..."
+sudo -u postgres psql osmaxx < /var/www/eda/data/testdata-osmaxx.sql
+
 
 echo ""
 echo "[setup] setup application ..."
