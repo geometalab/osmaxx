@@ -3,7 +3,9 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 
 from excerptExport.models import Excerpt
+from excerptExport.models import BoundingGeometry
 from django.contrib.auth.models import User
+from pprint import pprint
 
 
 def index(request):
@@ -25,10 +27,21 @@ def list(request):
 
 
 def export(request):
-    excerpt_name = request.POST['excerpt.name']
-    excerpt = Excerpt()
-    excerpt.is_active = True
-    excerpt.name = excerpt_name
-    excerpt.is_public = request.POST['excerpt.isPublic']
+    excerpt = Excerpt(
+        name = request.POST['excerpt.name'],
+        is_active = True,
+        is_public = request.POST['excerpt.isPublic']
+    )
+    excerpt.owner = User.objects.filter(username="test", is_active=True)[0]
+    excerpt.save()
 
-    return render(request, 'templates/excerptExport/export.html', { 'excerpt': excerpt })
+    bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
+        request.POST['excerpt.boundingBox.north'],
+        request.POST['excerpt.boundingBox.east'],
+        request.POST['excerpt.boundingBox.south'],
+        request.POST['excerpt.boundingBox.west']
+    )
+    bounding_geometry.excerpt = excerpt
+    bounding_geometry.save()
+
+    return render(request, 'templates/excerptExport/export.html', { 'excerpt': excerpt, 'bounding_geometry': bounding_geometry })

@@ -38,10 +38,11 @@
                         </select>
                     </div>
 
+
                     <h2>Create excerpt</h2>
                     <div class="form-group">
                         <label for="excerpt.name">Excerpt name</label>
-                        <input type="text" class="form-control" id="excerpt.name" name="excerpt.name" />
+                        <input type="text" class="form-control" id="excerpt.name" name="excerpt.name" required="required" />
                     </div>
 
                     <div class="form-group">
@@ -51,23 +52,23 @@
                             <div class="row">
                                 <div class="col-sm-4 col-sm-offset-4">
                                     <label for="excerpt.boundingBox.north">North</label>
-                                    <input class="form-control" id="excerpt.boundingBox.north" name="excerpt.boundingBox.north" />
+                                    <input class="form-control" id="excerpt.boundingBox.north" name="excerpt.boundingBox.north" required="required" pattern="[1-9][0-9]*(\.[0-9]*)?" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
                                     <label for="excerpt.boundingBox.west">South</label>
-                                    <input class="form-control" id="excerpt.boundingBox.west" name="excerpt.boundingBox.west" />
+                                    <input class="form-control" id="excerpt.boundingBox.west" name="excerpt.boundingBox.west" required="required" pattern="[1-9][0-9]*(\.[0-9]*)?" />
                                 </div>
                                 <div class="col-sm-4 col-sm-offset-4">
                                     <label for="excerpt.boundingBox.east">West</label>
-                                    <input class="form-control " id="excerpt.boundingBox.east" name="excerpt.boundingBox.east" />
+                                    <input class="form-control " id="excerpt.boundingBox.east" name="excerpt.boundingBox.east" required="required" pattern="[1-9][0-9]*(\.[0-9]*)?" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4 col-sm-offset-4">
                                     <label for="excerpt.boundingBox.south">East</label>
-                                    <input class="form-control" id="excerpt.boundingBox.south" name="excerpt.boundingBox.south" />
+                                    <input class="form-control" id="excerpt.boundingBox.south" name="excerpt.boundingBox.south" required="required" pattern="[1-9][0-9]*(\.[0-9]*)?" />
                                 </div>
                             </div>
                         </div>

@@ -7,5 +7,9 @@
         <dd>{{ excerpt.name }}</dd>
         <dt>is public</dt>
         <dd>{{ excerpt.is_public }}</dd>
+        <dt>owner</dt>
+        <dd>{{ excerpt.owner.username }}</dd>
+        <dt>bounding geometry</dt>
+        <dd>{{ bounding_geometry.geometry }}</dd>
     </dl>
 {% endblock %}

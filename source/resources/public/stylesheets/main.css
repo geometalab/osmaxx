@@ -32,6 +32,10 @@ footer p { margin: 0; }
 .container-column.stretch-8, .container-column.stretch-80 { width: 80%; }
 
 
+/* font */
+p { word-wrap: break-word; }
+
+
 /* map */
 #map { height: 100%; z-index: 100; }
 

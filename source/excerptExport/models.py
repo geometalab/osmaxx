@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.gis.db import models
 from django_enumfield import enum
 from django.contrib.auth.models import User
+from django.contrib.gis.geos import (Point, fromstr, fromfile,
+               GEOSGeometry, MultiPoint, MultiPolygon, Polygon)
 
 
 class ExtractionOrderState(enum.Enum):
@@ -30,6 +32,21 @@ class Excerpt(models.Model):
 
 
 class BoundingGeometry(models.Model):
+    @staticmethod
+    def create_from_bounding_box_coordinates(north, east, south, west):
+        bounding_geometry = BoundingGeometry()
+        bounding_geometry.type = BoundingGeometryType.BOUNDINGBOX
+        polygon = Polygon([
+            GEOSGeometry('POINT(%s %s)' %(west, south)),
+            GEOSGeometry('POINT(%s %s)' %(west, north)),
+            GEOSGeometry('POINT(%s %s)' %(east, north)),
+            GEOSGeometry('POINT(%s %s)' %(east, south)),
+            GEOSGeometry('POINT(%s %s)' %(west, south))
+        ])
+        bounding_geometry.geometry = GEOSGeometry(polygon)
+        return bounding_geometry
+
+
     type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX)
     geometry = models.GeometryField(srid=4326, blank=True, null=True, spatial_index=True)
 
@@ -40,7 +57,11 @@ class BoundingGeometry(models.Model):
     objects = models.GeoManager()
 
     def __str__(self):
-        return 'Bounding box' if (self.type == BoundingGeometryType.BOUNDINGBOX) else 'Polygon'
+        type = 'Bounding box' if (self.type == BoundingGeometryType.BOUNDINGBOX) else 'Polygon'
+        points = []
+        for coordinates in self.geometry[0]:
+            points.append('(' + ', '.join(list(str(round(coordinate,5)) for coordinate in coordinates)) + ')')
+        return type + ': ' + ', '.join(points)
 
 
 class ExtractionOrder(models.Model):
