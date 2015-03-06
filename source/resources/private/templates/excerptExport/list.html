@@ -99,11 +99,12 @@
 
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script>L.Path.CLIP_PADDING = 1.0;</script>
-    <script src='{% static "scripts/map.js" %}'></script>
 
     <!-- Leaflet plugins -->
-    <!--<script type="text/javascript" src="thirdparty/leaflet-locationfilter/src/locationfilter.js"></script>-->
-    <!--<script type="text/javascript" src="leaflet-locationfilter.js"></script>-->
+    <script src='{% static "scripts/thirdparty/leaflet-locationfilter/src/locationfilter.js" %}'></script>
+
+    <!-- map -->
+    <script src='{% static "scripts/map.js" %}'></script>
 
     <!-- Bootstrap -->
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>

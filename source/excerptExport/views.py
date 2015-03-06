@@ -32,6 +32,8 @@ def export(request):
         is_active = True,
         is_public = request.POST['excerpt.isPublic']
     )
+    
+    # TODO: Replace by current user
     excerpt.owner = User.objects.filter(username="test", is_active=True)[0]
     excerpt.save()
 
