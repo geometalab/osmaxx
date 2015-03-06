@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 
 from excerptExport.models import Excerpt
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -23,5 +24,11 @@ def list(request):
     return render(request, 'templates/excerptExport/list.html', view_model.get_context())
 
 
-def create_excerpt(request):
-    return HttpResponse("")
+def export(request):
+    excerpt_name = request.POST['excerpt.name']
+    excerpt = Excerpt()
+    excerpt.is_active = True
+    excerpt.name = excerpt_name
+    excerpt.is_public = request.POST['excerpt.isPublic']
+
+    return render(request, 'templates/excerptExport/export.html', { 'excerpt': excerpt })

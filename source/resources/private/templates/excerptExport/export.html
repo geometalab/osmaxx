@@ -1,0 +1,11 @@
+{% extends "layouts/base.html" %}
+
+{% block main %}
+    <a href="{% url 'excerptExport:list' %}">List view</a>
+    <dl>
+        <dt>name</dt>
+        <dd>{{ excerpt.name }}</dd>
+        <dt>is public</dt>
+        <dd>{{ excerpt.is_public }}</dd>
+    </dl>
+{% endblock %}

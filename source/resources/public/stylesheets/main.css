@@ -8,4 +8,55 @@ header, .main, footer { padding: 1rem; }
 header, footer { background: #286090; color: white; }
 header {}
 .main {}
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
 footer p { margin: 0; }
+
+.box-container { width: 100%; display: table; }
+.box-container .container-row { display: table-row; height: 100%; }
+.box-container .container-column { display: table-cell; height: 100%; padding: 1rem; }
+
+/*.row > .column { display: inline-block; }*/
+.container-column.stretch-2, .container-column.stretch-20 { width: 20%; }
+.container-column.stretch-25 { width: 25%; }
+.container-column.stretch-3, .container-column.stretch-30 { width: 30%; }
+.container-column.stretch-333 { width: 33.3%; }
+.container-column.stretch-4, .container-column.stretch-40 { width: 40%; }
+.container-column.stretch-5, .container-column.stretch-50 { width: 50%; }
+.container-column.stretch-6, .container-column.stretch-60 { width: 50%; }
+.container-column.stretch-666 { width: 66.6%; }
+.container-column.stretch-7, .container-column.stretch-70 { width: 70%; }
+.container-column.stretch-8, .container-column.stretch-80 { width: 80%; }
+
+
+/* map */
+#map { height: 100%; z-index: 100; }
+
+.outerMapWrapper {
+    height: auto;
+    position: fixed;
+    width: 50%;
+    width: calc(50% - 1rem);
+    overflow: hidden;
+    top: 5rem;
+    bottom: 5rem;
+    right: 1rem;
+}
+
+
+/* form */
+option, optgroup {
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+option {
+    padding: 0.5rem;
+    border: none;
+    background: white;
+}
+optgroup { border: none; background: gainsboro; }

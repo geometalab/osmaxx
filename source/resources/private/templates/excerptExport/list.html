@@ -1,41 +1,124 @@
 {% extends "layouts/base.html" %}
 
-{% block main %}
-    <form action="{% url 'excerptExport:create_excerpt' %}" method="post">
-        {% csrf_token %}
-        <h2>Existing excerpts</h2>
-        <div class="elementWrapper">
-            <label for="excerpts">Excerpt</label>
-            <select name="excerpts" required="required">
-                <optgroup label="Personal excerpts">
-                    {% for excerpt in personal_excerpts %}
-                        <option value="{{ excerpt.id }}">{{ excerpt.name }} (User "{{ excerpt.owner.username }}")</option>
-                    {% endfor %}
-                </optgroup>
-                <optgroup label="Public excerpts">
-                    {% for excerpt in public_excerpts %}
-                        <option value="{{ excerpt.id }}">{{ excerpt.name }} (User "{{ excerpt.owner.username }}")</option>
-                    {% endfor %}
-                </optgroup>
-            </select>
-        </div>
+{% load staticfiles %}
 
-        <h2>Create excerpt</h2>
-        <div class="elementWrapper">
-            <label for="excerptName">Excerpt name</label>
-            <input type="text" name="excerptName" />
-        </div>
-        <div class="elementWrapper">
-            <label>Bounding box</label>
-            <input type="text" name="excerptNorth" placeholder="north" />
-            <input type="text" name="excerptEast" placeholder="east" />
-            <input type="text" name="excerptSouth" placeholder="south" />
-            <input type="text" name="excerptWest" placeholder="west" />
-        </div>
-        <div class="elementWrapper">
-            <label for="excerptIsPublic">Public</label>
-            <input type="checkbox" checked="checked" name="excerptIsPublic"/>
-        </div>
-        <input type="submit" value="Create" />
-    </form>
+{% block main %}
+    <div class="box-container">
+        <div class="container-row"><!--
+             --><div class="container-column stretch-5">
+                 <form action=''>
+                     <div class="form-group">
+                         <div class="btn-group" role="group" aria-label="...">
+                             <button type="button" class="btn btn-default active">
+                                 Create new excerpt
+                             </button>
+                             <button type="submit" class="btn btn-default">
+                                 Use existing excerpt
+                             </button>
+                         </div>
+                     </div>
+                 </form>
+
+                <form action="{% url 'excerptExport:export' %}" method="post">
+                    {% csrf_token %}
+                    <h2>Existing excerpts</h2>
+                    <div class="form-group">
+                        <label for="excerpts">Excerpt</label>
+                        <select class="form-control" name="excerpts" id="excerpts" required="required">
+                            <optgroup label="Personal excerpts">
+                                {% for excerpt in personal_excerpts %}
+                                    <option value="{{ excerpt.id }}">{{ excerpt.name }} (User "{{ excerpt.owner.username }}")</option>
+                                {% endfor %}
+                            </optgroup>
+                            <optgroup label="Public excerpts">
+                                {% for excerpt in public_excerpts %}
+                                    <option value="{{ excerpt.id }}">{{ excerpt.name }} (User "{{ excerpt.owner.username }}")</option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <h2>Create excerpt</h2>
+                    <div class="form-group">
+                        <label for="excerpt.name">Excerpt name</label>
+                        <input type="text" class="form-control" id="excerpt.name" name="excerpt.name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bbox-values">Bounding box</label>
+
+                        <div class="form-group" id="bbox-values">
+                            <div class="row">
+                                <div class="col-sm-4 col-sm-offset-4">
+                                    <label for="excerpt.boundingBox.north">North</label>
+                                    <input class="form-control" id="excerpt.boundingBox.north" name="excerpt.boundingBox.north" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="excerpt.boundingBox.west">South</label>
+                                    <input class="form-control" id="excerpt.boundingBox.west" name="excerpt.boundingBox.west" />
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-4">
+                                    <label for="excerpt.boundingBox.east">West</label>
+                                    <input class="form-control " id="excerpt.boundingBox.east" name="excerpt.boundingBox.east" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 col-sm-offset-4">
+                                    <label for="excerpt.boundingBox.south">East</label>
+                                    <input class="form-control" id="excerpt.boundingBox.south" name="excerpt.boundingBox.south" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" checked="checked" id="excerpt.isPublic" name="excerpt.isPublic"/>
+                        <label for="excerpt.isPublic">Public</label>
+                        <span class="help-block">Others will see name and bounding box of this excerpt. They won't see that you created it or when you did so.</span>
+                    </div>
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </form>
+
+             </div><!--
+            --><div class="container-column stretch-5">
+                <div class="outerMapWrapper">
+                    <!--<div class="innerMapWrapper">-->
+                        <div id="map" ></div>
+                    <!--</div>-->
+                </div>
+            </div><!--
+        --></div>
+    </div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script>L.Path.CLIP_PADDING = 1.0;</script>
+    <script src='{% static "scripts/map.js" %}'></script>
+
+    <!-- Leaflet plugins -->
+    <!--<script type="text/javascript" src="thirdparty/leaflet-locationfilter/src/locationfilter.js"></script>-->
+    <!--<script type="text/javascript" src="leaflet-locationfilter.js"></script>-->
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap plugins -->
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <!-- Bootstrap select -->
+    <script type="text/javascript"
+            src="https://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            $('.selectpicker').selectpicker({});
+        });
+    </script>
 {% endblock %}
