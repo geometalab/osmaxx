@@ -18,16 +18,16 @@
 	* Ubuntu: Do not use the older version from sources because of incompatibility with new Vagrant
 2. Download and install newest Version of Vagrant: https://www.vagrantup.com/downloads.html
 	* Ubuntu: Do not use the older version from sources, because of different syntax of vagrant files for older versions
-3. Download and install rsync
-	* Ubuntu:
-	
-		```shell
-		sudo apt-get install rsync
-		```
-3. Navigate to "developmentEnvironment", run "vagrant up && vagrant rsync-auto" to start bring up the machine
+3. Navigate to "developmentEnvironment", run "vagrant up" to start bring up the machine
 4. On first start up, Vagrant will download the box. This can take some minutes.
 5. Add 'osmaxx.dev localhost' to your /etc/hosts file
-6. Open osmaxx.dev:8080 in your local browser
+6. Use the configured Apache or start development server (live update after file change)
+    a. Live simulation with Apache
+        * Open ```http://osmax.dev:8080/excerptExport/``` in your local browser
+    b. Development
+        * Log into vagrant machine: ```shell vagrant ssh```
+        * Run development start script: ```shell /var/www/eda/projects/runDevelopmentServer.sh```
+        * Open ```http://osmax.dev:8000/excerptExport/``` in your local browser
 
 
 ### Reset the box
@@ -57,10 +57,12 @@ Add
     
 to your local /etc/hosts file.
 
-| Feature 			| URL 				| Username 	| Password 					|
-| ---				| ---				| ---		| ---						|
-| Database osmaxx	|					| osmaxx	| osmaxx                    |
-| Web Frontend App	| osmaxx.dev:8080	|			|							|
+| Feature                       | URL 				            | Username 	| Password 					|
+| ---                           | ---				            | ---		| ---						|
+| Database osmaxx               |					            | osmaxx	| osmaxx                    |
+| App frontend                  | osmaxx.dev:8080/excerptExport	|			|							|
+| App frontend development      | osmaxx.dev:8000/exportExcerpt	|			|							|
+| App frontend development      | osmaxx.dev:8000/admin         | admin 	| osmaxx					|
 
 
 ## Development
@@ -71,7 +73,7 @@ You need to specify the ip. Otherwise you are not able to reach the application 
 
 ```shell
 # get local ip
-LOCALIP = ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'
+LOCALIP=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'`
 
 # activate environment
 cd "/path/to/manage.py"

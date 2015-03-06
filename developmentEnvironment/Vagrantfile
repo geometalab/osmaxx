@@ -76,5 +76,8 @@ Vagrant.configure(2) do |config|
         sudo service apache2 restart
     fi
   SHELL
+  config.vm.provision "shell", run: "always", inline: <<-SHELL
+    sudo chmod u+x /var/www/eda/projects/runDevelopmentServer.sh
+  SHELL
   config.vm.provision "shell", path: "setup.sh"
 end
