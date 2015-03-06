@@ -21,18 +21,18 @@ class ListViewModel:
         return self.__dict__
 
 
-def list(request):
+def new_excerpt_export(request):
     view_model = ListViewModel()
-    return render(request, 'templates/excerptExport/list.html', view_model.get_context())
+    return render(request, 'templates/excerptExport/newExcerptExport.html', view_model.get_context())
 
 
-def export(request):
+def create_excerpt_export(request):
     excerpt = Excerpt(
         name = request.POST['excerpt.name'],
         is_active = True,
         is_public = request.POST['excerpt.isPublic']
     )
-    
+
     # TODO: Replace by current user
     excerpt.owner = User.objects.filter(username="test", is_active=True)[0]
     excerpt.save()
@@ -46,4 +46,4 @@ def export(request):
     bounding_geometry.excerpt = excerpt
     bounding_geometry.save()
 
-    return render(request, 'templates/excerptExport/export.html', { 'excerpt': excerpt, 'bounding_geometry': bounding_geometry })
+    return render(request, 'templates/excerptExport/createExcerptExport.html', { 'excerpt': excerpt, 'bounding_geometry': bounding_geometry })
