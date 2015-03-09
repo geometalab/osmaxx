@@ -25,8 +25,8 @@
 	1. Live simulation with Apache
 		* Open http://osmax.dev:8080/excerptExport/ in your local browser
 	2. Development
-		* Log into vagrant machine: ```shell vagrant ssh```
-		* Run development start script: ```shell /var/www/eda/projects/runDevelopmentServer.sh```
+		* Log into vagrant machine: `vagrant ssh`
+		* Run development start script: `/var/www/eda/projects/runDevelopmentServer.sh`
 		* Open http://osmax.dev:8000/excerptExport/ in your local browser
 
 
