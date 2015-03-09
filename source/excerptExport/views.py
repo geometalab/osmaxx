@@ -13,8 +13,9 @@ def index(request):
 
 
 class ListViewModel:
-    def __init__(self):
-        self.personal_excerpts = Excerpt.objects.filter(is_active=True, is_public=False) #.order_by('name')
+    def __init__(self, user):
+        self.user = user
+        self.personal_excerpts = Excerpt.objects.filter(is_active=True, is_public=False, owner=user) #.order_by('name')
         self.public_excerpts = Excerpt.objects.filter(is_active=True, is_public=True) #.order_by('name')
 
     def get_context(self):
@@ -22,7 +23,7 @@ class ListViewModel:
 
 
 def new_excerpt_export(request):
-    view_model = ListViewModel()
+    view_model = ListViewModel(request.user)
     return render(request, 'templates/excerptExport/newExcerptExport.html', view_model.get_context())
 
 
@@ -30,11 +31,9 @@ def create_excerpt_export(request):
     excerpt = Excerpt(
         name = request.POST['excerpt.name'],
         is_active = True,
-        is_public = request.POST['excerpt.isPublic']
+        is_public = request.POST['excerpt.isPublic'] if ('excerpt.isPublic' in request.POST) else False
     )
-
-    # TODO: Replace by current user
-    excerpt.owner = User.objects.filter(username="test", is_active=True)[0]
+    excerpt.owner = request.user
     excerpt.save()
 
     bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(

@@ -25,14 +25,14 @@
                     <div class="form-group">
                         <label for="excerpts">Excerpt</label>
                         <select class="form-control" name="excerpts" id="excerpts" required="required">
-                            <optgroup label="Personal excerpts">
+                            <optgroup label="Personal excerpts ({{ user.username }})">
                                 {% for excerpt in personal_excerpts %}
-                                    <option value="{{ excerpt.id }}">{{ excerpt.name }} (User "{{ excerpt.owner.username }}")</option>
+                                    <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
                                 {% endfor %}
                             </optgroup>
                             <optgroup label="Public excerpts">
                                 {% for excerpt in public_excerpts %}
-                                    <option value="{{ excerpt.id }}">{{ excerpt.name }} (User "{{ excerpt.owner.username }}")</option>
+                                    <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
                                 {% endfor %}
                             </optgroup>
                         </select>
@@ -45,8 +45,8 @@
                         <input type="text" class="form-control" id="excerpt.name" name="excerpt.name" required="required" />
                     </div>
 
-                    <div class="form-group">
-                        <label for="bbox-values">Bounding box</label>
+                    <fieldset class="form-group">
+                        <legend>Bounding box</legend>
 
                         <div class="form-group" id="bbox-values">
                             <div class="row">
@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </fieldset>
 
                     <div class="form-group">
                         <input type="checkbox" checked="checked" id="excerpt.isPublic" name="excerpt.isPublic"/>
