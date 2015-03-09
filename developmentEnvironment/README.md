@@ -22,9 +22,9 @@
 4. On first start up, Vagrant will download the box. This can take some minutes.
 5. Add 'osmaxx.dev localhost' to your /etc/hosts file
 6. Use the configured Apache or start development server (live update after file change)
-    a. Live simulation with Apache
+    1. Live simulation with Apache
         * Open ```http://osmax.dev:8080/excerptExport/``` in your local browser
-    b. Development
+    2. Development
         * Log into vagrant machine: ```shell vagrant ssh```
         * Run development start script: ```shell /var/www/eda/projects/runDevelopmentServer.sh```
         * Open ```http://osmax.dev:8000/excerptExport/``` in your local browser
