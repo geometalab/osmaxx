@@ -18,6 +18,16 @@ class ListViewModel:
         self.personal_excerpts = Excerpt.objects.filter(is_active=True, is_public=False, owner=user) #.order_by('name')
         self.public_excerpts = Excerpt.objects.filter(is_active=True, is_public=True) #.order_by('name')
 
+        # TODO: move to settings or read from file
+        self.administrative_areas = {
+            'regions': {
+                'eu': 'Europe', 'af': 'Africa'
+            },
+            'countries': {
+                'ch': 'Switzerland', 'de': 'Germany', 'us': 'USA'
+            }
+        }
+
     def get_context(self):
         return self.__dict__
 

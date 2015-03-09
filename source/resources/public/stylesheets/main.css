@@ -52,6 +52,9 @@ p { word-wrap: break-word; }
 
 
 /* form */
+select[multiple], select[size] {
+    padding: 0;
+}
 option, optgroup {
     -moz-appearance: none;
     -ms-appearance: none;
@@ -60,7 +63,15 @@ option, optgroup {
 }
 option {
     padding: 0.5rem;
+    padding-left: 1rem;
     border: none;
     background: white;
+    color: black;
 }
-optgroup { border: none; background: gainsboro; }
+optgroup {
+    border: none;
+    background: rgb(40, 96, 144);
+    color: white;
+    padding-top: 0.5rem;
+}
+optgroup > option:first-child { border-top: 0.5rem solid rgb(40, 96, 144); display: block; }

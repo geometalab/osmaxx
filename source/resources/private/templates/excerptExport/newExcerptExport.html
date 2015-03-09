@@ -24,17 +24,24 @@
                     <h2>Existing excerpts</h2>
                     <div class="form-group">
                         <label for="excerpts">Excerpt</label>
-                        <select class="form-control" name="excerpts" id="excerpts" required="required">
-                            <optgroup label="Personal excerpts ({{ user.username }})">
+                        <select class="form-control" name="excerpts" id="excerpts" required="required" size="10">
+                            <optgroup label="&nbsp;Personal excerpts ({{ user.username }})">
                                 {% for excerpt in personal_excerpts %}
                                     <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
                                 {% endfor %}
                             </optgroup>
-                            <optgroup label="Public excerpts">
+                            <optgroup label="&nbsp;Public excerpts">
                                 {% for excerpt in public_excerpts %}
                                     <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
                                 {% endfor %}
                             </optgroup>
+                            {% for administrative_areas_group_name, administrative_areas_group_regions in administrative_areas.items %}
+                                <optgroup label="&nbsp;{{ administrative_areas_group_name }}">
+                                    {% for region_key, region_name in administrative_areas_group_regions.items %}
+                                        <option value="{{ region_key }}">{{ region_name }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% endfor %}
                         </select>
                     </div>
 
