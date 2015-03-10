@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
+from django.contrib.auth.decorators import login_required
 
 from excerptexport.models import Excerpt
 from excerptexport.models import BoundingGeometry
@@ -32,19 +34,20 @@ class NewExcerptExportViewModel:
         return self.__dict__
 
 
+@login_required(login_url='/admin/')
 def new_excerpt_export(request):
     view_model = NewExcerptExportViewModel(request.user)
     return render(request, 'templates/excerptexport/new_excerpt_export.html', view_model.get_context())
 
 
+@login_required(login_url='/admin/')
 def create_excerpt_export(request):
     excerpt = Excerpt(
         name = request.POST['excerpt.name'],
         is_active = True,
         is_public = request.POST['excerpt.isPublic'] if ('excerpt.isPublic' in request.POST) else False
     )
-    # TODO: fix authentication problem
-    excerpt.owner = User.objects.get(username="admin")
+    excerpt.owner = request.user
     excerpt.save()
 
     bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(

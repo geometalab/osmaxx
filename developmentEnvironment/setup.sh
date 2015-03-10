@@ -67,10 +67,6 @@ sudo -u postgres psql -c "CREATE EXTENSION postgis;" "osmaxx"
 sudo -u postgres psql -c "CREATE EXTENSION postgis_topology;" "osmaxx"
 
 
-echo "[setup] import test data ..."
-sudo -u postgres psql osmaxx < /var/www/eda/data/testdata-osmaxx.sql
-
-
 echo ""
 echo "[setup] setup application ..."
 cd /var/www
@@ -85,12 +81,11 @@ if [ -d "projects" ]; then
     source environment/bin/activate
     pip3 install -r /vagrant/requirements.txt
 
-    # Type to create a new project 'osmaxx' in 'eda/projects'
-    # django-admin.py startproject "osmaxx" "projects"
 
-    # Type to create a new application 'excerptExport' in 'eda/projects'
-    # cd "projects"
-    # python manage.py startapp "excerptExport"
+    echo "[setup] run migrations & import test data ..."
+    cd "projects"
+    python manage.py migrate
+    echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', '', 'osmaxx')" | python manage.py shell
 fi
 
 # link virtual host file from vagrant directory
