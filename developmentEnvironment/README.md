@@ -1,7 +1,8 @@
-# Project Development Environment
+# Project Development Environment (Vagrant Box)
 
+A vagrant box is provided as part of this project's repository.
 
-# Features
+## Features
 
 * Ubuntu 14.04	http://www.ubuntu.com/download/server
 * Python3 / pip-3
