@@ -11,7 +11,7 @@ from pprint import pprint
 
 
 def index(request):
-    return HttpResponse(loader.get_template('templates/excerptexport/index.html').render(RequestContext(request, {})))
+    return HttpResponse(loader.get_template('excerptexport/templates/index.html').render(RequestContext(request, {})))
 
 
 class NewExcerptExportViewModel:
@@ -37,7 +37,7 @@ class NewExcerptExportViewModel:
 @login_required(login_url='/admin/')
 def new_excerpt_export(request):
     view_model = NewExcerptExportViewModel(request.user)
-    return render(request, 'templates/excerptexport/new_excerpt_export.html', view_model.get_context())
+    return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model.get_context())
 
 
 @login_required(login_url='/admin/')
@@ -59,4 +59,4 @@ def create_excerpt_export(request):
     bounding_geometry.excerpt = excerpt
     bounding_geometry.save()
 
-    return render(request, 'templates/excerptexport/create_excerpt_export.html', { 'excerpt': excerpt, 'bounding_geometry': bounding_geometry })
+    return render(request, 'excerptexport/templates/create_excerpt_export.html', { 'excerpt': excerpt, 'bounding_geometry': bounding_geometry })
