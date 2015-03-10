@@ -9,11 +9,17 @@ For developers with write access to this repository:
 
 	    git flow init -d
 	(This project uses git-flow's default branch names and branch name prefixes, which `-d` automatically accepts.)
-3. Create a feature branch for your contribution
+3. (You should now be on the `develop` branch.)
+
+	Clone the third party repositories we use through [git-submodule](http://www.git-scm.com/book/en/v2/Git-Tools-Submodules)
+
+	    git submodule init
+	    git submodule update
+4. Create a feature branch for your contribution
 
 	    git flow feature start my-awesome-contribution
-4. Make your commits as usual
-5. Once you're finished, push the feature branch back to this GitHub repo
+5. Make your commits as usual
+6. Once you're finished, push the feature branch back to this GitHub repo
 
 	    git flow feature publish
 	**and** create a pull request against branch `develop`. (Do **not** use `git flow feature publish`, as we use pull requests for review purposes.)
