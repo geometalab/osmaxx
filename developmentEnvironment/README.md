@@ -22,7 +22,7 @@ For developers with write access to this repository:
 6. Once you're finished, push the feature branch back to this GitHub repo
 
 	    git flow feature publish
-	**and** create a pull request against branch `develop`. (Do **not** use `git flow feature publish`, as we use pull requests for review purposes.)
+	**and** create a pull request against branch `develop`. (Do **not** use `git flow feature finish`, as we use pull requests for review purposes.)
 
 # Project Development Environment (Vagrant Box)
 
