@@ -25,7 +25,7 @@
 		```
 3. Navigate to "developmentEnvironment", run "vagrant up && vagrant rsync-auto" to start bring up the machine
 4. On first start up, Vagrant will download the box. This can take some minutes.
-5. Add 'osmaxx.dev localhost' to your /etc/hosts file
+5. Add 'localhost	osmaxx.dev' to your /etc/hosts file
 
 
 ### Reset the box
