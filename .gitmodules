@@ -1,0 +1,3 @@
+[submodule "source/excerptexport/static/excerptexport/libraries/leaflet-locationfilter"]
+	path = source/excerptexport/static/excerptexport/libraries/leaflet-locationfilter
+	url = https://github.com/kajic/leaflet-locationfilter.git

@@ -36,7 +36,7 @@ sudo pip3 install virtualenv
 echo ""
 echo "[setup] install postgresql and python driver ..."
 sudo apt-get -y install postgresql postgresql-client
-sudo apt-get -y install postgis osmctools apache2
+sudo apt-get -y install postgis osmctools apache2 postgresql-9.3-postgis-2.1
 sudo apt-get -y install python3-psycopg2
 
 
@@ -51,11 +51,20 @@ sudo service apache2 restart
 echo ""
 echo "[setup] configure database ..."
 sudo -u postgres psql -c "CREATE USER osmaxx WITH PASSWORD 'osmaxx';"
-sudo -u postgres psql -c "CREATE DATABASE osmaxx;"
+sudo -u postgres psql -c "CREATE DATABASE osmaxx ENCODING 'UTF8';"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE osmaxx TO osmaxx;"
 echo "------------ available databases ------------"
 sudo -u postgres psql -c "SELECT datname FROM pg_database WHERE datistemplate = false;"
 echo "---------------------------------------------"
+
+
+echo "[setup] install & configure geodata extensions ..."
+sudo apt-get -y install binutils libgeos-3.4. # GEOS
+sudo apt-get -y install libproj0 # PROJ.4
+sudo apt-get -y install python-gdal # GDAL
+sudo apt-get -y install postgis
+sudo -u postgres psql -c "CREATE EXTENSION postgis;" "osmaxx"
+sudo -u postgres psql -c "CREATE EXTENSION postgis_topology;" "osmaxx"
 
 
 echo ""
@@ -65,18 +74,22 @@ if [ ! -d "eda" ]; then
 	mkdir "eda"
 fi
 cd "eda"
-if [ ! -d "projects" ]; then
-	mkdir "projects"
+
+if [ -d "projects" ]; then
+    virtualenv-3.4 environment
+    sudo chown -R vagrant:www-data environment
+    source environment/bin/activate
+    pip3 install -r /vagrant/requirements.txt
+
+
+    echo "[setup] run migrations & import test data ..."
+    cd "projects"
+    python manage.py migrate
+    echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', '', 'osmaxx')" | python manage.py shell
 fi
 
-virtualenv-3.4 environment
-sudo chown -R vagrant:www-data environment
-source environment/bin/activate
-pip3 install psycopg2
-pip3 install django
-#django-admin.py startproject osmaxx projects
-
-sudo cp /vagrant/osmaxx.vhost /etc/apache2/sites-available/osmaxx.conf
+# link virtual host file from vagrant directory
+sudo ln -s /vagrant/osmaxx.vhost /etc/apache2/sites-available/osmaxx.conf
 sudo ln -s /etc/apache2/sites-available/osmaxx.conf /etc/apache2/sites-enabled/osmaxx.conf
 sudo a2ensite osmaxx
 service apache2 restart

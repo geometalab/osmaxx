@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Link to Site administration | Django site admin
+Type=Link
+URL=http://osmax.dev:8000/admin/
+Icon=text-html
+Name[en_US]=Link to Osmaxx Administration Development
