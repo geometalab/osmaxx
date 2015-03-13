@@ -3,11 +3,15 @@
 For developers with write access to this repository:
 
 1. Clone this GitHub repository to your local machine and change into the local repo
-
-	    git clone git@github.com:geometalab/osmaxx.git osmaxx && cd osmaxx
+	```shell
+    git clone git@github.com:geometalab/osmaxx.git -o 'gitHub' osmaxx && cd osmaxx
+    ```
+    Option 'o' sets the name of the remote origin.
+    
 2. Enable [git-flow](https://github.com/nvie/gitflow) for the local repo
 
 	    git flow init -d
+	    
 	(This project uses git-flow's default branch names and branch name prefixes, which `-d` automatically accepts.)
 3. (You should now be on the `develop` branch.)
 
@@ -15,13 +19,16 @@ For developers with write access to this repository:
 
 	    git submodule init
 	    git submodule update
+	    
 4. Create a feature branch for your contribution
 
 	    git flow feature start my-awesome-contribution
+	    
 5. Make your commits as usual
 6. Once you're finished, push the feature branch back to this GitHub repo
 
 	    git flow feature publish
+	    
 	**and** create a pull request against branch `develop`. (Do **not** use `git flow feature finish`, as we use pull requests for review purposes.)
 
 # Project Development Environment (Vagrant Box)
