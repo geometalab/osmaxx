@@ -2,12 +2,15 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
+
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
+from pprint import pprint
 
 from excerptexport.models import Excerpt
 from excerptexport.models import BoundingGeometry
-from django.contrib.auth.models import User
-from pprint import pprint
+from excerptexport import settings
 
 
 def index(request):
@@ -20,15 +23,8 @@ class NewExcerptExportViewModel:
         self.personal_excerpts = Excerpt.objects.filter(is_active=True, is_public=False, owner=user) #.order_by('name')
         self.public_excerpts = Excerpt.objects.filter(is_active=True, is_public=True) #.order_by('name')
 
-        # TODO: move to settings or read from file
-        self.administrative_areas = {
-            'regions': {
-                'eu': 'Europe', 'af': 'Africa'
-            },
-            'countries': {
-                'ch': 'Switzerland', 'de': 'Germany', 'us': 'USA'
-            }
-        }
+        self.administrative_areas = settings.ADMINISTRATIVE_AREAS
+        self.export_options = settings.EXPORT_OPTIONS
 
     def get_context(self):
         return self.__dict__

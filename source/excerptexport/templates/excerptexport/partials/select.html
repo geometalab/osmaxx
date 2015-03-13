@@ -1,0 +1,29 @@
+<select name="{{ name }}" id="{{ name }}">
+    {% if element.groups %}
+        {% for groupkey, group in element.groups.items %}
+            <optgroup label="{{ group.name }}">
+                {% if group.groups %}
+
+                    {% for subgroupkey, subgroup in group.groups.items %}
+                        <optgroup label="{{ subgroup.name }}">
+                            {% for option, value in subgroup.values %}
+                                <option value="{{ value }}">{{ option }}</option>
+                            {% endfor %}
+                        </optgroup>
+                    {% endfor %}
+
+                {% elif group.values %}
+
+                    {% for optionkey, option in group.values.items %}
+                        <option value="{{ optionkey }}">{{ option }}</option>
+                    {% endfor %}
+
+                {% endif %}
+            </optgroup>
+         {% endfor %}
+    {% elif element.values %}
+        {% for optionkey, option in element.values.items %}
+            <option value="{{ optionkey }}">{{ option }}</option>
+        {% endfor %}
+    {% endif %}
+</select>

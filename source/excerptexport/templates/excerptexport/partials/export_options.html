@@ -1,0 +1,28 @@
+{% for export_option_key, export_option in export_options.items %}
+    <h3>{{ export_option.name }}</h3>
+    <fieldset class="form-group">
+        <legend>Formats</legend>
+        {% for format_key, format in export_option.formats.items %}
+            <input type="checkbox" name="{{ export_option_key }}.format.{{ format_key }}" id="{{ export_option_key }}.format.{{ format_key }}" value="{{ format_key }}" />
+            <label for="{{ export_option_key }}.format.{{ format_key }}">{{ format.name }}</label>
+        {% endfor %}
+    </fieldset>
+
+    {% for option_config_key, option_config in export_option.options.items %}
+        {% if option_config.type == 'select' %}
+            <div class="form-group">
+                <label for="{{ option_config_key }}">{{ option_config.label }}</label>
+                {% include 'excerptexport/partials/select.html' with element=option_config name=option_config_key %}
+            </div>
+        {% elif option_config.type == 'radio' %}
+            <fieldset class="form-group">
+                <legend>{{ option_config.label }}</legend>
+                {% for key, value in option_config.values.items %}
+                    <input type="radio" name="{{ option_config_key }}" value="{{ key }}" id="{{ option_config_key }}.{{ key}}"
+                           {% if option_config.default == option_config_key %}checked="checked"{% endif %} />
+                    <label for="{{ option_config_key }}.{{ key}}">{{ value }}</label>
+                {% endfor %}
+            </fieldset>
+        {% endif %}
+    {% endfor %}
+{% endfor %}

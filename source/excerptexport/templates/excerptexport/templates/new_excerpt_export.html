@@ -86,6 +86,12 @@
                         <label for="excerpt.isPublic">Public</label>
                         <span class="help-block">Others will see name and bounding box of this excerpt. They won't see that you created it or when you did so.</span>
                     </div>
+
+                   <fieldset class="form-group">
+                       {% include 'excerptexport/partials/export_options.html' with export_options=export_options %}
+                    </fieldset>
+
+
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </form>
 

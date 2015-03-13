@@ -1,5 +1,6 @@
 EXPORT_OPTIONS = {
     'gis': {
+        'name': 'GIS',
         'formats': {
             'file_gdb': {
                 'name': 'FileGDB',
@@ -16,8 +17,10 @@ EXPORT_OPTIONS = {
         },
         'options': {
             'coordinate_reference_system': {
+                'label': 'Coordinate reference system',
                 'type': 'select',
                 'select_multiple': False,
+                'default': 'pseudomerkator',
                 'groups': {
                     'global': {
                         'name': 'Global coordinate reference systems',
@@ -37,7 +40,9 @@ EXPORT_OPTIONS = {
                 }
             },
             'detail_level': {
+                'label': 'Detail level',
                 'type': 'radio',
+                'default': 'verbatim',
                 'values': {
                     'verbatim': 'Verbatim',
                     'simplified': 'Simplified',
@@ -47,6 +52,7 @@ EXPORT_OPTIONS = {
         }
     },
     'routing': {
+        'name': 'Routing',
         'formats': {
             'img': {
                 'name': 'IMG',
