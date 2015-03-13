@@ -20,7 +20,7 @@
 	* Ubuntu: Do not use the older version from sources, because of different syntax of vagrant files for older versions
 3. Navigate to "developmentEnvironment", run "vagrant up" to start bring up the machine
 4. On first start up, Vagrant will download the box. This can take some minutes.
-5. Add 'osmaxx.dev localhost' to your /etc/hosts file
+5. Add 'localhost	osmaxx.dev' to your /etc/hosts file
 6. Use the configured Apache or start development server (live update after file change)
 	1. Live simulation with Apache
 		* Open http://osmax.dev:8080/excerptExport/ in your local browser
