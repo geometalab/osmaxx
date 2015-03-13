@@ -21,28 +21,28 @@ EXPORT_OPTIONS = {
                 'groups': {
                     'global': {
                         'name': 'Global coordinate reference systems',
-                        'values': [
-                            { 'key': 'pseudomerkator', 'name': 'Pseudo merkator' },
-                            { 'key': 'wgs72', 'name': 'WGS 72' },
-                            { 'key': 'wgs84', 'name': 'WGS 84' }
-                        ]
+                        'values': {
+                            'pseudomerkator': 'Pseudo merkator',
+                            'wgs72': 'WGS 72',
+                            'wgs84': 'WGS 84'
+                        }
                     },
                     'utm': {
                         'name': 'UTM zones for your export',
-                        'values': [
-                            { 'key': 'utm32', 'name': 'UTM zone 32' },
-                            { 'key': 'utm33', 'name': 'UTM zone 33' }
-                        ]
+                        'values': {
+                            'utm32': 'UTM zone 32',
+                            'utm33': 'UTM zone 33'
+                        }
                     }
                 }
             },
             'detail_level': {
                 'type': 'radio',
-                'values': [
-                    { 'key': 'verbatim', 'name': 'Verbatim' },
-                    { 'key': 'simplified', 'name': 'Simplified' },
-                    { 'key': 'combined', 'name': 'Combined' }
-                ]
+                'values': {
+                    'verbatim': 'Verbatim',
+                    'simplified': 'Simplified',
+                    'combined': 'Combined'
+                }
             }
         }
     },
