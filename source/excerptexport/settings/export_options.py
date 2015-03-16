@@ -21,33 +21,33 @@ EXPORT_OPTIONS = {
                 'type': 'select',
                 'select_multiple': False,
                 'default': 'pseudomerkator',
-                'groups': {
-                    'global': {
+                'groups': [
+                    {
                         'name': 'Global coordinate reference systems',
-                        'values': {
-                            'pseudomerkator': 'Pseudo merkator',
-                            'wgs72': 'WGS 72',
-                            'wgs84': 'WGS 84'
-                        }
+                        'values': [
+                            { 'name': 'pseudomerkator', 'label': 'Pseudo merkator' },
+                            { 'name': 'wgs72', 'label': 'WGS 72' },
+                            { 'name': 'wgs84', 'label': 'WGS 84' }
+                        ]
                     },
-                    'utm': {
+                    {
                         'name': 'UTM zones for your export',
-                        'values': {
-                            'utm32': 'UTM zone 32',
-                            'utm33': 'UTM zone 33'
-                        }
+                        'values': [
+                            { 'name': 'utm32', 'label': 'UTM zone 32' },
+                            { 'name': 'utm33', 'label': 'UTM zone 33' }
+                        ]
                     }
-                }
+                ]
             },
             'detail_level': {
                 'label': 'Detail level',
                 'type': 'radio',
                 'default': 'verbatim',
-                'values': {
-                    'verbatim': 'Verbatim',
-                    'simplified': 'Simplified',
-                    'combined': 'Combined'
-                }
+                'values': [
+                    { 'name': 'verbatim', 'label': 'Verbatim' },
+                    { 'name': 'simplified', 'label': 'Simplified' },
+                    { 'name': 'combined', 'label': 'Combined' }
+                ]
             }
         }
     },
