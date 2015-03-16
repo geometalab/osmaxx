@@ -34,7 +34,7 @@ class PartialsTestCase(TestCase):
         })
         template = Template("{% spaceless %}{% include 'excerptexport/partials/select.html' with element=coordinate_reference_system name='coordinate_reference_system' %}{% endspaceless %}")
         renderedView = template.render(context)
-        expextedRenderedTemplate = Template("""{% spaceless %}
+        expectedRenderedTemplate = Template("""{% spaceless %}
 <select name="coordinate_reference_system" id="coordinate_reference_system">
     <optgroup label="Global coordinate reference systems">
         <option value="pseudomerkator">Pseudo merkator</option>
@@ -48,4 +48,4 @@ class PartialsTestCase(TestCase):
 </select>
 {% endspaceless %}""").render(Context({}))
 
-        self.assertEqual(renderedView, expextedRenderedTemplate)
+        self.assertEqual(renderedView, expectedRenderedTemplate)
