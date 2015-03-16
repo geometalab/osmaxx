@@ -38,21 +38,45 @@ def new_excerpt_export(request):
 
 @login_required(login_url='/admin/')
 def create_excerpt_export(request):
-    excerpt = Excerpt(
-        name = request.POST['excerpt.name'],
-        is_active = True,
-        is_public = request.POST['excerpt.isPublic'] if ('excerpt.isPublic' in request.POST) else False
-    )
-    excerpt.owner = request.user
-    excerpt.save()
+    viewContext = {}
+    if request.POST['form-mode'] == 'existing_excerpt':
+        existingExcerptID = request.POST['existing_excerpt.id']
+        viewContext = { 'use_existing': True, 'excerpt': existingExcerptID }
 
-    bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
-        request.POST['excerpt.boundingBox.north'],
-        request.POST['excerpt.boundingBox.east'],
-        request.POST['excerpt.boundingBox.south'],
-        request.POST['excerpt.boundingBox.west']
-    )
-    bounding_geometry.excerpt = excerpt
-    bounding_geometry.save()
+    if request.POST['form-mode'] == 'create_new_excerpt':
+        excerpt = Excerpt(
+            name = request.POST['new_excerpt.name'],
+            is_active = True,
+            is_public = request.POST['new_excerpt.is_public'] if ('new_excerpt.is_public' in request.POST) else False
+        )
+        excerpt.owner = request.user
+        excerpt.save()
 
-    return render(request, 'excerptexport/templates/create_excerpt_export.html', { 'excerpt': excerpt, 'bounding_geometry': bounding_geometry })
+        bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
+            request.POST['new_excerpt.boundingBox.north'],
+            request.POST['new_excerpt.boundingBox.east'],
+            request.POST['new_excerpt.boundingBox.south'],
+            request.POST['new_excerpt.boundingBox.west']
+        )
+        bounding_geometry.excerpt = excerpt
+        bounding_geometry.save()
+
+        viewContext = { 'use_existing': False, 'excerpt': excerpt, 'bounding_geometry': bounding_geometry }
+
+    viewContext['options'] = get_export_options(request.POST, settings.EXPORT_OPTIONS)
+    return render(request, 'excerptexport/templates/create_excerpt_export.html', viewContext)
+
+
+def get_export_options(requestPostValues, optionConfig):
+    # post values naming schema:
+    # formats: "export_options.{{ export_option_key }}.formats"
+    # options: "'export_options.{{ export_option_key }}.options.{{ export_option_config_key }}"
+    export_options = {}
+    for export_option_key, export_option in optionConfig.items():
+        export_options[export_option_key] = {}
+        export_options[export_option_key]['formats'] = requestPostValues.getlist('export_options.'+export_option_key+'.formats')
+
+        for export_option_config_key, export_option_config in export_option['options'].items():
+            export_options[export_option_key][export_option_config_key] = requestPostValues.getlist('export_options.'+export_option_key+'.options.'+export_option_config_key)
+
+    return export_options

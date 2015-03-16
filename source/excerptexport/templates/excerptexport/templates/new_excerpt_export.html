@@ -10,17 +10,17 @@
                     {% csrf_token %}
 
                     <div class="form-group select-button-group">
-                        <select class="btn-group" role="group" size="2" data-form-part-switcher>
-                            <option class="btn btn-default" value="existingExcerpt" selected="selected" data-form-part-for="existingExcerpt">Use existing excerpt</option>
-                            <option class="btn btn-default" value="createNewExcerpt" data-form-part-for="createNewExcerpt">Create new excerpt</option>
+                        <select class="btn-group" role="group" name="form-mode" id="form-mode" size="2" data-form-part-switcher>
+                            <option class="btn btn-default" value="existing_excerpt" selected="selected" data-form-part-for="existing_excerpt">Use existing excerpt</option>
+                            <option class="btn btn-default" value="create_new_excerpt" data-form-part-for="create_new_excerpt">Create new excerpt</option>
                         </select>
                     </div>
 
-                    <div class="form-part" data-form-part="existingExcerpt">
+                    <div class="form-part" data-form-part="existing_excerpt">
                         <h2>Existing excerpt</h2>
                         <div class="form-group">
-                            <label for="excerpts">Excerpt</label>
-                            <select class="form-control" name="excerpts" id="excerpts" size="10" required="required">
+                            <label for="existing_excerpt.id">Excerpt</label>
+                            <select class="form-control" name="existing_excerpt.id" id="existing_excerpt.id" size="10" required="required">
                                 <optgroup label="&nbsp;Personal excerpts ({{ user.username }})">
                                     {% for excerpt in personal_excerpts %}
                                         <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
@@ -43,11 +43,11 @@
                     </div>
 
 
-                    <div class="form-part" data-form-part="createNewExcerpt">
+                    <div class="form-part" data-form-part="create_new_excerpt">
                         <h2>Create excerpt</h2>
                         <div class="form-group">
-                            <label for="excerpt.name">Excerpt name</label>
-                            <input type="text" class="form-control" id="excerpt.name" name="excerpt.name" required="required" />
+                            <label for="new_excerpt.name">Excerpt name</label>
+                            <input type="text" class="form-control" id="new_excerpt.name" name="new_excerpt.name" required="required" />
                         </div>
 
                         <fieldset class="form-group">
@@ -56,32 +56,32 @@
                             <div class="form-group" id="bbox-values">
                                 <div class="row">
                                     <div class="col-sm-4 col-sm-offset-4">
-                                        <label for="excerpt.boundingBox.north">North</label>
-                                        <input class="form-control" id="excerpt.boundingBox.north" name="excerpt.boundingBox.north" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
+                                        <label for="new_excerpt.boundingBox.north">North</label>
+                                        <input class="form-control" id="new_excerpt.boundingBox.north" name="new_excerpt.boundingBox.north" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <label for="excerpt.boundingBox.west">South</label>
-                                        <input class="form-control" id="excerpt.boundingBox.west" name="excerpt.boundingBox.west" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
+                                        <label for="new_excerpt.boundingBox.west">South</label>
+                                        <input class="form-control" id="new_excerpt.boundingBox.west" name="new_excerpt.boundingBox.west" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
                                     </div>
                                     <div class="col-sm-4 col-sm-offset-4">
-                                        <label for="excerpt.boundingBox.east">West</label>
-                                        <input class="form-control " id="excerpt.boundingBox.east" name="excerpt.boundingBox.east" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
+                                        <label for="new_excerpt.boundingBox.east">West</label>
+                                        <input class="form-control " id="new_excerpt.boundingBox.east" name="new_excerpt.boundingBox.east" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-4 col-sm-offset-4">
-                                        <label for="excerpt.boundingBox.south">East</label>
-                                        <input class="form-control" id="excerpt.boundingBox.south" name="excerpt.boundingBox.south" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
+                                        <label for="new_excerpt.boundingBox.south">East</label>
+                                        <input class="form-control" id="new_excerpt.boundingBox.south" name="new_excerpt.boundingBox.south" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
 
                         <div class="form-group">
-                            <input type="checkbox" checked="checked" id="excerpt.isPublic" name="excerpt.isPublic"/>
-                            <label for="excerpt.isPublic">Public</label>
+                            <input type="checkbox" checked="checked" id="new_excerpt.isPublic" name="new_excerpt.isPublic"/>
+                            <label for="new_excerpt.is_public">Public</label>
                             <span class="help-block">Others will see name and bounding box of this excerpt. They won't see that you created it or when you did so.</span>
                         </div>
                     </div>
