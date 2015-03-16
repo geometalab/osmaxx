@@ -79,6 +79,15 @@ DATABASES = {
    }
 }
 
+import sys
+if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+            'NAME': os.path.join(BASE_DIR, 'test_db.sqlite3'),
+        }
+    }
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
