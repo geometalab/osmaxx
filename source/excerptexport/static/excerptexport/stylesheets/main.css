@@ -5,14 +5,10 @@ h1 { font-size: 2rem; margin: 0; }
 
 /* container */
 header, .main, footer { padding: 1rem; }
-header, footer { background: #286090; color: white; }
-header {}
-.main {}
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
+header, footer { position: fixed; width: 100%; background: #286090; color: white; z-index: 10000; }
+header { top: 0; }
+.main { margin-top: 4rem; margin-bottom: 4rem; }
+footer { bottom: 0; }
 footer p { margin: 0; }
 
 .box-container { width: 100%; display: table; }
@@ -72,6 +68,50 @@ optgroup {
     border: none;
     background: rgb(40, 96, 144);
     color: white;
-    padding-top: 0.5rem;
+    /*padding-top: 0.5rem;*/
 }
-optgroup > option:first-child { border-top: 0.5rem solid rgb(40, 96, 144); display: block; }
+/* firefox: style optgroup header */
+optgroup:before {
+    border: none;
+    background: rgb(40, 96, 144);
+    color: white;
+    padding: 0.5rem;
+}
+/*optgroup > option:first-child { border-top: 0.5rem solid rgb(40, 96, 144); display: block; }*/
+
+/* special select: shown as button group */
+.select-button-group { overflow-x: hidden; }
+.select-button-group > select.btn-group {
+    display:inline-block;
+    border: none;
+    background: none;
+    background: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    overflow: hidden;
+    width: 100%;
+    width: calc(100% + 2rem);
+}
+select.btn-group > option {
+    padding: 0.75rem 1.5rem;
+}
+select.btn-group > option:checked {
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.125) inset;
+    border-color: rgb(173, 173, 173);
+    background-color: rgb(230, 230, 230);
+}
+select.btn-group > option:active, select.btn-group > option:hover, select.btn-group > option:focus {
+    background-color: rgb(230, 230, 230);
+}
+[data-form-part-state="inactive"] { display: none; }
+
+/* validation */
+input:invalid, textarea:invalid, select:invalid {
+    border-color: red;
+    background: lavenderblush;
+}
+input:invalid:focus, textarea:invalid:focus, select:invalid:focus {
+    border-color: maroon;
+}
