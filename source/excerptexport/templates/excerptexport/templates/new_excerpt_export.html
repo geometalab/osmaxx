@@ -1,0 +1,144 @@
+{% extends "excerptexport/layouts/base.html" %}
+
+{% load staticfiles %}
+
+{% block main %}
+    <div class="box-container">
+        <div class="container-row"><!--
+             --><div class="container-column stretch-5">
+                <form action="{% url 'excerptexport:create' %}" method="post" novalidate="novalidate">
+                    {% csrf_token %}
+
+                    <div class="form-group select-button-group">
+                        <select class="btn-group" role="group" name="form-mode" id="form-mode" size="2" data-form-part-switcher>
+                            <option class="btn btn-default" value="existing_excerpt" selected="selected" data-form-part-for="existing_excerpt">Use existing excerpt</option>
+                            <option class="btn btn-default" value="create_new_excerpt" data-form-part-for="create_new_excerpt">Create new excerpt</option>
+                        </select>
+                    </div>
+
+                    <div class="form-part" data-form-part="existing_excerpt">
+                        <h2>Existing excerpt</h2>
+                        <div class="form-group">
+                            <label for="existing_excerpt.id">Excerpt</label>
+                            <select class="form-control" name="existing_excerpt.id" id="existing_excerpt.id" size="10" required="required">
+                                <optgroup label="&nbsp;Personal excerpts ({{ user.username }})">
+                                    {% for excerpt in personal_excerpts %}
+                                        <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                                <optgroup label="&nbsp;Public excerpts">
+                                    {% for excerpt in public_excerpts %}
+                                        <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                                {% for administrative_areas_group_name, administrative_areas_group_regions in administrative_areas.items %}
+                                    <optgroup label="&nbsp;{{ administrative_areas_group_name }}">
+                                        {% for region_key, region_name in administrative_areas_group_regions.items %}
+                                            <option value="{{ region_key }}">{{ region_name }}</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-part" data-form-part="create_new_excerpt">
+                        <h2>Create excerpt</h2>
+                        <div class="form-group">
+                            <label for="new_excerpt.name">Excerpt name</label>
+                            <input type="text" class="form-control" id="new_excerpt.name" name="new_excerpt.name" required="required" />
+                        </div>
+
+                        <fieldset class="form-group">
+                            <legend>Bounding box</legend>
+
+                            <div class="form-group" id="bbox-values">
+                                <div class="row">
+                                    <div class="col-sm-4 col-sm-offset-4">
+                                        <label for="new_excerpt.boundingBox.north">North</label>
+                                        <input class="form-control" id="new_excerpt.boundingBox.north" name="new_excerpt.boundingBox.north" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label for="new_excerpt.boundingBox.west">South</label>
+                                        <input class="form-control" id="new_excerpt.boundingBox.west" name="new_excerpt.boundingBox.west" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
+                                    </div>
+                                    <div class="col-sm-4 col-sm-offset-4">
+                                        <label for="new_excerpt.boundingBox.east">West</label>
+                                        <input class="form-control " id="new_excerpt.boundingBox.east" name="new_excerpt.boundingBox.east" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4 col-sm-offset-4">
+                                        <label for="new_excerpt.boundingBox.south">East</label>
+                                        <input class="form-control" id="new_excerpt.boundingBox.south" name="new_excerpt.boundingBox.south" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="form-group">
+                            <input type="checkbox" checked="checked" id="new_excerpt.isPublic" name="new_excerpt.isPublic"/>
+                            <label for="new_excerpt.is_public">Public</label>
+                            <span class="help-block">Others will see name and bounding box of this excerpt. They won't see that you created it or when you did so.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-part">
+                        <h2>Export options</h2>
+                        <fieldset class="form-group">
+                           {% include 'excerptexport/partials/export_options.html' with export_options=export_options %}
+                        </fieldset>
+                    </div>
+
+
+                    <input type="submit" value="Create excerpt export request" class="btn btn-primary" />
+                </form>
+
+             </div><!--
+            --><div class="container-column stretch-5">
+                <div class="outerMapWrapper">
+                    <!--<div class="innerMapWrapper">-->
+                        <div id="map" ></div>
+                    <!--</div>-->
+                </div>
+            </div><!--
+        --></div>
+    </div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script>L.Path.CLIP_PADDING = 1.0;</script>
+
+    <!-- Leaflet plugins -->
+    <script src='{% static "excerptexport/libraries/leaflet-locationfilter/src/locationfilter.js" %}'></script>
+
+    <!-- map -->
+    <script src='{% static "excerptexport/scripts/map.js" %}'></script>
+
+    <!-- form -->
+    <script src='{% static "excerptexport/scripts/formModeSwitcher.js" %}'></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap plugins -->
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <!-- Bootstrap select -->
+    <script type="text/javascript"
+            src="https://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            $('.selectpicker').selectpicker({});
+        });
+    </script>
+{% endblock %}

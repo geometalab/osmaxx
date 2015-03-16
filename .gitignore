@@ -52,3 +52,15 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Django test database
+source/test_db.sqlite3
+
+# linux trash
+*.*~
+
+# vagrant
+.vagrant
+
+# IDE trash
+.idea/*
