@@ -5,9 +5,6 @@ from django.template import Context, Template
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-from pprint import pprint
-
-
 class PartialsTestCase(TestCase):
     def test_rendering_select_with_groups(self):
         context = Context({

@@ -6,8 +6,6 @@ from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from pprint import pprint
-
 from excerptexport.models import Excerpt
 from excerptexport.models import BoundingGeometry
 from excerptexport import settings
