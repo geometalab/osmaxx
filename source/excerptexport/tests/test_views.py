@@ -75,6 +75,10 @@ class ExcerptExportViewTests(TestCase):
         response = self.client.post(reverse('excerptexport:create'), self.new_excerpt_post_data)
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
+        newly_created_order = ExtractionOrder.objects.first() # only reproducible because there is only 1
+        from excerptexport.models.extraction_order import ExtractionOrderState
+        self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
+
     def test_create_with_existing_excerpt_persists_a_new_order(self):
         """
         When logged in, POSTing an export request using an existing excerpt persists a new ExtractionOrder.
@@ -83,3 +87,7 @@ class ExcerptExportViewTests(TestCase):
         self.client.login(username='user', password='pw')
         response = self.client.post(reverse('excerptexport:create'), self.existing_excerpt_post_data)
         self.assertEqual(ExtractionOrder.objects.count(), 1)
+
+        newly_created_order = ExtractionOrder.objects.first() # only reproducible because there is only 1
+        from excerptexport.models.extraction_order import ExtractionOrderState
+        self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
