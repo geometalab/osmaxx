@@ -16,8 +16,8 @@ class ExtractionOrderState(enum.Enum):
 
 class ExtractionOrder(models.Model):
     state = enum.EnumField(ExtractionOrderState, default=ExtractionOrderState.INITIALIZED)
-    process_start_date = models.DateTimeField('process start date')
-    process_reference = models.CharField(max_length=128)
+    process_start_date = models.DateTimeField('process start date', null=True)
+    process_reference = models.CharField(max_length=128, null=True)
 
     orderer = models.ForeignKey(User, related_name='extraction_orders')
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders')
