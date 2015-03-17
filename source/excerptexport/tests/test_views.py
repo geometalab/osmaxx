@@ -58,6 +58,11 @@ class ExcerptExportViewTests(TestCase):
         response = self.client.post(reverse('excerptexport:create'), self.new_excerpt_post_data)
         self.assertEqual(response.status_code, 200)
 
+        self.assertFalse(response.context['use_existing'])
+        self.assertEqual(response.context['excerpt'].name, 'A very interesting region')
+        self.assertEqual(str(response.context['bounding_geometry']), 'Bounding box: (4.0, 3.0), (4.0, 1.0), (2.0, 1.0), (2.0, 3.0), (4.0, 3.0)')
+        self.assertEqual(response.context['options'], {'routing': {'formats': []}, 'gis': {'coordinate_reference_system': [], 'detail_level': [], 'formats': []}})
+
     def test_create_with_existing_excerpt(self):
         """
         When logged in, POSTing an export request using an existing excerpt is successful.
@@ -65,6 +70,10 @@ class ExcerptExportViewTests(TestCase):
         self.client.login(username='user', password='pw')
         response = self.client.post(reverse('excerptexport:create'), self.existing_excerpt_post_data)
         self.assertEqual(response.status_code, 200)
+
+        self.assertTrue(response.context['use_existing'])
+        self.assertEqual(response.context['excerpt'], str(self.existing_excerpt_post_data['existing_excerpt.id']))
+        self.assertEqual(response.context['options'], {'routing': {'formats': []}, 'gis': {'coordinate_reference_system': [], 'detail_level': [], 'formats': []}})
 
     def test_create_with_new_excerpt_persists_a_new_order(self):
         """
