@@ -37,7 +37,6 @@ def new_excerpt_export(request):
 
 @login_required(login_url='/admin/')
 def create_excerpt_export(request):
-    viewContext = {}
     if request.POST['form-mode'] == 'existing_excerpt':
         existingExcerptID = request.POST['existing_excerpt.id']
         viewContext = { 'use_existing': True, 'excerpt': existingExcerptID }
