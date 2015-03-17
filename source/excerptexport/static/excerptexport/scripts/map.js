@@ -8,10 +8,10 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
-var inputElementNorth = document.getElementById('excerpt.boundingBox.north');
-var inputElementWest = document.getElementById('excerpt.boundingBox.west');
-var inputElementEast = document.getElementById('excerpt.boundingBox.east');
-var inputElementSouth = document.getElementById('excerpt.boundingBox.south');
+var inputElementNorth = document.getElementById('new_excerpt.boundingBox.north');
+var inputElementWest = document.getElementById('new_excerpt.boundingBox.west');
+var inputElementEast = document.getElementById('new_excerpt.boundingBox.east');
+var inputElementSouth = document.getElementById('new_excerpt.boundingBox.south');
 
 
 var locationFilter = new L.LocationFilter({
@@ -33,7 +33,7 @@ updateBboxTextInputsWith(locationFilter.getBounds());
 // update text input values upon change on map
 locationFilter.on("change", function (e) {
     console.log(locationFilter);
-    console.log(locationFilter.getBounds())
+    console.log(locationFilter.getBounds());
     updateBboxTextInputsWith(e.bounds);
 });
 

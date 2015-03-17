@@ -2,8 +2,16 @@
 
 {% block main %}
     <a href="{% url 'excerptexport:new' %}">Back</a>
+    {% if use_existing %}
     <dl>
-        <dt>name</dt>
+        <dt>id of existing excerpt</dt>
+        <dd>{{ excerpt }}</dd>
+        <dt>export options</dt>
+        <dd>{{ options }}</dd>
+    </dl>
+    {% else %}
+    <dl>
+        <dt>name of new excerpt</dt>
         <dd>{{ excerpt.name }}</dd>
         <dt>is public</dt>
         <dd>{{ excerpt.is_public }}</dd>
@@ -11,5 +19,9 @@
         <dd>{{ excerpt.owner.username }}</dd>
         <dt>bounding geometry</dt>
         <dd>{{ bounding_geometry.geometry }}</dd>
+        <dt>export options</dt>
+        <dd>{{ options }}</dd>
     </dl>
+
+    {% endif %}
 {% endblock %}
