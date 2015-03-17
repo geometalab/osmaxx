@@ -6,6 +6,7 @@ from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+from excerptexport.models import ExtractionOrder
 from excerptexport.models import Excerpt
 from excerptexport.models import BoundingGeometry
 from excerptexport import settings
@@ -40,6 +41,10 @@ def create_excerpt_export(request):
     if request.POST['form-mode'] == 'existing_excerpt':
         existingExcerptID = request.POST['existing_excerpt.id']
         viewContext = { 'use_existing': True, 'excerpt': existingExcerptID }
+        ExtractionOrder.objects.create(
+            excerpt_id = existingExcerptID,
+            orderer = request.user
+        )
 
     if request.POST['form-mode'] == 'create_new_excerpt':
         excerpt = Excerpt(
@@ -60,6 +65,10 @@ def create_excerpt_export(request):
         bounding_geometry.save()
 
         viewContext = { 'use_existing': False, 'excerpt': excerpt, 'bounding_geometry': bounding_geometry }
+        ExtractionOrder.objects.create(
+            excerpt = excerpt,
+            orderer = request.user
+        )
 
     viewContext['options'] = get_export_options(request.POST, settings.EXPORT_OPTIONS)
     return render(request, 'excerptexport/templates/create_excerpt_export.html', viewContext)
