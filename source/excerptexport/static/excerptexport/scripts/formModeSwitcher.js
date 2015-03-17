@@ -18,7 +18,8 @@
 
         deactivateAllParts(formPartNodes);
 
-        [].forEach.call(formPartsSwitchers,function(node) {
+        formPartsSwitchers.forEach = Array.prototype.forEach;
+        formPartsSwitchers.forEach(function(node) {
             node.addEventListener('change',function(event) {
                 deactivateAllParts(formPartNodes);
                 activateSelectedPart(form, node, formPartsButtons);
