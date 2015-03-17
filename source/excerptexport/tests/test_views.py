@@ -78,6 +78,10 @@ class ExcerptExportViewTests(TestCase):
         newly_created_order = ExtractionOrder.objects.first() # only reproducible because there is only 1
         from excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
+        self.assertIsNone(newly_created_order.process_start_date)
+        self.assertIsNone(newly_created_order.process_reference)
+        self.assertEqual(newly_created_order.orderer, self.user)
+        self.assertEqual(newly_created_order.excerpt.name, 'A very interesting region')
 
     def test_create_with_existing_excerpt_persists_a_new_order(self):
         """
@@ -91,3 +95,7 @@ class ExcerptExportViewTests(TestCase):
         newly_created_order = ExtractionOrder.objects.first() # only reproducible because there is only 1
         from excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
+        self.assertIsNone(newly_created_order.process_start_date)
+        self.assertIsNone(newly_created_order.process_reference)
+        self.assertEqual(newly_created_order.orderer, self.user)
+        self.assertEqual(newly_created_order.excerpt.name, 'Some old Excerpt')
