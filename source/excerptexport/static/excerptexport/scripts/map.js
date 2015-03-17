@@ -33,7 +33,7 @@ updateBboxTextInputsWith(locationFilter.getBounds());
 // update text input values upon change on map
 locationFilter.on("change", function (e) {
     console.log(locationFilter);
-    console.log(locationFilter.getBounds())
+    console.log(locationFilter.getBounds());
     updateBboxTextInputsWith(e.bounds);
 });
 

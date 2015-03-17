@@ -8,7 +8,7 @@
     this.activateSelectedPart = function(form, formPartsSwitcher, formPartsButtons) {
         var formPartId = (formPartsButtons.item(formPartsSwitcher.selectedIndex)).getAttribute('data-form-part-for');
         form.querySelector('[data-form-part="'+formPartId+'"]').setAttribute('data-form-part-state', 'active');
-    }
+    };
 
     window.addEventListener('load', function() {
         var formPartNodes = document.querySelectorAll('[data-form-part]');
@@ -23,7 +23,7 @@
             node.addEventListener('change',function(event) {
                 deactivateAllParts(formPartNodes);
                 activateSelectedPart(form, node, formPartsButtons);
-            })
+            });
 
             activateSelectedPart(form, node, formPartsButtons);
         });
