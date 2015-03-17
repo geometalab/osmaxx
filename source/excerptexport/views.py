@@ -39,7 +39,7 @@ def new_excerpt_export(request):
 def create_excerpt_export(request):
     if request.POST['form-mode'] == 'existing_excerpt':
         existingExcerptID = request.POST['existing_excerpt.id']
-        viewContext = { 'use_existing': True, 'excerpt': existingExcerptID }
+        viewContext = { 'excerpt': existingExcerptID }
         ExtractionOrder.objects.create(
             excerpt_id = existingExcerptID,
             orderer = request.user
@@ -63,12 +63,13 @@ def create_excerpt_export(request):
         bounding_geometry.excerpt = excerpt
         bounding_geometry.save()
 
-        viewContext = { 'use_existing': False, 'excerpt': excerpt, 'bounding_geometry': bounding_geometry }
+        viewContext = { 'excerpt': excerpt, 'bounding_geometry': bounding_geometry }
         ExtractionOrder.objects.create(
             excerpt = excerpt,
             orderer = request.user
         )
 
+    viewContext['use_existing'] = 'existingExcerptID' in vars() # TODO: The view should not have to know
     viewContext['options'] = get_export_options(request.POST, settings.EXPORT_OPTIONS)
     return render(request, 'excerptexport/templates/create_excerpt_export.html', viewContext)
 
