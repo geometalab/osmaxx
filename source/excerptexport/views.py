@@ -3,8 +3,7 @@ import os
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
-from django.http import HttpResponse, HttpResponseRedirect
-from django.http import StreamingHttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, StreamingHttpResponse, HttpResponseNotFound
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
 from django.core.servers.basehttp import FileWrapper
@@ -18,6 +17,7 @@ from django.utils.encoding import smart_str
 from excerptexport.models import Excerpt
 from excerptexport.models import OutputFile
 from excerptexport.models import BoundingGeometry
+from excerptexport.models.extraction_order import ExtractionOrderState
 from excerptexport import settings
 
 
@@ -79,7 +79,7 @@ def create_excerpt_export(request):
 def show_downloads(request):
     view_context = {}
 
-    files = OutputFile.objects.filter(extraction_order__orderer=request.user)
+    files = OutputFile.objects.filter(extraction_order__orderer=request.user, extraction_order__state=ExtractionOrderState.FINISHED)
     view_context['files'] = files
     return render(request, 'excerptexport/templates/show_downloads.html', view_context)
 
@@ -87,15 +87,16 @@ def show_downloads(request):
 def download_file(request):
 
     file_id = int(request.GET['file'])
-    output_file = get_object_or_404(OutputFile, pk=file_id)
+    output_file = get_object_or_404(OutputFile, public_identifier=file_id, deleted_on_filesystem=False)
+    if not output_file.file:
+        return HttpResponseNotFound('<p>No output file attached to output file record.</p>')
 
-    directory_path, file_name = os.path.split(output_file.path)
-    download_file_name = settings.APPLICATION_SETTINGS['download_file_name'] % { 'id': output_file.id, 'name': file_name }
-    absolute_file_path = os.path.abspath(settings.APPLICATION_SETTINGS['data_directory'] + '/' + output_file.path)
+    download_file_name = settings.APPLICATION_SETTINGS['download_file_name'] % {'id': output_file.public_identifier, 'name': os.path.basename(output_file.file.name)}
+    absolute_file_path = os.path.abspath(settings.APPLICATION_SETTINGS['data_directory'] + '/' + os.path.basename(output_file.file.name))
 
     # stream file in chunks
     response = StreamingHttpResponse(
-        FileWrapper(open(absolute_file_path), settings.APPLICATION_SETTINGS['dowload_chunk_size']),
+        FileWrapper(open(absolute_file_path), settings.APPLICATION_SETTINGS['download_chunk_size']),
         content_type=output_file.mime_type
     )
     response['Content-Length'] = os.path.getsize(absolute_file_path)
