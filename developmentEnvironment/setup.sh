@@ -1,6 +1,11 @@
 #!/bin/bash
 
-echo 'export PS1="\[$(tput bold)\]\[$(tput setaf 6)\]\u\[$(tput setaf 4)\]@\[$(tput setaf 6)\]\H\[$(tput setaf 4)\]:\[$(tput setaf 2)\]\$(pwd)\[$(tput setaf 3)\]\$(parse_git_branch)\[$(tput setaf 4)\]$ \[$(tput sgr0)\]"' >> /.bashrc
+# improve bash prompt
+echo 'parse_git_branch() {' >> ~/.bashrc
+echo "    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'" >> ~/.bashrc
+echo '}' >> ~/.bashrc
+echo 'export PS1="\[$(tput bold)\]\[$(tput setaf 6)\]\u\[$(tput setaf 4)\]@\[$(tput setaf 6)\]\H\[$(tput setaf 4)\]:\[$(tput setaf 2)\]\$(pwd)\[$(tput setaf 3)\]\$(parse_git_branch)\[$(tput setaf 4)\]$ \[$(tput sgr0)\]"' >> ~/.bashrc
+
 echo ""
 echo "[setup] configure host ..."
 sudo sh -c "echo 'osmaxx-environment' > /etc/hostname"
@@ -43,8 +48,9 @@ sudo apt-get -y install python3-psycopg2
 
 echo""
 echo "[setup] install webserver ..."
-sudo apt-get -y install apache2 apache2-utils libapache2-mod-wsgi-py3
+sudo apt-get -y install apache2 apache2-utils libapache2-mod-wsgi-py3 libapache2-mod-xsendfile
 sudo a2enmod wsgi
+sudo a2enmod xsendfile
 sudo sh -c "echo 'ServerName localhost' >> /etc/apache2/apache2.conf"
 sudo service apache2 restart
 
