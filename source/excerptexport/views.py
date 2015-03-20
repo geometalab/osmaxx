@@ -89,7 +89,7 @@ def download_file(request):
     file_id = int(request.GET['file'])
     output_file = get_object_or_404(OutputFile, pk=file_id)
 
-    directory_path, file_name = os.path.split(output_file.path
+    directory_path, file_name = os.path.split(output_file.path)
     download_file_name = settings.APPLICATION_SETTINGS['download_file_name'] % { 'id': output_file.id, 'name': file_name }
     absolute_file_path = os.path.abspath(settings.APPLICATION_SETTINGS['data_directory'] + '/' + output_file.path)
 
