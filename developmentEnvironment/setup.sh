@@ -1,6 +1,11 @@
 #!/bin/bash
 
-echo 'export PS1="\[$(tput bold)\]\[$(tput setaf 6)\]\u\[$(tput setaf 4)\]@\[$(tput setaf 6)\]\H\[$(tput setaf 4)\]:\[$(tput setaf 2)\]\$(pwd)\[$(tput setaf 3)\]\$(parse_git_branch)\[$(tput setaf 4)\]$ \[$(tput sgr0)\]"' >> /.bashrc
+# improve bash prompt
+echo 'parse_git_branch() {' >> ~/.bashrc
+echo "    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'" >> ~/.bashrc
+echo '}' >> ~/.bashrc
+echo 'export PS1="\[$(tput bold)\]\[$(tput setaf 6)\]\u\[$(tput setaf 4)\]@\[$(tput setaf 6)\]\H\[$(tput setaf 4)\]:\[$(tput setaf 2)\]\$(pwd)\[$(tput setaf 3)\]\$(parse_git_branch)\[$(tput setaf 4)\]$ \[$(tput sgr0)\]"' >> ~/.bashrc
+
 echo ""
 echo "[setup] configure host ..."
 sudo sh -c "echo 'osmaxx-environment' > /etc/hostname"

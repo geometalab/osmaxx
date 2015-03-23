@@ -1,13 +1,23 @@
+import os
+
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+
+from django.http import HttpResponse, HttpResponseRedirect, StreamingHttpResponse, HttpResponseNotFound
+from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
+from django.core.servers.basehttp import FileWrapper
 from django.template import RequestContext, loader
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+from django.utils.encoding import smart_str
+
 from excerptexport.models import Excerpt
+from excerptexport.models import OutputFile
 from excerptexport.models import BoundingGeometry
+from excerptexport.models.extraction_order import ExtractionOrderState
 from excerptexport import settings
 
 
@@ -63,6 +73,39 @@ def create_excerpt_export(request):
 
     viewContext['options'] = get_export_options(request.POST, settings.EXPORT_OPTIONS)
     return render(request, 'excerptexport/templates/create_excerpt_export.html', viewContext)
+
+
+@login_required(login_url='/admin/')
+def show_downloads(request):
+    view_context = {}
+
+    files = OutputFile.objects.filter(extraction_order__orderer=request.user, extraction_order__state=ExtractionOrderState.FINISHED)
+    view_context['files'] = files
+    return render(request, 'excerptexport/templates/show_downloads.html', view_context)
+
+
+def download_file(request):
+
+    file_id = int(request.GET['file'])
+    output_file = get_object_or_404(OutputFile, public_identifier=file_id, deleted_on_filesystem=False)
+    if not output_file.file:
+        return HttpResponseNotFound('<p>No output file attached to output file record.</p>')
+
+    download_file_name = settings.APPLICATION_SETTINGS['download_file_name'] % {'id': output_file.public_identifier, 'name': os.path.basename(output_file.file.name)}
+    # abspath usage:  settings.APPLICATION_SETTINGS['data_directory'] may contain '../', 
+    #                 so use abspath to strip it
+    # basepath usage: django stores the absolute path of a file but if we use the location from settings, 
+    #                 the files are more movable -> so we only use the name of the file
+    absolute_file_path = os.path.abspath(settings.APPLICATION_SETTINGS['data_directory'] + '/' + os.path.basename(output_file.file.name))
+
+    # stream file in chunks
+    response = StreamingHttpResponse(
+        FileWrapper(open(absolute_file_path), settings.APPLICATION_SETTINGS['download_chunk_size']),
+        content_type=output_file.mime_type
+    )
+    response['Content-Length'] = os.path.getsize(absolute_file_path)
+    response['Content-Disposition'] = 'attachment; filename=%s' % download_file_name
+    return response
 
 
 def get_export_options(requestPostValues, optionConfig):
