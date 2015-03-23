@@ -4,9 +4,9 @@ For developers with write access to this repository:
 
 1. Clone this GitHub repository to your local machine and change into the local repo
 	```shell
-    git clone git@github.com:geometalab/osmaxx.git -o 'gitHub' osmaxx && cd osmaxx
+    git clone git@github.com:geometalab/osmaxx.git osmaxx && cd osmaxx
     ```
-    Option 'o' sets the name of the remote origin.
+    You can specify the name of the remote origin by adding param -o. Example: -o 'gitHub' 
     
 2. Enable [git-flow](https://github.com/nvie/gitflow) for the local repo
 

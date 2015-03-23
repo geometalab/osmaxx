@@ -1,6 +1,6 @@
 (function() {
     this.deactivateAllParts = function(formPartNodes) {
-        [].forEach.call(formPartNodes,function(node) {
+        Array.prototype.forEach.call(formPartNodes,function(node) {
             node.setAttribute('data-form-part-state', 'inactive');
         });
     };

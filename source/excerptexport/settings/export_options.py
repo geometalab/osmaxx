@@ -45,8 +45,7 @@ EXPORT_OPTIONS = {
                 'default': 'verbatim',
                 'values': [
                     { 'name': 'verbatim', 'label': 'Verbatim' },
-                    { 'name': 'simplified', 'label': 'Simplified' },
-                    { 'name': 'combined', 'label': 'Combined' }
+                    { 'name': 'simplified', 'label': 'Simplified' }
                 ]
             }
         }
