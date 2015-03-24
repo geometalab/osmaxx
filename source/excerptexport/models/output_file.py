@@ -13,7 +13,7 @@ class OutputFile(models.Model):
     file = models.FileField(upload_to=settings.APPLICATION_SETTINGS['data_directory'], blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True)
     deleted_on_filesystem = models.BooleanField(default=False)
-    public_identifier = models.CharField(max_length=512, default=uuid.uuid4())
+    public_identifier = models.CharField(max_length=512, default=lambda: str(uuid.uuid4()))
 
     extraction_order = models.ForeignKey(ExtractionOrder, related_name='output_files')
 

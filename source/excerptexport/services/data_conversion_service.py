@@ -41,7 +41,6 @@ def trigger_data_conversion(extraction_order, export_options):
     """
     for export_type_key, export_type in export_options.items():
         for format_key in export_type['formats']:
-            print(format_key)
             output_file = OutputFile.objects.create(
                 mime_type=export_formats_configuration[format_key]['mime_type'],
                 extraction_order=extraction_order
