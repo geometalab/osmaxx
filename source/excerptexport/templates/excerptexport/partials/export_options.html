@@ -19,11 +19,11 @@
             {% elif option_config.type == 'radio' %}
                 <fieldset class="form-group">
                     <legend>{{ option_config.label }}</legend>
-                    {% for key, value in option_config.values.items %}
-                        <input type="radio" name="export_options.{{ export_option_key }}.options.{{ option_config_key }}" value="{{ key }}"
-                               id="export_options.{{ export_option_key }}.options.{{ option_config_key }}.{{ key }}"
-                               {% if option_config.default == key %}checked="checked"{% endif %} />
-                        <label for="export_options.{{ export_option_key }}.options.{{ option_config_key }}.{{ key }}">{{ value }}</label>
+                    {% for value in option_config.values %}
+                        <input type="radio" name="export_options.{{ export_option_key }}.options.{{ option_config_key }}" value="{{ value.name }}"
+                               id="export_options.{{ export_option_key }}.options.{{ option_config_key }}.{{ value.name }}"
+                               {% if option_config.default == value.name %}checked="checked"{% endif %} />
+                        <label for="export_options.{{ export_option_key }}.options.{{ option_config_key }}.{{ value.name }}">{{ value.label }}</label>
                     {% endfor %}
                 </fieldset>
             {% endif %}
