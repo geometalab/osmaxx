@@ -100,7 +100,7 @@ def show_downloads(request):
 
 def download_file(request):
 
-    file_id = int(request.GET['file'])
+    file_id = request.GET['file']
     output_file = get_object_or_404(OutputFile, public_identifier=file_id, deleted_on_filesystem=False)
     if not output_file.file:
         return HttpResponseNotFound('<p>No output file attached to output file record.</p>')
