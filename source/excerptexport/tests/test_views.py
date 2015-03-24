@@ -63,6 +63,11 @@ class ExcerptExportViewTests(TestCase):
         self.assertEqual(str(response.context['bounding_geometry']), 'Bounding box: (4.0, 3.0), (4.0, 1.0), (2.0, 1.0), (2.0, 3.0), (4.0, 3.0)')
         self.assertEqual(response.context['options'], {'routing': {'formats': []}, 'gis': {'coordinate_reference_system': [], 'detail_level': [], 'formats': []}})
 
+        self.assertEqual(
+            Excerpt.objects.filter(name='A very interesting region', is_active=True, is_public=True).count(),
+            1
+        )
+
     def test_create_with_existing_excerpt(self):
         """
         When logged in, POSTing an export request using an existing excerpt is successful.
