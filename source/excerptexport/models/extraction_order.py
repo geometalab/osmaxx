@@ -14,6 +14,7 @@ class ExtractionOrderState(enum.Enum):
     CANCELED = 5
 
 
+
 class ExtractionOrder(models.Model):
     state = enum.EnumField(ExtractionOrderState, default=ExtractionOrderState.INITIALIZED)
     process_start_date = models.DateTimeField('process start date', null=True)
@@ -22,5 +23,11 @@ class ExtractionOrder(models.Model):
     orderer = models.ForeignKey(User, related_name='extraction_orders')
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders')
 
+    def get_number_of_output_files(self):
+        # prevent cyclic import problems
+        from .output_file import OutputFile
+        return OutputFile.objects.filter(extraction_order=self).count()
+
     def __str__(self):
-        return 'orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt.name
+        return '[' + str(self.id) + '] orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt.name + ', state: ' + self.get_state_display() \
+               + ', output files: ' + str(self.get_number_of_output_files())

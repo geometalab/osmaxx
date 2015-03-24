@@ -18,7 +18,7 @@ def generate_identifier():
 class OutputFile(models.Model):
     mime_type = models.CharField(max_length=64)
     file = models.FileField(upload_to=settings.APPLICATION_SETTINGS['data_directory'], blank=True, null=True)
-    create_date = models.DateTimeField('create date')
+    create_date = models.DateTimeField(auto_now_add=True)
     deleted_on_filesystem = models.BooleanField(default=False)
     public_identifier = models.CharField(max_length=512, default=generate_identifier())
 
