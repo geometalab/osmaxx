@@ -46,6 +46,7 @@ def trigger_data_conversion(extraction_order, export_options):
                 extraction_order=extraction_order
             )
 
+            # TODO: if this service will be integrated permanent, check for directory existence
             file_path = settings.APPLICATION_SETTINGS['data_directory'] + '/' \
                 + output_file.public_identifier + '.' + export_formats_configuration[format_key]['file_extension']
 
