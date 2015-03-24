@@ -4,15 +4,18 @@ EXPORT_OPTIONS = {
         'formats': {
             'file_gdb': {
                 'name': 'FileGDB',
-                'file_extension': 'gdb'
+                'file_extension': 'gdb',
+                'mime_type': 'application/octet-stream'
             },
             'geo_package': {
                 'name': 'GeoPackage',
-                'file_extension': 'geo'
+                'file_extension': 'geo',  # ???
+                'mime_type': 'application/octet-stream'  # Not verified!
             },
             'shape_file': {
                 'name': 'ShapeFile',
-                'file_extension': 'shape'
+                'file_extension': 'shp',
+                'mime_type': 'application/octet-stream'  # Not verified!
             }
         },
         'options': {
@@ -54,8 +57,9 @@ EXPORT_OPTIONS = {
         'name': 'Routing',
         'formats': {
             'img': {
-                'name': 'IMG',
-                'file_extension': 'img'
+                'name': 'IMG (Garmin)',
+                'file_extension': 'img',
+                'mime_type': 'application/octet-stream'  # Not verified!
             }
         },
         'options': {

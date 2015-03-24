@@ -23,4 +23,5 @@ class ExtractionOrder(models.Model):
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders')
 
     def __str__(self):
-        return 'orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt.name
+        return '[' + str(self.id) + '] orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt.name + ', state: ' + self.get_state_display() \
+               + ', output files: ' + str(self.output_files.count())
