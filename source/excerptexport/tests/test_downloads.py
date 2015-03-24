@@ -30,7 +30,6 @@ class DownloadsTestCase(TestCase):
             new_file = File(file_reference)
             new_file.write('Test text')
 
-        # file must be committed, so reopen to attach to model
         output_file.file = file_path
         output_file.save()
 
