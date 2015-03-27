@@ -13,8 +13,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from django.utils.encoding import smart_str
-from excerptexport.models import ExtractionOrder
 
+from excerptexport.models import ExtractionOrder
 from excerptexport.models import Excerpt
 from excerptexport.models import OutputFile
 from excerptexport.models import BoundingGeometry
@@ -30,8 +30,8 @@ def index(request):
 class NewExcerptExportViewModel:
     def __init__(self, user):
         self.user = user
-        self.personal_excerpts = Excerpt.objects.filter(is_active=True, is_public=False, owner=user) #.order_by('name')
-        self.public_excerpts = Excerpt.objects.filter(is_active=True, is_public=True) #.order_by('name')
+        self.personal_excerpts = Excerpt.objects.filter(is_active=True, is_public=False, owner=user)  # .order_by('name')
+        self.public_excerpts = Excerpt.objects.filter(is_active=True, is_public=True)  # .order_by('name')
 
         self.administrative_areas = settings.ADMINISTRATIVE_AREAS
         self.export_options = settings.EXPORT_OPTIONS
@@ -49,18 +49,18 @@ def new_excerpt_export(request):
 @login_required(login_url='/admin/')
 def create_excerpt_export(request):
     if request.POST['form-mode'] == 'existing_excerpt':
-        existingExcerptID = request.POST['existing_excerpt.id']
-        viewContext = { 'excerpt': existingExcerptID }
+        existing_excerpt_id = request.POST['existing_excerpt.id']
+        view_context = {'excerpt': existing_excerpt_id}
         extraction_order = ExtractionOrder.objects.create(
-            excerpt_id = existingExcerptID,
-            orderer = request.user
+            excerpt_id=existing_excerpt_id,
+            orderer=request.user
         )
 
     if request.POST['form-mode'] == 'create_new_excerpt':
         excerpt = Excerpt(
-            name = request.POST['new_excerpt.name'],
-            is_active = True,
-            is_public = request.POST['new_excerpt.is_public'] if ('new_excerpt.is_public' in request.POST) else False
+            name=request.POST['new_excerpt.name'],
+            is_active=True,
+            is_public=request.POST['new_excerpt.is_public'] if ('new_excerpt.is_public' in request.POST) else False
         )
         excerpt.owner = request.user
         excerpt.save()
@@ -74,19 +74,19 @@ def create_excerpt_export(request):
         bounding_geometry.excerpt = excerpt
         bounding_geometry.save()
 
-        viewContext = { 'excerpt': excerpt, 'bounding_geometry': bounding_geometry }
+        view_context = {'excerpt': excerpt, 'bounding_geometry': bounding_geometry}
         extraction_order = ExtractionOrder.objects.create(
-            excerpt = excerpt,
-            orderer = request.user
+            excerpt=excerpt,
+            orderer=request.user
         )
 
-    viewContext['use_existing'] = 'existingExcerptID' in vars() # TODO: The view should not have to know
+    view_context['use_existing'] = 'existing_excerpt_id' in vars()  # TODO: The view should not have to know
     export_options = get_export_options(request.POST, settings.EXPORT_OPTIONS)
-    viewContext['options'] = export_options
+    view_context['options'] = export_options
 
     trigger_data_conversion(extraction_order, export_options)
 
-    return render(request, 'excerptexport/templates/create_excerpt_export.html', viewContext)
+    return render(request, 'excerptexport/templates/create_excerpt_export.html', view_context)
 
 
 @login_required(login_url='/admin/')
@@ -105,7 +105,11 @@ def download_file(request):
     if not output_file.file:
         return HttpResponseNotFound('<p>No output file attached to output file record.</p>')
 
-    download_file_name = settings.APPLICATION_SETTINGS['download_file_name'] % {'id': output_file.public_identifier, 'name': os.path.basename(output_file.file.name)}
+    download_file_name = settings.APPLICATION_SETTINGS['download_file_name'] % {
+        'id': output_file.public_identifier,
+        'name': os.path.basename(output_file.file.name)
+
+    }
     # abspath usage:  settings.APPLICATION_SETTINGS['data_directory'] may contain '../', 
     #                 so use abspath to strip it
     # basepath usage: django stores the absolute path of a file but if we use the location from settings, 
@@ -129,9 +133,13 @@ def get_export_options(requestPostValues, optionConfig):
     export_options = {}
     for export_option_key, export_option in optionConfig.items():
         export_options[export_option_key] = {}
-        export_options[export_option_key]['formats'] = requestPostValues.getlist('export_options.'+export_option_key+'.formats')
+        export_options[export_option_key]['formats'] = requestPostValues.getlist(
+            'export_options.'+export_option_key+'.formats'
+        )
 
         for export_option_config_key, export_option_config in export_option['options'].items():
-            export_options[export_option_key][export_option_config_key] = requestPostValues.getlist('export_options.'+export_option_key+'.options.'+export_option_config_key)
+            export_options[export_option_key][export_option_config_key] = requestPostValues.getlist(
+                'export_options.'+export_option_key+'.options.'+export_option_config_key
+            )
 
     return export_options

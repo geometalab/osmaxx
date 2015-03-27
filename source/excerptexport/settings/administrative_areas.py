@@ -3,7 +3,7 @@ ADMINISTRATIVE_AREAS = {
         'eu': 'Europe',
         'af': 'Africa'
     },
-     'countries': {
+    'countries': {
         'ch': 'Switzerland',
         'de': 'Germany',
         'us': 'USA'

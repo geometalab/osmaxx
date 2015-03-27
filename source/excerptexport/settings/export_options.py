@@ -28,16 +28,16 @@ EXPORT_OPTIONS = {
                     {
                         'name': 'Global coordinate reference systems',
                         'values': [
-                            { 'name': 'pseudomerkator', 'label': 'Pseudo merkator' },
-                            { 'name': 'wgs72', 'label': 'WGS 72' },
-                            { 'name': 'wgs84', 'label': 'WGS 84' }
+                            {'name': 'pseudomerkator', 'label': 'Pseudo merkator'},
+                            {'name': 'wgs72', 'label': 'WGS 72'},
+                            {'name': 'wgs84', 'label': 'WGS 84'}
                         ]
                     },
                     {
                         'name': 'UTM zones for your export',
                         'values': [
-                            { 'name': 'utm32', 'label': 'UTM zone 32' },
-                            { 'name': 'utm33', 'label': 'UTM zone 33' }
+                            {'name': 'utm32', 'label': 'UTM zone 32'},
+                            {'name': 'utm33', 'label': 'UTM zone 33'}
                         ]
                     }
                 ]
@@ -47,8 +47,8 @@ EXPORT_OPTIONS = {
                 'type': 'radio',
                 'default': 'verbatim',
                 'values': [
-                    { 'name': 'verbatim', 'label': 'Verbatim' },
-                    { 'name': 'simplified', 'label': 'Simplified' }
+                    {'name': 'verbatim', 'label': 'Verbatim'},
+                    {'name': 'simplified', 'label': 'Simplified'}
                 ]
             }
         }

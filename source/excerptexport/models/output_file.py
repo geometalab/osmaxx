@@ -11,6 +11,7 @@ from .extraction_order import ExtractionOrder
 def default_public_identifier():
     return str(uuid.uuid4())
 
+
 class OutputFile(models.Model):
 
     mime_type = models.CharField(max_length=64)

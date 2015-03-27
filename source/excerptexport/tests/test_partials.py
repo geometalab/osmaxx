@@ -1,9 +1,9 @@
-from django.test import TestCase
-from django.shortcuts import render
-from django.template import Context, Template
-
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.shortcuts import render
+from django.template import Context, Template
+from django.test import TestCase
+
 
 class PartialsTestCase(TestCase):
     def test_rendering_select_with_groups(self):
@@ -17,24 +17,27 @@ class PartialsTestCase(TestCase):
                     {
                         'name': 'Global coordinate reference systems',
                         'values': [
-                            { 'name': 'pseudomerkator', 'label': 'Pseudo merkator' },
-                            { 'name': 'wgs72', 'label': 'WGS 72' },
-                            { 'name': 'wgs84', 'label': 'WGS 84' }
+                            {'name': 'pseudomerkator', 'label': 'Pseudo merkator'},
+                            {'name': 'wgs72', 'label': 'WGS 72'},
+                            {'name': 'wgs84', 'label': 'WGS 84'}
                         ]
                     },
                     {
                         'name': 'UTM zones for your export',
                         'values': [
-                            { 'name': 'utm32', 'label': 'UTM zone 32' },
-                            { 'name': 'utm33', 'label': 'UTM zone 33' }
+                            {'name': 'utm32', 'label': 'UTM zone 32'},
+                            {'name': 'utm33', 'label': 'UTM zone 33'}
                         ]
                     }
                 ]
             }
         })
-        template = Template("{% spaceless %}{% include 'excerptexport/partials/select.html' with element=coordinate_reference_system name='coordinate_reference_system' %}{% endspaceless %}")
-        renderedView = template.render(context)
-        expectedRenderedTemplate = Template("""{% spaceless %}
+        template = Template(
+            "{% spaceless %}{% include 'excerptexport/partials/select.html' with element=coordinate_reference_system name='coordinate_reference_system' %}{% endspaceless %}"
+        )
+        rendered_view = template.render(context)
+        expected_rendered_template = Template(
+            """{% spaceless %}
 <select name="coordinate_reference_system" id="coordinate_reference_system">
     <optgroup label="Global coordinate reference systems">
         <option value="pseudomerkator">Pseudo merkator</option>
@@ -46,6 +49,7 @@ class PartialsTestCase(TestCase):
         <option value="utm33">UTM zone 33</option>
     </optgroup>
 </select>
-{% endspaceless %}""").render(Context({}))
+{% endspaceless %}"""
+        ).render(Context({}))
 
-        self.assertEqual(renderedView, expectedRenderedTemplate)
+        self.assertEqual(rendered_view, expected_rendered_template)
