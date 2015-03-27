@@ -168,3 +168,13 @@ sudo -u postgres pg_dump osmaxx --data-only > /var/www/eda/data/{yymmdd}-osmaxx-
 # restore
 sudo -u postgres psql osmaxx < /var/www/eda/data/{yymmdd}-osmaxx-data.sql
 ```
+
+
+### Deployment
+
+#### Package release
+
+```shell
+cd toDirectoryContainingOsmaxxRepo
+zip -r osmaxx-0.1.zip osmaxx -x *.git* -x *.od* -x *.gitignore* -x *.gitmodules* -x *developmentEnvironment/* -x *data/* -x *.idea* -x *test_db.sqlite* -x *__pycache__*
+```
