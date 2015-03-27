@@ -1,7 +1,9 @@
 from django.conf.urls import patterns, url
 from excerptexport import views
 
-urlpatterns = patterns('',
+
+urlpatterns = patterns(
+    '',
     url(r'^$', views.index, name='index'),
     url(r'^new/$', views.new_excerpt_export, name='new'),
     url(r'^downloads/$', views.show_downloads, name='downloads'),

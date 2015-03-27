@@ -1,10 +1,8 @@
 import os
 
 from django.test import TestCase
-
 from django.core.urlresolvers import reverse
 from django.core.files import File
-
 from django.contrib.auth.models import User
 
 from excerptexport.models import OutputFile, Excerpt, ExtractionOrder

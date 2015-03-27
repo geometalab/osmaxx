@@ -1,7 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 from django_enumfield import enum
 
-from django.contrib.auth.models import User
 from .excerpt import Excerpt
 
 

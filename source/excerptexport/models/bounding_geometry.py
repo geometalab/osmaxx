@@ -1,14 +1,15 @@
 from django.db import models
 from django.contrib.gis.db import models
-from django_enumfield import enum
 from django.contrib.gis.geos import GEOSGeometry, Polygon
+
+from django_enumfield import enum
 
 from .excerpt import Excerpt
 
 
 class BoundingGeometryType(enum.Enum):
     BOUNDINGBOX = 0
-    #POLYGON = 1
+    # POLYGON = 1
 
 
 class BoundingGeometry(models.Model):
@@ -17,15 +18,14 @@ class BoundingGeometry(models.Model):
         bounding_geometry = BoundingGeometry()
         bounding_geometry.type = BoundingGeometryType.BOUNDINGBOX
         polygon = Polygon([
-            GEOSGeometry('POINT(%s %s)' %(west, south)),
-            GEOSGeometry('POINT(%s %s)' %(west, north)),
-            GEOSGeometry('POINT(%s %s)' %(east, north)),
-            GEOSGeometry('POINT(%s %s)' %(east, south)),
-            GEOSGeometry('POINT(%s %s)' %(west, south))
+            GEOSGeometry('POINT(%s %s)' % (west, south)),
+            GEOSGeometry('POINT(%s %s)' % (west, north)),
+            GEOSGeometry('POINT(%s %s)' % (east, north)),
+            GEOSGeometry('POINT(%s %s)' % (east, south)),
+            GEOSGeometry('POINT(%s %s)' % (west, south))
         ])
         bounding_geometry.geometry = GEOSGeometry(polygon)
         return bounding_geometry
-
 
     type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX)
     geometry = models.GeometryField(srid=4326, blank=True, null=True, spatial_index=True)
@@ -38,8 +38,8 @@ class BoundingGeometry(models.Model):
     objects = models.GeoManager()
 
     def __str__(self):
-        type = 'Bounding box' if (self.type == BoundingGeometryType.BOUNDINGBOX) else 'Polygon'
+        geometry_type = 'Bounding box' if (self.type == BoundingGeometryType.BOUNDINGBOX) else 'Polygon'
         points = []
         for coordinates in self.geometry[0]:
-            points.append('(' + ', '.join(list(str(round(coordinate,5)) for coordinate in coordinates)) + ')')
-        return type + ': ' + ', '.join(points)
+            points.append('(' + ', '.join(list(str(round(coordinate, 5)) for coordinate in coordinates)) + ')')
+        return geometry_type + ': ' + ', '.join(points)

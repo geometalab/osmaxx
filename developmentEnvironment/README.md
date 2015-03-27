@@ -91,30 +91,31 @@ Add
     
 to your local /etc/hosts file.
 
-| Feature                       | URL 				            | Username 	| Password 					|
-| ---                           | ---				            | ---		| ---						|
-| Database osmaxx               |					            | osmaxx	| osmaxx                    |
-| App frontend                  | osmaxx.dev:8080/excerptExport	|			|							|
-| App frontend development      | osmaxx.dev:8000/exportExcerpt	|			|							|
-| App frontend development      | osmaxx.dev:8000/admin         | admin 	| osmaxx					|
+| Feature                       | URL 				                    | Username 	| Password 					|
+| ---                           | ---				                    | ---		| ---						|
+| Database osmaxx               |					                    | osmaxx	| osmaxx                    |
+| App frontend                  | http://osmaxx.dev:8080/excerptexport	|			|							|
+| App frontend development      | http://osmaxx.dev:8000/excerptexport	|			|							|
+| App backend development       | http://osmaxx.dev:8000/admin          | admin 	| osmaxx					|
 
 
 ## Development
 
-### Run application using Django built in server
+### Run application using Django built in server (see runDevelopmentServer.sh)
 
 You need to specify the ip. Otherwise you are not able to reach the application from outside of the vm.
 
 ```shell
+#!/bin/bash
+
+CURRENTDIR=`dirname $0`
+cd "$CURRENTDIR"
+# activate environment
+source "../environment/bin/activate"
 # get local ip
 LOCALIP=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'`
-
-# activate environment
-cd "/path/to/manage.py"
-source "../environment/bin/activate"
-
-# run server. Replace $localIP by the ip address of the vm if you run this manually
-python manage.py runserver "$LOCALIP:8000"
+echo "$LOCALIP"
+python ./manage.py runserver "$LOCALIP:8000"
 ```
 
 ### Clear Django cache
@@ -130,7 +131,7 @@ cache.clear()
 
 ### Update persistence
 
-#### Update migration information
+#### 1. Update migration information
 
 ```shell
 cd /path/to/projects/folder
@@ -138,13 +139,13 @@ source ../environment/bin/activate
 python manage.py makemigrations
 ```
 
-#### See domain specific migrations (e.g. sql)
+#### 2. See domain specific migrations (e.g. sql)
 
 ```shell
 python manage.py sqlmigrate excerptExport {number, e.g. 0001}
 ```
 
-#### Run migrations on database
+#### 3. Run migrations on database
 ```shell
 python manage.py migrate
 ```

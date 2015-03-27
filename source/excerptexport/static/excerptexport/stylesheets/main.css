@@ -3,6 +3,7 @@ body { padding: 0; margin: 0; }
 
 h1 { font-size: 2rem; margin: 0; }
 
+
 /* container */
 header, .main, footer { padding: 1rem; }
 header, footer { position: fixed; width: 100%; background: #286090; color: white; z-index: 10000; }
@@ -126,6 +127,7 @@ select.btn-group > option:active, select.btn-group > option:hover, select.btn-gr
     background-color: rgb(230, 230, 230);
 }
 [data-form-part-state="inactive"] { display: none; }
+
 
 /* validation */
 input:invalid, textarea:invalid, select:invalid {
