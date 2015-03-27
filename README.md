@@ -4,3 +4,12 @@ Short project name for "<strong>O</strong>pen<strong>S</strong>treet<strong>M</s
 Cuts out OpenStreetMap data, processes it to geodata and converts it to typical GIS fileformats before being prepared for download. 
 
 Website: http://osmaxx.hsr.ch/
+
+
+## Development
+See `developmentEnvironment/` for instructions.
+
+
+# Documentation
+
+See Wiki: https://github.com/geometalab/osmaxx/wiki

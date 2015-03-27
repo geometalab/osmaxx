@@ -1,0 +1,15 @@
+{% extends "excerptexport/layouts/base.html" %}
+
+{% load filter_filename %}
+
+{% block main %}
+    <h2>Downloads</h2>
+    <ul>
+        {% for file in files %}
+            <li>
+                <a href="{% url 'excerptexport:download' %}?file={{ file.public_identifier }}">{{ file.public_identifier }}</a>:
+                {{ file.file|filter_filename }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

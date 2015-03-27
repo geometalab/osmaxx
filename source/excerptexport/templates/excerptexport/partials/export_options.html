@@ -1,0 +1,32 @@
+{% for export_option_key, export_option in export_options.items %}
+    <div class="form-group">
+        <h3>{{ export_option.name }}</h3>
+        <fieldset class="form-group">
+            <legend>Formats</legend>
+            {% for format_key, format in export_option.formats.items %}
+                <input type="checkbox" name="export_options.{{ export_option_key }}.formats"
+                       id="export_options.{{ export_option_key }}.formats.{{ format_key }}" value="{{ format_key }}" />
+                <label for="export_options.{{ export_option_key }}.formats.{{ format_key }}">{{ format.name }}</label>
+            {% endfor %}
+        </fieldset>
+
+        {% for option_config_key, option_config in export_option.options.items %}
+            {% if option_config.type == 'select' %}
+                <div class="form-group">
+                    <label for="export_options.{{ export_option_key }}.options.{{ option_config_key }}">{{ option_config.label }}</label>
+                    {% include 'excerptexport/partials/select.html' with element=option_config name="export_options."|add:export_option_key|add:".options."|add:option_config_key %}
+                </div>
+            {% elif option_config.type == 'radio' %}
+                <fieldset class="form-group">
+                    <legend>{{ option_config.label }}</legend>
+                    {% for value in option_config.values %}
+                        <input type="radio" name="export_options.{{ export_option_key }}.options.{{ option_config_key }}" value="{{ value.name }}"
+                               id="export_options.{{ export_option_key }}.options.{{ option_config_key }}.{{ value.name }}"
+                               {% if option_config.default == value.name %}checked="checked"{% endif %} />
+                        <label for="export_options.{{ export_option_key }}.options.{{ option_config_key }}.{{ value.name }}">{{ value.label }}</label>
+                    {% endfor %}
+                </fieldset>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endfor %}
