@@ -8,8 +8,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = (
@@ -68,19 +70,19 @@ WSGI_APPLICATION = 'osmaxx.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
-   'default': {
-       #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-       'ENGINE': 'django.contrib.gis.db.backends.postgis',
-       'NAME': 'osmaxx',
-       'USER': 'osmaxx',
-       'PASSWORD': 'osmaxx',
-       'HOST': '127.0.0.1',
-       'PORT': '5432'
-   }
+    'default': {
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'osmaxx',
+        'USER': 'osmaxx',
+        'PASSWORD': 'osmaxx',
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
+    }
 }
 
 import sys
-if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing and django-coverage
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.spatialite',
@@ -106,6 +108,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATICFILES_DIRS = (
-#    os.path.join(BASE_DIR, 'resources/public/'),
-#)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'resources/public/'),
+# )
