@@ -1,3 +1,10 @@
 Django==1.7.4
+PyJWT==0.4.1
+django-allauth==0.19.1
 django-enumfield==1.2
+oauthlib==0.7.2
 psycopg2==2.6
+python-openid==2.2.5
+requests==2.6.0
+requests-oauthlib==0.4.2
+six==1.9.0
