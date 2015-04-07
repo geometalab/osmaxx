@@ -7,10 +7,17 @@ import django.contrib.gis.db.models.fields
 import excerptexport.models.output_file
 
 
-# Functions from the following migrations need manual copying.
-# Move them and any dependencies into this file, then update the
-# RunPython operations to refer to the local versions:
-# excerptexport.migrations.0007_auto_20150407_1117
+def revert_one_to_one_bounding_geo_to_excerpt(apps, schema_editor):
+    Excerpt = apps.get_model('excerptexport', 'Excerpt')
+    for excerpt in Excerpt.objects.all():
+        excerpt.bounding_geometry = excerpt.boundinggeometry
+        excerpt.save()
+
+def revert_one_to_one_excerpt_to_bounding_geo(apps, schema_editor):
+    BoundingGeometry = apps.get_model('excerptexport', 'BoundingGeometry')
+    for bounding_geometry in BoundingGeometry.objects.all():
+        bounding_geometry.excerpt_old = bounding_geometry.excerpt
+        bounding_geometry.save()
 
 class Migration(migrations.Migration):
 
@@ -111,8 +118,8 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.RunPython(
-            code=excerptexport.migrations.0007_auto_20150407_1117.revert_one_to_one_bounding_geo_to_excerpt,
-            reverse_code=excerptexport.migrations.0007_auto_20150407_1117.revert_one_to_one_excerpt_to_bounding_geo,
+            code=revert_one_to_one_bounding_geo_to_excerpt,
+            reverse_code=revert_one_to_one_excerpt_to_bounding_geo,
             atomic=True,
         ),
         migrations.RemoveField(
