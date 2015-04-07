@@ -55,24 +55,22 @@ RUN virtualenv-3.4 /var/www/eda/environment
 
 ADD source.tar /var/www/eda/
 COPY requirementsProduction.txt /var/www/eda/requirementsProduction.txt
-RUN ls -al /var/www/eda
 RUN mv /var/www/eda/source /var/www/eda/projects;
 
 RUN cd "/var/www/eda/projects"
-RUN ls -al /var/www/eda/; ls -al /var/www/eda/projects/;
 RUN /var/www/eda/environment/bin/pip3 install -r /var/www/eda/requirementsProduction.txt
 RUN service postgresql start &&\
     /var/www/eda/environment/bin/python /var/www/eda/projects/manage.py migrate
 RUN service postgresql start &&\
     echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', '', 'osmaxx')" | /var/www/eda/environment/bin/python /var/www/eda/projects/manage.py shell
 
+RUN mkdir /var/www/eda/projects/data; chown root:www-data /var/www/eda/projects/data; chmod 777 /var/www/eda/projects/data
+
 # Create apache virtualhost
 COPY osmaxxProduction.vhost /etc/apache2/sites-available/osmaxx.conf
 RUN ln -s /etc/apache2/sites-available/osmaxx.conf /etc/apache2/sites-enabled/osmaxx.conf
 RUN a2ensite osmaxx
-RUN service apache2 restart
 
 EXPOSE 80
-EXPOSE 8000
 
 CMD ["/bin/bash"]
