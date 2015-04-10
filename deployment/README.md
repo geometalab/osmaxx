@@ -73,5 +73,5 @@ docker save osmaxx > /tmp/osmaxx-alpha1.docker-img.tar
 
 Load docker image from file:
 ```shell
-$ docker load < /tmp/osmaxx-alpha1.docker-img.tar
+docker load < /tmp/osmaxx-alpha1.docker-img.tar
 ```
