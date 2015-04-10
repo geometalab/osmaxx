@@ -41,5 +41,5 @@ class BoundingGeometry(models.Model):
         geometry_type = 'Bounding box' if (self.type == BoundingGeometryType.BOUNDINGBOX) else 'Polygon'
         points = []
         for coordinates in self.geometry[0]:
-            points.append('(' + ', '.join(list(str(round(coordinate, 5)) for coordinate in coordinates)) + ')')
+            points.append('(' + ', '.join([str(round(coordinate, 5)) for coordinate in coordinates]) + ')')
         return geometry_type + ': ' + ', '.join(points)
