@@ -57,11 +57,11 @@ A vagrant box is provided as part of this project's repository.
 5. Add 'localhost	osmaxx.dev' to your /etc/hosts file
 6. Use the configured Apache or start development server (live update after file change)
 	1. Live simulation with Apache
-		* Open http://osmax.dev:8080/excerptExport/ in your local browser
+		* Open http://osmaxx.dev:8080/excerptExport/ in your local browser
 	2. Development
 		* Log into vagrant machine: `vagrant ssh`
 		* Run development start script: `/var/www/eda/projects/runDevelopmentServer.sh`
-		* Open http://osmax.dev:8000/excerptExport/ in your local browser
+		* Open http://osmaxx.dev:8000/excerptExport/ in your local browser
 
 
 ### Reset the box
