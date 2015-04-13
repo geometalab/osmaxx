@@ -1,0 +1,9 @@
+{% load filter_filename %}
+
+<ul>
+{% for file in files.all %}
+    <li>
+        <a href="{% url 'excerptexport:download' %}?file={{ file.public_identifier }}">{{ file.file|filter_filename }}</a>
+    </li>
+{% endfor %}
+</ul>

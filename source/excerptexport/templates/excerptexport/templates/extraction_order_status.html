@@ -7,7 +7,10 @@
             <tr>
                 <tr><th>Excerpt</th><td>{{ extraction_order.excerpt.name }}</td>
                 <tr><th>Status</th><td>{{ extraction_order.get_state_display }}</td>
-            </tr>
+                <tr><th>Issuer</th><td>{{ extraction_order.orderer.get_username }}</td>
+                {% if extraction_order.get_state_display == 'FINISHED' %}
+                <tr><th>Downloads ({{ extraction_order.output_files.count }})</th><td>{% include 'excerptexport/partials/download_list.html' with files=extraction_order.output_files %}</td></tr>
+                {% endif %}
         </body>
     </table>
 {% endblock %}
