@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from excerptexport.models import ExtractionOrder, Excerpt
+from excerptexport.models.bounding_geometry import BoundingGeometry
 
 
 class ExcerptExportViewTests(TestCase):
@@ -26,7 +27,8 @@ class ExcerptExportViewTests(TestCase):
             name='Some old Excerpt',
             is_active=True,
             is_public=False,
-            owner=self.user
+            owner=self.user,
+            bounding_geometry = BoundingGeometry.objects.create()
         )
         self.existing_excerpt_post_data = {
             'form-mode': 'existing_excerpt',
