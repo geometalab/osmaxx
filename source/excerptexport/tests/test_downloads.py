@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 from excerptexport.models import OutputFile, Excerpt, ExtractionOrder
 from excerptexport import settings
+from excerptexport.models.bounding_geometry import BoundingGeometry
 
 
 class DownloadsTestCase(TestCase):
@@ -18,7 +19,8 @@ class DownloadsTestCase(TestCase):
 
     def test_file_download(self):
         user = User.objects.create_user('user', 'user@example.com', 'pw')
-        excerpt = Excerpt.objects.create(name='Neverland', is_active=True, is_public=True, owner=user)
+        excerpt = Excerpt.objects.create(name='Neverland', is_active=True, is_public=True, owner=user,
+                                         bounding_geometry=BoundingGeometry.objects.create())
         extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
         output_file = OutputFile.objects.create(mime_type='test/plain', extraction_order=extraction_order)
 
