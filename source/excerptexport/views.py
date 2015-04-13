@@ -57,22 +57,22 @@ def create_excerpt_export(request):
         )
 
     if request.POST['form-mode'] == 'create_new_excerpt':
-        excerpt = Excerpt(
-            name=request.POST['new_excerpt.name'],
-            is_active=True,
-            is_public=request.POST['new_excerpt.is_public'] if ('new_excerpt.is_public' in request.POST) else False
-        )
-        excerpt.owner = request.user
-        excerpt.save()
-
         bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
             request.POST['new_excerpt.boundingBox.north'],
             request.POST['new_excerpt.boundingBox.east'],
             request.POST['new_excerpt.boundingBox.south'],
             request.POST['new_excerpt.boundingBox.west']
         )
-        bounding_geometry.excerpt = excerpt
         bounding_geometry.save()
+
+        excerpt = Excerpt(
+            name=request.POST['new_excerpt.name'],
+            is_active=True,
+            is_public=request.POST['new_excerpt.is_public'] if ('new_excerpt.is_public' in request.POST) else False,
+            bounding_geometry = bounding_geometry
+        )
+        excerpt.owner = request.user
+        excerpt.save()
 
         view_context = {'excerpt': excerpt, 'bounding_geometry': bounding_geometry}
         extraction_order = ExtractionOrder.objects.create(
