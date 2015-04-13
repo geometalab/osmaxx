@@ -71,6 +71,9 @@ COPY osmaxxProduction.vhost /etc/apache2/sites-available/osmaxx.conf
 RUN ln -s /etc/apache2/sites-available/osmaxx.conf /etc/apache2/sites-enabled/osmaxx.conf
 RUN a2ensite osmaxx
 
+COPY startApplication.sh /usr/local/bin/startApplication.sh
+RUN chmod +x /usr/local/bin/startApplication.sh
+
 EXPOSE 80
 
-CMD ["/bin/bash"]
+CMD /usr/local/bin/startApplication.sh && /bin/bash

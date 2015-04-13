@@ -29,7 +29,7 @@
 5. Run container:
     ```shell
     # map host port 8080 to port 80 of container
-    docker run -d -p 8080:80 osmaxx /bin/bash -c "service postgresql start && /usr/sbin/apache2ctl -D FOREGROUND"
+    docker run -d -p 8080:80 osmaxx
     ```
     
     
