@@ -108,12 +108,12 @@ You need to specify the ip. Otherwise you are not able to reach the application 
 ```shell
 #!/bin/bash
 
-CURRENTDIR=`dirname $0`
+CURRENTDIR=$(dirname $0)
 cd "$CURRENTDIR"
 # activate environment
 source "../environment/bin/activate"
 # get local ip
-LOCALIP=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'`
+LOCALIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
 echo "$LOCALIP"
 python ./manage.py runserver "$LOCALIP:8000"
 ```
