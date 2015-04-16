@@ -1,2 +1,2 @@
 # osmaxx-docs
-Documents from and about Osmaxx project
+Documents from and about Osmaxx project.
