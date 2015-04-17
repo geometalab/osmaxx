@@ -137,3 +137,45 @@ input:invalid, textarea:invalid, select:invalid {
 input:invalid:focus, textarea:invalid:focus, select:invalid:focus {
     border-color: maroon;
 }
+
+.copy-link { width: 100%; }
+.copy-link > label, .copy-link > textarea {
+    display: inline-block;
+    height: 3.5rem;
+    vertical-align: top;
+}
+.copy-link > label {
+    background: gainsboro;
+    color: black;
+    font-weight: normal;
+    width: 10%; padding: 0.75rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+.copy-link > textarea {
+    box-shadow: none;
+    border-color: gainsboro;
+    width: 90%;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+@media (max-device-width: 1024px) {
+    .copy-link > label { width: 20%; }
+    .copy-link > textarea { width: 80%; }
+}
+
+
+
+/* lists */
+ul, ol {
+    list-style-position: outside;
+    padding-left: 1.5rem;
+}
+
+
+/* tables */
+table                       { border: 0.5rem solid #286090; }
+table th, table td          { padding: 0.25rem 0.5rem; }
+table th                    { background: rgb(210,240,255); }
+table tr:nth-child(odd) th  { background: rgb(180,220,255); }
+table tr td                 { background: aliceblue; }
+table tr:nth-child(odd) td  { background: rgb(210,240,255); }
