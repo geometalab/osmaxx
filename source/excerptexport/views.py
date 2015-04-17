@@ -91,7 +91,7 @@ def create_excerpt_export(request):
 
 @login_required(login_url='/admin/')
 def show_downloads(request):
-    view_context = {}
+    view_context = { 'host_domain': request.META['HTTP_HOST'] }
 
     files = OutputFile.objects.filter(extraction_order__orderer=request.user, extraction_order__state=ExtractionOrderState.FINISHED)
     view_context['files'] = files
@@ -148,4 +148,4 @@ def get_export_options(requestPostValues, optionConfig):
 @login_required(login_url='/admin/')
 def extraction_order_status(request, extraction_order_id):
     extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
-    return render(request, 'excerptexport/templates/extraction_order_status.html', { 'extraction_order': extraction_order })
+    return render(request, 'excerptexport/templates/extraction_order_status.html', { 'extraction_order': extraction_order, 'host_domain': request.META['HTTP_HOST'] })
