@@ -1,16 +1,41 @@
 {% extends "excerptexport/layouts/base.html" %}
 
 {% block main %}
-    <h2>Extraction order {{ extraction_order.id }}</h2>
+    <h2>Status Extraction order #{{ extraction_order.id }}</h2>
     <table>
         <body>
             <tr>
                 <tr><th>Excerpt</th><td>{{ extraction_order.excerpt.name }}</td>
-                <tr><th>Status</th><td>{{ extraction_order.get_state_display }}</td>
-                <tr><th>Issuer</th><td>{{ extraction_order.orderer.get_username }}</td>
-                {% if extraction_order.get_state_display == 'FINISHED' %}
-                <tr><th>Downloads ({{ extraction_order.output_files.count }})</th><td>{% include 'excerptexport/partials/download_list.html' with files=extraction_order.output_files %}</td></tr>
-                {% endif %}
+                <tr><th>Status</th><td>
+                    {% if extraction_order.get_state_display == 'UNDEFINED' %}
+                        <span style="color: maroon;">&quest;</span>
+                    {% elif extraction_order.get_state_display == 'INITIALIZED' %}
+                        <span style="color: cornflowerblue;">&bigstar;</span>
+                    {% elif extraction_order.get_state_display == 'WAITING' %}
+                        <span style="color: gold; display: inline-block; -ms-transform: rotate(90deg); -webkit-transform: rotate(90deg); transform: rotate(90deg);">&bowtie;</span>
+                    {% elif extraction_order.get_state_display == 'PROCESSING' %}
+                        <span style="color: olive;">&#8635;</span>
+                    {% elif extraction_order.get_state_display == 'FINISHED' %}
+                        <span style="color: seagreen;">&check;</span>
+                    {% elif extraction_order.get_state_display == 'CANCELED' %}
+                        <span style="color: maroon;">&Chi;</span>
+                    {% endif %}
+                    {{ extraction_order.get_state_display }}</td>
+                <tr><th>Issuer</th><td>{{ extraction_order.orderer.get_username }}</td></tr>
         </body>
     </table>
+
+    {% if extraction_order.get_state_display == 'FINISHED' %}
+        <h3>Downloads (Σ:{{ extraction_order.output_files.count }})</h3>
+        {% include 'excerptexport/partials/download_list.html' with files=extraction_order.output_files host_domain=host_domain %}
+
+        <a href="mailto:?subject=Download%20map%20data&body=
+{% for file in extraction_order.output_files.all %}
+http://{{ host_domain }}{% url 'excerptexport:download' %}?file={{ file.public_identifier }}%0D%0A
+{% endfor %}
+            ">
+            <button>&#9993; Send all links</button>
+        </a>
+
+    {% endif %}
 {% endblock %}

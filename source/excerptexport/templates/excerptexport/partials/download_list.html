@@ -4,6 +4,10 @@
 {% for file in files.all %}
     <li>
         <a href="{% url 'excerptexport:download' %}?file={{ file.public_identifier }}">{{ file.file|filter_filename }}</a>
+        <a href="mailto:?subject=Download%20map%20data%20of%20{{ file.extraction_order.excerpt.name }}&body=http://{{ host_domain }}{% url 'excerptexport:download' %}?file={{ file.public_identifier }}">
+            <button>&#9993; Send link</button>
+        </a>
+        <br />Copy link: <br /><textarea style="width: 40em">http://{{ host_domain }}{% url 'excerptexport:download' %}?file={{ file.public_identifier }}</textarea>
     </li>
 {% endfor %}
 </ul>
