@@ -2,6 +2,7 @@ import os
 
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render_to_response
 
 from django.http import HttpResponse, HttpResponseRedirect, StreamingHttpResponse, HttpResponseNotFound
 from django.core.servers.basehttp import FileWrapper
@@ -80,13 +81,23 @@ def create_excerpt_export(request):
             orderer=request.user
         )
 
+    view_context['extraction_order'] = extraction_order
+
+
     view_context['use_existing'] = 'existing_excerpt_id' in vars()  # TODO: The view should not have to know
     export_options = get_export_options(request.POST, settings.EXPORT_OPTIONS)
     view_context['options'] = export_options
 
     trigger_data_conversion(extraction_order, export_options)
 
-    return render(request, 'excerptexport/templates/create_excerpt_export.html', view_context)
+    #response = HttpResponse(loader.get_template('excerptexport/templates/create_excerpt_export.html').render(RequestContext(request, view_context)))
+    #    render(request, 'excerptexport/templates/create_excerpt_export.html', view_context)
+    response = render_to_response('excerptexport/templates/create_excerpt_export.html', view_context, context_instance=RequestContext(request))
+#response['Cache-Control'] = 'no-cache'
+#return response
+    if extraction_order.id:
+        response['Refresh'] = '5; http://'+request.META['HTTP_HOST']+reverse('excerptexport:status', kwargs={ 'extraction_order_id':extraction_order.id });
+    return response
 
 
 @login_required(login_url='/admin/')
