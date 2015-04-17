@@ -113,7 +113,7 @@ cd "$CURRENTDIR"
 # activate environment
 source "../environment/bin/activate"
 # get local ip
-LOCALIP=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'`
+LOCALIP=`hostname -I`
 echo "$LOCALIP"
 python ./manage.py runserver "$LOCALIP:8000"
 ```
