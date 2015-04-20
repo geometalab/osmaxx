@@ -48,7 +48,8 @@ Then the pro-commit hook can be linked to the hooks.
 
 ```
 $ cd osmaxx
-$ ln -s pre-commit.sh .git/hooks/pre-commit
+$ cd .git/hooks
+$ ln -s ../../pre-commit.sh pre-commit
 ```
 
 ## Features
