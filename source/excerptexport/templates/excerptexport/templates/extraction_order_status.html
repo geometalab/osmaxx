@@ -14,22 +14,7 @@
                 <tr><th>Excerpt</th><td>{{ extraction_order.excerpt.name }}</td>
                 <tr>
                     <th>Status</th>
-                    <td>
-                        {% if extraction_order.get_state_display == 'UNDEFINED' %}
-                            <span style="color: maroon;">&quest;</span>
-                        {% elif extraction_order.get_state_display == 'INITIALIZED' %}
-                            <span style="color: cornflowerblue;">&bigstar;</span>
-                        {% elif extraction_order.get_state_display == 'WAITING' %}
-                            <span style="color: gold; display: inline-block; -ms-transform: rotate(90deg); -webkit-transform: rotate(90deg); transform: rotate(90deg);">&bowtie;</span>
-                        {% elif extraction_order.get_state_display == 'PROCESSING' %}
-                            <span style="color: olive;">&#8635;</span>
-                        {% elif extraction_order.get_state_display == 'FINISHED' %}
-                            <span style="color: seagreen;">&check;</span>
-                        {% elif extraction_order.get_state_display == 'CANCELED' %}
-                            <span style="color: maroon;">&Chi;</span>
-                        {% endif %}
-                        {{ extraction_order.get_state_display }}
-                    </td>
+                    <td>{% include 'excerptexport/partials/status.html' with status=extraction_order.get_state_display %}</td>
                 </tr>
                 {% if extraction_order.process_start_date %}
                 <tr><th>Extraction started at</th><td>{{ extraction_order.process_start_date|date:"r" }}</td>
