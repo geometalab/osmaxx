@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Osmaxx</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+    </style>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.css" />
+    {% block extra_head %}{% endblock %}
+    <link rel='stylesheet' type='text/css' href='{% static "excerptexport/stylesheets/main.css" %}' />
+</head>
+<body>
+{% block body %}
+
+    {% if messages %}
+        <div>
+            <strong>Messages:</strong>
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <header>
+        <div class="col-xs-8">
+            <h1>Osmaxx</h1>
+        </div>
+        <div class="col-xs-4">
+                {% if user.is_authenticated %}
+                    <a class="btn btn-default" href="{% url 'account_email' %}">Change E-mail</a>
+                    <a class="btn btn-default" href="{% url 'account_logout' %}">Sign Out</a>
+                {% else %}
+                    <a class="btn btn-default" href="{% url 'account_login' %}">Sign In</a>
+                    <a class="btn btn-default" href="{% url 'account_signup' %}">Sign Up</a>
+                {% endif %}
+        </div>
+    </header>
+
+    <div class="main">
+        {% block main %}
+            <h2>Main block</h2>
+        {% endblock %}
+    </div>
+    <footer>
+        <p>&copy; osmaxx.ch 2015</p>
+    </footer>
+{% endblock %}
+</body>
+</html>
+

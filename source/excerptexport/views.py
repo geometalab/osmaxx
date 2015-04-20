@@ -1,19 +1,10 @@
 import os
 
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-
-from django.http import HttpResponse, HttpResponseRedirect, StreamingHttpResponse, HttpResponseNotFound
+from django.shortcuts import render, render_to_response, get_object_or_404
+from django.http import StreamingHttpResponse, HttpResponseNotFound
 from django.core.servers.basehttp import FileWrapper
-from django.core.urlresolvers import reverse
-from django.core.servers.basehttp import FileWrapper
-from django.template import RequestContext, loader
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-
-from django.utils.encoding import smart_str
-
 from excerptexport.models import ExtractionOrder
 from excerptexport.models import Excerpt
 from excerptexport.models import OutputFile
@@ -24,10 +15,10 @@ from excerptexport.services.data_conversion_service import trigger_data_conversi
 
 
 def index(request):
-    return HttpResponse(loader.get_template('excerptexport/templates/index.html').render(RequestContext(request, {})))
+    return render_to_response('excerptexport/index.html')
 
 
-class NewExcerptExportViewModel:
+class NewExcerptExportViewModel(object):
     def __init__(self, user):
         self.user = user
         self.personal_excerpts = Excerpt.objects.filter(is_active=True, is_public=False, owner=user)  # .order_by('name')
@@ -40,13 +31,13 @@ class NewExcerptExportViewModel:
         return self.__dict__
 
 
-@login_required(login_url='/admin/')
+@login_required()
 def new_excerpt_export(request):
     view_model = NewExcerptExportViewModel(request.user)
-    return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model.get_context())
+    return render(request, 'excerptexport/new_excerpt_export.html', view_model.get_context())
 
 
-@login_required(login_url='/admin/')
+@login_required()
 def create_excerpt_export(request):
     if request.POST['form-mode'] == 'existing_excerpt':
         existing_excerpt_id = request.POST['existing_excerpt.id']
@@ -86,16 +77,16 @@ def create_excerpt_export(request):
 
     trigger_data_conversion(extraction_order, export_options)
 
-    return render(request, 'excerptexport/templates/create_excerpt_export.html', view_context)
+    return render(request, 'excerptexport/create_excerpt_export.html', view_context)
 
 
-@login_required(login_url='/admin/')
+@login_required()
 def show_downloads(request):
     view_context = {}
 
     files = OutputFile.objects.filter(extraction_order__orderer=request.user, extraction_order__state=ExtractionOrderState.FINISHED)
     view_context['files'] = files
-    return render(request, 'excerptexport/templates/show_downloads.html', view_context)
+    return render(request, 'excerptexport/show_downloads.html', view_context)
 
 
 def download_file(request):
