@@ -105,10 +105,10 @@ def download_file(request):
         'id': output_file.public_identifier,
         'name': os.path.basename(output_file.file.name)
     }
-# abspath usage:  settings.APPLICATION_SETTINGS['data_directory'] may contain '../',
-#                 so use abspath to strip it
-# basepath usage: django stores the absolute path of a file but if we use the location from settings,
-#                 the files are more movable -> so we only use the name of the file
+    # abspath usage:  settings.APPLICATION_SETTINGS['data_directory'] may contain '../',
+    #                 so use abspath to strip it
+    # basepath usage: django stores the absolute path of a file but if we use the location from settings,
+    #                 the files are more movable -> so we only use the name of the file
     absolute_file_path = os.path.abspath(settings.APPLICATION_SETTINGS['data_directory'] + '/'
                                          + os.path.basename(output_file.file.name))
 
