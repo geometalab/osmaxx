@@ -12,22 +12,45 @@ class BoundingGeometryType(enum.Enum):
 
 
 class BoundingGeometry(models.Model):
+    south_west = models.PointField(default=GEOSGeometry('POINT(0.0 0.0)'))
+    north_east = models.PointField(default=GEOSGeometry('POINT(0.0 0.0)'))
+
+    @property
+    def west(self):
+        return self.south_west[0]
+
+    @property
+    def east(self):
+        return self.north_east[0]
+
+    @property
+    def north(self):
+        return self.north_east[1]
+
+    @property
+    def south(self):
+        return self.south_west[1]
+
+    @property
+    def geometry(self):
+        polygon = Polygon([
+            self.south_west,
+            GEOSGeometry('POINT(%s %s)' % (self.west, self.north)),
+            self.north_east,
+            GEOSGeometry('POINT(%s %s)' % (self.east, self.south)),
+            self.south_west
+        ])
+        return GEOSGeometry(polygon)
+
     @staticmethod
     def create_from_bounding_box_coordinates(north, east, south, west):
         bounding_geometry = BoundingGeometry()
+        bounding_geometry.south_west = GEOSGeometry('POINT(%s %s)' % (west, south))
+        bounding_geometry.north_east = GEOSGeometry('POINT(%s %s)' % (east, north))
         bounding_geometry.type = BoundingGeometryType.BOUNDINGBOX
-        polygon = Polygon([
-            GEOSGeometry('POINT(%s %s)' % (west, south)),
-            GEOSGeometry('POINT(%s %s)' % (west, north)),
-            GEOSGeometry('POINT(%s %s)' % (east, north)),
-            GEOSGeometry('POINT(%s %s)' % (east, south)),
-            GEOSGeometry('POINT(%s %s)' % (west, south))
-        ])
-        bounding_geometry.geometry = GEOSGeometry(polygon)
         return bounding_geometry
 
     type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX)
-    geometry = models.GeometryField(srid=4326, blank=True, null=True, spatial_index=True)
 
     # overriding the default manager with a GeoManager instance.
     # required to perform spatial queries
