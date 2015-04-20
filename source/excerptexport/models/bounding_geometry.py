@@ -1,14 +1,7 @@
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry, Polygon
 
-from django_enumfield import enum
-
 from .excerpt import Excerpt
-
-
-class BoundingGeometryType(enum.Enum):
-    BOUNDINGBOX = 0
-    # POLYGON = 1
 
 
 class BoundingGeometry(models.Model):
@@ -50,11 +43,8 @@ class BBoxBoundingGeometry(BoundingGeometry):
         bounding_geometry = BBoxBoundingGeometry()
         bounding_geometry.south_west = GEOSGeometry('POINT(%s %s)' % (west, south))
         bounding_geometry.north_east = GEOSGeometry('POINT(%s %s)' % (east, north))
-        bounding_geometry.type = BoundingGeometryType.BOUNDINGBOX
         bounding_geometry.save()
         return bounding_geometry
-
-    type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX)
 
     # overriding the default manager with a GeoManager instance.
     # required to perform spatial queries
