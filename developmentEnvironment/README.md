@@ -125,7 +125,7 @@ to reach the application from outside of the VM.
 ```shell
 #!/bin/bash
 
-CURRENTDIR=`dirname $0`
+CURRENTDIR=$(dirname $0)
 cd "$CURRENTDIR"
 # activate environment
 source ../environment/bin/activate
