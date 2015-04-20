@@ -26,3 +26,7 @@ class ExtractionOrder(models.Model):
     def __str__(self):
         return '[' + str(self.id) + '] orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt.name + ', state: ' + self.get_state_display() \
                + ', output files: ' + str(self.output_files.count())
+
+    @property
+    def are_downloads_ready(self):
+        return self.state == ExtractionOrderState.FINISHED

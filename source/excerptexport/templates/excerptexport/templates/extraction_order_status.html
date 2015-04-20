@@ -23,7 +23,7 @@
         </body>
     </table>
 
-    {% if extraction_order.get_state_display == 'FINISHED' %}
+    {% if extraction_order.are_downloads_ready %}
         <h3>Downloads (Σ:{{ extraction_order.output_files.count }})</h3>
         {% include 'excerptexport/partials/download_list.html' with files=extraction_order.output_files host_domain=host_domain %}
 
