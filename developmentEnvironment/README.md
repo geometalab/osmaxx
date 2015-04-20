@@ -47,9 +47,8 @@ For Ubuntu and Debian this is:
 Then the pre-commit hook can be linked to the hooks.
 
 ```
-$ cd <reop-osmaxx-root>
-$ cd .git/hooks/
-$ ln -s ../../hooks/pre-commit pre-commit
+$ cd <osmaxx-repo-root>
+$ ln -s ../../hooks/pre-commit .git/hooks/pre-commit
 ```
 
 ## Features
