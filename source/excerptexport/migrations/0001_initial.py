@@ -6,6 +6,7 @@ from django.conf import settings
 import django.contrib.gis.db.models.fields
 import excerptexport.models.output_file
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -60,8 +61,10 @@ class Migration(migrations.Migration):
                 ('file', models.FileField(null=True, upload_to='/var/www/eda/projects/data', blank=True)),
                 ('create_date', models.DateTimeField(auto_now_add=True)),
                 ('deleted_on_filesystem', models.BooleanField(default=False)),
-                ('public_identifier', models.CharField(default=excerptexport.models.output_file.default_public_identifier, max_length=512)),
-                ('extraction_order', models.ForeignKey(to='excerptexport.ExtractionOrder', related_name='output_files')),
+                ('public_identifier', models.CharField(default=excerptexport.models.output_file.
+                                                       default_public_identifier, max_length=512)),
+                ('extraction_order', models.ForeignKey(to='excerptexport.ExtractionOrder',
+                                                       related_name='output_files')),
             ],
             options={
             },

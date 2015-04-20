@@ -1,6 +1,3 @@
-from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
-from django.shortcuts import render
 from django.template import Context, Template
 from django.test import TestCase
 
@@ -33,7 +30,8 @@ class PartialsTestCase(TestCase):
             }
         })
         template = Template(
-            "{% spaceless %}{% include 'excerptexport/partials/select.html' with element=coordinate_reference_system name='coordinate_reference_system' %}{% endspaceless %}"
+            "{% spaceless %}{% include 'excerptexport/partials/select.html' " +
+            "with element=coordinate_reference_system name='coordinate_reference_system' %}{% endspaceless %}"
         )
         rendered_view = template.render(context)
         expected_rendered_template = Template(

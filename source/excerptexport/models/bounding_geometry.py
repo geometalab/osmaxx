@@ -3,8 +3,6 @@ from django.contrib.gis.geos import GEOSGeometry, Polygon
 
 from django_enumfield import enum
 
-from .excerpt import Excerpt
-
 
 class BoundingGeometryType(enum.Enum):
     BOUNDINGBOX = 0
