@@ -1,6 +1,12 @@
 {% extends "excerptexport/layouts/base.html" %}
 
 {% block main %}
+    {% if user.is_authenticated %}
+    <a href="{% url 'excerptexport:logout' %}?next={% url 'excerptexport:index' %}">Logout <strong>{{ user.username }}</strong></a>
+    {% else %}
+    <a href="{% url 'excerptexport:login' %}">Login</a>
+    {% endif %}
+
     <h2>Overview</h2>
     <nav>
         <ul>

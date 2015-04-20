@@ -1,10 +1,15 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
+from django.contrib.auth.views import login as login_view
+
 from excerptexport import views
 
 
 urlpatterns = patterns(
     '',
     url(r'^$', views.index, name='index'),
+    url('^login/$', 'django.contrib.auth.views.login', {'template_name': 'excerptexport/templates/login.html'}, name='login'),
+    url('^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'excerptexport/templates/logout.html'}, name='logout'),
+
     url(r'^new/$', views.new_excerpt_export, name='new'),
     url(r'^downloads/$', views.show_downloads, name='downloads'),
     url(r'^download/$', views.download_file, name='download'),
