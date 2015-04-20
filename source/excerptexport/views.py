@@ -17,7 +17,7 @@ from django.utils.encoding import smart_str
 from excerptexport.models import ExtractionOrder
 from excerptexport.models import Excerpt
 from excerptexport.models import OutputFile
-from excerptexport.models import BoundingGeometry
+from excerptexport.models import BBoxBoundingGeometry
 from excerptexport.models.extraction_order import ExtractionOrderState
 from excerptexport import settings
 from excerptexport.services.data_conversion_service import trigger_data_conversion
@@ -57,7 +57,7 @@ def create_excerpt_export(request):
         )
 
     if request.POST['form-mode'] == 'create_new_excerpt':
-        bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
+        bounding_geometry = BBoxBoundingGeometry.create_from_bounding_box_coordinates(
             request.POST['new_excerpt.boundingBox.north'],
             request.POST['new_excerpt.boundingBox.east'],
             request.POST['new_excerpt.boundingBox.south'],

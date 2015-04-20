@@ -11,7 +11,7 @@ class BoundingGeometryType(enum.Enum):
     # POLYGON = 1
 
 
-class BoundingGeometry(models.Model):
+class BBoxBoundingGeometry(models.Model):
     south_west = models.PointField(default=GEOSGeometry('POINT(0.0 0.0)'))
     north_east = models.PointField(default=GEOSGeometry('POINT(0.0 0.0)'))
 
@@ -44,7 +44,7 @@ class BoundingGeometry(models.Model):
 
     @staticmethod
     def create_from_bounding_box_coordinates(north, east, south, west):
-        bounding_geometry = BoundingGeometry()
+        bounding_geometry = BBoxBoundingGeometry()
         bounding_geometry.south_west = GEOSGeometry('POINT(%s %s)' % (west, south))
         bounding_geometry.north_east = GEOSGeometry('POINT(%s %s)' % (east, north))
         bounding_geometry.type = BoundingGeometryType.BOUNDINGBOX
