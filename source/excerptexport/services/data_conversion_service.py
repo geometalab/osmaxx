@@ -1,6 +1,4 @@
-import subprocess
-import os, sys
-from datetime import datetime
+import os
 from django.core.files import File
 from excerptexport import settings
 from excerptexport.models import OutputFile
