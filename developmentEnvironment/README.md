@@ -48,7 +48,8 @@ Then the pre-commit hook can be linked to the hooks.
 
 ```
 $ cd <reop-osmaxx-root>
-$ flake8 --install-hook source
+$ cd .git/hooks/
+$ ln -s ../../hooks/pre-commit pre-commit
 ```
 
 ## Features
