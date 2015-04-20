@@ -9,4 +9,5 @@ urlpatterns = patterns(
     url(r'^downloads/$', views.show_downloads, name='downloads'),
     url(r'^download/$', views.download_file, name='download'),
     url(r'^create/$', views.create_excerpt_export, name='create'),
+    url(r'^orders/(?P<extraction_order_id>[0-9]+)$', views.extraction_order_status, name='status')
 )

@@ -27,7 +27,3 @@ class OutputFile(models.Model):
             '[' + str(self.id) + '] ' \
             + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
             + 'identifier: ' + self.public_identifier
-
-
-
-

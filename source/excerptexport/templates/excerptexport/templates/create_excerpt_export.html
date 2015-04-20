@@ -1,27 +1,13 @@
 {% extends "excerptexport/layouts/base.html" %}
 
 {% block main %}
-    <a href="{% url 'excerptexport:new' %}">Back</a>
-    {% if use_existing %}
-    <dl>
-        <dt>id of existing excerpt</dt>
-        <dd>{{ excerpt }}</dd>
-        <dt>export options</dt>
-        <dd>{{ options }}</dd>
-    </dl>
-    {% else %}
-    <dl>
-        <dt>name of new excerpt</dt>
-        <dd>{{ excerpt.name }}</dd>
-        <dt>is public</dt>
-        <dd>{{ excerpt.is_public }}</dd>
-        <dt>owner</dt>
-        <dd>{{ excerpt.owner.username }}</dd>
-        <dt>bounding geometry</dt>
-        <dd>{{ bounding_geometry.geometry }}</dd>
-        <dt>export options</dt>
-        <dd>{{ options }}</dd>
-    </dl>
+    <a href="{% url 'excerptexport:index' %}">&#8810; Home</a>
 
+    {% if extraction_order.id %}
+        <h2>Successfull creation of extraction order.</h2>
+        <p>Your map data export ist starting soon. You will be redirected to the status page.
+        <a href="{% url 'excerptexport:status' extraction_order.id %}">Extraction order #{{ extraction_order.id }} status</a></p>
+    {% else %}
+        <h2>Something went wrong. Please contact an administrator.</h2>
     {% endif %}
 {% endblock %}

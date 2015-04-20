@@ -28,7 +28,7 @@ class ExcerptExportViewTests(TestCase):
             is_active=True,
             is_public=False,
             owner=self.user,
-            bounding_geometry = BoundingGeometry.objects.create()
+            bounding_geometry=BoundingGeometry.objects.create()
         )
         self.existing_excerpt_post_data = {
             'form-mode': 'existing_excerpt',
@@ -72,7 +72,9 @@ class ExcerptExportViewTests(TestCase):
             str(response.context['bounding_geometry']),
             'Bounding box: (4.0, 3.0), (4.0, 1.0), (2.0, 1.0), (2.0, 3.0), (4.0, 3.0)'
         )
-        self.assertEqual(response.context['options'], {'routing': {'formats': []}, 'gis': {'coordinate_reference_system': [], 'detail_level': [], 'formats': []}})
+        self.assertEqual(response.context['options'],
+                         {'routing': {'formats': []},
+                          'gis': {'coordinate_reference_system': [], 'detail_level': [], 'formats': []}})
 
         self.assertEqual(
             Excerpt.objects.filter(name='A very interesting region', is_active=True, is_public=True).count(),
@@ -89,7 +91,9 @@ class ExcerptExportViewTests(TestCase):
 
         self.assertTrue(response.context['use_existing'])
         self.assertEqual(response.context['excerpt'], str(self.existing_excerpt_post_data['existing_excerpt.id']))
-        self.assertEqual(response.context['options'], {'routing': {'formats': []}, 'gis': {'coordinate_reference_system': [], 'detail_level': [], 'formats': []}})
+        self.assertEqual(response.context['options'],
+                         {'routing': {'formats': []},
+                          'gis': {'coordinate_reference_system': [], 'detail_level': [], 'formats': []}})
 
     def test_create_with_new_excerpt_persists_a_new_order(self):
         """
@@ -97,7 +101,7 @@ class ExcerptExportViewTests(TestCase):
         """
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
-        response = self.client.post(reverse('excerptexport:create'), self.new_excerpt_post_data)
+        self.client.post(reverse('excerptexport:create'), self.new_excerpt_post_data)
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
@@ -114,7 +118,7 @@ class ExcerptExportViewTests(TestCase):
         """
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
-        response = self.client.post(reverse('excerptexport:create'), self.existing_excerpt_post_data)
+        self.client.post(reverse('excerptexport:create'), self.existing_excerpt_post_data)
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
