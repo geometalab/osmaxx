@@ -11,9 +11,12 @@ class BoundingGeometryType(enum.Enum):
     # POLYGON = 1
 
 
-class BBoxBoundingGeometry(models.Model):
-    south_west = models.PointField(default=GEOSGeometry('POINT(0.0 0.0)'))
-    north_east = models.PointField(default=GEOSGeometry('POINT(0.0 0.0)'))
+class BoundingGeometry(models.Model):
+    pass
+
+class BBoxBoundingGeometry(BoundingGeometry):
+    south_west = models.PointField()
+    north_east = models.PointField()
 
     @property
     def west(self):
