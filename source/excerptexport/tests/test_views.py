@@ -28,7 +28,7 @@ class ExcerptExportViewTests(TestCase):
             is_active=True,
             is_public=False,
             owner=self.user,
-            bounding_geometry = BBoxBoundingGeometry.objects.create()
+            bounding_geometry = BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
         )
         self.existing_excerpt_post_data = {
             'form-mode': 'existing_excerpt',

@@ -19,8 +19,9 @@ class DownloadsTestCase(TestCase):
 
     def test_file_download(self):
         user = User.objects.create_user('user', 'user@example.com', 'pw')
+        bg = BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
         excerpt = Excerpt.objects.create(name='Neverland', is_active=True, is_public=True, owner=user,
-                                         bounding_geometry=BBoxBoundingGeometry.objects.create())
+                                         bounding_geometry=bg)
         extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
         output_file = OutputFile.objects.create(mime_type='test/plain', extraction_order=extraction_order)
 

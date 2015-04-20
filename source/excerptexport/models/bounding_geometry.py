@@ -51,6 +51,7 @@ class BBoxBoundingGeometry(BoundingGeometry):
         bounding_geometry.south_west = GEOSGeometry('POINT(%s %s)' % (west, south))
         bounding_geometry.north_east = GEOSGeometry('POINT(%s %s)' % (east, north))
         bounding_geometry.type = BoundingGeometryType.BOUNDINGBOX
+        bounding_geometry.save()
         return bounding_geometry
 
     type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX)
