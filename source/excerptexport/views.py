@@ -89,12 +89,8 @@ def create_excerpt_export(request):
     view_context['options'] = export_options
 
     trigger_data_conversion(extraction_order, export_options)
-
-    #response = HttpResponse(loader.get_template('excerptexport/templates/create_excerpt_export.html').render(RequestContext(request, view_context)))
-    #    render(request, 'excerptexport/templates/create_excerpt_export.html', view_context)
+    
     response = render_to_response('excerptexport/templates/create_excerpt_export.html', view_context, context_instance=RequestContext(request))
-#response['Cache-Control'] = 'no-cache'
-#return response
     if extraction_order.id:
         response['Refresh'] = '5; http://'+request.META['HTTP_HOST']+reverse('excerptexport:status', kwargs={ 'extraction_order_id':extraction_order.id });
     return response
