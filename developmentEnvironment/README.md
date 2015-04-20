@@ -119,7 +119,8 @@ to your local /etc/hosts file.
 
 ### Run application using Django built in server (see runDevelopmentServer.sh)
 
-You need to specify the ip. Otherwise you are not able to reach the application from outside of the vm.
+Specify IP `0.0.0.0` to listen on **all** interfaces. Default would be local interfaces only, so you would not be able
+to reach the application from outside of the VM.
 
 ```shell
 #!/bin/bash
@@ -127,11 +128,9 @@ You need to specify the ip. Otherwise you are not able to reach the application 
 CURRENTDIR=`dirname $0`
 cd "$CURRENTDIR"
 # activate environment
-source "../environment/bin/activate"
-# get local ip
-LOCALIP=`hostname -I`
-echo "$LOCALIP"
-python ./manage.py runserver "$LOCALIP:8000"
+source ../environment/bin/activate
+# start server listening on all interfaces
+python ./manage.py runserver 0.0.0.0:8000
 ```
 
 ### Clear Django cache
