@@ -61,7 +61,7 @@ class BBoxBoundingGeometry(BoundingGeometry):
     objects = models.GeoManager()
 
     def __str__(self):
-        geometry_type = 'Bounding box' if (self.type == BoundingGeometryType.BOUNDINGBOX) else 'Polygon'
+        geometry_type = 'Bounding box'
         points = []
         for coordinates in self.geometry[0]:
             points.append('(' + ', '.join([str(round(coordinate, 5)) for coordinate in coordinates]) + ')')
