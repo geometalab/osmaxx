@@ -44,12 +44,11 @@ For Ubuntu and Debian this is:
 
 `sudo apt-get install python3-flake8`
 
-Then the pro-commit hook can be linked to the hooks.
+Then the pre-commit hook can be linked to the hooks.
 
 ```
-$ cd osmaxx
-$ cd .git/hooks
-$ ln -s ../../pre-commit.sh pre-commit
+$ cd <reop-osmaxx-root>
+$ flake8 --install-hook source
 ```
 
 ## Features
