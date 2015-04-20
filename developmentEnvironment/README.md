@@ -35,6 +35,23 @@ For developers with write access to this repository:
 
 A vagrant box is provided as part of this project's repository.
 
+## Local prerequisites
+
+for commiting and using the pre-commit hook (which really should be used) flake8 needs to be installed on
+the local system/machine.
+
+For Ubuntu and Debian this is:
+
+`sudo apt-get install python3-flake8`
+
+Then the pro-commit hook can be linked to the hooks.
+
+```
+$ cd osmaxx
+$ cd .git/hooks
+$ ln -s ../../pre-commit.sh pre-commit
+```
+
 ## Features
 
 * Ubuntu 14.04	http://www.ubuntu.com/download/server
