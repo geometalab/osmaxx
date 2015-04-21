@@ -1,4 +1,3 @@
-from django.core.urlresolvers import reverse
 import os
 
 from django.shortcuts import render
@@ -7,6 +6,7 @@ from django.shortcuts import render_to_response
 
 from django.http import HttpResponse, StreamingHttpResponse, HttpResponseNotFound
 from django.core.servers.basehttp import FileWrapper
+from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 
 from django.contrib.auth.decorators import login_required
@@ -85,12 +85,16 @@ def create_excerpt_export(request):
 
     trigger_data_conversion(extraction_order, export_options)
 
-    response = render_to_response('excerptexport/templates/create_excerpt_export.html',
-                                  view_context,
-                                  context_instance=RequestContext(request))
+    response = render_to_response(
+        'excerptexport/templates/create_excerpt_export.html',
+        view_context,
+        context_instance=RequestContext(request)
+    )
     if extraction_order.id:
-        response['Refresh'] = '5; http://'+request.META['HTTP_HOST']\
-                              + reverse('excerptexport:status', kwargs={'extraction_order_id': extraction_order.id})
+        response['Refresh'] = '5; http://' + request.META['HTTP_HOST'] + reverse(
+            'excerptexport:status', 
+            kwargs={'extraction_order_id': extraction_order.id}
+        )
     return response
 
 
@@ -98,8 +102,10 @@ def create_excerpt_export(request):
 def show_downloads(request):
     view_context = {'host_domain': request.META['HTTP_HOST']}
 
-    files = OutputFile.objects.filter(extraction_order__orderer=request.user,
-                                      extraction_order__state=ExtractionOrderState.FINISHED)
+    files = OutputFile.objects.filter(
+        extraction_order__orderer=request.user,
+        extraction_order__state=ExtractionOrderState.FINISHED
+    )
     view_context['files'] = files
     return render(request, 'excerptexport/templates/show_downloads.html', view_context)
 
@@ -119,12 +125,16 @@ def download_file(request):
     #                 so use abspath to strip it
     # basepath usage: django stores the absolute path of a file but if we use the location from settings,
     #                 the files are more movable -> so we only use the name of the file
-    absolute_file_path = os.path.abspath(settings.APPLICATION_SETTINGS['data_directory'] + '/'
-                                         + os.path.basename(output_file.file.name))
+    absolute_file_path = os.path.abspath(
+        settings.APPLICATION_SETTINGS['data_directory'] + '/' + os.path.basename(output_file.file.name)
+    )
 
     # stream file in chunks
     response = StreamingHttpResponse(
-        FileWrapper(open(absolute_file_path), settings.APPLICATION_SETTINGS['download_chunk_size']),
+        FileWrapper(
+            open(absolute_file_path), 
+            settings.APPLICATION_SETTINGS['download_chunk_size']
+        ),
         content_type=output_file.mime_type
     )
     response['Content-Length'] = os.path.getsize(absolute_file_path)
@@ -154,5 +164,7 @@ def get_export_options(requestPostValues, optionConfig):
 @login_required(login_url='/admin/')
 def extraction_order_status(request, extraction_order_id):
     extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
-    return render(request, 'excerptexport/templates/extraction_order_status.html',
-                  {'extraction_order': extraction_order, 'host_domain': request.META['HTTP_HOST']})
+    return render(
+        request, 'excerptexport/templates/extraction_order_status.html',
+        {'extraction_order': extraction_order, 'host_domain': request.META['HTTP_HOST']}
+    )
