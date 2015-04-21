@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 import os
 
 from django.shortcuts import render
@@ -78,22 +79,24 @@ def create_excerpt_export(request):
 
     view_context['extraction_order'] = extraction_order
 
-
     view_context['use_existing'] = 'existing_excerpt_id' in vars()  # TODO: The view should not have to know
     export_options = get_export_options(request.POST, settings.EXPORT_OPTIONS)
     view_context['options'] = export_options
 
     trigger_data_conversion(extraction_order, export_options)
-    
-    response = render_to_response('excerptexport/templates/create_excerpt_export.html', view_context, context_instance=RequestContext(request))
+
+    response = render_to_response('excerptexport/templates/create_excerpt_export.html',
+                                  view_context,
+                                  context_instance=RequestContext(request))
     if extraction_order.id:
-        response['Refresh'] = '5; http://'+request.META['HTTP_HOST']+reverse('excerptexport:status', kwargs={ 'extraction_order_id':extraction_order.id });
+        response['Refresh'] = '5; http://'+request.META['HTTP_HOST']\
+                              + reverse('excerptexport:status', kwargs={'extraction_order_id': extraction_order.id})
     return response
 
 
 @login_required(login_url='/admin/')
 def show_downloads(request):
-    view_context = { 'host_domain': request.META['HTTP_HOST'] }
+    view_context = {'host_domain': request.META['HTTP_HOST']}
 
     files = OutputFile.objects.filter(extraction_order__orderer=request.user,
                                       extraction_order__state=ExtractionOrderState.FINISHED)
@@ -151,4 +154,5 @@ def get_export_options(requestPostValues, optionConfig):
 @login_required(login_url='/admin/')
 def extraction_order_status(request, extraction_order_id):
     extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
-    return render(request, 'excerptexport/templates/extraction_order_status.html', { 'extraction_order': extraction_order, 'host_domain': request.META['HTTP_HOST'] })
+    return render(request, 'excerptexport/templates/extraction_order_status.html',
+                  {'extraction_order': extraction_order, 'host_domain': request.META['HTTP_HOST']})
