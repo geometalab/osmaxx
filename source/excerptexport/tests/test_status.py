@@ -30,8 +30,10 @@ class StatusTestCase(TestCase):
         )
 
     def test_extraction_order_status_initialized(self):
-        response = self.client.get(reverse('excerptexport:status',
-                                           kwargs={'extraction_order_id': self.extraction_order.id}))
+        response = self.client.get(reverse(
+            'excerptexport:status',
+            kwargs={'extraction_order_id': self.extraction_order.id}
+        ))
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['extraction_order'], self.extraction_order)
@@ -41,8 +43,10 @@ class StatusTestCase(TestCase):
         self.extraction_order.state = ExtractionOrderState.FINISHED
         self.extraction_order.save()
 
-        response = self.client.get(reverse('excerptexport:status',
-                                           kwargs={'extraction_order_id': self.extraction_order.id}))
+        response = self.client.get(reverse(
+            'excerptexport:status',
+            kwargs={'extraction_order_id': self.extraction_order.id}
+        ))
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['extraction_order'], self.extraction_order)
