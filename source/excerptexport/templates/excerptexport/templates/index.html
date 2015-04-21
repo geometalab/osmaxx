@@ -6,7 +6,7 @@
         Logout <strong>{{ user.username }}</strong>
     </a>
     {% else %}
-    <a href="{% url 'excerptexport:login' %}">Login</a>
+    <a href="{% url 'excerptexport:login' %}?next={% url 'excerptexport:index' %}">Login</a>
     {% endif %}
 
     <h2>Overview</h2>
