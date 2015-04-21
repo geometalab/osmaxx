@@ -92,7 +92,7 @@ def create_excerpt_export(request):
     )
     if extraction_order.id:
         response['Refresh'] = '5; http://' + request.META['HTTP_HOST'] + reverse(
-            'excerptexport:status', 
+            'excerptexport:status',
             kwargs={'extraction_order_id': extraction_order.id}
         )
     return response
@@ -132,7 +132,7 @@ def download_file(request):
     # stream file in chunks
     response = StreamingHttpResponse(
         FileWrapper(
-            open(absolute_file_path), 
+            open(absolute_file_path),
             settings.APPLICATION_SETTINGS['download_chunk_size']
         ),
         content_type=output_file.mime_type
