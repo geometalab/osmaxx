@@ -3,6 +3,8 @@
 
 ## Docker installation
 
+### Docker
+
 See https://docs.docker.com/installation/ubuntulinux/
 
 1. Be sure your kernel version is 3.10 or newer and wget is installed
@@ -15,6 +17,19 @@ See https://docs.docker.com/installation/ubuntulinux/
 
     ```shell
     sudo usermod -aG docker {yourUserName}
+    ```
+
+### Docker compose
+
+See https://docs.docker.com/compose/install/
+
+1. Be sure curl is installed
+2. Install compose:
+
+    ```shell
+    sudo su
+    curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
     ```
 
 

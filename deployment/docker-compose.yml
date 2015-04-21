@@ -1,0 +1,9 @@
+db:
+  image: near/postgis
+web:
+  build: .
+  command: /usr/local/bin/startApplication.sh && /bin/bash
+  ports:
+    - "8080:80"
+  links:
+    - db:database
