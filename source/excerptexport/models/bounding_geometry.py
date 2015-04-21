@@ -7,6 +7,7 @@ from .excerpt import Excerpt
 class BoundingGeometry(models.Model):
     pass
 
+
 class BBoxBoundingGeometry(BoundingGeometry):
     south_west = models.PointField()
     north_east = models.PointField()
