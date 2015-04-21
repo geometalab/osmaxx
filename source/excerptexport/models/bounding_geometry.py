@@ -1,10 +1,7 @@
-from django.db import models
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry, Polygon
 
 from django_enumfield import enum
-
-from .excerpt import Excerpt
 
 
 class BoundingGeometryType(enum.Enum):
@@ -30,9 +27,6 @@ class BoundingGeometry(models.Model):
     type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX)
     geometry = models.GeometryField(srid=4326, blank=True, null=True, spatial_index=True)
 
-    # django admin inline mode needs relation from BoundingGeometry to Excerpt -> inverse relation does not work
-    excerpt = models.OneToOneField(Excerpt, null=True)
-
     # overriding the default manager with a GeoManager instance.
     # required to perform spatial queries
     objects = models.GeoManager()
@@ -41,5 +35,5 @@ class BoundingGeometry(models.Model):
         geometry_type = 'Bounding box' if (self.type == BoundingGeometryType.BOUNDINGBOX) else 'Polygon'
         points = []
         for coordinates in self.geometry[0]:
-            points.append('(' + ', '.join(list(str(round(coordinate, 5)) for coordinate in coordinates)) + ')')
+            points.append('(' + ', '.join([str(round(coordinate, 5)) for coordinate in coordinates]) + ')')
         return geometry_type + ': ' + ', '.join(points)

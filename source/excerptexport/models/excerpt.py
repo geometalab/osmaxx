@@ -8,6 +8,7 @@ class Excerpt(models.Model):
     is_active = models.BooleanField(default=True)
 
     owner = models.ForeignKey(User, related_name='excerpts')
+    bounding_geometry = models.OneToOneField('BoundingGeometry')
 
     def __str__(self):
         return self.name

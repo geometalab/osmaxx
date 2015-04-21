@@ -7,7 +7,7 @@ Website: http://osmaxx.hsr.ch/
 
 
 ## Development
-See `developmentEnvironment/` for instructions.
+See https://github.com/geometalab/osmaxx-docs for documentations and `developmentEnvironment/` for instructions.
 
 
 # Documentation

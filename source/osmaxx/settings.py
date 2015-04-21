@@ -111,3 +111,7 @@ STATIC_URL = '/static/'
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'resources/public/'),
 # )
+
+ # login url if param 'next' is not set
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login'
