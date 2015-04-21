@@ -33,11 +33,11 @@ class StatusTestCase(TestCase):
         response = self.client.get(reverse(
             'excerptexport:status',
             kwargs={'extraction_order_id': self.extraction_order.id}
-        ))
+        ), HTTP_HOST='thehost.example.com')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['extraction_order'], self.extraction_order)
-        self.assertContains(response, 'INITIALIZED')
+        self.assertContains(response, 'initialized')
 
     def test_extraction_order_status_finished(self):
         self.extraction_order.state = ExtractionOrderState.FINISHED
@@ -46,11 +46,11 @@ class StatusTestCase(TestCase):
         response = self.client.get(reverse(
             'excerptexport:status',
             kwargs={'extraction_order_id': self.extraction_order.id}
-        ))
+        ), HTTP_HOST='thehost.example.com')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['extraction_order'], self.extraction_order)
-        self.assertContains(response, 'FINISHED')
+        self.assertContains(response, 'finished')
 
     def test_extraction_order_id_not_existing(self):
 

@@ -63,7 +63,11 @@ class ExcerptExportViewTests(TestCase):
         When logged in, POSTing an export request with a new excerpt is successful.
         """
         self.client.login(username='user', password='pw')
-        response = self.client.post(reverse('excerptexport:create'), self.new_excerpt_post_data)
+        response = self.client.post(
+            reverse('excerptexport:create'),
+            self.new_excerpt_post_data,
+            HTTP_HOST='thehost.example.com'
+        )
         self.assertEqual(response.status_code, 200)
 
         self.assertFalse(response.context['use_existing'])
@@ -86,7 +90,11 @@ class ExcerptExportViewTests(TestCase):
         When logged in, POSTing an export request using an existing excerpt is successful.
         """
         self.client.login(username='user', password='pw')
-        response = self.client.post(reverse('excerptexport:create'), self.existing_excerpt_post_data)
+        response = self.client.post(
+            reverse('excerptexport:create'),
+            self.existing_excerpt_post_data,
+            HTTP_HOST='thehost.example.com'
+        )
         self.assertEqual(response.status_code, 200)
 
         self.assertTrue(response.context['use_existing'])
@@ -101,7 +109,7 @@ class ExcerptExportViewTests(TestCase):
         """
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
-        self.client.post(reverse('excerptexport:create'), self.new_excerpt_post_data)
+        self.client.post(reverse('excerptexport:create'), self.new_excerpt_post_data, HTTP_HOST='thehost.example.com')
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
@@ -118,7 +126,11 @@ class ExcerptExportViewTests(TestCase):
         """
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
-        self.client.post(reverse('excerptexport:create'), self.existing_excerpt_post_data)
+        self.client.post(
+            reverse('excerptexport:create'),
+            self.existing_excerpt_post_data,
+            HTTP_HOST='thehost.example.com'
+        )
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
