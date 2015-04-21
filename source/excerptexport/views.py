@@ -2,17 +2,14 @@ import os
 
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render_to_response
 
-from django.http import HttpResponse, HttpResponseRedirect, StreamingHttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, StreamingHttpResponse, HttpResponseNotFound
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
-from django.core.servers.basehttp import FileWrapper
 from django.template import RequestContext, loader
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-
-from django.utils.encoding import smart_str
 
 from excerptexport.models import ExtractionOrder
 from excerptexport.models import Excerpt
@@ -30,8 +27,8 @@ def index(request):
 class NewExcerptExportViewModel:
     def __init__(self, user):
         self.user = user
-        self.personal_excerpts = Excerpt.objects.filter(is_active=True, is_public=False, owner=user)  # .order_by('name')
-        self.public_excerpts = Excerpt.objects.filter(is_active=True, is_public=True)  # .order_by('name')
+        self.personal_excerpts = Excerpt.objects.filter(is_active=True, is_public=False, owner=user)
+        self.public_excerpts = Excerpt.objects.filter(is_active=True, is_public=True)
 
         self.administrative_areas = settings.ADMINISTRATIVE_AREAS
         self.export_options = settings.EXPORT_OPTIONS
@@ -40,13 +37,13 @@ class NewExcerptExportViewModel:
         return self.__dict__
 
 
-@login_required(login_url='/admin/')
+@login_required(login_url='/excerptexport/login/')
 def new_excerpt_export(request):
     view_model = NewExcerptExportViewModel(request.user)
     return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model.get_context())
 
 
-@login_required(login_url='/admin/')
+@login_required(login_url='/excerptexport/login/')
 def create_excerpt_export(request):
     if request.POST['form-mode'] == 'existing_excerpt':
         existing_excerpt_id = request.POST['existing_excerpt.id']
@@ -69,7 +66,7 @@ def create_excerpt_export(request):
             name=request.POST['new_excerpt.name'],
             is_active=True,
             is_public=request.POST['new_excerpt.is_public'] if ('new_excerpt.is_public' in request.POST) else False,
-            bounding_geometry = bounding_geometry
+            bounding_geometry=bounding_geometry
         )
         excerpt.owner = request.user
         excerpt.save()
@@ -80,20 +77,35 @@ def create_excerpt_export(request):
             orderer=request.user
         )
 
+    view_context['extraction_order'] = extraction_order
+
     view_context['use_existing'] = 'existing_excerpt_id' in vars()  # TODO: The view should not have to know
     export_options = get_export_options(request.POST, settings.EXPORT_OPTIONS)
     view_context['options'] = export_options
 
     trigger_data_conversion(extraction_order, export_options)
 
-    return render(request, 'excerptexport/templates/create_excerpt_export.html', view_context)
+    response = render_to_response(
+        'excerptexport/templates/create_excerpt_export.html',
+        view_context,
+        context_instance=RequestContext(request)
+    )
+    if extraction_order.id:
+        response['Refresh'] = '5; http://' + request.META['HTTP_HOST'] + reverse(
+            'excerptexport:status',
+            kwargs={'extraction_order_id': extraction_order.id}
+        )
+    return response
 
 
-@login_required(login_url='/admin/')
+@login_required(login_url='/excerptexport/login/')
 def show_downloads(request):
-    view_context = {}
+    view_context = {'host_domain': request.META['HTTP_HOST']}
 
-    files = OutputFile.objects.filter(extraction_order__orderer=request.user, extraction_order__state=ExtractionOrderState.FINISHED)
+    files = OutputFile.objects.filter(
+        extraction_order__orderer=request.user,
+        extraction_order__state=ExtractionOrderState.FINISHED
+    )
     view_context['files'] = files
     return render(request, 'excerptexport/templates/show_downloads.html', view_context)
 
@@ -108,17 +120,21 @@ def download_file(request):
     download_file_name = settings.APPLICATION_SETTINGS['download_file_name'] % {
         'id': output_file.public_identifier,
         'name': os.path.basename(output_file.file.name)
-
     }
-    # abspath usage:  settings.APPLICATION_SETTINGS['data_directory'] may contain '../', 
+    # abspath usage:  settings.APPLICATION_SETTINGS['data_directory'] may contain '../',
     #                 so use abspath to strip it
-    # basepath usage: django stores the absolute path of a file but if we use the location from settings, 
+    # basepath usage: django stores the absolute path of a file but if we use the location from settings,
     #                 the files are more movable -> so we only use the name of the file
-    absolute_file_path = os.path.abspath(settings.APPLICATION_SETTINGS['data_directory'] + '/' + os.path.basename(output_file.file.name))
+    absolute_file_path = os.path.abspath(
+        settings.APPLICATION_SETTINGS['data_directory'] + '/' + os.path.basename(output_file.file.name)
+    )
 
     # stream file in chunks
     response = StreamingHttpResponse(
-        FileWrapper(open(absolute_file_path), settings.APPLICATION_SETTINGS['download_chunk_size']),
+        FileWrapper(
+            open(absolute_file_path),
+            settings.APPLICATION_SETTINGS['download_chunk_size']
+        ),
         content_type=output_file.mime_type
     )
     response['Content-Length'] = os.path.getsize(absolute_file_path)
@@ -143,3 +159,12 @@ def get_export_options(requestPostValues, optionConfig):
             )
 
     return export_options
+
+
+@login_required(login_url='/excerptexport/login/')
+def extraction_order_status(request, extraction_order_id):
+    extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
+    return render(
+        request, 'excerptexport/templates/extraction_order_status.html',
+        {'extraction_order': extraction_order, 'host_domain': request.META['HTTP_HOST']}
+    )

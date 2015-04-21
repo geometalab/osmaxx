@@ -1,0 +1,16 @@
+{% with status|lower as state %}
+    {% if state == 'undefined' %}
+        <span style="color: maroon;">&quest;</span>
+    {% elif state == 'initialized' %}
+        <span style="color: cornflowerblue;">&bigstar;</span>
+    {% elif state == 'waiting' %}
+        <span style="color: gold; display: inline-block; -ms-transform: rotate(90deg); -webkit-transform: rotate(90deg); transform: rotate(90deg);">&bowtie;</span>
+    {% elif state == 'processing' %}
+        <span style="color: olive;">&#8635;</span>
+    {% elif state == 'finished' %}
+        <span style="color: seagreen;">&check;</span>
+    {% elif state == 'canceled' %}
+        <span style="color: maroon;">&Chi;</span>
+    {% endif %}
+    {{ state }}
+{% endwith %}
