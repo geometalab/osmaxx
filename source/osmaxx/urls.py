@@ -11,5 +11,5 @@ urlpatterns = patterns(
     url(r'^excerptexport/', include('excerptexport.urls', namespace='excerptexport')),
     url(r'^admin/', include(admin.site.urls)),
 
-    url('', include('social.apps.django_app.urls', namespace='social'))
+    url('', include('social.apps.django_app.urls', namespace='social')),
 )
