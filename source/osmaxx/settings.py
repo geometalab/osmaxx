@@ -42,7 +42,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'excerptexport'
+
+    'social.apps.django_app.default',
+
+    'excerptexport',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.open_id.OpenIdAuth',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -54,6 +62,26 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': (
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
+                "django.contrib.messages.context_processors.messages",
+            )
+        }
+    },
+]
 
 CACHES = {
     'default': {
@@ -112,6 +140,6 @@ STATIC_URL = '/static/'
 #     os.path.join(BASE_DIR, 'resources/public/'),
 # )
 
- # login url if param 'next' is not set
+# login url if param 'next' is not set
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
