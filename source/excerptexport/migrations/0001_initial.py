@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+# don't check for validation errors in auto-generated migration file
+# flake8: noqa
 from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
 import django.contrib.gis.db.models.fields
-import excerptexport.models.output_file
 
 
 class Migration(migrations.Migration):
@@ -17,57 +18,43 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BoundingGeometry',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('type', models.IntegerField(default=0)),
-                ('geometry', django.contrib.gis.db.models.fields.GeometryField(null=True, srid=4326, blank=True)),
+                ('geometry', django.contrib.gis.db.models.fields.GeometryField(blank=True, null=True, srid=4326)),
             ],
-            options={
-            },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Excerpt',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('name', models.CharField(max_length=128)),
                 ('is_public', models.BooleanField(default=False)),
                 ('is_active', models.BooleanField(default=True)),
                 ('bounding_geometry', models.OneToOneField(to='excerptexport.BoundingGeometry')),
-                ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='excerpts')),
+                ('owner', models.ForeignKey(related_name='excerpts', to=settings.AUTH_USER_MODEL)),
             ],
-            options={
-            },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='ExtractionOrder',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('state', models.IntegerField(default=1)),
                 ('process_start_date', models.DateTimeField(null=True, verbose_name='process start date')),
-                ('process_reference', models.CharField(null=True, max_length=128, blank=True)),
-                ('excerpt', models.ForeignKey(to='excerptexport.Excerpt', related_name='extraction_orders')),
-                ('orderer', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='extraction_orders')),
+                ('process_reference', models.CharField(max_length=128, blank=True, null=True)),
+                ('excerpt', models.ForeignKey(related_name='extraction_orders', to='excerptexport.Excerpt')),
+                ('orderer', models.ForeignKey(related_name='extraction_orders', to=settings.AUTH_USER_MODEL)),
             ],
-            options={
-            },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='OutputFile',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('public_identifier', models.UUIDField(auto_created=True)),
                 ('mime_type', models.CharField(max_length=64)),
-                ('file', models.FileField(null=True, upload_to='/var/www/eda/projects/data', blank=True)),
+                ('file', models.FileField(blank=True, null=True, upload_to='/home/hsr/workspace/2015-Osmaxx/osmaxx/source/data')),
                 ('create_date', models.DateTimeField(auto_now_add=True)),
                 ('deleted_on_filesystem', models.BooleanField(default=False)),
-                ('public_identifier', models.CharField(default=excerptexport.models.output_file.
-                                                       default_public_identifier, max_length=512)),
-                ('extraction_order', models.ForeignKey(to='excerptexport.ExtractionOrder',
-                                                       related_name='output_files')),
+                ('extraction_order', models.ForeignKey(related_name='output_files', to='excerptexport.ExtractionOrder')),
             ],
-            options={
-            },
-            bases=(models.Model,),
         ),
     ]
