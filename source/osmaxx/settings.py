@@ -142,7 +142,7 @@ STATIC_URL = '/static/'
 
 # login url if param 'next' is not set
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/excerptexport/login'
-LOGOUT_URL = '/excerptexport/logout'
+LOGIN_URL = '/excerptexport/login/'
+LOGOUT_URL = '/excerptexport/logout/'
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'email']
