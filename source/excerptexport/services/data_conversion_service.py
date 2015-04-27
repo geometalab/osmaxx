@@ -13,7 +13,6 @@ def trigger_data_conversion(extraction_order, export_options):
     export_formats_configuration = {}
     for export_configuration_group_key, export_configuration_group in settings.EXPORT_OPTIONS.items():
         export_formats_configuration.update(export_configuration_group['formats'])
-    print(export_formats_configuration)
     """
     'gis': {
         'formats': {
@@ -48,11 +47,11 @@ def trigger_data_conversion(extraction_order, export_options):
             if not os.path.exists(data_directory):
                 os.makedirs(data_directory)
             file_path = data_directory + '/' \
-                + output_file.public_identifier + '.' + export_formats_configuration[format_key]['file_extension']
+                + str(output_file.public_identifier) + '.' + export_formats_configuration[format_key]['file_extension']
 
             with open(file_path, 'w') as file_reference:
                 new_file = File(file_reference)
-                new_file.write(output_file.public_identifier)
+                new_file.write(str(output_file.public_identifier))
 
             # file must be committed, so reopen to attach to model
             output_file.file = file_path

@@ -24,7 +24,7 @@ class DownloadsTestCase(TestCase):
         extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
         output_file = OutputFile.objects.create(mime_type='test/plain', extraction_order=extraction_order)
 
-        file_path = settings.APPLICATION_SETTINGS['data_directory'] + '/' + output_file.public_identifier + '.txt'
+        file_path = settings.APPLICATION_SETTINGS['data_directory'] + '/' + str(output_file.public_identifier) + '.txt'
 
         with open(file_path, 'w') as file_reference:
             new_file = File(file_reference)
