@@ -118,7 +118,7 @@ def download_file(request):
         return HttpResponseNotFound('<p>No output file attached to output file record.</p>')
 
     download_file_name = settings.APPLICATION_SETTINGS['download_file_name'] % {
-        'id': output_file.public_identifier,
+        'id': str(output_file.public_identifier),
         'name': os.path.basename(output_file.file.name)
     }
     # abspath usage:  settings.APPLICATION_SETTINGS['data_directory'] may contain '../',

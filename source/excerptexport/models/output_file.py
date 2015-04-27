@@ -1,3 +1,4 @@
+import uuid
 import os
 from django.db import models
 from excerptexport import settings
@@ -9,7 +10,7 @@ class OutputFile(models.Model):
     file = models.FileField(upload_to=settings.APPLICATION_SETTINGS['data_directory'], blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True)
     deleted_on_filesystem = models.BooleanField(default=False)
-    public_identifier = models.UUIDField(auto_created=True)
+    public_identifier = models.UUIDField(primary_key=False, default=uuid.uuid4)
 
     extraction_order = models.ForeignKey(ExtractionOrder, related_name='output_files')
 
@@ -17,4 +18,4 @@ class OutputFile(models.Model):
         return \
             '[' + str(self.id) + '] ' \
             + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
-            + 'identifier: ' + self.public_identifier
+            + 'identifier: ' + str(self.public_identifier)
