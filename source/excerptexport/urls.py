@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url
+from django.contrib.auth.views import login, logout
 from excerptexport.views import index, access_denied, new_excerpt_export, show_downloads, download_file, \
     create_excerpt_export, extraction_order_status
 
@@ -16,9 +17,9 @@ except_export_urlpatterns = patterns(
 
 login_logout_patterns = patterns(
     '',
-    url(r'^login/$', 'django.contrib.auth.views.login',
+    url(r'^login/$', login,
         {'template_name': 'excerptexport/templates/login.html'}, name='login'),
-    url(r'^logout/$', 'django.contrib.auth.views.logout',
+    url(r'^logout/$', logout,
         {'template_name': 'excerptexport/templates/logout.html'}, name='logout'),
 )
 
