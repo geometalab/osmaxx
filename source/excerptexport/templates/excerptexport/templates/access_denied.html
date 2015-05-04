@@ -1,0 +1,13 @@
+{% extends "excerptexport/layouts/base.html" %}
+
+{% block main %}
+    {% if user.is_authenticated %}
+        <h2>Please contact your Administrator</h2>
+        <p>You do not appear to have the proper access rights. Pleas contact your supervisor/administrator and ask
+        for the needed access rights.</p>
+    {% else %}
+        <h2>Please Login</h2>
+        <p>This site has pages, which are protected. Please login and try again.</p>
+        <a href="{% url 'excerptexport:login' %}?next={% url 'excerptexport:index' %}">Login</a>
+    {% endif %}
+{% endblock %}

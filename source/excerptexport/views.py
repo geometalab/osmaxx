@@ -4,10 +4,11 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
 
-from django.http import HttpResponse, StreamingHttpResponse, HttpResponseNotFound
+from django.http import StreamingHttpResponse, HttpResponseNotFound
+from django.contrib.auth.decorators import permission_required
 from django.core.servers.basehttp import FileWrapper
-from django.core.urlresolvers import reverse
-from django.template import RequestContext, loader
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.template import RequestContext
 
 from django.contrib.auth.decorators import login_required
 
@@ -20,8 +21,26 @@ from excerptexport import settings
 from excerptexport.services.data_conversion_service import trigger_data_conversion
 
 
+def has_excerptexport_all_permissions():
+    excerpt_export_permissions = [
+        'excerptexport.add_bounding_geometry',
+        'excerptexport.change_bounding_geometry',
+        'excerptexport.add_excerpt',
+        'excerptexport.change_excerpt',
+        'excerptexport.add_extraction_order',
+        'excerptexport.change_extraction_order',
+    ]
+    # This is a simple hack, to allow a message to appear to users, that are
+    login_url = reverse_lazy('excerptexport:access_denied')
+    return permission_required(excerpt_export_permissions, login_url=login_url, raise_exception=False)
+
+
+def access_denied(request):
+    return render_to_response('excerptexport/templates/access_denied.html', context=RequestContext(request))
+
+
 def index(request):
-    return HttpResponse(loader.get_template('excerptexport/templates/index.html').render(RequestContext(request, {})))
+    return render_to_response('excerptexport/templates/index.html', context=RequestContext(request))
 
 
 class NewExcerptExportViewModel:
@@ -38,13 +57,16 @@ class NewExcerptExportViewModel:
 
 
 @login_required(login_url='/excerptexport/login/')
+@has_excerptexport_all_permissions()
 def new_excerpt_export(request):
     view_model = NewExcerptExportViewModel(request.user)
     return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model.get_context())
 
 
 @login_required(login_url='/excerptexport/login/')
+@has_excerptexport_all_permissions()
 def create_excerpt_export(request):
+    view_context = {}
     if request.POST['form-mode'] == 'existing_excerpt':
         existing_excerpt_id = request.POST['existing_excerpt.id']
         view_context = {'excerpt': existing_excerpt_id}
@@ -99,6 +121,7 @@ def create_excerpt_export(request):
 
 
 @login_required(login_url='/excerptexport/login/')
+@has_excerptexport_all_permissions()
 def show_downloads(request):
     view_context = {'host_domain': request.META['HTTP_HOST']}
 
@@ -162,6 +185,7 @@ def get_export_options(requestPostValues, optionConfig):
 
 
 @login_required(login_url='/excerptexport/login/')
+@has_excerptexport_all_permissions()
 def extraction_order_status(request, extraction_order_id):
     extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
     return render(
