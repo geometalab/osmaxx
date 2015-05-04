@@ -134,10 +134,8 @@ def show_downloads(request):
     return render(request, 'excerptexport/templates/show_downloads.html', view_context)
 
 
-def download_file(request):
-
-    file_id = request.GET['file']
-    output_file = get_object_or_404(OutputFile, public_identifier=file_id, deleted_on_filesystem=False)
+def download_file(request, uuid):
+    output_file = get_object_or_404(OutputFile, public_identifier=uuid, deleted_on_filesystem=False)
     if not output_file.file:
         return HttpResponseNotFound('<p>No output file attached to output file record.</p>')
 
