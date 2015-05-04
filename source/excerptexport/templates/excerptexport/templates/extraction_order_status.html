@@ -29,7 +29,7 @@
 
         <a href="mailto:?subject=Download%20map%20data%20of%20{{ extraction_order.excerpt.name }}&body=
 {% for file in extraction_order.output_files.all %}
-http://{{ host_domain }}{% url 'excerptexport:download' %}?file={{ file.public_identifier }}%0D%0A
+http://{{ host_domain }}{% url 'excerptexport:download' uuid=file.public_identifier %}%0D%0A
 {% endfor %}
             ">
             <button>&#9993; Send all links</button>
