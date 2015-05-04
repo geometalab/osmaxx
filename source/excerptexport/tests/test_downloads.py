@@ -34,8 +34,7 @@ class DownloadsTestCase(TestCase):
         output_file.save()
 
         response = self.client.get(
-            reverse('excerptexport:download'),
-            {'file': output_file.public_identifier}
+            reverse('excerptexport:download', kwargs={'uuid': output_file.public_identifier})
         )
 
         self.assertEqual(response['Content-Length'], str(os.path.getsize(file_path)))
