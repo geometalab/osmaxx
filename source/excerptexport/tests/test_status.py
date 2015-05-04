@@ -32,8 +32,10 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
 
     def test_permission_denied_if_lacking_permissions(self):
         response = self.client.get(
-            reverse('excerptexport:status',
-                    kwargs={'extraction_order_id': self.extraction_order.id})
+            reverse(
+                'excerptexport:status',
+                kwargs={'extraction_order_id': self.extraction_order.id}
+            )
         )
         # redirect to 'Access Denied' page
         self.assertEqual(response.status_code, 302)
