@@ -1,8 +1,9 @@
+{% load i18n %}
 {% for export_option_key, export_option in export_options.items %}
     <div class="form-group">
         <h3>{{ export_option.name }}</h3>
         <fieldset class="form-group">
-            <legend>Formats</legend>
+            <legend>{% trans 'Formats' %}</legend>
             {% for format_key, format in export_option.formats.items %}
                 <input type="checkbox" name="export_options.{{ export_option_key }}.formats"
                        id="export_options.{{ export_option_key }}.formats.{{ format_key }}" value="{{ format_key }}" />

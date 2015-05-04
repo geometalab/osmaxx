@@ -1,8 +1,8 @@
 {% extends "excerptexport/layouts/base.html" %}
 
-{% load filter_filename %}
+{% load filter_filename i18n %}
 
 {% block main %}
-    <h2>Downloads</h2>
+    <h2>{% trans 'Downloads' %}</h2>
     {% include 'excerptexport/partials/download_list.html' with files=files host_domain=host_domain %}
 {% endblock %}
