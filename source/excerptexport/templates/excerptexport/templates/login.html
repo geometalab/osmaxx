@@ -21,4 +21,5 @@
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
+    <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with google-oauth2</a><br />
 {% endblock %}
