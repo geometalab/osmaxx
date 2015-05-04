@@ -192,25 +192,25 @@ STATIC_URL = '/static/'
 
 # login url if param 'next' is not set
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/excerptexport/login/'
-LOGOUT_URL = '/excerptexport/logout/'
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
 # TODO: show nice user error page
-SOCIAL_AUTH_LOGIN_ERROR_URL = '/excerptexport/'
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
 # Used to redirect the user once the auth process ended successfully. The value of ?next=/foo is used if it was present
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/excerptexport/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 # Is used as a fallback for LOGIN_ERROR_URL
-SOCIAL_AUTH_LOGIN_URL = '/excerptexport/'
+SOCIAL_AUTH_LOGIN_URL = '/'
 # Used to redirect new registered users, will be used in place of SOCIAL_AUTH_LOGIN_REDIRECT_URL if defined.
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/excerptexport/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/'
 # Like SOCIAL_AUTH_NEW_USER_REDIRECT_URL but for new associated accounts (user is already logged in).
 # Used in place of SOCIAL_AUTH_LOGIN_REDIRECT_URL
-SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/excerptexport/'
+SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/'
 # The user will be redirected to this URL when a social account is disconnected
-SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/excerptexport/'
+SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/'
 # Inactive users can be redirected to this URL when trying to authenticate.
 # Successful URLs will default to SOCIAL_AUTH_LOGIN_URL while error URLs will fallback to SOCIAL_AUTH_LOGIN_ERROR_URL.
-SOCIAL_AUTH_INACTIVE_USER_URL = '/excerptexport/'
-SOCIAL_AUTH_LOGIN_SUCCESS_URL = '/excerptexport/'
+SOCIAL_AUTH_INACTIVE_USER_URL = '/'
+SOCIAL_AUTH_LOGIN_SUCCESS_URL = '/'
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'email']
 
