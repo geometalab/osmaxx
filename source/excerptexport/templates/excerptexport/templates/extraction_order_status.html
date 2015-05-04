@@ -14,7 +14,12 @@
                 <tr><th>Excerpt</th><td>{{ extraction_order.excerpt.name }}</td>
                 <tr>
                     <th>Status</th>
-                    <td>{% include 'excerptexport/partials/status.html' with status=extraction_order.get_state_display %}</td>
+                    <td>
+                        {% include 'excerptexport/partials/status.html' with status=extraction_order.get_state_display %}
+                        {% with extraction_order.get_state_display|lower as state %}
+                            {{ state }}
+                        {% endwith %}
+                    </td>
                 </tr>
                 {% if extraction_order.process_start_date %}
                 <tr><th>Extraction started at</th><td>{{ extraction_order.process_start_date|date:"r" }}</td>
