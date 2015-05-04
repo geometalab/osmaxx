@@ -124,13 +124,13 @@ def create_excerpt_export(request):
 @login_required(login_url='/excerptexport/login/')
 @has_excerptexport_all_permissions()
 def show_downloads(request):
-    view_context = {'host_domain': request.META['HTTP_HOST']}
+    view_context = {'host_domain': request.get_host()}
 
-    files = OutputFile.objects.filter(
-        extraction_order__orderer=request.user,
-        extraction_order__state=ExtractionOrderState.FINISHED
+    extraction_orders = ExtractionOrder.objects.filter(
+        orderer=request.user,
+        state=ExtractionOrderState.FINISHED
     )
-    view_context['files'] = files
+    view_context['extraction_orders'] = extraction_orders
     return render(request, 'excerptexport/templates/show_downloads.html', view_context)
 
 
