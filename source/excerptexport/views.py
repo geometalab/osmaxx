@@ -1,8 +1,6 @@
 import os
 
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render_to_response
+from django.shortcuts import render, get_object_or_404, render_to_response
 
 from django.http import StreamingHttpResponse, HttpResponseNotFound
 from django.contrib.auth.decorators import permission_required
@@ -12,10 +10,7 @@ from django.template import RequestContext
 
 from django.contrib.auth.decorators import login_required
 
-from excerptexport.models import ExtractionOrder
-from excerptexport.models import Excerpt
-from excerptexport.models import OutputFile
-from excerptexport.models import BoundingGeometry
+from excerptexport.models import ExtractionOrder, Excerpt, OutputFile, BoundingGeometry
 from excerptexport.models.extraction_order import ExtractionOrderState
 from excerptexport import settings
 from excerptexport.services.data_conversion_service import trigger_data_conversion
