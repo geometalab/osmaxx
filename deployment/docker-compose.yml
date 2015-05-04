@@ -1,9 +1,11 @@
-db:
-  image: near/postgis
-web:
-  build: .
-  command: /usr/local/bin/startApplication.sh && /bin/bash
-  ports:
-    - "8080:80"
-  links:
-    - db:database
+osmaxxdatabase:
+    build: osmaxxdatabase
+    ports:
+        - "5432"
+osmaxx:
+    build: osmaxx
+    command: /usr/local/bin/setupAndStartApplication.sh
+    ports:
+        - "8080:80"
+    links:
+        - osmaxxdatabase:database

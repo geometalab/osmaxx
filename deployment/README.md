@@ -9,12 +9,10 @@ See https://docs.docker.com/installation/ubuntulinux/
 
 1. Be sure your kernel version is 3.10 or newer and wget is installed
 2. Install docker:
-
     ```shell
     wget -qO- https://get.docker.com/ | sh
     ```
 3. Create a docker group and add you
-
     ```shell
     sudo usermod -aG docker {yourUserName}
     ```
@@ -25,43 +23,72 @@ See https://docs.docker.com/compose/install/
 
 1. Be sure curl is installed
 2. Install compose:
-
     ```shell
     sudo su
-    curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+    curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname \
+    -s`-`uname -m` > /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
     ```
 
 
 ## Build & run container
 
-1. Copy current source to docker data:
 
+1. Create archive from source or download from GitHub:
+    - From GitHub
+    ```shell
+    # wget -O 'deployment/osmaxx/source.tar' \
+    #   'https://github.com/geometalab/osmaxx/releases/download/{releasenumber}/{release-archive}.tar'
+    # Example:
+    wget -O 'deployment/osmaxx/source.tar' \
+        'https://github.com/geometalab/osmaxx/releases/download/0.2/osmaxx-source-0.2.tar'
+    ```
+
+    - Or create from local source or from clean repo:
     ```shell
     # use a clean repo to tar the source
     cd /tmp
     git clone git@github.com:geometalab/osmaxx.git --branch master --single-branch && cd osmaxx
     git submodule init && git submodule update
-    tar -cf deployment/source.tar source
+    tar -cf deployment/osmaxx/source.tar source
 
     # git archive not working with submodules
     # git archive master --format tar --output deployment/source.tar
 
     # tar from not-empty repository:
-    tar -cf deployment/source.tar --exclude='*.git' --exclude='*.od*' --exclude='*.gitignore' --exclude='*.gitmodules' --exclude='*developmentEnvironment/' --exclude='*data/' --exclude='*.idea' --exclude='*test_db.sqlite' --exclude='*__pycache__/' source
-
+    tar -cf deployment/osmaxx/source.tar \
+        --exclude='*.git' --exclude='*.od*' --exclude='*.gitignore' --exclude='*.gitmodules' \
+        --exclude='*developmentEnvironment/' --exclude='*data/' --exclude='*.idea' \
+        --exclude='*test_db.sqlite' --exclude='*__pycache__/' source
     ```
-2. Build image:
 
-    ```shell
-    docker build --tag=osmaxx --no-cache=true deployment/
-    ```
+2. Build containers:
+
+```shell
+docker build --tag=osmaxxdatabase --no-cache=true deployment/osmaxxdatabase/
+docker build --tag=osmaxx --no-cache=true deployment/osmaxx/
+```
+
 3. Run container:
+    - By hand:
 
     ```shell
-    # map host port 8080 to port 80 of container
-    docker run -d -p 8080:80 osmaxx
+    docker run -d -p 5432:5432 --name osmaxxdatabase osmaxxdatabase
+    docker run -d -p 8080:80 --name osmaxx --link osmaxxdatabase:database osmaxx
     ```
+
+    Debug:
+
+    ```shell
+    docker run -it -p 8080:80 --name osmaxx --link osmaxxdatabase:database osmaxx /bin/bash
+    ```
+
+    - Using docker compose:
+    ```shell
+    cd deployment
+    docker-compose up
+    ```
+
     **Note:** If you start the container with custom arguments (e.g. *docker run osmaxx /bin/bash*) you will override the CMD command to start the server.
      So you need to start the server by your self.
 
