@@ -23,14 +23,15 @@ from excerptexport.services.data_conversion_service import trigger_data_conversi
 
 def has_excerptexport_all_permissions():
     excerpt_export_permissions = [
-        'excerptexport.add_bounding_geometry',
-        'excerptexport.change_bounding_geometry',
+        'excerptexport.add_boundinggeometry',
+        'excerptexport.change_boundinggeometry',
         'excerptexport.add_excerpt',
         'excerptexport.change_excerpt',
-        'excerptexport.add_extraction_order',
-        'excerptexport.change_extraction_order',
+        'excerptexport.add_extractionorder',
+        'excerptexport.change_extractionorder',
     ]
-    # This is a simple hack, to allow a message to appear to users, that are
+    # This is a simple hack, instead of displaying a login page, it shows a permission denied page if the user is
+    # logged in
     login_url = reverse_lazy('excerptexport:access_denied')
     return permission_required(excerpt_export_permissions, login_url=login_url, raise_exception=False)
 

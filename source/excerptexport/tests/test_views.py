@@ -4,9 +4,10 @@ from django.test import TestCase
 
 from excerptexport.models import ExtractionOrder, Excerpt
 from excerptexport.models.bounding_geometry import BoundingGeometry
+from excerptexport.tests.permission_test_helper import PermissionHelperMixin
 
 
-class ExcerptExportViewTests(TestCase):
+class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
     user = None
     new_excerpt_post_data = None
     existing_excerpt = None
@@ -46,6 +47,7 @@ class ExcerptExportViewTests(TestCase):
         """
         When logged in, we get the excerpt choice form.
         """
+        self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
         self.assertEqual(response.status_code, 200)
@@ -62,6 +64,7 @@ class ExcerptExportViewTests(TestCase):
         """
         When logged in, POSTing an export request with a new excerpt is successful.
         """
+        self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.post(
             reverse('excerptexport:create'),
@@ -89,6 +92,7 @@ class ExcerptExportViewTests(TestCase):
         """
         When logged in, POSTing an export request using an existing excerpt is successful.
         """
+        self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.post(
             reverse('excerptexport:create'),
@@ -107,6 +111,7 @@ class ExcerptExportViewTests(TestCase):
         """
         When logged in, POSTing an export request with a new excerpt persists a new ExtractionOrder.
         """
+        self.add_permissions_to_user()
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
         self.client.post(reverse('excerptexport:create'), self.new_excerpt_post_data, HTTP_HOST='thehost.example.com')
@@ -124,6 +129,7 @@ class ExcerptExportViewTests(TestCase):
         """
         When logged in, POSTing an export request using an existing excerpt persists a new ExtractionOrder.
         """
+        self.add_permissions_to_user()
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
         self.client.post(
