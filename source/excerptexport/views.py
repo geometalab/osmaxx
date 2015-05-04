@@ -186,3 +186,15 @@ def extraction_order_status(request, extraction_order_id):
         request, 'excerptexport/templates/extraction_order_status.html',
         {'extraction_order': extraction_order, 'host_domain': request.META['HTTP_HOST']}
     )
+
+
+@login_required(login_url='/excerptexport/login/')
+@has_excerptexport_all_permissions()
+def list_orders(request):
+    view_context = {
+        'host_domain': request.get_host(),
+        'extraction_orders': ExtractionOrder.objects.filter(orderer=request.user)
+            .order_by('-id')[:settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
+    }
+
+    return render(request, 'excerptexport/templates/list_orders.html', view_context)

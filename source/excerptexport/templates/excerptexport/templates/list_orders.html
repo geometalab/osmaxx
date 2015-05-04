@@ -1,0 +1,11 @@
+{% extends "excerptexport/layouts/base.html" %}
+
+{% load filter_filename %}
+
+{% block main %}
+    <h2>Orders</h2>
+    {% for extraction_order in extraction_orders.all %}
+        <h3>Extraction order <a href="{% url 'excerptexport:status' extraction_order.id %}">#{{ extraction_order.id }}</a> (Excerpt &quot;{{ extraction_order.excerpt.name }}&quot;)</h3>
+
+    {% endfor %}
+{% endblock %}
