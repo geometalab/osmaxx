@@ -4,6 +4,8 @@ from django.contrib import admin
 from social.apps.django_app import urls as social_urls
 
 from excerptexport import urls as excerptexport_urls
+
+
 urlpatterns = patterns(
     '',
     # Examples:
