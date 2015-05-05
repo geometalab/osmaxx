@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-04 16:25+0200\n"
+"POT-Creation-Date: 2015-05-05 10:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,11 +89,11 @@ msgstr ""
 msgid "extraction order"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/partials/download_list.html:9
+#: excerptexport/templates/excerptexport/partials/download_list.html:12
 msgid "Send link"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/partials/download_list.html:12
+#: excerptexport/templates/excerptexport/partials/download_list.html:15
 msgid "Copy link:"
 msgstr ""
 
@@ -126,6 +126,8 @@ msgid "Login"
 msgstr ""
 
 #: excerptexport/templates/excerptexport/templates/create_excerpt_export.html:5
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:7
+#: excerptexport/templates/excerptexport/templates/list_orders.html:7
 #: excerptexport/templates/excerptexport/templates/logout.html:14
 msgid "Home"
 msgstr ""
@@ -164,6 +166,7 @@ msgstr ""
 
 #: excerptexport/templates/excerptexport/templates/extraction_order_status.html:16
 #: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:22
+#: excerptexport/templates/excerptexport/templates/show_downloads.html:9
 msgid "Excerpt"
 msgstr ""
 
@@ -171,21 +174,20 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:22
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:27
 msgid "Extraction started at"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:24
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:29
 msgid "Issuer"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:29
-#: excerptexport/templates/excerptexport/templates/index.html:23
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:34
 #: excerptexport/templates/excerptexport/templates/show_downloads.html:6
 msgid "Downloads"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:37
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:42
 msgid "Send all links"
 msgstr ""
 
@@ -200,6 +202,23 @@ msgstr ""
 
 #: excerptexport/templates/excerptexport/templates/index.html:19
 msgid "New excerpt export"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/index.html:23
+msgid "My downloads"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/index.html:27
+msgid "My orders"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/list_orders.html:10
+msgid "Orders"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/list_orders.html:15
+#, python-format
+msgid "Extraction of &quot;%(excerpt_name)s&quot;"
 msgstr ""
 
 #: excerptexport/templates/excerptexport/templates/login.html:8
@@ -266,4 +285,8 @@ msgstr ""
 
 #: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:90
 msgid "Export options"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/show_downloads.html:8
+msgid "Extraction order"
 msgstr ""
