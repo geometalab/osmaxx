@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-05 10:22+0200\n"
+"POT-Creation-Date: 2015-05-05 10:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,43 +151,48 @@ msgstr ""
 msgid "Something went wrong. Please contact an administrator."
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:10
-msgid "Reload"
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:8
+#: excerptexport/templates/excerptexport/templates/list_orders.html:10
+msgid "Orders"
 msgstr ""
 
 #: excerptexport/templates/excerptexport/templates/extraction_order_status.html:11
+msgid "Reload"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:12
 #, python-format
 msgid "Export status (excerpt &quot;%(excerpt_name)s&quot;) "
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:15
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:16
 msgid "ID"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:16
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:17
 #: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:22
 #: excerptexport/templates/excerptexport/templates/show_downloads.html:9
 msgid "Excerpt"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:18
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:19
 msgid "Status"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:27
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:28
 msgid "Extraction started at"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:29
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:30
 msgid "Issuer"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:34
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:35
 #: excerptexport/templates/excerptexport/templates/show_downloads.html:6
 msgid "Downloads"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:42
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:43
 msgid "Send all links"
 msgstr ""
 
@@ -210,10 +215,6 @@ msgstr ""
 
 #: excerptexport/templates/excerptexport/templates/index.html:27
 msgid "My orders"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/list_orders.html:10
-msgid "Orders"
 msgstr ""
 
 #: excerptexport/templates/excerptexport/templates/list_orders.html:15
