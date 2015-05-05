@@ -73,8 +73,10 @@ docker build --tag=osmaxx --no-cache=true deployment/osmaxx/
     - By hand:
 
     ```shell
-    docker run -d -p 5432:5432 --name osmaxxdatabase osmaxxdatabase
-    docker run -d -p 8080:80 --name osmaxx --link osmaxxdatabase:database osmaxx
+    docker run --name osmaxx-db -e POSTGRES_PASSWORD=***** -e POSTGRES_USER=postgres \
+        -e OSMAXX_USER_PASSWORD=***** -d osmaxxdatabase
+
+    docker run -d -p 8080:80 --name osmaxx --link osmaxx-db:database osmaxx
     ```
 
     Debug:
