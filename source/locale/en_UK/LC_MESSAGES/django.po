@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-05 10:39+0200\n"
+"POT-Creation-Date: 2015-05-05 10:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,6 +133,7 @@ msgstr ""
 #: excerptexport/templates/excerptexport/templates/extraction_order_status.html:7
 #: excerptexport/templates/excerptexport/templates/list_orders.html:7
 #: excerptexport/templates/excerptexport/templates/logout.html:14
+#: excerptexport/templates/excerptexport/templates/show_downloads.html:7
 msgid "Home"
 msgstr ""
 
@@ -175,7 +176,7 @@ msgstr ""
 
 #: excerptexport/templates/excerptexport/templates/extraction_order_status.html:17
 #: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:22
-#: excerptexport/templates/excerptexport/templates/show_downloads.html:9
+#: excerptexport/templates/excerptexport/templates/show_downloads.html:13
 msgid "Excerpt"
 msgstr ""
 
@@ -192,7 +193,7 @@ msgid "Issuer"
 msgstr ""
 
 #: excerptexport/templates/excerptexport/templates/extraction_order_status.html:35
-#: excerptexport/templates/excerptexport/templates/show_downloads.html:6
+#: excerptexport/templates/excerptexport/templates/show_downloads.html:10
 msgid "Downloads"
 msgstr ""
 
@@ -288,6 +289,6 @@ msgstr ""
 msgid "Export options"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/show_downloads.html:8
+#: excerptexport/templates/excerptexport/templates/show_downloads.html:12
 msgid "Extraction order"
 msgstr ""
