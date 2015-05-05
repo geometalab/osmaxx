@@ -73,17 +73,31 @@ docker build --tag=osmaxx --no-cache=true deployment/osmaxx/
     - By hand:
 
     ```shell
-    docker run --name osmaxx-db -e POSTGRES_PASSWORD=***** -e POSTGRES_USER=postgres \
-        -e OSMAXX_USER_PASSWORD=***** -d osmaxxdatabase
+    docker run -d --name osmaxx-db -e POSTGRES_PASSWORD=***** -e POSTGRES_USER=postgres \
+        -e OSMAXX_USER_PASSWORD=***** osmaxxdatabase
 
     docker run -d -p 8080:80 --name osmaxx --link osmaxx-db:database osmaxx
     ```
 
-    Debug:
+        - Debug/Access database by hand:
 
-    ```shell
-    docker run -it -p 8080:80 --name osmaxx --link osmaxxdatabase:database osmaxx /bin/bash
-    ```
+        ```shell
+        # get ip of container
+        docker inspect osmaxx-db | grep "IPAddress"
+        psql -h {ip} -U postgres
+
+        # psql list users
+        \du
+
+        # psql list databases
+        \list
+        ```
+
+        - Debug application container:
+
+        ```shell
+        docker run -it -p 8080:80 --name osmaxx --link osmaxxdatabase:database osmaxx /bin/bash
+        ```
 
     - Using docker compose:
     ```shell
