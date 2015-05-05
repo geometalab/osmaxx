@@ -1,5 +1,6 @@
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry, Polygon
+from django.utils.translation import gettext_lazy as _
 
 from django_enumfield import enum
 
@@ -24,8 +25,8 @@ class BoundingGeometry(models.Model):
         bounding_geometry.geometry = GEOSGeometry(polygon)
         return bounding_geometry
 
-    type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX)
-    geometry = models.GeometryField(srid=4326, blank=True, null=True, spatial_index=True)
+    type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX, verbose_name=_('type'))
+    geometry = models.GeometryField(srid=4326, blank=True, null=True, spatial_index=True, verbose_name=_('geometry'))
 
     # overriding the default manager with a GeoManager instance.
     # required to perform spatial queries

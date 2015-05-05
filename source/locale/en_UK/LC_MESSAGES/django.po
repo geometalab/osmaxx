@@ -1,0 +1,269 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-04 16:25+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: excerptexport/models/bounding_geometry.py:28
+msgid "type"
+msgstr ""
+
+#: excerptexport/models/bounding_geometry.py:29
+msgid "geometry"
+msgstr ""
+
+#: excerptexport/models/excerpt.py:7
+msgid "name"
+msgstr ""
+
+#: excerptexport/models/excerpt.py:8
+msgid "is public"
+msgstr ""
+
+#: excerptexport/models/excerpt.py:9
+msgid "is active"
+msgstr ""
+
+#: excerptexport/models/excerpt.py:11
+msgid "owner"
+msgstr ""
+
+#: excerptexport/models/excerpt.py:12
+msgid "bounding geometry"
+msgstr ""
+
+#: excerptexport/models/extraction_order.py:20
+msgid "state"
+msgstr ""
+
+#: excerptexport/models/extraction_order.py:21
+msgid "process start date"
+msgstr ""
+
+#: excerptexport/models/extraction_order.py:22
+msgid "process reference"
+msgstr ""
+
+#: excerptexport/models/extraction_order.py:24
+msgid "orderer"
+msgstr ""
+
+#: excerptexport/models/extraction_order.py:25
+msgid "excerpt"
+msgstr ""
+
+#: excerptexport/models/output_file.py:12
+msgid "mime type"
+msgstr ""
+
+#: excerptexport/models/output_file.py:14
+msgid "file"
+msgstr ""
+
+#: excerptexport/models/output_file.py:15
+msgid "create date"
+msgstr ""
+
+#: excerptexport/models/output_file.py:16
+msgid "deleted on filesystem"
+msgstr ""
+
+#: excerptexport/models/output_file.py:17
+msgid "public identifier"
+msgstr ""
+
+#: excerptexport/models/output_file.py:20
+msgid "extraction order"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/partials/download_list.html:9
+msgid "Send link"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/partials/download_list.html:12
+msgid "Copy link:"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/partials/export_options.html:6
+msgid "Formats"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/access_denied.html:7
+msgid "Please contact your Administrator"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/access_denied.html:9
+msgid ""
+"You do not appear to have the proper access rights. Please contact your\n"
+"            supervisor/administrator and ask for the needed access rights."
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/access_denied.html:13
+msgid "Please Login"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/access_denied.html:14
+msgid "This site has pages, which are protected. Please login and try again."
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/access_denied.html:15
+#: excerptexport/templates/excerptexport/templates/index.html:11
+#: excerptexport/templates/excerptexport/templates/logout.html:11
+msgid "Login"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/create_excerpt_export.html:5
+#: excerptexport/templates/excerptexport/templates/logout.html:14
+msgid "Home"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/create_excerpt_export.html:8
+msgid "Successfull creation of extraction order."
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/create_excerpt_export.html:10
+msgid ""
+"Your map data export ist starting soon. You will be redirected to the status "
+"page."
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/create_excerpt_export.html:11
+#, python-format
+msgid "Extraction order #%(extraction_order_id)s status"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/create_excerpt_export.html:14
+msgid "Something went wrong. Please contact an administrator."
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:10
+msgid "Reload"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:11
+#, python-format
+msgid "Export status (excerpt &quot;%(excerpt_name)s&quot;) "
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:15
+msgid "ID"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:16
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:22
+msgid "Excerpt"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:18
+msgid "Status"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:22
+msgid "Extraction started at"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:24
+msgid "Issuer"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:29
+#: excerptexport/templates/excerptexport/templates/index.html:23
+#: excerptexport/templates/excerptexport/templates/show_downloads.html:6
+msgid "Downloads"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:37
+msgid "Send all links"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/index.html:8
+#: excerptexport/templates/excerptexport/templates/logout.html:6
+msgid "Logout"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/index.html:14
+msgid "Overview"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/index.html:19
+msgid "New excerpt export"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/login.html:8
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/login.html:26
+msgid "Login with google-oauth2"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/logout.html:7
+msgid "You are logged out."
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:14
+msgid "Use existing excerpt"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:15
+msgid "Create new excerpt"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:20
+msgid "Existing excerpt"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:47
+msgid "Create excerpt"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:49
+msgid "Excerpt name"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:54
+msgid "Bounding box"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:59
+msgid "North"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:65
+msgid "South"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:69
+msgid "West"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:75
+msgid "East"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:84
+msgid "Public"
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:85
+msgid ""
+"Others will see name and bounding box of this excerpt. They won't see that "
+"you created it or when you did so."
+msgstr ""
+
+#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:90
+msgid "Export options"
+msgstr ""
