@@ -96,7 +96,7 @@ docker build --tag=osmaxx --no-cache=true deployment/osmaxx/
         - Debug application container:
 
         ```shell
-        docker run -it -p 8080:80 --name osmaxx --link osmaxxdatabase:database osmaxx /bin/bash
+        docker run -it -p 8080:80 --name osmaxx --link osmaxx-db:database osmaxx /bin/bash
         ```
 
     - Using docker compose:
