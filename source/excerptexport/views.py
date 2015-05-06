@@ -36,9 +36,11 @@ class NewExtractionOrderForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(NewExtractionOrderForm, self).__init__(*args, **kwargs)
         for export_option_key, export_option in settings.EXPORT_OPTIONS.items():
+            formats = ()
             for format_key, format in export_option['formats'].items():
                 field_name = 'export_options.'+export_option_key+'.formats.'+format_key
-                self.fields[field_name] = forms.BooleanField(label=format['name'], required=False)
+                formats += ((field_name , format['name']),)
+            self.fields['export_options.'+export_option_key+'.formats'] = forms.MultipleChoiceField(choices=formats, label=export_option['name'], required=False, widget=forms.CheckboxSelectMultiple)
 
             for option_config_key, option_config in export_option['options'].items():
                 field_name = 'export_options.'+export_option_key+'.options.'+option_config_key
