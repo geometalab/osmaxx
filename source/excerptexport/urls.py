@@ -10,7 +10,7 @@ except_export_urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="excerptexport/templates/index.html"), name='index'),
     url(r'^access_denied/$', TemplateView.as_view(template_name="excerptexport/templates/access_denied.html"), name='access_denied'),
 
-    url(r'^downloads/$', show_downloads, name='downloads'),
+    url(r'^downloads/$', list_downloads, name='downloads'),
     url(r'^downloads/(?P<uuid>[A-Za-z0-9_-]+)/$', download_file, name='download'),
 
     url(r'^orders/$', list_orders, name='orders'),
