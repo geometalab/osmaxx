@@ -1,7 +1,5 @@
 import os
-import sys
 
-from django import forms
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import StreamingHttpResponse, HttpResponseNotFound
 from django.contrib.auth.decorators import permission_required
@@ -15,6 +13,7 @@ from excerptexport.models import ExtractionOrder, Excerpt, OutputFile, BoundingG
 from excerptexport.models.extraction_order import ExtractionOrderState
 from excerptexport import settings
 from excerptexport.services.data_conversion_service import trigger_data_conversion
+from excerptexport.forms import NewExtractionOrderForm
 
 
 def has_excerptexport_all_permissions():
@@ -32,38 +31,6 @@ def has_excerptexport_all_permissions():
     return permission_required(excerpt_export_permissions, login_url=login_url, raise_exception=False)
 
 
-class NewExtractionOrderForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        super(NewExtractionOrderForm, self).__init__(*args, **kwargs)
-        for export_option_key, export_option in settings.EXPORT_OPTIONS.items():
-            formats = ()
-            for format_key, format in export_option['formats'].items():
-                field_name = 'export_options.'+export_option_key+'.formats.'+format_key
-                formats += ((field_name , format['name']),)
-            self.fields['export_options.'+export_option_key+'.formats'] = forms.MultipleChoiceField(choices=formats, label=export_option['name'], required=False, widget=forms.CheckboxSelectMultiple)
-
-            for option_config_key, option_config in export_option['options'].items():
-                field_name = 'export_options.'+export_option_key+'.options.'+option_config_key
-                # TODO refactor config and replace select and radio by choice
-                if option_config['type'] == 'select' or option_config['type'] == 'radio' or option_config['type'] == 'choice':
-                    choices = ()
-                    if 'values' in option_config.keys():
-                        for option in option_config['values']:
-                            choices += ((option['name'], option['label']),)
-
-                    if (not 'groups' in option_config.keys()) and 'values' in option_config.keys() and (len(option_config['values']) < 5):
-                        self.fields[field_name] = forms.ChoiceField(label=option_config['label'], choices=choices, widget=forms.RadioSelect(), initial=option_config['default'] or None)
-                        print(choices)
-                    else:
-                        if option_config['groups']:
-                            for group in option_config['groups']:
-                                choice_group = ()
-                                for option in group['values']:
-                                    choice_group += ((option['name'], option['label']),)
-                                choices += ((group['name'], choice_group),)
-                        self.fields[field_name] = forms.ChoiceField(label=option_config['label'], choices=choices, initial=option_config['default'] or None)
-
-
 class NewExtractionOrderView(View):
     # TODO
     #@login_required()
@@ -71,7 +38,7 @@ class NewExtractionOrderView(View):
     def get(self, request):
         view_model = {
             'user': request.user,
-            'form': NewExtractionOrderForm(),
+            'form': NewExtractionOrderForm(auto_id='%s'),
             'personal_excerpts': Excerpt.objects.filter(is_active=True, is_public=False, owner=request.user),
             'public_excerpts': Excerpt.objects.filter(is_active=True, is_public=True),
             'administrative_areas': settings.ADMINISTRATIVE_AREAS,
