@@ -89,11 +89,6 @@
                     <div class="form-part">
                         <h2>{% trans 'Export options' %}</h2>
                         <fieldset class="form-group">
-                           {% include 'excerptexport/partials/export_options.html' with export_options=export_options %}
-                        </fieldset>
-
-                        <h2>*Export options new</h2>
-                        <fieldset class="form-group">
                             {{ form.as_p }}
                         </fieldset>
                     </div>

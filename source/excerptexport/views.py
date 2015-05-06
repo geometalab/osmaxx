@@ -41,8 +41,7 @@ class NewExtractionOrderView(View):
             'form': NewExtractionOrderForm(auto_id='%s'),
             'personal_excerpts': Excerpt.objects.filter(is_active=True, is_public=False, owner=request.user),
             'public_excerpts': Excerpt.objects.filter(is_active=True, is_public=True),
-            'administrative_areas': settings.ADMINISTRATIVE_AREAS,
-            'export_options': settings.EXPORT_OPTIONS
+            'administrative_areas': settings.ADMINISTRATIVE_AREAS
         }
         return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model)
 

@@ -12,8 +12,7 @@ class NewExtractionOrderForm(forms.Form):
             self.create_checkboxes('export_options.'+export_option_key+'.formats', export_option['name'], export_option['formats'].items())
 
             for option_config_key, option_config in export_option['options'].items():
-                # TODO refactor config and replace select and radio by choice
-                if option_config['type'] == 'select' or option_config['type'] == 'radio' or option_config['type'] == 'choice':
+                if option_config['type'] == 'choice':
                     self.create_choice(
                         'export_options.'+export_option_key+'.options.'+option_config_key,
                         option_config['label'],
@@ -32,7 +31,6 @@ class NewExtractionOrderForm(forms.Form):
 
         if (not groups) and values and (len(values) <= self.max_items_radio):
             self.fields[field_name] = forms.ChoiceField(label=field_label, choices=choices, widget=forms.RadioSelect(), initial=default)
-            print(choices)
         else:
             if groups:
                 for group in groups:
