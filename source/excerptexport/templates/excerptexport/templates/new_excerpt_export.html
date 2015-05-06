@@ -6,7 +6,7 @@
     <div class="box-container">
         <div class="container-row"><!--
              --><div class="container-column stretch-5">
-                <form action="{% url 'excerptexport:create' %}" method="post" novalidate="novalidate">
+                <form action="{% url 'excerptexport:new' %}" method="post" novalidate="novalidate">
                     {% csrf_token %}
 
                     <div class="form-group select-button-group">

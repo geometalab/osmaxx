@@ -1,14 +1,13 @@
 import os
 
 from django.shortcuts import render, get_object_or_404, render_to_response
-
 from django.http import StreamingHttpResponse, HttpResponseNotFound
 from django.contrib.auth.decorators import permission_required
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.template import RequestContext
-
 from django.contrib.auth.decorators import login_required
+from django.views.generic import View
 
 from excerptexport.models import ExtractionOrder, Excerpt, OutputFile, BoundingGeometry
 from excerptexport.models.extraction_order import ExtractionOrderState
@@ -31,81 +30,76 @@ def has_excerptexport_all_permissions():
     return permission_required(excerpt_export_permissions, login_url=login_url, raise_exception=False)
 
 
-class NewExcerptExportViewModel:
-    def __init__(self, user):
-        self.user = user
-        self.personal_excerpts = Excerpt.objects.filter(is_active=True, is_public=False, owner=user)
-        self.public_excerpts = Excerpt.objects.filter(is_active=True, is_public=True)
+class NewExtractionOrderView(View):
+    # TODO
+    #@login_required()
+    #@has_excerptexport_all_permissions()
+    def get(self, request):
+        view_model = {
+            'user': request.user,
+            'personal_excerpts': Excerpt.objects.filter(is_active=True, is_public=False, owner=request.user),
+            'public_excerpts': Excerpt.objects.filter(is_active=True, is_public=True),
+            'administrative_areas': settings.ADMINISTRATIVE_AREAS,
+            'export_options': settings.EXPORT_OPTIONS
+        }
+        return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model)
 
-        self.administrative_areas = settings.ADMINISTRATIVE_AREAS
-        self.export_options = settings.EXPORT_OPTIONS
+    # TODO
+    #@login_required()
+    #@has_excerptexport_all_permissions()
+    def post(self, request):
+        view_context = {}
+        if request.POST['form-mode'] == 'existing_excerpt':
+            existing_excerpt_id = request.POST['existing_excerpt.id']
+            view_context = {'excerpt': existing_excerpt_id}
+            extraction_order = ExtractionOrder.objects.create(
+                excerpt_id=existing_excerpt_id,
+                orderer=request.user
+            )
 
-    def get_context(self):
-        return self.__dict__
+        if request.POST['form-mode'] == 'create_new_excerpt':
+            bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
+                request.POST['new_excerpt.boundingBox.north'],
+                request.POST['new_excerpt.boundingBox.east'],
+                request.POST['new_excerpt.boundingBox.south'],
+                request.POST['new_excerpt.boundingBox.west']
+            )
+            bounding_geometry.save()
 
+            excerpt = Excerpt(
+                name=request.POST['new_excerpt.name'],
+                is_active=True,
+                is_public=request.POST['new_excerpt.is_public'] if ('new_excerpt.is_public' in request.POST) else False,
+                bounding_geometry=bounding_geometry
+            )
+            excerpt.owner = request.user
+            excerpt.save()
 
-@login_required()
-@has_excerptexport_all_permissions()
-def new_excerpt_export(request):
-    view_model = NewExcerptExportViewModel(request.user)
-    return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model.get_context())
+            view_context = {'excerpt': excerpt, 'bounding_geometry': bounding_geometry}
+            extraction_order = ExtractionOrder.objects.create(
+                excerpt=excerpt,
+                orderer=request.user
+            )
 
+        view_context['extraction_order'] = extraction_order
 
-@login_required()
-@has_excerptexport_all_permissions()
-def create_excerpt_export(request):
-    view_context = {}
-    if request.POST['form-mode'] == 'existing_excerpt':
-        existing_excerpt_id = request.POST['existing_excerpt.id']
-        view_context = {'excerpt': existing_excerpt_id}
-        extraction_order = ExtractionOrder.objects.create(
-            excerpt_id=existing_excerpt_id,
-            orderer=request.user
+        view_context['use_existing'] = 'existing_excerpt_id' in vars()  # TODO: The view should not have to know
+        export_options = get_export_options(request.POST, settings.EXPORT_OPTIONS)
+        view_context['options'] = export_options
+
+        trigger_data_conversion(extraction_order, export_options)
+
+        response = render_to_response(
+            'excerptexport/templates/create_excerpt_export.html',
+            view_context,
+            context_instance=RequestContext(request)
         )
-
-    if request.POST['form-mode'] == 'create_new_excerpt':
-        bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
-            request.POST['new_excerpt.boundingBox.north'],
-            request.POST['new_excerpt.boundingBox.east'],
-            request.POST['new_excerpt.boundingBox.south'],
-            request.POST['new_excerpt.boundingBox.west']
-        )
-        bounding_geometry.save()
-
-        excerpt = Excerpt(
-            name=request.POST['new_excerpt.name'],
-            is_active=True,
-            is_public=request.POST['new_excerpt.is_public'] if ('new_excerpt.is_public' in request.POST) else False,
-            bounding_geometry=bounding_geometry
-        )
-        excerpt.owner = request.user
-        excerpt.save()
-
-        view_context = {'excerpt': excerpt, 'bounding_geometry': bounding_geometry}
-        extraction_order = ExtractionOrder.objects.create(
-            excerpt=excerpt,
-            orderer=request.user
-        )
-
-    view_context['extraction_order'] = extraction_order
-
-    view_context['use_existing'] = 'existing_excerpt_id' in vars()  # TODO: The view should not have to know
-    export_options = get_export_options(request.POST, settings.EXPORT_OPTIONS)
-    view_context['options'] = export_options
-
-    trigger_data_conversion(extraction_order, export_options)
-
-    response = render_to_response(
-        'excerptexport/templates/create_excerpt_export.html',
-        view_context,
-        context_instance=RequestContext(request)
-    )
-    if extraction_order.id:
-        response['Refresh'] = '5; http://' + request.META['HTTP_HOST'] + reverse(
-            'excerptexport:status',
-            kwargs={'extraction_order_id': extraction_order.id}
-        )
-    return response
+        if extraction_order.id:
+            response['Refresh'] = '5; http://' + request.META['HTTP_HOST'] + reverse(
+                'excerptexport:status',
+                kwargs={'extraction_order_id': extraction_order.id}
+            )
+        return response
 
 
 @login_required()
