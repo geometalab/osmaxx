@@ -31,10 +31,6 @@ def has_excerptexport_all_permissions():
     return permission_required(excerpt_export_permissions, login_url=login_url, raise_exception=False)
 
 
-def access_denied(request):
-    return render_to_response('excerptexport/templates/access_denied.html', context=RequestContext(request))
-
-
 class NewExcerptExportViewModel:
     def __init__(self, user):
         self.user = user
