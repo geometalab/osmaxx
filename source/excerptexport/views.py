@@ -13,7 +13,7 @@ from excerptexport.models import ExtractionOrder, Excerpt, OutputFile, BoundingG
 from excerptexport.models.extraction_order import ExtractionOrderState
 from excerptexport import settings
 from excerptexport.services.data_conversion_service import trigger_data_conversion
-from excerptexport.forms import NewExtractionOrderForm
+from excerptexport.forms import ExportOptionsForm
 
 
 def has_excerptexport_all_permissions():
@@ -38,7 +38,7 @@ class NewExtractionOrderView(View):
     def get(self, request):
         view_model = {
             'user': request.user,
-            'form': NewExtractionOrderForm(auto_id='%s'),
+            'form': ExportOptionsForm(auto_id='%s'),
             'personal_excerpts': Excerpt.objects.filter(is_active=True, is_public=False, owner=request.user),
             'public_excerpts': Excerpt.objects.filter(is_active=True, is_public=True),
             'administrative_areas': settings.ADMINISTRATIVE_AREAS

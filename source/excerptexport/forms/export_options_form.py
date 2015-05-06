@@ -3,11 +3,11 @@ from django import forms
 from excerptexport import settings
 
 
-class NewExtractionOrderForm(forms.Form):
+class ExportOptionsForm(forms.Form):
     max_items_radio=5
 
     def __init__(self, *args, **kwargs):
-        super(NewExtractionOrderForm, self).__init__(*args, **kwargs)
+        super(ExportOptionsForm, self).__init__(*args, **kwargs)
         for export_option_key, export_option in settings.EXPORT_OPTIONS.items():
             self.create_checkboxes('export_options.'+export_option_key+'.formats', export_option['name'], export_option['formats'].items())
 
