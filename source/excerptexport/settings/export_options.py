@@ -9,7 +9,7 @@ EXPORT_OPTIONS = {
             },
             'geo_package': {
                 'name': 'GeoPackage',
-                'file_extension': 'geo',  # ???
+                'file_extension': 'gpkg',
                 'mime_type': 'application/octet-stream'  # Not verified!
             },
             'shape_file': {

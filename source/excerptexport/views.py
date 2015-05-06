@@ -48,14 +48,14 @@ class NewExcerptExportViewModel:
         return self.__dict__
 
 
-@login_required(login_url='/excerptexport/login/')
+@login_required()
 @has_excerptexport_all_permissions()
 def new_excerpt_export(request):
     view_model = NewExcerptExportViewModel(request.user)
     return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model.get_context())
 
 
-@login_required(login_url='/excerptexport/login/')
+@login_required()
 @has_excerptexport_all_permissions()
 def create_excerpt_export(request):
     view_context = {}
@@ -112,7 +112,7 @@ def create_excerpt_export(request):
     return response
 
 
-@login_required(login_url='/excerptexport/login/')
+@login_required()
 @has_excerptexport_all_permissions()
 def show_downloads(request):
     view_context = {'host_domain': request.get_host()}
@@ -174,7 +174,7 @@ def get_export_options(requestPostValues, optionConfig):
     return export_options
 
 
-@login_required(login_url='/excerptexport/login/')
+@login_required()
 @has_excerptexport_all_permissions()
 def extraction_order_status(request, extraction_order_id):
     extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
@@ -182,3 +182,15 @@ def extraction_order_status(request, extraction_order_id):
         request, 'excerptexport/templates/extraction_order_status.html',
         {'extraction_order': extraction_order, 'host_domain': request.META['HTTP_HOST']}
     )
+
+
+@login_required()
+@has_excerptexport_all_permissions()
+def list_orders(request):
+    view_context = {
+        'host_domain': request.get_host(),
+        'extraction_orders': ExtractionOrder.objects.filter(orderer=request.user)
+            .order_by('-id')[:settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
+    }
+
+    return render(request, 'excerptexport/templates/list_orders.html', view_context)
