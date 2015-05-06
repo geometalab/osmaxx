@@ -1,11 +1,13 @@
 from django.conf.urls import url
 from django.contrib.auth.views import login, logout
-from excerptexport.views import index, access_denied, new_excerpt_export, show_downloads, download_file, \
+from django.views.generic import TemplateView
+
+from excerptexport.views import access_denied, new_excerpt_export, show_downloads, download_file, \
     create_excerpt_export, extraction_order_status
 
 
 except_export_urlpatterns = [
-    url(r'^$', index, name='index'),
+    url(r'^$', TemplateView.as_view(template_name="excerptexport/templates/index.html"), name='index'),
     url(r'^access_denied/$', access_denied, name='access_denied'),
     url(r'^downloads/$', show_downloads, name='downloads'),
     url(r'^downloads/(?P<uuid>[A-Za-z0-9_-]+)/$', download_file, name='download'),
