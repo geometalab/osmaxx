@@ -84,12 +84,15 @@
                             <label for="new_excerpt.is_public">{% trans 'Public' %}</label>
                             <span class="help-block">{% trans "Others will see name and bounding box of this excerpt. They won't see that you created it or when you did so." %}</span>
                         </div>
+
+
+                            {{ new_excerpt_form.as_p }}
                     </div>
 
                     <div class="form-part">
                         <h2>{% trans 'Export options' %}</h2>
                         <fieldset class="form-group">
-                            {{ form.as_p }}
+                            {{ export_options_form.as_p }}
                         </fieldset>
                     </div>
 
