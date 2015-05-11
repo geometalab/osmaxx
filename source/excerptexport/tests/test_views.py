@@ -89,7 +89,9 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             HTTP_HOST='thehost.example.com'
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(ExtractionOrder.objects.filter(excerpt_id=self.existing_excerpt_post_data['existing_excerpt.id']).count(), 1) # only reproducible because there is only 1
+        self.assertEqual(ExtractionOrder.objects.filter(
+            excerpt_id=self.existing_excerpt_post_data['existing_excerpt.id']
+        ).count(), 1)  # only reproducible because there is only 1
 
     def test_create_with_new_excerpt_persists_a_new_order(self):
         """

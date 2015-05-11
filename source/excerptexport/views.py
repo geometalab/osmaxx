@@ -46,7 +46,6 @@ class NewExtractionOrderView(View):
         }
         return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model)
 
-
     @method_decorator(login_required)
     @method_decorator(has_excerptexport_all_permissions())
     def post(self, request):
@@ -157,7 +156,7 @@ def extraction_order_status(request, extraction_order_id):
         'host_domain': request.get_host(),
         'extraction_order': get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
     }
-    return render(request, 'excerptexport/templates/extraction_order_status.html',view_context)
+    return render(request, 'excerptexport/templates/extraction_order_status.html', view_context)
 
 
 @login_required()
@@ -166,6 +165,6 @@ def list_orders(request):
     view_context = {
         'host_domain': request.get_host(),
         'extraction_orders': ExtractionOrder.objects.filter(orderer=request.user)
-            .order_by('-id')[:settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
+        .order_by('-id')[:settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
     }
     return render(request, 'excerptexport/templates/list_orders.html', view_context)
