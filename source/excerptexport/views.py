@@ -61,17 +61,17 @@ class NewExtractionOrderView(View):
 
         if request.POST['form-mode'] == 'create_new_excerpt':
             bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
-                request.POST['new_excerpt.boundingBox.north'],
-                request.POST['new_excerpt.boundingBox.east'],
-                request.POST['new_excerpt.boundingBox.south'],
-                request.POST['new_excerpt.boundingBox.west']
+                request.POST['new_excerpt_bounding_box_north'],
+                request.POST['new_excerpt_bounding_box_east'],
+                request.POST['new_excerpt_bounding_box_south'],
+                request.POST['new_excerpt_bounding_box_west']
             )
             bounding_geometry.save()
 
             excerpt = Excerpt(
-                name=request.POST['new_excerpt.name'],
+                name=request.POST['new_excerpt_name'],
                 is_active=True,
-                is_public=request.POST['new_excerpt.is_public'] if ('new_excerpt.is_public' in request.POST) else False,
+                is_public=request.POST['new_excerpt_is_public'] if ('new_excerpt_is_public' in request.POST) else False,
                 bounding_geometry=bounding_geometry
             )
             excerpt.owner = request.user

@@ -17,12 +17,12 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
         self.new_excerpt_post_data = {
             'form-mode': 'create_new_excerpt',
-            'new_excerpt.name': 'A very interesting region',
-            'new_excerpt.is_public': 'True',
-            'new_excerpt.boundingBox.north': '1.0',
-            'new_excerpt.boundingBox.east': '2.0',
-            'new_excerpt.boundingBox.south': '3.0',
-            'new_excerpt.boundingBox.west': '4.0'
+            'new_excerpt_name': 'A very interesting region',
+            'new_excerpt_is_public': 'True',
+            'new_excerpt_bounding_box_north': '1.0',
+            'new_excerpt_bounding_box_east': '2.0',
+            'new_excerpt_bounding_box_south': '3.0',
+            'new_excerpt_bounding_box_west': '4.0'
         }
         existing_excerpt = Excerpt.objects.create(
             name='Some old Excerpt',
