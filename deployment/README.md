@@ -35,7 +35,8 @@ See https://docs.docker.com/compose/install/
 
 
 1. Create archive from source or download from GitHub:
-    - From GitHub
+
+    * From GitHub
     ```shell
     # wget -O 'deployment/osmaxx/source.tar' \
     #   'https://github.com/geometalab/osmaxx/releases/download/{releasenumber}/{release-archive}.tar'
@@ -70,36 +71,37 @@ docker build --tag=osmaxx --no-cache=true deployment/osmaxx/
 ```
 
 3. Run container:
-    - By hand:
 
+* By hand:
     ```shell
     docker run -d --name osmaxx-db -e POSTGRES_PASSWORD=***** -e POSTGRES_USER=postgres \
         -e OSMAXX_USER_PASSWORD=***** osmaxxdatabase
-
+    
     docker run -d -p 8080:80 --name osmaxx --link osmaxx-db:database osmaxx
     ```
+    
 
-        - Debug/Access database by hand:
+    * Debug/Access database by hand:
 
-        ```shell
-        # get ip of container
-        docker inspect osmaxx-db | grep "IPAddress"
-        psql -h {ip} -U postgres
+    ```shell
+    # get ip of container
+    docker inspect osmaxx-db | grep "IPAddress"
+    psql -h {ip} -U postgres
 
-        # psql list users
-        \du
+    # psql list users
+    \du
 
-        # psql list databases
-        \list
-        ```
+    # psql list databases
+    \list
+    ```
 
-        - Debug application container:
+    * Debug application container:
 
-        ```shell
-        docker run -it -p 8080:80 --name osmaxx --link osmaxx-db:database osmaxx /bin/bash
-        ```
+    ```shell
+    docker run -it -p 8080:80 --name osmaxx --link osmaxx-db:database osmaxx /bin/bash
+    ```
 
-    - Using docker compose:
+* Using docker compose:
     ```shell
     cd deployment
     docker-compose up
