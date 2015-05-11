@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
+from django.utils.decorators import method_decorator
 
 from excerptexport.models import ExtractionOrder, Excerpt, OutputFile, BoundingGeometry
 from excerptexport.models.extraction_order import ExtractionOrderState
@@ -32,9 +33,8 @@ def has_excerptexport_all_permissions():
 
 
 class NewExtractionOrderView(View):
-    # TODO
-    #@login_required()
-    #@has_excerptexport_all_permissions()
+    @method_decorator(login_required)
+    @method_decorator(has_excerptexport_all_permissions())
     def get(self, request):
         view_model = {
             'user': request.user,
@@ -46,9 +46,9 @@ class NewExtractionOrderView(View):
         }
         return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model)
 
-    # TODO
-    #@login_required()
-    #@has_excerptexport_all_permissions()
+
+    @method_decorator(login_required)
+    @method_decorator(has_excerptexport_all_permissions())
     def post(self, request):
         view_context = {}
         if request.POST['form-mode'] == 'existing_excerpt':

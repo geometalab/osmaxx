@@ -57,7 +57,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         """
         When not logged in, we get redirected.
         """
-        response = self.client.post(reverse('excerptexport:create'), self.new_excerpt_post_data)
+        response = self.client.post(reverse('excerptexport:new'), self.new_excerpt_post_data)
         self.assertEqual(response.status_code, 302)
 
     def test_create_with_new_excerpt(self):
@@ -67,7 +67,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.post(
-            reverse('excerptexport:create'),
+            reverse('excerptexport:new'),
             self.new_excerpt_post_data,
             HTTP_HOST='thehost.example.com'
         )
@@ -95,7 +95,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.post(
-            reverse('excerptexport:create'),
+            reverse('excerptexport:new'),
             self.existing_excerpt_post_data,
             HTTP_HOST='thehost.example.com'
         )
@@ -114,7 +114,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
-        self.client.post(reverse('excerptexport:create'), self.new_excerpt_post_data, HTTP_HOST='thehost.example.com')
+        self.client.post(reverse('excerptexport:new'), self.new_excerpt_post_data, HTTP_HOST='thehost.example.com')
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
@@ -133,7 +133,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
         self.client.post(
-            reverse('excerptexport:create'),
+            reverse('excerptexport:new'),
             self.existing_excerpt_post_data,
             HTTP_HOST='thehost.example.com'
         )
