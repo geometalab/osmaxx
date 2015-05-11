@@ -35,3 +35,8 @@ class BoundingGeometryTestCase(TestCase):
     def test_create_from_bounding_box_coordinates_contains_south_west_corner(self):
         BoundingGeometry.create_from_bounding_box_coordinates(1.1, 2.2, 3.3, 4.4)
         self.assertIn((4.4, 3.3), BoundingGeometry.objects.first().geometry.exterior_ring)
+
+    def test_create_from_bounding_box_coordinates_produces_clockwise_exterior_ring_starting_at_south_west(self):
+        BoundingGeometry.create_from_bounding_box_coordinates(1.1, 2.2, 3.3, 4.4)
+        self.assertEqual(BoundingGeometry.objects.first().geometry.exterior_ring[:],
+                         [(4.4, 3.3), (4.4, 1.1), (2.2, 1.1), (2.2, 3.3), (4.4, 3.3)])
