@@ -39,11 +39,9 @@ class BBoxBoundingGeometry(BoundingGeometry):
 
     @staticmethod
     def create_from_bounding_box_coordinates(north, east, south, west):
-        bounding_geometry = BBoxBoundingGeometry()
-        bounding_geometry.south_west = GEOSGeometry('POINT(%s %s)' % (west, south))
-        bounding_geometry.north_east = GEOSGeometry('POINT(%s %s)' % (east, north))
-        bounding_geometry.save()
-        return bounding_geometry
+        south_west = GEOSGeometry('POINT(%s %s)' % (west, south))
+        north_east = GEOSGeometry('POINT(%s %s)' % (east, north))
+        return BBoxBoundingGeometry.objects.create(south_west=south_west, north_east=north_east)
 
     # overriding the default manager with a GeoManager instance.
     # required to perform spatial queries
