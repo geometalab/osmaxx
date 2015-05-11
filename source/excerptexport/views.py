@@ -148,18 +148,18 @@ def download_file(request, uuid):
 
 def get_export_options(requestPostValues, optionConfig):
     # post values naming schema:
-    # formats: "export_options.{{ export_option_key }}.formats"
-    # options: "'export_options.{{ export_option_key }}.options.{{ export_option_config_key }}"
+    # formats: "export_options_{{ export_option_key }}_formats"
+    # options: "'export_options_{{ export_option_key }}_options_{{ export_option_config_key }}"
     export_options = {}
     for export_option_key, export_option in optionConfig.items():
         export_options[export_option_key] = {}
         export_options[export_option_key]['formats'] = requestPostValues.getlist(
-            'export_options.'+export_option_key+'.formats'
+            'export_options_'+export_option_key+'_formats'
         )
 
         for export_option_config_key, export_option_config in export_option['options'].items():
             export_options[export_option_key][export_option_config_key] = requestPostValues.getlist(
-                'export_options.'+export_option_key+'.options.'+export_option_config_key
+                'export_options_'+export_option_key+'_options_'+export_option_config_key
             )
 
     return export_options
