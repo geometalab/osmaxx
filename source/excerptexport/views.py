@@ -113,7 +113,7 @@ def list_downloads(request):
             state=ExtractionOrderState.FINISHED
         )
     }
-    return render(request, 'excerptexport/templates/show_downloads.html', view_context)
+    return render(request, 'excerptexport/templates/list_downloads.html', view_context)
 
 
 def download_file(request, uuid):
