@@ -6,7 +6,7 @@
     {{ form.new_excerpt_name.errors }}
     {{ form.new_excerpt_name.label_tag }}
     <input type="text" class="form-control" id="{{ form.new_excerpt_name.id_for_label }}" name="{{ form.new_excerpt_name.id_for_label }}"
-        {% if form.new_excerpt_name.field.required %}required="required"{% endif %} value="{{ form.new_excerpt_name.field.value|default_if_none:'' }}" />
+        {% if form.new_excerpt_name.field.required %}required="required"{% endif %} value="{{ form.new_excerpt_name.value|default_if_none:'' }}" />
 </div>
 
 <fieldset class="form-group">
@@ -19,7 +19,7 @@
                 {{ form.new_excerpt_bounding_box_north.label_tag }}
                 <input class="form-control" id="{{ form.new_excerpt_bounding_box_north.id_for_label }}" name="{{ form.new_excerpt_bounding_box_north.id_for_label }}"
                    {% if form.new_excerpt_bounding_box_north.field.required %}required="required"{% endif %} pattern="\-?[1-9][0-9]*(\.[0-9]*)?"
-                   value="{{ form.new_excerpt_bounding_box_north.field.value|default_if_none:'' }}" />
+                   value="{{ form.new_excerpt_bounding_box_north.value|default_if_none:'' }}" />
             </div>
         </div>
         <div class="row">
@@ -28,14 +28,14 @@
                 {{ form.new_excerpt_bounding_box_west.label_tag }}
                 <input class="form-control" id="{{ form.new_excerpt_bounding_box_west.id_for_label }}" name="{{ form.new_excerpt_bounding_box_west.id_for_label }}"
                    {% if form.new_excerpt_bounding_box_west.field.required %}required="required"{% endif %} pattern="\-?[1-9][0-9]*(\.[0-9]*)?"
-                   value="{{ form.new_excerpt_bounding_box_west.field.value|default_if_none:'' }}" />
+                   value="{{ form.new_excerpt_bounding_box_west.value|default_if_none:'' }}" />
             </div>
             <div class="col-sm-4 col-sm-offset-4">
                 {{ form.new_excerpt_bounding_box_east.errors }}
                 {{ form.new_excerpt_bounding_box_east.label_tag }}
                 <input class="form-control" id="{{ form.new_excerpt_bounding_box_east.id_for_label }}" name="{{ form.new_excerpt_bounding_box_east.id_for_label }}"
                     {% if form.new_excerpt_bounding_box_east.field.required %}required="required"{% endif %} pattern="\-?[1-9][0-9]*(\.[0-9]*)?"
-                    value="{{ form.new_excerpt_bounding_box_east.field.value|default_if_none:'' }}" />
+                    value="{{ form.new_excerpt_bounding_box_east.value|default_if_none:'' }}" />
             </div>
         </div>
         <div class="row">
@@ -44,7 +44,7 @@
                 {{ form.new_excerpt_bounding_box_south.label_tag }}
                 <input class="form-control" id="{{ form.new_excerpt_bounding_box_south.id_for_label }}" name="{{ form.new_excerpt_bounding_box_south.id_for_label }}"
                     {% if form.new_excerpt_bounding_box_south.field.required %}required="required"{% endif %} pattern="\-?[1-9][0-9]*(\.[0-9]*)?"
-                    value="{{ form.new_excerpt_bounding_box_south.field.value|default_if_none:'' }}" />
+                    value="{{ form.new_excerpt_bounding_box_south.value|default_if_none:'' }}" />
             </div>
         </div>
     </div>

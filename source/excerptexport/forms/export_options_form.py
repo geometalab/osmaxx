@@ -41,7 +41,7 @@ class ExportOptionsForm(forms.Form):
             self.fields[field_name] = forms.ChoiceField(label=field_label, choices=choices, initial=default)
 
 
-    # create a checkbox group (all elements have same name but diffrent values)
+    # create a checkbox group (all elements have same name but different values)
     def create_checkboxes(self, group_key, group_label, items):
         values = ()
         for key, element in items:
@@ -53,3 +53,20 @@ class ExportOptionsForm(forms.Form):
             required=False,
             widget=forms.CheckboxSelectMultiple
         )
+
+
+    # create export options tree (like export options settings) from flat form values
+    def get_export_options(self, option_config):
+        print(self.cleaned_data)
+        # post values naming schema:
+        # formats: "export_options_{{ export_option_key }}_formats"
+        # options: "'export_options_{{ export_option_key }}_options_{{ export_option_config_key }}"
+        export_options = {}
+        for export_option_key, export_option in option_config.items():
+            export_options[export_option_key] = {}
+            export_options[export_option_key]['formats'] = self.cleaned_data['export_options.'+export_option_key+'.formats']
+
+            for export_option_config_key, export_option_config in export_option['options'].items():
+                export_options[export_option_key][export_option_config_key] = self.cleaned_data['export_options.'+export_option_key+'.options.'+export_option_config_key]
+
+        return export_options

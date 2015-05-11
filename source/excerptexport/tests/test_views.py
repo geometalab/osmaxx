@@ -72,17 +72,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             HTTP_HOST='thehost.example.com'
         )
         self.assertEqual(response.status_code, 200)
-
-        self.assertFalse(response.context['use_existing'])
-        self.assertEqual(response.context['excerpt'].name, 'A very interesting region')
-        self.assertEqual(
-            str(response.context['bounding_geometry']),
-            'Bounding box: (4.0, 3.0), (4.0, 1.0), (2.0, 1.0), (2.0, 3.0), (4.0, 3.0)'
-        )
-        self.assertEqual(response.context['options'],
-                         {'routing': {'formats': []},
-                          'gis': {'coordinate_reference_system': [], 'detail_level': [], 'formats': []}})
-
         self.assertEqual(
             Excerpt.objects.filter(name='A very interesting region', is_active=True, is_public=True).count(),
             1
@@ -100,12 +89,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             HTTP_HOST='thehost.example.com'
         )
         self.assertEqual(response.status_code, 200)
-
-        self.assertTrue(response.context['use_existing'])
-        self.assertEqual(response.context['excerpt'], str(self.existing_excerpt_post_data['existing_excerpt.id']))
-        self.assertEqual(response.context['options'],
-                         {'routing': {'formats': []},
-                          'gis': {'coordinate_reference_system': [], 'detail_level': [], 'formats': []}})
+        self.assertEqual(ExtractionOrder.objects.filter(excerpt_id=self.existing_excerpt_post_data['existing_excerpt.id']).count(), 1) # only reproducible because there is only 1
 
     def test_create_with_new_excerpt_persists_a_new_order(self):
         """

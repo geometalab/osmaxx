@@ -35,11 +35,11 @@ def has_excerptexport_all_permissions():
 class NewExtractionOrderView(View):
     @method_decorator(login_required)
     @method_decorator(has_excerptexport_all_permissions())
-    def get(self, request):
+    def get(self, request, excerpt_form_initial_data=None):
         view_model = {
             'user': request.user,
             'export_options_form': ExportOptionsForm(auto_id='%s'),
-            'new_excerpt_form': NewExcerptForm(auto_id='%s'),
+            'new_excerpt_form': NewExcerptForm(auto_id='%s', initial=excerpt_form_initial_data),
             'personal_excerpts': Excerpt.objects.filter(is_active=True, is_public=False, owner=request.user),
             'public_excerpts': Excerpt.objects.filter(is_active=True, is_public=True),
             'administrative_areas': settings.ADMINISTRATIVE_AREAS
@@ -62,33 +62,37 @@ class NewExtractionOrderView(View):
         if request.POST['form-mode'] == 'create_new_excerpt':
             new_excerpt_form = NewExcerptForm(request.POST)
             if new_excerpt_form.is_valid():
+                form_data = new_excerpt_form.cleaned_data
                 bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
-                    new_excerpt_form.cleaned_data['new_excerpt_bounding_box_north'],
-                    new_excerpt_form.cleaned_data['new_excerpt_bounding_box_east'],
-                    new_excerpt_form.cleaned_data['new_excerpt_bounding_box_south'],
-                    new_excerpt_form.cleaned_data['new_excerpt_bounding_box_west']
+                    form_data['new_excerpt_bounding_box_north'],
+                    form_data['new_excerpt_bounding_box_east'],
+                    form_data['new_excerpt_bounding_box_south'],
+                    form_data['new_excerpt_bounding_box_west']
                 )
                 bounding_geometry.save()
 
-                excerpt = Excerpt(
-                    name=request.POST['new_excerpt_name'],
+                excerpt = Excerpt.objects.create(
+                    name=form_data['new_excerpt_name'],
                     is_active=True,
-                    is_public=request.POST['new_excerpt_is_public'] if ('new_excerpt_is_public' in request.POST) else False,
-                    bounding_geometry=bounding_geometry
+                    is_public=form_data['new_excerpt_is_public'] if ('new_excerpt_is_public' in form_data) else False,
+                    bounding_geometry=bounding_geometry,
+                    owner=request.user
                 )
-                excerpt.owner = request.user
-                excerpt.save()
 
-                view_context = {'excerpt': excerpt, 'bounding_geometry': bounding_geometry}
                 extraction_order = ExtractionOrder.objects.create(
                     excerpt=excerpt,
                     orderer=request.user
                 )
 
+            else:
+                return self.get(request, new_excerpt_form.data)
+
         view_context['extraction_order'] = extraction_order
 
-        export_options = get_export_options(request.POST, settings.EXPORT_OPTIONS)
-        trigger_data_conversion(extraction_order, export_options)
+        export_options_form = ExportOptionsForm(request.POST)
+        if export_options_form.is_valid():
+            export_options = export_options_form.get_export_options(settings.EXPORT_OPTIONS)
+            trigger_data_conversion(extraction_order, export_options)
 
         response = render_to_response(
             'excerptexport/templates/create_excerpt_export.html',
@@ -144,25 +148,6 @@ def download_file(request, uuid):
     response['Content-Length'] = os.path.getsize(absolute_file_path)
     response['Content-Disposition'] = 'attachment; filename=%s' % download_file_name
     return response
-
-
-def get_export_options(requestPostValues, optionConfig):
-    # post values naming schema:
-    # formats: "export_options_{{ export_option_key }}_formats"
-    # options: "'export_options_{{ export_option_key }}_options_{{ export_option_config_key }}"
-    export_options = {}
-    for export_option_key, export_option in optionConfig.items():
-        export_options[export_option_key] = {}
-        export_options[export_option_key]['formats'] = requestPostValues.getlist(
-            'export_options_'+export_option_key+'_formats'
-        )
-
-        for export_option_config_key, export_option_config in export_option['options'].items():
-            export_options[export_option_key][export_option_config_key] = requestPostValues.getlist(
-                'export_options_'+export_option_key+'_options_'+export_option_config_key
-            )
-
-    return export_options
 
 
 @login_required()
