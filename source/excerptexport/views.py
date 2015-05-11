@@ -63,7 +63,6 @@ def create_excerpt_export(request):
             request.POST['new_excerpt.boundingBox.south'],
             request.POST['new_excerpt.boundingBox.west']
         )
-        bounding_geometry.save()
 
         excerpt = Excerpt(
             name=request.POST['new_excerpt.name'],

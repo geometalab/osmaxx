@@ -24,6 +24,7 @@ class BoundingGeometry(models.Model):
             GEOSGeometry('POINT(%s %s)' % (west, south))
         ])
         bounding_geometry.geometry = GEOSGeometry(polygon)
+        bounding_geometry.save()
         return bounding_geometry
 
     type = enum.EnumField(BoundingGeometryType, default=BoundingGeometryType.BOUNDINGBOX)
