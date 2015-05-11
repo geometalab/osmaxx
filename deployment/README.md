@@ -23,6 +23,7 @@ See https://docs.docker.com/compose/install/
 
 1. Be sure curl is installed
 2. Install compose:
+3. 
     ```shell
     sudo su
     curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname \
@@ -35,8 +36,8 @@ See https://docs.docker.com/compose/install/
 
 
 1. Create archive from source or download from GitHub:
-
     * From GitHub
+    
     ```shell
     # wget -O 'deployment/osmaxx/source.tar' \
     #   'https://github.com/geometalab/osmaxx/releases/download/{releasenumber}/{release-archive}.tar'
@@ -45,7 +46,8 @@ See https://docs.docker.com/compose/install/
         'https://github.com/geometalab/osmaxx/releases/download/0.2/osmaxx-source-0.2.tar'
     ```
 
-    - Or create from local source or from clean repo:
+    * Or create from local source or from clean repo:
+    
     ```shell
     # use a clean repo to tar the source
     cd /tmp
@@ -62,14 +64,14 @@ See https://docs.docker.com/compose/install/
         --exclude='*developmentEnvironment/' --exclude='*data/' --exclude='*.idea' \
         --exclude='*test_db.sqlite' --exclude='*__pycache__/' source
     ```
-
+    
 2. Build containers:
-
-```shell
-docker build --tag=osmaxxdatabase --no-cache=true deployment/osmaxxdatabase/
-docker build --tag=osmaxx --no-cache=true deployment/osmaxx/
-```
-
+ 
+    ```shell
+    docker build --tag=osmaxxdatabase --no-cache=true deployment/osmaxxdatabase/
+    docker build --tag=osmaxx --no-cache=true deployment/osmaxx/
+    ```
+    
 3. Run container:
 
 * By hand:
@@ -79,10 +81,8 @@ docker build --tag=osmaxx --no-cache=true deployment/osmaxx/
     
     docker run -d -p 8080:80 --name osmaxx --link osmaxx-db:database osmaxx
     ```
-    
 
     * Debug/Access database by hand:
-
     ```shell
     # get ip of container
     docker inspect osmaxx-db | grep "IPAddress"
@@ -96,7 +96,6 @@ docker build --tag=osmaxx --no-cache=true deployment/osmaxx/
     ```
 
     * Debug application container:
-
     ```shell
     docker run -it -p 8080:80 --name osmaxx --link osmaxx-db:database osmaxx /bin/bash
     ```
