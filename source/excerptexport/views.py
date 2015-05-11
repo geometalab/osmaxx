@@ -60,35 +60,34 @@ class NewExtractionOrderView(View):
             )
 
         if request.POST['form-mode'] == 'create_new_excerpt':
-            bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
-                request.POST['new_excerpt_bounding_box_north'],
-                request.POST['new_excerpt_bounding_box_east'],
-                request.POST['new_excerpt_bounding_box_south'],
-                request.POST['new_excerpt_bounding_box_west']
-            )
-            bounding_geometry.save()
+            new_excerpt_form = NewExcerptForm(request.POST)
+            if new_excerpt_form.is_valid():
+                bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
+                    new_excerpt_form.cleaned_data['new_excerpt_bounding_box_north'],
+                    new_excerpt_form.cleaned_data['new_excerpt_bounding_box_east'],
+                    new_excerpt_form.cleaned_data['new_excerpt_bounding_box_south'],
+                    new_excerpt_form.cleaned_data['new_excerpt_bounding_box_west']
+                )
+                bounding_geometry.save()
 
-            excerpt = Excerpt(
-                name=request.POST['new_excerpt_name'],
-                is_active=True,
-                is_public=request.POST['new_excerpt_is_public'] if ('new_excerpt_is_public' in request.POST) else False,
-                bounding_geometry=bounding_geometry
-            )
-            excerpt.owner = request.user
-            excerpt.save()
+                excerpt = Excerpt(
+                    name=request.POST['new_excerpt_name'],
+                    is_active=True,
+                    is_public=request.POST['new_excerpt_is_public'] if ('new_excerpt_is_public' in request.POST) else False,
+                    bounding_geometry=bounding_geometry
+                )
+                excerpt.owner = request.user
+                excerpt.save()
 
-            view_context = {'excerpt': excerpt, 'bounding_geometry': bounding_geometry}
-            extraction_order = ExtractionOrder.objects.create(
-                excerpt=excerpt,
-                orderer=request.user
-            )
+                view_context = {'excerpt': excerpt, 'bounding_geometry': bounding_geometry}
+                extraction_order = ExtractionOrder.objects.create(
+                    excerpt=excerpt,
+                    orderer=request.user
+                )
 
         view_context['extraction_order'] = extraction_order
 
-        view_context['use_existing'] = 'existing_excerpt_id' in vars()  # TODO: The view should not have to know
         export_options = get_export_options(request.POST, settings.EXPORT_OPTIONS)
-        view_context['options'] = export_options
-
         trigger_data_conversion(extraction_order, export_options)
 
         response = render_to_response(
