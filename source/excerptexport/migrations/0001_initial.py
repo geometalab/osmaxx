@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# don't check for validation errors in auto-generated migration file
-# flake8: noqa
 from __future__ import unicode_literals
 
 from django.db import models, migrations
