@@ -186,9 +186,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'resources/public/'),
-# )
+
+# data & media
+DATA_ROOT = 'data/'
+MEDIA_ROOT = os.path.join(BASE_DIR, DATA_ROOT, 'public/')
+PRIVATE_MEDIA_ROOT = os.path.join(BASE_DIR, DATA_ROOT, 'private/')
+
 
 # login url if param 'next' is not set
 LOGIN_REDIRECT_URL = '/'
