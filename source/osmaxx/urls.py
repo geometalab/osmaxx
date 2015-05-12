@@ -1,13 +1,13 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
 
+from social.apps.django_app import urls as social_urls
 
-urlpatterns = patterns(
-    '',
-    # Examples:
-    # url(r'^$', 'osmaxx.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+from excerptexport import urls as excerptexport_urls
 
-    url(r'^excerptexport/', include('excerptexport.urls', namespace='excerptexport')),
+
+urlpatterns = [
+    url(r'', include(excerptexport_urls, namespace='excerptexport')),
     url(r'^admin/', include(admin.site.urls)),
-)
+    url(r'', include(social_urls, namespace='social')),
+]

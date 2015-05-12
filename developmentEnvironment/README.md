@@ -174,6 +174,12 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
+### Update locales
+
+```shell
+python manage.py makemessages -a
+```
+
 
 ### Backup & restore the database
 ```shell

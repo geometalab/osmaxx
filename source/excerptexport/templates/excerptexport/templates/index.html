@@ -1,24 +1,30 @@
 {% extends "excerptexport/layouts/base.html" %}
 
+{% load i18n %}
+
 {% block main %}
     {% if user.is_authenticated %}
     <a href="{% url 'excerptexport:logout' %}?next={% url 'excerptexport:index' %}">
-        Logout <strong>{{ user.username }}</strong>
+        {% trans 'Logout' %} <strong>{{ user.username }}</strong>
     </a>
     {% else %}
-    <a href="{% url 'excerptexport:login' %}">Login</a>
+    <a href="{% url 'excerptexport:login' %}?next={% url 'excerptexport:index' %}">{% trans 'Login' %}</a>
     {% endif %}
 
-    <h2>Overview</h2>
+    <h2>{% trans 'Overview' %}</h2>
     <nav>
         <ul>
             <li>
                 <span class="icon">&#x270e;</span>&nbsp;
-                <a href="{% url 'excerptexport:new' %}">New excerpt export</a>
+                <a href="{% url 'excerptexport:new' %}">{% trans 'New excerpt export' %}</a>
             </li>
             <li>
                 <span class="icon">&#8681;</span>&nbsp;
-                <a href="{% url 'excerptexport:downloads' %}">Downloads</a>
+                <a href="{% url 'excerptexport:downloads' %}">{% trans 'My downloads' %}</a>
+            </li>
+            <li>
+                <span class="icon">&#x2637;</span>&nbsp;
+                <a href="{% url 'excerptexport:orders' %}">{% trans 'My orders' %}</a>
             </li>
         </ul>
     </nav>

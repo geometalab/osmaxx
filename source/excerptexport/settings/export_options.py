@@ -9,7 +9,7 @@ EXPORT_OPTIONS = {
             },
             'geo_package': {
                 'name': 'GeoPackage',
-                'file_extension': 'geo',  # ???
+                'file_extension': 'gpkg',
                 'mime_type': 'application/octet-stream'  # Not verified!
             },
             'shape_file': {
@@ -21,8 +21,7 @@ EXPORT_OPTIONS = {
         'options': {
             'coordinate_reference_system': {
                 'label': 'Coordinate reference system',
-                'type': 'select',
-                'select_multiple': False,
+                'type': 'choice',
                 'default': 'pseudomerkator',
                 'groups': [
                     {
@@ -44,7 +43,7 @@ EXPORT_OPTIONS = {
             },
             'detail_level': {
                 'label': 'Detail level',
-                'type': 'radio',
+                'type': 'choice',
                 'default': 'verbatim',
                 'values': [
                     {'name': 'verbatim', 'label': 'Verbatim'},
