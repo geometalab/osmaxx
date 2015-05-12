@@ -50,7 +50,6 @@ def trigger_data_conversion(extraction_order, export_options):
                 extraction_order=extraction_order
             )
 
-            print(private_storage.location)
             if not os.path.exists(private_storage.location):
                 os.makedirs(private_storage.location)
 
