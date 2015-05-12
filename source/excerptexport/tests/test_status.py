@@ -68,7 +68,7 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
     def test_extraction_order_id_not_existing(self):
         self.add_permissions_to_user()
         response = self.client.get(reverse(
-            'excerptexport:status', 
+            'excerptexport:status',
             kwargs={'extraction_order_id': 9999999999})
         )
 

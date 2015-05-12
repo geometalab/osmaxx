@@ -6,7 +6,7 @@
     <div class="box-container">
         <div class="container-row"><!--
              --><div class="container-column stretch-5">
-                <form action="{% url 'excerptexport:create' %}" method="post" novalidate="novalidate">
+                <form action="{% url 'excerptexport:new' %}" method="post" novalidate="novalidate">
                     {% csrf_token %}
 
                     <div class="form-group select-button-group">
@@ -45,51 +45,13 @@
 
                     <div class="form-part" data-form-part="create_new_excerpt">
                         <h2>{% trans 'Create excerpt' %}</h2>
-                        <div class="form-group">
-                            <label for="new_excerpt.name">{% trans 'Excerpt name' %}</label>
-                            <input type="text" class="form-control" id="new_excerpt.name" name="new_excerpt.name" required="required" />
-                        </div>
-
-                        <fieldset class="form-group">
-                            <legend>{% trans 'Bounding box' %}</legend>
-
-                            <div class="form-group" id="bbox-values">
-                                <div class="row">
-                                    <div class="col-sm-4 col-sm-offset-4">
-                                        <label for="new_excerpt.boundingBox.north">{% trans 'North' %}</label>
-                                        <input class="form-control" id="new_excerpt.boundingBox.north" name="new_excerpt.boundingBox.north" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label for="new_excerpt.boundingBox.west">{% trans 'South' %}</label>
-                                        <input class="form-control" id="new_excerpt.boundingBox.west" name="new_excerpt.boundingBox.west" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
-                                    </div>
-                                    <div class="col-sm-4 col-sm-offset-4">
-                                        <label for="new_excerpt.boundingBox.east">{% trans 'West' %}</label>
-                                        <input class="form-control " id="new_excerpt.boundingBox.east" name="new_excerpt.boundingBox.east" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4 col-sm-offset-4">
-                                        <label for="new_excerpt.boundingBox.south">{% trans 'East' %}</label>
-                                        <input class="form-control" id="new_excerpt.boundingBox.south" name="new_excerpt.boundingBox.south" required="required" pattern="\-?[1-9][0-9]*(\.[0-9]*)?" />
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <div class="form-group">
-                            <input type="checkbox" checked="checked" id="new_excerpt.isPublic" name="new_excerpt.isPublic"/>
-                            <label for="new_excerpt.is_public">{% trans 'Public' %}</label>
-                            <span class="help-block">{% trans "Others will see name and bounding box of this excerpt. They won't see that you created it or when you did so." %}</span>
-                        </div>
+                        {% include 'excerptexport/partials/new_excerpt_form.html' with form=new_excerpt_form %}
                     </div>
 
                     <div class="form-part">
                         <h2>{% trans 'Export options' %}</h2>
                         <fieldset class="form-group">
-                           {% include 'excerptexport/partials/export_options.html' with export_options=export_options %}
+                            {{ export_options_form.as_p }}
                         </fieldset>
                     </div>
 
