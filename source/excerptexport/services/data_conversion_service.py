@@ -50,8 +50,9 @@ def trigger_data_conversion(extraction_order, export_options):
                 extraction_order=extraction_order
             )
 
-            if not os.path.exists(private_storage.path):
-                os.makedirs(private_storage.path)
+            print(private_storage.location)
+            if not os.path.exists(private_storage.location):
+                os.makedirs(private_storage.location)
 
             file_name = str(output_file.public_identifier) + '.' + \
                 export_formats_configuration[format_key]['file_extension']
