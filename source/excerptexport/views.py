@@ -2,19 +2,23 @@ import os
 
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import StreamingHttpResponse, HttpResponseNotFound
-from django.contrib.auth.decorators import permission_required
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.template import RequestContext
-from django.contrib.auth.decorators import login_required
-from django.views.generic import View
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
+from django.views.generic import View
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 from excerptexport.models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
 from excerptexport.models.extraction_order import ExtractionOrderState
-from excerptexport import settings
+from excerptexport import settings as excerptexport_settings
 from excerptexport.services.data_conversion_service import trigger_data_conversion
 from excerptexport.forms import ExportOptionsForm, NewExcerptForm
+
+
+private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
 
 
 def has_excerptexport_all_permissions():
@@ -42,7 +46,7 @@ class NewExtractionOrderView(View):
             'new_excerpt_form': NewExcerptForm(auto_id='%s', initial=excerpt_form_initial_data),
             'personal_excerpts': Excerpt.objects.filter(is_active=True, is_public=False, owner=request.user),
             'public_excerpts': Excerpt.objects.filter(is_active=True, is_public=True),
-            'administrative_areas': settings.ADMINISTRATIVE_AREAS
+            'administrative_areas': excerptexport_settings.ADMINISTRATIVE_AREAS
         }
         return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model)
 
@@ -89,7 +93,7 @@ class NewExtractionOrderView(View):
 
         export_options_form = ExportOptionsForm(request.POST)
         if export_options_form.is_valid():
-            export_options = export_options_form.get_export_options(settings.EXPORT_OPTIONS)
+            export_options = export_options_form.get_export_options(excerptexport_settings.EXPORT_OPTIONS)
             trigger_data_conversion(extraction_order, export_options)
 
         response = render_to_response(
@@ -123,27 +127,20 @@ def download_file(request, uuid):
     if not output_file.file:
         return HttpResponseNotFound('<p>No output file attached to output file record.</p>')
 
-    download_file_name = settings.APPLICATION_SETTINGS['download_file_name'] % {
+    download_file_name = excerptexport_settings.APPLICATION_SETTINGS['download_file_name'] % {
         'id': str(output_file.public_identifier),
         'name': os.path.basename(output_file.file.name)
     }
-    # abspath usage:  settings.APPLICATION_SETTINGS['data_directory'] may contain '../',
-    #                 so use abspath to strip it
-    # basepath usage: django stores the absolute path of a file but if we use the location from settings,
-    #                 the files are more movable -> so we only use the name of the file
-    absolute_file_path = os.path.abspath(
-        settings.APPLICATION_SETTINGS['data_directory'] + '/' + os.path.basename(output_file.file.name)
-    )
 
     # stream file in chunks
     response = StreamingHttpResponse(
         FileWrapper(
-            open(absolute_file_path),
-            settings.APPLICATION_SETTINGS['download_chunk_size']
+            private_storage.open(output_file.file),
+            excerptexport_settings.APPLICATION_SETTINGS['download_chunk_size']
         ),
         content_type=output_file.mime_type
     )
-    response['Content-Length'] = os.path.getsize(absolute_file_path)
+    response['Content-Length'] = private_storage.size(output_file.file)
     response['Content-Disposition'] = 'attachment; filename=%s' % download_file_name
     return response
 
@@ -164,6 +161,6 @@ def list_orders(request):
     view_context = {
         'host_domain': request.get_host(),
         'extraction_orders': ExtractionOrder.objects.filter(orderer=request.user)
-        .order_by('-id')[:settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
+        .order_by('-id')[:excerptexport_settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
     }
     return render(request, 'excerptexport/templates/list_orders.html', view_context)

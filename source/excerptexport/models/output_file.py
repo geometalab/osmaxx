@@ -3,14 +3,18 @@ import os
 import uuid
 
 from django.db import models
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
-from excerptexport import settings
 from .extraction_order import ExtractionOrder
+
+
+private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
 
 
 class OutputFile(models.Model):
     mime_type = models.CharField(max_length=64, verbose_name=_('mime type'))
-    file = models.FileField(upload_to=settings.APPLICATION_SETTINGS['data_directory'], blank=True, null=True,
+    file = models.FileField(storage=private_storage, blank=True, null=True,
                             verbose_name=_('file'))
     create_date = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
     deleted_on_filesystem = models.BooleanField(default=False, verbose_name=_('deleted on filesystem'))
