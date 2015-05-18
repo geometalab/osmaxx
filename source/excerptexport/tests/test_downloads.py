@@ -4,18 +4,19 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core.files import File
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from excerptexport.models import OutputFile, Excerpt, ExtractionOrder
-from excerptexport import settings
+from excerptexport import settings as excerptexport_settings
 from excerptexport.models.bounding_geometry import BoundingGeometry
 
 
 class DownloadsTestCase(TestCase):
     def setUp(self):
-        settings.APPLICATION_SETTINGS['data_directory'] = '/tmp/osmaxx-dev-data'
-        if not os.path.isdir(settings.APPLICATION_SETTINGS['data_directory']):
-            os.makedirs(settings.APPLICATION_SETTINGS['data_directory'])
-        settings.APPLICATION_SETTINGS['download_file_name'] = '%(name)s'
+        settings.PRIVATE_MEDIA_ROOT = '/tmp/osmaxx-dev-data'
+        if not os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
+            os.makedirs(settings.PRIVATE_MEDIA_ROOT)
+        excerptexport_settings.APPLICATION_SETTINGS['download_file_name'] = '%(name)s'
 
     def test_file_download(self):
         user = User.objects.create_user('user', 'user@example.com', 'pw')
@@ -24,7 +25,7 @@ class DownloadsTestCase(TestCase):
         extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
         output_file = OutputFile.objects.create(mime_type='test/plain', extraction_order=extraction_order)
 
-        file_path = settings.APPLICATION_SETTINGS['data_directory'] + '/' + output_file.public_identifier + '.txt'
+        file_path = os.path.join(settings.PRIVATE_MEDIA_ROOT, str(output_file.public_identifier) + '.txt')
 
         with open(file_path, 'w') as file_reference:
             new_file = File(file_reference)
@@ -34,8 +35,7 @@ class DownloadsTestCase(TestCase):
         output_file.save()
 
         response = self.client.get(
-            reverse('excerptexport:download'),
-            {'file': output_file.public_identifier}
+            reverse('excerptexport:download', kwargs={'uuid': output_file.public_identifier})
         )
 
         self.assertEqual(response['Content-Length'], str(os.path.getsize(file_path)))

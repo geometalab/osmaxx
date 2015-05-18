@@ -1,8 +1,0 @@
-{% extends "excerptexport/layouts/base.html" %}
-
-{% load filter_filename %}
-
-{% block main %}
-    <h2>Downloads</h2>
-    {% include 'excerptexport/partials/download_list.html' with files=files host_domain=host_domain %}
-{% endblock %}
