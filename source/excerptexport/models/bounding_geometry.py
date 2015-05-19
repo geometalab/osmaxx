@@ -1,9 +1,22 @@
+from django.conf import settings
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry, Polygon
+from django.core.files.storage import FileSystemStorage
 
 
 class BoundingGeometry(models.Model):
     pass
+
+
+class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
+    """
+    Bounding geometry based on a 'Osmosis polygon filter file format' file.
+    """
+    private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
+
+    # FIXME: Serialization hardcodes the storage's location into the generated migration as absolute path,
+    #        thus making the project unportable.
+    polygon_file = models.FileField(storage=private_storage)
 
 
 class BBoxBoundingGeometry(BoundingGeometry):

@@ -31,13 +31,11 @@
                                         <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
                                     {% endfor %}
                                 </optgroup>
-                                {% for administrative_areas_group_name, administrative_areas_group_regions in administrative_areas.items %}
-                                    <optgroup label="&nbsp;{{ administrative_areas_group_name }}">
-                                        {% for region_key, region_name in administrative_areas_group_regions.items %}
-                                            <option value="{{ region_key }}">{{ region_name }}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                {% endfor %}
+                                <optgroup label="&nbsp;Countries">
+                                    {% for excerpt in countries %}
+                                        <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
+                                    {% endfor %}
+                                </optgroup>
                             </select>
                         </div>
                     </div>
