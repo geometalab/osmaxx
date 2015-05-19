@@ -42,13 +42,15 @@ class NewExtractionOrderView(View):
     def get(self, request, excerpt_form_initial_data=None):
         active_excerpts = Excerpt.objects.filter(is_active=True)
         active_bbox_excerpts = active_excerpts.filter(bounding_geometry__bboxboundinggeometry__isnull=False)
+        active_file_excerpts = active_excerpts.filter(
+            bounding_geometry__osmosispolygonfilterboundinggeometry__isnull=False)
         view_model = {
             'user': request.user,
             'export_options_form': ExportOptionsForm(auto_id='%s'),
             'new_excerpt_form': NewExcerptForm(auto_id='%s', initial=excerpt_form_initial_data),
             'personal_excerpts': active_bbox_excerpts.filter(is_public=False, owner=request.user),
             'public_excerpts': active_bbox_excerpts.filter(is_public=True),
-            'countries': active_excerpts.filter(bounding_geometry__osmosispolygonfilterboundinggeometry__isnull=False)
+            'countries': active_file_excerpts
         }
         return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model)
 
