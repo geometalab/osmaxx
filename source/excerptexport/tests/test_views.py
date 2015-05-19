@@ -40,6 +40,13 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             owner=other_user,
             bounding_geometry=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
         )
+        self.existing_private_foreign_excerpt = Excerpt.objects.create(
+            name='Private Excerpt by someone else',
+            is_active=True,
+            is_public=False,
+            owner=other_user,
+            bounding_geometry=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
+        )
         self.country = Excerpt.objects.create(
             name='Neverland',
             is_active=True,
@@ -84,6 +91,12 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         response = self.client.get(reverse('excerptexport:new'))
         self.assertEqual(response.context['public_excerpts'].count(), 1)
         self.assertIn(self.existing_public_foreign_excerpt, response.context['public_excerpts'])
+
+    def test_new_doesnt_offer_existing_private_foreign_excerpt(self):
+        self.add_permissions_to_user()
+        self.client.login(username='user', password='pw')
+        response = self.client.get(reverse('excerptexport:new'))
+        self.assertNotContains(response, self.existing_private_foreign_excerpt.name)
 
     def test_new_offers_country(self):
         self.add_permissions_to_user()
