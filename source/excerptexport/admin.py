@@ -1,6 +1,6 @@
 from django.contrib import admin
-from excerptexport.models import BBoxBoundingGeometry, Excerpt, ExtractionOrder, OutputFile
-from excerptexport.models.bounding_geometry import OsmosisPolygonFilterBoundingGeometry
+from excerptexport.models import BBoxBoundingGeometry, OsmosisPolygonFilterBoundingGeometry
+from excerptexport.models import Excerpt, ExtractionOrder, OutputFile
 
 
 class BoundingGeometryAdmin(admin.ModelAdmin):

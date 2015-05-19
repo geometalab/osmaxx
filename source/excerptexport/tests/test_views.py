@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from excerptexport.models import ExtractionOrder, Excerpt
-from excerptexport.models.bounding_geometry import BBoxBoundingGeometry, OsmosisPolygonFilterBoundingGeometry
+from excerptexport.models import BBoxBoundingGeometry, OsmosisPolygonFilterBoundingGeometry
 from excerptexport.tests.permission_test_helper import PermissionHelperMixin
 
 

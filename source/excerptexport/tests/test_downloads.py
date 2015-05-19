@@ -8,7 +8,7 @@ from django.conf import settings
 
 from excerptexport.models import OutputFile, Excerpt, ExtractionOrder
 from excerptexport import settings as excerptexport_settings
-from excerptexport.models.bounding_geometry import BBoxBoundingGeometry
+from excerptexport.models import BBoxBoundingGeometry
 
 
 class DownloadsTestCase(TestCase):
