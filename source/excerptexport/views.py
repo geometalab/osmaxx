@@ -11,7 +11,7 @@ from django.views.generic import View
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
-from excerptexport.models import ExtractionOrder, Excerpt, OutputFile, BoundingGeometry
+from excerptexport.models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
 from excerptexport.models.extraction_order import ExtractionOrderState
 from excerptexport import settings as excerptexport_settings
 from excerptexport.services.data_conversion_service import trigger_data_conversion
@@ -40,13 +40,17 @@ class NewExtractionOrderView(View):
     @method_decorator(login_required)
     @method_decorator(has_excerptexport_all_permissions())
     def get(self, request, excerpt_form_initial_data=None):
+        active_excerpts = Excerpt.objects.filter(is_active=True)
+        active_bbox_excerpts = active_excerpts.filter(bounding_geometry__bboxboundinggeometry__isnull=False)
+        active_file_excerpts = active_excerpts.filter(
+            bounding_geometry__osmosispolygonfilterboundinggeometry__isnull=False)
         view_model = {
             'user': request.user,
             'export_options_form': ExportOptionsForm(auto_id='%s'),
             'new_excerpt_form': NewExcerptForm(auto_id='%s', initial=excerpt_form_initial_data),
-            'personal_excerpts': Excerpt.objects.filter(is_active=True, is_public=False, owner=request.user),
-            'public_excerpts': Excerpt.objects.filter(is_active=True, is_public=True),
-            'administrative_areas': excerptexport_settings.ADMINISTRATIVE_AREAS
+            'personal_excerpts': active_bbox_excerpts.filter(is_public=False, owner=request.user),
+            'public_excerpts': active_bbox_excerpts.filter(is_public=True),
+            'countries': active_file_excerpts
         }
         return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model)
 
@@ -66,13 +70,12 @@ class NewExtractionOrderView(View):
             new_excerpt_form = NewExcerptForm(request.POST)
             if new_excerpt_form.is_valid():
                 form_data = new_excerpt_form.cleaned_data
-                bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(
+                bounding_geometry = BBoxBoundingGeometry.create_from_bounding_box_coordinates(
                     form_data['new_excerpt_bounding_box_north'],
                     form_data['new_excerpt_bounding_box_east'],
                     form_data['new_excerpt_bounding_box_south'],
                     form_data['new_excerpt_bounding_box_west']
                 )
-                bounding_geometry.save()
 
                 excerpt = Excerpt.objects.create(
                     name=form_data['new_excerpt_name'],

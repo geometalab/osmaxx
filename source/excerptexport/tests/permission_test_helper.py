@@ -1,6 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Permission
-from excerptexport.models import BoundingGeometry, Excerpt, ExtractionOrder
+from excerptexport.models import Excerpt, ExtractionOrder
+from excerptexport.models.bounding_geometry import BoundingGeometry
 
 
 class PermissionHelperMixin(object):
