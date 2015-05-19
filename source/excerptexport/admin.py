@@ -3,10 +3,10 @@ from excerptexport.models import BBoxBoundingGeometry, OsmosisPolygonFilterBound
 from excerptexport.models import Excerpt, ExtractionOrder, OutputFile
 
 
-class BoundingGeometryAdmin(admin.ModelAdmin):
+class BBoxBoundingGeometryAdmin(admin.ModelAdmin):
     list_display = ['north', 'east', 'south', 'west']
 
-admin.site.register(BBoxBoundingGeometry, BoundingGeometryAdmin)
+admin.site.register(BBoxBoundingGeometry, BBoxBoundingGeometryAdmin)
 admin.site.register(OsmosisPolygonFilterBoundingGeometry)
 admin.site.register(Excerpt)
 admin.site.register(ExtractionOrder)
