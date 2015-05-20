@@ -8,10 +8,10 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
-var inputElementNorth = document.getElementById('new_excerpt.boundingBox.north');
-var inputElementWest = document.getElementById('new_excerpt.boundingBox.west');
-var inputElementEast = document.getElementById('new_excerpt.boundingBox.east');
-var inputElementSouth = document.getElementById('new_excerpt.boundingBox.south');
+var inputElementNorth = document.getElementById('new_excerpt_bounding_box_north');
+var inputElementWest = document.getElementById('new_excerpt_bounding_box_west');
+var inputElementEast = document.getElementById('new_excerpt_bounding_box_east');
+var inputElementSouth = document.getElementById('new_excerpt_bounding_box_south');
 
 
 var locationFilter = new L.LocationFilter({

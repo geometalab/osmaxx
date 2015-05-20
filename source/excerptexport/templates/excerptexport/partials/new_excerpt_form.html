@@ -1,0 +1,58 @@
+{% load staticfiles i18n %}
+
+{{ form.non_field_errors }}
+
+<div class="form-group">
+    {{ form.new_excerpt_name.errors }}
+    {{ form.new_excerpt_name.label_tag }}
+    <input type="text" class="form-control" id="{{ form.new_excerpt_name.id_for_label }}" name="{{ form.new_excerpt_name.id_for_label }}"
+        {% if form.new_excerpt_name.field.required %}required="required"{% endif %} value="{{ form.new_excerpt_name.value|default_if_none:'' }}" />
+</div>
+
+<fieldset class="form-group">
+    <legend>{% trans 'Bounding box' %}</legend>
+
+    <div class="form-group" id="bbox-values">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+                {{ form.new_excerpt_bounding_box_north.errors }}
+                {{ form.new_excerpt_bounding_box_north.label_tag }}
+                <input class="form-control" id="{{ form.new_excerpt_bounding_box_north.id_for_label }}" name="{{ form.new_excerpt_bounding_box_north.id_for_label }}"
+                   {% if form.new_excerpt_bounding_box_north.field.required %}required="required"{% endif %} pattern="\-?[1-9][0-9]*(\.[0-9]*)?"
+                   value="{{ form.new_excerpt_bounding_box_north.value|default_if_none:'' }}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                {{ form.new_excerpt_bounding_box_west.errors }}
+                {{ form.new_excerpt_bounding_box_west.label_tag }}
+                <input class="form-control" id="{{ form.new_excerpt_bounding_box_west.id_for_label }}" name="{{ form.new_excerpt_bounding_box_west.id_for_label }}"
+                   {% if form.new_excerpt_bounding_box_west.field.required %}required="required"{% endif %} pattern="\-?[1-9][0-9]*(\.[0-9]*)?"
+                   value="{{ form.new_excerpt_bounding_box_west.value|default_if_none:'' }}" />
+            </div>
+            <div class="col-sm-4 col-sm-offset-4">
+                {{ form.new_excerpt_bounding_box_east.errors }}
+                {{ form.new_excerpt_bounding_box_east.label_tag }}
+                <input class="form-control" id="{{ form.new_excerpt_bounding_box_east.id_for_label }}" name="{{ form.new_excerpt_bounding_box_east.id_for_label }}"
+                    {% if form.new_excerpt_bounding_box_east.field.required %}required="required"{% endif %} pattern="\-?[1-9][0-9]*(\.[0-9]*)?"
+                    value="{{ form.new_excerpt_bounding_box_east.value|default_if_none:'' }}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+                {{ form.new_excerpt_bounding_box_south.errors }}
+                {{ form.new_excerpt_bounding_box_south.label_tag }}
+                <input class="form-control" id="{{ form.new_excerpt_bounding_box_south.id_for_label }}" name="{{ form.new_excerpt_bounding_box_south.id_for_label }}"
+                    {% if form.new_excerpt_bounding_box_south.field.required %}required="required"{% endif %} pattern="\-?[1-9][0-9]*(\.[0-9]*)?"
+                    value="{{ form.new_excerpt_bounding_box_south.value|default_if_none:'' }}" />
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<div class="form-group">
+    {{ form.new_excerpt_is_public.errors }}
+    <input type="checkbox" checked="checked" id="{{ form.new_excerpt_is_public.id_for_label }}" name="{{ form.new_excerpt_is_public.id_for_label }}" />
+    <label for="{{ form.new_excerpt_is_public.id_for_label }}">{% trans 'Public' %}</label>
+    <span class="help-block">{% trans "Others will see name and bounding box of this excerpt. They won't see that you created it or when you did so." %}</span>
+</div>

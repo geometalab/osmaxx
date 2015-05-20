@@ -35,7 +35,7 @@ sudo apt-get -y autoremove
 
 echo ""
 echo "[setup] install python, tools and django ..."
-sudo apt-get -y install python3 python3-doc python3-setuptools python3-pip python-dev libpq-dev
+sudo apt-get -y install python3 python3-doc python3-setuptools python3-pip python-dev libpq-dev gettext
 sudo pip3 install virtualenv
 
 

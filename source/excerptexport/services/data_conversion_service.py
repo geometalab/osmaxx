@@ -1,7 +1,14 @@
 import os
-from django.core.files import File
-from excerptexport import settings
+
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.core.files.base import ContentFile
+
+from excerptexport import settings as excerptexport_settings
 from excerptexport.models import OutputFile
+
+
+private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
 
 
 def trigger_data_conversion(extraction_order, export_options):
@@ -11,9 +18,8 @@ def trigger_data_conversion(extraction_order, export_options):
     :param export_options: dictionary
     """
     export_formats_configuration = {}
-    for export_configuration_group_key, export_configuration_group in settings.EXPORT_OPTIONS.items():
+    for export_configuration_group_key, export_configuration_group in excerptexport_settings.EXPORT_OPTIONS.items():
         export_formats_configuration.update(export_configuration_group['formats'])
-    print(export_formats_configuration)
     """
     'gis': {
         'formats': {
@@ -44,16 +50,14 @@ def trigger_data_conversion(extraction_order, export_options):
                 extraction_order=extraction_order
             )
 
-            data_directory = settings.APPLICATION_SETTINGS['data_directory']
-            if not os.path.exists(data_directory):
-                os.makedirs(data_directory)
-            file_path = data_directory + '/' \
-                + output_file.public_identifier + '.' + export_formats_configuration[format_key]['file_extension']
+            if not os.path.exists(private_storage.location):
+                os.makedirs(private_storage.location)
 
-            with open(file_path, 'w') as file_reference:
-                new_file = File(file_reference)
-                new_file.write(output_file.public_identifier)
+            file_name = str(output_file.public_identifier) + '.' + \
+                export_formats_configuration[format_key]['file_extension']
+            file_content = ContentFile(str(output_file.public_identifier))
+            file = private_storage.save(file_name, file_content)
 
             # file must be committed, so reopen to attach to model
-            output_file.file = file_path
+            output_file.file = file
             output_file.save()
