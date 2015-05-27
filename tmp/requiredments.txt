@@ -1,0 +1,11 @@
+ubuntu==
+14.04 LTS
+postgresql==
+9.3.6
+POSTGIS="2.1.3 r12547"
+osm2pgsql==
+SVN version 0.87.3-dev
+utf8transliterate==https://github.com/woodpeck/openstreetmap-carto-german/tree/master/utf8translit
+bash==
+4.3.11(1)
+ogr2ogr==1.11.1
