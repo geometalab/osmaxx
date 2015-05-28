@@ -1,2877 +1,2384 @@
-   {
-       "data_format": 1,
+{
+        "data_format": 1,
         "data_url": "",
         "data_updated": "",
         "project": {
-         "name": "Osmaxx",
-         "description": "OSM Arbitrary Excerpt Export - The source of worldwide data for interactive and printed maps and for geospatial data analysis",
-         "project_url": " http://osmaxx.hsr.ch/",
-         "doc_url": " http://giswiki.hsr.ch/Osmaxx#Documentation",
-         "icon_url": " http://giswiki.hsr.ch/Datei:Osmaxx_Logo_16x16.png",
-         "contact_name": "Stefan Keller",
-         "contact_email": "sfkeller@hsr.ch"
-          },
+            "name": "Osmaxx",
+            "description": "OSM Arbitrary Excerpt Export - The source of worldwide data for interactive and printed maps and for geospatial data analysis",
+            "project_url": " http://osmaxx.hsr.ch/",
+            "doc_url": " http://giswiki.hsr.ch/Osmaxx#Documentation",
+            "icon_url": " http://giswiki.hsr.ch/Datei:Osmaxx_Logo_16x16.png",
+            "contact_name": "Stefan Keller",
+            "contact_email": "sfkeller@hsr.ch"
+        },
        "tags": [
-            {
-            "key": "building",
-            "value": "",
-            "description": "Table address_p; Attribute type='b'"
-            },
-            
-            {
-            "key": "building",
-            "value": "entrance",
-            "description": "Table address_p; Attribute type='e'"
-            },
-            
-            {
-            "key": "addr:interpolation",
-            "value": "",
-            "description": "Table address_p; Attribute type='i'"
-            },
-            
-            {
-            "key": "place",
-            "value": "",
-            "description": "Table address_p; Attribute type='p'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "1",
-            "description": "Table adminarea_a; Attribute type='admin_level1'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "2",
-            "description": "Table adminarea_a; Attribute type='admin_level2'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "3",
-            "description": "Table adminarea_a; Attribute type='admin_level3'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "4",
-            "description": "Table adminarea_a; Attribute type='admin_level4'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "5",
-            "description": "Table adminarea_a; Attribute type='admin_level5'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "6",
-            "description": "Table adminarea_a; Attribute type='admin_level6'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "7",
-            "description": "Table adminarea_a; Attribute type='admin_level7'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "8",
-            "description": "Table adminarea_a; Attribute type='admin_level8'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "9",
-            "description": "Table adminarea_a; Attribute type='admin_level9'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "10",
-            "description": "Table adminarea_a; Attribute type='admin_level10'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "11",
-            "description": "Table adminarea_a; Attribute type='admin_level11'"
-            },
-            
-            {
-            "key": "boundary",
-            "value": "administrative",
-            "description": "Table adminarea_a; Attribute type='administrative'"
-            },
-            
-            {
-            "key": "boundary",
-            "value": "national_park",
-            "description": "Table adminarea_a; Attribute type='national_park'"
-            },
-            
-            {
-            "key": "boundary",
-            "value": "protected_area",
-            "description": "Table adminarea_a; Attribute type='protected_area'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "1",
-            "description": "Table boundary_l; Attribute type='admin_level1'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "2",
-            "description": "Table boundary_l; Attribute type='admin_level2'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "3",
-            "description": "Table boundary_l; Attribute type='admin_level3'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "4",
-            "description": "Table boundary_l; Attribute type='admin_level4'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "5",
-            "description": "Table boundary_l; Attribute type='admin_level5'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "6",
-            "description": "Table boundary_l; Attribute type='admin_level6'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "7",
-            "description": "Table boundary_l; Attribute type='admin_level7'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "8",
-            "description": "Table boundary_l; Attribute type='admin_level8'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "9",
-            "description": "Table boundary_l; Attribute type='admin_level9'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "10",
-            "description": "Table boundary_l; Attribute type='admin_level10'"
-            },
-            
-            {
-            "key": "admin_level",
-            "value": "11",
-            "description": "Table boundary_l; Attribute type='admin_level11'"
-            },
-            
-            {
-            "key": "boundary",
-            "value": "administrative",
-            "description": "Table boundary_l; Attribute type='administrative'"
-            },
-            
-            {
-            "key": "boundary",
-            "value": "national_park",
-            "description": "Table boundary_l; Attribute type='national_park'"
-            },
-            
-            {
-            "key": "boundary",
-            "value": "protected_area",
-            "description": "Table boundary_l; Attribute type='protected_area'"
-            },
-            
-            {
-            "key": "building",
-            "value": "",
-            "description": "Table building_a; Attribute type='*'"
-            },
-            
-            {
-            "key": "place",
-            "value": "",
-            "description": "Table geoname_l and geoname_p; Attribute type='place'"
-            },
-            
-            {
-            "key": "place",
-            "value": "city",
-            "description": "Table geoname_l and geoname_p; Attribute type='city'"
-            },
-            
-            {
-            "key": "place",
-            "value": "town",
-            "description": "Table geoname_l and geoname_p; Attribute type='town'"
-            },
-            
-            {
-            "key": "place",
-            "value": "village",
-            "description": "Table geoname_l and geoname_p; Attribute type='village'"
-            },
-            
-            {
-            "key": "place",
-            "value": "hamlet",
-            "description": "Table geoname_l and geoname_p; Attribute type='hamlet'"
-            },
-            
-            {
-            "key": "place",
-            "value": "suburb",
-            "description": "Table geoname_l and geoname_p; Attribute type='suburb'"
-            },
-            
-            {
-            "key": "place",
-            "value": "island",
-            "description": "Table geoname_l and geoname_p; Attribute type='island'"
-            },
-            
-            {
-            "key": "place",
-            "value": "farm",
-            "description": "Table geoname_l and geoname_p; Attribute type='farm'"
-            },
-            
-            {
-            "key": "place",
-            "value": "isolated_dwelling",
-            "description": "Table geoname_l and geoname_p; Attribute type='isolated_dwelling'"
-            },
-            
-            {
-            "key": "place",
-            "value": "locality",
-            "description": "Table geoname_l and geoname_p; Attribute type='locality'"
-            },
-            
-            {
-            "key": "place",
-            "value": "islet",
-            "description": "Table geoname_l and geoname_p; Attribute type='islet'"
-            },
-            
-            {
-            "key": "place",
-            "value": "neighbourhood",
-            "description": "Table geoname_l and geoname_p; Attribute type='neighbourhood'"
-            },
-            
-            {
-            "key": "place",
-            "value": "county",
-            "description": "Table geoname_l and geoname_p; Attribute type='county'"
-            },
-            
-            {
-            "key": "place",
-            "value": "region",
-            "description": "Table geoname_l and geoname_p; Attribute type='region'"
-            },
-            
-            {
-            "key": "place",
-            "value": "state",
-            "description": "Table geoname_l and geoname_p; Attribute type='state'"
-            },
-            
-            {
-            "key": "place",
-            "value": "municipality",
-            "description": "Table geoname_l and geoname_p; Attribute type='municipality'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "landuse",
-            "description": "Table landuse_a; Attribute type='landuse'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "allotments",
-            "description": "Table landuse_a; Attribute type='allotments'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "commercial",
-            "description": "Table landuse_a; Attribute type='commercial'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "farm",
-            "description": "Table landuse_a; Attribute type='farm'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "farmland",
-            "description": "Table landuse_a; Attribute type='farm'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "farmyard",
-            "description": "Table landuse_a; Attribute type='farmyard'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "fishfarm",
-            "description": "Table landuse_a; Attribute type='fishfarm'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "grass",
-            "description": "Table landuse_a; Attribute type='grass'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "greenhouse_horticulture",
-            "description": "Table landuse_a; Attribute type='greenhouse'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "industrial",
-            "description": "Table landuse_a; Attribute type='industrial'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "forest",
-            "description": "Table landuse_a; Attribute type='forest'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "meadow",
-            "description": "Table landuse_a; Attribute type='meadow'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "military",
-            "description": "Table landuse_a; Attribute type='military'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "nature_reserve",
-            "description": "Table landuse_a; Attribute type='nature_reserve'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "orchard",
-            "description": "Table landuse_a; Attribute type='orchard'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "park",
-            "description": "Table landuse_a; Attribute type='park'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "village_green",
-            "description": "Table landuse_a; Attribute type='park'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "plant_nursery",
-            "description": "Table landuse_a; Attribute type='plant_nursery'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "quarry",
-            "description": "Table landuse_a; Attribute type='quarry'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "railway",
-            "description": "Table landuse_a; Attribute type='railway'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "recreation_ground",
-            "description": "Table landuse_a; Attribute type='recreation_ground'"
-            },
-            
-            {
-            "key": "leisure",
-            "value": "recreation_ground",
-            "description": "Table landuse_a; Attribute type='recreation_ground'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "residential",
-            "description": "Table landuse_a; Attribute type='residential'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "retail",
-            "description": "Table landuse_a; Attribute type='retail'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "vineyard",
-            "description": "Table landuse_a; Attribute type='vineyard'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "reservoir",
-            "description": "Table landuse_a; Attribute type='reservoir'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "basin",
-            "description": "Table landuse_a; Attribute type='basin'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "landfill",
-            "description": "Table landuse_a; Attribute type='landfill'"
-            },
-            
-            {
-            "key": "military",
-            "value": "",
-            "description": "Table military_a and military_p; Attribute type='military'"
-            },
-            
-            {
-            "key": "military",
-            "value": "airfield",
-            "description": "Table military_a and military_p; Attribute type='airfield'"
-            },
-            
-            {
-            "key": "military",
-            "value": "barracks",
-            "description": "Table military_a and military_p; Attribute type='barracks'"
-            },
-            
-            {
-            "key": "military",
-            "value": "bunker",
-            "description": "Table military_a and military_p; Attribute type='bunker'"
-            },
-            
-            {
-            "key": "military",
-            "value": "checkpoint",
-            "description": "Table military_a and military_p; Attribute type='checkpoint'"
-            },
-            
-            {
-            "key": "military",
-            "value": "danger_area",
-            "description": "Table military_a and military_p; Attribute type='danger_area'"
-            },
-            
-            {
-            "key": "military",
-            "value": "naval_base",
-            "description": "Table military_a and military_p; Attribute type='naval_base'"
-            },
-            
-            {
-            "key": "military",
-            "value": "nuclear_explosion_site",
-            "description": "Table military_a and military_p; Attribute type='nuclear_site'"
-            },
-            
-            {
-            "key": "military",
-            "value": "obstacle_course",
-            "description": "Table military_a and military_p; Attribute type='obstacle_course'"
-            },
-            
-            {
-            "key": "military",
-            "value": "range",
-            "description": "Table military_a and military_p; Attribute type='range'"
-            },
-            
-            {
-            "key": "military",
-            "value": "training_area",
-            "description": "Table military_a and military_p; Attribute type='training_area'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "",
-            "description": "Table misc_l; Attribute aggtype='barrier' and type='barrier'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "gate",
-            "description": "Table misc_l; Attribute aggtype='barrier' and type='gate'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "bollard",
-            "description": "Table misc_l; Attribute aggtype='barrier' and type='bollard'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "lift_gate",
-            "description": "Table misc_l; Attribute aggtype='barrier' and type='lift_gate'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "fence",
-            "description": "Table misc_l; Attribute aggtype='barrier' and type='fence'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "block",
-            "description": "Table misc_l; Attribute aggtype='barrier' and type='block'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "cliff",
-            "description": "Table misc_l; Attribute aggtype='natural' and type='cliff'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "",
-            "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='traffic_calming'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "hump",
-            "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='hump'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "bump",
-            "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='bump'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "table",
-            "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='table'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "chicane",
-            "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='chicane'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "cushion",
-            "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='cushion'"
-            },
-            
-            {
-            "key": "aeroway",
-            "value": "taxiway",
-            "description": "Table misc_l; Attribute aggtype='air_traffic' and type='taxiway'"
-            },
-            
-            {
-            "key": "aeroway",
-            "value": "apron",
-            "description": "Table misc_l; Attribute aggtype='air_traffic' and type='apron'"
-            },
-            
-            {
-            "key": "aeroway",
-            "value": "runway",
-            "description": "Table misc_l; Attribute aggtype='air_traffic' and type='runway'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "bare_rock",
-            "description": "Table natural_a; Attribute type='bare_rock'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "",
-            "description": "Table natural_a and natural_p; Attribute type='natural'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "beach",
-            "description": "Table natural_a and natural_p; Attribute type='beach'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "cave_entrance",
-            "description": "Table natural_a and natural_p; Attribute type='cave_entrance'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "fell",
-            "description": "Table natural_a and natural_p; Attribute type='fell'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "grassland",
-            "description": "Table natural_a and natural_p; Attribute type='grassland'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "heath",
-            "description": "Table natural_a and natural_p; Attribute type='heath'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "moor",
-            "description": "Table natural_a and natural_p; Attribute type='moor'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "mud",
-            "description": "Table natural_a and natural_p; Attribute type='mud'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "sand",
-            "description": "Table natural_a and natural_p; Attribute type='sand'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "scree",
-            "description": "Table natural_a and natural_p; Attribute type='scree'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "scrub",
-            "description": "Table natural_a and natural_p; Attribute type='scrub'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "scrub",
-            "description": "Table natural_a and natural_p; Attribute type='scrub'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "sinkhole",
-            "description": "Table natural_a and natural_p; Attribute type='sinkhole'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "stone",
-            "description": "Table natural_a and natural_p; Attribute type='stone'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "wood",
-            "description": "Table natural_a and natural_p; Attribute type='wood'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "glacier",
-            "description": "Table natural_a and natural_p; Attribute type='glacier'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "wetland",
-            "description": "Table natural_a and natural_p; Attribute type='wetland'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "peak",
-            "description": "Table natural_p; Attribute type='peak'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "rock",
-            "description": "Table natural_p; Attribute type='rock'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "saddle",
-            "description": "Table natural_p; Attribute type='saddle'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "tree",
-            "description": "Table natural_p; Attribute type='tree'"
-            },
-            
-            {
-            "key": "natural",
-            "value": "volcano",
-            "description": "Table natural_p; Attribute type='volcano'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "police",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='police'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "fire_station",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='fire_station'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "post_box",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='post_box'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "post_office",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='post_office'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "telephone",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='telephone'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "library",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='library'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "townhall",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='townhall'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "courthouse",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='courthouse'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "prison",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='prison'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "embassy",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='embassy'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "community_centre",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='community_centre'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "nursing_home",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='nursing_home'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "arts_centre",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='arts_centre'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "grave_yard",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='graveyard'"
-            },
-            
-            {
-            "key": "landuse",
-            "value": "cemetery",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='graveyard'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "marketplace",
-            "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='marketplace'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "recycling",
-            "description": "Table poi_a and poi_p; Attribute aggtype='recycling' and type='general_recycling'"
-            },
-            
-            {
-            "key": "recycling:glass",
-            "value": "yes",
-            "description": "Table poi_a and poi_p; Attribute aggtype='recycling' and type='glass'"
-            },
-            
-            {
-            "key": "recycling:paper",
-            "value": "yes",
-            "description": "Table poi_a and poi_p; Attribute aggtype='recycling' and type='paper'"
-            },
-            
-            {
-            "key": "recycling:clothes",
-            "value": "yes",
-            "description": "Table poi_a and poi_p; Attribute aggtype='recycling' and type='clothes'"
-            },
-            
-            {
-            "key": "recycling:scrap_metal",
-            "value": "yes",
-            "description": "Table poi_a and poi_p; Attribute aggtype='recycling' and type='metal'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "university",
-            "description": "Table poi_a and poi_p; Attribute aggtype='education' and type='university'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "school",
-            "description": "Table poi_a and poi_p; Attribute aggtype='education' and type='school'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "kindergarten",
-            "description": "Table poi_a and poi_p; Attribute aggtype='education' and type='kindergarten'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "college",
-            "description": "Table poi_a and poi_p; Attribute aggtype='education' and type='college'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "public_building",
-            "description": "Table poi_a and poi_p; Attribute aggtype='education' and type='public_building'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "pharmacy",
-            "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='pharmacy'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "hospital",
-            "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='hospital'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "clinic",
-            "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='clinic'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "social_facility",
-            "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='social_facility'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "doctors",
-            "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='doctors'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "dentist",
-            "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='dentist'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "veterinary",
-            "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='veterinary'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "theatre",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='theatre'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "nightclub",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='nightclub'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "cinema",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='cinema'"
-            },
-            
-            {
-            "key": "leisure",
-            "value": "playground",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='playground'"
-            },
-            
-            {
-            "key": "leisure",
-            "value": "dog_park",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='dog_park'"
-            },
-            
-            {
-            "key": "leisure",
-            "value": "sports_centre",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='sports_centre'"
-            },
-            
-            {
-            "key": "sport",
-            "value": "soccer",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='soccer_pitch'"
-            },
-            
-            {
-            "key": "sport",
-            "value": "tennis",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='tennis_pitch'"
-            },
-            
-            {
-            "key": "leisure",
-            "value": "pitch",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='pitch'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "swimming_pool",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='swimming_pool'"
-            },
-            
-            {
-            "key": "leisure",
-            "value": "swimming_pool",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='swimming_pool'"
-            },
-            
-            {
-            "key": "sport",
-            "value": "swimming_pool",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='swimming_pool'"
-            },
-            
-            {
-            "key": "leisure",
-            "value": "water_park",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='swimming_pool'"
-            },
-            
-            {
-            "key": "leisure",
-            "value": "golf_course",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='golf_course'"
-            },
-            
-            {
-            "key": "leisure",
-            "value": "stadium",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='stadium'"
-            },
-            
-            {
-            "key": "leisure",
-            "value": "ice_rink",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='ice_rink'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "restaurant",
-            "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='restaurant'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "fast_food",
-            "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='fast_food'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "cafe",
-            "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='cafe'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "pub",
-            "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='pub'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "bar",
-            "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='bar'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "food_court",
-            "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='food_court'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "biergarten",
-            "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='biergarten'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "hotel",
-            "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_in' and type='hotel'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "motel",
-            "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_in' and type='motel'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "guest_house",
-            "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_in' and type='guest_house'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "hostel",
-            "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_in' and type='hostel'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "chalet",
-            "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_in' and type='chalet'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "shelter",
-            "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_out' and type='shelter'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "camp_site",
-            "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_out' and type='camp_site'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "alpine_hut",
-            "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_out' and type='alpine_hut'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "caravan_site",
-            "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_out' and type='caravan_site'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "supermarket",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='supermarket'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "bakery",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='bakery'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "kiosk",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='kiosk'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "mall",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='mall'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "department_store",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='department_store'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "convenience",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='convenience'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "clothes",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='clothes'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "florist",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='florist'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "chemist",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='chemist'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "books",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='books'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "butcher",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='butcher'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "shoes",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='shoes'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "beverages",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='beverages'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "alcohol",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='beverages'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "optician",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='optician'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "jewelry",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='jewelry'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "gift",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='gift'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "sports",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='sports'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "stationery",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='stationery'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "outdoor",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='outdoor'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "mobile_phone",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='mobile_phone'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "toys",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='toys'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "newsagent",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='newsagent'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "greengrocer",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='greengrocer'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "beauty",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='beauty'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "video",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='video'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "car",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='car'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "bicycle",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='bicycle'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "hardware",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='hardware'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "doityourself",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='hardware'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "furniture",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='furniture'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "computer",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='computer'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "garden_centre",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='garden_centre'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "hairdresser",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='hairdresser'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "car_repair",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='car_repair'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "car_rental",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='car_rental'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "car_wash",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='car_wash'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "car_sharing",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='car_sharing'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "bicycle_rental",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='bicycle_rental'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "travel_agency",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='travel_agency'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "laundry",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='laundry'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "dry_cleaning",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='laundry'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "",
-            "description": "Table poi_a and poi_p; Attribute aggtype='vending' and type='vending'"
-            },
-            
-            {
-            "key": "vending",
-            "value": "",
-            "description": "Table poi_a and poi_p; Attribute aggtype='vending' and type='vending'"
-            },
-            
-            {
-            "key": "vending",
-            "value": "cigarette",
-            "description": "Table poi_a and poi_p; Attribute aggtype='vending' and type='vending_cigarette'"
-            },
-            
-            {
-            "key": "vending",
-            "value": "parking_tickets",
-            "description": "Table poi_a and poi_p; Attribute aggtype='vending' and type='vending_parking'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "bank",
-            "description": "Table poi_a and poi_p; Attribute aggtype='money' and type='bank'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "atm",
-            "description": "Table poi_a and poi_p; Attribute aggtype='money' and type='atm'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "bureau_de_change",
-            "description": "Table poi_a and poi_p; Attribute aggtype='money' and type='money_changer'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "information",
-            "description": "Table poi_a and poi_p; Attribute aggtype='tourism' and type='information'"
-            },
-            
-            {
-            "key": "information",
-            "value": "map",
-            "description": "Table poi_a and poi_p; Attribute aggtype='tourism' and type='map'"
-            },
-            
-            {
-            "key": "information",
-            "value": "board",
-            "description": "Table poi_a and poi_p; Attribute aggtype='tourism' and type='board'"
-            },
-            
-            {
-            "key": "information",
-            "value": "guidepost",
-            "description": "Table poi_a and poi_p; Attribute aggtype='tourism' and type='guidepost'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "attraction",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='attraction'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "museum",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='museum'"
-            },
-            
-            {
-            "key": "historic",
-            "value": "monument",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='monument'"
-            },
-            
-            {
-            "key": "historic",
-            "value": "memorial",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='memorial'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "artwork",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='artwork'"
-            },
-            
-            {
-            "key": "historic",
-            "value": "castle",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='castle'"
-            },
-            
-            {
-            "key": "historic",
-            "value": "ruins",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='ruins'"
-            },
-            
-            {
-            "key": "historic",
-            "value": "archaeological_site",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='archaeological_site'"
-            },
-            
-            {
-            "key": "historic",
-            "value": "wayside_cross",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='wayside_cross'"
-            },
-            
-            {
-            "key": "historic",
-            "value": "wayside_shrine",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='wayside_shrine'"
-            },
-            
-            {
-            "key": "historic",
-            "value": "battlefield",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='battlefield'"
-            },
-            
-            {
-            "key": "historic",
-            "value": "fort",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='fort'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "picnic_site",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='picnic_site'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "viewpoint",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='viewpoint'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "zoo",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='zoo'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "theme_park",
-            "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='theme_park'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "toilet",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='toilet'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "bench",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='bench'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "drinking_water",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='drinking_water'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "fountain",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='fountain'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "hunting_stand",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='hunting_stand'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "waste_basket",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='waste_basket'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "surveillance",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='surveillance'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "emergency_phone",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='emergency_phone'"
-            },
-            
-            {
-            "key": "emergency",
-            "value": "phone",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='emergency_phone'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "fire_hydrant",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='fire_hydrant'"
-            },
-            
-            {
-            "key": "emergency",
-            "value": "fire_hydrant",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='fire_hydrant'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "emergency_access_point",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='emergency_access'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "tower",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='tower'"
-            },
-            
-            {
-            "key": "tower:type",
-            "value": "comm_tower",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='comm_tower'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "water_tower",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='water_tower'"
-            },
-            
-            {
-            "key": "tower:type",
-            "value": "observation_tower",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='observation_tower'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "windmill",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='windmill'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "lighthouse",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='lighthouse'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "water_well",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='water_well'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "watermill",
-            "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='watermill'"
-            },
-            
-            {
-            "key": "tourism",
-            "value": "",
-            "description": "Table poi_a and poi_p; Attribute aggtype='tourism' and type='tourism'"
-            },
-            
-            {
-            "key": "leisure",
-            "value": "",
-            "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='leisure'"
-            },
-            
-            {
-            "key": "sport",
-            "value": "",
-            "description": "Table poi_a and poi_p; Attribute aggtype='sport' and type='sport'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "",
-            "description": "Table poi_a and poi_p; Attribute aggtype='man_made' and type='man_made'"
-            },
-            
-            {
-            "key": "shop",
-            "value": "",
-            "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='shop'"
-            },
-            
-            {
-            "key": "historic",
-            "value": "",
-            "description": "Table poi_a and poi_p; Attribute aggtype='historic' and type='historic'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "",
-            "description": "Table poi_a and poi_p; Attribute aggtype='amenity' and type='amenity'"
-            },
-            
-            {
-            "key": "religion",
-            "value": "",
-            "description": "Table pow_a and pow_p; Attribute aggtype='place_of_worship' and type='place_of_worship'"
-            },
-            
-            {
-            "key": "religion",
-            "value": "buddhist",
-            "description": "Table pow_a and pow_p; Attribute aggtype='buddhist' and type='buddhist'"
-            },
-            
-            {
-            "key": "religion",
-            "value": "christian",
-            "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='christian'"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "anglican",
-            "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='anglican'"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "baptist ",
-            "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='baptist '"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "catholic",
-            "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='catholic'"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "evangelical",
-            "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='evangelical'"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "lutheran",
-            "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='lutheran'"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "methodist",
-            "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='methodist'"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "orthodox",
-            "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='orthodox'"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "protestant",
-            "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='protestant'"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "mormon",
-            "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='mormon'"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "presbyterian",
-            "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='presbyterian'"
-            },
-            
-            {
-            "key": "religion",
-            "value": "hindu",
-            "description": "Table pow_a and pow_p; Attribute aggtype='hindu' and type='hindu'"
-            },
-            
-            {
-            "key": "religion",
-            "value": "jewish",
-            "description": "Table pow_a and pow_p; Attribute aggtype='jewish' and type='jewish'"
-            },
-            
-            {
-            "key": "religion",
-            "value": "muslim",
-            "description": "Table pow_a and pow_p; Attribute aggtype='muslim' and type='muslim'"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "shia",
-            "description": "Table pow_a and pow_p; Attribute aggtype='muslim' and type='shia'"
-            },
-            
-            {
-            "key": "denomination",
-            "value": "sunni",
-            "description": "Table pow_a and pow_p; Attribute aggtype='muslim' and type='sunni'"
-            },
-            
-            {
-            "key": "religion",
-            "value": "shinto",
-            "description": "Table pow_a and pow_p; Attribute aggtype='shinto' and type='shinto'"
-            },
-            
-            {
-            "key": "religion",
-            "value": "sikh",
-            "description": "Table pow_a and pow_p; Attribute aggtype='sikh' and type='sikh'"
-            },
-            
-            {
-            "key": "religion",
-            "value": "taoist",
-            "description": "Table pow_a and pow_p; Attribute aggtype='taoist' and type='taoist'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "rail",
-            "description": "Table railway_l; Attribute aggtype='railway' and type='rail'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "light_rail",
-            "description": "Table railway_l; Attribute aggtype='railway' and type='light_rail'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "subway",
-            "description": "Table railway_l; Attribute aggtype='railway' and type='subway'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "tram",
-            "description": "Table railway_l; Attribute aggtype='railway' and type='tram'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "monorail",
-            "description": "Table railway_l; Attribute aggtype='railway' and type='monorail'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "narrow_gauge",
-            "description": "Table railway_l; Attribute aggtype='railway' and type='narrow_gauge'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "miniature",
-            "description": "Table railway_l; Attribute aggtype='railway' and type='miniature'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "funicular",
-            "description": "Table railway_l; Attribute aggtype='railway' and type='funicular'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "",
-            "description": "Table railway_l; Attribute aggtype='railway' and type='railway'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "drag_lift",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='drag_lift'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "chair_lift",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='chair_lift'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "high_speed_chair_lift",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='chair_lift'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "cable_car",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='cable_car'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "gondola",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='gondola'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "goods",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='goods'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "platter",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='platter'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "t-bar",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='t-bar'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "j-bar",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='j-bar'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "magic_carpet",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='magic_carpet'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "zip_line",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='zip_line'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "rope_tow",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='rope_tow'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "mixed_lift",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='mixed_lift'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "",
-            "description": "Table railway_l; Attribute aggtype='aerialway' and type='aerialway'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "motorway",
-            "description": "Table road_l; Attribute aggtype='major_road' and type='motorway'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "trunk",
-            "description": "Table road_l; Attribute aggtype='major_road' and type='trunk'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "primary",
-            "description": "Table road_l; Attribute aggtype='major_road' and type='primary'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "secondary",
-            "description": "Table road_l; Attribute aggtype='major_road' and type='secondary'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "tertiary",
-            "description": "Table road_l; Attribute aggtype='major_road' and type='tertiary'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "unclassified",
-            "description": "Table road_l; Attribute aggtype='minor_road' and type='unclassified'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "residential",
-            "description": "Table road_l; Attribute aggtype='minor_road' and type='residential'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "living_street",
-            "description": "Table road_l; Attribute aggtype='minor_road' and type='living_street'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "pedestrian",
-            "description": "Table road_l; Attribute aggtype='minor_road' and type='pedestrian'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "motorway_link",
-            "description": "Table road_l; Attribute aggtype='highway_links' and type='motorway_link'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "trunk_link",
-            "description": "Table road_l; Attribute aggtype='highway_links' and type='trunk_link'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "primary_link",
-            "description": "Table road_l; Attribute aggtype='highway_links' and type='primary_link'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "secondary_link",
-            "description": "Table road_l; Attribute aggtype='highway_links' and type='secondary_link'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "service",
-            "description": "Table road_l; Attribute aggtype='small_road' and type='service'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "track",
-            "description": "Table road_l; Attribute aggtype='track' and type='track'"
-            },
-            
-            {
-            "key": "tracktype",
-            "value": "grade1",
-            "description": "Table road_l; Attribute aggtype='track' and type='grade1'"
-            },
-            
-            {
-            "key": "tracktype",
-            "value": "grade2",
-            "description": "Table road_l; Attribute aggtype='track' and type='grade2'"
-            },
-            
-            {
-            "key": "tracktype",
-            "value": "grade3",
-            "description": "Table road_l; Attribute aggtype='track' and type='grade3'"
-            },
-            
-            {
-            "key": "tracktype",
-            "value": "grade4",
-            "description": "Table road_l; Attribute aggtype='track' and type='grade4'"
-            },
-            
-            {
-            "key": "tracktype",
-            "value": "grade5",
-            "description": "Table road_l; Attribute aggtype='track' and type='grade5'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "bridleway",
-            "description": "Table road_l; Attribute aggtype='no_large_vehicle' and type='bridleway'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "cycleway",
-            "description": "Table road_l; Attribute aggtype='no_large_vehicle' and type='cycleway'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "footway",
-            "description": "Table road_l; Attribute aggtype='no_large_vehicle' and type='footway'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "path",
-            "description": "Table road_l; Attribute aggtype='no_large_vehicle' and type='path'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "steps",
-            "description": "Table road_l; Attribute aggtype='no_large_vehicle' and type='steps'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "road",
-            "description": "Table road_l; Attribute aggtype='unclassified' and type='road'"
-            },
-            
-            {
-            "key": "junction",
-            "value": "roundabout",
-            "description": "Table road_l; Attribute aggtype='roundabout' and type='*'"
-            },
-            
-            {
-            "key": "route",
-            "value": "bicycle",
-            "description": "Table route_l; Attribute type='bicycle'"
-            },
-            
-            {
-            "key": "route",
-            "value": "bus",
-            "description": "Table route_l; Attribute type='bus'"
-            },
-            
-            {
-            "key": "route",
-            "value": "inline_skates",
-            "description": "Table route_l; Attribute type='inline_skates'"
-            },
-            
-            {
-            "key": "route",
-            "value": "canoe",
-            "description": "Table route_l; Attribute type='canoe'"
-            },
-            
-            {
-            "key": "route",
-            "value": "detour",
-            "description": "Table route_l; Attribute type='detour'"
-            },
-            
-            {
-            "key": "route",
-            "value": "ferry",
-            "description": "Table route_l; Attribute type='ferry'"
-            },
-            
-            {
-            "key": "route",
-            "value": "hiking",
-            "description": "Table route_l; Attribute type='hiking'"
-            },
-            
-            {
-            "key": "route",
-            "value": "horse",
-            "description": "Table route_l; Attribute type='horse'"
-            },
-            
-            {
-            "key": "route",
-            "value": "light_rail",
-            "description": "Table route_l; Attribute type='light_rail'"
-            },
-            
-            {
-            "key": "route",
-            "value": "mtb",
-            "description": "Table route_l; Attribute type='mtb'"
-            },
-            
-            {
-            "key": "route",
-            "value": "nordic_walking",
-            "description": "Table route_l; Attribute type='nordic_walking'"
-            },
-            
-            {
-            "key": "route",
-            "value": "pipeline",
-            "description": "Table route_l; Attribute type='pipeline'"
-            },
-            
-            {
-            "key": "route",
-            "value": "piste",
-            "description": "Table route_l; Attribute type='piste'"
-            },
-            
-            {
-            "key": "route",
-            "value": "power",
-            "description": "Table route_l; Attribute type='power'"
-            },
-            
-            {
-            "key": "route",
-            "value": "railway",
-            "description": "Table route_l; Attribute type='railway'"
-            },
-            
-            {
-            "key": "route",
-            "value": "road",
-            "description": "Table route_l; Attribute type='road'"
-            },
-            
-            {
-            "key": "route",
-            "value": "running",
-            "description": "Table route_l; Attribute type='running'"
-            },
-            
-            {
-            "key": "route",
-            "value": "ski",
-            "description": "Table route_l; Attribute type='ski'"
-            },
-            
-            {
-            "key": "route",
-            "value": "training_area",
-            "description": "Table route_l; Attribute type='training_area'"
-            },
-            
-            {
-            "key": "route",
-            "value": "tram",
-            "description": "Table route_l; Attribute type='tram'"
-            },
-            
-            {
-            "key": "route",
-            "value": "*",
-            "description": "Table route_l; Attribute type='*'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "fuel",
-            "description": "Table traffic_a and traffic_p; Attribute aggtype='fuel' and type='fuel'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "services",
-            "description": "Table traffic_a and traffic_p; Attribute aggtype='services' and type='services'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "parking",
-            "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='parking'"
-            },
-            
-            {
-            "key": "parking",
-            "value": "",
-            "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='parking'"
-            },
-            
-            {
-            "key": "parking",
-            "value": "surface",
-            "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='surface'"
-            },
-            
-            {
-            "key": "parking",
-            "value": "multistorey",
-            "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='multistorey'"
-            },
-            
-            {
-            "key": "parking",
-            "value": "underground",
-            "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='underground'"
-            },
-            
-            {
-            "key": "parking",
-            "value": "bicycle",
-            "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='bicycle'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "",
-            "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='general_traffic'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "traffic_signals",
-            "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='traffic_signals'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "mini_roundabout",
-            "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='mini_roundabout'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "stop",
-            "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='stop'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "crossing",
-            "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='crossing'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "level_crossing",
-            "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='level_crossing'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "speed_camera",
-            "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='speed_camera'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "motorway_junction",
-            "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='motorway_junction'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "turning_circle",
-            "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='turning_circle'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "ford",
-            "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='ford'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "street_lamp",
-            "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='street_lamp'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "",
-            "description": "Table traffic_p; Attribute aggtype='barrier' and type='barrier'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "gate",
-            "description": "Table traffic_p; Attribute aggtype='barrier' and type='gate'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "bollard",
-            "description": "Table traffic_p; Attribute aggtype='barrier' and type='bollard'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "lift_gate",
-            "description": "Table traffic_p; Attribute aggtype='barrier' and type='lift_gate'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "stile",
-            "description": "Table traffic_p; Attribute aggtype='barrier' and type='stile'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "cycle_barrier",
-            "description": "Table traffic_p; Attribute aggtype='barrier' and type='cycle_barrier'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "fence",
-            "description": "Table traffic_p; Attribute aggtype='barrier' and type='fence'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "toll_booth",
-            "description": "Table traffic_p; Attribute aggtype='barrier' and type='toll_booth'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "block",
-            "description": "Table traffic_p; Attribute aggtype='barrier' and type='block'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "kissing_gate",
-            "description": "Table traffic_p; Attribute aggtype='barrier' and type='kissing_gate'"
-            },
-            
-            {
-            "key": "barrier",
-            "value": "cattle_grid",
-            "description": "Table traffic_p; Attribute aggtype='barrier' and type='cattle_grid'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "",
-            "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='traffic_calming'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "hump",
-            "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='hump'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "bump",
-            "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='bump'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "table",
-            "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='table'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "chicane",
-            "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='chicane'"
-            },
-            
-            {
-            "key": "traffic_calming",
-            "value": "cushion",
-            "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='cushion'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "station",
-            "description": "Table transport_a and transport_p; Attribute aggtype='railway' and type='railway_station'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "halt",
-            "description": "Table transport_a and transport_p; Attribute aggtype='railway' and type='railway_halt'"
-            },
-            
-            {
-            "key": "train",
-            "value": "yes",
-            "description": "Table transport_a and transport_p; Attribute aggtype='railway' and type='railway_halt'"
-            },
-            
-            {
-            "key": "highway",
-            "value": "bus_stop",
-            "description": "Table transport_a and transport_p; Attribute aggtype='bus' and type='bus_stop'"
-            },
-            
-            {
-            "key": "bus",
-            "value": "yes",
-            "description": "Table transport_a and transport_p; Attribute aggtype='bus' and type='bus_stop'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "bus_station",
-            "description": "Table transport_a and transport_p; Attribute aggtype='bus' and type='bus_station'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "taxi",
-            "description": "Table transport_a and transport_p; Attribute aggtype='taxi' and type='taxi_stand'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "airport",
-            "description": "Table transport_a and transport_p; Attribute aggtype='air_traffic' and type='airport'"
-            },
-            
-            {
-            "key": "aeroway",
-            "value": "aerodrome",
-            "description": "Table transport_a and transport_p; Attribute aggtype='air_traffic' and type='airport'"
-            },
-            
-            {
-            "key": "aeroway",
-            "value": "runway",
-            "description": "Table transport_a and transport_p; Attribute aggtype='air_traffic' and type='airfield'"
-            },
-            
-            {
-            "key": "aeroway",
-            "value": "helipad",
-            "description": "Table transport_a and transport_p; Attribute aggtype='air_traffic' and type='helipad'"
-            },
-            
-            {
-            "key": "amenity",
-            "value": "ferry_terminal",
-            "description": "Table transport_a and transport_p; Attribute aggtype='water_traffic' and type='ferry_terminal'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "station",
-            "description": "Table transport_a and transport_p; Attribute aggtype='other_traffic' and type='aerialway_station'"
-            },
-            
-            {
-            "key": "public_transport",
-            "value": "stop_position",
-            "description": "Table transport_a and transport_p; Attribute aggtype='public_transport' and type='stop_position'"
-            },
-            
-            {
-            "key": "aeroway",
-            "value": "",
-            "description": "Table transport_a and transport_p; Attribute aggtype='aeroway' and type='aeroway'"
-            },
-            
-            {
-            "key": "aerialway",
-            "value": "",
-            "description": "Table transport_a and transport_p; Attribute aggtype='aerialway' and type='aerialway'"
-            },
-            
-            {
-            "key": "railway",
-            "value": "tram_stop",
-            "description": "Table transport_p; Attribute aggtype='tram' and type='tram_stop'"
-            },
-            
-            {
-            "key": "tram",
-            "value": "yes",
-            "description": "Table transport_p; Attribute aggtype='tram' and type='tram_stop'"
-            },
-            
-            {
-            "key": "power",
-            "value": "",
-            "description": "Table utility_a and utility_p; Attribute aggtype='power' and type='power'"
-            },
-            
-            {
-            "key": "power",
-            "value": "tower",
-            "description": "Table utility_a and utility_p; Attribute aggtype='tower' and type='tower'"
-            },
-            
-            {
-            "key": "power",
-            "value": "generator",
-            "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='station'"
-            },
-            
-            {
-            "key": "generator:source",
-            "value": "nuclear",
-            "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='nuclear'"
-            },
-            
-            {
-            "key": "generator:source",
-            "value": "solar",
-            "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='solar'"
-            },
-            
-            {
-            "key": "power_source",
-            "value": "photovoltaic",
-            "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='solar'"
-            },
-            
-            {
-            "key": "generator:source",
-            "value": "gas",
-            "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='fossil'"
-            },
-            
-            {
-            "key": "generator:source",
-            "value": "coal",
-            "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='fossil'"
-            },
-            
-            {
-            "key": "generator:source",
-            "value": "water",
-            "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='hydro'"
-            },
-            
-            {
-            "key": "power_source",
-            "value": "hydro",
-            "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='hydro'"
-            },
-            
-            {
-            "key": "generator:source",
-            "value": "wind",
-            "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='wind'"
-            },
-            
-            {
-            "key": "power_source",
-            "value": "wind",
-            "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='wind'"
-            },
-            
-            {
-            "key": "power",
-            "value": "substation",
-            "description": "Table utility_a and utility_p; Attribute aggtype='substation' and type='substation'"
-            },
-            
-            {
-            "key": "power",
-            "value": "station",
-            "description": "Table utility_a and utility_p; Attribute aggtype='substation' and type='substation'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "storage_tank",
-            "description": "Table utility_a and utility_p; Attribute aggtype='man_made' and type='storage_tank'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "wastewater_plant",
-            "description": "Table utility_a and utility_p; Attribute aggtype='man_made' and type='wastewater_plant'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "water_works",
-            "description": "Table utility_a and utility_p; Attribute aggtype='man_made' and type='water_works'"
-            },
-            
-            {
-            "key": "power",
-            "value": "transformer",
-            "description": "Table utility_a and utility_p; Attribute aggtype='transformer' and type='transformer'"
-            },
-            
-            {
-            "key": "power",
-            "value": "",
-            "description": "Table utility_l; Attribute aggtype='power' and type='power'"
-            },
-            
-            {
-            "key": "power",
-            "value": "line",
-            "description": "Table utility_l; Attribute aggtype='power' and type='line'"
-            },
-            
-            {
-            "key": "power",
-            "value": "minor_line",
-            "description": "Table utility_l; Attribute aggtype='power' and type='minor_line'"
-            },
-            
-            {
-            "key": "power",
-            "value": "cable",
-            "description": "Table utility_l; Attribute aggtype='power' and type='cable'"
-            },
-            
-            {
-            "key": "power",
-            "value": "minor_cable",
-            "description": "Table utility_l; Attribute aggtype='power' and type='minor_cable'"
-            },
-            
-            {
-            "key": "power",
-            "value": "minor_underground_cable",
-            "description": "Table utility_l; Attribute aggtype='power' and type='minor_cable'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "",
-            "description": "Table utility_l; Attribute aggtype='man_made' and type='man_made'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "pipeline",
-            "description": "Table utility_l; Attribute aggtype='man_made' and type='pipeline'"
-            },
-            
-            {
-            "key": "man_made",
-            "value": "water_work",
-            "description": "Table utility_l; Attribute aggtype='man_made' and type='water_work'"
-            },
-            
-            {
-            "key": "power",
-            "value": "pole",
-            "description": "Table utility_p; Attribute aggtype='pole' and type='pole'"
-            },
-            
-            {
-            "key": " water_p and water_l",
-            "value": "waterway",
-            "description": "Table water_a; Attribute type=''"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "water",
-            "description": "Table water_a and water_p; Attribute type='water'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "spring",
-            "description": "Table water_a and water_p; Attribute type='spring'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "riverbank",
-            "description": "Table water_a and water_p; Attribute type='riverbank'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "slipway",
-            "description": "Table water_a and water_p; Attribute type='slipway'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "marina",
-            "description": "Table water_a and water_p; Attribute type='marina'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "pier",
-            "description": "Table water_a and water_p; Attribute type='pier'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "dam",
-            "description": "Table water_a and water_p; Attribute type='dam'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "weir",
-            "description": "Table water_a and water_p; Attribute type='weir'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "riverbank",
-            "description": "Table water_l; Attribute type='riverbank'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "stream",
-            "description": "Table water_l; Attribute type='stream'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "canal",
-            "description": "Table water_l; Attribute type='canal'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "drain",
-            "description": "Table water_l; Attribute type='drain'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "waterfall",
-            "description": "Table water_p; Attribute type='waterfall'"
-            },
-            
-            {
-            "key": "waterway",
-            "value": "lock_gate",
-            "description": "Table water_p; Attribute type='lock_gate'"
-            }
-            
-    ] }
+        {
+                "key": "building",
+                "description": "Table address_a; Attribute type='b'"
+                },
+                {
+                "key": "building",
+                "value": "entrance",
+                "description": "Table address_a; Attribute type='e'"
+                },
+                {
+                "key": "addr:interpolation",
+                "description": "Table address_a; Attribute type='i'"
+                },
+                {
+                "key": "place",
+                "description": "Table address_a; Attribute type='p'"
+                },
+                {
+                "key": "admin_level",
+                "value": "1",
+                "description": "Table adminarea_a; Attribute type='admin_level1'"
+                },
+                {
+                "key": "admin_level",
+                "value": "2",
+                "description": "Table adminarea_a; Attribute type='admin_level2'"
+                },
+                {
+                "key": "admin_level",
+                "value": "3",
+                "description": "Table adminarea_a; Attribute type='admin_level3'"
+                },
+                {
+                "key": "admin_level",
+                "value": "4",
+                "description": "Table adminarea_a; Attribute type='admin_level4'"
+                },
+                {
+                "key": "admin_level",
+                "value": "5",
+                "description": "Table adminarea_a; Attribute type='admin_level5'"
+                },
+                {
+                "key": "admin_level",
+                "value": "6",
+                "description": "Table adminarea_a; Attribute type='admin_level6'"
+                },
+                {
+                "key": "admin_level",
+                "value": "7",
+                "description": "Table adminarea_a; Attribute type='admin_level7'"
+                },
+                {
+                "key": "admin_level",
+                "value": "8",
+                "description": "Table adminarea_a; Attribute type='admin_level8'"
+                },
+                {
+                "key": "admin_level",
+                "value": "9",
+                "description": "Table adminarea_a; Attribute type='admin_level9'"
+                },
+                {
+                "key": "admin_level",
+                "value": "10",
+                "description": "Table adminarea_a; Attribute type='admin_level10'"
+                },
+                {
+                "key": "admin_level",
+                "value": "11",
+                "description": "Table adminarea_a; Attribute type='admin_level11'"
+                },
+                {
+                "key": "boundary",
+                "value": "administrative",
+                "description": "Table adminarea_a; Attribute type='administrative'"
+                },
+                {
+                "key": "boundary",
+                "value": "national_park",
+                "description": "Table adminarea_a; Attribute type='national_park'"
+                },
+                {
+                "key": "boundary",
+                "value": "protected_area",
+                "description": "Table adminarea_a; Attribute type='protected_area'"
+                },
+                {
+                "key": "admin_level",
+                "value": "1",
+                "description": "Table boundary_l; Attribute type='admin_level1'"
+                },
+                {
+                "key": "admin_level",
+                "value": "2",
+                "description": "Table boundary_l; Attribute type='admin_level2'"
+                },
+                {
+                "key": "admin_level",
+                "value": "3",
+                "description": "Table boundary_l; Attribute type='admin_level3'"
+                },
+                {
+                "key": "admin_level",
+                "value": "4",
+                "description": "Table boundary_l; Attribute type='admin_level4'"
+                },
+                {
+                "key": "admin_level",
+                "value": "5",
+                "description": "Table boundary_l; Attribute type='admin_level5'"
+                },
+                {
+                "key": "admin_level",
+                "value": "6",
+                "description": "Table boundary_l; Attribute type='admin_level6'"
+                },
+                {
+                "key": "admin_level",
+                "value": "7",
+                "description": "Table boundary_l; Attribute type='admin_level7'"
+                },
+                {
+                "key": "admin_level",
+                "value": "8",
+                "description": "Table boundary_l; Attribute type='admin_level8'"
+                },
+                {
+                "key": "admin_level",
+                "value": "9",
+                "description": "Table boundary_l; Attribute type='admin_level9'"
+                },
+                {
+                "key": "admin_level",
+                "value": "10",
+                "description": "Table boundary_l; Attribute type='admin_level10'"
+                },
+                {
+                "key": "admin_level",
+                "value": "11",
+                "description": "Table boundary_l; Attribute type='admin_level11'"
+                },
+                {
+                "key": "boundary",
+                "value": "administrative",
+                "description": "Table boundary_l; Attribute type='administrative'"
+                },
+                {
+                "key": "boundary",
+                "value": "national_park",
+                "description": "Table boundary_l; Attribute type='national_park'"
+                },
+                {
+                "key": "boundary",
+                "value": "protected_area",
+                "description": "Table boundary_l; Attribute type='protected_area'"
+                },
+                {
+                "key": "building",
+                "description": "Table building_a; Attribute type='*'"
+                },
+                {
+                "key": "place",
+                "description": "Table geoname_l and geoname_p; Attribute type='place'"
+                },
+                {
+                "key": "place",
+                "value": "city",
+                "description": "Table geoname_l and geoname_p; Attribute type='city'"
+                },
+                {
+                "key": "place",
+                "value": "town",
+                "description": "Table geoname_l and geoname_p; Attribute type='town'"
+                },
+                {
+                "key": "place",
+                "value": "village",
+                "description": "Table geoname_l and geoname_p; Attribute type='village'"
+                },
+                {
+                "key": "place",
+                "value": "hamlet",
+                "description": "Table geoname_l and geoname_p; Attribute type='hamlet'"
+                },
+                {
+                "key": "place",
+                "value": "suburb",
+                "description": "Table geoname_l and geoname_p; Attribute type='suburb'"
+                },
+                {
+                "key": "place",
+                "value": "island",
+                "description": "Table geoname_l and geoname_p; Attribute type='island'"
+                },
+                {
+                "key": "place",
+                "value": "farm",
+                "description": "Table geoname_l and geoname_p; Attribute type='farm'"
+                },
+                {
+                "key": "place",
+                "value": "isolated_dwelling",
+                "description": "Table geoname_l and geoname_p; Attribute type='isolated_dwelling'"
+                },
+                {
+                "key": "place",
+                "value": "locality",
+                "description": "Table geoname_l and geoname_p; Attribute type='locality'"
+                },
+                {
+                "key": "place",
+                "value": "islet",
+                "description": "Table geoname_l and geoname_p; Attribute type='islet'"
+                },
+                {
+                "key": "place",
+                "value": "neighbourhood",
+                "description": "Table geoname_l and geoname_p; Attribute type='neighbourhood'"
+                },
+                {
+                "key": "place",
+                "value": "county",
+                "description": "Table geoname_l and geoname_p; Attribute type='county'"
+                },
+                {
+                "key": "place",
+                "value": "region",
+                "description": "Table geoname_l and geoname_p; Attribute type='region'"
+                },
+                {
+                "key": "place",
+                "value": "state",
+                "description": "Table geoname_l and geoname_p; Attribute type='state'"
+                },
+                {
+                "key": "place",
+                "value": "municipality",
+                "description": "Table geoname_l and geoname_p; Attribute type='municipality'"
+                },
+                {
+                "key": "landuse",
+                "value": "landuse",
+                "description": "Table landuse_a; Attribute type='landuse'"
+                },
+                {
+                "key": "landuse",
+                "value": "allotments",
+                "description": "Table landuse_a; Attribute type='allotments'"
+                },
+                {
+                "key": "landuse",
+                "value": "commercial",
+                "description": "Table landuse_a; Attribute type='commercial'"
+                },
+                {
+                "key": "landuse",
+                "value": "farm",
+                "description": "Table landuse_a; Attribute type='farm'"
+                },
+                {
+                "key": "landuse",
+                "value": "farmland",
+                "description": "Table landuse_a; Attribute type='farm'"
+                },
+                {
+                "key": "landuse",
+                "value": "farmyard",
+                "description": "Table landuse_a; Attribute type='farmyard'"
+                },
+                {
+                "key": "landuse",
+                "value": "fishfarm",
+                "description": "Table landuse_a; Attribute type='fishfarm'"
+                },
+                {
+                "key": "landuse",
+                "value": "grass",
+                "description": "Table landuse_a; Attribute type='grass'"
+                },
+                {
+                "key": "landuse",
+                "value": "greenhouse_horticulture",
+                "description": "Table landuse_a; Attribute type='greenhouse'"
+                },
+                {
+                "key": "landuse",
+                "value": "industrial",
+                "description": "Table landuse_a; Attribute type='industrial'"
+                },
+                {
+                "key": "landuse",
+                "value": "forest",
+                "description": "Table landuse_a; Attribute type='forest'"
+                },
+                {
+                "key": "landuse",
+                "value": "meadow",
+                "description": "Table landuse_a; Attribute type='meadow'"
+                },
+                {
+                "key": "landuse",
+                "value": "military",
+                "description": "Table landuse_a; Attribute type='military'"
+                },
+                {
+                "key": "landuse",
+                "value": "nature_reserve",
+                "description": "Table landuse_a; Attribute type='nature_reserve'"
+                },
+                {
+                "key": "landuse",
+                "value": "orchard",
+                "description": "Table landuse_a; Attribute type='orchard'"
+                },
+                {
+                "key": "landuse",
+                "value": "park",
+                "description": "Table landuse_a; Attribute type='park'"
+                },
+                {
+                "key": "landuse",
+                "value": "village_green",
+                "description": "Table landuse_a; Attribute type='park'"
+                },
+                {
+                "key": "landuse",
+                "value": "plant_nursery",
+                "description": "Table landuse_a; Attribute type='plant_nursery'"
+                },
+                {
+                "key": "landuse",
+                "value": "quarry",
+                "description": "Table landuse_a; Attribute type='quarry'"
+                },
+                {
+                "key": "landuse",
+                "value": "railway",
+                "description": "Table landuse_a; Attribute type='railway'"
+                },
+                {
+                "key": "landuse",
+                "value": "recreation_ground",
+                "description": "Table landuse_a; Attribute type='recreation_ground'"
+                },
+                {
+                "key": "leisure",
+                "value": "recreation_ground",
+                "description": "Table landuse_a; Attribute type='recreation_ground'"
+                },
+                {
+                "key": "landuse",
+                "value": "residential",
+                "description": "Table landuse_a; Attribute type='residential'"
+                },
+                {
+                "key": "landuse",
+                "value": "retail",
+                "description": "Table landuse_a; Attribute type='retail'"
+                },
+                {
+                "key": "landuse",
+                "value": "vineyard",
+                "description": "Table landuse_a; Attribute type='vineyard'"
+                },
+                {
+                "key": "landuse",
+                "value": "reservoir",
+                "description": "Table landuse_a; Attribute type='reservoir'"
+                },
+                {
+                "key": "landuse",
+                "value": "basin",
+                "description": "Table landuse_a; Attribute type='basin'"
+                },
+                {
+                "key": "landuse",
+                "value": "landfill",
+                "description": "Table landuse_a; Attribute type='landfill'"
+                },
+                {
+                "key": "military",
+                "description": "Table military_a and military_p; Attribute type='military'"
+                },
+                {
+                "key": "military",
+                "value": "airfield",
+                "description": "Table military_a and military_p; Attribute type='airfield'"
+                },
+                {
+                "key": "military",
+                "value": "barracks",
+                "description": "Table military_a and military_p; Attribute type='barracks'"
+                },
+                {
+                "key": "military",
+                "value": "bunker",
+                "description": "Table military_a and military_p; Attribute type='bunker'"
+                },
+                {
+                "key": "military",
+                "value": "checkpoint",
+                "description": "Table military_a and military_p; Attribute type='checkpoint'"
+                },
+                {
+                "key": "military",
+                "value": "danger_area",
+                "description": "Table military_a and military_p; Attribute type='danger_area'"
+                },
+                {
+                "key": "military",
+                "value": "naval_base",
+                "description": "Table military_a and military_p; Attribute type='naval_base'"
+                },
+                {
+                "key": "military",
+                "value": "nuclear_explosion_site",
+                "description": "Table military_a and military_p; Attribute type='nuclear_site'"
+                },
+                {
+                "key": "military",
+                "value": "obstacle_course",
+                "description": "Table military_a and military_p; Attribute type='obstacle_course'"
+                },
+                {
+                "key": "military",
+                "value": "range",
+                "description": "Table military_a and military_p; Attribute type='range'"
+                },
+                {
+                "key": "military",
+                "value": "training_area",
+                "description": "Table military_a and military_p; Attribute type='training_area'"
+                },
+                {
+                "key": "barrier",
+                "description": "Table misc_l; Attribute aggtype='barrier' and type='barrier'"
+                },
+                {
+                "key": "barrier",
+                "value": "gate",
+                "description": "Table misc_l; Attribute aggtype='barrier' and type='gate'"
+                },
+                {
+                "key": "barrier",
+                "value": "bollard",
+                "description": "Table misc_l; Attribute aggtype='barrier' and type='bollard'"
+                },
+                {
+                "key": "barrier",
+                "value": "lift_gate",
+                "description": "Table misc_l; Attribute aggtype='barrier' and type='lift_gate'"
+                },
+                {
+                "key": "barrier",
+                "value": "fence",
+                "description": "Table misc_l; Attribute aggtype='barrier' and type='fence'"
+                },
+                {
+                "key": "barrier",
+                "value": "block",
+                "description": "Table misc_l; Attribute aggtype='barrier' and type='block'"
+                },
+                {
+                "key": "natural",
+                "value": "cliff",
+                "description": "Table misc_l; Attribute aggtype='natural' and type='cliff'"
+                },
+                {
+                "key": "traffic_calming",
+                "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='traffic_calming'"
+                },
+                {
+                "key": "traffic_calming",
+                "value": "hump",
+                "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='hump'"
+                },
+                {
+                "key": "traffic_calming",
+                "value": "bump",
+                "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='bump'"
+                },
+                {
+                "key": "traffic_calming",
+                "value": "table",
+                "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='table'"
+                },
+                {
+                "key": "traffic_calming",
+                "value": "chicane",
+                "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='chicane'"
+                },
+                {
+                "key": "traffic_calming",
+                "value": "cushion",
+                "description": "Table misc_l; Attribute aggtype='traffic_calming' and type='cushion'"
+                },
+                {
+                "key": "aeroway",
+                "value": "taxiway",
+                "description": "Table misc_l; Attribute aggtype='air_traffic' and type='taxiway'"
+                },
+                {
+                "key": "aeroway",
+                "value": "apron",
+                "description": "Table misc_l; Attribute aggtype='air_traffic' and type='apron'"
+                },
+                {
+                "key": "aeroway",
+                "value": "runway",
+                "description": "Table misc_l; Attribute aggtype='air_traffic' and type='runway'"
+                },
+                {
+                "key": "natural",
+                "value": "bare_rock",
+                "description": "Table natural_a; Attribute type='bare_rock'"
+                },
+                {
+                "key": "natural",
+                "description": "Table natural_a and natural_p; Attribute type='natural'"
+                },
+                {
+                "key": "natural",
+                "value": "beach",
+                "description": "Table natural_a and natural_p; Attribute type='beach'"
+                },
+                {
+                "key": "natural",
+                "value": "cave_entrance",
+                "description": "Table natural_a and natural_p; Attribute type='cave_entrance'"
+                },
+                {
+                "key": "natural",
+                "value": "fell",
+                "description": "Table natural_a and natural_p; Attribute type='fell'"
+                },
+                {
+                "key": "natural",
+                "value": "grassland",
+                "description": "Table natural_a and natural_p; Attribute type='grassland'"
+                },
+                {
+                "key": "natural",
+                "value": "heath",
+                "description": "Table natural_a and natural_p; Attribute type='heath'"
+                },
+                {
+                "key": "natural",
+                "value": "moor",
+                "description": "Table natural_a and natural_p; Attribute type='moor'"
+                },
+                {
+                "key": "natural",
+                "value": "mud",
+                "description": "Table natural_a and natural_p; Attribute type='mud'"
+                },
+                {
+                "key": "natural",
+                "value": "sand",
+                "description": "Table natural_a and natural_p; Attribute type='sand'"
+                },
+                {
+                "key": "natural",
+                "value": "scree",
+                "description": "Table natural_a and natural_p; Attribute type='scree'"
+                },
+                {
+                "key": "natural",
+                "value": "scrub",
+                "description": "Table natural_a and natural_p; Attribute type='scrub'"
+                },
+                {
+                "key": "landuse",
+                "value": "scrub",
+                "description": "Table natural_a and natural_p; Attribute type='scrub'"
+                },
+                {
+                "key": "natural",
+                "value": "sinkhole",
+                "description": "Table natural_a and natural_p; Attribute type='sinkhole'"
+                },
+                {
+                "key": "natural",
+                "value": "stone",
+                "description": "Table natural_a and natural_p; Attribute type='stone'"
+                },
+                {
+                "key": "natural",
+                "value": "wood",
+                "description": "Table natural_a and natural_p; Attribute type='wood'"
+                },
+                {
+                "key": "natural",
+                "value": "glacier",
+                "description": "Table natural_a and natural_p; Attribute type='glacier'"
+                },
+                {
+                "key": "natural",
+                "value": "wetland",
+                "description": "Table natural_a and natural_p; Attribute type='wetland'"
+                },
+                {
+                "key": "natural",
+                "value": "peak",
+                "description": "Table natural_p; Attribute type='peak'"
+                },
+                {
+                "key": "natural",
+                "value": "rock",
+                "description": "Table natural_p; Attribute type='rock'"
+                },
+                {
+                "key": "natural",
+                "value": "saddle",
+                "description": "Table natural_p; Attribute type='saddle'"
+                },
+                {
+                "key": "natural",
+                "value": "tree",
+                "description": "Table natural_p; Attribute type='tree'"
+                },
+                {
+                "key": "natural",
+                "value": "volcano",
+                "description": "Table natural_p; Attribute type='volcano'"
+                },
+                {
+                "key": "amenity",
+                "value": "police",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='police'"
+                },
+                {
+                "key": "amenity",
+                "value": "fire_station",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='fire_station'"
+                },
+                {
+                "key": "amenity",
+                "value": "post_box",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='post_box'"
+                },
+                {
+                "key": "amenity",
+                "value": "post_office",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='post_office'"
+                },
+                {
+                "key": "amenity",
+                "value": "telephone",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='telephone'"
+                },
+                {
+                "key": "amenity",
+                "value": "library",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='library'"
+                },
+                {
+                "key": "amenity",
+                "value": "townhall",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='townhall'"
+                },
+                {
+                "key": "amenity",
+                "value": "courthouse",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='courthouse'"
+                },
+                {
+                "key": "amenity",
+                "value": "prison",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='prison'"
+                },
+                {
+                "key": "amenity",
+                "value": "embassy",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='embassy'"
+                },
+                {
+                "key": "amenity",
+                "value": "community_centre",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='community_centre'"
+                },
+                {
+                "key": "amenity",
+                "value": "nursing_home",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='nursing_home'"
+                },
+                {
+                "key": "amenity",
+                "value": "arts_centre",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='arts_centre'"
+                },
+                {
+                "key": "amenity",
+                "value": "grave_yard",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='graveyard'"
+                },
+                {
+                "key": "landuse",
+                "value": "cemetery",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='graveyard'"
+                },
+                {
+                "key": "amenity",
+                "value": "marketplace",
+                "description": "Table poi_a and poi_p; Attribute aggtype='public' and type='marketplace'"
+                },
+                {
+                "key": "amenity",
+                "value": "recycling",
+                "description": "Table poi_a and poi_p; Attribute aggtype='recycling' and type='general_recycling'"
+                },
+                {
+                "key": "recycling:glass",
+                "value": "yes",
+                "description": "Table poi_a and poi_p; Attribute aggtype='recycling' and type='glass'"
+                },
+                {
+                "key": "recycling:paper",
+                "value": "yes",
+                "description": "Table poi_a and poi_p; Attribute aggtype='recycling' and type='paper'"
+                },
+                {
+                "key": "recycling:clothes",
+                "value": "yes",
+                "description": "Table poi_a and poi_p; Attribute aggtype='recycling' and type='clothes'"
+                },
+                {
+                "key": "recycling:scrap_metal",
+                "value": "yes",
+                "description": "Table poi_a and poi_p; Attribute aggtype='recycling' and type='metal'"
+                },
+                {
+                "key": "amenity",
+                "value": "university",
+                "description": "Table poi_a and poi_p; Attribute aggtype='education' and type='university'"
+                },
+                {
+                "key": "amenity",
+                "value": "school",
+                "description": "Table poi_a and poi_p; Attribute aggtype='education' and type='school'"
+                },
+                {
+                "key": "amenity",
+                "value": "kindergarten",
+                "description": "Table poi_a and poi_p; Attribute aggtype='education' and type='kindergarten'"
+                },
+                {
+                "key": "amenity",
+                "value": "college",
+                "description": "Table poi_a and poi_p; Attribute aggtype='education' and type='college'"
+                },
+                {
+                "key": "amenity",
+                "value": "public_building",
+                "description": "Table poi_a and poi_p; Attribute aggtype='education' and type='public_building'"
+                },
+                {
+                "key": "amenity",
+                "value": "pharmacy",
+                "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='pharmacy'"
+                },
+                {
+                "key": "amenity",
+                "value": "hospital",
+                "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='hospital'"
+                },
+                {
+                "key": "amenity",
+                "value": "clinic",
+                "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='clinic'"
+                },
+                {
+                "key": "amenity",
+                "value": "social_facility",
+                "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='social_facility'"
+                },
+                {
+                "key": "amenity",
+                "value": "doctors",
+                "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='doctors'"
+                },
+                {
+                "key": "amenity",
+                "value": "dentist",
+                "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='dentist'"
+                },
+                {
+                "key": "amenity",
+                "value": "veterinary",
+                "description": "Table poi_a and poi_p; Attribute aggtype='health' and type='veterinary'"
+                },
+                {
+                "key": "amenity",
+                "value": "theatre",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='theatre'"
+                },
+                {
+                "key": "amenity",
+                "value": "nightclub",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='nightclub'"
+                },
+                {
+                "key": "amenity",
+                "value": "cinema",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='cinema'"
+                },
+                {
+                "key": "leisure",
+                "value": "playground",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='playground'"
+                },
+                {
+                "key": "leisure",
+                "value": "dog_park",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='dog_park'"
+                },
+                {
+                "key": "leisure",
+                "value": "sports_centre",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='sports_centre'"
+                },
+                {
+                "key": "sport",
+                "value": "soccer",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='soccer_pitch'"
+                },
+                {
+                "key": "sport",
+                "value": "tennis",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='tennis_pitch'"
+                },
+                {
+                "key": "leisure",
+                "value": "pitch",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='pitch'"
+                },
+                {
+                "key": "leisure",
+                "value": "common",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='common'"
+                },
+                {
+                "key": "leisure",
+                "value": "garden",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='garden'"
+                },
+                {
+                "key": "leisure",
+                "value": "miniature_golf",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='miniature_golf'"
+                },
+                {
+                "key": "amenity",
+                "value": "swimming_pool",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='swimming_pool'"
+                },
+                {
+                "key": "leisure",
+                "value": "swimming_pool",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='swimming_pool'"
+                },
+                {
+                "key": "sport",
+                "value": "swimming_pool",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='swimming_pool'"
+                },
+                {
+                "key": "leisure",
+                "value": "water_park",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='swimming_pool'"
+                },
+                {
+                "key": "leisure",
+                "value": "golf_course",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='golf_course'"
+                },
+                {
+                "key": "leisure",
+                "value": "stadium",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='stadium'"
+                },
+                {
+                "key": "leisure",
+                "value": "ice_rink",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='ice_rink'"
+                },
+                {
+                "key": "amenity",
+                "value": "restaurant",
+                "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='restaurant'"
+                },
+                {
+                "key": "amenity",
+                "value": "fast_food",
+                "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='fast_food'"
+                },
+                {
+                "key": "amenity",
+                "value": "cafe",
+                "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='cafe'"
+                },
+                {
+                "key": "amenity",
+                "value": "pub",
+                "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='pub'"
+                },
+                {
+                "key": "amenity",
+                "value": "bar",
+                "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='bar'"
+                },
+                {
+                "key": "amenity",
+                "value": "food_court",
+                "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='food_court'"
+                },
+                {
+                "key": "amenity",
+                "value": "biergarten",
+                "description": "Table poi_a and poi_p; Attribute aggtype='catering' and type='biergarten'"
+                },
+                {
+                "key": "tourism",
+                "value": "hotel",
+                "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_in' and type='hotel'"
+                },
+                {
+                "key": "tourism",
+                "value": "motel",
+                "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_in' and type='motel'"
+                },
+                {
+                "key": "tourism",
+                "value": "guest_house",
+                "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_in' and type='guest_house'"
+                },
+                {
+                "key": "tourism",
+                "value": "hostel",
+                "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_in' and type='hostel'"
+                },
+                {
+                "key": "tourism",
+                "value": "chalet",
+                "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_in' and type='chalet'"
+                },
+                {
+                "key": "amenity",
+                "value": "shelter",
+                "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_out' and type='shelter'"
+                },
+                {
+                "key": "tourism",
+                "value": "camp_site",
+                "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_out' and type='camp_site'"
+                },
+                {
+                "key": "tourism",
+                "value": "alpine_hut",
+                "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_out' and type='alpine_hut'"
+                },
+                {
+                "key": "tourism",
+                "value": "caravan_site",
+                "description": "Table poi_a and poi_p; Attribute aggtype='accommodation_out' and type='caravan_site'"
+                },
+                {
+                "key": "shop",
+                "value": "supermarket",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='supermarket'"
+                },
+                {
+                "key": "shop",
+                "value": "bakery",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='bakery'"
+                },
+                {
+                "key": "shop",
+                "value": "kiosk",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='kiosk'"
+                },
+                {
+                "key": "shop",
+                "value": "mall",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='mall'"
+                },
+                {
+                "key": "shop",
+                "value": "department_store",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='department_store'"
+                },
+                {
+                "key": "shop",
+                "value": "convenience",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='convenience'"
+                },
+                {
+                "key": "shop",
+                "value": "clothes",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='clothes'"
+                },
+                {
+                "key": "shop",
+                "value": "florist",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='florist'"
+                },
+                {
+                "key": "shop",
+                "value": "chemist",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='chemist'"
+                },
+                {
+                "key": "shop",
+                "value": "books",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='books'"
+                },
+                {
+                "key": "shop",
+                "value": "butcher",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='butcher'"
+                },
+                {
+                "key": "shop",
+                "value": "shoes",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='shoes'"
+                },
+                {
+                "key": "shop",
+                "value": "beverages",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='beverages'"
+                },
+                {
+                "key": "shop",
+                "value": "alcohol",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='beverages'"
+                },
+                {
+                "key": "shop",
+                "value": "optician",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='optician'"
+                },
+                {
+                "key": "shop",
+                "value": "jewelry",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='jewelry'"
+                },
+                {
+                "key": "shop",
+                "value": "gift",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='gift'"
+                },
+                {
+                "key": "shop",
+                "value": "sports",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='sports'"
+                },
+                {
+                "key": "shop",
+                "value": "stationery",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='stationery'"
+                },
+                {
+                "key": "shop",
+                "value": "outdoor",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='outdoor'"
+                },
+                {
+                "key": "shop",
+                "value": "mobile_phone",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='mobile_phone'"
+                },
+                {
+                "key": "shop",
+                "value": "toys",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='toys'"
+                },
+                {
+                "key": "shop",
+                "value": "newsagent",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='newsagent'"
+                },
+                {
+                "key": "shop",
+                "value": "greengrocer",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='greengrocer'"
+                },
+                {
+                "key": "shop",
+                "value": "beauty",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='beauty'"
+                },
+                {
+                "key": "shop",
+                "value": "video",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='video'"
+                },
+                {
+                "key": "shop",
+                "value": "car",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='car'"
+                },
+                {
+                "key": "shop",
+                "value": "bicycle",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='bicycle'"
+                },
+                {
+                "key": "shop",
+                "value": "hardware",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='hardware'"
+                },
+                {
+                "key": "shop",
+                "value": "doityourself",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='hardware'"
+                },
+                {
+                "key": "shop",
+                "value": "furniture",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='furniture'"
+                },
+                {
+                "key": "shop",
+                "value": "computer",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='computer'"
+                },
+                {
+                "key": "shop",
+                "value": "garden_centre",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='garden_centre'"
+                },
+                {
+                "key": "shop",
+                "value": "hairdresser",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='hairdresser'"
+                },
+                {
+                "key": "shop",
+                "value": "car_repair",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='car_repair'"
+                },
+                {
+                "key": "amenity",
+                "value": "car_rental",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='car_rental'"
+                },
+                {
+                "key": "amenity",
+                "value": "car_wash",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='car_wash'"
+                },
+                {
+                "key": "amenity",
+                "value": "car_sharing",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='car_sharing'"
+                },
+                {
+                "key": "amenity",
+                "value": "bicycle_rental",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='bicycle_rental'"
+                },
+                {
+                "key": "shop",
+                "value": "travel_agency",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='travel_agency'"
+                },
+                {
+                "key": "shop",
+                "value": "laundry",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='laundry'"
+                },
+                {
+                "key": "shop",
+                "value": "dry_cleaning",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='laundry'"
+                },
+                {
+                "key": "amenity",
+                "description": "Table poi_a and poi_p; Attribute aggtype='vending' and type='vending'"
+                },
+                {
+                "key": "vending",
+                "description": "Table poi_a and poi_p; Attribute aggtype='vending' and type='vending'"
+                },
+                {
+                "key": "vending",
+                "value": "cigarette",
+                "description": "Table poi_a and poi_p; Attribute aggtype='vending' and type='vending_cigarette'"
+                },
+                {
+                "key": "vending",
+                "value": "parking_tickets",
+                "description": "Table poi_a and poi_p; Attribute aggtype='vending' and type='vending_parking'"
+                },
+                {
+                "key": "amenity",
+                "value": "bank",
+                "description": "Table poi_a and poi_p; Attribute aggtype='money' and type='bank'"
+                },
+                {
+                "key": "amenity",
+                "value": "atm",
+                "description": "Table poi_a and poi_p; Attribute aggtype='money' and type='atm'"
+                },
+                {
+                "key": "amenity",
+                "value": "bureau_de_change",
+                "description": "Table poi_a and poi_p; Attribute aggtype='money' and type='money_changer'"
+                },
+                {
+                "key": "tourism",
+                "value": "information",
+                "description": "Table poi_a and poi_p; Attribute aggtype='tourism' and type='information'"
+                },
+                {
+                "key": "information",
+                "value": "map",
+                "description": "Table poi_a and poi_p; Attribute aggtype='tourism' and type='map'"
+                },
+                {
+                "key": "information",
+                "value": "board",
+                "description": "Table poi_a and poi_p; Attribute aggtype='tourism' and type='board'"
+                },
+                {
+                "key": "information",
+                "value": "guidepost",
+                "description": "Table poi_a and poi_p; Attribute aggtype='tourism' and type='guidepost'"
+                },
+                {
+                "key": "tourism",
+                "value": "attraction",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='attraction'"
+                },
+                {
+                "key": "tourism",
+                "value": "museum",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='museum'"
+                },
+                {
+                "key": "historic",
+                "value": "monument",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='monument'"
+                },
+                {
+                "key": "historic",
+                "value": "memorial",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='memorial'"
+                },
+                {
+                "key": "tourism",
+                "value": "artwork",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='artwork'"
+                },
+                {
+                "key": "historic",
+                "value": "castle",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='castle'"
+                },
+                {
+                "key": "historic",
+                "value": "ruins",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='ruins'"
+                },
+                {
+                "key": "historic",
+                "value": "archaeological_site",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='archaeological_site'"
+                },
+                {
+                "key": "historic",
+                "value": "wayside_cross",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='wayside_cross'"
+                },
+                {
+                "key": "historic",
+                "value": "wayside_shrine",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='wayside_shrine'"
+                },
+                {
+                "key": "historic",
+                "value": "battlefield",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='battlefield'"
+                },
+                {
+                "key": "historic",
+                "value": "fort",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='fort'"
+                },
+                {
+                "key": "tourism",
+                "value": "picnic_site",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='picnic_site'"
+                },
+                {
+                "key": "tourism",
+                "value": "viewpoint",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='viewpoint'"
+                },
+                {
+                "key": "tourism",
+                "value": "zoo",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='zoo'"
+                },
+                {
+                "key": "tourism",
+                "value": "theme_park",
+                "description": "Table poi_a and poi_p; Attribute aggtype='destination' and type='theme_park'"
+                },
+                {
+                "key": "amenity",
+                "value": "toilet",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='toilet'"
+                },
+                {
+                "key": "amenity",
+                "value": "bench",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='bench'"
+                },
+                {
+                "key": "amenity",
+                "value": "drinking_water",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='drinking_water'"
+                },
+                {
+                "key": "amenity",
+                "value": "fountain",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='fountain'"
+                },
+                {
+                "key": "amenity",
+                "value": "hunting_stand",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='hunting_stand'"
+                },
+                {
+                "key": "amenity",
+                "value": "waste_basket",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='waste_basket'"
+                },
+                {
+                "key": "man_made",
+                "value": "surveillance",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='surveillance'"
+                },
+                {
+                "key": "amenity",
+                "value": "emergency_phone",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='emergency_phone'"
+                },
+                {
+                "key": "emergency",
+                "value": "phone",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='emergency_phone'"
+                },
+                {
+                "key": "amenity",
+                "value": "fire_hydrant",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='fire_hydrant'"
+                },
+                {
+                "key": "emergency",
+                "value": "fire_hydrant",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='fire_hydrant'"
+                },
+                {
+                "key": "amenity",
+                "value": "emergency_access_point",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='emergency_access'"
+                },
+                {
+                "key": "man_made",
+                "value": "tower",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='tower'"
+                },
+                {
+                "key": "tower:type",
+                "value": "comm_tower",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='comm_tower'"
+                },
+                {
+                "key": "man_made",
+                "value": "water_tower",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='water_tower'"
+                },
+                {
+                "key": "tower:type",
+                "value": "observation_tower",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='observation_tower'"
+                },
+                {
+                "key": "man_made",
+                "value": "windmill",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='windmill'"
+                },
+                {
+                "key": "man_made",
+                "value": "lighthouse",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='lighthouse'"
+                },
+                {
+                "key": "man_made",
+                "value": "water_well",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='water_well'"
+                },
+                {
+                "key": "man_made",
+                "value": "watermill",
+                "description": "Table poi_a and poi_p; Attribute aggtype='miscpoi' and type='watermill'"
+                },
+                {
+                "key": "tourism",
+                "description": "Table poi_a and poi_p; Attribute aggtype='tourism' and type='tourism'"
+                },
+                {
+                "key": "leisure",
+                "description": "Table poi_a and poi_p; Attribute aggtype='leisure' and type='leisure'"
+                },
+                {
+                "key": "sport",
+                "description": "Table poi_a and poi_p; Attribute aggtype='sport' and type='sport'"
+                },
+                {
+                "key": "man_made",
+                "description": "Table poi_a and poi_p; Attribute aggtype='man_made' and type='man_made'"
+                },
+                {
+                "key": "shop",
+                "description": "Table poi_a and poi_p; Attribute aggtype='shop' and type='shop'"
+                },
+                {
+                "key": "historic",
+                "description": "Table poi_a and poi_p; Attribute aggtype='historic' and type='historic'"
+                },
+                {
+                "key": "amenity",
+                "description": "Table poi_a and poi_p; Attribute aggtype='amenity' and type='amenity'"
+                },
+                {
+                "key": "religion",
+                "description": "Table pow_a and pow_p; Attribute aggtype='place_of_worship' and type='place_of_worship'"
+                },
+                {
+                "key": "religion",
+                "value": "buddhist",
+                "description": "Table pow_a and pow_p; Attribute aggtype='buddhist' and type='buddhist'"
+                },
+                {
+                "key": "religion",
+                "value": "christian",
+                "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='christian'"
+                },
+                {
+                "key": "denomination",
+                "value": "anglican",
+                "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='anglican'"
+                },
+                {
+                "key": "denomination",
+                "value": "baptist ",
+                "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='baptist '"
+                },
+                {
+                "key": "denomination",
+                "value": "catholic",
+                "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='catholic'"
+                },
+                {
+                "key": "denomination",
+                "value": "evangelical",
+                "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='evangelical'"
+                },
+                {
+                "key": "denomination",
+                "value": "lutheran",
+                "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='lutheran'"
+                },
+                {
+                "key": "denomination",
+                "value": "methodist",
+                "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='methodist'"
+                },
+                {
+                "key": "denomination",
+                "value": "orthodox",
+                "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='orthodox'"
+                },
+                {
+                "key": "denomination",
+                "value": "protestant",
+                "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='protestant'"
+                },
+                {
+                "key": "denomination",
+                "value": "mormon",
+                "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='mormon'"
+                },
+                {
+                "key": "denomination",
+                "value": "presbyterian",
+                "description": "Table pow_a and pow_p; Attribute aggtype='christian' and type='presbyterian'"
+                },
+                {
+                "key": "religion",
+                "value": "hindu",
+                "description": "Table pow_a and pow_p; Attribute aggtype='hindu' and type='hindu'"
+                },
+                {
+                "key": "religion",
+                "value": "jewish",
+                "description": "Table pow_a and pow_p; Attribute aggtype='jewish' and type='jewish'"
+                },
+                {
+                "key": "religion",
+                "value": "muslim",
+                "description": "Table pow_a and pow_p; Attribute aggtype='muslim' and type='muslim'"
+                },
+                {
+                "key": "denomination",
+                "value": "shia",
+                "description": "Table pow_a and pow_p; Attribute aggtype='muslim' and type='shia'"
+                },
+                {
+                "key": "denomination",
+                "value": "sunni",
+                "description": "Table pow_a and pow_p; Attribute aggtype='muslim' and type='sunni'"
+                },
+                {
+                "key": "religion",
+                "value": "shinto",
+                "description": "Table pow_a and pow_p; Attribute aggtype='shinto' and type='shinto'"
+                },
+                {
+                "key": "religion",
+                "value": "sikh",
+                "description": "Table pow_a and pow_p; Attribute aggtype='sikh' and type='sikh'"
+                },
+                {
+                "key": "religion",
+                "value": "taoist",
+                "description": "Table pow_a and pow_p; Attribute aggtype='taoist' and type='taoist'"
+                },
+                {
+                "key": "railway",
+                "value": "rail",
+                "description": "Table railway_l; Attribute aggtype='railway' and type='rail'"
+                },
+                {
+                "key": "railway",
+                "value": "light_rail",
+                "description": "Table railway_l; Attribute aggtype='railway' and type='light_rail'"
+                },
+                {
+                "key": "railway",
+                "value": "subway",
+                "description": "Table railway_l; Attribute aggtype='railway' and type='subway'"
+                },
+                {
+                "key": "railway",
+                "value": "tram",
+                "description": "Table railway_l; Attribute aggtype='railway' and type='tram'"
+                },
+                {
+                "key": "railway",
+                "value": "monorail",
+                "description": "Table railway_l; Attribute aggtype='railway' and type='monorail'"
+                },
+                {
+                "key": "railway",
+                "value": "narrow_gauge",
+                "description": "Table railway_l; Attribute aggtype='railway' and type='narrow_gauge'"
+                },
+                {
+                "key": "railway",
+                "value": "miniature",
+                "description": "Table railway_l; Attribute aggtype='railway' and type='miniature'"
+                },
+                {
+                "key": "railway",
+                "value": "funicular",
+                "description": "Table railway_l; Attribute aggtype='railway' and type='funicular'"
+                },
+                {
+                "key": "railway",
+                "description": "Table railway_l; Attribute aggtype='railway' and type='railway'"
+                },
+                {
+                "key": "aerialway",
+                "value": "drag_lift",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='drag_lift'"
+                },
+                {
+                "key": "aerialway",
+                "value": "chair_lift",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='chair_lift'"
+                },
+                {
+                "key": "aerialway",
+                "value": "high_speed_chair_lift",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='chair_lift'"
+                },
+                {
+                "key": "aerialway",
+                "value": "cable_car",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='cable_car'"
+                },
+                {
+                "key": "aerialway",
+                "value": "gondola",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='gondola'"
+                },
+                {
+                "key": "aerialway",
+                "value": "goods",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='goods'"
+                },
+                {
+                "key": "aerialway",
+                "value": "platter",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='platter'"
+                },
+                {
+                "key": "aerialway",
+                "value": "t-bar",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='t-bar'"
+                },
+                {
+                "key": "aerialway",
+                "value": "j-bar",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='j-bar'"
+                },
+                {
+                "key": "aerialway",
+                "value": "magic_carpet",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='magic_carpet'"
+                },
+                {
+                "key": "aerialway",
+                "value": "zip_line",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='zip_line'"
+                },
+                {
+                "key": "aerialway",
+                "value": "rope_tow",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='rope_tow'"
+                },
+                {
+                "key": "aerialway",
+                "value": "mixed_lift",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='mixed_lift'"
+                },
+                {
+                "key": "aerialway",
+                "description": "Table railway_l; Attribute aggtype='aerialway' and type='aerialway'"
+                },
+                {
+                "key": "highway",
+                "value": "motorway",
+                "description": "Table road_l; Attribute aggtype='major_road' and type='motorway'"
+                },
+                {
+                "key": "highway",
+                "value": "trunk",
+                "description": "Table road_l; Attribute aggtype='major_road' and type='trunk'"
+                },
+                {
+                "key": "highway",
+                "value": "primary",
+                "description": "Table road_l; Attribute aggtype='major_road' and type='primary'"
+                },
+                {
+                "key": "highway",
+                "value": "secondary",
+                "description": "Table road_l; Attribute aggtype='major_road' and type='secondary'"
+                },
+                {
+                "key": "highway",
+                "value": "tertiary",
+                "description": "Table road_l; Attribute aggtype='major_road' and type='tertiary'"
+                },
+                {
+                "key": "highway",
+                "value": "unclassified",
+                "description": "Table road_l; Attribute aggtype='minor_road' and type='unclassified'"
+                },
+                {
+                "key": "highway",
+                "value": "residential",
+                "description": "Table road_l; Attribute aggtype='minor_road' and type='residential'"
+                },
+                {
+                "key": "highway",
+                "value": "living_street",
+                "description": "Table road_l; Attribute aggtype='minor_road' and type='living_street'"
+                },
+                {
+                "key": "highway",
+                "value": "pedestrian",
+                "description": "Table road_l; Attribute aggtype='minor_road' and type='pedestrian'"
+                },
+                {
+                "key": "highway",
+                "value": "motorway_link",
+                "description": "Table road_l; Attribute aggtype='highway_links' and type='motorway_link'"
+                },
+                {
+                "key": "highway",
+                "value": "trunk_link",
+                "description": "Table road_l; Attribute aggtype='highway_links' and type='trunk_link'"
+                },
+                {
+                "key": "highway",
+                "value": "primary_link",
+                "description": "Table road_l; Attribute aggtype='highway_links' and type='primary_link'"
+                },
+                {
+                "key": "highway",
+                "value": "secondary_link",
+                "description": "Table road_l; Attribute aggtype='highway_links' and type='secondary_link'"
+                },
+                {
+                "key": "highway",
+                "value": "service",
+                "description": "Table road_l; Attribute aggtype='small_road' and type='service'"
+                },
+                {
+                "key": "highway",
+                "value": "track",
+                "description": "Table road_l; Attribute aggtype='track' and type='track'"
+                },
+                {
+                "key": "tracktype",
+                "value": "grade1",
+                "description": "Table road_l; Attribute aggtype='track' and type='grade1'"
+                },
+                {
+                "key": "tracktype",
+                "value": "grade2",
+                "description": "Table road_l; Attribute aggtype='track' and type='grade2'"
+                },
+                {
+                "key": "tracktype",
+                "value": "grade3",
+                "description": "Table road_l; Attribute aggtype='track' and type='grade3'"
+                },
+                {
+                "key": "tracktype",
+                "value": "grade4",
+                "description": "Table road_l; Attribute aggtype='track' and type='grade4'"
+                },
+                {
+                "key": "tracktype",
+                "value": "grade5",
+                "description": "Table road_l; Attribute aggtype='track' and type='grade5'"
+                },
+                {
+                "key": "highway",
+                "value": "bridleway",
+                "description": "Table road_l; Attribute aggtype='no_large_vehicle' and type='bridleway'"
+                },
+                {
+                "key": "highway",
+                "value": "cycleway",
+                "description": "Table road_l; Attribute aggtype='no_large_vehicle' and type='cycleway'"
+                },
+                {
+                "key": "highway",
+                "value": "footway",
+                "description": "Table road_l; Attribute aggtype='no_large_vehicle' and type='footway'"
+                },
+                {
+                "key": "highway",
+                "value": "path",
+                "description": "Table road_l; Attribute aggtype='no_large_vehicle' and type='path'"
+                },
+                {
+                "key": "highway",
+                "value": "steps",
+                "description": "Table road_l; Attribute aggtype='no_large_vehicle' and type='steps'"
+                },
+                {
+                "key": "highway",
+                "value": "road",
+                "description": "Table road_l; Attribute aggtype='unclassified' and type='road'"
+                },
+                {
+                "key": "junction",
+                "value": "roundabout",
+                "description": "Table road_l; Attribute aggtype='roundabout' and type='*'"
+                },
+                {
+                "key": "route",
+                "value": "bicycle",
+                "description": "Table route_l; Attribute type='bicycle'"
+                },
+                {
+                "key": "route",
+                "value": "bus",
+                "description": "Table route_l; Attribute type='bus'"
+                },
+                {
+                "key": "route",
+                "value": "inline_skates",
+                "description": "Table route_l; Attribute type='inline_skates'"
+                },
+                {
+                "key": "route",
+                "value": "canoe",
+                "description": "Table route_l; Attribute type='canoe'"
+                },
+                {
+                "key": "route",
+                "value": "detour",
+                "description": "Table route_l; Attribute type='detour'"
+                },
+                {
+                "key": "route",
+                "value": "ferry",
+                "description": "Table route_l; Attribute type='ferry'"
+                },
+                {
+                "key": "route",
+                "value": "hiking",
+                "description": "Table route_l; Attribute type='hiking'"
+                },
+                {
+                "key": "route",
+                "value": "horse",
+                "description": "Table route_l; Attribute type='horse'"
+                },
+                {
+                "key": "route",
+                "value": "light_rail",
+                "description": "Table route_l; Attribute type='light_rail'"
+                },
+                {
+                "key": "route",
+                "value": "mtb",
+                "description": "Table route_l; Attribute type='mtb'"
+                },
+                {
+                "key": "route",
+                "value": "nordic_walking",
+                "description": "Table route_l; Attribute type='nordic_walking'"
+                },
+                {
+                "key": "route",
+                "value": "pipeline",
+                "description": "Table route_l; Attribute type='pipeline'"
+                },
+                {
+                "key": "route",
+                "value": "piste",
+                "description": "Table route_l; Attribute type='piste'"
+                },
+                {
+                "key": "route",
+                "value": "power",
+                "description": "Table route_l; Attribute type='power'"
+                },
+                {
+                "key": "route",
+                "value": "railway",
+                "description": "Table route_l; Attribute type='railway'"
+                },
+                {
+                "key": "route",
+                "value": "road",
+                "description": "Table route_l; Attribute type='road'"
+                },
+                {
+                "key": "route",
+                "value": "running",
+                "description": "Table route_l; Attribute type='running'"
+                },
+                {
+                "key": "route",
+                "value": "ski",
+                "description": "Table route_l; Attribute type='ski'"
+                },
+                {
+                "key": "route",
+                "value": "training_area",
+                "description": "Table route_l; Attribute type='training_area'"
+                },
+                {
+                "key": "route",
+                "value": "tram",
+                "description": "Table route_l; Attribute type='tram'"
+                },
+                {
+                "key": "route",
+                "description": "Table route_l; Attribute type='*'"
+                },
+                {
+                "key": "amenity",
+                "value": "fuel",
+                "description": "Table traffic_a and traffic_p; Attribute aggtype='fuel' and type='fuel'"
+                },
+                {
+                "key": "highway",
+                "value": "services",
+                "description": "Table traffic_a and traffic_p; Attribute aggtype='services' and type='services'"
+                },
+                {
+                "key": "amenity",
+                "value": "parking",
+                "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='parking'"
+                },
+                {
+                "key": "parking",
+                "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='parking'"
+                },
+                {
+                "key": "parking",
+                "value": "surface",
+                "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='surface'"
+                },
+                {
+                "key": "parking",
+                "value": "multistorey",
+                "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='multistorey'"
+                },
+                {
+                "key": "parking",
+                "value": "underground",
+                "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='underground'"
+                },
+                {
+                "key": "parking",
+                "value": "bicycle",
+                "description": "Table traffic_a and traffic_p; Attribute aggtype='parking' and type='bicycle'"
+                },
+                {
+                "key": "highway",
+                "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='general_traffic'"
+                },
+                {
+                "key": "highway",
+                "value": "traffic_signals",
+                "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='traffic_signals'"
+                },
+                {
+                "key": "highway",
+                "value": "mini_roundabout",
+                "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='mini_roundabout'"
+                },
+                {
+                "key": "highway",
+                "value": "stop",
+                "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='stop'"
+                },
+                {
+                "key": "highway",
+                "value": "crossing",
+                "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='crossing'"
+                },
+                {
+                "key": "railway",
+                "value": "level_crossing",
+                "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='level_crossing'"
+                },
+                {
+                "key": "highway",
+                "value": "speed_camera",
+                "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='speed_camera'"
+                },
+                {
+                "key": "highway",
+                "value": "motorway_junction",
+                "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='motorway_junction'"
+                },
+                {
+                "key": "highway",
+                "value": "turning_circle",
+                "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='turning_circle'"
+                },
+                {
+                "key": "highway",
+                "value": "ford",
+                "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='ford'"
+                },
+                {
+                "key": "highway",
+                "value": "street_lamp",
+                "description": "Table traffic_p; Attribute aggtype='general_traffic' and type='street_lamp'"
+                },
+                {
+                "key": "barrier",
+                "description": "Table traffic_p; Attribute aggtype='barrier' and type='barrier'"
+                },
+                {
+                "key": "barrier",
+                "value": "gate",
+                "description": "Table traffic_p; Attribute aggtype='barrier' and type='gate'"
+                },
+                {
+                "key": "barrier",
+                "value": "bollard",
+                "description": "Table traffic_p; Attribute aggtype='barrier' and type='bollard'"
+                },
+                {
+                "key": "barrier",
+                "value": "lift_gate",
+                "description": "Table traffic_p; Attribute aggtype='barrier' and type='lift_gate'"
+                },
+                {
+                "key": "barrier",
+                "value": "stile",
+                "description": "Table traffic_p; Attribute aggtype='barrier' and type='stile'"
+                },
+                {
+                "key": "barrier",
+                "value": "cycle_barrier",
+                "description": "Table traffic_p; Attribute aggtype='barrier' and type='cycle_barrier'"
+                },
+                {
+                "key": "barrier",
+                "value": "fence",
+                "description": "Table traffic_p; Attribute aggtype='barrier' and type='fence'"
+                },
+                {
+                "key": "barrier",
+                "value": "toll_booth",
+                "description": "Table traffic_p; Attribute aggtype='barrier' and type='toll_booth'"
+                },
+                {
+                "key": "barrier",
+                "value": "block",
+                "description": "Table traffic_p; Attribute aggtype='barrier' and type='block'"
+                },
+                {
+                "key": "barrier",
+                "value": "kissing_gate",
+                "description": "Table traffic_p; Attribute aggtype='barrier' and type='kissing_gate'"
+                },
+                {
+                "key": "barrier",
+                "value": "cattle_grid",
+                "description": "Table traffic_p; Attribute aggtype='barrier' and type='cattle_grid'"
+                },
+                {
+                "key": "traffic_calming",
+                "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='traffic_calming'"
+                },
+                {
+                "key": "traffic_calming",
+                "value": "hump",
+                "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='hump'"
+                },
+                {
+                "key": "traffic_calming",
+                "value": "bump",
+                "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='bump'"
+                },
+                {
+                "key": "traffic_calming",
+                "value": "table",
+                "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='table'"
+                },
+                {
+                "key": "traffic_calming",
+                "value": "chicane",
+                "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='chicane'"
+                },
+                {
+                "key": "traffic_calming",
+                "value": "cushion",
+                "description": "Table traffic_p; Attribute aggtype='traffic_calming' and type='cushion'"
+                },
+                {
+                "key": "railway",
+                "value": "station",
+                "description": "Table transport_a and transport_p; Attribute aggtype='railway' and type='railway_station'"
+                },
+                {
+                "key": "railway",
+                "value": "halt",
+                "description": "Table transport_a and transport_p; Attribute aggtype='railway' and type='railway_halt'"
+                },
+                {
+                "key": "train",
+                "value": "yes",
+                "description": "Table transport_a and transport_p; Attribute aggtype='railway' and type='railway_halt'"
+                },
+                {
+                "key": "highway",
+                "value": "bus_stop",
+                "description": "Table transport_a and transport_p; Attribute aggtype='bus' and type='bus_stop'"
+                },
+                {
+                "key": "bus",
+                "value": "yes",
+                "description": "Table transport_a and transport_p; Attribute aggtype='bus' and type='bus_stop'"
+                },
+                {
+                "key": "amenity",
+                "value": "bus_station",
+                "description": "Table transport_a and transport_p; Attribute aggtype='bus' and type='bus_station'"
+                },
+                {
+                "key": "amenity",
+                "value": "taxi",
+                "description": "Table transport_a and transport_p; Attribute aggtype='taxi' and type='taxi_stand'"
+                },
+                {
+                "key": "amenity",
+                "value": "airport",
+                "description": "Table transport_a and transport_p; Attribute aggtype='air_traffic' and type='airport'"
+                },
+                {
+                "key": "aeroway",
+                "value": "aerodrome",
+                "description": "Table transport_a and transport_p; Attribute aggtype='air_traffic' and type='airport'"
+                },
+                {
+                "key": "aeroway",
+                "value": "runway",
+                "description": "Table transport_a and transport_p; Attribute aggtype='air_traffic' and type='airfield'"
+                },
+                {
+                "key": "aeroway",
+                "value": "helipad",
+                "description": "Table transport_a and transport_p; Attribute aggtype='air_traffic' and type='helipad'"
+                },
+                {
+                "key": "amenity",
+                "value": "ferry_terminal",
+                "description": "Table transport_a and transport_p; Attribute aggtype='water_traffic' and type='ferry_terminal'"
+                },
+                {
+                "key": "aerialway",
+                "value": "station",
+                "description": "Table transport_a and transport_p; Attribute aggtype='other_traffic' and type='aerialway_station'"
+                },
+                {
+                "key": "public_transport",
+                "value": "stop_position",
+                "description": "Table transport_a and transport_p; Attribute aggtype='public_transport' and type='stop_position'"
+                },
+                {
+                "key": "aeroway",
+                "description": "Table transport_a and transport_p; Attribute aggtype='aeroway' and type='aeroway'"
+                },
+                {
+                "key": "aerialway",
+                "description": "Table transport_a and transport_p; Attribute aggtype='aerialway' and type='aerialway'"
+                },
+                {
+                "key": "railway",
+                "value": "tram_stop",
+                "description": "Table transport_p; Attribute aggtype='tram' and type='tram_stop'"
+                },
+                {
+                "key": "tram",
+                "value": "yes",
+                "description": "Table transport_p; Attribute aggtype='tram' and type='tram_stop'"
+                },
+                {
+                "key": "power",
+                "description": "Table utility_a and utility_p; Attribute aggtype='power' and type='power'"
+                },
+                {
+                "key": "power",
+                "value": "tower",
+                "description": "Table utility_a and utility_p; Attribute aggtype='tower' and type='tower'"
+                },
+                {
+                "key": "power",
+                "value": "generator",
+                "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='station'"
+                },
+                {
+                "key": "generator:source",
+                "value": "nuclear",
+                "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='nuclear'"
+                },
+                {
+                "key": "generator:source",
+                "value": "solar",
+                "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='solar'"
+                },
+                {
+                "key": "power_source",
+                "value": "photovoltaic",
+                "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='solar'"
+                },
+                {
+                "key": "generator:source",
+                "value": "gas",
+                "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='fossil'"
+                },
+                {
+                "key": "generator:source",
+                "value": "coal",
+                "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='fossil'"
+                },
+                {
+                "key": "generator:source",
+                "value": "water",
+                "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='hydro'"
+                },
+                {
+                "key": "power_source",
+                "value": "hydro",
+                "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='hydro'"
+                },
+                {
+                "key": "generator:source",
+                "value": "wind",
+                "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='wind'"
+                },
+                {
+                "key": "power_source",
+                "value": "wind",
+                "description": "Table utility_a and utility_p; Attribute aggtype='station' and type='wind'"
+                },
+                {
+                "key": "power",
+                "value": "substation",
+                "description": "Table utility_a and utility_p; Attribute aggtype='substation' and type='substation'"
+                },
+                {
+                "key": "power",
+                "value": "station",
+                "description": "Table utility_a and utility_p; Attribute aggtype='substation' and type='substation'"
+                },
+                {
+                "key": "man_made",
+                "value": "storage_tank",
+                "description": "Table utility_a and utility_p; Attribute aggtype='man_made' and type='storage_tank'"
+                },
+                {
+                "key": "man_made",
+                "value": "wastewater_plant",
+                "description": "Table utility_a and utility_p; Attribute aggtype='man_made' and type='wastewater_plant'"
+                },
+                {
+                "key": "man_made",
+                "value": "water_works",
+                "description": "Table utility_a and utility_p; Attribute aggtype='man_made' and type='water_works'"
+                },
+                {
+                "key": "power",
+                "value": "transformer",
+                "description": "Table utility_a and utility_p; Attribute aggtype='transformer' and type='transformer'"
+                },
+                {
+                "key": "power",
+                "description": "Table utility_l; Attribute aggtype='power' and type='power'"
+                },
+                {
+                "key": "power",
+                "value": "line",
+                "description": "Table utility_l; Attribute aggtype='power' and type='line'"
+                },
+                {
+                "key": "power",
+                "value": "minor_line",
+                "description": "Table utility_l; Attribute aggtype='power' and type='minor_line'"
+                },
+                {
+                "key": "power",
+                "value": "cable",
+                "description": "Table utility_l; Attribute aggtype='power' and type='cable'"
+                },
+                {
+                "key": "power",
+                "value": "minor_cable",
+                "description": "Table utility_l; Attribute aggtype='power' and type='minor_cable'"
+                },
+                {
+                "key": "power",
+                "value": "minor_underground_cable",
+                "description": "Table utility_l; Attribute aggtype='power' and type='minor_cable'"
+                },
+                {
+                "key": "man_made",
+                "description": "Table utility_l; Attribute aggtype='man_made' and type='man_made'"
+                },
+                {
+                "key": "man_made",
+                "value": "pipeline",
+                "description": "Table utility_l; Attribute aggtype='man_made' and type='pipeline'"
+                },
+                {
+                "key": "man_made",
+                "value": "water_work",
+                "description": "Table utility_l; Attribute aggtype='man_made' and type='water_work'"
+                },
+                {
+                "key": "power",
+                "value": "pole",
+                "description": "Table utility_p; Attribute aggtype='pole' and type='pole'"
+                },
+                {
+                "key": " water_p and water_l",
+                "value": "waterway",
+                "description": "Table water_a; Attribute type=''"
+                },
+                {
+                "key": "waterway",
+                "value": "water",
+                "description": "Table water_a and water_p; Attribute type='water'"
+                },
+                {
+                "key": "waterway",
+                "value": "spring",
+                "description": "Table water_a and water_p; Attribute type='spring'"
+                },
+                {
+                "key": "waterway",
+                "value": "riverbank",
+                "description": "Table water_a and water_p; Attribute type='riverbank'"
+                },
+                {
+                "key": "waterway",
+                "value": "slipway",
+                "description": "Table water_a and water_p; Attribute type='slipway'"
+                },
+                {
+                "key": "waterway",
+                "value": "marina",
+                "description": "Table water_a and water_p; Attribute type='marina'"
+                },
+                {
+                "key": "waterway",
+                "value": "pier",
+                "description": "Table water_a and water_p; Attribute type='pier'"
+                },
+                {
+                "key": "waterway",
+                "value": "dam",
+                "description": "Table water_a and water_p; Attribute type='dam'"
+                },
+                {
+                "key": "waterway",
+                "value": "weir",
+                "description": "Table water_a and water_p; Attribute type='weir'"
+                },
+                {
+                "key": "waterway",
+                "value": "riverbank",
+                "description": "Table water_l; Attribute type='riverbank'"
+                },
+                {
+                "key": "waterway",
+                "value": "stream",
+                "description": "Table water_l; Attribute type='stream'"
+                },
+                {
+                "key": "waterway",
+                "value": "canal",
+                "description": "Table water_l; Attribute type='canal'"
+                },
+                {
+                "key": "waterway",
+                "value": "drain",
+                "description": "Table water_l; Attribute type='drain'"
+                },
+                {
+                "key": "waterway",
+                "value": "waterfall",
+                "description": "Table water_p; Attribute type='waterfall'"
+                },
+                {
+                "key": "waterway",
+                "value": "lock_gate",
+                "description": "Table water_p; Attribute type='lock_gate'"
+                },
+                ]}
