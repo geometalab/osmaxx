@@ -2380,5 +2380,5 @@
                 "key": "waterway",
                 "value": "lock_gate",
                 "description": "Table water_p; Attribute type='lock_gate'"
-                },
+                }
                 ]}
