@@ -1,40 +1,39 @@
-
    {
-       "data_format": 1,           # data format version, currently always 1, will get updated if there are incompatible changes to the format (required)
-        "data_url": "",          # this should be the URL under which this project file can be accessed (optional)
-        "data_updated": "", # timestamp yyyymmddThhmmssZ when project file was updated (optional, will use HTTP header date if not available)
-        "project": {                # meta information about the project (required)
-         "name": "Osmaxx",          # name of the project (required)
-         "description": "OSM Arbitrary Excerpt Export - The source of worldwide data for interactive and printed maps and for geospatial data analysis",   # short description of the project (required)
-         "project_url": " http://osmaxx.hsr.ch/",   # home page of the project with general information (required)
-         "doc_url": " http://giswiki.hsr.ch/Osmaxx#Documentation",       # documentation of the project and especially the tags used (optional)
-         "icon_url": " http://giswiki.hsr.ch/Datei:Osmaxx_Logo_16x16.png",      # project logo, should work in 16x16 pixels on white and light gray backgrounds (optional)
-         "contact_name": "Stefan Keller",  # contact name, needed for taginfo maintainer (required)
-         "contact_email": "sfkeller@hsr.ch"  # contact email, needed for taginfo maintainer (required)
-    },
+       "data_format": 1,
+        "data_url": "",
+        "data_updated": "",
+        "project": {
+         "name": "Osmaxx",
+         "description": "OSM Arbitrary Excerpt Export - The source of worldwide data for interactive and printed maps and for geospatial data analysis",
+         "project_url": " http://osmaxx.hsr.ch/",
+         "doc_url": " http://giswiki.hsr.ch/Osmaxx#Documentation",
+         "icon_url": " http://giswiki.hsr.ch/Datei:Osmaxx_Logo_16x16.png",
+         "contact_name": "Stefan Keller",
+         "contact_email": "sfkeller@hsr.ch"
+          },
        "tags": [
             {
             "key": "building",
-            "value": "*",
-            "description": "Table address_a; Attribute type='b'"
+            "value": "",
+            "description": "Table address_p; Attribute type='b'"
             },
             
             {
             "key": "building",
             "value": "entrance",
-            "description": "Table address_a; Attribute type='e'"
+            "description": "Table address_p; Attribute type='e'"
             },
             
             {
             "key": "addr:interpolation",
-            "value": "*",
-            "description": "Table address_a; Attribute type='i'"
+            "value": "",
+            "description": "Table address_p; Attribute type='i'"
             },
             
             {
             "key": "place",
-            "value": "*",
-            "description": "Table address_a; Attribute type='p'"
+            "value": "",
+            "description": "Table address_p; Attribute type='p'"
             },
             
             {
