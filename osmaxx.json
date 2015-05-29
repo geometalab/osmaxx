@@ -5,9 +5,9 @@
         "project": {
             "name": "Osmaxx",
             "description": "OSM Arbitrary Excerpt Export - The source of worldwide data for interactive and printed maps and for geospatial data analysis",
-            "project_url": " http://osmaxx.hsr.ch/",
-            "doc_url": " http://giswiki.hsr.ch/Osmaxx#Documentation",
-            "icon_url": " http://giswiki.hsr.ch/Datei:Osmaxx_Logo_16x16.png",
+            "project_url": "http://osmaxx.hsr.ch/",
+            "doc_url": "http://giswiki.hsr.ch/Osmaxx#Documentation",
+            "icon_url": "http://giswiki.hsr.ch/images/2/21/Osmaxx_Logo_16x16.png",
             "contact_name": "Stefan Keller",
             "contact_email": "sfkeller@hsr.ch"
         },
