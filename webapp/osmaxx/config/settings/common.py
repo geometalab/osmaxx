@@ -326,3 +326,4 @@ if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing 
         }
     }
 
+POSTGIS_VERSION = ( 2, 1 )

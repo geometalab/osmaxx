@@ -1,5 +1,5 @@
 from django.test.testcases import TestCase
-from excerptexport.models.bounding_geometry import BoundingGeometry, BBoxBoundingGeometry
+from osmaxx.excerptexport.models.bounding_geometry import BoundingGeometry, BBoxBoundingGeometry
 
 
 class BBoxBoundingGeometryTestCase(TestCase):
