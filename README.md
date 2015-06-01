@@ -5,9 +5,11 @@ Cuts out OpenStreetMap data, processes it to geodata and converts it to typical 
 
 Website: http://osmaxx.hsr.ch/
 
-## Run it locally
+## Development
+See https://github.com/geometalab/osmaxx-docs for documentations and `/docs/development.md` for instructions.
 
-WARNING: only works on Linux machines.
+
+## Run it locally on Linux
 
 **Setup**
 
@@ -22,7 +24,7 @@ Then run
 
 From now on you can start the project using docker compose:
 
-`docker-compose up`
+`docker-compose up webapp`
 
 **running things inside the container**
 
@@ -33,8 +35,19 @@ For example, to run tests, you can use:
 `docker-compose run webapp python3 manage.py test`
 
 
-## Development
-See https://github.com/geometalab/osmaxx-docs for documentations and `developmentEnvironment/` for instructions.
+### Useful Docker commands
+
+Save docker image to file:
+```shell
+docker save osmaxx_database > /tmp/osmaxx-database-alpha1.docker-img.tar
+docker save osmaxx_webapp > /tmp/osmaxx-webapp-alpha1.docker-img.tar
+```
+
+Load docker image from file:
+```shell
+docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
+docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
+```
 
 
 # Documentation
