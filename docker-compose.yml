@@ -6,7 +6,7 @@ webapp:
     # command: gunicorn -b 0.0.0.0:8000 wsgi:application
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
-        - webapp/osmaxx:/home/python/osmaxx/
+        - webapp/osmaxx:/home/osmaxx/osmaxx/
     links:
         - database
     ports:

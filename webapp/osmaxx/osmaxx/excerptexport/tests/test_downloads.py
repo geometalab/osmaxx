@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
@@ -13,7 +14,6 @@ from osmaxx.excerptexport.models import BBoxBoundingGeometry
 
 class DownloadsTestCase(TestCase):
     def setUp(self):
-        settings.PRIVATE_MEDIA_ROOT = '/tmp/osmaxx-dev-data'
         if not os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
             os.makedirs(settings.PRIVATE_MEDIA_ROOT)
         excerptexport_settings.APPLICATION_SETTINGS['download_file_name'] = '%(name)s'
@@ -47,3 +47,7 @@ class DownloadsTestCase(TestCase):
         self.assertEqual(b''.join(response.streaming_content), b'Test text')
 
         os.remove(file_path)
+
+    def tearDown(self):
+        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
+            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)

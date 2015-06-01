@@ -1,7 +1,10 @@
+from django.conf import settings
+import shutil
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.test import TestCase
+import os
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models import BBoxBoundingGeometry, OsmosisPolygonFilterBoundingGeometry
@@ -184,3 +187,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertIsNone(newly_created_order.process_reference)
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'Some old Excerpt')
+
+    def tearDown(self):
+        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
+            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
