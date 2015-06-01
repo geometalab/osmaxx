@@ -36,7 +36,7 @@ init_osmosis() {
     echo "*** init osmosis ***"
     mkdir -p $WORKDIR_OSM
     osmosis --read-replication-interval-init workingDirectory=$WORKDIR_OSM
-    cp /home/jphua/osmaxx/src/bootstrap-configuration.txt $WORKDIR_OSM/configuration.txt
+    cp $DIR/src/bootstrap-configuration.txt $WORKDIR_OSM/configuration.txt
 }
 
 fill_initial_osm_data(){
