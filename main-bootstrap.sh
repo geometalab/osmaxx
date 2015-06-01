@@ -11,9 +11,19 @@
 
 DB_NAME=osmaxx_db
 DIR=$(pwd)
-WORKDIR_OSM=/home/jphua/osmaxx/.osmosis
+WORKDIR_OSM=~/osmaxx/.osmosis
 # SQL
 
+read_secret()
+{
+    stty_orig=$(stty -g)
+    trap 'stty $stty_orig' EXIT
+    stty -echo
+    read "$@"
+    stty $stty_orig
+    trap - EXIT
+    echo
+}
 
 execute_sql() {
     psql --dbname $DB_NAME -c "$1" -U postgres
@@ -21,6 +31,7 @@ execute_sql() {
 
 setup_db() {
     echo "*** setup DB with postgis extensions ***"
+    dropdb -U postgres --interactive --if-exists $DB_NAME
     createdb   -U postgres $DB_NAME
     execute_sql "CREATE EXTENSION hstore;"
     psql -U postgres -d $DB_NAME -f /usr/share/postgresql/9.3/contrib/postgis-2.1/postgis.sql
@@ -36,7 +47,7 @@ init_osmosis() {
     echo "*** init osmosis ***"
     mkdir -p $WORKDIR_OSM
     osmosis --read-replication-interval-init workingDirectory=$WORKDIR_OSM
-    cp /home/jphua/osmaxx/src/bootstrap-configuration.txt $WORKDIR_OSM/configuration.txt
+    cp $DIR/src/bootstrap-configuration.txt $WORKDIR_OSM/configuration.txt
 }
 
 fill_initial_osm_data(){
@@ -58,6 +69,10 @@ filterdata(){
 echo 'filtering data...'
      sh filter_data.sh $DB_NAME
 }
+
+printf '%s' 'PostgreSQL admin password: '
+read_secret PGPASSWORD
+export PGPASSWORD # makes dropdb, createdb & psql not prompt for a password and use this one instead
 
 STARTTIME=$(date +%s)
 setup_db && init_osmosis  && fill_initial_osm_data  && cleandata && filterdata
