@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, BoundingGeometry
+from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, BBoxBoundingGeometry
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
 from osmaxx.excerptexport.tests.permission_test_helper import PermissionHelperMixin
 
@@ -14,7 +14,7 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
         self.user = user = User.objects.create_user('user', 'user@example.com', 'pw')
         self.client.login(username='user', password='pw')
 
-        bounding_geometry = BoundingGeometry.create_from_bounding_box_coordinates(48, 9, 46, 6)
+        bounding_geometry = BBoxBoundingGeometry.create_from_bounding_box_coordinates(48, 9, 46, 6)
         bounding_geometry.save()
 
         excerpt = Excerpt.objects.create(
