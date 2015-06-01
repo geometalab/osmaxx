@@ -21,6 +21,7 @@ execute_sql() {
 
 setup_db() {
     echo "*** setup DB with postgis extensions ***"
+    dropdb -U postgres --interactive --if-exists $DB_NAME
     createdb   -U postgres $DB_NAME
     execute_sql "CREATE EXTENSION hstore;"
     psql -U postgres -d $DB_NAME -f /usr/share/postgresql/9.3/contrib/postgis-2.1/postgis.sql
