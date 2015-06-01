@@ -60,6 +60,10 @@ echo 'filtering data...'
      sh filter_data.sh $DB_NAME
 }
 
+echo -n 'PostgreSQL admin password: '
+read PGPASSWORD
+export PGPASSWORD # makes dropdb, createdb & psql not prompt for a password and use this one instead
+
 STARTTIME=$(date +%s)
 setup_db && init_osmosis  && fill_initial_osm_data  && cleandata && filterdata
 ENDTIME=$(date +%s)
