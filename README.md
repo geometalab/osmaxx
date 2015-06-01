@@ -30,7 +30,7 @@ From now on you can start the project using docker compose:
 
 For example, to run tests, you can use:
 
-`docker-compose run webapp python3 manage.py runtests`
+`docker-compose run webapp python3 manage.py test`
 
 
 ## Development
