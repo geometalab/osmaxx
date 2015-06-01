@@ -70,7 +70,7 @@ echo 'filtering data...'
      sh filter_data.sh $DB_NAME
 }
 
-echo -n 'PostgreSQL admin password: '
+printf '%s' 'PostgreSQL admin password: '
 read_secret PGPASSWORD
 export PGPASSWORD # makes dropdb, createdb & psql not prompt for a password and use this one instead
 
