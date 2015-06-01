@@ -14,6 +14,16 @@ DIR=$(pwd)
 WORKDIR_OSM=~/osmaxx/.osmosis
 # SQL
 
+read_secret()
+{
+    stty_orig=$(stty -g)
+    trap 'stty $stty_orig' EXIT
+    stty -echo
+    read "$@"
+    stty $stty_orig
+    trap - EXIT
+    echo
+}
 
 execute_sql() {
     psql --dbname $DB_NAME -c "$1" -U postgres
@@ -61,7 +71,7 @@ echo 'filtering data...'
 }
 
 echo -n 'PostgreSQL admin password: '
-read PGPASSWORD
+read_secret PGPASSWORD
 export PGPASSWORD # makes dropdb, createdb & psql not prompt for a password and use this one instead
 
 STARTTIME=$(date +%s)
