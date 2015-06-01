@@ -11,7 +11,7 @@
 
 DB_NAME=osmaxx_db
 DIR=$(pwd)
-WORKDIR_OSM=/home/jphua/osmaxx/.osmosis
+WORKDIR_OSM=~/osmaxx/.osmosis
 # SQL
 
 
