@@ -1,0 +1,41 @@
+source:
+    build: docker/source
+# until https://github.com/docker/docker/pull/12648 is resolved, we can't use
+# user namespaces properly
+#    user: osmaxx
+    volumes:
+        - osmaxx:/home/osmaxx/source
+
+static:
+    build: .
+    command: python manage.py collectstatic --noinput
+    volumes:
+        - static:/home/osmaxx/static
+    volumes_from:
+        - source
+
+media:
+    build: .
+    command: echo "done"
+    volumes:
+        - private_media:/home/osmaxx/private_media
+        - media:/home/osmaxx/media
+    volumes_from:
+        - source
+
+database:
+    build: docker/database
+
+webapp:
+    build: .
+    # on production, enable the following
+    # command: gunicorn -b 0.0.0.0:8000 wsgi:application
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes_from:
+        - source
+        - static
+        - media
+    links:
+        - database
+    ports:
+        - "8000:8000"

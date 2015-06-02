@@ -1,0 +1,7 @@
+Django>=1.8,<1.9
+django-environ==0.3.0
+django-secure==1.0.1
+django-enumfield==1.2
+psycopg2==2.6
+python-social-auth==0.2.7
+whitenoise==1.0.6
