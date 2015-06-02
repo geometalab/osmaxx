@@ -44,11 +44,14 @@ rabbitmq:
     image: rabbitmq:3
 
 celery:
-    image: celery:3
+    build: docker/celery
+    command: celery -A config worker -l info
     links:
         - rabbitmq:rabbit
     volumes_from:
         - source
+    environment:
+        - DJANGO_SETTINGS_MODULE='config.settings.production'
 
 # webserver:
 #     build: webserver

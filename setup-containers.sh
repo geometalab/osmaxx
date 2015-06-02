@@ -5,7 +5,7 @@ docker-compose up -d database
 sleep 15
 echo "applying migrations"
 docker-compose run webapp python3 manage.py migrate
-sleep 10
+echo ""
 echo "create a superuser:"
 docker-compose run webapp python3 manage.py createsuperuser
 docker-compose stop
