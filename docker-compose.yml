@@ -1,6 +1,15 @@
+webappsource:
+    build: webappdata
+# until https://github.com/docker/docker/pull/12648 is resolved, we can't use
+# user namespaces properly
+#    user: osmaxx
+    volumes:
+        - webapp/osmaxx:/home/osmaxx/osmaxx/
+
 database:
     build: database
     user: postgres
+
 webapp:
     build: webapp
     # on production, enable the following
@@ -12,19 +21,17 @@ webapp:
         - database
     ports:
         - "8000:8000"
-webappsource:
-    build: webappdata
-# until https://github.com/docker/docker/pull/12648 is resolved, we can't use
-# user namespaces properly
-#    user: osmaxx
-    volumes:
-        - webapp/osmaxx:/home/osmaxx/osmaxx/
-# rabbitmq:
-#     image: rabbitmq:3
-# celery:
-#     image: celery:3
-#     links:
-#         - rabbitmq
+
+rabbitmq:
+    image: rabbitmq:3
+
+celery:
+    image: celery:3
+    links:
+        - rabbitmq:rabbit
+    volumes_from:
+        - webappsource
+
 # webserver:
 #     build: webserver
 #     ports:
