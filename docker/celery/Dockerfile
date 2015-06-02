@@ -1,10 +1,29 @@
-FROM celery:3
-ENV REFRESHED_AT 2015-05-18
+FROM python:3.4
+
+RUN groupadd user && useradd --create-home --home-dir /home/user -g user user
 ENV LANG en_US.utf8
+WORKDIR /home/user
 
-USER root
+# install geodjango dependencies: https://docs.djangoproject.com/en/1.8/ref/contrib/gis/install/geolibs/
+RUN ["apt-get", "update"]
+RUN ["apt-get", "install", "-y", "binutils", "libproj-dev", "gdal-bin", "libgeoip1", "gdal-bin", "python-gdal"]
+RUN ["pip", "install", "--upgrade", "pip"]
 
-RUN ["pip", "install", "django-environ", "django"]
+ENV CELERY_VERSION 3.1.18
+
+RUN pip install celery=="$CELERY_VERSION"
+
+RUN { \
+	echo 'import os'; \
+	echo "BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'amqp://')"; \
+} > celeryconfig.py
+
+# --link some-rabbit:rabbit "just works"
+ENV CELERY_BROKER_URL amqp://guest@rabbit
+
+ADD ["./requirements", "/tmp/requirements"]
+
+RUN ["pip", "install", "-r", "/tmp/requirements/production.txt"]
 
 USER user
 

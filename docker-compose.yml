@@ -50,8 +50,8 @@ celery:
         - rabbitmq:rabbit
     volumes_from:
         - source
-    environment:
-        - DJANGO_SETTINGS_MODULE='config.settings.production'
+#    environment:
+#        - DJANGO_SETTINGS_MODULE='config.settings.production'
 
 # webserver:
 #     build: webserver

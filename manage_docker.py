@@ -19,8 +19,11 @@ def _copy_requirements():
     subprocess.call(["cp", "-r", "osmaxx/requirements", "docker/celery/requirements"])
     subprocess.call(["cp", "-r", "osmaxx/requirements", "docker/webapp/requirements"])
 
-def _build_containers():
-    subprocess.call(["docker-compose", "build"])
+def _build_container(container=None):
+    if container is None:
+        subprocess.call(["docker-compose", "build"])
+    else:
+        subprocess.call(["docker-compose", "build", container])
 
 def _migrate():
     print("executing migrations")
@@ -36,7 +39,7 @@ def _create_super_user():
 def bootstrap():
     print("boostrapping the containers")
     _copy_requirements()
-    _build_containers()
+    _build_container()
     _remove_requirements()
     _migrate()
     _create_super_user()
@@ -44,14 +47,16 @@ def bootstrap():
 def update(container=None):
     print("updating containers")
     _copy_requirements()
-    _build_containers()
+    _build_container(container)
     _remove_requirements()
-    _migrate()
+    if container is None:
+        _migrate()
 
 
 def run(container=None):
+    print("press Ctrl+c to cancel")
     if container is None:
-        print ("running all containers")
+        print("running all containers")
         subprocess.call(["docker-compose", "up"])
     else:
         print("running " + container)
@@ -59,7 +64,8 @@ def run(container=None):
 
 ACTIONS = {
     'run': run,
-    'migrate': _migrate
+    'migrate': _migrate,
+    'update': update
 }
 
 if __name__ == "__main__":
