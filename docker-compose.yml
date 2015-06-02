@@ -1,22 +1,41 @@
-webappsource:
-    build: webappdata
+source:
+    build: docker/source
 # until https://github.com/docker/docker/pull/12648 is resolved, we can't use
 # user namespaces properly
 #    user: osmaxx
     volumes:
-        - webapp/osmaxx:/home/osmaxx/osmaxx/
+        - osmaxx:/home/osmaxx/source
+
+static:
+    build: .
+    command: python manage.py collectstatic --noinput
+    volumes:
+        - static:/home/osmaxx/static
+    volumes_from:
+        - source
+
+media:
+    build: .
+    command: echo "done"
+    volumes:
+        - private_media:/home/osmaxx/private_media
+        - media:/home/osmaxx/media
+    volumes_from:
+        - source
 
 database:
-    build: database
+    build: docker/database
     user: postgres
 
 webapp:
-    build: webapp
+    build: .
     # on production, enable the following
     # command: gunicorn -b 0.0.0.0:8000 wsgi:application
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     volumes_from:
-        - webappsource
+        - source
+        - static
+        - media
     links:
         - database
     ports:
@@ -30,7 +49,7 @@ celery:
     links:
         - rabbitmq:rabbit
     volumes_from:
-        - webappsource
+        - source
 
 # webserver:
 #     build: webserver
