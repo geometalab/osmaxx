@@ -41,7 +41,7 @@ def bootstrap():
     _migrate()
     _create_super_user()
 
-def update():
+def update(container=None):
     print("updating containers")
     _copy_requirements()
     _build_containers()
@@ -54,6 +54,7 @@ def run(container=None):
         print ("running all containers")
         subprocess.call(["docker-compose", "up"])
     else:
+        print("running " + container)
         subprocess.call(["docker-compose", "up", "%s" % container])
 
 ACTIONS = {
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     if args.bootstrap:
         bootstrap()
     if args.update:
-        update()
+        update(args.container)
     if args.action:
         if args.action in ACTIONS:
             ACTIONS[args.action](args.container)
