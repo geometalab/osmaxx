@@ -7,7 +7,7 @@ source:
         - osmaxx:/home/osmaxx/source
 
 static:
-    build: .
+    build: docker/webapp
     command: python manage.py collectstatic --noinput
     volumes:
         - static:/home/osmaxx/static
@@ -15,7 +15,7 @@ static:
         - source
 
 media:
-    build: .
+    build: docker/webapp
     command: echo "done"
     volumes:
         - private_media:/home/osmaxx/private_media
@@ -27,7 +27,7 @@ database:
     build: docker/database
 
 webapp:
-    build: .
+    build: docker/webapp
     # on production, enable the following
     # command: gunicorn -b 0.0.0.0:8000 wsgi:application
     command: python manage.py runserver 0.0.0.0:8000
