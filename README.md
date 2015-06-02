@@ -24,7 +24,7 @@ From now on you can start the project using docker compose:
 
 `docker-compose up webapp`
 
-### running things inside the container
+### Running things inside the container
 `docker-compose run webapp <command>`
 
 For example, to run tests, you can use:
