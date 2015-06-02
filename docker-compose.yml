@@ -25,7 +25,6 @@ media:
 
 database:
     build: docker/database
-    user: postgres
 
 webapp:
     build: .
