@@ -35,7 +35,7 @@ For example, to run tests, you can use:
 `docker-compose run webapp python3 manage.py test`
 
 
-### Useful Docker commands
+## Useful Docker commands
 
 Save docker image to file:
 ```shell
