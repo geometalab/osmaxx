@@ -10,7 +10,7 @@ RUN ["apt-get", "update"]
 RUN ["apt-get", "install", "-y", "binutils", "libproj-dev", "gdal-bin", "libgeoip1", "gdal-bin", "python-gdal"]
 RUN ["pip", "install", "--upgrade", "pip"]
 
-ADD ./osmaxx/requirements /tmp/requirements/
+ADD ./requirements /tmp/requirements/
 
 # manage requirements
 ENV REQUIREMENTS_REFRESHED_AT 2015-05-16
