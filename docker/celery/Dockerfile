@@ -23,7 +23,7 @@ ENV CELERY_BROKER_URL amqp://guest@rabbit
 
 ADD ["./requirements", "/tmp/requirements"]
 
-RUN ["pip", "install", "-r", "/tmp/requirements/production.txt"]
+RUN ["pip", "install", "-r", "/tmp/requirements/local.txt"]
 
 USER user
 
