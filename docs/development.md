@@ -1,6 +1,6 @@
 # Development
 
-# Git repository
+## Git repository
 
 For developers with write access to this repository:
 
@@ -31,13 +31,14 @@ For developers with write access to this repository:
 
 	    git flow feature publish
 	    
-	**and** create a pull request against branch `develop`. (Do **not** use `git flow feature finish`, as we use pull requests for review purposes.)
+	**and** create a pull request against branch `develop`. 
+	(Do **not** use `git flow feature finish`, as we use pull requests for review purposes.)
 
-# Project Development Environment (Docker)
+## Project Development Environment (Docker)
 
-A docker-compose setup is provided as part of this project's repository.
+### Local prerequisites
 
-## Local prerequisites
+Docker and docker-compose is required to be installed.
 
 For committing and using the pre-commit hook (which really should be used) flake8 needs to be installed on
 the local system/machine.
@@ -53,40 +54,60 @@ $ cd <osmaxx-repo-root>
 $ ln -s ../../hooks/pre-commit .git/hooks/pre-commit
 ```
 
-### Reset the box
+### Using the project docker setup
 
-```shell
-docker-compose build
-```
+A docker-compose setup is provided as part of this project's repository. Ensure to have docker installed
+and setup the containers properly. (As described in the README: `python manage_docker.py bootstrap`).
 
-Is usually enough, since it builds the changed parts only. If it is not enough, first use
+### running commands
 
-```shell
-docker-compose stop
-docker-compose rm # and say yes
-docker-compose build
-```
-
-If you really want to go and have a coffee, you might use the following:
-
-```shell
-docker-compose build --no-cache
-```
-
-
-### do something in a box
+The general way of running any command inside a docker container:
 
 ```shell
 docker-compose run <container> <command>
 ```
 
-ie.
+Examples:
+
+Execute a shell in the webapp:
 
 ```shell
 docker-compose run webapp bash
 ```
+Run tests:
 
-## Development
+`docker-compose run webapp python3 manage.py test`
+
+### Reset the box
+
+Normally, just stopping the containers, removing them and updating them is enough:
+
+```shell
+python manage_docker.py clean
+python manage_docker.py update
+```
+
+If it should be rebuilt from scratch, destroy the boxes and start over:
+
+```shell
+python manage_docker.py bootstrap --from-scratch
+```
+
+## Useful Docker commands
+
+Save docker image to file:
+```shell
+docker save osmaxx_database > /tmp/osmaxx-database-alpha1.docker-img.tar
+docker save osmaxx_webapp > /tmp/osmaxx-webapp-alpha1.docker-img.tar
+```
+
+Load docker image from file:
+```shell
+docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
+docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
+```
+
+## Commonly used commands while developing
 
 ### Update persistence
 

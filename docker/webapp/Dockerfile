@@ -6,8 +6,17 @@ ENV HOME /home/osmaxx
 WORKDIR /home/osmaxx
 
 # install geodjango dependencies: https://docs.djangoproject.com/en/1.8/ref/contrib/gis/install/geolibs/
-RUN ["apt-get", "update"]
-RUN ["apt-get", "install", "-y", "binutils", "libproj-dev", "gdal-bin", "libgeoip1", "gdal-bin", "python-gdal"]
+RUN apt-get update && apt-get install -y\
+    binutils\
+    libgeos-dev\
+    libproj-dev\
+    gdal-bin\
+    libsqlite3-dev\
+    libspatialite-dev\
+    libgeoip1\
+    gdal-bin\
+    python-gdal
+
 RUN ["pip", "install", "--upgrade", "pip"]
 
 ADD ./requirements /tmp/requirements/
