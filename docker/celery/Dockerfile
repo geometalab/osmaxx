@@ -13,14 +13,6 @@ ENV CELERY_VERSION 3.1.18
 
 RUN pip install celery=="$CELERY_VERSION"
 
-RUN { \
-	echo 'import os'; \
-	echo "BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'amqp://')"; \
-} > celeryconfig.py
-
-# --link some-rabbit:rabbit "just works"
-ENV CELERY_BROKER_URL amqp://guest@rabbit
-
 ADD ["./requirements", "/tmp/requirements"]
 
 RUN ["pip", "install", "-r", "/tmp/requirements/local.txt"]

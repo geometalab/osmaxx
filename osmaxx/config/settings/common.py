@@ -40,6 +40,8 @@ DJANGO_APPS = (
 )
 THIRD_PARTY_APPS = (
     'social.apps.django_app.default',
+    # celery transporter
+    'kombu.transport.django.KombuAppConfig',
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
@@ -83,7 +85,7 @@ FIXTURE_DIRS = [
 
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
-EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_BACKEND = env.str('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -330,7 +332,11 @@ POSTGIS_VERSION = ( 2, 1 )
 
 # Celery settings
 
-BROKER_URL = 'amqp://guest:guest@localhost//'
+BROKER_URL = env.str('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = BROKER_URL
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ENABLE_UTC = True
 
 #: Only add pickle to this list if your broker is secured
 #: from unwanted access (see userguide/security.html)

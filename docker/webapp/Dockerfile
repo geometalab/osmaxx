@@ -26,7 +26,6 @@ ENV REQUIREMENTS_REFRESHED_AT 2015-05-16
 
 # change to "requirements/production.txt" on production
 RUN ["pip", "install", "-r", "/tmp/requirements/local.txt"]
-ENV DATABASE_URL postgis://postgres@database/postgres
 
 WORKDIR /home/osmaxx/source
 
