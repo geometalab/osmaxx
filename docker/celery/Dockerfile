@@ -1,8 +1,8 @@
 FROM python:3.4
 
-RUN groupadd user && useradd --create-home --home-dir /home/user -g user user
+RUN groupadd celery && celeryadd --create-home --home-dir /home/celery -g celery celery
 ENV LANG en_US.utf8
-WORKDIR /home/user
+WORKDIR /home/celery
 
 # install geodjango dependencies: https://docs.djangoproject.com/en/1.8/ref/contrib/gis/install/geolibs/
 RUN ["apt-get", "update"]
@@ -17,7 +17,7 @@ ADD ["./requirements", "/tmp/requirements"]
 
 RUN ["pip", "install", "-r", "/tmp/requirements/local.txt"]
 
-USER user
+USER celery
 
 # move into our working directory
 ENV HOME /home/osmaxx
