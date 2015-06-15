@@ -18,7 +18,6 @@ def create_export(extraction_order_id):
     print('pk %s' % extraction_order_id)
     extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
 
-    two_minutes = 60*60*2
     twenty_seconds = 20
     # fake some work
     time.sleep(twenty_seconds)
