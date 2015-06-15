@@ -5,7 +5,14 @@ ENV LANG en_US.utf8
 WORKDIR /home/celery
 
 # install geodjango dependencies: https://docs.djangoproject.com/en/1.8/ref/contrib/gis/install/geolibs/
-RUN apt-get update && apt-get install -y binutils libproj-dev gdal-bin libgeoip1 gdal-bin python-gdal
+RUN apt-get update && apt-get install -y\
+ binutils\
+ libproj-dev\
+ gdal-bin\
+ libgeoip1\
+ gdal-bin\
+ python-gdal
+
 RUN ["pip", "install", "--upgrade", "pip"]
 
 ENV CELERY_VERSION 3.1.18
