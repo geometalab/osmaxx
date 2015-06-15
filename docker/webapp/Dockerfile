@@ -17,8 +17,6 @@ RUN apt-get update && apt-get install -y\
     gdal-bin\
     python-gdal
 
-RUN ["pip", "install", "--upgrade", "pip"]
-
 ADD ./requirements /tmp/requirements/
 
 # manage requirements
