@@ -67,7 +67,5 @@ source/test_db.sqlite3
 # IDE trash
 .idea/*
 
-# docker generated folders
-static/
-media/
-private_media/
+# docker generated folder contents
+docker_mounts/*

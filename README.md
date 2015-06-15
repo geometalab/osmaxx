@@ -22,17 +22,22 @@ To run this project locally, you need docker and docker-compose installed
 
 To setup all the containers and their dependencies, run
 
-`python manage_docker.py bootstrap`
+`docker-compose build`
+
+Then initiate the project defaults:
+
+`docker-compose run webapp /bin/bash`
+
+Inside the container:
+
+1. Execute migrations: `$ $PYTHON manage.py migrate`
+2. (optional, recommended) setup a superuser: `$ $PYTHON python manage.py createsuperuser`
 
 ### Running the project
 
-Start the conatainers using docker compose:
+Start the containers using docker compose:
 
 `docker-compose up`
-
-or
-
-`python manage_docker.py run`
 
 # Documentation
 

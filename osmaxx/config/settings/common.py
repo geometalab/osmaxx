@@ -168,7 +168,7 @@ STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = (
-    str(APPS_DIR('static')),
+    # str(APPS_DIR('static')),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
@@ -184,8 +184,8 @@ STATICFILES_FINDERS = (
 
 # data & media
 
-MEDIA_ROOT = str(APPS_DIR('..', 'media'))
-PRIVATE_MEDIA_ROOT = str(APPS_DIR.path('..', 'private_media'))
+MEDIA_ROOT = str(ROOT_DIR('..', 'media'))
+PRIVATE_MEDIA_ROOT = str(ROOT_DIR.path('..', 'private_media'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'

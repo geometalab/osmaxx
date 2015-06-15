@@ -1,39 +1,29 @@
 source:
-    build: docker/source
-# until https://github.com/docker/docker/pull/12648 is resolved, we can't use
-# user namespaces properly
-#    user: osmaxx
+    build: osmaxx
+    user: osmaxx
     volumes:
         - osmaxx:/home/osmaxx/source
 
-static:
-    build: docker/webapp
-    command: python manage.py collectstatic --noinput
-    volumes:
-        - static:/home/osmaxx/static
-    volumes_from:
-        - source
-
 media:
-    build: docker/webapp
-    command: echo "done"
+    build: docker/file-containers
+    user: osmaxx
+#    command: echo "done"
     volumes:
-        - private_media:/home/osmaxx/private_media
-        - media:/home/osmaxx/media
-    volumes_from:
-        - source
+#        - docker_mounts/private_media:/home/osmaxx/private_media
+        - docker_mounts/media:/home/osmaxx/media
+        - docker_mounts/static:/home/osmaxx/static
 
 database:
-    build: docker/database
+    build: docker/postgis
 
 webapp:
-    build: docker/webapp
+    build: osmaxx
+    user: osmaxx
     # on production, enable the following
-    # command: gunicorn -b 0.0.0.0:8000 wsgi:application
-    command: python manage.py runserver_plus 0.0.0.0:8000
+    # command: /bin/bash -s ". $ACTIVATE;gunicorn -b 0.0.0.0:8000 wsgi:application"
+    command: /bin/bash -c ". $ACTIVATE;python manage.py collectstatic --noinput;python manage.py runserver_plus 0.0.0.0:8000"
     volumes_from:
         - source
-        - static
         - media
     links:
         - rabbitmq:rabbit
@@ -49,8 +39,9 @@ rabbitmq:
     image: rabbitmq:3
 
 celery:
-    build: docker/celery
-    command: celery -A config worker -l info
+    build: osmaxx
+    user: osmaxx
+    command: /bin/bash -c ". $ACTIVATE;celery -A config worker -l info"
     links:
         - rabbitmq:rabbit
         - database

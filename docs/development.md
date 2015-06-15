@@ -57,7 +57,7 @@ $ ln -s ../../hooks/pre-commit .git/hooks/pre-commit
 ### Using the project docker setup
 
 A docker-compose setup is provided as part of this project's repository. Ensure to have docker installed
-and setup the containers properly. (As described in the README: `python manage_docker.py bootstrap`).
+and setup the containers properly, as described in the README.
 
 ### running commands
 
@@ -76,22 +76,24 @@ docker-compose run webapp bash
 ```
 Run tests:
 
-`docker-compose run webapp python3 manage.py test`
+`docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py test'`
 
 ### Reset the box
 
 Normally, just stopping the containers, removing them and updating them is enough:
 
 ```shell
-python manage_docker.py clean
-python manage_docker.py update
+docker-compose kill  # shutdown all containers forcefully
+docker-compose rm  # answer yes, so the available containers are destroyed
+docker-compose build
+docker-compose run webapp /bin/bash
+# Inside the container ($PYTHON is not a typo ;) ):
+$PYTHON manage.py migrate
+$PYTHON manage.py createsuperuser
 ```
 
-If it should be rebuilt from scratch, destroy the boxes and start over:
-
-```shell
-python manage_docker.py bootstrap --from-scratch
-```
+If it should be rebuilt from scratch, destroy the boxes and start over. 
+Replace the step `docker-compose build` above with `docker-compose build --no-cache`.
 
 ## Useful Docker commands
 
@@ -114,12 +116,12 @@ docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
 #### Update migration information
 
 ```shell
-docker-compose run webapp python3 manage.py makemigrations
+docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py makemigrations'
 ```
 
 #### Run migrations on database
 ```shell
-docker-compose run webapp python3 manage.py migrate
+docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py migrate'
 ```
 
 
@@ -128,13 +130,13 @@ docker-compose run webapp python3 manage.py migrate
 #### Create superuser
 
 ```shell
-docker-compose run webapp python3 manage.py createsuperuser
+docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py createsuperuser'
 ```
 
 ### Update locales
 
 ```shell
-docker-compose run webapp python3 manage.py makemessages -a
+docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py makemessages -a'
 ```
 
 
