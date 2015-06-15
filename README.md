@@ -20,6 +20,16 @@ To run this project locally, you need docker and docker-compose installed
 
 ### Initialization/Docker container bootstrapping
 
+**IMPORTANT**: there are some issues with permissions on the docker container. Please ensure
+you run the following, before starting with the setup:
+
+```shell
+$ mkdir -p docker_mounts/media
+$ mkdir -p docker_mounts/static
+$ mkdir -p docker_mounts/private_media
+$ chown -R 1000:1000 docker_mounts
+```
+
 To setup all the containers and their dependencies, run
 
 `docker-compose build`

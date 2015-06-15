@@ -59,6 +59,17 @@ $ ln -s ../../hooks/pre-commit .git/hooks/pre-commit
 A docker-compose setup is provided as part of this project's repository. Ensure to have docker installed
 and setup the containers properly, as described in the README.
 
+
+**IMPORTANT**: there are some issues with permissions on the docker container. Please ensure
+you run the following, before starting with the setup:
+
+```shell
+$ mkdir -p docker_mounts/media
+$ mkdir -p docker_mounts/static
+$ mkdir -p docker_mounts/private_media
+$ chown -R 1000:1000 docker_mounts
+```
+
 ### running commands
 
 The general way of running any command inside a docker container:
