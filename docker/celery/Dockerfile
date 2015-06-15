@@ -1,6 +1,6 @@
 FROM python:3.4
 
-RUN groupadd celery && celeryadd --create-home --home-dir /home/celery -g celery celery
+RUN groupadd celery && useradd --create-home --home-dir /home/celery -g celery celery
 ENV LANG en_US.utf8
 WORKDIR /home/celery
 
@@ -12,8 +12,6 @@ RUN apt-get update && apt-get install -y\
  libgeoip1\
  gdal-bin\
  python-gdal
-
-RUN ["pip", "install", "--upgrade", "pip"]
 
 ENV CELERY_VERSION 3.1.18
 
