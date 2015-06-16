@@ -32,7 +32,7 @@ WORKDIR $HOME/source
 
 RUN pip3 install -U pip
 
-COPY osmaxx $HOME/source
+COPY osmaxx-py $HOME/source
 
 ENV REQS_LAST_UPDATED 16-06-2014 14:58
 
