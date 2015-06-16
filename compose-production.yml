@@ -4,8 +4,6 @@ osmaxxwebapp:
     extends:
         file: compose-common.yml
         service: osmaxxwebapp
-    volumes_from:
-        - source
     links:
         - osmaxxrabbitmq:rabbit
         - osmaxxdatabase
@@ -27,4 +25,3 @@ osmaxxdatabase:
     extends:
         file: compose-common.yml
         service: osmaxxdatabase
-
