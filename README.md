@@ -21,7 +21,7 @@ To run this project locally, you need docker and docker-compose installed
 ### Initialization/Docker container bootstrapping
 
 ```shell
-ln -s docker-compose.yml compose-development.yml
+ln -s compose-development.yml docker-compose.yml
 ```
 
 To setup all the containers and their dependencies, run

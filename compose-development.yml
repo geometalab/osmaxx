@@ -1,7 +1,7 @@
 source:
     build: docker/volume-mount
     volumes:
-        - osmaxx:/home/osmaxx/source
+        - osmaxx-py:/home/osmaxx/source
 
 webapp:
     extends:
