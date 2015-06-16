@@ -40,6 +40,8 @@ DJANGO_APPS = (
 )
 THIRD_PARTY_APPS = (
     'social.apps.django_app.default',
+    # celery transporter
+    'kombu.transport.django.KombuAppConfig',
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
@@ -83,7 +85,7 @@ FIXTURE_DIRS = [
 
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
-EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_BACKEND = env.str('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -166,7 +168,7 @@ STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = (
-    str(APPS_DIR('static')),
+    # str(APPS_DIR('static')),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
@@ -182,8 +184,8 @@ STATICFILES_FINDERS = (
 
 # data & media
 
-MEDIA_ROOT = str(APPS_DIR('..', 'media'))
-PRIVATE_MEDIA_ROOT = str(APPS_DIR.path('..', 'private_media'))
+MEDIA_ROOT = str(ROOT_DIR('..', 'media'))
+PRIVATE_MEDIA_ROOT = str(ROOT_DIR.path('..', 'private_media'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
@@ -327,3 +329,17 @@ if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing 
     }
 
 POSTGIS_VERSION = ( 2, 1 )
+
+# Celery settings
+
+BROKER_URL = env.str('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = BROKER_URL
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ENABLE_UTC = True
+
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

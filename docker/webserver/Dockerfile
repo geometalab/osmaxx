@@ -5,8 +5,7 @@ ENV REFRESHED_AT 2015-05-18
 ENV LANG en_US.utf8
 
 # get the nginx package and set it up
-RUN ["apt-get", "update"]
-RUN ["apt-get", "-y", "install", "nginx"]
+RUN apt-get update && apt-get -y install nginx
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log

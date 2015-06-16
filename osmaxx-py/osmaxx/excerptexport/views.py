@@ -11,12 +11,12 @@ from django.views.generic import View
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
-from osmaxx.excerptexport.models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
-from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-from osmaxx.excerptexport import settings as excerptexport_settings
-from osmaxx.excerptexport.services.data_conversion_service import trigger_data_conversion
-from osmaxx.excerptexport.forms import ExportOptionsForm, NewExcerptForm
-
+from .models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
+from .models.extraction_order import ExtractionOrderState
+from .services.data_conversion_service import trigger_data_conversion
+from .forms import ExportOptionsForm, NewExcerptForm
+from .tasks import create_export
+from . import settings as excerptexport_settings
 
 private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
 
@@ -65,6 +65,7 @@ class NewExtractionOrderView(View):
                 excerpt_id=existing_excerpt_id,
                 orderer=request.user
             )
+            create_export.delay(extraction_order.id)
 
         if request.POST['form-mode'] == 'create_new_excerpt':
             new_excerpt_form = NewExcerptForm(request.POST)
@@ -89,7 +90,7 @@ class NewExtractionOrderView(View):
                     excerpt=excerpt,
                     orderer=request.user
                 )
-
+                create_export.delay(extraction_order.id)
             else:
                 return self.get(request, new_excerpt_form.data)
 

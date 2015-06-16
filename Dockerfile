@@ -1,25 +1,39 @@
-FROM python:3.4
-ENV REFRESHED_AT 2015-05-18
+FROM buildpack-deps:jessie
+
+ENV USER osmaxx
+# ENV USERID 1000
+# ENV GROUPID 1000
+
+# RUN groupadd -g $GROUPID $USER && useradd -g $USERID --create-home --home-dir /home/$USER -g $USER $USER
+
+ENV LANG en_US.utf8
 
 EXPOSE 8000
-ENV HOME /home/osmaxx
-WORKDIR /home/osmaxx
 
 # install geodjango dependencies: https://docs.djangoproject.com/en/1.8/ref/contrib/gis/install/geolibs/
-RUN ["apt-get", "update"]
-RUN ["apt-get", "install", "-y", "binutils", "libproj-dev", "gdal-bin", "libgeoip1", "gdal-bin", "python-gdal"]
-RUN ["pip", "install", "--upgrade", "pip"]
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y\
+    python3\
+    python3-pip\
+    python3-dev\
+    binutils\
+    libgeos-dev\
+    libproj-dev\
+    gdal-bin\
+    libsqlite3-dev\
+    libspatialite-dev\
+    libgeoip1\
+    gdal-bin\
+    python-gdal\
+    virtualenv
 
-ADD ./osmaxx/requirements /tmp/requirements/
+ENV HOME /home/$USER
 
-# manage requirements
-ENV REQUIREMENTS_REFRESHED_AT 2015-05-16
+WORKDIR $HOME/source
 
-# change to "requirements/production.txt" on production
-RUN ["pip", "install", "-r", "/tmp/requirements/local.txt"]
-ENV DATABASE_URL postgis://postgres@database/postgres
+RUN pip3 install -U pip
 
-WORKDIR /home/osmaxx/source
+COPY osmaxx-py $HOME/source
 
-# until https://github.com/docker/docker/pull/12648 is resolved, we can't use
-# user namespaces currently
+ENV REQS_LAST_UPDATED 16-06-2014 14:58
+
+RUN pip install -r requirements/local.txt

@@ -1,0 +1,25 @@
+osmaxxdatabase:
+    build: docker/postgis
+
+osmaxxwebapp:
+    build: .
+    command: python3 manage.py runserver_plus 0.0.0.0:8000
+    ports:
+        - "8000:8000"
+    environment:
+        # --link some-rabbit:rabbit "just works"
+        - CELERY_BROKER_URL=amqp://guest@rabbit
+        - DATABASE_URL=postgis://postgres@database/postgres
+        - DEBUG=false
+
+osmaxxrabbitmq:
+    image: rabbitmq:3
+
+osmaxxcelery:
+    build: .
+    command: celery -A config worker -l info
+    environment:
+        # --link some-rabbit:rabbit "just works"
+        - CELERY_BROKER_URL=amqp://guest@rabbit//
+        - DATABASE_URL=postgis://postgres@database/postgres
+        - DEBUG=false
