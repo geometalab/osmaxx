@@ -12,8 +12,10 @@ webapp:
     links:
         - rabbitmq:rabbit
         - database
+        - email
     environment:
          - DEBUG=true
+         - DJANGO_EMAIL_HOST=email
 
 rabbitmq:
     extends:
@@ -27,11 +29,18 @@ celery:
     links:
         - rabbitmq:rabbit
         - database
+        - email
     environment:
          - DEBUG=true
+         - DJANGO_EMAIL_HOST=email
 
 database:
     extends:
         file: compose-common.yml
         service: osmaxxdatabase
 
+email:
+    image: python:3
+    ports:
+        - 1025:1025
+    command: python -m smtpd -n -c DebuggingServer 0.0.0.0:1025

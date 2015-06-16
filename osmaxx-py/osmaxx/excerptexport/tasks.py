@@ -4,7 +4,7 @@ import time
 from osmaxx.excerptexport import models
 
 
-@shared_task
+# @shared_task
 def send_email(subject, message, from_email, recipient_list):
     send_mail(subject, message, from_email, recipient_list)
 
@@ -42,3 +42,7 @@ def create_export(extraction_order_id):
     # now set the new state
     extraction_order.state = models.ExtractionOrderState.FINISHED
     extraction_order.save()
+
+    # only send email when the user has one!
+    if hasattr(extraction_order.orderer, 'email'):
+        send_email('starting work', 'hard work started', 'no-reply@osmaxx.hsr.ch', [extraction_order.orderer.email])
