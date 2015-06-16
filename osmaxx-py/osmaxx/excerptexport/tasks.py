@@ -7,7 +7,6 @@ from osmaxx.excerptexport import models
 @shared_task
 def send_email(subject, message, from_email, recipient_list):
     send_mail(subject, message, from_email, recipient_list)
-    return
 
 
 @shared_task
@@ -43,5 +42,3 @@ def create_export(extraction_order_id):
     # now set the new state
     extraction_order.state = models.ExtractionOrderState.FINISHED
     extraction_order.save()
-    return
-
