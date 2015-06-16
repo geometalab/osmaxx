@@ -1,0 +1,37 @@
+source:
+    build: docker/volume-mount
+    volumes:
+        - osmaxx:/home/osmaxx/source
+
+webapp:
+    extends:
+        file: compose-common.yml
+        service: osmaxxwebapp
+    volumes_from:
+        - source
+    links:
+        - rabbitmq:rabbit
+        - database
+    environment:
+         - DEBUG=true
+
+rabbitmq:
+    extends:
+        file: compose-common.yml
+        service: osmaxxrabbitmq
+
+celery:
+    extends:
+        file: compose-common.yml
+        service: osmaxxcelery
+    links:
+        - rabbitmq:rabbit
+        - database
+    environment:
+         - DEBUG=true
+
+database:
+    extends:
+        file: compose-common.yml
+        service: osmaxxdatabase
+

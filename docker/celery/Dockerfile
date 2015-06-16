@@ -1,6 +1,11 @@
 FROM python:3.4
 
-RUN groupadd osmaxx && useradd --create-home --home-dir /home/osmaxx -g osmaxx osmaxx
+# ENV USER osmaxx
+# ENV USERID 1000
+# ENV GROUPID 1000
+
+# RUN groupadd -g $GROUPID $USER && useradd -g $USERID --create-home --home-dir /home/$USER -g $USER $USER
+
 ENV LANG en_US.utf8
 WORKDIR /home/osmaxx
 
