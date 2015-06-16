@@ -69,3 +69,5 @@ source/test_db.sqlite3
 
 # docker generated folder contents
 docker_mounts/*
+# ln -s docker-compose.yml compose-development.yml
+docker-compose.yml
