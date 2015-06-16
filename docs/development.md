@@ -99,12 +99,15 @@ docker-compose rm  # answer yes, so the available containers are destroyed
 docker-compose build
 docker-compose run webapp /bin/bash
 # Inside the container ($PYTHON is not a typo ;) ):
-$PYTHON manage.py migrate
-$PYTHON manage.py createsuperuser
+python3 manage.py migrate
+python3 manage.py createsuperuser
 ```
 
 If it should be rebuilt from scratch, destroy the boxes and start over. 
 Replace the step `docker-compose build` above with `docker-compose build --no-cache`.
+**NOTICE**: This might not be what you want; you rebuild single images using 
+`docker-compose build --no-cache <imagename>`, so for example, rebuilding the webapp would be
+`docker-compose build --no-cache webapp`.
 
 ## Useful Docker commands
 
