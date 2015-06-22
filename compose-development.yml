@@ -7,6 +7,7 @@ webapp:
     extends:
         file: compose-common.yml
         service: osmaxxwebapp
+    command: honcho start -f Procfile.dev
     volumes_from:
         - source
     links:
@@ -26,13 +27,18 @@ celery:
     extends:
         file: compose-common.yml
         service: osmaxxcelery
+    volumes_from:
+        - source
     links:
         - rabbitmq:rabbit
         - database
         - email
     environment:
-         - DEBUG=true
-         - DJANGO_EMAIL_HOST=email
+        - DEBUG=true
+        - DJANGO_EMAIL_HOST=email
+        - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+        - CELERY_BROKER_URL=amqp://guest@rabbit
+        - DATABASE_URL=postgis://postgres@database/postgres
 
 database:
     extends:
