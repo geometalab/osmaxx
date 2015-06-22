@@ -19,9 +19,27 @@
     <div>{{ form.password }}</div>
 </div>
 
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{ next }}" />
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
 </form>
+<p>
+    {% trans 'or use Clavid:' %}<br />
+    <form method="post" action="{% url 'social:begin' 'clavid.ch' %}">{% csrf_token %}
+        <div>
+            <div><label for="openid_user">user name</label></div>
+            <div><input name="openid_user" type="text" required="required" />.clavid.ch</div>
+        </div>
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+    <form method="post" action="{% url 'social:begin' 'clavid.com' %}">{% csrf_token %}
+        <div>
+            <div><label for="openid_user">user name</label></div>
+            <div><input name="openid_user" type="text" required="required" />.clavid.com</div>
+        </div>
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
 
-    <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">{% trans 'Login with google-oauth2' %}</a><br />
+</p>
 {% endblock %}
