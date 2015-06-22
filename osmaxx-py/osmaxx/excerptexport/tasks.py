@@ -1,12 +1,27 @@
 from celery import shared_task
+from django.contrib import messages
 from django.core.mail import send_mail
+from django.utils.translation import ugettext_lazy as _
 import time
+import stored_messages
 from osmaxx.excerptexport import models
 
 
-# @shared_task
-def send_email(subject, message, from_email, recipient_list):
-    send_mail(subject, message, from_email, recipient_list)
+def inform_user(extraction_order):
+    message_text = _('Your extraction order %s has been processed' % extraction_order)
+    stored_messages.api.add_message_for(
+        users=[extraction_order.orderer],
+        level=messages.INFO,
+        message_text=message_text
+    )
+
+    if hasattr(extraction_order.orderer, 'email'):
+        send_mail(
+            '[OSMAXX] Process finished',
+            message_text,
+            'no-reply@osmaxx.hsr.ch',
+            [extraction_order.orderer.email]
+        )
 
 
 @shared_task
@@ -23,26 +38,30 @@ def create_export(extraction_order_id):
             if wait_time > 30:
                 raise
 
-    print('pk %s' % extraction_order_id)
-    extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
+    message_text = _('Your extraction order "%s" has been started' % extraction_order)
 
-    twenty_seconds = 20
+    stored_messages.api.add_message_for(
+        users=[extraction_order.orderer],
+        level=messages.INFO,
+        message_text=message_text
+    )
+
+    wait_time_in_seconds = 5
     # fake some work
-    time.sleep(twenty_seconds)
+    time.sleep(wait_time_in_seconds)
     # now set the new state
     extraction_order.state = models.ExtractionOrderState.PROCESSING
     extraction_order.save()
 
-    time.sleep(twenty_seconds)
+    time.sleep(wait_time_in_seconds)
     # now set the new state
     extraction_order.state = models.ExtractionOrderState.WAITING
     extraction_order.save()
 
-    time.sleep(twenty_seconds)
+    time.sleep(wait_time_in_seconds)
     # now set the new state
     extraction_order.state = models.ExtractionOrderState.FINISHED
     extraction_order.save()
 
-    # only send email when the user has one!
-    if hasattr(extraction_order.orderer, 'email'):
-        send_email('starting work', 'hard work started', 'no-reply@osmaxx.hsr.ch', [extraction_order.orderer.email])
+    # inform the user of the status change.
+    inform_user(extraction_order)
