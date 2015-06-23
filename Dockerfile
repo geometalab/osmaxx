@@ -31,9 +31,10 @@ ENV HOME /home/$USER
 WORKDIR $HOME/source
 
 RUN pip3 install -U pip
+RUN pip3 install -U honcho
 
 COPY osmaxx-py $HOME/source
 
-ENV REQS_LAST_UPDATED 16-06-2014 14:58
+ENV REQS_LAST_UPDATED 22-06-2015 14:24
 
-RUN pip install -r requirements/local.txt
+RUN pip3 install -Ur requirements/local.txt

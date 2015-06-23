@@ -42,6 +42,8 @@ THIRD_PARTY_APPS = (
     'social.apps.django_app.default',
     # celery transporter
     'kombu.transport.django.KombuAppConfig',
+    # messages for users
+    'stored_messages',
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
@@ -328,7 +330,7 @@ if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing 
         }
     }
 
-POSTGIS_VERSION = ( 2, 1 )
+POSTGIS_VERSION = (2, 1)
 
 # Celery settings
 
@@ -343,3 +345,7 @@ CELERY_ENABLE_UTC = True
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+
+# Message-Storage Settings
+MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
