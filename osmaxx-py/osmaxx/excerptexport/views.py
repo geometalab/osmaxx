@@ -1,6 +1,6 @@
 import os
 
-from django.shortcuts import render, get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response
 from django.http import StreamingHttpResponse, HttpResponseNotFound
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -52,7 +52,8 @@ class NewExtractionOrderView(View):
             'public_excerpts': active_bbox_excerpts.filter(is_public=True),
             'countries': active_file_excerpts
         }
-        return render(request, 'excerptexport/templates/new_excerpt_export.html', view_model)
+        return render_to_response('excerptexport/templates/new_excerpt_export.html', context=view_model,
+                                  context_instance=RequestContext(request))
 
     @method_decorator(login_required)
     @method_decorator(has_excerptexport_all_permissions())
@@ -103,7 +104,7 @@ class NewExtractionOrderView(View):
 
         response = render_to_response(
             'excerptexport/templates/create_excerpt_export.html',
-            view_context,
+            context=view_context,
             context_instance=RequestContext(request)
         )
         if extraction_order.id:
@@ -124,7 +125,8 @@ def list_downloads(request):
             state=ExtractionOrderState.FINISHED
         )
     }
-    return render(request, 'excerptexport/templates/list_downloads.html', view_context)
+    return render_to_response('excerptexport/templates/list_downloads.html', context=view_context,
+                              context_instance=RequestContext(request))
 
 
 def download_file(request, uuid):
@@ -157,7 +159,8 @@ def extraction_order_status(request, extraction_order_id):
         'host_domain': request.get_host(),
         'extraction_order': get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
     }
-    return render(request, 'excerptexport/templates/extraction_order_status.html', view_context)
+    return render_to_response('excerptexport/templates/extraction_order_status.html', context=view_context,
+                              context_instance=RequestContext(request))
 
 
 @login_required()
@@ -168,4 +171,5 @@ def list_orders(request):
         'extraction_orders': ExtractionOrder.objects.filter(orderer=request.user)
         .order_by('-id')[:excerptexport_settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
     }
-    return render(request, 'excerptexport/templates/list_orders.html', view_context)
+    return render_to_response('excerptexport/templates/list_orders.html', context=view_context,
+                              context_instance=RequestContext(request))

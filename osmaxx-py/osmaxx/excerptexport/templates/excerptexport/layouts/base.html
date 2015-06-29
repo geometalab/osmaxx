@@ -21,6 +21,17 @@
         <h1>Osmaxx</h1>
     </header>
     <div class="main">
+        {% if messages %}
+            <ul class="messages">
+            {% for msg in messages %}
+                <li>
+                    <div class="alert alert-{{msg.level_tag}}" role="alert">
+                        {{msg.message}}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         {% block main %}
             <h2>Main block</h2>
         {% endblock %}

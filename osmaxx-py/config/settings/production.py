@@ -85,3 +85,5 @@ DATABASES['default'] = env.db("DATABASE_URL")
 
 
 # Your production stuff: Below this line define 3rd party library settings
+BROKER_URL = env.str('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = BROKER_URL
