@@ -49,3 +49,5 @@ INSTALLED_APPS += ('django_extensions', )
 # ------------------------------------------------------------------------------
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
+BROKER_URL = env.str('CELERY_BROKER_URL', 'amqp://guest:guest@localhost:5672//')
+CELERY_RESULT_BACKEND = BROKER_URL
