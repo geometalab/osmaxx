@@ -9,6 +9,8 @@
 # - Performs a vacuum (really :-))
 # - and creates auxiliary OSM views needed by consumer applications
 
+set -e
+
 DB_NAME=osmaxx_db
 DIR=$(pwd)
 WORKDIR_OSM=~/osmaxx/.osmosis
