@@ -333,10 +333,6 @@ if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing 
 POSTGIS_VERSION = (2, 1)
 
 # Celery settings
-
-BROKER_URL = env.str('CELERY_BROKER_URL', default='')
-CELERY_RESULT_BACKEND = BROKER_URL
-
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_ENABLE_UTC = True
 
