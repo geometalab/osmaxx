@@ -36,8 +36,8 @@ setup_db() {
     dropdb -U postgres --interactive --if-exists $DB_NAME
     createdb   -U postgres $DB_NAME
     execute_sql "CREATE EXTENSION hstore;"
-    psql -U postgres -d $DB_NAME -f /usr/share/postgresql/9.3/contrib/postgis-2.1/postgis.sql
-    psql -U postgres -d $DB_NAME -f /usr/share/postgresql/9.3/contrib/postgis-2.1/spatial_ref_sys.sql
+    execute_sql "CREATE EXTENSION postgis;"
+    execute_sql "CREATE EXTENSION postgis_topology;"
 }
 
 perform_vacuum() {
