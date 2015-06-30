@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = (
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'osmaxx.excerptexport',
+    'osmaxx.social_auth',
 )
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -67,7 +68,8 @@ MIDDLEWARE_CLASSES = (
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
-    'sites': 'osmaxx.contrib.sites.migrations'
+    'sites': 'osmaxx.contrib.sites.migrations',
+    'stored_messages': 'osmaxx.third_party_apps.stored_messages.migrations',
 }
 
 # DEBUG
@@ -201,11 +203,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.open_id.OpenIdAuth',
-    'social.backends.google.GoogleOpenIdConnect',
-    'social.backends.google.GoogleOpenId',
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.google.GoogleOAuth',
-    'social.backends.google.GooglePlusAuth',
+    'osmaxx.social_auth.backends.clavid_backend.ClavidChOpenId',
+    'osmaxx.social_auth.backends.clavid_backend.ClavidComOpenId',
     'django.contrib.auth.backends.ModelBackend',
 )
 

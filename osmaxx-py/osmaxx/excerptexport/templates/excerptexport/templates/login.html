@@ -9,19 +9,37 @@
 {% endif %}
 
 <form method="post" action="{% url 'excerptexport:login' %}">
-{% csrf_token %}
-<div>
-    <div>{{ form.username.label_tag }}</div>
-    <div>{{ form.username }}</div>
-</div>
-<div>
-    <div>{{ form.password.label_tag }}</div>
-    <div>{{ form.password }}</div>
-</div>
+    {% csrf_token %}
+    <div>
+        <div>{{ form.username.label_tag }}</div>
+        <div>{{ form.username }}</div>
+    </div>
+    <div>
+        <div>{{ form.password.label_tag }}</div>
+        <div>{{ form.password }}</div>
+    </div>
 
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{ next }}" />
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
 </form>
+<p>
+    {% trans 'or use Clavid:' %}<br />
+    <form method="post" action="{% url 'social:begin' 'clavid.ch' %}">{% csrf_token %}
+        <div>
+            <div><label for="openid_user">user name</label></div>
+            <div><input name="openid_user" type="text" required="required" placeholder="username" />.clavid.ch</div>
+        </div>
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+    <form method="post" action="{% url 'social:begin' 'clavid.com' %}">{% csrf_token %}
+        <div>
+            <div><label for="openid_user">user name</label></div>
+            <div><input name="openid_user" type="text" required="required" placeholder="username" />.clavid.com</div>
+        </div>
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
 
-    <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">{% trans 'Login with google-oauth2' %}</a><br />
+</p>
 {% endblock %}
