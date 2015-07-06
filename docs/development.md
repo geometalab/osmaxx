@@ -87,7 +87,7 @@ docker-compose run webapp bash
 ```
 Run tests:
 
-`docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py test'`
+`docker-compose run webapp /bin/bash -c 'python3 manage.py test'`
 
 ### Reset the box
 
@@ -98,7 +98,7 @@ docker-compose kill  # shutdown all containers forcefully
 docker-compose rm  # answer yes, so the available containers are destroyed
 docker-compose build
 docker-compose run webapp /bin/bash
-# Inside the container ($PYTHON is not a typo ;) ):
+# Inside the container:
 python3 manage.py migrate
 python3 manage.py createsuperuser
 ```
@@ -130,12 +130,12 @@ docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
 #### Update migration information
 
 ```shell
-docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py makemigrations'
+docker-compose run webapp /bin/bash -c 'python3 manage.py makemigrations'
 ```
 
 #### Run migrations on database
 ```shell
-docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py migrate'
+docker-compose run webapp /bin/bash -c 'python3 manage.py migrate'
 ```
 
 
@@ -144,13 +144,13 @@ docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py migrate'
 #### Create superuser
 
 ```shell
-docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py createsuperuser'
+docker-compose run webapp /bin/bash -c 'python3 manage.py createsuperuser'
 ```
 
 ### Update locales
 
 ```shell
-docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py makemessages -a'
+docker-compose run webapp /bin/bash -c 'python3 manage.py makemessages -a'
 ```
 
 
