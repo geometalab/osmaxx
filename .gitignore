@@ -71,3 +71,5 @@ source/test_db.sqlite3
 docker_mounts/*
 # ln -s docker-compose.yml compose-development.yml
 docker-compose.yml
+# ignore environment file for local production environment
+.env
