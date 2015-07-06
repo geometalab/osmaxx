@@ -1,24 +1,12 @@
 osmaxxdatabase:
     build: docker/postgis
 
-osmaxxwebapp:
+osmaxx:
     build: .
-    ports:
-        - "8000:8000"
     environment:
         # --link some-rabbit:rabbit "just works"
         - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
         - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
-        - DJANGO_DEBUG=false
 
 osmaxxrabbitmq:
     image: rabbitmq:3
-
-osmaxxcelery:
-    build: .
-    command: celery -A config worker -l info
-    environment:
-        # --link some-rabbit:rabbit "just works"
-        - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-        - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
-        - DJANGO_DEBUG=false

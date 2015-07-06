@@ -6,7 +6,7 @@ source:
 webapp:
     extends:
         file: compose-common.yml
-        service: osmaxxwebapp
+        service: osmaxx
     command: honcho start -f Procfile.dev
     volumes_from:
         - source
@@ -26,7 +26,8 @@ rabbitmq:
 celery:
     extends:
         file: compose-common.yml
-        service: osmaxxcelery
+        service: osmaxx
+    command: honcho start -f Procfile.celery
     volumes_from:
         - source
     links:

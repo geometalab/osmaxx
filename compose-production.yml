@@ -1,9 +1,11 @@
 # TODO: this file is only a placeholder for now!
 osmaxxwebapp:
-    command: honcho start
     extends:
         file: compose-common.yml
-        service: osmaxxwebapp
+        service: osmaxx
+    ports:
+        - "8000:8000"
+    command: honcho start -f Procfile.django
     links:
         - osmaxxrabbitmq:rabbit
         - osmaxxdatabase
@@ -16,7 +18,8 @@ osmaxxrabbitmq:
 osmaxxcelery:
     extends:
         file: compose-common.yml
-        service: osmaxxcelery
+        service: osmaxx
+    command: honcho start -f Procfile.celery
     links:
         - osmaxxrabbitmq:rabbit
         - osmaxxdatabase
