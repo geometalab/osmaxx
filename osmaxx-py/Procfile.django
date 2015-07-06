@@ -1,1 +1,1 @@
-web: python3 gunicorn config.wsgi
+web: gunicorn config.wsgi -b $APP_HOST:$APP_PORT
