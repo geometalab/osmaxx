@@ -1,52 +1,52 @@
 # TODO: this file is only a placeholder for now!
 osmaxxwebapp:
-    extends:
-        file: compose-common.yml
-        service: osmaxx
-    ports:
-        - "8000:8000"
-    command: honcho start -f Procfile.django
-    links:
-        - osmaxxrabbitmq:rabbit
-        - osmaxxdatabase
-        - osmaxxemail
-    environment:
-        - APP_PORT=8000
-        - APP_HOST=0.0.0.0
-         # --link some-rabbit:rabbit "just works"
-        - DJANGO_CELERY_BROKER_URL=amqp://guest@osmaxxrabbit
-        - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabase/postgres
-        - DJANGO_EMAIL_HOST=osmaxxemail
-        - DJANGO_CELERY_BROKER_URL=amqp://guest@osmaxxrabbit
-        - DJANGO_EMAIL_USE_TLS=false
-        - DJANGO_EMAIL_HOST='osmaxxemail'
-        - DJANGO_EMAIL_HOST_PASSWORD='osmaxx'
-        - DJANGO_EMAIL_HOST_USERNAME='osmaxx'
-        - DJANGO_EMAIL_PORT=25
+  extends:
+    file: compose-common.yml
+    service: osmaxx
+  ports:
+    - "8000:8000"
+  command: honcho start -f Procfile.django
+  links:
+    - osmaxxrabbitmq:rabbit
+    - osmaxxdatabase
+    - osmaxxemail
+  environment:
+    - APP_PORT=8000
+    - APP_HOST=0.0.0.0
+    # --link some-rabbit:rabbit "just works"
+    - DJANGO_CELERY_BROKER_URL=amqp://guest@osmaxxrabbit
+    - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabase/postgres
+    - DJANGO_EMAIL_HOST=osmaxxemail
+    - DJANGO_CELERY_BROKER_URL=amqp://guest@osmaxxrabbit
+    - DJANGO_EMAIL_USE_TLS=false
+    - DJANGO_EMAIL_HOST='osmaxxemail'
+    - DJANGO_EMAIL_HOST_PASSWORD='osmaxx'
+    - DJANGO_EMAIL_HOST_USERNAME='osmaxx'
+    - DJANGO_EMAIL_PORT=25
 
 osmaxxrabbitmq:
-    extends:
-        file: compose-common.yml
-        service: osmaxxrabbitmq
+  extends:
+    file: compose-common.yml
+    service: osmaxxrabbitmq
 
 osmaxxcelery:
-    extends:
-        file: compose-common.yml
-        service: osmaxx
-    command: honcho start -f Procfile.celery
-    links:
-        - osmaxxrabbitmq:rabbit
-        - osmaxxdatabase
+  extends:
+    file: compose-common.yml
+    service: osmaxx
+  command: honcho start -f Procfile.celery
+  links:
+    - osmaxxrabbitmq:rabbit
+    - osmaxxdatabase
 
 osmaxxdatabase:
-    extends:
-        file: compose-common.yml
-        service: osmaxxdatabase
+  extends:
+    file: compose-common.yml
+    service: osmaxxdatabase
 
 osmaxxemail:
-    image: catatnight/postfix
-    environment:
-        - maildomain=osmaxx.hsr.ch
-        - smtp_user=osmaxx:osmaxx
-    expose:
-        - 25
+  image: catatnight/postfix
+  environment:
+    - maildomain=osmaxx.hsr.ch
+    - smtp_user=osmaxx:osmaxx
+  expose:
+    - 25

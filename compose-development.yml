@@ -1,53 +1,57 @@
 source:
-    build: docker/volume-mount
-    volumes:
-        - osmaxx-py:/home/osmaxx/source
+  build: docker/volume-mount
+  volumes:
+    - osmaxx-py:/home/osmaxx/source
+    - ~/.cache/pip:/home/osmaxx/.cache/pip
 
 webapp:
-    extends:
-        file: compose-common.yml
-        service: osmaxx
-    command: honcho start -f Procfile.dev
-    volumes_from:
-        - source
-    links:
-        - rabbitmq:rabbit
-        - database
-        - email
-    environment:
-         - DEBUG=true
-         - DJANGO_EMAIL_HOST=email
+  extends:
+    file: compose-common.yml
+    service: osmaxx
+  command: honcho start -f Procfile.django.dev
+  ports:
+    - "8000:8000"
+  expose:
+    - "8000"
+  volumes_from:
+    - source
+  links:
+    - rabbitmq:rabbit
+    - database
+    - email
+  environment:
+    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
+    - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+    - DJANGO_DEBUG=true
 
 rabbitmq:
-    extends:
-        file: compose-common.yml
-        service: osmaxxrabbitmq
+  extends:
+    file: compose-common.yml
+    service: osmaxxrabbitmq
 
 celery:
-    extends:
-        file: compose-common.yml
-        service: osmaxx
-    command: honcho start -f Procfile.celery
-    volumes_from:
-        - source
-    links:
-        - rabbitmq:rabbit
-        - database
-        - email
-    environment:
-        - DJANGO_DEBUG=true
-        - DJANGO_EMAIL_HOST=email
-        - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-        - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-        - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+  extends:
+    file: compose-common.yml
+    service: osmaxx
+  command: honcho start -f Procfile.celery
+  volumes_from:
+    - source
+  links:
+    - rabbitmq:rabbit
+    - database
+    - email
+  environment:
+    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
+    - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+    - DJANGO_DEBUG=true
 
 database:
-    extends:
-        file: compose-common.yml
-        service: osmaxxdatabase
+  extends:
+    file: compose-common.yml
+    service: osmaxxdatabase
 
 email:
-    image: python:3
-    ports:
-        - 1025:1025
-    command: python -m smtpd -n -c DebuggingServer 0.0.0.0:1025
+  image: python:3
+  ports:
+    - 1025:1025
+  command: python -m smtpd -n -c DebuggingServer 0.0.0.0:1025
