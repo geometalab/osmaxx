@@ -34,11 +34,11 @@ celery:
         - database
         - email
     environment:
-        - DEBUG=true
+        - DJANGO_DEBUG=true
         - DJANGO_EMAIL_HOST=email
         - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-        - CELERY_BROKER_URL=amqp://guest@rabbit
-        - DATABASE_URL=postgis://postgres@database/postgres
+        - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
+        - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
 
 database:
     extends:

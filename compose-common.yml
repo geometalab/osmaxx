@@ -7,9 +7,9 @@ osmaxxwebapp:
         - "8000:8000"
     environment:
         # --link some-rabbit:rabbit "just works"
-        - CELERY_BROKER_URL=amqp://guest@rabbit
-        - DATABASE_URL=postgis://postgres@database/postgres
-        - DEBUG=false
+        - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
+        - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+        - DJANGO_DEBUG=false
 
 osmaxxrabbitmq:
     image: rabbitmq:3
@@ -19,6 +19,6 @@ osmaxxcelery:
     command: celery -A config worker -l info
     environment:
         # --link some-rabbit:rabbit "just works"
-        - CELERY_BROKER_URL=amqp://guest@rabbit
-        - DATABASE_URL=postgis://postgres@database/postgres
-        - DEBUG=false
+        - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
+        - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+        - DJANGO_DEBUG=false
