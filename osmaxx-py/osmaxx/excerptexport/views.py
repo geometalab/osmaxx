@@ -108,10 +108,12 @@ class NewExtractionOrderView(View):
             context_instance=RequestContext(request)
         )
         if extraction_order.id:
-            response['Refresh'] = '5; http://' + request.META['HTTP_HOST'] + reverse(
+            protocol = 'https' if request.is_secure() else 'http'
+            host = request.get_host()
+            response['Refresh'] = '5; %s://%s%s' % (protocol, host, reverse(
                 'excerptexport:status',
                 kwargs={'extraction_order_id': extraction_order.id}
-            )
+            ))
         return response
 
 
