@@ -1,12 +1,42 @@
 osmaxxdatabase:
-    build: docker/postgis
+  image: geometalab/postgis:9.4
 
 osmaxx:
-    build: .
-    environment:
-        # --link some-rabbit:rabbit "just works"
-        - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-        - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+  build: .
+  environment:
+    # --link some-rabbit:rabbit "just works"
+    - DJANGO_CELERY_BROKER_URL=amqp://guest@osmaxxrabbit
+    - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabase/postgres
+    - DJANGO_EMAIL_HOST=localhost
+    # Settings above likely need to be changed, depending on  the environment
+    ##########################################################################
+    # WARNING: restarting the server changes the secret key and thus loggs out
+    # other users.
+    - DJANGO_SECRET_KEY=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c120`
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+    # EMAIL
+    - DJANGO_DEFAULT_FROM_EMAIL='noreply osmaxx <noreply@osmaxx.hsr.ch>'
+
+    # SECURITY
+    - DJANGO_ALLOWED_HOSTS='[".osmaxx.hsr.ch.",]'
+
+    # SSL
+    # set this to 60 seconds and then to 518400 when you can prove it works
+    - DJANGO_SECURE_HSTS_SECONDS=60
+    - DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=true
+    - DJANGO_SECURE_SSL_REDIRECT=true
+    - DJANGO_SECURE_SSL_HOST='osmaxx.hsr.ch'
+    - DJANGO_SECURE_REDIRECT_EXEMPT=[]
+
+    # OTHER SECURITY SETTINGS
+    - DJANGO_SECURE_CONTENT_TYPE_NOSNIFF=true
+    - DJANGO_SECURE_BROWSER_XSS_FILTER=true
+    - DJANGO_SESSION_COOKIE_SECURE=true
+    - DJANGO_SESSION_COOKIE_HTTPONLY=true
+    - DJANGO_CSRF_COOKIE_SECURE=true
+    - DJANGO_CSRF_COOKIE_HTTPONLY=true
+    - DJANGO_X_FRAME_OPTIONS='DENY'
+
 
 osmaxxrabbitmq:
-    image: rabbitmq:3
+  image: rabbitmq:3
