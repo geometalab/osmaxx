@@ -1,5 +1,8 @@
 # Development
 
+**NOTE**: to run it locally (no docker), you might want to copy the .env-dist
+to .env and adapt the lines there.
+
 ## Git repository
 
 For developers with write access to this repository:
