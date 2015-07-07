@@ -1,0 +1,10 @@
+script:
+  build: .
+  links:
+    - db
+  environment:
+    - PGHOST=db
+  volumes:
+    - .:/home/data-wrangler/data-wrangler/
+db:
+  image: geometalab/postgis-with-translit
