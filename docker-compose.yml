@@ -6,5 +6,6 @@ script:
     - PGHOST=db
   volumes:
     - .:/home/data-wrangler/data-wrangler/
+    - tmp/osmosis/:/tmp/osmosis/
 db:
   image: geometalab/postgis-with-translit
