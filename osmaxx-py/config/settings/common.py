@@ -69,6 +69,7 @@ MIDDLEWARE_CLASSES = (
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
     'sites': 'osmaxx.contrib.sites.migrations',
+    'auth': 'osmaxx.contrib.auth.migrations',
     'stored_messages': 'osmaxx.third_party_apps.stored_messages.migrations',
 }
 
