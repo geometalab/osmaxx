@@ -20,6 +20,12 @@
                         <h2>{% trans 'Existing excerpt' %}</h2>
                         <div class="form-group">
                             <label for="existing_excerpt.id">{% trans 'Excerpt' %}</label>
+
+                            <div class="form-group has-feedback">
+                                <input id="excerptListFilterField" class="form-control" type="search" placeholder="{% trans 'Filter excerpts ...' %}" autocomplete="off"/>
+                                <span id="excerptListFilterFieldClearer" class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span>
+                            </div>
+
                             <select class="form-control" name="existing_excerpt.id" id="existing_excerpt.id" size="10" required="required">
                                 <optgroup label="&nbsp;{% trans 'Personal excerpts' %} ({{ user.username }})">
                                     {% for excerpt in excerpts.own_private %}
@@ -88,6 +94,7 @@
 
     <!-- form -->
     <script src='{% static "excerptexport/scripts/formModeSwitcher.js" %}'></script>
+    <script src='{% static "excerptexport/scripts/excerptFilter.js" %}'></script>
 
     <!-- Bootstrap -->
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
