@@ -47,6 +47,9 @@ perform_vacuum() {
 
 init_osmosis() {
     echo "*** init osmosis ***"
+    if [ -f $WORKDIR_OSM/configuration.txt ]; then
+      rm $WORKDIR_OSM/configuration.txt
+    fi
     mkdir -p $WORKDIR_OSM
     osmosis --read-replication-interval-init workingDirectory=$WORKDIR_OSM
     cp $DIR/src/bootstrap-configuration.txt $WORKDIR_OSM/configuration.txt
