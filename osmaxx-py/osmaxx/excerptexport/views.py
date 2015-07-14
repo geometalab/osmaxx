@@ -48,6 +48,12 @@ class NewExtractionOrderView(View):
             'user': request.user,
             'export_options_form': ExportOptionsForm(auto_id='%s'),
             'new_excerpt_form': NewExcerptForm(auto_id='%s', initial=excerpt_form_initial_data),
+            'excerpts': {
+                'own_private': active_bbox_excerpts.filter(is_public=False, owner=request.user),
+                'own_public': active_bbox_excerpts.filter(is_public=True, owner=request.user),
+                'other_public': active_bbox_excerpts.filter(is_public=True).exclude(owner=request.user),
+                'countries': active_file_excerpts
+            },
             'personal_excerpts': active_bbox_excerpts.filter(is_public=False, owner=request.user),
             'public_excerpts': active_bbox_excerpts.filter(is_public=True),
             'countries': active_file_excerpts

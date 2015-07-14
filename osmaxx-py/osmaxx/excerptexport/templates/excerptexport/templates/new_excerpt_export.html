@@ -21,17 +21,22 @@
                         <div class="form-group">
                             <label for="existing_excerpt.id">{% trans 'Excerpt' %}</label>
                             <select class="form-control" name="existing_excerpt.id" id="existing_excerpt.id" size="10" required="required">
-                                <optgroup label="&nbsp;Personal excerpts ({{ user.username }})">
-                                    {% for excerpt in personal_excerpts %}
+                                <optgroup label="&nbsp;{% trans 'Personal excerpts' %} ({{ user.username }})">
+                                    {% for excerpt in excerpts.own_private %}
                                         <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
                                     {% endfor %}
                                 </optgroup>
-                                <optgroup label="&nbsp;Public excerpts">
-                                    {% for excerpt in public_excerpts %}
+                                <optgroup label="&nbsp;{% trans 'Personal public excerpts' %} ({{ user.username }})">
+                                    {% for excerpt in excerpts.own_public %}
                                         <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
                                     {% endfor %}
                                 </optgroup>
-                                <optgroup label="&nbsp;Countries">
+                                <optgroup label="&nbsp;{% trans 'Other excerpts' %}">
+                                    {% for excerpt in excerpts.other_public %}
+                                        <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                                <optgroup label="&nbsp;{% trans 'Countries' %}">
                                     {% for excerpt in countries %}
                                         <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
                                     {% endfor %}
