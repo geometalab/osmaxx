@@ -20,30 +20,30 @@ def to_mercator(mercator_x_lon, mercator_y_lat):
 
 def get_statistics(data, name):
     statcmd = 'bash ./extract/extract_statistics '+data[0]+' '+data[1]+' '+data[2]+' '+data[3]+' '+name
-    os.system(statcmd)
+    subprocess.check_call(statcmd, shell=True)
 
 
 def call_fgdb(data, name):
     get_statistics(data, name)
     gdbcmd = 'sh ./extract/extract_fgdb.sh '+data[0]+' '+data[1]+' '+data[2]+' '+data[3]+' '+name
-    os.system(gdbcmd)
+    subprocess.check_call(gdbcmd, shell=True)
 
 
 def call_shp(data, name):
     get_statistics(data, name)
     shpcmd = 'sh ./extract/extract_shp.sh '+data[0]+' '+data[1]+' '+data[2]+' '+data[3]+' '+name
-    os.system(shpcmd)
+    subprocess.check_call(shpcmd, shell=True)
 
 
 def call_gpkg(data, name):
     get_statistics(data, name)
     gpkgcmd = 'sh ./extract/extract_gpkg.sh '+data[0]+' '+data[1]+' '+data[2]+' '+data[3]+' '+name
-    os.system(gpkgcmd)
+    subprocess.check_call(gpkgcmd, shell=True)
 
 def call_spatialite(data, name):
     get_statistics(data, name)
     spatialitecmd = 'sh ./extract/extract_spatialite.sh '+data[0]+' '+data[1]+' '+data[2]+' '+data[3]+' '+name
-    os.system(spatialitecmd)
+    subprocess.check_call(spatialitecmd, shell=True)
 
 
 def call_test():
