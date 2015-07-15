@@ -8,7 +8,7 @@ Website: http://osmaxx.hsr.ch/
 
 ## Development
 
-See https://github.com/geometalab/osmaxx-docs for documentations and `/docs/development.md` for 
+See https://github.com/geometalab/osmaxx-docs for documentations and [/docs/development.md](/docs/development.md) for 
 more detailed instructions.
 
 ## Run it locally on Linux
