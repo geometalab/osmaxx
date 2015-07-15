@@ -8,7 +8,7 @@ Website: http://osmaxx.hsr.ch/
 
 ## Development
 
-See https://github.com/geometalab/osmaxx-docs for documentations and `/docs/development.md` for 
+See https://github.com/geometalab/osmaxx-docs for documentations and [/docs/development.md](/docs/development.md) for 
 more detailed instructions.
 
 ## Run it locally on Linux
@@ -34,8 +34,9 @@ Then initiate the project defaults:
 
 Inside the container:
 
-1. Execute migrations: `$ python3 manage.py migrate`
-2. (optional, recommended) setup a superuser: `$ python3 manage.py createsuperuser`
+1. Install dependencies: `$ pip3 install -r requirements/local.txt`
+2. Execute migrations: `$ python3 manage.py migrate`
+3. (optional, recommended) setup a superuser: `$ python3 manage.py createsuperuser`
 
 ### Running the project
 

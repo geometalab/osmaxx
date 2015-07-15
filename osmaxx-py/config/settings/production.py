@@ -1,43 +1,44 @@
 # -*- coding: utf-8 -*-
 '''
-Production Configurations
+Production Configuration
 '''
 from .common import *  # noqa
 
-# SECRET CONFIGURATION
+# SECRET/SECURITY CONFIGURATION
 # ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-# Raises ImproperlyConfigured exception if DJANO_SECRET_KEY not in os.environ
-SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # This ensures that Django will be able to detect a secure connection
 # properly on Heroku.
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# django-secure
-# ------------------------------------------------------------------------------
-INSTALLED_APPS += ("djangosecure", )
-
 MIDDLEWARE_CLASSES = (
     # Make sure djangosecure.middleware.SecurityMiddleware is listed first
-    'djangosecure.middleware.SecurityMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 ) + MIDDLEWARE_CLASSES
 
+SECRET_KEY = env("DJANGO_SECRET_KEY")
+
+# SSL CONFIGURATION
 # set this to 60 seconds and then to 518400 when you can prove it works
-SECURE_HSTS_SECONDS = 60
+SECURE_HSTS_SECONDS = env.int("DJANGO_SECURE_HSTS_SECONDS", default=60)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True)
-SECURE_FRAME_DENY = env.bool("DJANGO_SECURE_FRAME_DENY", default=True)
-SECURE_CONTENT_TYPE_NOSNIFF = env.bool("DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", default=True)
-SECURE_BROWSER_XSS_FILTER = True
-SESSION_COOKIE_SECURE = False
-SESSION_COOKIE_HTTPONLY = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
+SECURE_SSL_HOST = env.str('DJANGO_SECURE_SSL_HOST', default='')
+SECURE_REDIRECT_EXEMPT = env.list('DJANGO_SECURE_REDIRECT_EXEMPT', default=[])
+
+# OTHER SECURITY SETTINGS
+SECURE_CONTENT_TYPE_NOSNIFF = env.bool("DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", default=True)
+SECURE_BROWSER_XSS_FILTER = env.bool("DJANGO_SECURE_BROWSER_XSS_FILTER", default=True)
+SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=True)
+SESSION_COOKIE_HTTPONLY = env.bool("DJANGO_SESSION_COOKIE_HTTPONLY", default=True)
+CSRF_COOKIE_SECURE = env.bool("DJANGO_CSRF_COOKIE_SECURE", default=True)
+CSRF_COOKIE_HTTPONLY = env.bool("DJANGO_CSRF_COOKIE_HTTPONLY", default=True)
+X_FRAME_OPTIONS = env.str("DJANGO_X_FRAME_OPTIONS", default='DENY')
 
 # SITE CONFIGURATION
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
-# See https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["*"]
+# See https://docs.djangoproject.com/en/1.8/ref/settings/#allowed-hosts
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=['.osmaxx.hsr.ch.'])
 # END SITE CONFIGURATION
 
 INSTALLED_APPS += ("gunicorn", )
@@ -47,8 +48,9 @@ INSTALLED_APPS += ("gunicorn", )
 # Uploaded Media Files
 # ------------------------
 # See: http://django-storages.readthedocs.org/en/latest/index.html
+# we are prepared for this but aren't using it right now
 INSTALLED_APPS += (
-    'storages',
+    # 'storages',
 )
 
 # Static Assests
@@ -59,13 +61,13 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # EMAIL
 # ------------------------------------------------------------------------------
 DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
-                         default='nicms <noreply@nicms.hixi.ch>')
-EMAIL_HOST = env("DJANGO_EMAIL_HOST", default='smtp.sendgrid.com')
-EMAIL_HOST_PASSWORD = env("SENDGRID_PASSWORD")
-EMAIL_HOST_USER = env('SENDGRID_USERNAME')
-EMAIL_PORT = env.int("EMAIL_PORT", default=587)
-EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX", default='[nicms] ')
-EMAIL_USE_TLS = True
+                         default='noreply osmaxx <noreply@osmaxx.hsr.ch>')
+EMAIL_HOST = env("DJANGO_EMAIL_HOST", default='emailserver')
+EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = env('DJANGO_EMAIL_HOST_USERNAME')
+EMAIL_PORT = env.int("DJANGO_EMAIL_PORT", default=587)
+EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[osmaxx] ')
+EMAIL_USE_TLS = env("DJANGO_EMAIL_USE_TLS", default=True)
 SERVER_EMAIL = EMAIL_HOST_USER
 
 # TEMPLATE CONFIGURATION
@@ -81,9 +83,9 @@ TEMPLATE_LOADERS = (
 # DATABASE CONFIGURATION
 # ------------------------------------------------------------------------------
 # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-DATABASES['default'] = env.db("DATABASE_URL")
+DATABASES['default'] = env.db("DJANGO_DATABASE_URL")
 
 
 # Your production stuff: Below this line define 3rd party library settings
-BROKER_URL = env.str('CELERY_BROKER_URL')
+BROKER_URL = env.str('DJANGO_CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = BROKER_URL
