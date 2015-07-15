@@ -6,10 +6,12 @@ span.smaller { font-size: 0.75em; }
 
 
 /* container */
-header, .main, footer { padding: 1rem; }
+.main, footer { padding: 1rem; }
 header, footer { position: fixed; width: 100%; background: #286090; color: white; z-index: 10000; }
 header { top: 0; }
-.main { margin-top: 6rem; margin-bottom: 4rem; }
+header > .topBar { padding: 1rem; }
+
+.main { margin-top: 8rem; margin-bottom: 4rem; }
 footer { bottom: 0; }
 footer p { margin: 0; }
 
@@ -56,10 +58,10 @@ ul.nav.nav-pills li a           { background-color: rgb(20, 80, 120); color: whi
 ul.nav.nav-pills li a:hover     { background-color: steelblue; }
 ul.nav.nav-pills li a strong    { font-size: 0.99em; } /* prevent element overflow caused by bold font */
 
-.main > nav.breadcrumb          { margin: -1rem; margin-bottom: 1rem; padding: 1rem 2rem; background: rgb(160, 190, 230); border-radius: 0; }
-.main > nav.breadcrumb > ol.breadcrumb                      { margin: 0; padding: 0; background: none; }
-.main > nav.breadcrumb > ol.breadcrumb > li + li::before    { color: rgb(40, 96, 144); }
-.main > nav.breadcrumb > ol.breadcrumb > .active            { color: white; }
+nav.breadcrumb                  { margin: 0; padding: 1rem 2rem; background: rgb(160, 190, 230); border-radius: 0; color: black; }
+nav.breadcrumb > ol.breadcrumb                      { margin: 0; padding: 0; background: none; }
+nav.breadcrumb > ol.breadcrumb > li + li::before    { color: rgb(40, 96, 144); }
+nav.breadcrumb > ol.breadcrumb > .active            { color: white; }
 
 
 /* map */

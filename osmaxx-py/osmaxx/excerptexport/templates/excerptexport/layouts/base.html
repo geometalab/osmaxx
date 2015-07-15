@@ -18,17 +18,18 @@
 </head>
 <body>
     <header>
-        <h1>Osmaxx</h1>
-        {% include 'excerptexport/partials/navigation.html' with view=view user=user %}
-    </header>
-
-    <div class="main">
+        <div class="topBar">
+            <h1>Osmaxx</h1>
+            {% include 'excerptexport/partials/navigation.html' with view=view user=user %}
+        </div>
         <nav class="breadcrumb">
             <ol class="breadcrumb" data-type="bootstrap">
                 {% block breadcrumb %}<li>Osmaxx</li>{% endblock %}
             </ol>
         </nav>
+    </header>
 
+    <div class="main">
         {% if messages %}
             <ul class="messages">
             {% for msg in messages %}
