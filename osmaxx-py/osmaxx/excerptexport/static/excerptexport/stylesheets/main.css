@@ -55,6 +55,10 @@ ul.nav.nav-pills li a           { background-color: rgb(20, 80, 120); color: whi
 ul.nav.nav-pills li a:hover     { background-color: steelblue; }
 ul.nav.nav-pills li a strong    { font-size: 0.99em; } /* prevent element overflow caused by bold font */
 
+.main > nav.breadcrumb          { margin: -1rem; margin-bottom: 1rem; padding: 1rem 2rem; background: rgb(160, 190, 230); border-radius: 0; }
+.main > nav.breadcrumb > ol.breadcrumb { margin: 0; padding: 0; background: none; }
+.breadcrumb > li + li::before   { color: rgb(40, 96, 144); }
+
 
 /* map */
 #map { height: 100%; z-index: 100; }

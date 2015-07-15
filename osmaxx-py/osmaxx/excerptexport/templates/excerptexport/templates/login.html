@@ -2,6 +2,11 @@
 
 {% load i18n %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'Login' %}</li>
+{% endblock %}
+
 {% block main %}
 
 {% if form.errors %}

@@ -2,6 +2,11 @@
 
 {% load staticfiles i18n %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'New excerpt export' %}</li>
+{% endblock %}
+
 {% block main %}
     <div class="box-container">
         <div class="container-row"><!--

@@ -1,5 +1,11 @@
 {% extends "excerptexport/layouts/base.html" %}
+
 {% load i18n %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'New excerpt export' %}</li>
+{% endblock %}
 
 {% block main %}
     <a href="{% url 'excerptexport:index' %}">&#8810; {% trans 'Home'%}</a>

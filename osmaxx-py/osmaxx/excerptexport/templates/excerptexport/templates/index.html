@@ -2,6 +2,12 @@
 
 {% load i18n %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'excerptexport:index' %}">{% trans 'Home' %}</a></li>
+{% endblock %}
+
+
 {% block main %}
     <h2>{% trans 'Overview' %}</h2>
     <nav>
