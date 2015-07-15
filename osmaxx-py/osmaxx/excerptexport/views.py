@@ -53,10 +53,7 @@ class NewExtractionOrderView(View):
                 'own_public': active_bbox_excerpts.filter(is_public=True, owner=request.user),
                 'other_public': active_bbox_excerpts.filter(is_public=True).exclude(owner=request.user),
                 'countries': active_file_excerpts
-            },
-            'personal_excerpts': active_bbox_excerpts.filter(is_public=False, owner=request.user),
-            'public_excerpts': active_bbox_excerpts.filter(is_public=True),
-            'countries': active_file_excerpts
+            }
         }
         return render_to_response('excerptexport/templates/new_excerpt_export.html', context=view_model,
                                   context_instance=RequestContext(request))
