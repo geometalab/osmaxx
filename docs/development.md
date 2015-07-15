@@ -166,6 +166,17 @@ docker load < database_backup_file.docker
 ```
 
 
+### Feature delivery for review (Pull request)
+
+Before pushing a new feature, please check the following issues and note the done checks:
+
+* compile locales if necessary
+* run manage.py check
+* run manage.py test
+* run flake8
+* test views and workflows by hand (GET & POST)
+
+
 ### Deployment
 
 #### Package release
