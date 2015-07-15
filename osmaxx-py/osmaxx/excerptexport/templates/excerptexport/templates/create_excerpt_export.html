@@ -8,8 +8,6 @@
 {% endblock %}
 
 {% block main %}
-    <a href="{% url 'excerptexport:index' %}">&#8810; {% trans 'Home'%}</a>
-
     {% if extraction_order.id %}
         <h2>{% trans 'Successfull creation of extraction order.' %}</h2>
         <p>
