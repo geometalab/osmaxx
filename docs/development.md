@@ -73,7 +73,7 @@ $ mkdir -p docker_mounts/private_media
 $ chown -R 1000:1000 docker_mounts
 ```
 
-### running commands
+### Running commands
 
 The general way of running any command inside a docker container:
 
@@ -86,11 +86,26 @@ Examples:
 Execute a shell in the webapp:
 
 ```shell
-docker-compose run webapp bash
+docker-compose run webapp /bin/bash
 ```
 Run tests:
 
 `docker-compose run webapp /bin/bash -c 'python3 manage.py test'`
+
+
+### Access the application
+
+[http://localhost:8000](http://localhost:8000)
+
+or add 
+
+```127.0.0.1	osmaxx.dev```
+
+to your /etc/hosts file and access by
+
+[http://osmaxx.dev:8000](http://osmaxx.dev:8000)
+
+
 
 ### Reset the box
 
