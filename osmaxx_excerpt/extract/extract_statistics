@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 XMIN=$1
 YMIN=$2
 XMAX=$3
