@@ -11,12 +11,12 @@
 
                     <div class="form-group select-button-group">
                         <select class="btn-group" role="group" name="form-mode" id="form-mode" size="2" data-form-part-switcher>
-                            <option class="btn btn-default" value="existing_excerpt" selected="selected" data-form-part-for="existing_excerpt">{% trans 'Use existing excerpt' %}</option>
-                            <option class="btn btn-default" value="create_new_excerpt" data-form-part-for="create_new_excerpt">{% trans 'Create new excerpt' %}</option>
+                            <option class="btn btn-default" value="existing-excerpt" selected="selected" data-form-part-for="existing-excerpt">{% trans 'Use existing excerpt' %}</option>
+                            <option class="btn btn-default" value="new-excerpt" data-form-part-for="new-excerpt">{% trans 'Create new excerpt' %}</option>
                         </select>
                     </div>
 
-                    <div class="form-part" data-form-part="existing_excerpt">
+                    <div class="form-part" data-form-part="existing-excerpt">
                         <h2>{% trans 'Existing excerpt' %}</h2>
                         <div class="form-group">
                             <label for="existing_excerpt.id">{% trans 'Excerpt' %}</label>
@@ -41,7 +41,7 @@
                     </div>
 
 
-                    <div class="form-part" data-form-part="create_new_excerpt">
+                    <div class="form-part" data-form-part="new-excerpt">
                         <h2>{% trans 'Create excerpt' %}</h2>
                         {% include 'excerptexport/partials/new_excerpt_form.html' with form=new_excerpt_form %}
                     </div>
