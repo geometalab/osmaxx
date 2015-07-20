@@ -13,8 +13,8 @@
     <legend>{% trans 'Bounding box' %}</legend>
 
     <div class="form-group" id="bbox-values">
-        <div class="row">
-            <div class="col-sm-4 col-sm-offset-4">
+        <div class="container-row balanced">
+            <div class="form-group column-stretch-4">
                 {{ form.new_excerpt_bounding_box_north.errors }}
                 {{ form.new_excerpt_bounding_box_north.label_tag }}
                 <input class="form-control" id="{{ form.new_excerpt_bounding_box_north.id_for_label }}" name="{{ form.new_excerpt_bounding_box_north.id_for_label }}"
@@ -22,15 +22,15 @@
                    value="{{ form.new_excerpt_bounding_box_north.value|default_if_none:'' }}" />
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-4">
+        <div class="container-row separated">
+            <div class="form-group column-stretch-4">
                 {{ form.new_excerpt_bounding_box_west.errors }}
                 {{ form.new_excerpt_bounding_box_west.label_tag }}
                 <input class="form-control" id="{{ form.new_excerpt_bounding_box_west.id_for_label }}" name="{{ form.new_excerpt_bounding_box_west.id_for_label }}"
                    {% if form.new_excerpt_bounding_box_west.field.required %}required="required"{% endif %} pattern="\-?[1-9][0-9]*(\.[0-9]*)?"
                    value="{{ form.new_excerpt_bounding_box_west.value|default_if_none:'' }}" />
             </div>
-            <div class="col-sm-4 col-sm-offset-4">
+            <div class="form-group column-stretch-4">
                 {{ form.new_excerpt_bounding_box_east.errors }}
                 {{ form.new_excerpt_bounding_box_east.label_tag }}
                 <input class="form-control" id="{{ form.new_excerpt_bounding_box_east.id_for_label }}" name="{{ form.new_excerpt_bounding_box_east.id_for_label }}"
@@ -38,8 +38,8 @@
                     value="{{ form.new_excerpt_bounding_box_east.value|default_if_none:'' }}" />
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-4 col-sm-offset-4">
+        <div class="container-row balanced">
+            <div class="form-group column-stretch-4">
                 {{ form.new_excerpt_bounding_box_south.errors }}
                 {{ form.new_excerpt_bounding_box_south.label_tag }}
                 <input class="form-control" id="{{ form.new_excerpt_bounding_box_south.id_for_label }}" name="{{ form.new_excerpt_bounding_box_south.id_for_label }}"

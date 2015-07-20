@@ -2,70 +2,81 @@
 
 {% load staticfiles i18n %}
 
-{% block main %}
-    <div class="box-container">
-        <div class="container-row"><!--
-             --><div class="container-column stretch-5">
-                <form action="{% url 'excerptexport:new' %}" method="post" novalidate="novalidate">
-                    {% csrf_token %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'New excerpt export' %}</li>
+{% endblock %}
 
-                    <div class="form-group select-button-group">
-                        <select class="btn-group" role="group" name="form-mode" id="form-mode" size="2" data-form-part-switcher>
-                            <option class="btn btn-default" value="existing-excerpt" selected="selected" data-form-part-for="existing-excerpt">{% trans 'Use existing excerpt' %}</option>
-                            <option class="btn btn-default" value="new-excerpt" data-form-part-for="new-excerpt">{% trans 'Create new excerpt' %}</option>
+{% block main %}
+    <div class="multicolumn-container">
+        <div class="container-column column-stretch-5">
+            <form action="{% url 'excerptexport:new' %}" method="post" novalidate="novalidate">
+                {% csrf_token %}
+
+                <div class="form-group select-button-group">
+                    <select class="btn-group" role="group" name="form-mode" id="form-mode" size="2" data-form-part-switcher>
+                        <option class="btn btn-default" value="existing-excerpt" selected="selected" data-form-part-for="existing-excerpt">{% trans 'Use existing excerpt' %}</option>
+                        <option class="btn btn-default" value="new-excerpt" data-form-part-for="new-excerpt">{% trans 'Create new excerpt' %}</option>
+                    </select>
+                </div>
+
+                <div class="form-part" data-form-part="existing-excerpt">
+                    <h2>{% trans 'Existing excerpt' %}</h2>
+                    <div class="form-group">
+                        <label for="existing_excerpt.id">{% trans 'Excerpt' %}</label>
+
+                        <div class="form-group has-feedback">
+                                <input id="excerptListFilterField" class="form-control" type="search" placeholder="{% trans 'Filter excerpts …' %}" autocomplete="off"/>
+                            <span id="excerptListFilterFieldClearer" class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span>
+                        </div>
+
+                        <select class="form-control" name="existing_excerpt.id" id="existing_excerpt.id" size="10" required="required">
+                            <optgroup label="&nbsp;{% trans 'Personal excerpts' %} ({{ user.username }})">
+                                {% for excerpt in excerpts.own_private %}
+                                    <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
+                                {% endfor %}
+                            </optgroup>
+                            <optgroup label="&nbsp;{% trans 'Personal public excerpts' %} ({{ user.username }})">
+                                {% for excerpt in excerpts.own_public %}
+                                    <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
+                                {% endfor %}
+                            </optgroup>
+                            <optgroup label="&nbsp;{% trans 'Other excerpts' %}">
+                                {% for excerpt in excerpts.other_public %}
+                                    <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
+                                {% endfor %}
+                            </optgroup>
+                            <optgroup label="&nbsp;{% trans 'Countries' %}">
+                                {% for excerpt in countries %}
+                                    <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
+                                {% endfor %}
+                            </optgroup>
                         </select>
                     </div>
-
-                    <div class="form-part" data-form-part="existing-excerpt">
-                        <h2>{% trans 'Existing excerpt' %}</h2>
-                        <div class="form-group">
-                            <label for="existing_excerpt.id">{% trans 'Excerpt' %}</label>
-                            <select class="form-control" name="existing_excerpt.id" id="existing_excerpt.id" size="10" required="required">
-                                <optgroup label="&nbsp;Personal excerpts ({{ user.username }})">
-                                    {% for excerpt in personal_excerpts %}
-                                        <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
-                                    {% endfor %}
-                                </optgroup>
-                                <optgroup label="&nbsp;Public excerpts">
-                                    {% for excerpt in public_excerpts %}
-                                        <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
-                                    {% endfor %}
-                                </optgroup>
-                                <optgroup label="&nbsp;Countries">
-                                    {% for excerpt in countries %}
-                                        <option value="{{ excerpt.id }}">{{ excerpt.name }}</option>
-                                    {% endfor %}
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-
-
-                    <div class="form-part" data-form-part="new-excerpt">
-                        <h2>{% trans 'Create excerpt' %}</h2>
-                        {% include 'excerptexport/partials/new_excerpt_form.html' with form=new_excerpt_form %}
-                    </div>
-
-                    <div class="form-part">
-                        <h2>{% trans 'Export options' %}</h2>
-                        <fieldset class="form-group">
-                            {{ export_options_form.as_p }}
-                        </fieldset>
-                    </div>
-
-
-                    <input type="submit" value="Create excerpt export request" class="btn btn-primary" />
-                </form>
-
-             </div><!--
-            --><div class="container-column stretch-5">
-                <div class="outerMapWrapper">
-                    <!--<div class="innerMapWrapper">-->
-                        <div id="map" ></div>
-                    <!--</div>-->
                 </div>
-            </div><!--
-        --></div>
+
+
+                <div class="form-part" data-form-part="new-excerpt">
+                    <h2>{% trans 'Create excerpt' %}</h2>
+                    {% include 'excerptexport/partials/new_excerpt_form.html' with form=new_excerpt_form %}
+                </div>
+
+                <div class="form-part">
+                    <h2>{% trans 'Export options' %}</h2>
+                    <fieldset class="form-group">
+                        {{ export_options_form.as_p }}
+                    </fieldset>
+                </div>
+
+
+                <input type="submit" value="Create excerpt export request" class="btn btn-primary" />
+            </form>
+        </div>
+        <div class="container-column column-stretch-5">
+             <div class="outerMapWrapper">
+                <div id="map" ></div>
+            </div>
+        </div>
     </div>
 
 
@@ -83,6 +94,7 @@
 
     <!-- form -->
     <script src='{% static "excerptexport/scripts/formModeSwitcher.js" %}'></script>
+    <script src='{% static "excerptexport/scripts/excerptFilter.js" %}'></script>
 
     <!-- Bootstrap -->
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>

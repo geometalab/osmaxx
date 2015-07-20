@@ -85,15 +85,15 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
-        self.assertEqual(response.context['personal_excerpts'].count(), 1)
-        self.assertIn(self.existing_own_excerpt, response.context['personal_excerpts'])
+        self.assertEqual(response.context['excerpts']['own_private'].count(), 1)
+        self.assertIn(self.existing_own_excerpt, response.context['excerpts']['own_private'])
 
     def test_new_offers_existing_public_foreign_excerpt(self):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
-        self.assertEqual(response.context['public_excerpts'].count(), 1)
-        self.assertIn(self.existing_public_foreign_excerpt, response.context['public_excerpts'])
+        self.assertEqual(response.context['excerpts']['other_public'].count(), 1)
+        self.assertIn(self.existing_public_foreign_excerpt, response.context['excerpts']['other_public'])
 
     def test_new_doesnt_offer_existing_private_foreign_excerpt(self):
         self.add_permissions_to_user()
@@ -105,8 +105,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
-        self.assertEqual(response.context['countries'].count(), 1)
-        self.assertIn(self.country, response.context['countries'])
+        self.assertEqual(response.context['excerpts']['countries'].count(), 1)
+        self.assertIn(self.country, response.context['excerpts']['countries'])
 
     def test_create_when_not_logged_in(self):
         """

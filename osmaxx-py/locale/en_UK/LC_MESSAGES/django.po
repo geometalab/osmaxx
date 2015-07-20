@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-05 10:41+0200\n"
+"POT-Creation-Date: 2015-07-20 10:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,278 +17,312 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: excerptexport/models/bounding_geometry.py:28
-msgid "type"
-msgstr ""
-
-#: excerptexport/models/bounding_geometry.py:29
-msgid "geometry"
-msgstr ""
-
-#: excerptexport/models/excerpt.py:7
-msgid "name"
-msgstr ""
-
-#: excerptexport/models/excerpt.py:8
-msgid "is public"
-msgstr ""
-
-#: excerptexport/models/excerpt.py:9
-msgid "is active"
-msgstr ""
-
-#: excerptexport/models/excerpt.py:11
-msgid "owner"
-msgstr ""
-
-#: excerptexport/models/excerpt.py:12
-msgid "bounding geometry"
-msgstr ""
-
-#: excerptexport/models/extraction_order.py:20
-msgid "state"
-msgstr ""
-
-#: excerptexport/models/extraction_order.py:21
-msgid "process start date"
-msgstr ""
-
-#: excerptexport/models/extraction_order.py:22
-msgid "process reference"
-msgstr ""
-
-#: excerptexport/models/extraction_order.py:24
-msgid "orderer"
-msgstr ""
-
-#: excerptexport/models/extraction_order.py:25
-msgid "excerpt"
-msgstr ""
-
-#: excerptexport/models/output_file.py:12
-msgid "mime type"
-msgstr ""
-
-#: excerptexport/models/output_file.py:14
-msgid "file"
-msgstr ""
-
-#: excerptexport/models/output_file.py:15
-msgid "create date"
-msgstr ""
-
-#: excerptexport/models/output_file.py:16
-msgid "deleted on filesystem"
-msgstr ""
-
-#: excerptexport/models/output_file.py:17
-msgid "public identifier"
-msgstr ""
-
-#: excerptexport/models/output_file.py:20
-msgid "extraction order"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/partials/download_list.html:12
-msgid "Send link"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/partials/download_list.html:15
-msgid "Copy link:"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/partials/export_options.html:6
-msgid "Formats"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/partials/send_all_links.html:10
-msgid "Send all links"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/access_denied.html:7
-msgid "Please contact your Administrator"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/access_denied.html:9
-msgid ""
-"You do not appear to have the proper access rights. Please contact your\n"
-"            supervisor/administrator and ask for the needed access rights."
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/access_denied.html:13
-msgid "Please Login"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/access_denied.html:14
-msgid "This site has pages, which are protected. Please login and try again."
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/access_denied.html:15
-#: excerptexport/templates/excerptexport/templates/index.html:11
-#: excerptexport/templates/excerptexport/templates/logout.html:11
-msgid "Login"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/create_excerpt_export.html:5
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:7
-#: excerptexport/templates/excerptexport/templates/list_orders.html:7
-#: excerptexport/templates/excerptexport/templates/logout.html:14
-#: excerptexport/templates/excerptexport/templates/show_downloads.html:7
-msgid "Home"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/create_excerpt_export.html:8
-msgid "Successfull creation of extraction order."
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/create_excerpt_export.html:10
-msgid ""
-"Your map data export ist starting soon. You will be redirected to the status "
-"page."
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/create_excerpt_export.html:11
-#, python-format
-msgid "Extraction order #%(extraction_order_id)s status"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/create_excerpt_export.html:14
-msgid "Something went wrong. Please contact an administrator."
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:8
-#: excerptexport/templates/excerptexport/templates/list_orders.html:10
-msgid "Orders"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:11
-msgid "Reload"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:12
-#, python-format
-msgid "Export status (excerpt &quot;%(excerpt_name)s&quot;) "
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:16
-msgid "ID"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:17
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:22
-#: excerptexport/templates/excerptexport/templates/show_downloads.html:13
-msgid "Excerpt"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:19
-msgid "Status"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:28
-msgid "Extraction started at"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:30
-msgid "Issuer"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/extraction_order_status.html:35
-#: excerptexport/templates/excerptexport/templates/show_downloads.html:10
-msgid "Downloads"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/index.html:8
-#: excerptexport/templates/excerptexport/templates/logout.html:6
-msgid "Logout"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/index.html:14
-msgid "Overview"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/index.html:19
-msgid "New excerpt export"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/index.html:23
-msgid "My downloads"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/index.html:27
-msgid "My orders"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/list_orders.html:15
-#, python-format
-msgid "Extraction of &quot;%(excerpt_name)s&quot;"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/login.html:8
-msgid "Your username and password didn't match. Please try again."
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/login.html:26
-msgid "Login with google-oauth2"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/logout.html:7
-msgid "You are logged out."
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:14
-msgid "Use existing excerpt"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:15
-msgid "Create new excerpt"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:20
-msgid "Existing excerpt"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:47
-msgid "Create excerpt"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:49
+#: osmaxx/excerptexport/forms/new_excerpt_form.py:6
 msgid "Excerpt name"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:54
-msgid "Bounding box"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:59
+#: osmaxx/excerptexport/forms/new_excerpt_form.py:7
 msgid "North"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:65
-msgid "South"
-msgstr ""
-
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:69
+#: osmaxx/excerptexport/forms/new_excerpt_form.py:8
 msgid "West"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:75
+#: osmaxx/excerptexport/forms/new_excerpt_form.py:9
 msgid "East"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:84
+#: osmaxx/excerptexport/forms/new_excerpt_form.py:10
+msgid "South"
+msgstr ""
+
+#: osmaxx/excerptexport/forms/new_excerpt_form.py:11
+#: osmaxx/excerptexport/templates/excerptexport/partials/new_excerpt_form.html:56
 msgid "Public"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:85
+#: osmaxx/excerptexport/models/excerpt.py:7
+msgid "name"
+msgstr ""
+
+#: osmaxx/excerptexport/models/excerpt.py:8
+msgid "is public"
+msgstr ""
+
+#: osmaxx/excerptexport/models/excerpt.py:9
+msgid "is active"
+msgstr ""
+
+#: osmaxx/excerptexport/models/excerpt.py:11
+msgid "owner"
+msgstr ""
+
+#: osmaxx/excerptexport/models/excerpt.py:12
+msgid "bounding geometry"
+msgstr ""
+
+#: osmaxx/excerptexport/models/extraction_order.py:20
+msgid "state"
+msgstr ""
+
+#: osmaxx/excerptexport/models/extraction_order.py:21
+msgid "process start date"
+msgstr ""
+
+#: osmaxx/excerptexport/models/extraction_order.py:22
+msgid "process reference"
+msgstr ""
+
+#: osmaxx/excerptexport/models/extraction_order.py:24
+msgid "orderer"
+msgstr ""
+
+#: osmaxx/excerptexport/models/extraction_order.py:25
+msgid "excerpt"
+msgstr ""
+
+#: osmaxx/excerptexport/models/output_file.py:12
+msgid "mime type"
+msgstr ""
+
+#: osmaxx/excerptexport/models/output_file.py:14
+msgid "file"
+msgstr ""
+
+#: osmaxx/excerptexport/models/output_file.py:15
+msgid "create date"
+msgstr ""
+
+#: osmaxx/excerptexport/models/output_file.py:16
+msgid "deleted on filesystem"
+msgstr ""
+
+#: osmaxx/excerptexport/models/output_file.py:17
+msgid "public identifier"
+msgstr ""
+
+#: osmaxx/excerptexport/models/output_file.py:20
+msgid "extraction order"
+msgstr ""
+
+#: osmaxx/excerptexport/tasks.py:11
+#, python-format
+msgid "Your extraction order %s has been processed"
+msgstr ""
+
+#: osmaxx/excerptexport/tasks.py:41
+#, python-format
+msgid "Your extraction order \"%s\" has been started"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/partials/download_list.html:12
+msgid "Send link"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/partials/download_list.html:15
+msgid "Copy link:"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/partials/login_logout_link.html:5
+#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:7
+#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:11
+msgid "Logout"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/partials/login_logout_link.html:9
+#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:15
+#: osmaxx/excerptexport/templates/excerptexport/templates/login.html:7
+#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:16
+msgid "Login"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/partials/navigation.html:7
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:7
+#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:19
+msgid "Home"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/partials/navigation.html:12
+#: osmaxx/excerptexport/templates/excerptexport/templates/create_excerpt_export.html:7
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:17
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:7
+msgid "New excerpt export"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/partials/navigation.html:17
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:7
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:21
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_orders.html:7
+msgid "My orders"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/partials/navigation.html:22
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:25
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:7
+msgid "My downloads"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/partials/new_excerpt_form.html:13
+msgid "Bounding box"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/partials/new_excerpt_form.html:57
 msgid ""
 "Others will see name and bounding box of this excerpt. They won't see that "
 "you created it or when you did so."
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/new_excerpt_export.html:90
+#: osmaxx/excerptexport/templates/excerptexport/partials/send_all_links.html:10
+msgid "Send all links"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:7
+msgid "Please contact your Administrator"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:9
+msgid ""
+"You do not appear to have the proper access rights. Please contact your\n"
+"            supervisor/administrator and ask for the needed access rights."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:13
+msgid "Please Login"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:14
+msgid "This site has pages, which are protected. Please login and try again."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/create_excerpt_export.html:12
+msgid "Successfull creation of extraction order."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/create_excerpt_export.html:14
+msgid ""
+"Your map data export ist starting soon. You will be redirected to the status "
+"page."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/create_excerpt_export.html:15
+#, python-format
+msgid "Extraction order #%(extraction_order_id)s status"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/create_excerpt_export.html:18
+msgid "Something went wrong. Please contact an administrator."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:8
+msgid "Order"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:13
+#, python-format
+msgid "Export status (excerpt &quot;%(excerpt_name)s&quot;) "
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:14
+msgid "Reload"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:19
+msgid "ID"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:20
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:14
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:27
+msgid "Excerpt"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:22
+msgid "Status"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:31
+msgid "Extraction started at"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:33
+msgid "Issuer"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:38
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:11
+msgid "Downloads"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:12
+msgid "Overview"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:13
+msgid "Extraction order"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_orders.html:11
+msgid "Orders"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_orders.html:16
+#, python-format
+msgid "Extraction of &quot;%(excerpt_name)s&quot;"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/login.html:13
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/login.html:31
+msgid "or use Clavid:"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:12
+msgid "You are logged out."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:19
+msgid "Use existing excerpt"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:20
+msgid "Create new excerpt"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:25
+msgid "Existing excerpt"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:30
+msgid "Filter excerpts …"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:35
+msgid "Personal excerpts"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:40
+msgid "Personal public excerpts"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:45
+msgid "Other excerpts"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:50
+msgid "Countries"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:61
+msgid "Create excerpt"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:66
 msgid "Export options"
 msgstr ""
 
-#: excerptexport/templates/excerptexport/templates/show_downloads.html:12
-msgid "Extraction order"
+#: src/django-stored-messages/stored_messages/models.py:52
+msgid "inboxes"
 msgstr ""
