@@ -13,6 +13,7 @@ from django.conf import settings
 
 from .models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
 from .models.extraction_order import ExtractionOrderState
+from osmaxx.contrib.auth.frontend_permissions import LoginRequiredMixin
 from .services.data_conversion_service import trigger_data_conversion
 from .forms import ExportOptionsForm, NewExcerptForm
 from .tasks import create_export
@@ -36,8 +37,7 @@ def has_excerptexport_all_permissions():
     return permission_required(excerpt_export_permissions, login_url=login_url, raise_exception=False)
 
 
-class NewExtractionOrderView(View):
-    @method_decorator(login_required)
+class NewExtractionOrderView(View, LoginRequiredMixin):
     @method_decorator(has_excerptexport_all_permissions())
     def get(self, request, excerpt_form_initial_data=None):
         active_excerpts = Excerpt.objects.filter(is_active=True)
@@ -55,7 +55,6 @@ class NewExtractionOrderView(View):
         return render_to_response('excerptexport/templates/new_excerpt_export.html', context=view_model,
                                   context_instance=RequestContext(request))
 
-    @method_decorator(login_required)
     @method_decorator(has_excerptexport_all_permissions())
     def post(self, request):
         view_context = {}
