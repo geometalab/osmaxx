@@ -193,3 +193,7 @@ table tr:nth-child(odd) td  { background: rgb(210,240,255); }
 [data-order-status="CANCELED"] { background: peachpuff; border: 0.05rem solid maroon; }
 
 .download_files li[data-file-deleted] { opacity: 0.5; }
+
+
+/** bootstrap fixes */
+#excerptListFilterFieldClearer { pointer-events: auto; cursor: pointer; }
