@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
 from django.utils.decorators import method_decorator
 
-OSMAXX_FRONTEND_USER = settings.OSMAXX_AUTHORIZATION['groups']['osmaxx_frontend_user']
+OSMAXX_FRONTEND_USER = settings.OSMAXX_AUTHORIZATION['groups']['osmaxx_frontend_user']['group_name']
 
 
 def frontend_access_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, information_url=None):
