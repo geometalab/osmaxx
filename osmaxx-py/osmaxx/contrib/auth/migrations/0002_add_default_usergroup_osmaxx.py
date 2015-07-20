@@ -4,18 +4,17 @@ from __future__ import unicode_literals
 from django.db import migrations
 from django.conf import settings
 
-OSMAXX_FRONTEND_USER = settings.OSMAXX_AUTHORIZATION['groups']['osmaxx_frontend_user']['group_name']
 
 def update_site_forward(apps, schema_editor):
     """Add group osmaxx."""
     Group = apps.get_model("auth", "Group")
-    Group.objects.create(name=OSMAXX_FRONTEND_USER)
+    Group.objects.create(name=settings.OSMAXX_FRONTEND_USER_GROUP)
 
 
 def update_site_backward(apps, schema_editor):
     """Revert add group osmaxx."""
     Group = apps.get_model("auth", "Group")
-    Group.objects.get(name=OSMAXX_FRONTEND_USER).delete()
+    Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP).delete()
 
 
 class Migration(migrations.Migration):

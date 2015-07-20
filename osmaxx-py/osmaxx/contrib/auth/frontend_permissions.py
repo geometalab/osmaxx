@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
 
-OSMAXX_FRONTEND_USER = settings.OSMAXX_AUTHORIZATION['groups']['osmaxx_frontend_user']['group_name']
+FRONTEND_USER_GROUP = settings.OSMAXX_FRONTEND_USER_GROUP
 
 
 def frontend_access_required(function=None):
@@ -29,7 +29,7 @@ def user_in_osmaxx_group(user):
     """
     if user.is_superuser:
         return True
-    group = Group.objects.get(name=OSMAXX_FRONTEND_USER)
+    group = Group.objects.get(name=FRONTEND_USER_GROUP)
     return group in user.groups.all()
 
 

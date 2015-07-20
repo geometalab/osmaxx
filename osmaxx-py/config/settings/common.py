@@ -346,16 +346,5 @@ CELERY_RESULT_SERIALIZER = 'json'
 # Message-Storage Settings
 MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
 
-OSMAXX_AUTHORIZATION = {
-    'groups': {
-        # osmaxx 'namespace' is needed because the name is used as group
-        # identifier (name).
-        'osmaxx_frontend_user': dict(
-            # do not alter this once migrations have been run, since these values are stored in the database.
-            group_name='osmaxx_frontend_user',
-            # permissions has currently only significance in the context of the admin
-            # and is therefore empty
-            permissions=[]
-        ),
-    }
-}
+# do not alter this once migrations have been run, since these values are stored in the database.
+OSMAXX_FRONTEND_USER_GROUP = 'osmaxx_frontend_users'
