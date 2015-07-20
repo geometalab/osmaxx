@@ -14,7 +14,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 ) + MIDDLEWARE_CLASSES
 
-SECRET_KEY = env("DJANGO_SECRET_KEY")
+SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 
 # SSL CONFIGURATION
 # set this to 60 seconds and then to 518400 when you can prove it works
