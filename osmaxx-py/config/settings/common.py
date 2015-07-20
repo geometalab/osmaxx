@@ -346,7 +346,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 # Message-Storage Settings
 MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
 
-
+# do not alter this once mogrations have been run, since these values are stored in the database.
 OSMAXX_AUTHORIZATION = {
     'groups': {
         # osmaxx 'namespace' is needed because the name is used as group
