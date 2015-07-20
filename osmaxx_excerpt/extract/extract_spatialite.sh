@@ -1,3 +1,4 @@
+set -e
 DBNAME='osmaxx_db'
 USER='postgres'
 PASS='postgres'
