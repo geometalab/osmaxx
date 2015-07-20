@@ -19,8 +19,16 @@
 <body>
     <header>
         <h1>Osmaxx</h1>
+        {% include 'excerptexport/partials/navigation.html' with view=view user=user %}
     </header>
+
     <div class="main">
+        <nav class="breadcrumb">
+            <ol class="breadcrumb" data-type="bootstrap">
+                {% block breadcrumb %}<li>Osmaxx</li>{% endblock %}
+            </ol>
+        </nav>
+
         {% if messages %}
             <ul class="messages">
             {% for msg in messages %}
@@ -32,10 +40,12 @@
             {% endfor %}
         </ul>
         {% endif %}
+
         {% block main %}
             <h2>Main block</h2>
         {% endblock %}
     </div>
+
     <footer>
         <p>&copy; 2015 HSR Hochschule für Technik, Rapperswil</p>
     </footer>

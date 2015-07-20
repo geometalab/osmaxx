@@ -2,6 +2,11 @@
 
 {% load i18n %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'Logout' %}</li>
+{% endblock %}
+
 {% block main %}
     <h2>{% trans 'Logout' %}</h2>
     <p>{% trans 'You are logged out.' %}</p>

@@ -1,14 +1,15 @@
 * { box-sizing: border-box; }
 body { padding: 0; margin: 0; }
 
-h1 { font-size: 2rem; margin: 0; }
+h1 { font-size: 2rem; margin: 1rem; margin-right: 2rem; float: left; }
+span.smaller { font-size: 0.75em; }
 
 
 /* container */
 header, .main, footer { padding: 1rem; }
 header, footer { position: fixed; width: 100%; background: #286090; color: white; z-index: 10000; }
 header { top: 0; }
-.main { margin-top: 4rem; margin-bottom: 4rem; }
+.main { margin-top: 6rem; margin-bottom: 4rem; }
 footer { bottom: 0; }
 footer p { margin: 0; }
 
@@ -50,7 +51,15 @@ p { word-wrap: break-word; }
 
 
 /* navigation */
-nav ul { list-style-type: none; padding: 0; }
+nav ul                          { list-style-type: none; padding: 0; }
+ul.nav.nav-pills li a           { background-color: rgb(20, 80, 120); color: white; }
+ul.nav.nav-pills li a:hover     { background-color: steelblue; }
+ul.nav.nav-pills li a strong    { font-size: 0.99em; } /* prevent element overflow caused by bold font */
+
+.main > nav.breadcrumb          { margin: -1rem; margin-bottom: 1rem; padding: 1rem 2rem; background: rgb(160, 190, 230); border-radius: 0; }
+.main > nav.breadcrumb > ol.breadcrumb                      { margin: 0; padding: 0; background: none; }
+.main > nav.breadcrumb > ol.breadcrumb > li + li::before    { color: rgb(40, 96, 144); }
+.main > nav.breadcrumb > ol.breadcrumb > .active            { color: white; }
 
 
 /* map */
@@ -62,7 +71,7 @@ nav ul { list-style-type: none; padding: 0; }
     width: 50%;
     width: calc(50% - 1rem);
     overflow: hidden;
-    top: 5rem;
+    top: 7rem;
     bottom: 5rem;
     right: 1rem;
 }

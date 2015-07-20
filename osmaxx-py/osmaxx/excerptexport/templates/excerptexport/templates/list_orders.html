@@ -2,11 +2,12 @@
 
 {% load filter_filename i18n %}
 
-{% block main %}
-    <nav>
-        <a href="{% url 'excerptexport:index' %}">&#8810; {% trans 'Home' %}</a>
-    </nav>
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'My orders' %}</li>
+{% endblock %}
 
+{% block main %}
     <h2>{% trans 'Orders' %}</h2>
     {% for extraction_order in extraction_orders.all %}
         <div class="order" data-order-status="{{ extraction_order.get_state_display }}">

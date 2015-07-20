@@ -1,9 +1,13 @@
 {% extends "excerptexport/layouts/base.html" %}
+
 {% load i18n %}
 
-{% block main %}
-    <a href="{% url 'excerptexport:index' %}">&#8810; {% trans 'Home'%}</a>
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'New excerpt export' %}</li>
+{% endblock %}
 
+{% block main %}
     {% if extraction_order.id %}
         <h2>{% trans 'Successfull creation of extraction order.' %}</h2>
         <p>
