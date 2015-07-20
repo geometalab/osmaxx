@@ -14,7 +14,7 @@ def frontend_access_required(function=None):
     """
     access_denied_info_url = reverse_lazy('excerptexport:access_denied')
     actual_decorator = user_passes_test(
-        lambda u: user_in_osmaxx_group(u),
+        user_in_osmaxx_group,
         login_url=access_denied_info_url
     )
     if function:
