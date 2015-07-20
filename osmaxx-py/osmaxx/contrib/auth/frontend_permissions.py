@@ -1,21 +1,21 @@
 from django.conf import settings
-from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
+from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
 
 OSMAXX_FRONTEND_USER = settings.OSMAXX_AUTHORIZATION['groups']['osmaxx_frontend_user']['group_name']
 
 
-def frontend_access_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, information_url=None):
+def frontend_access_required(function=None):
     """
     Decorator for views that checks that the user has the correct access rights,
     redirecting to the information page if necessary.
     """
+    access_denied_info_url = reverse_lazy('excerptexport:access_denied')
     actual_decorator = user_passes_test(
         lambda u: user_in_osmaxx_group(u),
-        login_url=information_url,
-        redirect_field_name=redirect_field_name
+        login_url=access_denied_info_url
     )
     if function:
         return actual_decorator(function)
@@ -29,7 +29,7 @@ def user_in_osmaxx_group(user):
     """
     if user.is_superuser:
         return True
-    group = Group.get(name=OSMAXX_FRONTEND_USER)
+    group = Group.objects.get(name=OSMAXX_FRONTEND_USER)
     return group in user.groups.all()
 
 
