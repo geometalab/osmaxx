@@ -8,7 +8,9 @@
     this.activateSelectedPart = function(form, formPartsSwitcher, formPartsButtons) {
         var formPartId = (formPartsButtons.item(formPartsSwitcher.selectedIndex)).getAttribute('data-form-part-for');
         form.querySelector('[data-form-part="'+formPartId+'"]').setAttribute('data-form-part-state', 'active');
-        window.history.pushState({ formPartId: formPartId }, '', '#'+formPartId);
+        if(window.location.hash.substring(1) != formPartId) {
+            window.history.pushState({ formPartId: formPartId }, '', '#'+formPartId);
+        }
     };
 
     this.initializeFormModes = function(form, formPartsSwitcher, formPartsButtons, formPartNodes, activeFormPartId) {
