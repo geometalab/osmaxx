@@ -14,7 +14,7 @@ def frontend_access_required(function=None):
     """
     access_denied_info_url = reverse_lazy('excerptexport:access_denied')
     actual_decorator = user_passes_test(
-        user_in_osmaxx_group,
+        _may_user_access_osmaxx_frontend,
         login_url=access_denied_info_url
     )
     if function:
@@ -22,7 +22,7 @@ def frontend_access_required(function=None):
     return actual_decorator
 
 
-def user_in_osmaxx_group(user):
+def _may_user_access_osmaxx_frontend(user):
     """
     Actual test to check if the user is in the frontend user group,
     to give access or deny it. Note: Admins have superpowers.
