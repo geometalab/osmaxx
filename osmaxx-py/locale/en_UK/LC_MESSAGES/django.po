@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-21 11:55+0200\n"
+"POT-Creation-Date: 2015-07-21 14:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -308,18 +308,18 @@ msgstr ""
 msgid "Invalid excerpt."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:108
+#: osmaxx/excerptexport/views.py:109
 #, python-format
 msgid ""
 "Successful creation of extraction order extraction order %(id)s. The "
 "conversion process will start soon."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:115
+#: osmaxx/excerptexport/views.py:117
 msgid "Creation of extraction order failed."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:119
+#: osmaxx/excerptexport/views.py:121
 msgid "Invalid export options."
 msgstr ""
 
