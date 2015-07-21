@@ -10,8 +10,6 @@ from django.conf import settings
 
 class Migration(migrations.Migration):
 
-    replaces = [('excerptexport', '0001_initial'), ('excerptexport', '0002_auto_20150519_0945'), ('excerptexport', '0003_auto_20150602_1340'), ('excerptexport', '0004_auto_20150629_1432')]
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]

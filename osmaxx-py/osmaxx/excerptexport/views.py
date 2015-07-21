@@ -3,11 +3,10 @@ import os
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.core.servers.basehttp import FileWrapper
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.urlresolvers import reverse
 from django.template import RequestContext
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
 from django.core.files.storage import FileSystemStorage
@@ -15,6 +14,11 @@ from django.conf import settings
 
 from .models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
 from .models.extraction_order import ExtractionOrderState
+from osmaxx.contrib.auth.frontend_permissions import (
+    frontend_access_required,
+    LoginRequiredMixin,
+    FrontendAccessRequiredMixin
+)
 from .forms import ExportOptionsForm, NewExcerptForm
 from .tasks import create_export
 from . import settings as excerptexport_settings
@@ -22,24 +26,7 @@ from . import settings as excerptexport_settings
 private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
 
 
-def has_excerptexport_all_permissions():
-    excerpt_export_permissions = [
-        'excerptexport.add_boundinggeometry',
-        'excerptexport.change_boundinggeometry',
-        'excerptexport.add_excerpt',
-        'excerptexport.change_excerpt',
-        'excerptexport.add_extractionorder',
-        'excerptexport.change_extractionorder',
-    ]
-    # This is a simple hack, instead of displaying a login page, it shows a permission denied page if the user is
-    # logged in
-    login_url = reverse_lazy('excerptexport:access_denied')
-    return permission_required(excerpt_export_permissions, login_url=login_url, raise_exception=False)
-
-
-class NewExtractionOrderView(View):
-    @method_decorator(login_required)
-    @method_decorator(has_excerptexport_all_permissions())
+class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, View):
     def get(self, request, excerpt_form_initial_data=None):
         active_excerpts = Excerpt.objects.filter(is_active=True)
         active_bbox_excerpts = active_excerpts.filter(bounding_geometry__bboxboundinggeometry__isnull=False)
@@ -59,8 +46,6 @@ class NewExtractionOrderView(View):
         return render_to_response('excerptexport/templates/new_excerpt_export.html', context=view_model,
                                   context_instance=RequestContext(request))
 
-    @method_decorator(login_required)
-    @method_decorator(has_excerptexport_all_permissions())
     def post(self, request):
         export_options_form = ExportOptionsForm(request.POST)
         if export_options_form.is_valid():
@@ -123,7 +108,7 @@ class NewExtractionOrderView(View):
 
 
 @login_required()
-@has_excerptexport_all_permissions()
+@frontend_access_required()
 def list_downloads(request):
     view_context = {
         'host_domain': request.get_host(),
@@ -160,7 +145,7 @@ def download_file(request, uuid):
 
 
 @login_required()
-@has_excerptexport_all_permissions()
+@frontend_access_required()
 def extraction_order_status(request, extraction_order_id):
     view_context = {
         'host_domain': request.get_host(),
@@ -171,7 +156,7 @@ def extraction_order_status(request, extraction_order_id):
 
 
 @login_required()
-@has_excerptexport_all_permissions()
+@frontend_access_required()
 def list_orders(request):
     view_context = {
         'host_domain': request.get_host(),
