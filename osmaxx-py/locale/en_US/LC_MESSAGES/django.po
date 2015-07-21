@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-20 10:30+0200\n"
+"POT-Creation-Date: 2015-07-21 11:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,12 +106,12 @@ msgstr ""
 msgid "extraction order"
 msgstr ""
 
-#: osmaxx/excerptexport/tasks.py:11
+#: osmaxx/excerptexport/tasks.py:13
 #, python-format
 msgid "Your extraction order %s has been processed"
 msgstr ""
 
-#: osmaxx/excerptexport/tasks.py:41
+#: osmaxx/excerptexport/tasks.py:44
 #, python-format
 msgid "Your extraction order \"%s\" has been started"
 msgstr ""
@@ -133,6 +133,7 @@ msgstr ""
 #: osmaxx/excerptexport/templates/excerptexport/partials/login_logout_link.html:9
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:15
 #: osmaxx/excerptexport/templates/excerptexport/templates/login.html:7
+#: osmaxx/excerptexport/templates/excerptexport/templates/login.html:11
 #: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:16
 msgid "Login"
 msgstr ""
@@ -144,7 +145,6 @@ msgid "Home"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/navigation.html:12
-#: osmaxx/excerptexport/templates/excerptexport/templates/create_excerpt_export.html:7
 #: osmaxx/excerptexport/templates/excerptexport/templates/index.html:17
 #: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:7
 msgid "New excerpt export"
@@ -195,25 +195,6 @@ msgstr ""
 msgid "This site has pages, which are protected. Please login and try again."
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/create_excerpt_export.html:12
-msgid "Successfull creation of extraction order."
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/create_excerpt_export.html:14
-msgid ""
-"Your map data export ist starting soon. You will be redirected to the status "
-"page."
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/create_excerpt_export.html:15
-#, python-format
-msgid "Extraction order #%(extraction_order_id)s status"
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/create_excerpt_export.html:18
-msgid "Something went wrong. Please contact an administrator."
-msgstr ""
-
 #: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:8
 msgid "Order"
 msgstr ""
@@ -233,7 +214,7 @@ msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:20
 #: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:14
-#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:27
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:26
 msgid "Excerpt"
 msgstr ""
 
@@ -283,44 +264,63 @@ msgstr ""
 msgid "You are logged out."
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:19
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:18
 msgid "Use existing excerpt"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:20
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:19
 msgid "Create new excerpt"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:25
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:24
 msgid "Existing excerpt"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:30
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:29
 msgid "Filter excerpts …"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:35
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:34
 msgid "Personal excerpts"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:40
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:39
 msgid "Personal public excerpts"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:45
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:44
 msgid "Other excerpts"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:50
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:49
 msgid "Countries"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:61
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:60
 msgid "Create excerpt"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:66
+#: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:65
 msgid "Export options"
+msgstr ""
+
+#: osmaxx/excerptexport/views.py:103
+msgid "Invalid excerpt."
+msgstr ""
+
+#: osmaxx/excerptexport/views.py:108
+#, python-format
+msgid ""
+"Successful creation of extraction order extraction order %(id)s. The "
+"conversion process will start soon."
+msgstr ""
+
+#: osmaxx/excerptexport/views.py:115
+msgid "Creation of extraction order failed."
+msgstr ""
+
+#: osmaxx/excerptexport/views.py:119
+msgid "Invalid export options."
 msgstr ""
 
 #: src/django-stored-messages/stored_messages/models.py:52

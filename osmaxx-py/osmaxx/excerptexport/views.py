@@ -1,19 +1,20 @@
 import os
 
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import StreamingHttpResponse, HttpResponseNotFound
+from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib import messages
 from django.utils.decorators import method_decorator
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
 from .models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
 from .models.extraction_order import ExtractionOrderState
-from .services.data_conversion_service import trigger_data_conversion
 from .forms import ExportOptionsForm, NewExcerptForm
 from .tasks import create_export
 from . import settings as excerptexport_settings
@@ -61,63 +62,64 @@ class NewExtractionOrderView(View):
     @method_decorator(login_required)
     @method_decorator(has_excerptexport_all_permissions())
     def post(self, request):
-        view_context = {}
-        if request.POST['form-mode'] == 'existing_excerpt':
-            existing_excerpt_id = request.POST['existing_excerpt.id']
-            view_context = {'excerpt': existing_excerpt_id}
-            extraction_order = ExtractionOrder.objects.create(
-                excerpt_id=existing_excerpt_id,
-                orderer=request.user
-            )
-            create_export.delay(extraction_order.id)
-
-        if request.POST['form-mode'] == 'create_new_excerpt':
-            new_excerpt_form = NewExcerptForm(request.POST)
-            if new_excerpt_form.is_valid():
-                form_data = new_excerpt_form.cleaned_data
-                bounding_geometry = BBoxBoundingGeometry.create_from_bounding_box_coordinates(
-                    form_data['new_excerpt_bounding_box_north'],
-                    form_data['new_excerpt_bounding_box_east'],
-                    form_data['new_excerpt_bounding_box_south'],
-                    form_data['new_excerpt_bounding_box_west']
-                )
-
-                excerpt = Excerpt.objects.create(
-                    name=form_data['new_excerpt_name'],
-                    is_active=True,
-                    is_public=form_data['new_excerpt_is_public'] if ('new_excerpt_is_public' in form_data) else False,
-                    bounding_geometry=bounding_geometry,
-                    owner=request.user
-                )
-
-                extraction_order = ExtractionOrder.objects.create(
-                    excerpt=excerpt,
-                    orderer=request.user
-                )
-                create_export.delay(extraction_order.id)
-            else:
-                return self.get(request, new_excerpt_form.data)
-
-        view_context['extraction_order'] = extraction_order
-
         export_options_form = ExportOptionsForm(request.POST)
         if export_options_form.is_valid():
             export_options = export_options_form.get_export_options(excerptexport_settings.EXPORT_OPTIONS)
-            trigger_data_conversion(extraction_order, export_options)
 
-        response = render_to_response(
-            'excerptexport/templates/create_excerpt_export.html',
-            context=view_context,
-            context_instance=RequestContext(request)
-        )
-        if extraction_order.id:
-            protocol = 'https' if request.is_secure() else 'http'
-            host = request.get_host()
-            response['Refresh'] = '5; %s://%s%s' % (protocol, host, reverse(
-                'excerptexport:status',
-                kwargs={'extraction_order_id': extraction_order.id}
-            ))
-        return response
+            extraction_order = None
+            if request.POST['form-mode'] == 'existing_excerpt':
+                existing_excerpt_id = request.POST['existing_excerpt.id']
+                extraction_order = ExtractionOrder.objects.create(
+                    excerpt_id=existing_excerpt_id,
+                    orderer=request.user
+                )
+
+            if request.POST['form-mode'] == 'create_new_excerpt':
+                new_excerpt_form = NewExcerptForm(request.POST)
+                if new_excerpt_form.is_valid():
+                    form_data = new_excerpt_form.cleaned_data
+                    bounding_geometry = BBoxBoundingGeometry.create_from_bounding_box_coordinates(
+                        form_data['new_excerpt_bounding_box_north'],
+                        form_data['new_excerpt_bounding_box_east'],
+                        form_data['new_excerpt_bounding_box_south'],
+                        form_data['new_excerpt_bounding_box_west']
+                    )
+
+                    excerpt = Excerpt.objects.create(
+                        name=form_data['new_excerpt_name'],
+                        is_active=True,
+                        is_public=form_data['new_excerpt_is_public']
+                        if ('new_excerpt_is_public' in form_data) else False,
+                        bounding_geometry=bounding_geometry,
+                        owner=request.user
+                    )
+
+                    extraction_order = ExtractionOrder.objects.create(
+                        excerpt=excerpt,
+                        orderer=request.user
+                    )
+
+                else:
+                    messages.error(request, _('Invalid excerpt.'))
+                    return self.get(request, new_excerpt_form.data)
+
+            if extraction_order.id:
+                create_export.delay(extraction_order.id, export_options)
+                messages.success(request, _(
+                    'Successful creation of extraction order extraction order %(id)s. '
+                    'The conversion process will start soon.'
+                ) % {'id': extraction_order.id})
+                return HttpResponseRedirect(
+                    reverse('excerptexport:status', kwargs={'extraction_order_id': extraction_order.id})
+                )
+
+            else:
+                messages.error(request, _('Creation of extraction order failed.') % {'id': extraction_order.id})
+                return self.get(request, export_options_form.data)
+
+        else:
+            messages.error(request, _('Invalid export options.'))
+            return self.get(request, export_options_form.data)
 
 
 @login_required()
