@@ -45,7 +45,7 @@ def create_export(extraction_order_id, export_options):
 
     stored_messages.api.add_message_for(
         users=[extraction_order.orderer],
-        level=messages.INFO,
+        level=messages.SUCCESS,
         message_text=message_text
     )
 
