@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-21 14:53+0200\n"
+"POT-Creation-Date: 2015-07-22 16:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,39 +126,39 @@ msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/login_logout_link.html:5
 #: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:7
-#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:11
+#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:12
 msgid "Logout"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/login_logout_link.html:9
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:15
+#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:16
 #: osmaxx/excerptexport/templates/excerptexport/templates/login.html:7
-#: osmaxx/excerptexport/templates/excerptexport/templates/login.html:11
-#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:16
+#: osmaxx/excerptexport/templates/excerptexport/templates/login.html:12
+#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:17
 msgid "Login"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/navigation.html:7
 #: osmaxx/excerptexport/templates/excerptexport/templates/index.html:7
-#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:19
+#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:20
 msgid "Home"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/navigation.html:12
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:17
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:18
 #: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:7
 msgid "New excerpt export"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/navigation.html:17
 #: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:7
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:21
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:22
 #: osmaxx/excerptexport/templates/excerptexport/templates/list_orders.html:7
 msgid "My orders"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/navigation.html:22
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:25
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:26
 #: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:7
 msgid "My downloads"
 msgstr ""
@@ -177,21 +177,22 @@ msgstr ""
 msgid "Send all links"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:7
+#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:8
 msgid "Please contact your Administrator"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:9
+#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:10
 msgid ""
 "You do not appear to have the proper access rights. Please contact your\n"
-"            supervisor/administrator and ask for the needed access rights."
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:13
-msgid "Please Login"
+"                supervisor/administrator and ask for the needed access "
+"rights."
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:14
+msgid "Please Login"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:15
 msgid "This site has pages, which are protected. Please login and try again."
 msgstr ""
 
@@ -199,68 +200,68 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:13
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:14
 #, python-format
 msgid "Export status (excerpt &quot;%(excerpt_name)s&quot;) "
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:14
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:15
 msgid "Reload"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:19
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:20
 msgid "ID"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:20
-#: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:14
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:21
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:15
 #: osmaxx/excerptexport/templates/excerptexport/templates/new_excerpt_export.html:26
 msgid "Excerpt"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:22
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:23
 msgid "Status"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:31
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:32
 msgid "Extraction started at"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:33
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:34
 msgid "Issuer"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:38
-#: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:11
+#: osmaxx/excerptexport/templates/excerptexport/templates/extraction_order_status.html:39
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:12
 msgid "Downloads"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:12
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:13
 msgid "Overview"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:13
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_downloads.html:14
 msgid "Extraction order"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/list_orders.html:11
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_orders.html:12
 msgid "Orders"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/list_orders.html:16
+#: osmaxx/excerptexport/templates/excerptexport/templates/list_orders.html:17
 #, python-format
 msgid "Extraction of &quot;%(excerpt_name)s&quot;"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/login.html:13
+#: osmaxx/excerptexport/templates/excerptexport/templates/login.html:14
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/login.html:31
+#: osmaxx/excerptexport/templates/excerptexport/templates/login.html:32
 msgid "or use Clavid:"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:12
+#: osmaxx/excerptexport/templates/excerptexport/templates/logout.html:13
 msgid "You are logged out."
 msgstr ""
 
@@ -304,22 +305,22 @@ msgstr ""
 msgid "Export options"
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:103
+#: osmaxx/excerptexport/views.py:88
 msgid "Invalid excerpt."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:109
+#: osmaxx/excerptexport/views.py:94
 #, python-format
 msgid ""
 "Successful creation of extraction order extraction order %(id)s. The "
 "conversion process will start soon."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:117
+#: osmaxx/excerptexport/views.py:102
 msgid "Creation of extraction order failed."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:121
+#: osmaxx/excerptexport/views.py:106
 msgid "Invalid export options."
 msgstr ""
 
