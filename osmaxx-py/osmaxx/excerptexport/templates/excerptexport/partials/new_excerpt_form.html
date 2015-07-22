@@ -13,7 +13,7 @@
     <legend>{% trans 'Bounding box' %}</legend>
 
     <div class="form-group" id="bbox-values">
-        <div class="container-row balanced">
+        <div class="box-column-container balanced">
             <div class="form-group column-stretch-4">
                 {{ form.new_excerpt_bounding_box_north.errors }}
                 {{ form.new_excerpt_bounding_box_north.label_tag }}
@@ -22,7 +22,7 @@
                    value="{{ form.new_excerpt_bounding_box_north.value|default_if_none:'' }}" />
             </div>
         </div>
-        <div class="container-row separated">
+        <div class="box-column-container separated">
             <div class="form-group column-stretch-4">
                 {{ form.new_excerpt_bounding_box_west.errors }}
                 {{ form.new_excerpt_bounding_box_west.label_tag }}
@@ -38,7 +38,7 @@
                     value="{{ form.new_excerpt_bounding_box_east.value|default_if_none:'' }}" />
             </div>
         </div>
-        <div class="container-row balanced">
+        <div class="box-column-container balanced">
             <div class="form-group column-stretch-4">
                 {{ form.new_excerpt_bounding_box_south.errors }}
                 {{ form.new_excerpt_bounding_box_south.label_tag }}
