@@ -48,7 +48,7 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
 
     def post(self, request):
         export_options_form = ExportOptionsForm(request.POST)
-        if export_options_form.is_valid():
+        if request.POST['form-mode'] == 'existing-excerpt':
             export_options = export_options_form.get_export_options(excerptexport_settings.EXPORT_OPTIONS)
 
             extraction_order = None
