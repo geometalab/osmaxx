@@ -30,11 +30,15 @@
             </nav>
         </header>
 
-        <div class="main">
-            {% include 'excerptexport/partials/flash_messages.html' with messages=messages %}
+        <div class="main multirow-grid">
+            <div class="grid-row">
+                {% include 'excerptexport/partials/flash_messages.html' with messages=messages %}
+            </div>
 
             {% block main %}
+            <div class="grid-row">
                 <h2>Main block</h2>
+            </div>
             {% endblock %}
         </div>
 

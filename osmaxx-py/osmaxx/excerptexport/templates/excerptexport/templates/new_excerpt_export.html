@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block main %}
-    <div class="multicolumn-container">
-        <div class="container-column column-stretch-5">
+    <div class="multicolumn-grid">
+        <div class="grid-column column-stretch-5">
             <form action="{% url 'excerptexport:new' %}" method="post" novalidate="novalidate">
                 {% csrf_token %}
 
@@ -72,7 +72,7 @@
                 <input type="submit" value="Create excerpt export request" class="btn btn-primary" />
             </form>
         </div>
-        <div class="container-column column-stretch-5">
+        <div class="grid-column column-stretch-5">
              <div class="outerMapWrapper">
                 <div id="map" ></div>
             </div>

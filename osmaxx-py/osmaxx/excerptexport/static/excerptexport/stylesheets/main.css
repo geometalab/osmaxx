@@ -15,23 +15,36 @@ header > .topBar    { padding: 1rem; }
 
 footer p            { margin: 1rem; }
 
-.multicolumn-container                      { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
-                                            -webkit-flex-flow: row nowrap; -moz-flex-flow: row nowrap; -ms-flex-flow: row nowrap; flex-flow: row nowrap;
-                                            height: 100%; }
-.multicolumn-container > .container-column  { overflow-y: auto; padding: 0 1rem; }
-.multicolumn-container > .container-column:first-child  { padding-left: 0; }
-.multicolumn-container > .container-column:last-child   { padding-right: 0; }
+/**
+ * grid:        height & width as parent
+ * container:   content overflows (scroll)
+ */
+.multicolumn-grid, .multirow-grid   { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+                                    height: 100%; width: 100%; overflow: hidden; }
+.multicolumn-grid                   { -webkit-flex-flow: row nowrap; -moz-flex-flow: row nowrap; -ms-flex-flow: row nowrap; flex-flow: row nowrap;}
+.multicolumn-grid > .grid-column    { overflow-y: auto; padding: 0 1rem; }
+.multicolumn-grid > .grid-column:first-child  { padding-left: 0; }
+.multicolumn-grid > .grid-column:last-child   { padding-right: 0; }
 /* Use a grid of 10 columns */
-.column-stretch-5                           { width: 50%; }
-.column-stretch-4                           { width: 40%; }
-.container-row                              { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
-                                            -webkit-flex-flow: row nowrap; -moz-flex-flow: row nowrap; -ms-flex-flow: row nowrap; flex-flow: row nowrap;
-                                            -webkit-justify-content: space-between; -moz-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between; }
-.container-row.separated                    { -webkit-justify-content: space-between; -moz-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between; }
-.container-row.balanced                     { -webkit-justify-content: space-around; -moz-justify-content: space-around; -ms-justify-content: space-around; justify-content: space-around; }
+.column-stretch-5                   { width: 50%; }
+.column-stretch-4                   { width: 40%; }
 
-.messages           { margin: -1rem; margin-bottom: 1rem; padding: 0; list-style: none; }
+.multirow-grid                      { -webkit-flex-flow: column nowrap; -moz-flex-flow: column nowrap; -ms-flex-flow: column nowrap; flex-flow: column nowrap; }
+.grid-row                           { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+                                    -webkit-flex-flow: row nowrap; -moz-flex-flow: row nowrap; -ms-flex-flow: row nowrap; flex-flow: row nowrap;
+                                    -webkit-justify-content: space-between; -moz-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between;
+                                    width: 100%; }
+.grid-row.separated                 { -webkit-justify-content: space-between; -moz-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between; }
+.grid-row.balanced                  { -webkit-justify-content: space-around; -moz-justify-content: space-around; -ms-justify-content: space-around; justify-content: space-around; }
+
+
+.messages           { margin: -1rem; margin-bottom: 1rem; padding: 0; list-style: none; width: 100%; width: calc(100% + 2rem); }
 .messages > li > div{ margin: 0; }
+.messages .alert    { border-radius: 0; border-width: 0 0 0 1rem; }
+.alert-success      { border-color: green; }
+.alert-error, .alert-danger { border-color: maroon; background: rgb(242, 222, 222); }
+.alert-warning      { border-color: orange; }
+.alert-info         { border-color: rgb(40, 96, 144); }
 
 /* map */
 #map                { height: 100%; /* fix height in chrome */ min-height: 60vh; }
