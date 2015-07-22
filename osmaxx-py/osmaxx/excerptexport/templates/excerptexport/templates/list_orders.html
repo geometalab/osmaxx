@@ -8,17 +8,19 @@
 {% endblock %}
 
 {% block main %}
-    <h2>{% trans 'Orders' %}</h2>
-    {% for extraction_order in extraction_orders.all %}
-        <div class="order" data-order-status="{{ extraction_order.get_state_display }}">
-            <h3>{% include 'excerptexport/partials/status.html' with status=extraction_order.get_state_display %}
-                <a href="{% url 'excerptexport:status' extraction_order.id %}">#{{ extraction_order.id }}</a>
-                {% blocktrans with excerpt_name=extraction_order.excerpt.name %}Extraction of &quot;{{ excerpt_name }}&quot;{% endblocktrans %}
-            </h3>
+    <div class="container-row content">
+        <h2>{% trans 'Orders' %}</h2>
+        {% for extraction_order in extraction_orders.all %}
+            <div class="order" data-order-status="{{ extraction_order.get_state_display }}">
+                <h3>{% include 'excerptexport/partials/status.html' with status=extraction_order.get_state_display %}
+                    <a href="{% url 'excerptexport:status' extraction_order.id %}">#{{ extraction_order.id }}</a>
+                    {% blocktrans with excerpt_name=extraction_order.excerpt.name %}Extraction of &quot;{{ excerpt_name }}&quot;{% endblocktrans %}
+                </h3>
 
-            {% if extraction_order.are_downloads_ready %}
-                {% include 'excerptexport/partials/download_list.html' with files=extraction_order.output_files host_domain=host_domain %}
-            {% endif %}
-        </div>
-    {% endfor %}
+                {% if extraction_order.are_downloads_ready %}
+                    {% include 'excerptexport/partials/download_list.html' with files=extraction_order.output_files host_domain=host_domain %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

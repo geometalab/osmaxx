@@ -30,13 +30,13 @@
             </nav>
         </header>
 
-        <div class="main multirow-grid">
-            <div class="grid-row">
+        <div class="main box-row-grid">
+            <div class="grid-row messagebox">
                 {% include 'excerptexport/partials/flash_messages.html' with messages=messages %}
             </div>
 
             {% block main %}
-            <div class="grid-row">
+            <div class="container-row">
                 <h2>Main block</h2>
             </div>
             {% endblock %}
@@ -46,5 +46,13 @@
             <p>&copy; 2015 HSR Hochschule für Technik, Rapperswil</p>
         </footer>
     </div>
+
+    {% block scripts %}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    {% endblock %}
 </body>
 </html>

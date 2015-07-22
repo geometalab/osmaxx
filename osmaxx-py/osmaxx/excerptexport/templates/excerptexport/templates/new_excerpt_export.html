@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block main %}
-    <div class="multicolumn-grid">
-        <div class="grid-column column-stretch-5">
+    <div class="container-row box-column-grid">
+        <div class="grid-column column-stretch-5 content">
             <form action="{% url 'excerptexport:new' %}" method="post" novalidate="novalidate">
                 {% csrf_token %}
 
@@ -78,11 +78,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
-
+{% block scripts %}
+    {{ block.super }}
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script>L.Path.CLIP_PADDING = 1.0;</script>
 
@@ -95,9 +94,6 @@
     <!-- form -->
     <script src='{% static "excerptexport/scripts/formModeSwitcher.js" %}'></script>
     <script src='{% static "excerptexport/scripts/excerptFilter.js" %}'></script>
-
-    <!-- Bootstrap -->
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
     <!-- Bootstrap plugins -->
     <script type="text/javascript">
