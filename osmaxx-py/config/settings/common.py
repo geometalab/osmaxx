@@ -155,6 +155,7 @@ TEMPLATES = [
                 'social.apps.django_app.context_processors.backends',
                 'social.apps.django_app.context_processors.login_redirect',
                 'django.core.context_processors.request',
+                'osmaxx.excerptexport.context_processors.message_adapter_context_processor'
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
@@ -357,5 +358,10 @@ MESSAGE_TAGS = {
     message_constants.INFO: 'info',
     message_constants.SUCCESS: 'success',
     message_constants.WARNING: 'warning',
-    message_constants.ERROR: 'error'
+    message_constants.ERROR: 'error',
+    10: 'debug',
+    20: 'info',
+    25: 'success',
+    30: 'warning',
+    40: 'error'
 }

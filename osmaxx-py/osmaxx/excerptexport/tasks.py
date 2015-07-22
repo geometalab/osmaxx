@@ -13,7 +13,7 @@ def inform_user(extraction_order):
     message_text = _('Your extraction order %s has been processed' % extraction_order)
     stored_messages.api.add_message_for(
         users=[extraction_order.orderer],
-        level=messages.INFO,
+        level=messages.SUCCESS,
         message_text=message_text
     )
 
@@ -45,7 +45,7 @@ def create_export(extraction_order_id, export_options):
 
     stored_messages.api.add_message_for(
         users=[extraction_order.orderer],
-        level=messages.SUCCESS,
+        level=messages.INFO,
         message_text=message_text
     )
 
