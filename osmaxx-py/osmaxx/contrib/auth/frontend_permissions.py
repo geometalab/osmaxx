@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.models import Group
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
 
@@ -27,10 +26,7 @@ def _may_user_access_osmaxx_frontend(user):
     Actual test to check if the user is in the frontend user group,
     to give access or deny it. Note: Admins have superpowers.
     """
-    if user.is_superuser:
-        return True
-    group = Group.objects.get(name=FRONTEND_USER_GROUP)
-    return group in user.groups.all()
+    return user.has_perm('excerptexport.add_extractionorder')
 
 
 class LoginRequiredMixin(object):
