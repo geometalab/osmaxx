@@ -47,7 +47,7 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
 
     def post(self, request):
         view_context = {}
-        if request.POST['form-mode'] == 'existing_excerpt':
+        if request.POST['form-mode'] == 'existing-excerpt':
             existing_excerpt_id = request.POST['existing_excerpt.id']
             view_context = {'excerpt': existing_excerpt_id}
             extraction_order = ExtractionOrder.objects.create(
@@ -56,7 +56,7 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
             )
             create_export.delay(extraction_order.id)
 
-        if request.POST['form-mode'] == 'create_new_excerpt':
+        if request.POST['form-mode'] == 'new-excerpt':
             new_excerpt_form = NewExcerptForm(request.POST)
             if new_excerpt_form.is_valid():
                 form_data = new_excerpt_form.cleaned_data
