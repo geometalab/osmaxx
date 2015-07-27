@@ -1,5 +1,5 @@
 script:
-  build: .
+  build: bootstrap/
   links:
     - db
   environment:

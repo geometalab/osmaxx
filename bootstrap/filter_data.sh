@@ -16,6 +16,7 @@ if [ "$1" != "" ]; then
 
   echo 'filtering..'
   STARTTIME=$(date +%s)
+  mkdir -p tmp  # TODO: Should /dev/null be used instead? Or a non-interactive pager?
   $PSQL -f $DIR/src/transfer_sql/address.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
