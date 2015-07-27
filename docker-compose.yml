@@ -6,5 +6,11 @@ script:
     - PGHOST=db
   volumes:
     - tmp/osmosis/:/tmp/osmosis/
+excerpt:
+  build: osmaxx_excerpt/
+  links:
+    - db
+  environment:
+    - PGHOST=db
 db:
   image: geometalab/postgis-with-translit
