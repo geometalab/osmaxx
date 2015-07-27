@@ -30,6 +30,8 @@ footer p            { margin: 1rem; }
 .container-row.separated                    { -webkit-justify-content: space-between; -moz-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between; }
 .container-row.balanced                     { -webkit-justify-content: space-around; -moz-justify-content: space-around; -ms-justify-content: space-around; justify-content: space-around; }
 
+.messages           { margin: -1rem; margin-bottom: 1rem; padding: 0; list-style: none; }
+.messages > li > div{ margin: 0; }
 
 /* map */
 #map                { height: 100%; /* fix height in chrome */ min-height: 60vh; }

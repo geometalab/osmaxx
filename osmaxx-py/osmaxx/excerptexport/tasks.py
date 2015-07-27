@@ -4,7 +4,9 @@ from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
 import time
 import stored_messages
+
 from osmaxx.excerptexport import models
+from .services.data_conversion_service import trigger_data_conversion
 
 
 def inform_user(extraction_order):
@@ -25,7 +27,7 @@ def inform_user(extraction_order):
 
 
 @shared_task
-def create_export(extraction_order_id):
+def create_export(extraction_order_id, export_options):
     wait_time = 0
     # wait for the db to be updated!
     extraction_order = None
@@ -38,11 +40,12 @@ def create_export(extraction_order_id):
             if wait_time > 30:
                 raise
 
+    trigger_data_conversion(extraction_order, export_options)
     message_text = _('Your extraction order "%s" has been started' % extraction_order)
 
     stored_messages.api.add_message_for(
         users=[extraction_order.orderer],
-        level=messages.INFO,
+        level=messages.SUCCESS,
         message_text=message_text
     )
 
