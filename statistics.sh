@@ -326,7 +326,7 @@ do
 done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
-echo >>$FILE 
+echo >>$FILE
 
 echo 'sport'>>$FILE
 count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_a where aggtype='sport' and type='sport'" $DB_NAME)
@@ -486,7 +486,7 @@ do
 done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
-echo >>$FILE 
+echo >>$FILE
 
 echo 'sport'>>$FILE
 count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_p where aggtype='sport' and type='sport'" $DB_NAME)
@@ -681,5 +681,3 @@ done
 sort -k2 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
-

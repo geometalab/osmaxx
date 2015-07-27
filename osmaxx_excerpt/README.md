@@ -12,7 +12,7 @@ Options:
     xmax: Max Longitude/Right/East  
     ymax: Max Latitude/Top/North  
     -f {fgdb,shp,gpkg,spatialite}, --format {fgdb,shp,gpkg,spatialite}  
-  
+
 Examples:
 
     python excerpt.py 36.7035198212 -1.344585964 36.8252277374 -1.2577477129 -f gpkg  

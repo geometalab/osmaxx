@@ -69,31 +69,29 @@ def call_test():
     print 'Spatialite have been created in '+path+'/data/'+myfile
 
 #call_test()
-
-parser = argparse.ArgumentParser()
-parser.add_argument('-f','--format',choices=['fgdb','shp','gpkg','spatialite'], default='fgdb', help= 'output formats')
-parser.add_argument('xmin', help='Min Longitude/Left/West', type=float)
-parser.add_argument('ymin', help='Min Latitude/Bottom/South', type=float)
-parser.add_argument('xmax', help='Max Longitude/Right/East', type=float)
-parser.add_argument('ymax', help='Max Latitude/Top/North', type=float)
-args = parser.parse_args()
-min_xy=to_mercator(args.xmin, args.ymin)
-max_xy=to_mercator(args.xmax, args.ymax)
-if args.format == 'fgdb':
-	name=name_generator()
-	call_fgdb([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
-	print name+' have been completed in FileGDB format'
-elif args.format == 'shp':
-	name=name_generator()
-	call_shp([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
-	print name+' have been completed in ESRI Shapefile format'	
-elif args.format == 'gpkg':
-	name=name_generator()
-	call_gpkg([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
-	print name+' have been completed in GPKG format'
-elif args.format == 'spatialite':
-	name=name_generator()
-	call_spatialite([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
-	print name+' have been completed in Spatialite format'
-
-
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-f','--format',choices=['fgdb','shp','gpkg','spatialite'], default='fgdb', help= 'output formats')
+    parser.add_argument('xmin', help='Min Longitude/Left/West', type=float)
+    parser.add_argument('ymin', help='Min Latitude/Bottom/South', type=float)
+    parser.add_argument('xmax', help='Max Longitude/Right/East', type=float)
+    parser.add_argument('ymax', help='Max Latitude/Top/North', type=float)
+    args = parser.parse_args()
+    min_xy=to_mercator(args.xmin, args.ymin)
+    max_xy=to_mercator(args.xmax, args.ymax)
+    if args.format == 'fgdb':
+    	name=name_generator()
+    	call_fgdb([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
+    	print name+' have been completed in FileGDB format'
+    elif args.format == 'shp':
+    	name=name_generator()
+    	call_shp([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
+    	print name+' have been completed in ESRI Shapefile format'
+    elif args.format == 'gpkg':
+    	name=name_generator()
+    	call_gpkg([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
+    	print name+' have been completed in GPKG format'
+    elif args.format == 'spatialite':
+    	name=name_generator()
+    	call_spatialite([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
+    	print name+' have been completed in Spatialite format'
