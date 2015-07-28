@@ -12,5 +12,7 @@ excerpt:
     - db
   environment:
     - PGHOST=db
+  volumes:
+    - results:/home/excerpt/data/
 db:
   image: geometalab/postgis-with-translit
