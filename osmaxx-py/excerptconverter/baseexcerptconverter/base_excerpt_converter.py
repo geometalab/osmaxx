@@ -37,8 +37,8 @@ class BaseExcerptConverter(metaclass=abc.ABCMeta):
     def execute_task(extraction_order_id, supported_export_formats, execution_configuration):
         return None
 
-    @classmethod
-    def inform_user(cls, user, message_type, message_text, email=True):
+    @staticmethod
+    def inform_user(user, message_type, message_text, email=True):
         stored_messages.api.add_message_for(
             users=[user],
             level=message_type,
@@ -64,7 +64,7 @@ class BaseExcerptConverter(metaclass=abc.ABCMeta):
     @classmethod
     def execute(cls, extraction_order, execution_configuration):
         """
-        Execute task
+        Execute excerpt conversion task
 
         :param execution_configuration example:
             {
@@ -72,6 +72,20 @@ class BaseExcerptConverter(metaclass=abc.ABCMeta):
                 'options': {
                     'coordinate_reference_system': 'wgs72',
                     'detail_level': 'verbatim'
+                }
+            }
+
+        :param export_formats example:
+            {
+                'txt': {
+                    'name': 'Text',
+                    'file_extension': 'txt',
+                    'mime_type': 'text/plain'
+                },
+                'markdown': {
+                    'name': 'Markdown',
+                    'file_extension': 'md',
+                    'mime_type': 'text/markdown'
                 }
             }
         """
