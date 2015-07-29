@@ -44,8 +44,8 @@ class DummyExcerptConverter(BaseExcerptConverter):
     }
     steps_total = 2
 
-    @classmethod
-    def create_output_files(cls, execution_configuration, extraction_order, supported_export_formats):
+    @staticmethod
+    def create_output_files(execution_configuration, extraction_order, supported_export_formats):
         for format_key in execution_configuration['formats']:
             output_file = models.OutputFile.objects.create(
                 mime_type=supported_export_formats[format_key]['mime_type'],
@@ -64,9 +64,9 @@ class DummyExcerptConverter(BaseExcerptConverter):
             output_file.file = fs_file
             output_file.save()
 
-    @classmethod
+    @staticmethod
     @shared_task
-    def execute_task(class_name, extraction_order_id, supported_export_formats, execution_configuration):
+    def execute_task(extraction_order_id, supported_export_formats, execution_configuration):
         wait_time = 0
         # wait for the db to be updated!
         extraction_order = None

@@ -31,10 +31,10 @@ class BaseExcerptConverter(metaclass=abc.ABCMeta):
             'options': cls.export_options
         }
 
-    @classmethod
+    @staticmethod
     @abc.abstractmethod
     @shared_task
-    def execute_task(class_name, extraction_order_id, supported_export_formats, execution_configuration):
+    def execute_task(extraction_order_id, supported_export_formats, execution_configuration):
         return None
 
     @classmethod
@@ -76,5 +76,4 @@ class BaseExcerptConverter(metaclass=abc.ABCMeta):
             }
         """
         # queue celery task
-        # TODO: fix string hack here and 'class_name' in subclasses
-        cls.execute_task.delay(str(cls.__name__), extraction_order.id, cls.export_formats, execution_configuration)
+        cls.execute_task.delay(extraction_order.id, cls.export_formats, execution_configuration)
