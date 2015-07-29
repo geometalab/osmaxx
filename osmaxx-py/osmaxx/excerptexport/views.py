@@ -19,9 +19,9 @@ from osmaxx.contrib.auth.frontend_permissions import (
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
-from .forms import ExportOptionsForm, NewExcerptForm
-from .tasks import create_export
 from . import settings as excerptexport_settings
+from .forms import ExportOptionsForm, NewExcerptForm
+from excerptconverter import ConverterManager
 
 private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
 
@@ -49,7 +49,7 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
     def post(self, request):
         export_options_form = ExportOptionsForm(request.POST)
         if export_options_form.is_valid():
-            export_options = export_options_form.get_export_options(excerptexport_settings.EXPORT_OPTIONS)
+            export_options = export_options_form.get_export_options(ConverterManager.converter_configuration())
 
             extraction_order = None
             if request.POST['form-mode'] == 'existing-excerpt':
@@ -89,7 +89,9 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
                     return self.get(request, new_excerpt_form.data)
 
             if extraction_order.id:
-                create_export.delay(extraction_order.id, export_options)
+                converter_manager = ConverterManager(extraction_order, export_options)
+                converter_manager.execute_converters()
+
                 messages.success(request, _(
                     'Successful creation of extraction order extraction order %(id)s. '
                     'The conversion process will start soon.'

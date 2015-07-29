@@ -1,6 +1,6 @@
 from django import forms
 
-from osmaxx.excerptexport import settings
+from excerptconverter import ConverterManager
 
 
 class ExportOptionsForm(forms.Form):
@@ -8,7 +8,8 @@ class ExportOptionsForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(ExportOptionsForm, self).__init__(*args, **kwargs)
-        for export_option_key, export_option in settings.EXPORT_OPTIONS.items():
+        # TODO: get converter_configuration by param
+        for export_option_key, export_option in ConverterManager.converter_configuration().items():
             self.create_checkboxes(
                 'export_options.'+export_option_key+'.formats', export_option['name'],
                 export_option['formats'].items()
@@ -60,8 +61,21 @@ class ExportOptionsForm(forms.Form):
             widget=forms.CheckboxSelectMultiple
         )
 
-    # create export options tree (like export options settings) from flat form values
     def get_export_options(self, option_config):
+        """
+        create export options tree (like export options settings) from flat form values
+        :return example:
+            {
+                'gis': {
+                    'formats': ['txt', 'file_gdb'],
+                    'options': {
+                        'coordinate_reference_system': 'wgs72',
+                        'detail_level': 'verbatim'
+                    }
+                },
+                'routing': { ... }
+            }
+        """
         # post values naming schema:
         # formats: "export_options_{{ export_option_key }}_formats"
         # options: "'export_options_{{ export_option_key }}_options_{{ export_option_config_key }}"
@@ -71,8 +85,9 @@ class ExportOptionsForm(forms.Form):
             export_options[export_option_key]['formats'] = \
                 self.cleaned_data['export_options.'+export_option_key+'.formats']
 
+            export_options[export_option_key]['options'] = {}
             for export_option_config_key, export_option_config in export_option['options'].items():
-                export_options[export_option_key][export_option_config_key] = \
+                export_options[export_option_key]['options'][export_option_config_key] = \
                     self.cleaned_data['export_options.'+export_option_key+'.options.'+export_option_config_key]
 
         return export_options
