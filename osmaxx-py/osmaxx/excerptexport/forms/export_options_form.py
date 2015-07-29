@@ -1,17 +1,18 @@
 from django import forms
-
-from excerptconverter import ConverterManager
+from django.utils.translation import ugettext_lazy as _
 
 
 class ExportOptionsForm(forms.Form):
     max_items_radio = 5
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, converter_configuration, *args, **kwargs):
         super(ExportOptionsForm, self).__init__(*args, **kwargs)
-        # TODO: get converter_configuration by param
-        for export_option_key, export_option in ConverterManager.converter_configuration().items():
+        self.converter_configuration = converter_configuration
+
+        for export_option_key, export_option in self.converter_configuration.items():
             self.create_checkboxes(
-                'export_options.'+export_option_key+'.formats', export_option['name'],
+                'export_options.'+export_option_key+'.formats',
+                _('%s export formats' % export_option['name']),
                 export_option['formats'].items()
             )
 
@@ -61,7 +62,7 @@ class ExportOptionsForm(forms.Form):
             widget=forms.CheckboxSelectMultiple
         )
 
-    def get_export_options(self, option_config):
+    def get_export_options(self):
         """
         create export options tree (like export options settings) from flat form values
         :return example:
@@ -80,7 +81,7 @@ class ExportOptionsForm(forms.Form):
         # formats: "export_options_{{ export_option_key }}_formats"
         # options: "'export_options_{{ export_option_key }}_options_{{ export_option_config_key }}"
         export_options = {}
-        for export_option_key, export_option in option_config.items():
+        for export_option_key, export_option in self.converter_configuration.items():
             export_options[export_option_key] = {}
             export_options[export_option_key]['formats'] = \
                 self.cleaned_data['export_options.'+export_option_key+'.formats']

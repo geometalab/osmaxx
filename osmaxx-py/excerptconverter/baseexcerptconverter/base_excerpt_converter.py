@@ -1,4 +1,4 @@
-import abc
+import abc as abstract_base_class
 import stored_messages
 
 from celery import shared_task
@@ -16,7 +16,7 @@ class ExcerptConverterState(enum.Enum):
     ABORTED = 3
 
 
-class BaseExcerptConverter(metaclass=abc.ABCMeta):
+class BaseExcerptConverter(metaclass=abstract_base_class.ABCMeta):
     available_converters = []
     name = 'base'
     export_formats = {}
@@ -32,7 +32,7 @@ class BaseExcerptConverter(metaclass=abc.ABCMeta):
         }
 
     @staticmethod
-    @abc.abstractmethod
+    @abstract_base_class.abstractmethod
     @shared_task
     def execute_task(extraction_order_id, supported_export_formats, execution_configuration):
         return None

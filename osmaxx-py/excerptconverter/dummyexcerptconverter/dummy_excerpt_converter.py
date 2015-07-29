@@ -21,12 +21,12 @@ class DummyExcerptConverter(BaseExcerptConverter):
     name = 'Dummy'
     export_formats = {
         'txt': {
-            'name': 'Text',
+            'name': 'Text (.txt)',
             'file_extension': 'txt',
             'mime_type': 'text/plain'
         },
         'markdown': {
-            'name': 'Markdown',
+            'name': 'Markdown (.md)',
             'file_extension': 'md',
             'mime_type': 'text/markdown'
         }
@@ -63,6 +63,13 @@ class DummyExcerptConverter(BaseExcerptConverter):
             # file must be committed, so reopen to attach to model
             output_file.file = fs_file
             output_file.save()
+
+            if private_storage.exists(file_name):
+                message_text = _('"%s" created successful' % file_name)
+                BaseExcerptConverter.inform_user(extraction_order.orderer, messages.SUCCESS, message_text, False)
+            else:
+                message_text = _('Creation of "%s" failed!' % file_name)
+                BaseExcerptConverter.inform_user(extraction_order.orderer, messages.ERROR, message_text, False)
 
     @staticmethod
     @shared_task

@@ -34,7 +34,7 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
             bounding_geometry__osmosispolygonfilterboundinggeometry__isnull=False)
         view_model = {
             'user': request.user,
-            'export_options_form': ExportOptionsForm(auto_id='%s'),
+            'export_options_form': ExportOptionsForm(ConverterManager.converter_configuration(), auto_id='%s'),
             'new_excerpt_form': NewExcerptForm(auto_id='%s', initial=excerpt_form_initial_data),
             'excerpts': {
                 'own_private': active_bbox_excerpts.filter(is_public=False, owner=request.user),
@@ -47,9 +47,13 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
                                   context_instance=RequestContext(request))
 
     def post(self, request):
-        export_options_form = ExportOptionsForm(request.POST)
+        export_options_form = ExportOptionsForm(
+            ConverterManager.converter_configuration(),
+            request.POST
+        )
+
         if export_options_form.is_valid():
-            export_options = export_options_form.get_export_options(ConverterManager.converter_configuration())
+            export_options = export_options_form.get_export_options()
 
             extraction_order = None
             if request.POST['form-mode'] == 'existing-excerpt':
@@ -103,7 +107,7 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
                 )
 
             else:
-                messages.error(request, _('Creation of extraction order failed.') % {'id': extraction_order.id})
+                messages.error(request, _('Creation of extraction order "%s" failed.' % extraction_order.id))
                 return self.get(request, export_options_form.data)
 
         else:

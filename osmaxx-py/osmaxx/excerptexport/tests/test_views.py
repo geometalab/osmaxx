@@ -12,12 +12,6 @@ from osmaxx.excerptexport.tests.permission_test_helper import PermissionHelperMi
 
 
 class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
-    user = None
-    new_excerpt_post_data = None
-    existing_excerpt = None
-    existing_excerpt_post_data = None
-    existing_excerpt_extraction_options = None
-
     def setUp(self):
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
         other_user = User.objects.create_user('other_user', 'o_u@example.com', 'o_pw')
