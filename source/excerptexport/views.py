@@ -74,7 +74,7 @@ class NewExtractionOrderView(View):
                 excerpt = Excerpt.objects.create(
                     name=form_data['new_excerpt_name'],
                     is_active=True,
-                    is_public=form_data['new_excerpt_is_public'] if ('new_excerpt_is_public' in form_data) else False,
+                    is_public=form_data['new_excerpt_is_public'],
                     bounding_geometry=bounding_geometry,
                     owner=request.user
                 )
