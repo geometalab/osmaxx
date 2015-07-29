@@ -5,15 +5,7 @@ from celery import shared_task
 
 from django.contrib import messages
 from django.core.mail import send_mail
-from django_enumfield import enum
 from django.utils.translation import ugettext_lazy as _
-
-
-class ExcerptConverterState(enum.Enum):
-    QUEUED = 0
-    RUNNING = 1
-    FINISHED = 2
-    ABORTED = 3
 
 
 class BaseExcerptConverter(metaclass=abstract_base_class.ABCMeta):
