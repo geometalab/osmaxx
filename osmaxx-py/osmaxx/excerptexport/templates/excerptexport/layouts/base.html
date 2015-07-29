@@ -17,16 +17,40 @@
     <link rel='stylesheet' type='text/css' href='{% static "excerptexport/stylesheets/main.css" %}' />
 </head>
 <body>
-    <header>
-        <h1>Osmaxx</h1>
-    </header>
-    <div class="main">
-        {% block main %}
-            <h2>Main block</h2>
-        {% endblock %}
+    <div class="page">
+        <header>
+            <div class="topBar">
+                <h1>Osmaxx</h1>
+                {% include 'excerptexport/partials/navigation.html' with view=view user=user %}
+            </div>
+            <nav class="breadcrumb">
+                <ol class="breadcrumb" data-type="bootstrap">
+                    {% block breadcrumb %}<li>Osmaxx</li>{% endblock %}
+                </ol>
+            </nav>
+        </header>
+
+        <div class="main">
+            {% if messages %}
+                <ul class="messages">
+                {% for msg in messages %}
+                    <li>
+                        <div class="alert alert-{{msg.level_tag}}" role="alert">
+                            {{msg.message}}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% block main %}
+                <h2>Main block</h2>
+            {% endblock %}
+        </div>
+
+        <footer>
+            <p>&copy; 2015 HSR Hochschule für Technik, Rapperswil</p>
+        </footer>
     </div>
-    <footer>
-        <p>&copy; 2015 HSR Hochschule für Technik, Rapperswil</p>
-    </footer>
 </body>
 </html>

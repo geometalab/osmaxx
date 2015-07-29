@@ -2,14 +2,17 @@
 
 {% load i18n %}
 
-{% block main %}
-    <nav>
-        <a href="{% url 'excerptexport:index' %}">&#8810; {% trans 'Home' %}</a> |
-        <a href="{% url 'excerptexport:orders' %}">&#x2637; {% trans 'Orders' %}</a>
-    </nav>
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active"><a href="{% url 'excerptexport:orders' %}">{% trans 'My orders' %}</a></li>
+    <li class="active">{% trans 'Order' %} {{ extraction_order.id }}</li>
+{% endblock %}
 
-    <a href=""><button>&#8635; {% trans 'Reload' %}</button></a>
-    <h2>{% blocktrans with excerpt_name=extraction_order.excerpt.name %}Export status (excerpt &quot;{{ excerpt_name }}&quot;) {% endblocktrans %}</h2>
+{% block main %}
+    <h2>
+        {% blocktrans with excerpt_name=extraction_order.excerpt.name %}Export status (excerpt &quot;{{ excerpt_name }}&quot;) {% endblocktrans %}
+        <span class="smaller"><a href=""><button>&#8635; {% trans 'Reload' %}</button></a></span>
+    </h2>
     <table>
         <body>
             <tr>

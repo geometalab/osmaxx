@@ -27,7 +27,9 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             'new_excerpt_bounding_box_north': '1.0',
             'new_excerpt_bounding_box_east': '2.0',
             'new_excerpt_bounding_box_south': '3.0',
-            'new_excerpt_bounding_box_west': '4.0'
+            'new_excerpt_bounding_box_west': '4.0',
+            'export_options.gis.options.detail_level': 'verbatim',
+            'export_options.gis.options.coordinate_reference_system': 'pseudomerkator'
         }
         self.existing_own_excerpt = Excerpt.objects.create(
             name='Some old Excerpt',
@@ -61,7 +63,9 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         )
         self.existing_excerpt_post_data = {
             'form-mode': 'existing_excerpt',
-            'existing_excerpt.id': self.existing_own_excerpt.id
+            'existing_excerpt.id': self.existing_own_excerpt.id,
+            'export_options.gis.options.detail_level': 'verbatim',
+            'export_options.gis.options.coordinate_reference_system': 'pseudomerkator'
         }
 
     def test_new_when_not_logged_in(self):
@@ -85,15 +89,15 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
-        self.assertEqual(response.context['personal_excerpts'].count(), 1)
-        self.assertIn(self.existing_own_excerpt, response.context['personal_excerpts'])
+        self.assertEqual(response.context['excerpts']['own_private'].count(), 1)
+        self.assertIn(self.existing_own_excerpt, response.context['excerpts']['own_private'])
 
     def test_new_offers_existing_public_foreign_excerpt(self):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
-        self.assertEqual(response.context['public_excerpts'].count(), 1)
-        self.assertIn(self.existing_public_foreign_excerpt, response.context['public_excerpts'])
+        self.assertEqual(response.context['excerpts']['other_public'].count(), 1)
+        self.assertIn(self.existing_public_foreign_excerpt, response.context['excerpts']['other_public'])
 
     def test_new_doesnt_offer_existing_private_foreign_excerpt(self):
         self.add_permissions_to_user()
@@ -105,8 +109,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
-        self.assertEqual(response.context['countries'].count(), 1)
-        self.assertIn(self.country, response.context['countries'])
+        self.assertEqual(response.context['excerpts']['countries'].count(), 1)
+        self.assertIn(self.country, response.context['excerpts']['countries'])
 
     def test_create_when_not_logged_in(self):
         """
@@ -126,7 +130,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             self.new_excerpt_post_data,
             HTTP_HOST='thehost.example.com'
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(
             Excerpt.objects.filter(name='A very interesting region', is_active=True, is_public=True).count(),
             1
@@ -143,7 +147,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             self.existing_excerpt_post_data,
             HTTP_HOST='thehost.example.com'
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(ExtractionOrder.objects.filter(
             excerpt_id=self.existing_excerpt_post_data['existing_excerpt.id']
         ).count(), 1)  # only reproducible because there is only 1

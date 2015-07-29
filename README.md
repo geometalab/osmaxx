@@ -8,7 +8,7 @@ Website: http://osmaxx.hsr.ch/
 
 ## Development
 
-See https://github.com/geometalab/osmaxx-docs for documentations and `/docs/development.md` for 
+See https://github.com/geometalab/osmaxx-docs for documentations and [/docs/development.md](/docs/development.md) for 
 more detailed instructions.
 
 ## Run it locally on Linux
@@ -21,7 +21,7 @@ To run this project locally, you need docker and docker-compose installed
 ### Initialization/Docker container bootstrapping
 
 ```shell
-ln -s docker-compose.yml compose-development.yml
+ln -s compose-development.yml docker-compose.yml
 ```
 
 To setup all the containers and their dependencies, run

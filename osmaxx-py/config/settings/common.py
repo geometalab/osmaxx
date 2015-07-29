@@ -42,10 +42,13 @@ THIRD_PARTY_APPS = (
     'social.apps.django_app.default',
     # celery transporter
     'kombu.transport.django.KombuAppConfig',
+    # messages for users
+    'stored_messages',
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'osmaxx.excerptexport',
+    'osmaxx.social_auth',
 )
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -65,7 +68,8 @@ MIDDLEWARE_CLASSES = (
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
-    'sites': 'osmaxx.contrib.sites.migrations'
+    'sites': 'osmaxx.contrib.sites.migrations',
+    'stored_messages': 'osmaxx.third_party_apps.stored_messages.migrations',
 }
 
 # DEBUG
@@ -100,7 +104,7 @@ MANAGERS = ADMINS
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    'default': env.db("DATABASE_URL", default="postgis://localhost/osmaxx"),
+    'default': env.db("DJANGO_DATABASE_URL", default="postgis://localhost/osmaxx"),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -199,11 +203,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.open_id.OpenIdAuth',
-    'social.backends.google.GoogleOpenIdConnect',
-    'social.backends.google.GoogleOpenId',
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.google.GoogleOAuth',
-    'social.backends.google.GooglePlusAuth',
+    'osmaxx.social_auth.backends.clavid_backend.ClavidChOpenId',
+    'osmaxx.social_auth.backends.clavid_backend.ClavidComOpenId',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -328,13 +329,9 @@ if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing 
         }
     }
 
-POSTGIS_VERSION = ( 2, 1 )
+POSTGIS_VERSION = (2, 1)
 
 # Celery settings
-
-BROKER_URL = env.str('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = BROKER_URL
-
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_ENABLE_UTC = True
 
@@ -343,3 +340,7 @@ CELERY_ENABLE_UTC = True
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+
+# Message-Storage Settings
+MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'

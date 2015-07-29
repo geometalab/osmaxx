@@ -1,0 +1,11 @@
+{% load i18n %}
+
+{% if user.is_authenticated %}
+<a href="{% url 'excerptexport:logout' %}?next={% url 'excerptexport:index' %}">
+    <span class="menu_icon">&prod;&rarr;</span>&nbsp;{% trans 'Logout' %} <strong>{{ user.username }}</strong>
+</a>
+{% else %}
+<a href="{% url 'excerptexport:login' %}?next={% url 'excerptexport:index' %}">
+    <span class="menu_icon">&prod;&larr;</span>&nbsp;{% trans 'Login' %}
+</a>
+{% endif %}

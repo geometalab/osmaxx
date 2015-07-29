@@ -1,5 +1,8 @@
 # Development
 
+**NOTE**: to run it locally (no docker), you might want to copy the .env-dist
+to .env and adapt the lines there.
+
 ## Git repository
 
 For developers with write access to this repository:
@@ -70,7 +73,7 @@ $ mkdir -p docker_mounts/private_media
 $ chown -R 1000:1000 docker_mounts
 ```
 
-### running commands
+### Running commands
 
 The general way of running any command inside a docker container:
 
@@ -83,11 +86,26 @@ Examples:
 Execute a shell in the webapp:
 
 ```shell
-docker-compose run webapp bash
+docker-compose run webapp /bin/bash
 ```
 Run tests:
 
-`docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py test'`
+`docker-compose run webapp /bin/bash -c 'python3 manage.py test'`
+
+
+### Access the application
+
+[http://localhost:8000](http://localhost:8000)
+
+or add 
+
+```127.0.0.1	osmaxx.dev```
+
+to your /etc/hosts file and access by
+
+[http://osmaxx.dev:8000](http://osmaxx.dev:8000)
+
+
 
 ### Reset the box
 
@@ -98,7 +116,7 @@ docker-compose kill  # shutdown all containers forcefully
 docker-compose rm  # answer yes, so the available containers are destroyed
 docker-compose build
 docker-compose run webapp /bin/bash
-# Inside the container ($PYTHON is not a typo ;) ):
+# Inside the container:
 python3 manage.py migrate
 python3 manage.py createsuperuser
 ```
@@ -130,12 +148,12 @@ docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
 #### Update migration information
 
 ```shell
-docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py makemigrations'
+docker-compose run webapp /bin/bash -c 'python3 manage.py makemigrations'
 ```
 
 #### Run migrations on database
 ```shell
-docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py migrate'
+docker-compose run webapp /bin/bash -c 'python3 manage.py migrate'
 ```
 
 
@@ -144,13 +162,13 @@ docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py migrate'
 #### Create superuser
 
 ```shell
-docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py createsuperuser'
+docker-compose run webapp /bin/bash -c 'python3 manage.py createsuperuser'
 ```
 
 ### Update locales
 
 ```shell
-docker-compose run webapp /bin/bash -c '. $ACTIVATE;python manage.py makemessages -a'
+docker-compose run webapp /bin/bash -c 'python3 manage.py makemessages -a'
 ```
 
 
@@ -161,6 +179,17 @@ docker save osmaxx_database > database_backup_file.docker
 # restore
 docker load < database_backup_file.docker
 ```
+
+
+### Feature delivery for review (Pull request)
+
+Before pushing a new feature, please check the following issues and note the done checks:
+
+* compile locales if necessary
+* run manage.py check
+* run manage.py test
+* run flake8
+* test views and workflows by hand (GET & POST)
 
 
 ### Deployment

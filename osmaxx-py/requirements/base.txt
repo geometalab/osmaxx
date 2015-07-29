@@ -1,8 +1,16 @@
 celery>=3.1
 Django>=1.8,<1.9
+django-enumfield==1.2.1
 django-environ==0.3.0
 django-secure==1.0.1
-django-enumfield==1.2
-psycopg2==2.6
-python-social-auth==0.2.7
-whitenoise==1.0.6
+django-stored-messages==1.3.0
+
+psycopg2==2.6.1
+python-social-auth==0.2.11
+whitenoise==2.0.1
+
+# WSGI Handler
+# needed for production and docker images
+# ------------------------------------------------
+gevent==1.0.2
+gunicorn==19.3.0
