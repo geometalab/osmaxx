@@ -45,7 +45,7 @@ footer p            { margin: 1rem; }
                                     -webkit-flex-flow: column nowrap; -moz-flex-flow: column nowrap; -ms-flex-flow: column nowrap; flex-flow: column nowrap;
                                     -webkit-justify-content: space-between; -moz-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between;
                                     width: 100%; */}
-.container-row                      { flex-shrink: 1; overflow: scroll; }
+.container-row                      { flex-shrink: 1; overflow-y: auto; }
 .box-column-container.separated     { -webkit-justify-content: space-between; -moz-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between; }
 .box-column-container.balanced      { -webkit-justify-content: space-around; -moz-justify-content: space-around; -ms-justify-content: space-around; justify-content: space-around; }
 
