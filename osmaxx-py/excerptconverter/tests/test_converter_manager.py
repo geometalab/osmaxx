@@ -29,6 +29,10 @@ class ConverterManagerTestCase(TestCase):
         if SomeExcerptConverter not in BaseExcerptConverter.available_converters:
             BaseExcerptConverter.available_converters.append(SomeExcerptConverter)
 
+    def tearDown(self):
+        if SomeExcerptConverter in BaseExcerptConverter.available_converters:
+            BaseExcerptConverter.available_converters.remove(SomeExcerptConverter)
+
     def test_converter_configuration(self):
         self.assertEqual(
             # Usage of ordered dict because dict is not sorted, so we will get an arbitrary order -> not testable

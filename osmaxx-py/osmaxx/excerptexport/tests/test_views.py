@@ -28,8 +28,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             'new_excerpt_bounding_box_east': '2.0',
             'new_excerpt_bounding_box_south': '3.0',
             'new_excerpt_bounding_box_west': '4.0',
-            'export_options.gis.options.detail_level': 'verbatim',
-            'export_options.gis.options.coordinate_reference_system': 'pseudomerkator'
+            'export_options.DummyExcerptConverter.formats': ['txt'],
+            'export_options.DummyExcerptConverter.options.detail_level': 'verbatim',
         }
         self.existing_own_excerpt = Excerpt.objects.create(
             name='Some old Excerpt',
@@ -64,8 +64,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.existing_excerpt_post_data = {
             'form-mode': 'existing-excerpt',
             'existing_excerpt.id': self.existing_own_excerpt.id,
-            'export_options.gis.options.detail_level': 'verbatim',
-            'export_options.gis.options.coordinate_reference_system': 'pseudomerkator'
+            'export_options.DummyExcerptConverter.formats': ['txt'],
+            'export_options.DummyExcerptConverter.options.detail_level': 'verbatim',
         }
 
     def test_new_when_not_logged_in(self):

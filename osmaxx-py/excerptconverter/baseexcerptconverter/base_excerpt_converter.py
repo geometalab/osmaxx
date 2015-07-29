@@ -77,7 +77,4 @@ class BaseExcerptConverter(metaclass=abc.ABCMeta):
         """
         # queue celery task
         # TODO: fix string hack here and 'class_name' in subclasses
-        print('execute:')
-        print(execution_configuration['formats'])
-
         cls.execute_task.delay(str(cls.__name__), extraction_order.id, cls.export_formats, execution_configuration)
