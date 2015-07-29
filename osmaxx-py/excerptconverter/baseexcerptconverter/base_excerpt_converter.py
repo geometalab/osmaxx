@@ -62,7 +62,7 @@ class BaseExcerptConverter(metaclass=abc.ABCMeta):
                 )
 
     @classmethod
-    def execute(cls, extraction_order, execution_configuration):
+    def execute(cls, extraction_order, execution_configuration, run_as_celery_tasks):
         """
         Execute excerpt conversion task
 
@@ -90,4 +90,8 @@ class BaseExcerptConverter(metaclass=abc.ABCMeta):
             }
         """
         # queue celery task
-        cls.execute_task.delay(extraction_order.id, cls.export_formats, execution_configuration)
+        # run_as_celery_tasks=False allows to run as normal functions for testing
+        if run_as_celery_tasks:
+            cls.execute_task.delay(extraction_order.id, cls.export_formats, execution_configuration)
+        else:
+            cls.execute_task(extraction_order.id, cls.export_formats, execution_configuration)

@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -19,7 +21,9 @@ class ExtractionOrderState(enum.Enum):
 class ExtractionOrder(models.Model):
     state = enum.EnumField(ExtractionOrderState, default=ExtractionOrderState.INITIALIZED, verbose_name=_('state'))
     process_start_date = models.DateTimeField(null=True, verbose_name=_('process start date'))
-    process_reference = models.CharField(max_length=128, blank=True, null=True, verbose_name=_('process reference'))
+    _extraction_configuration = models.TextField(
+        blank=True, null=True, default='', verbose_name=_('extraction options')
+    )
 
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'))
@@ -31,3 +35,16 @@ class ExtractionOrder(models.Model):
     @property
     def are_downloads_ready(self):
         return self.state == ExtractionOrderState.FINISHED
+
+    @property
+    def extraction_configuration(self):
+        if self._extraction_configuration and not self._extraction_configuration == '':
+            return json.loads(self._extraction_configuration)
+        else:
+            return None
+
+    @extraction_configuration.setter
+    def extraction_configuration(self, value):
+        if not value:
+            value = {}
+        self._extraction_configuration = json.dumps(value)

@@ -56,7 +56,8 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
                 existing_excerpt_id = request.POST['existing_excerpt.id']
                 extraction_order = ExtractionOrder.objects.create(
                     excerpt_id=existing_excerpt_id,
-                    orderer=request.user
+                    orderer=request.user,
+                    extraction_configuration=export_options
                 )
 
             if request.POST['form-mode'] == 'new-excerpt':
@@ -81,7 +82,8 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
 
                     extraction_order = ExtractionOrder.objects.create(
                         excerpt=excerpt,
-                        orderer=request.user
+                        orderer=request.user,
+                        extraction_configuration=export_options
                     )
 
                 else:
@@ -89,7 +91,7 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
                     return self.get(request, new_excerpt_form.data)
 
             if extraction_order.id:
-                converter_manager = ConverterManager(extraction_order, export_options)
+                converter_manager = ConverterManager(extraction_order)
                 converter_manager.execute_converters()
 
                 messages.success(request, _(
