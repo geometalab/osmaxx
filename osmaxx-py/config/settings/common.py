@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 import environ
 import sys
+from django.contrib.messages import constants as message_constants
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -154,6 +155,7 @@ TEMPLATES = [
                 'social.apps.django_app.context_processors.backends',
                 'social.apps.django_app.context_processors.login_redirect',
                 'django.core.context_processors.request',
+                'osmaxx.excerptexport.context_processors.message_adapter_context_processor'
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
@@ -299,7 +301,8 @@ LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 # TODO: show nice user error page
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
-# Used to redirect the user once the auth process ended successfully. The value of ?next=/foo is used if it was present.
+# Used to redirect the user once the auth process ended successfully.
+# The value of ?next=/foo is used if it was present.
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 # Is used as a fallback for LOGIN_ERROR_URL
 SOCIAL_AUTH_LOGIN_URL = '/'
@@ -348,3 +351,17 @@ MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
 
 # Do not alter this once migrations have been run, since these values are stored in the database.
 OSMAXX_FRONTEND_USER_GROUP = 'osmaxx_frontend_users'
+
+# message type mapping
+MESSAGE_TAGS = {
+    message_constants.DEBUG: 'debug',
+    message_constants.INFO: 'info',
+    message_constants.SUCCESS: 'success',
+    message_constants.WARNING: 'warning',
+    message_constants.ERROR: 'error',
+    10: 'debug',
+    20: 'info',
+    25: 'success',
+    30: 'warning',
+    40: 'error'
+}

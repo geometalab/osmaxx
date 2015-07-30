@@ -9,21 +9,23 @@
 
 
 {% block main %}
-    <h2>{% trans 'Overview' %}</h2>
-    <nav>
-        <ul>
-            <li>
-                <span class="icon">&#x270e;</span>&nbsp;
-                <a href="{% url 'excerptexport:new' %}">{% trans 'New excerpt export' %}</a>
-            </li>
-            <li>
-                <span class="icon">&#x2637;</span>&nbsp;
-                <a href="{% url 'excerptexport:orders' %}">{% trans 'My orders' %}</a>
-            </li>
-            <li>
-                <span class="icon">&#8681;</span>&nbsp;
-                <a href="{% url 'excerptexport:downloads' %}">{% trans 'My downloads' %}</a>
-            </li>
-        </ul>
-    </nav>
+    <div class="container-row content">
+        <h2>{% trans 'Overview' %}</h2>
+        <nav>
+            <ul>
+                <li>
+                    <span class="icon">&#x270e;</span>&nbsp;
+                    <a href="{% url 'excerptexport:new' %}">{% trans 'New excerpt export' %}</a>
+                </li>
+                <li>
+                    <span class="icon">&#x2637;</span>&nbsp;
+                    <a href="{% url 'excerptexport:orders' %}">{% trans 'My orders' %}</a>
+                </li>
+                <li>
+                    <span class="icon">&#8681;</span>&nbsp;
+                    <a href="{% url 'excerptexport:downloads' %}">{% trans 'My downloads' %}</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 {% endblock %}
