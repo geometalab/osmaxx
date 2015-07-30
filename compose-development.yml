@@ -1,3 +1,12 @@
+shareddata:
+  image: buildpack-deps:jessie
+  command: /bin/true
+  volumes:
+    # as noted in https://docs.docker.com/userguide/dockervolumes/#mount-a-host-file-as-a-data-volume
+    # the parent directory should be mounted, not the directories itself
+    # otherwise we get OSError: Device or resource busy
+    - /data
+
 source:
   build: docker/volume-mount
   volumes:
@@ -15,10 +24,12 @@ webapp:
     - "8000"
   volumes_from:
     - source
+    - shareddata
   links:
     - rabbitmq:rabbit
     - database
     - email
+    - celery
   environment:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
@@ -36,6 +47,7 @@ celery:
   command: honcho start -f Procfile.celery
   volumes_from:
     - source
+    - shareddata
   links:
     - rabbitmq:rabbit
     - database
