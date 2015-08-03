@@ -4,10 +4,8 @@ from excerptconverter.baseexcerptconverter import BaseExcerptConverter
 class ConverterManager:
     @staticmethod
     def converter_configuration():
-        export_options = {}
-        for Converter in BaseExcerptConverter.available_converters:
-            export_options[Converter.__name__] = Converter.converter_configuration()
-        return export_options
+        return {Converter.__name__: Converter.converter_configuration()
+                for Converter in BaseExcerptConverter.available_converters}
 
     def __init__(self, extraction_order,
                  available_converters=BaseExcerptConverter.available_converters,
