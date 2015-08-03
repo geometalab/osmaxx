@@ -49,12 +49,11 @@ class BaseExcerptConverter(metaclass=abstract_base_class.ABCMeta):
                     [user.email]
                 )
             else:
-                stored_messages.api.add_message_for(
-                    users=[user],
-                    level=messages.WARNING,
-                    message_text=_("There is no email address assigned to your account. "
-                                   "You won't be notified by email on process finish!")
-                )
+                BaseExcerptConverter.inform_user(
+                    user,
+                    messages.WARNING, _("There is no email address assigned to your account. "
+                                        "You won't be notified by email on process finish!"),
+                    email=False)
 
     @classmethod
     def converter_configuration(cls):
