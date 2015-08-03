@@ -1,4 +1,4 @@
-from excerptconverter.baseexcerptconverter import BaseExcerptConverter  # noqa
+from excerptconverter.baseexcerptconverter import BaseExcerptConverter
 from .dummy_excerpt_converter import DummyExcerptConverter
 
 BaseExcerptConverter.available_converters.append(DummyExcerptConverter)

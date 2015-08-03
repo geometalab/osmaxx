@@ -9,9 +9,9 @@ class DummyExcerptConverterTestCase(TestCase):
             # Usage of ordered dict because dict is not sorted, so we will get an arbitrary order -> not testable
             collections.OrderedDict(sorted(DummyExcerptConverter.converter_configuration().items())),
             collections.OrderedDict(sorted({
-                'name': DummyExcerptConverter.name,
-                'formats': DummyExcerptConverter.export_formats,
-                'options': DummyExcerptConverter.export_options
+                'name': DummyExcerptConverter.name(),
+                'formats': DummyExcerptConverter.export_formats(),
+                'options': DummyExcerptConverter.export_options()
             }.items()))
         )
         self.assertTrue(DummyExcerptConverter.converter_configuration()['name'])

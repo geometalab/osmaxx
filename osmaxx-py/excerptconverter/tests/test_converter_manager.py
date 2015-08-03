@@ -11,54 +11,70 @@ from osmaxx.excerptexport import models
 
 
 class SomeExcerptConverter(BaseExcerptConverter):
-    name = 'Dummy'
-    export_formats = {
-        'jpg': {
-            'name': 'JPG',
-            'file_extension': 'jpg',
-            'mime_type': 'image/jpg'
+    @staticmethod
+    def name():
+        return 'Dummy'
+
+    @staticmethod
+    def export_formats():
+        return {
+            'jpg': {
+                'name': 'JPG',
+                'file_extension': 'jpg',
+                'mime_type': 'image/jpg'
+            }
         }
-    }
-    export_options = {
-        'resolution': {
-            'label': 'Resolution',
-            'type': 'text',
-            'default': '200'
+
+    @staticmethod
+    def export_options():
+        return {
+            'resolution': {
+                'label': 'Resolution',
+                'type': 'text',
+                'default': '200'
+            }
         }
-    }
 
 
 class TestExcerptConverter(BaseExcerptConverter):
-    name = 'Test'
-    export_formats = {
-        'jpg': {
-            'name': 'JPG',
-            'file_extension': 'jpg',
-            'mime_type': 'image/jpg'
-        },
-        'png': {
-            'name': 'PNG',
-            'file_extension': 'png',
-            'mime_type': 'image/png'
-        },
-        'svg': {
-            'name': 'SVG',
-            'file_extension': 'svg',
-            'mime_type': 'image/svg'
+    @staticmethod
+    def name():
+        return 'Test'
+
+    @staticmethod
+    def export_formats():
+        return {
+            'jpg': {
+                'name': 'JPG',
+                'file_extension': 'jpg',
+                'mime_type': 'image/jpg'
+            },
+            'png': {
+                'name': 'PNG',
+                'file_extension': 'png',
+                'mime_type': 'image/png'
+            },
+            'svg': {
+                'name': 'SVG',
+                'file_extension': 'svg',
+                'mime_type': 'image/svg'
+            }
         }
-    }
-    export_options = {
-        'image_resolution': {
-            'label': 'Resolution',
-            'type': 'number',
-            'default': '500'
-        },
-        'quality': {
-            'label': 'Quality',
-            'type': 'number',
-            'default': '10'
+
+    @staticmethod
+    def export_options():
+        return {
+            'image_resolution': {
+                'label': 'Resolution',
+                'type': 'number',
+                'default': '500'
+            },
+            'quality': {
+                'label': 'Quality',
+                'type': 'number',
+                'default': '10'
+            }
         }
-    }
 
     @staticmethod
     def execute_task(extraction_order_id, supported_export_formats, converter_configuration):

@@ -18,31 +18,38 @@ private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
 
 
 class DummyExcerptConverter(BaseExcerptConverter):
-    name = 'Dummy'
-    export_formats = {
-        'txt': {
-            'name': 'Text (.txt)',
-            'file_extension': 'txt',
-            'mime_type': 'text/plain'
-        },
-        'markdown': {
-            'name': 'Markdown (.md)',
-            'file_extension': 'md',
-            'mime_type': 'text/markdown'
+    @staticmethod
+    def name():
+        return 'Dummy'
+
+    @staticmethod
+    def export_formats():
+        return {
+            'txt': {
+                'name': 'Text (.txt)',
+                'file_extension': 'txt',
+                'mime_type': 'text/plain'
+            },
+            'markdown': {
+                'name': 'Markdown (.md)',
+                'file_extension': 'md',
+                'mime_type': 'text/markdown'
+            }
         }
-    }
-    export_options = {
-        'detail_level': {
-            'label': 'Detail level',
-            'type': 'choice',
-            'default': 'verbatim',
-            'values': [
-                {'name': 'verbatim', 'label': 'Verbatim'},
-                {'name': 'simplified', 'label': 'Simplified'}
-            ]
+
+    @staticmethod
+    def export_options():
+        return {
+            'detail_level': {
+                'label': 'Detail level',
+                'type': 'choice',
+                'default': 'verbatim',
+                'values': [
+                    {'name': 'verbatim', 'label': 'Verbatim'},
+                    {'name': 'simplified', 'label': 'Simplified'}
+                ]
+            }
         }
-    }
-    steps_total = 2
 
     @staticmethod
     def create_output_files(execution_configuration, extraction_order, supported_export_formats):
