@@ -66,7 +66,7 @@ class BaseExcerptConverter(metaclass=abstract_base_class.ABCMeta):
     @classmethod
     def execute(cls, extraction_order, execution_configuration, run_as_celery_tasks):
         """
-        Execute excerpt conversion task
+        Execute excerpt conversion task (queue celery task)
 
         :param execution_configuration example:
             {
@@ -90,9 +90,9 @@ class BaseExcerptConverter(metaclass=abstract_base_class.ABCMeta):
                     'mime_type': 'text/markdown'
                 }
             }
+        :param run_as_celery_tasks:
+            run_as_celery_tasks=False allows to run as normal functions for testing
         """
-        # queue celery task
-        # run_as_celery_tasks=False allows to run as normal functions for testing
         if run_as_celery_tasks:
             cls.execute_task.delay(extraction_order.id, cls.export_formats(), execution_configuration)
         else:
