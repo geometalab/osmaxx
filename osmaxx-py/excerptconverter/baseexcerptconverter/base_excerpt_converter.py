@@ -51,8 +51,9 @@ class BaseExcerptConverter(metaclass=abstract_base_class.ABCMeta):
             else:
                 BaseExcerptConverter.inform_user(
                     user,
-                    messages.WARNING, _("There is no email address assigned to your account. "
-                                        "You won't be notified by email on process finish!"),
+                    messages.WARNING,
+                    _("There is no email address assigned to your account. "
+                      "You won't be notified by email on process finish!"),
                     email=False)
 
     @classmethod
