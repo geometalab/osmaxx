@@ -50,7 +50,12 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'osmaxx.excerptexport',
     'osmaxx.social_auth',
+    'excerptconverter.dummyexcerptconverter'
 )
+CELERY_IMPORTS = [
+    'excerptconverter.dummyexcerptconverter.dummy_excerpt_converter'
+]
+
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 

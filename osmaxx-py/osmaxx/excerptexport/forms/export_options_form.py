@@ -1,16 +1,18 @@
 from django import forms
-
-from osmaxx.excerptexport import settings
+from django.utils.translation import ugettext_lazy as _
 
 
 class ExportOptionsForm(forms.Form):
     max_items_radio = 5
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, converter_configuration, *args, **kwargs):
         super(ExportOptionsForm, self).__init__(*args, **kwargs)
-        for export_option_key, export_option in settings.EXPORT_OPTIONS.items():
+        self.converter_configuration = converter_configuration
+
+        for export_option_key, export_option in self.converter_configuration.items():
             self.create_checkboxes(
-                'export_options.'+export_option_key+'.formats', export_option['name'],
+                'export_options.%s.formats' % export_option_key,
+                _('%s export formats' % export_option['name']),
                 export_option['formats'].items()
             )
 
@@ -60,19 +62,33 @@ class ExportOptionsForm(forms.Form):
             widget=forms.CheckboxSelectMultiple
         )
 
-    # create export options tree (like export options settings) from flat form values
-    def get_export_options(self, option_config):
+    def get_export_options(self):
+        """
+        create export options tree (like export options settings) from flat form values
+        :return example:
+            {
+                'gis': {
+                    'formats': ['txt', 'file_gdb'],
+                    'options': {
+                        'coordinate_reference_system': 'wgs72',
+                        'detail_level': 'verbatim'
+                    }
+                },
+                'routing': { ... }
+            }
+        """
         # post values naming schema:
         # formats: "export_options_{{ export_option_key }}_formats"
         # options: "'export_options_{{ export_option_key }}_options_{{ export_option_config_key }}"
         export_options = {}
-        for export_option_key, export_option in option_config.items():
+        for export_option_key, export_option in self.converter_configuration.items():
             export_options[export_option_key] = {}
             export_options[export_option_key]['formats'] = \
                 self.cleaned_data['export_options.'+export_option_key+'.formats']
 
+            export_options[export_option_key]['options'] = {}
             for export_option_config_key, export_option_config in export_option['options'].items():
-                export_options[export_option_key][export_option_config_key] = \
+                export_options[export_option_key]['options'][export_option_config_key] = \
                     self.cleaned_data['export_options.'+export_option_key+'.options.'+export_option_config_key]
 
         return export_options

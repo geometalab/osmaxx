@@ -12,11 +12,6 @@ from osmaxx.excerptexport.tests.permission_test_helper import PermissionHelperMi
 
 
 class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
-    user = None
-    new_excerpt_post_data = None
-    existing_excerpt = None
-    existing_excerpt_post_data = None
-
     def setUp(self):
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
         other_user = User.objects.create_user('other_user', 'o_u@example.com', 'o_pw')
@@ -28,8 +23,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             'new_excerpt_bounding_box_east': '2.0',
             'new_excerpt_bounding_box_south': '3.0',
             'new_excerpt_bounding_box_west': '4.0',
-            'export_options.gis.options.detail_level': 'verbatim',
-            'export_options.gis.options.coordinate_reference_system': 'pseudomerkator'
+            'export_options.DummyExcerptConverter.formats': ['txt'],
+            'export_options.DummyExcerptConverter.options.detail_level': 'verbatim',
         }
         self.existing_own_excerpt = Excerpt.objects.create(
             name='Some old Excerpt',
@@ -64,8 +59,16 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.existing_excerpt_post_data = {
             'form-mode': 'existing-excerpt',
             'existing_excerpt.id': self.existing_own_excerpt.id,
-            'export_options.gis.options.detail_level': 'verbatim',
-            'export_options.gis.options.coordinate_reference_system': 'pseudomerkator'
+            'export_options.DummyExcerptConverter.formats': ['txt'],
+            'export_options.DummyExcerptConverter.options.detail_level': 'verbatim',
+        }
+        self.existing_excerpt_extraction_options = {
+            'DummyExcerptConverter': {
+                'formats': ['txt'],
+                'options': {
+                    'detail_level': 'verbatim'
+                }
+            }
         }
 
     def test_new_when_not_logged_in(self):
@@ -166,7 +169,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
         self.assertIsNone(newly_created_order.process_start_date)
-        self.assertIsNone(newly_created_order.process_reference)
+        self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'A very interesting region')
 
@@ -188,7 +191,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
         self.assertIsNone(newly_created_order.process_start_date)
-        self.assertIsNone(newly_created_order.process_reference)
+        self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'Some old Excerpt')
 
