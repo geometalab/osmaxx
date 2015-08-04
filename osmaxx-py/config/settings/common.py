@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
-
+# flake8: noqa
 import os
 import environ
 import sys
@@ -173,7 +173,7 @@ TEMPLATES = [
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = str(ROOT_DIR('..', 'static'))
+STATIC_ROOT = env.str('DJANGO_STATIC_ROOT', default=str(ROOT_DIR('..', 'static')))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
@@ -196,8 +196,8 @@ STATICFILES_FINDERS = (
 
 # data & media
 
-MEDIA_ROOT = str(ROOT_DIR('..', 'media'))
-PRIVATE_MEDIA_ROOT = str(ROOT_DIR.path('..', 'private_media'))
+MEDIA_ROOT = env.str('DJANGO_MEDIA_ROOT', default=str(ROOT_DIR('..', 'media')))
+PRIVATE_MEDIA_ROOT = env.str('DJANGO_PRIVATE_MEDIA_ROOT', default=str(ROOT_DIR.path('..', 'private_media')))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'

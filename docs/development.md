@@ -90,6 +90,12 @@ docker-compose run webapp /bin/bash
 ```
 Run tests:
 
+```shell
+./test.sh
+```
+
+To run the application tests only:
+
 `docker-compose run webapp /bin/bash -c 'python3 manage.py test'`
 
 
