@@ -30,7 +30,7 @@ echo -e "-------------------------"
 echo -e "Volume integration tests:"
 echo -e "-------------------------${RESET}"
 if [[ ! ${docker-compose run celery /bin/bash -c "touch $TEST_FILE"} ]]; then
-    cho -e "${RED}Test file creation failed ${RESET}"
+    echo -e "${RED}Test file creation failed ${RESET}"
 fi
 
 if [[ ${docker-compose run webapp /bin/bash -c "if [ ! -f $TEST_FILE ]; then exit 1; else exit 0; fi;"} ]]; then
