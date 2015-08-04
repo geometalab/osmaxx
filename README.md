@@ -43,6 +43,21 @@ Start the containers using docker compose:
 
 `docker-compose up`
 
-# Documentation
+### Documentation
 
 See Wiki: https://github.com/geometalab/osmaxx/wiki
+
+
+### Problems & Solutions
+
+#### Leaflet is missing
+
+You forgot to **pull the submodules**
+
+
+#### ProgrammingError at /login/
+
+relation "django_site" does not exist
+LINE 1: ..."django_site"."domain", "django_site"."name" FROM "django_si...
+
+You forgot to **run the migrations**
