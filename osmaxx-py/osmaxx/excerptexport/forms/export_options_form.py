@@ -11,7 +11,7 @@ class ExportOptionsForm(forms.Form):
 
         for export_option_key, export_option in self.converter_configuration.items():
             self.create_checkboxes(
-                'export_options.'+export_option_key+'.formats',
+                'export_options.%s.formats' % export_option_key,
                 _('%s export formats' % export_option['name']),
                 export_option['formats'].items()
             )
