@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-22 16:46+0200\n"
+"POT-Creation-Date: 2015-08-04 14:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,37 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: excerptconverter/baseexcerptconverter/base_excerpt_converter.py:55
+msgid ""
+"There is no email address assigned to your account. You won't be notified by "
+"email on process finish!"
+msgstr ""
+
+#: excerptconverter/dummyexcerptconverter/dummy_excerpt_converter.py:75
+#, python-format
+msgid "\"%s\" created successful"
+msgstr ""
+
+#: excerptconverter/dummyexcerptconverter/dummy_excerpt_converter.py:78
+#, python-format
+msgid "Creation of \"%s\" failed!"
+msgstr ""
+
+#: excerptconverter/dummyexcerptconverter/dummy_excerpt_converter.py:108
+#, python-format
+msgid "Your extraction order \"%s\" has been started"
+msgstr ""
+
+#: excerptconverter/dummyexcerptconverter/dummy_excerpt_converter.py:120
+#, python-format
+msgid "Your extraction order %s has been processed"
+msgstr ""
+
+#: osmaxx/excerptexport/forms/export_options_form.py:15
+#, python-format
+msgid "%s export formats"
+msgstr ""
 
 #: osmaxx/excerptexport/forms/new_excerpt_form.py:6
 msgid "Excerpt name"
@@ -62,23 +93,23 @@ msgstr ""
 msgid "bounding geometry"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:20
+#: osmaxx/excerptexport/models/extraction_order.py:22
 msgid "state"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:21
+#: osmaxx/excerptexport/models/extraction_order.py:23
 msgid "process start date"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:22
-msgid "process reference"
+#: osmaxx/excerptexport/models/extraction_order.py:25
+msgid "extraction options"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:24
+#: osmaxx/excerptexport/models/extraction_order.py:28
 msgid "orderer"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:25
+#: osmaxx/excerptexport/models/extraction_order.py:29
 msgid "excerpt"
 msgstr ""
 
@@ -104,16 +135,6 @@ msgstr ""
 
 #: osmaxx/excerptexport/models/output_file.py:20
 msgid "extraction order"
-msgstr ""
-
-#: osmaxx/excerptexport/tasks.py:13
-#, python-format
-msgid "Your extraction order %s has been processed"
-msgstr ""
-
-#: osmaxx/excerptexport/tasks.py:44
-#, python-format
-msgid "Your extraction order \"%s\" has been started"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/download_list.html:12
@@ -305,22 +326,23 @@ msgstr ""
 msgid "Export options"
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:88
+#: osmaxx/excerptexport/views.py:93
 msgid "Invalid excerpt."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:94
+#: osmaxx/excerptexport/views.py:101
 #, python-format
 msgid ""
 "Successful creation of extraction order extraction order %(id)s. The "
 "conversion process will start soon."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:102
-msgid "Creation of extraction order failed."
+#: osmaxx/excerptexport/views.py:109
+#, python-format
+msgid "Creation of extraction order \"%s\" failed."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:106
+#: osmaxx/excerptexport/views.py:113
 msgid "Invalid export options."
 msgstr ""
 

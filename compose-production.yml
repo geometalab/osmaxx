@@ -8,7 +8,7 @@ osmaxxshareddata:
 osmaxxwebapp:
   extends:
     file: compose-common.yml
-    service: osmaxx
+    service: osmaxxbase
   ports:
     - "8000:8000"
   volumes_from:
@@ -18,40 +18,42 @@ osmaxxwebapp:
     - osmaxxrabbitmq:rabbit
     - osmaxxdatabase
     - osmaxxemail
+    - osmaxxcelery
   environment:
     - APP_PORT=8000
     - APP_HOST=0.0.0.0
-    # --link some-rabbit:rabbit "just works"
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@osmaxxrabbit
+    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabase/postgres
-    - DJANGO_EMAIL_HOST=osmaxxemail
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@osmaxxrabbit
     - DJANGO_EMAIL_USE_TLS=false
-    - DJANGO_EMAIL_HOST='osmaxxemail'
-    - DJANGO_EMAIL_HOST_PASSWORD='osmaxx'
-    - DJANGO_EMAIL_HOST_USERNAME='osmaxx'
+    - DJANGO_EMAIL_HOST=osmaxxemail
+    - DJANGO_EMAIL_HOST_PASSWORD=osmaxx
+    - DJANGO_EMAIL_HOST_USERNAME=osmaxx
     - DJANGO_EMAIL_PORT=25
 
 osmaxxrabbitmq:
   extends:
     file: compose-common.yml
-    service: osmaxxrabbitmq
+    service: osmaxxrabbitmqbase
 
 osmaxxcelery:
   extends:
     file: compose-common.yml
-    service: osmaxx
+    service: osmaxxbase
   volumes_from:
     - osmaxxshareddata
   command: honcho start -f Procfile.celery
   links:
     - osmaxxrabbitmq:rabbit
     - osmaxxdatabase
+    - osmaxxemail
+  environment:
+    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
+    - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabase/postgres
 
 osmaxxdatabase:
   extends:
     file: compose-common.yml
-    service: osmaxxdatabase
+    service: osmaxxdatabasebase
 
 osmaxxemail:
   image: catatnight/postfix
