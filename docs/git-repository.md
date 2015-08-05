@@ -10,6 +10,7 @@ For developers have write access to this repository:
 
 2. Enable [git-flow](https://github.com/nvie/gitflow) for the local repo
 	```shell
+	git checkout master # or git checkout -b master origin/master
 	git flow init -d
 	```
 
@@ -17,6 +18,7 @@ For developers have write access to this repository:
 
 	You should now be on the `develop` branch. Otherwise checkout the development branch: `git checkout development`.
 3. Clone the third party repositories we use through [git submodules](http://www.git-scm.com/book/en/v2/Git-Tools-Submodules)
+
 	```shell
 	git submodule init && git submodule update
 	```
