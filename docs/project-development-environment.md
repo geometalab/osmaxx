@@ -48,7 +48,7 @@ docker-compose run osmaxxwebappdev /bin/bash
 ./test.sh
 ```
 
-To run the application tests only, see [Commonly used commands while developing / Run tests](useful-dommands.md#run-tests).
+To run the application tests only, see [Commonly used commands while developing / Run tests](useful-commands.md#run-tests).
 
 
 ## Access the application
