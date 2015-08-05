@@ -1,7 +1,7 @@
-osmaxxdatabase:
+osmaxxdatabasebase:
   image: geometalab/postgis:9.4
 
-osmaxx:
+osmaxxbase:
   build: .
   environment:
     # shared data
@@ -41,6 +41,5 @@ osmaxx:
     - DJANGO_CSRF_COOKIE_HTTPONLY=true
     - DJANGO_X_FRAME_OPTIONS='DENY'
 
-
-osmaxxrabbitmq:
+osmaxxrabbitmqbase:
   image: rabbitmq:3

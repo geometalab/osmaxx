@@ -1,4 +1,4 @@
-shareddata:
+osmaxxshareddatadev:
   image: buildpack-deps:jessie
   command: /bin/true
   volumes:
@@ -7,62 +7,62 @@ shareddata:
     # otherwise we get OSError: Device or resource busy
     - /data
 
-source:
+osmaxxsourcedev:
   build: docker/volume-mount
   volumes:
     - osmaxx-py:/home/osmaxx/source
     - ~/.cache/pip:/home/osmaxx/.cache/pip
 
-webapp:
+osmaxxwebappdev:
   extends:
     file: compose-common.yml
-    service: osmaxx
+    service: osmaxxbase
   command: honcho start -f Procfile.django.dev
   ports:
     - "8000:8000"
   expose:
     - "8000"
   volumes_from:
-    - source
-    - shareddata
+    - osmaxxsourcedev
+    - osmaxxshareddatadev
   links:
-    - rabbitmq:rabbit
-    - database
-    - email
-    - celery
+    - osmaxxrabbitmqdev:rabbit
+    - osmaxxdatabasedev
+    - osmaxxemaildev
+    - osmaxxcelerydev
   environment:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+    - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabasedev/postgres
     - DJANGO_DEBUG=true
 
-rabbitmq:
+osmaxxrabbitmqdev:
   extends:
     file: compose-common.yml
-    service: osmaxxrabbitmq
+    service: osmaxxrabbitmqbase
 
-celery:
+osmaxxcelerydev:
   extends:
     file: compose-common.yml
-    service: osmaxx
+    service: osmaxxbase
   command: honcho start -f Procfile.celery
   volumes_from:
-    - source
-    - shareddata
+    - osmaxxsourcedev
+    - osmaxxshareddatadev
   links:
-    - rabbitmq:rabbit
-    - database
-    - email
+    - osmaxxrabbitmqdev:rabbit
+    - osmaxxdatabasedev
+    - osmaxxemaildev
   environment:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+    - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabasedev/postgres
     - DJANGO_DEBUG=true
 
-database:
+osmaxxdatabasedev:
   extends:
     file: compose-common.yml
-    service: osmaxxdatabase
+    service: osmaxxdatabasebase
 
-email:
+osmaxxemaildev:
   image: python:3
   ports:
     - 1025:1025
