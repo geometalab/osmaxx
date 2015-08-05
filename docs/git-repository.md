@@ -10,6 +10,7 @@ For developers have write access to this repository:
 
 2. Enable [git-flow](https://github.com/nvie/gitflow) for the local repo
 	```shell
+	git checkout master # or git checkout -b master origin/master
 	git flow init -d
 	```
 
