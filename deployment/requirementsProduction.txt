@@ -1,3 +1,0 @@
-Django==1.7.4
-django-enumfield==1.2
-psycopg2==2.6

@@ -1,0 +1,69 @@
+osmaxxshareddatadev:
+  image: buildpack-deps:jessie
+  command: /bin/true
+  volumes:
+    # as noted in https://docs.docker.com/userguide/dockervolumes/#mount-a-host-file-as-a-data-volume
+    # the parent directory should be mounted, not the directories itself
+    # otherwise we get OSError: Device or resource busy
+    - /data
+
+osmaxxsourcedev:
+  build: docker/volume-mount
+  volumes:
+    - osmaxx-py:/home/osmaxx/source
+    - ~/.cache/pip:/home/osmaxx/.cache/pip
+
+osmaxxwebappdev:
+  extends:
+    file: compose-common.yml
+    service: osmaxxbase
+  command: honcho start -f Procfile.django.dev
+  ports:
+    - "8000:8000"
+  expose:
+    - "8000"
+  volumes_from:
+    - osmaxxsourcedev
+    - osmaxxshareddatadev
+  links:
+    - osmaxxrabbitmqdev:rabbit
+    - osmaxxdatabasedev
+    - osmaxxemaildev
+    - osmaxxcelerydev
+  environment:
+    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
+    - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabasedev/postgres
+    - DJANGO_DEBUG=true
+
+osmaxxrabbitmqdev:
+  extends:
+    file: compose-common.yml
+    service: osmaxxrabbitmqbase
+
+osmaxxcelerydev:
+  extends:
+    file: compose-common.yml
+    service: osmaxxbase
+  command: honcho start -f Procfile.celery
+  volumes_from:
+    - osmaxxsourcedev
+    - osmaxxshareddatadev
+  links:
+    - osmaxxrabbitmqdev:rabbit
+    - osmaxxdatabasedev
+    - osmaxxemaildev
+  environment:
+    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
+    - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabasedev/postgres
+    - DJANGO_DEBUG=true
+
+osmaxxdatabasedev:
+  extends:
+    file: compose-common.yml
+    service: osmaxxdatabasebase
+
+osmaxxemaildev:
+  image: python:3
+  ports:
+    - 1025:1025
+  command: python -m smtpd -n -c DebuggingServer 0.0.0.0:1025
