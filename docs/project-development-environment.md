@@ -15,7 +15,7 @@ sudo apt-get install python3-flake8
 
 Then the pre-commit hook can be linked to the hooks.
 
-```hell
+```shell
 $ cd <osmaxx-repo-root>
 $ ln -s ../../hooks/pre-commit .git/hooks/pre-commit
 ```
