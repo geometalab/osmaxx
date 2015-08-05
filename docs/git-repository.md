@@ -62,9 +62,34 @@ For developers have write access to this repository:
 
 ## Release
 
+### Create release branch (example)
+```shell
+git flow release start '1.4.0'
+```
+
+
+### Todo on release
+
 * Compile locales
 * Run all tests
 * Test development and production containers
 * Update documentation
 	* Readme
 	* Wiki
+
+
+### Finish release
+
+```shell
+git flow release finish '1.4.0'
+
+git checkout develop
+git push github develop --tags
+
+git checkout master
+git push github develop --tags
+
+git checkout develop
+```
+
+Go to Github repository /releases and add description of the release.
