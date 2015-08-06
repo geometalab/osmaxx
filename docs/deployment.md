@@ -5,7 +5,7 @@ To deploy to production server:
 1. Clone the repository master branch without history:
 
   ```shell
-  git clone --depth 1 -b master git@github.com:geometalab/osmaxx.git osmaxx && cd osmaxx
+  git clone --depth 1 -b master https://github.com/geometalab/osmaxx.git osmaxx && cd osmaxx
   git submodule init && git submodule update
   ```
   Repository details see [Project repository](git-repository.md).
