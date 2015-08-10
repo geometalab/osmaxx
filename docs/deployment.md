@@ -11,8 +11,13 @@ To deploy to production server:
   Repository details see [Project repository](git-repository.md).
 2. Link production configuration for docker-compose, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
 3. Add target specific environment variables to compose-production.yml
-4. Build the containers
-  If there is no docker-compose on the target system, use a docker-compose container:
+4. Build the containers.
+
+  ```shell
+  docker-compose build --no-cache
+  ```
+  
+  If there is **no docker-compose installed** on the target system, use a docker-compose container:
 
   ```shell
   docker run \
