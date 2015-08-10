@@ -3,6 +3,8 @@ osmaxxshareddata:
   command: /bin/true
   volumes:
     - /data
+    - /database/data
+  net: "none"
 
 # TODO: this file is only a placeholder for now!
 osmaxxwebapp:
@@ -54,6 +56,10 @@ osmaxxdatabase:
   extends:
     file: compose-common.yml
     service: osmaxxdatabasebase
+  volumes_from:
+    - osmaxxshareddata
+  environment:
+    - PGDATA=/database/data
 
 osmaxxemail:
   image: catatnight/postfix

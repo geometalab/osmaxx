@@ -6,6 +6,9 @@ osmaxxshareddatadev:
     # the parent directory should be mounted, not the directories itself
     # otherwise we get OSError: Device or resource busy
     - /data
+    # database
+    - /database/data
+  net: "none"
 
 osmaxxsourcedev:
   build: docker/volume-mount
@@ -61,6 +64,10 @@ osmaxxdatabasedev:
   extends:
     file: compose-common.yml
     service: osmaxxdatabasebase
+  volumes_from:
+    - osmaxxshareddatadev
+  environment:
+    - PGDATA=/database/data
 
 osmaxxemaildev:
   image: python:3
