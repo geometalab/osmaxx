@@ -60,6 +60,7 @@ function run_tests() {
     reset_containers;
     application_tests;
     docker_volume_configuration_tests;
+    persisting_database_data_tests;
     echo -e "cleaning up all containers"
     reset_containers;
 }
@@ -112,6 +113,24 @@ function docker_volume_configuration_tests() {
     dcompose run $CELERY_CONTAINER /bin/bash -c "rm $TEST_FILE" &> test.log
     if [ $? -ne 0 ]; then
         echo -e "${RED}Test file clean up failed ${RESET}"
+    fi
+}
+
+function persisting_database_data_tests() {
+    # clean containers needed for testing this...
+    reset_containers;
+    if dcompose run $WEBAPP_CONTAINER bash -c './manage.py migrate' | grep -q 'No migrations to apply'; then
+        echo -e "${RED}Migrations could not be applied!${RESET}"
+    else
+        echo -e "${GREEN}Migrations applied successfully.${RESET}"
+    fi
+
+    CONTAINER_TO_BE_RESETTED=${DB_CONTAINER} reset_container;
+
+    if dcompose run $WEBAPP_CONTAINER bash -c './manage.py migrate' | grep -q 'No migrations to apply'; then
+        echo -e "${GREEN}Database migrations retained correctly.${RESET}"
+    else
+        echo -e "${RED}Database migrations not retained, data only container not working correctly!${RESET}"
     fi
 }
 
