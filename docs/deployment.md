@@ -20,7 +20,7 @@ To deploy to production server:
       -v "/var/run/docker.sock:/var/run/docker.sock" \
       -e "COMPOSE_PROJECT_NAME=osmaxx" \
       --rm \
-      "dduportal/docker-compose:1.2.0" build
+      "dduportal/docker-compose:1.2.0" build --no-cache
   ```
 5. Run migrations and add create super user, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
   For docker-compose container run:
