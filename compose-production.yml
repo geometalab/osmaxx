@@ -1,4 +1,4 @@
-osmaxxshareddata:
+shareddata:
   image: buildpack-deps:jessie
   command: /bin/true
   volumes:
@@ -6,65 +6,64 @@ osmaxxshareddata:
     - /database/data
   net: "none"
 
-# TODO: this file is only a placeholder for now!
-osmaxxwebapp:
+webapp:
   extends:
     file: compose-common.yml
-    service: osmaxxbase
+    service: base
   ports:
     - "8000:8000"
   volumes_from:
-    - osmaxxshareddata
+    - shareddata
   command: honcho start -f Procfile.django
   links:
-    - osmaxxrabbitmq:rabbit
-    - osmaxxdatabase
-    - osmaxxemail
-    - osmaxxcelery
+    - rabbitmq:rabbit
+    - database
+    - email
+    - celery
   environment:
     - APP_PORT=8000
     - APP_HOST=0.0.0.0
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabase/postgres
+    - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
     - DJANGO_EMAIL_USE_TLS=false
-    - DJANGO_EMAIL_HOST=osmaxxemail
+    - DJANGO_EMAIL_HOST=email
     - DJANGO_EMAIL_HOST_PASSWORD=osmaxx
     - DJANGO_EMAIL_HOST_USERNAME=osmaxx
     - DJANGO_EMAIL_PORT=25
 
-osmaxxrabbitmq:
+rabbitmq:
   extends:
     file: compose-common.yml
-    service: osmaxxrabbitmqbase
+    service: rabbitmqbase
 
-osmaxxcelery:
+celery:
   extends:
     file: compose-common.yml
-    service: osmaxxbase
+    service: base
   volumes_from:
-    - osmaxxshareddata
+    - shareddata
   command: honcho start -f Procfile.celery
   links:
-    - osmaxxrabbitmq:rabbit
-    - osmaxxdatabase
-    - osmaxxemail
+    - rabbitmq:rabbit
+    - database
+    - email
   environment:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabase/postgres
+    - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
 
-osmaxxdatabase:
+database:
   extends:
     file: compose-common.yml
-    service: osmaxxdatabasebase
+    service: databasebase
   volumes_from:
-    - osmaxxshareddata
+    - shareddata
   environment:
     - PGDATA=/database/data
 
-osmaxxemail:
+email:
   image: catatnight/postfix
   environment:
-    - maildomain=osmaxx.hsr.ch
+    - maildomain=.hsr.ch
     - smtp_user=osmaxx:osmaxx
   expose:
     - 25

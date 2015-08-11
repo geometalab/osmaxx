@@ -1,4 +1,4 @@
-osmaxxshareddatadev:
+shareddatadev:
   image: buildpack-deps:jessie
   command: /bin/true
   volumes:
@@ -10,66 +10,66 @@ osmaxxshareddatadev:
     - /database/data
   net: "none"
 
-osmaxxsourcedev:
+sourcedev:
   build: docker/volume-mount
   volumes:
     - osmaxx-py:/home/osmaxx/source
     - ~/.cache/pip:/home/osmaxx/.cache/pip
 
-osmaxxwebappdev:
+webappdev:
   extends:
     file: compose-common.yml
-    service: osmaxxbase
+    service: base
   command: honcho start -f Procfile.django.dev
   ports:
     - "8000:8000"
   expose:
     - "8000"
   volumes_from:
-    - osmaxxsourcedev
-    - osmaxxshareddatadev
+    - sourcedev
+    - shareddatadev
   links:
-    - osmaxxrabbitmqdev:rabbit
-    - osmaxxdatabasedev
-    - osmaxxemaildev
-    - osmaxxcelerydev
+    - rabbitmqdev:rabbit
+    - databasedev
+    - emaildev
+    - celerydev
   environment:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabasedev/postgres
+    - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
     - DJANGO_DEBUG=true
 
-osmaxxrabbitmqdev:
+rabbitmqdev:
   extends:
     file: compose-common.yml
-    service: osmaxxrabbitmqbase
+    service: rabbitmqbase
 
-osmaxxcelerydev:
+celerydev:
   extends:
     file: compose-common.yml
-    service: osmaxxbase
+    service: base
   command: honcho start -f Procfile.celery
   volumes_from:
-    - osmaxxsourcedev
-    - osmaxxshareddatadev
+    - sourcedev
+    - shareddatadev
   links:
-    - osmaxxrabbitmqdev:rabbit
-    - osmaxxdatabasedev
-    - osmaxxemaildev
+    - rabbitmqdev:rabbit
+    - databasedev
+    - emaildev
   environment:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@osmaxxdatabasedev/postgres
+    - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
     - DJANGO_DEBUG=true
 
-osmaxxdatabasedev:
+databasedev:
   extends:
     file: compose-common.yml
-    service: osmaxxdatabasebase
+    service: databasebase
   volumes_from:
-    - osmaxxshareddatadev
+    - shareddatadev
   environment:
     - PGDATA=/database/data
 
-osmaxxemaildev:
+emaildev:
   image: python:3
   ports:
     - 1025:1025
