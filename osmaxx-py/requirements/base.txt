@@ -6,8 +6,8 @@ django-secure==1.0.1
 django-stored-messages==1.3.0
 
 psycopg2==2.6.1
-python-social-auth==0.2.11
-whitenoise==2.0.1
+python-social-auth==0.2.12
+whitenoise==2.0.2
 
 # WSGI Handler
 # needed for production and docker images
