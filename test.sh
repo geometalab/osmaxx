@@ -13,13 +13,13 @@ if [[ $(ls -l docker-compose.yml) == *"production.yml"* ]]; then
     echo -e "${MAGENTA}"
     echo -e "=== Production mode ==="
     echo -e "${RESET}"
-    WEBAPP_CONTAINER="osmaxxwebapp"
-    CELERY_CONTAINER="osmaxxcelery"
+    WEBAPP_CONTAINER="webapp"
+    CELERY_CONTAINER="celery"
 else
     echo -e "${MAGENTA}=== Develpment mode ==="
     echo -e "${RESET}"
-    WEBAPP_CONTAINER="osmaxxwebappdev"
-    CELERY_CONTAINER="osmaxxcelerydev"
+    WEBAPP_CONTAINER="webappdev"
+    CELERY_CONTAINER="celerydev"
 fi
 
 
