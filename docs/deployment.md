@@ -11,32 +11,32 @@ To deploy to production server:
   Repository details see [Project repository](git-repository.md).
 2. Link production configuration for docker-compose, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
 3. Add target specific environment variables to compose-production.yml
-4. Build the containers.
+  * If you are using an nginx proxy (jwilder/nginx-proxy), you need to set the environment variable
+    `VIRTUAL_HOST=osmaxx.yourdomain.tld`
+4. Build the containers. Use docker-compose container instead of native installation:
 
+  a. Create the docker-compose container:
   ```shell
-  docker-compose build --no-cache
-  ```
-  
-  If there is **no docker-compose installed** on the target system, use a docker-compose container:
-
-  ```shell
-  docker run \
+  docker create \
+      --name osmaxx-starter
       -v "/path/to/source/repo:/app" \
       -v "/var/run/docker.sock:/var/run/docker.sock" \
       -e "COMPOSE_PROJECT_NAME=osmaxx" \
-      --rm \
-      "dduportal/docker-compose:1.2.0" build --no-cache
+      "dduportal/docker-compose:1.2.0"
   ```
+  
+  b. Build osmaxx containers:
+  
+  ```shell
+  docker start osmaxx-starter build --no-cache
+  ```
+  
 5. Run migrations and add create super user, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
   For docker-compose container run:
 
   ```shell
-  docker run \
-      -v "/path/to/source/repo:/app" \
-      -v "/var/run/docker.sock:/var/run/docker.sock" \
-      -e "COMPOSE_PROJECT_NAME=osmaxx" \
-      --rm -ti \
-      "dduportal/docker-compose:1.2.0" run osmaxxwebapp /bin/bash -c "python3 manage.py migrate && python3 manage.py createsuperuser"
+  docker exec osmaxx-starter /usr/local/bin/docker-compose \
+    run webapp /bin/bash -c "python3 manage.py migrate && python3 manage.py createsuperuser"
   ```
 6. Load data container content from old container if there is one, Details see [Useful Docker commands](project-development-environment.md#useful-docker-commands).
 7. Load database container content from old container if there is one, Details see [Useful Docker commands](project-development-environment.md#useful-docker-commands).
@@ -44,15 +44,23 @@ To deploy to production server:
   E.g. /etc/systemd/system/osmaxx.service:
 
   ```shell
+
   [Unit]
   Description=Start osmaxx application
-  
+
   [Service]
-  ExecStart=/usr/bin/docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.2.0" up -d
-  ExecStop=/usr/bin/docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.2.0" stop
+  ExecStart=/usr/bin/docker start -a osmaxx-starter
+  ExecStop=/usr/bin/docker exec osmaxx-starter /usr/local/bin/docker-compose stop --timeout 60
+  ExecStop=/usr/bin/docker kill --signal=INT osmaxx-starter
+  ExecStop=/usr/bin/docker stop -t 10 osmaxx-starter
   Restart=always
-  
+
   [Install]
   WantedBy=multi-user.target
   ```
+  **important**: osmax-starter container needs to be created before!
+  
 9. Start the containers
+  ```shell
+  sudo systemctl start docker-osmaxx.service
+  ```
