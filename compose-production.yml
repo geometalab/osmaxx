@@ -4,7 +4,6 @@ shareddata:
   volumes:
     - /data
 
-# TODO: this file is only a placeholder for now!
 webapp:
   extends:
     file: compose-common.yml
