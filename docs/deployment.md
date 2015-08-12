@@ -35,7 +35,7 @@ To deploy to production server:
   For docker-compose container run:
 
   ```shell
-  docker exec osmaxx-starter /usr/local/bin/docker-compose \
+  docker exec -ti osmaxx-starter /usr/local/bin/docker-compose \
     run webapp /bin/bash -c "python3 manage.py migrate && python3 manage.py createsuperuser"
   ```
 6. Load data container content from old container if there is one, Details see [Useful Docker commands](project-development-environment.md#useful-docker-commands).
