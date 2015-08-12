@@ -3,6 +3,8 @@ shareddata:
   command: /bin/true
   volumes:
     - /data
+    - /database/data
+  net: "none"
 
 webapp:
   extends:
@@ -53,6 +55,10 @@ database:
   extends:
     file: compose-common.yml
     service: databasebase
+  volumes_from:
+    - shareddata
+  environment:
+    - PGDATA=/database/data
 
 email:
   image: catatnight/postfix

@@ -72,3 +72,4 @@ docker-compose.yml
 osmaxx-py/src/
 # ignore environment file for local production environment
 .env
+*.log

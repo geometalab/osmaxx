@@ -6,6 +6,9 @@ shareddatadev:
     # the parent directory should be mounted, not the directories itself
     # otherwise we get OSError: Device or resource busy
     - /data
+    # database
+    - /database/data
+  net: "none"
 
 sourcedev:
   build: docker/volume-mount
@@ -61,6 +64,10 @@ databasedev:
   extends:
     file: compose-common.yml
     service: databasebase
+  volumes_from:
+    - shareddatadev
+  environment:
+    - PGDATA=/database/data
 
 emaildev:
   image: python:3
