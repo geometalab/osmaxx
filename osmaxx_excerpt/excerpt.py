@@ -1,3 +1,4 @@
+__author__ = 'dhruv'
 import time, subprocess, os, argparse
 import math
 path = os.path.dirname(os.path.realpath(__file__))
@@ -22,7 +23,12 @@ def get_statistics(data, name):
     statcmd = 'bash', './extract/extract_statistics', data[0], data[1], data[2], data[3], name
     subprocess.check_call(statcmd)
 
+def call_db(data, name, form):
+    get_statistics(data, name)
+    dbcmd = 'sh', './extract/extract_db.sh', data[0], data[1], data[2], data[3], name, form
+    subprocess.check_call(dbcmd)
 
+#ignore for now
 def call_fgdb(data, name):
     get_statistics(data, name)
     gdbcmd = 'sh', './extract/extract_fgdb.sh', data[0], data[1], data[2], data[3], name
@@ -79,19 +85,22 @@ if __name__ == '__main__':
     args = parser.parse_args()
     min_xy=to_mercator(args.xmin, args.ymin)
     max_xy=to_mercator(args.xmax, args.ymax)
-    if args.format == 'fgdb':
-    	name=name_generator()
-    	call_fgdb([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
-    	print name+' have been completed in FileGDB format'
-    elif args.format == 'shp':
-    	name=name_generator()
-    	call_shp([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
-    	print name+' have been completed in ESRI Shapefile format'
-    elif args.format == 'gpkg':
-    	name=name_generator()
-    	call_gpkg([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
-    	print name+' have been completed in GPKG format'
-    elif args.format == 'spatialite':
-    	name=name_generator()
-    	call_spatialite([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
-    	print name+' have been completed in Spatialite format'
+    name=name_generator()
+    call_db([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name, args.format)
+    print name+ 'have been completed in '+args.format+' format.'
+#    if args.format == 'fgdb':
+#   	name=name_generator()
+#    	call_fgdb([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
+#    	print name+' have been completed in FileGDB format'
+#    elif args.format == 'shp':
+#    	name=name_generator()
+#    	call_shp([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
+#    	print name+' have been completed in ESRI Shapefile format'
+#    elif args.format == 'gpkg':
+#    	name=name_generator()
+#    	call_gpkg([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
+#    	print name+' have been completed in GPKG format'
+#    elif args.format == 'spatialite':
+#    	name=name_generator()
+#    	call_spatialite([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name)
+#    	print name+' have been completed in Spatialite format'
