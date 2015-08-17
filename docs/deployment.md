@@ -60,7 +60,12 @@ To deploy to production server:
   ```
   **important**: osmax-starter container needs to be created before!
   
-9. Start the containers
+9. Enable startup service  
+  ```shell
+  sudo systemctl enable docker-osmaxx.service
+  ```
+  
+10. Start the containers
   ```shell
   sudo systemctl start docker-osmaxx.service
   ```
