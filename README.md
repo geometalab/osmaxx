@@ -48,20 +48,20 @@ Then initiate the project defaults by running the following command:
 
 ```shell
 # For development:
-docker-compose run osmaxxwebappdev /bin/bash -c 'python3 manage.py migrate && python3 manage.py createsuperuser'
+docker-compose run webappdev /bin/bash -c 'python3 manage.py migrate && python3 manage.py createsuperuser'
 
 # For production:
-docker-compose run osmaxxwebapp /bin/bash -c 'python3 manage.py migrate && python3 manage.py createsuperuser'
+docker-compose run webapp /bin/bash -c 'python3 manage.py migrate && python3 manage.py createsuperuser'
 ```
 
 Alternative to this command, bootstrap the container and execute the commands inside the container by hand:
 
 ```shell
 # For development:
-docker-compose run osmaxxwebappdev /bin/bash
+docker-compose run webappdev /bin/bash
 
 # For production:
-docker-compose run osmaxxwebapp /bin/bash
+docker-compose run webapp /bin/bash
 ```
 
 Inside the container:
