@@ -5,9 +5,9 @@ YMIN=$2
 XMAX=$3
 YMAX=$4
 CRS=900913
+mkdir -p `pwd`/tmp
 FILE=`pwd`/tmp/$5'_STATISTICS.csv'
 echo 'Calculating Statistics...'
-rm TEMP.txt
 if [ -f $FILE ]; then
 rm $FILE
 fi

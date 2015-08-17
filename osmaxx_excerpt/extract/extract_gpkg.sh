@@ -22,15 +22,21 @@ else
 	fi
 
 	echo "starting "$FILENAME
-	ogr2ogr -f GPKG ./data/$FILENAME.gpkg PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" -clipsrc $XMIN $YMIN $XMAX $YMAX
+	mkdir -p $DIR/data
+	ogr2ogr -f GPKG $DIR/data/$FILENAME.gpkg PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" -clipsrc $XMIN $YMIN $XMAX $YMAX
 	echo $FILENAME" have been Generated.. Zipping files"
+
+	cd $DIR
 	zip -r --move $DIR/data/$FILENAME.zip ./data/$FILENAME.gpkg
-	cd $DIR/tmp
-        zip -g  $DIR/data/$FILENAME.zip ./README.txt
+
+	cd $DIR/static
+        zip -g $DIR/data/$FILENAME.zip ./README.txt
         zip -g $DIR/data/$FILENAME.zip ./LICENCE.txt
         zip -g $DIR/data/$FILENAME.zip ./METADATA.txt
-        zip -g --move $DIR/data/$FILENAME.zip ./$FILENAME'_STATISTICS.csv'
 	zip -r $DIR/data/$FILENAME.zip ./doc
+
+	cd $DIR/tmp
+        zip -g --move $DIR/data/$FILENAME.zip ./$FILENAME'_STATISTICS.csv'
+
 	echo "Zip done! Exiting...."
-	cd $DIR
 fi

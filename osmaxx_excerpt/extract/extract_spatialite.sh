@@ -22,15 +22,21 @@ else
 	fi
 
 	echo "starting "$FILENAME
-	ogr2ogr -f SQLite ./data/$FILENAME.sqlite PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" -clipsrc $XMIN $YMIN $XMAX $YMAX -dsco "SPATIALITE=YES" -nlt GEOMETRY 
+	mkdir -p $DIR/data
+	ogr2ogr -f SQLite $DIR/data/$FILENAME.sqlite PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" -clipsrc $XMIN $YMIN $XMAX $YMAX -dsco "SPATIALITE=YES" -nlt GEOMETRY 
 	echo $FILENAME" have been Generated.. Zipping files"
+
+	cd $DIR
 	zip -r --move $DIR/data/$FILENAME.zip ./data/$FILENAME.sqlite
-	cd $DIR/tmp
-        zip -g  $DIR/data/$FILENAME.zip ./README.txt
+
+	cd $DIR/static
+        zip -g $DIR/data/$FILENAME.zip ./README.txt
         zip -g $DIR/data/$FILENAME.zip ./LICENCE.txt
         zip -g $DIR/data/$FILENAME.zip ./METADATA.txt
-        zip -g --move $DIR/data/$FILENAME.zip ./$FILENAME'_STATISTICS.csv'
 	zip -r $DIR/data/$FILENAME.zip ./doc
+
+	cd $DIR/tmp
+        zip -g --move $DIR/data/$FILENAME.zip ./$FILENAME'_STATISTICS.csv'
+
 	echo "Zip done! Exiting...."
-	cd $DIR
 fi
