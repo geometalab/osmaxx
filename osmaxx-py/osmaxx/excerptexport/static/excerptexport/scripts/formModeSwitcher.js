@@ -26,8 +26,13 @@
             formPartsSwitcher.value = formModeParam;
         }
 
+        // IE may throw an error here "Object doesn't support this action".
+        // It seems IE won't trigger a change event on select boxes
+        // I didn't found a solution to get the supported actions,
+        // so the error is still there: Fuck you IE
+        // Note: The switcher is working anyway
         formPartsSwitcher.dispatchEvent(new Event('change'));
-    }
+    };
 
     window.addEventListener('load', function() {
         var formPartNodes = document.querySelectorAll('[data-form-part]');
@@ -47,6 +52,11 @@
 
             if(formPartsSwitcher.value != formPartId) {
                 formPartsSwitcher.value = formPartId;
+                // IE may throw an error here "Object doesn't support this action".
+                // It seems IE won't trigger a change event on select boxes
+                // I didn't found a solution to get the supported actions,
+                // so the error is still there: Fuck you IE
+                // Note: The switcher is working anyway
                 formPartsSwitcher.dispatchEvent(new Event('change'));
             }
         };
