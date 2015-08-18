@@ -15,12 +15,12 @@ with tempfile.TemporaryDirectory() as tmp_dir:
             os.path.join(tmp_dir, 'docker-compose.yml')
         )
         os.chdir(tmp_dir)
-        subprocess.check_call("docker-compose build", shell=True)
-        subprocess.check_call("docker-compose run bootstrap sleep 10", shell=True)
-        subprocess.check_call("docker-compose run bootstrap sh main-bootstrap.sh 8.775449276 47.1892350573 8.8901920319 47.2413633153", shell=True)
-        subprocess.check_call("docker-compose run excerpt python excerpt.py 8.775449276 47.1892350573 8.8901920319 47.2413633153 -f spatialite", shell=True)
-        subprocess.check_call("docker-compose stop --timeout 0", shell=True)
-        subprocess.check_call("docker-compose rm -f", shell=True)
+        subprocess.check_call("docker-compose build".split(' '))
+        subprocess.check_call("docker-compose run bootstrap sleep 10".split(' '))
+        subprocess.check_call("docker-compose run bootstrap sh main-bootstrap.sh 8.775449276 47.1892350573 8.8901920319 47.2413633153".split(' '))
+        subprocess.check_call("docker-compose run excerpt python excerpt.py 8.775449276 47.1892350573 8.8901920319 47.2413633153 -f spatialite".split(' '))
+        subprocess.check_call("docker-compose stop --timeout 0".split(' '))
+        subprocess.check_call("docker-compose rm -f".split(' '))
     except:
         # inform_user()
         raise
