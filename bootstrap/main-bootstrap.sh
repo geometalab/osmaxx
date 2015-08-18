@@ -58,9 +58,10 @@ init_osmosis() {
 fill_initial_osm_data(){
 echo "*** fill initial OSM data ***"
     wget -nc -q --progress=bar http://download.geofabrik.de/europe/switzerland-latest.osm.pbf -O  $WORKDIR_OSM/switzerland-latest.osm.pbf
+    osmconvert $WORKDIR_OSM/switzerland-latest.osm.pbf -b=${WEST},${SOUTH},${EAST},${NORTH} -o=$WORKDIR_OSM/excerpt.osm.pbf
     osm2pgsql --slim --create --extra-attributes --database $DB_NAME \
         --prefix osm --style $DIR/src/terminal.style --tag-transform-script $DIR/src/style.lua\
-        --number-processes 8 --username postgres --hstore-all --input-reader pbf $WORKDIR_OSM/switzerland-latest.osm.pbf
+        --number-processes 8 --username postgres --hstore-all --input-reader pbf $WORKDIR_OSM/excerpt.osm.pbf
 }
 
 # http://petereisentraut.blogspot.ch/2010/03/running-sql-scripts-with-psql.html
@@ -81,6 +82,12 @@ filterdata(){
 }
 
 STARTTIME=$(date +%s)
+
+WEST=${1}
+SOUTH=${2}
+EAST=${3}
+NORTH=${4}
+
 # setup_db && init_osmosis  && fill_initial_osm_data  && cleandata && filterdata
 setup_db && init_osmosis  && fill_initial_osm_data && createfunctions && cleandata && filterdata
 # filterdata
