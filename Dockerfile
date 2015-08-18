@@ -1,9 +1,14 @@
 FROM geometalab/python3-gis
 
 ENV USER osmaxx
-# ENV USERID 1000
-# ENV GROUPID 1000
-# RUN groupadd -g $GROUPID $USER && useradd -g $USERID --create-home --home-dir /home/$USER -g $USER $USER
+
+ENV COMPOSE_VERSION 1.3.1
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update -q \
+	&& DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends curl ca-certificates \
+	&& curl -o /usr/local/bin/docker-compose -L \
+		"https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-Linux-x86_64" \
+	&& chmod +x /usr/local/bin/docker-compose
 
 ENV HOME /home/$USER
 
