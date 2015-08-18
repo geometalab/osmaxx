@@ -99,3 +99,17 @@ LINE 1: ..."django_site"."domain", "django_site"."name" FROM "django_si...
 ```
 
 You forgot to **run the migrations**
+
+
+#### Tests failed, but worked before with no apparent change
+
+Do not run `docker-compose build --no-cache`. Use `docker-compose rm -f && docker-compose build`, or
+if you really want to start clean, remove all docker containers
+
+`docker rm -f $(docker ps -q)`
+
+and remove all images
+
+`docker rmi -f $(docker images -q)`
+
+*WARNING*: This removes all containers/images on the machine.
