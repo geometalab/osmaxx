@@ -6,7 +6,7 @@ import tempfile
 
 
 with tempfile.TemporaryDirectory() as tmp_dir:
-    original_curdir = os.path.curdir
+    original_cwd = os.getcwd()
 
     try:
         print(tmp_dir)
@@ -25,4 +25,4 @@ with tempfile.TemporaryDirectory() as tmp_dir:
         # inform_user()
         raise
     finally:
-        os.chdir(original_curdir)
+        os.chdir(original_cwd)
