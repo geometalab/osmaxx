@@ -48,6 +48,8 @@ celerydev:
     file: compose-common.yml
     service: base
   command: honcho start -f Procfile.celery
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
   volumes_from:
     - sourcedev
     - shareddatadev
