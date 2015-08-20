@@ -2,12 +2,12 @@ import time, subprocess, os, argparse
 import math
 path = os.path.dirname(os.path.realpath(__file__))
 
-
+#Creates the name for the file
 def name_generator():
     filename='osmaxx_excerpt_'+time.strftime("%Y-%m-%d")+'_'+time.strftime("%H%M%S")
     return filename
 
-
+#Converts the OSM map projection to mercator projection
 def to_mercator(mercator_x_lon, mercator_y_lat):
     if math.fabs(mercator_x_lon) > 180 or math.fabs(mercator_y_lat) > 90:
         return
@@ -20,12 +20,12 @@ def to_mercator(mercator_x_lon, mercator_y_lat):
                               (1.0 - math.sin(additional)))
     return [mercator_x_lon, mercator_y_lat]
 
-
+#Extract Statistics
 def get_statistics(data, name):
     statcmd = 'bash', './extract/extract_statistics', data[0], data[1], data[2], data[3], name
     subprocess.check_call(statcmd)
 
-
+#Call the shell script that creates the database in different formats
 def call_db(data, name, form):
     get_statistics(data, name)
     dbcmd = 'sh', './extract/extract_db.sh', data[0], data[1], data[2], data[3], name, form
