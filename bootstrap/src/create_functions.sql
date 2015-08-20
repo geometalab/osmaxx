@@ -77,7 +77,7 @@ with addr_interpolation_line as (
     hstore(tags)->'addr:street' as addr_street,
     way
   from osm_line
-  where (hstore(tags)->'addr:interpolation') in ('even','odd','all') -- TODO: 'alphabetic'
+  where (hstore(tags)->'addr:interpolation') in ('even','odd','all') -- TODO: 'alphabetic' for example 8a, 9b etc. 
 ),
 addr_interpolation_line_nodes as (
   select l.*,

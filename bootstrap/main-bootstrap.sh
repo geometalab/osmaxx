@@ -6,7 +6,7 @@
 # - Initializes osmosis
 # - Fills initial OSM data for Switzerland
 # - Creates necessary indices
-# - Performs a vacuum (really :-))
+# - Performs a vacuum
 # - and creates auxiliary OSM views needed by consumer applications
 
 set -e
@@ -54,6 +54,7 @@ echo "*** fill initial OSM data ***"
 
 # http://petereisentraut.blogspot.ch/2010/03/running-sql-scripts-with-psql.html
 PSQL='psql -v ON_ERROR_STOP=1 -U postgres '
+
 createfunctions(){
   echo 'creating functions...'
   $PSQL -f ./src/create_functions.sql $DB_NAME

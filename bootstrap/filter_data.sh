@@ -57,57 +57,67 @@ if [ "$1" != "" ]; then
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
-  echo 'filtering building..'git 
+  echo 'filtering geoname..' 
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/geoname.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering Places of Worship..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/pow.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering Points of Interest..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/poi.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering Miscellaneous..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/misc.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering Transport POIs..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/transport.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering Railway..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/railway.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering Roads..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/road.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering Routes..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/route.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering Traffic..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/traffic.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering Utility POIs..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/utility.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering Water..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/water.sql $DATABASE
   ENDTIME=$(date +%s)
