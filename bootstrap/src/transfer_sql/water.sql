@@ -21,10 +21,11 @@ INSERT INTO osmaxx.water_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation --
+	 ELSE 'W' 		-- Way --
 	 END AS geomtype,
 	ST_Multi(way) AS geom,
+-- Classifying different Water Bodies --
 	case
 	 when "natural" is not null then "natural"
 	 when leisure is not null then leisure
@@ -32,6 +33,7 @@ INSERT INTO osmaxx.water_a
 	 when waterway in ('riverbank','dam','weir') then waterway
 	 else 'waterway'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -65,8 +67,9 @@ CREATE TABLE osmaxx.water_p(
 INSERT INTO osmaxx.water_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype,
+	'N' AS geomtype,	-- Nodes --
 	way AS geom,
+-- Classifying different Water Bodies --
 	case
 	 when "natural" is not null then "natural"
 	 when leisure is not null then leisure
@@ -74,6 +77,7 @@ INSERT INTO osmaxx.water_p
 	 when waterway in ('riverbank','dam','waterfall','lock_gate','weir') then waterway
 	 else 'waterway'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -88,10 +92,11 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation -- 
+	 ELSE 'W' 		-- Way --
 	 END AS geomtype,
 	ST_Centroid(way) AS geom,
+-- Classifying different Water Bodies --
 	case
 	 when "natural" is not null then "natural"
 	 when leisure is not null then leisure
@@ -99,6 +104,7 @@ UNION
 	 when waterway in ('riverbank','dam','waterfall','lock_gate','weir') then waterway
 	 else 'waterway'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -136,15 +142,17 @@ INSERT INTO osmaxx.water_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation -- 
+	 ELSE 'W' 		-- Way --
 	 END AS geomtype,
 	ST_Multi(way) AS geom,
+-- Classifying different Water Bodies --
 	case
 	 when waterway in ('river','stream','canal','drain') then waterway
 	 when man_made is not null then man_made
 	 else 'waterway'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -156,14 +164,17 @@ INSERT INTO osmaxx.water_l
 	case 
 	 when width is not null then cast(nullif(width,'') as float)
 	end as width,
-		case
+-- Checks for Bridges --
+	case
 	when bridge in ('yes') then TRUE
 	else FALSE
 	end as bridge,
+-- Checks for Tunnels --
 	case
 	when tunnel in ('yes') then TRUE
 	else FALSE
 	end as tunnel
+
  	FROM osm_line
  	WHERE waterway is not null or man_made in ('pier');
 

@@ -22,10 +22,11 @@ INSERT INTO osmaxx.transport_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation --
+	 ELSE 'W' 		-- Way --
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,  
+-- Combining Tags for different kinds of Transport POIs --
 	case
 	 when railway='station'  or railway='halt' or (public_transport='stop_position' and train='yes') then 'railway'
 	 when railway='tram_stop' or (public_transport='stop_position' and tram='yes') then 'tram'
@@ -54,6 +55,7 @@ INSERT INTO osmaxx.transport_a
 	 when aerialway is not null then 'aerialway'
 	 else 'others'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -93,8 +95,9 @@ CREATE TABLE osmaxx.transport_p(
 INSERT INTO osmaxx.transport_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype, -- Nodes --
 	way AS geom,
+-- Combining Tags for different kinds of Transport POIs --
 	case
 	 when railway='station'  or railway='halt' or (public_transport='stop_position' and train='yes') then 'railway'
 	 when railway='tram_stop' or (public_transport='stop_position' and tram='yes') then 'tram'
@@ -123,6 +126,7 @@ INSERT INTO osmaxx.transport_p
 	 when aerialway is not null then 'aerialway'
 	 else 'others'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -142,10 +146,11 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation --	
+	 ELSE 'W' 		-- Way --
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,  
+-- Combining Tags for different kinds of Transport POIs --
 	case
 	 when railway='station'  or railway='halt' or (public_transport='stop_position' and train='yes') then 'railway'
 	 when railway='tram_stop' or (public_transport='stop_position' and tram='yes') then 'tram'
