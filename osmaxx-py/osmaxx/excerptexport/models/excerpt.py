@@ -9,7 +9,15 @@ class Excerpt(models.Model):
     is_active = models.BooleanField(default=True, verbose_name=_('is active'))
 
     owner = models.ForeignKey(User, related_name='excerpts', verbose_name=_('owner'))
-    bounding_geometry = models.OneToOneField('BoundingGeometry', verbose_name=_('bounding geometry'))
+    _bounding_geometry = models.OneToOneField('BoundingGeometry', verbose_name=_('bounding geometry'))
+
+    @property
+    def bounding_geometry(self):
+        return self._bounding_geometry.geometry_instance
+
+    @bounding_geometry.setter
+    def bounding_geometry(self, bounding_geometry):
+        self._bounding_geometry = bounding_geometry
 
     def __str__(self):
         return self.name

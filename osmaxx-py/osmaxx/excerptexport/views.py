@@ -29,9 +29,9 @@ private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
 class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, View):
     def get(self, request, excerpt_form_initial_data=None):
         active_excerpts = Excerpt.objects.filter(is_active=True)
-        active_bbox_excerpts = active_excerpts.filter(bounding_geometry__bboxboundinggeometry__isnull=False)
+        active_bbox_excerpts = active_excerpts.filter(_bounding_geometry__bboxboundinggeometry__isnull=False)
         active_file_excerpts = active_excerpts.filter(
-            bounding_geometry__osmosispolygonfilterboundinggeometry__isnull=False)
+            _bounding_geometry__osmosispolygonfilterboundinggeometry__isnull=False)
         view_model = {
             'user': request.user,
             'export_options_form': ExportOptionsForm(ConverterManager.converter_configuration(), auto_id='%s'),

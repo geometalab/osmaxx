@@ -1,56 +1,111 @@
-/**
- * @author Raphael Das Gupta
- */
-var map = L.map('map').setView([0, 0], 2);
-// add an OpenStreetMap tile layer
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+(function(){
+    var ExcerptManager = function(locationFilter, inputElementsNewBoundingBox, selectElementExistingExcerpts, formElementPartsSwitcher) {
+        this.locationFilter = locationFilter;
+        this.inputElementsNewBoundingBox = inputElementsNewBoundingBox;
+        this.selectElementExistingExcerpts = selectElementExistingExcerpts;
+        this.formElementPartsSwitcher = formElementPartsSwitcher;
 
 
-var inputElementNorth = document.getElementById('new_excerpt_bounding_box_north');
-var inputElementWest = document.getElementById('new_excerpt_bounding_box_west');
-var inputElementEast = document.getElementById('new_excerpt_bounding_box_east');
-var inputElementSouth = document.getElementById('new_excerpt_bounding_box_south');
+        /**
+         * Synchronize coordinates in input fields to excerpt on map
+         */
+        this.updateInputElementsBoundingBox = function() {
+            var locationFilterBounds = this.locationFilter.getBounds();
+            this.inputElementsNewBoundingBox.inputElementNorth.value = locationFilterBounds._northEast.lat;
+            this.inputElementsNewBoundingBox.inputElementWest.value = locationFilterBounds._southWest.lng;
+            this.inputElementsNewBoundingBox.inputElementEast.value = locationFilterBounds._northEast.lng;
+            this.inputElementsNewBoundingBox.inputElementSouth.value = locationFilterBounds._southWest.lat;
+        };
+
+        /**
+         * Synchronize excerpt on map to coordinates in input fields
+         */
+        this.updateMapExcerpt = function() {
+            var locationFilterBounds = this.locationFilter.getBounds();
+            locationFilterBounds._northEast.lat = this.inputElementsNewBoundingBox.inputElementNorth.value;
+            locationFilterBounds._southWest.lng = this.inputElementsNewBoundingBox.inputElementWest.value;
+            locationFilterBounds._northEast.lng = this.inputElementsNewBoundingBox.inputElementEast.value;
+            locationFilterBounds._southWest.lat = this.inputElementsNewBoundingBox.inputElementSouth.value;
+            this.locationFilter.setBounds(locationFilterBounds);
+        };
+
+        /**
+         * if the shown excerpt on the map changes and the change was not made by selecting an existing excerpt in the list
+         * -> a user changed the excerpt, so change the form part to 'new-excerpt'
+         */
+        this.userChangeExcerptOnMapShowNewExcerptPart = function() {
+            var locationFilterBounds = this.locationFilter.getBounds();
+            var select = this.selectElementExistingExcerpts;
+            if(!(selectElementExistingExcerpts.value != "" &&
+                    select.querySelector('option[value="'+select.value+'"]').getAttribute('data-north') == locationFilterBounds._northEast.lat &&
+                    select.querySelector('option[value="'+select.value+'"]').getAttribute('data-west') == locationFilterBounds._southWest.lng &&
+                    select.querySelector('option[value="'+select.value+'"]').getAttribute('data-east') == locationFilterBounds._northEast.lng &&
+                    select.querySelector('option[value="'+select.value+'"]').getAttribute('data-south') == locationFilterBounds._southWest.lat)) {
+                this.formElementPartsSwitcher.value = 'new-excerpt';
+                this.formElementPartsSwitcher.dispatchEvent(new Event('change'));
+            }
+        };
 
 
-var locationFilter = new L.LocationFilter({
-    enable: true,
-    enableButton: false
-}).addTo(map);
+        // update coordinates input elements on change of excerpt on map
+        this.locationFilter.on("change", function (event) {
+            this.updateInputElementsBoundingBox();
+            this.userChangeExcerptOnMapShowNewExcerptPart();
+        }.bind(this));
 
-function updateBboxTextInputsWith(bounds) {
-    inputElementNorth.value = bounds._northEast.lat;
-    inputElementWest.value = bounds._southWest.lng;
-    inputElementEast.value = bounds._northEast.lng;
-    inputElementSouth.value = bounds._southWest.lat;
-}
+        // update excerpt on map on change of coordinates input elements
+        Object.keys(this.inputElementsNewBoundingBox).forEach(function(inputElementKey) {
+            this.inputElementsNewBoundingBox[inputElementKey].addEventListener('change', this.updateMapExcerpt.bind(this));
+        }.bind(this));
+
+        // update excerpt on map on selection of existing excerpt in list
+        this.selectElementExistingExcerpts.addEventListener('change', function(event) {
+            var excerptOption = event.explicitOriginalTarget;
+            if(excerptOption.getAttribute('data-geometry') == 'boundingbox') {
+                var bounds = this.locationFilter.getBounds();
+                bounds._northEast.lat = excerptOption.getAttribute('data-north');
+                bounds._southWest.lng = excerptOption.getAttribute('data-west');
+                bounds._northEast.lng = excerptOption.getAttribute('data-east');
+                bounds._southWest.lat = excerptOption.getAttribute('data-south');
+                this.locationFilter.setBounds(bounds);
+                // enable excerpt on map for case it was disable before (e.g. by clicking on a not-boundingbox excerpt in the list)
+                this.locationFilter.enable();
+            } else {
+                // no existing excerpt of type boundingbox -> disable excerpt because we are not able to show not-boundingbox excerpts on map
+                this.locationFilter.disable();
+            }
+        }.bind(this));
+
+        // enable excerpt on map on change of form mode (existing excerpt or new excerpt)
+        this.formElementPartsSwitcher.addEventListener('change', function(event) {
+            this.locationFilter.enable();
+        }.bind(this));
+    };
 
 
-// push initial values to text inputs
-updateBboxTextInputsWith(locationFilter.getBounds());
+    var map = map = L.map('map').setView([0, 0], 2);
+        // add an OpenStreetMap tile layer
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-// update text input values upon change on map
-locationFilter.on("change", function (e) {
-    console.log(locationFilter);
-    console.log(locationFilter.getBounds());
-    updateBboxTextInputsWith(e.bounds);
-});
+        var locationFilter = new L.LocationFilter({
+            enable: true,
+            enableButton: false
+        }).addTo(map);
 
+    var excerptManager = new ExcerptManager(
+        locationFilter,
+        {
+            inputElementNorth: document.getElementById('new_excerpt_bounding_box_north'),
+            inputElementWest: document.getElementById('new_excerpt_bounding_box_west'),
+            inputElementEast: document.getElementById('new_excerpt_bounding_box_east'),
+            inputElementSouth: document.getElementById('new_excerpt_bounding_box_south')
+        },
+        document.getElementById('existing_excerpt.id'),
+        document.getElementById('form-mode')
+    );
 
-/**
- * update map on coordinate input field change
- */
-function updateMapBoundingBox() {
-    var bounds = locationFilter.getBounds();
-    bounds._northEast.lat = inputElementNorth.value;
-    bounds._southWest.lng = inputElementWest.value;
-    bounds._northEast.lng = inputElementEast.value;
-    bounds._southWest.lat = inputElementSouth.value;
-    locationFilter.setBounds(bounds);
-}
-
-inputElementNorth.addEventListener('change', updateMapBoundingBox);
-inputElementWest.addEventListener('change', updateMapBoundingBox);
-inputElementEast.addEventListener('change', updateMapBoundingBox);
-inputElementSouth.addEventListener('change', updateMapBoundingBox);
+    // push initial values to text inputs
+    excerptManager.updateInputElementsBoundingBox();
+})();
