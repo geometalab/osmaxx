@@ -2,7 +2,7 @@ FROM geometalab/python3-gis
 
 ENV USER osmaxx
 
-ENV COMPOSE_VERSION 1.3.1
+ENV COMPOSE_VERSION 1.3.3
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -q \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends curl ca-certificates \
