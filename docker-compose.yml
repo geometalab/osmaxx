@@ -1,18 +1,18 @@
-script:
+bootstrap:
   build: bootstrap/
   links:
-    - db
+    - database
   environment:
-    - PGHOST=db
+    - PGHOST=database
   volumes:
     - tmp/osmosis/:/tmp/osmosis/
-excerpt:
-  build: osmaxx_excerpt/
+extract:
+  build: extract/
   links:
-    - db
+    - database
   environment:
-    - PGHOST=db
+    - PGHOST=database
   volumes:
     - results:/home/excerpt/data/
-db:
+database:
   image: geometalab/postgis-with-translit
