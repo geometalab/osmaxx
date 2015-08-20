@@ -17,19 +17,23 @@ CREATE TABLE osmaxx.military_a (
 	label text,
 	tags text
 );
+
+-- Areas --
 INSERT INTO osmaxx.military_a
 SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation --
+	 ELSE 'W' 		-- W=Way --
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,  
+-- Differentiating between the types of AREAS --
 	case 
 	 when military in ('bunker','airfield','barracks','range','checkpoint','naval_base','danger_area') then military
 	 when military='nuclear_explosion_site' then 'nuclear_site' 
 	 else 'military'
 	 end as type, 
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -60,11 +64,13 @@ CREATE TABLE osmaxx.military_p (
 	tags text
 );
 
+-- Nodes--
 INSERT INTO osmaxx.military_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	'N' AS geomtype, 
-	way AS geom,  
+	way AS geom, 
+-- Differentiating between the types of NODES -- 
 	case 
 	 when military in ('bunker','airfield','barracks','range','checkpoint','naval_base','danger_area') then military
 	 when military='nuclear_explosion_site' then 'nuclear_site' 
@@ -80,14 +86,17 @@ INSERT INTO osmaxx.military_p
 	cast(tags as text) as tags
   FROM osm_point
   WHERE military is not null
+-- Address Ways --
 UNION 
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation --
+	 ELSE 'W' 		-- W=Way --
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,  
+
+-- Differentiating between the types of Address Ways --	
 	case 
 	 when military in ('bunker','airfield','barracks','range','checkpoint','naval_base','danger_area') then military
 	 when military='nuclear_explosion_site' then 'nuclear_site' 

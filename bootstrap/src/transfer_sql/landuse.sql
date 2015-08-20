@@ -22,10 +22,12 @@ INSERT INTO osmaxx.landuse_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation --
+	 ELSE 'W' 		-- W=Way --
 	 END AS geomtype, 
-	ST_Multi(way) AS geom,  
+	ST_Multi(way) AS geom, 
+
+-- Differentiating areas depending on tags -- 
 	case 
 	 when landuse in ('allotments','reservoir','basin','grass','commercial','fishfarm','industrial','forest','meadow','military','orchard','plant_nursery','quarry',
 			'residential','retail','vineyard','farmyard','railway','landfill','port','brownfield') then landuse
@@ -35,7 +37,8 @@ INSERT INTO osmaxx.landuse_a
 	 when landuse='recreation_ground' or leisure='recreation_ground' then 'recreation_ground'
 	 when leisure='nature_reserve' then 'nature_reserve'
 	 else 'landuse'
-	 end as type, 
+	 end as type,
+ 
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 

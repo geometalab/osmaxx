@@ -23,10 +23,12 @@ INSERT INTO osmaxx.route_l
 	osm_timestamp as lastchange , 
 	'W' AS geomtype, 
 	ST_Multi(way) AS geom,
+-- Combining different types of routes --
 	case
 	 when route in ('bicycle', 'bus', 'inline_skates', 'canoe', 'detour', 'ferry', 'hiking', 'horse', 'light_rail', 'mtb', 'nordic_walking', 'pipeline', 'piste', 'power', 'railway', 'road', 'running', 'ski', 'train', 'tram') then route
 	 else 'route'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 

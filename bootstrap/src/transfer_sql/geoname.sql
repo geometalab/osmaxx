@@ -26,12 +26,15 @@ INSERT INTO osmaxx.geoname_l
 	 WHEN osm_id<0 THEN 'R' 
 	 ELSE 'W' 
 	 END AS geomtype, 
-	ST_Multi(way) AS geom,  
+	ST_Multi(way) AS geom, 
+-- Checks the data and fills value in case of NULL -- 
 	case 
 	 when place in ('city','town','village' ,'hamlet','suburb','island','farm','isolated_dwelling','locality', 'islet', 'neighbourhood','county','region','state','municiplity') then place
 	 when area='yes' then 'named_place' 
 	 else 'place'
 	 end as type, 
+
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -72,11 +75,13 @@ INSERT INTO osmaxx.geoname_p
 	osm_timestamp as lastchange, 
 	'N' AS geomtype, 
 	way AS geom,  
+-- Checks the data and fills value in case of NULL -- 
 	case 
 	 when place in ('city','town','village' ,'hamlet','suburb','island','farm','isolated_dwelling','locality', 'islet', 'neighbourhood','county','region','state','municipality') then place
 	 when area='yes' then 'named_place' 
 	 else 'place'
 	 end as type, 
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -96,12 +101,15 @@ UNION
 	 WHEN osm_id<0 THEN 'R' 
 	 ELSE 'W' 
 	 END AS geomtype, 
-	ST_Centroid(way) AS geom,  
+	ST_Centroid(way) AS geom,
+
+-- Checks the data and fills value in case of NULL --   
 	case 
 	 when place in ('city','town','village' ,'hamlet','suburb','island','farm','isolated_dwelling','locality', 'islet', 'neighbourhood','county','region','state','municipality') then place
 	 when area='yes' then 'named_place' 
 	 else 'place'
 	 end as type, 
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 

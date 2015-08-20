@@ -22,10 +22,13 @@ INSERT INTO osmaxx.adminarea_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation -- 
+	 ELSE 'W' 		-- W=Way --
 	 END AS geomtype, 
+
 	ST_Multi(way) AS geom,
+
+-- Differentiates between the administrative areas --
 	case 
 	 when boundary='protected_area' then 'protected_area'
 	 when boundary='national_park' then 'national_park'
@@ -36,6 +39,8 @@ INSERT INTO osmaxx.adminarea_a
 		 else 'administrative'
 		end 
 	end as type, 
+
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -71,10 +76,12 @@ INSERT INTO osmaxx.boundary_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation --
+	 ELSE 'W' 		-- W=Way --
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,
+	
+-- Differentiates between the administrative boundaries --
 	case 
 	 when boundary='protected_area' then 'protected_area'
 	 when boundary='national_park' then 'national_park'
@@ -85,6 +92,7 @@ INSERT INTO osmaxx.boundary_l
 		 else 'administrative'
 		end
 	end as type, 
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 

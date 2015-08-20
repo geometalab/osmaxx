@@ -32,6 +32,7 @@ INSERT INTO osmaxx.pow_a
 	 ELSE 'W' 
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,  
+-- Combining the different tags in Religion --
 	case
 	 when religion in ('buddhist','hindu','jewish','shinto','sikh','taoist','christian','muslim') then religion
 	 else 'place_of_worship'
@@ -98,6 +99,7 @@ INSERT INTO osmaxx.pow_p
 	osm_timestamp as lastchange, 
 	'N' AS geomtype, 
 	way AS geom,
+-- Combining the different tags in Religion --
 	case
 	 when religion in ('buddhist','hindu','jewish','shinto','sikh','taoist','christian','muslim') then religion
 	 else 'place_of_worship'
@@ -140,6 +142,7 @@ UNION
 	 ELSE 'W' 
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,  
+-- Combining the different tags in Religion --
 	case
 	 when religion in ('buddhist','hindu','jewish','shinto','sikh','taoist','christian','muslim') then religion
 	 else 'place_of_worship'
