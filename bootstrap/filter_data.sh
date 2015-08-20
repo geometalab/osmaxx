@@ -129,11 +129,6 @@ if [ "$1" != "" ]; then
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
-  echo 'CREATING STATISTICS'
-  STARTTIME=$(date +%s)
-  bash ./statistics.sh $DATABASE
-  ENDTIME=$(date +%s)
-  echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
 else
   echo 'Enter database name'

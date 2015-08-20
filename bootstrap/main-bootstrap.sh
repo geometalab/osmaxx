@@ -26,7 +26,6 @@ setup_db() {
     createdb   -U postgres $DB_NAME
     execute_sql "CREATE EXTENSION hstore;"
     execute_sql "CREATE EXTENSION postgis;"
-    execute_sql "CREATE EXTENSION postgis_topology;"
 }
 
 perform_vacuum() {
@@ -70,9 +69,17 @@ filterdata(){
   sh filter_data.sh $DB_NAME
 }
 
+
+create_statistics(){
+  echo 'CREATING STATISTICS'
+  STARTTIME=$(date +%s)
+  bash ./statistics.sh $DB_NAME
+  ENDTIME=$(date +%s)
+}
+
 STARTTIME=$(date +%s)
 # setup_db && init_osmosis  && fill_initial_osm_data  && cleandata && filterdata
-setup_db && init_osmosis  && fill_initial_osm_data && createfunctions && cleandata && filterdata
+setup_db && init_osmosis  && fill_initial_osm_data && createfunctions && cleandata && filterdata && create_statistics
 # filterdata
 ENDTIME=$(date +%s)
 echo "It took $(($ENDTIME - $STARTTIME)) seconds to complete..."
