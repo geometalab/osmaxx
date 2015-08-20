@@ -28,7 +28,7 @@ case $FORM in
 'spatialite') 
 	TYPE="SQLite"
 	EXT=".sqlite" 
-	EXTRA='-dsco "SPATIALITE=YES" -nlt GEOMETRY';;
+	EXTRA='-dsco "SPATIALITE=YES" -nlt GEOMETRY';; # TODO: Remove or change -nlt because of geometry reading problems
 esac
 
 echo $FILENAME

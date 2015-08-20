@@ -28,9 +28,9 @@ CREATE TABLE osmaxx.address_p(
 INSERT INTO osmaxx.address_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
-	'N' AS geomtype, 
+	'N' AS geomtype, -- When address is linked to a node -- 
 	way AS geom,
-	'b' AS type,
+	'b' AS type, --When address is linked to a building
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -52,8 +52,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation --
+	 ELSE 'W' 		-- W=Way --
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,
 	'b' AS type,
@@ -81,7 +81,7 @@ where building not in ('entrance') and ("addr:street" is not null or "addr:place
 INSERT INTO osmaxx.address_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
-	'N' AS geomtype, 
+	'N' AS geomtype, 	-- Node --
 	way AS geom,
 	'e' AS type,
 	name as name,

@@ -16,17 +16,6 @@ DIR=$(pwd)
 WORKDIR_OSM=/tmp/osmosis
 # SQL
 
-read_secret()
-{
-    stty_orig=$(stty -g)
-    trap 'stty $stty_orig' EXIT
-    stty -echo
-    read "$@"
-    stty $stty_orig
-    trap - EXIT
-    echo
-}
-
 execute_sql() {
     psql --dbname $DB_NAME -c "$1" -U postgres
 }
@@ -57,7 +46,7 @@ init_osmosis() {
 
 fill_initial_osm_data(){
 echo "*** fill initial OSM data ***"
-    wget -nc -q --progress=bar http://download.geofabrik.de/europe/liechtenstein-latest.osm.pbf -O  $WORKDIR_OSM/switzerland-latest.osm.pbf
+    wget -q --progress=bar http://download.geofabrik.de/asia/malaysia-singapore-brunei-latest.osm.pbf -O $WORKDIR_OSM/switzerland-latest.osm.pbf
     osm2pgsql --slim --create --extra-attributes --database $DB_NAME \
         --prefix osm --style $DIR/src/terminal.style --tag-transform-script $DIR/src/style.lua\
         --number-processes 8 --username postgres --hstore-all --input-reader pbf $WORKDIR_OSM/switzerland-latest.osm.pbf

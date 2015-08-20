@@ -1,4 +1,3 @@
-__author__ = 'dhruv'
 import time, subprocess, os, argparse
 import math
 path = os.path.dirname(os.path.realpath(__file__))
