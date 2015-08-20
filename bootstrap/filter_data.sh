@@ -14,50 +14,50 @@ if [ "$1" != "" ]; then
 
   $PSQL -c "CREATE SCHEMA osmaxx;" $DATABASE
 
-  echo 'filtering..'
+  echo 'filtering address..'
   STARTTIME=$(date +%s)
   mkdir -p tmp  # TODO: Should /dev/null be used instead? Or a non-interactive pager?
   $PSQL -f $DIR/src/transfer_sql/address.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
-  echo 'filtering..'
+  echo 'filtering adminarea_boundary..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/adminarea_boundary.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
-  echo 'filtering..'
-  STARTTIME=$(date +%s)
-  $PSQL -f $DIR/src/transfer_sql/adminarea_boundary.sql $DATABASE
-  ENDTIME=$(date +%s)
-  echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
-
+  echo 'filtering building..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/building.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
-
+  
+  echo 'filtering landuse..'	
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/landuse.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering military..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/military.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering natural..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/natural.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering nonop..'
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/nonop.sql $DATABASE
   ENDTIME=$(date +%s)
   echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
+  echo 'filtering building..'git 
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/transfer_sql/geoname.sql $DATABASE
   ENDTIME=$(date +%s)
