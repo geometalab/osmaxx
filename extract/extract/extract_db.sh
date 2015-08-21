@@ -11,6 +11,7 @@ FILENAME=$5
 FORM=$6
 DIR=`pwd`
 
+#Initialise the variables according to the format requested by the user
 case $FORM in
 
 'fgdb') 
