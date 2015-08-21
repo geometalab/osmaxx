@@ -4,16 +4,21 @@ import subprocess
 import tempfile
 import time
 import sys
-from os import listdir
 
 from celery import shared_task
 
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
+from django.core.files import File
+from django.core.files.storage import FileSystemStorage
 
 from excerptconverter.baseexcerptconverter import BaseExcerptConverter
 
 from osmaxx.excerptexport import models
+
+
+private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
 
 
 class GisExcerptConverter(BaseExcerptConverter):
@@ -89,22 +94,77 @@ class GisExcerptConverter(BaseExcerptConverter):
         :return:
         """
         for export_format_key, export_format_config in GisExcerptConverter.export_formats().items():
+            index = 0
             if export_format_key in execution_configuration['formats']:
+                index += 1
                 extraction_command = "docker-compose run excerpt python excerpt.py %(bbox_args)s -f %(format)s" % {
                     'bbox_args':  bbox_args,
                     'format': export_format_key
                 }
                 subprocess.check_call(extraction_command.split(' '))
 
-                BaseExcerptConverter.inform_user(
-                    extraction_order.orderer,
-                    messages.SUCCESS,
-                    _('The extraction of "%(file_type)s" of order "%(extraction_order)s") was successful.') % {
-                        'file_type': export_format_config['name'],
-                        'extraction_order': extraction_order
-                    },
-                    False
-                )
+                if len(os.listdir(settings.RESULT_MEDIA_ROOT)) > 0:
+                    for result_file_name in os.listdir(settings.RESULT_MEDIA_ROOT):
+                        # gis files are packaged in a zip file
+                        if GisExcerptConverter.create_output_file(extraction_order, result_file_name):
+                            BaseExcerptConverter.inform_user(
+                                extraction_order.orderer,
+                                messages.SUCCESS,
+                                _('Extraction of "%(file_type)s" of extraction order "%(order_id)s" was successful. '
+                                  '(File %(file_index)s of %(number_of_files)s of %(converter_name)s converter)') % {
+                                    'file_type': export_format_config['name'],
+                                    'file_index': index,
+                                    'number_of_files': len(execution_configuration['formats']),
+                                    'converter_name': GisExcerptConverter.name(),
+                                    'order_id': extraction_order.id
+                                },
+                                False
+                            )
+                        else:
+                            BaseExcerptConverter.inform_user(
+                                extraction_order.orderer,
+                                messages.ERROR,
+                                _('The extraction of "%(file)s" of extraction order "%(order_id)s" failed.') % {
+                                    'file': result_file_name,
+                                    'order_id': extraction_order.id
+                                },
+                                False
+                            )
+                else:
+                    BaseExcerptConverter.inform_user(
+                        extraction_order.orderer,
+                        messages.ERROR,
+                        _('The extraction of "%(file_type)s" of extraction order "%(order_id)s" failed.') % {
+                            'file_type': export_format_config['name'],
+                            'order_id': extraction_order.id
+                        },
+                        False
+                    )
+
+    @staticmethod
+    def create_output_file(extraction_order, result_file_name):
+        """
+        Move file to private media storage and add OutputFile to Extractionorder
+
+        :return: True if file created successful
+        """
+        output_file = models.OutputFile.objects.create(
+            mime_type='application/zip',
+            extraction_order=extraction_order
+        )
+
+        if not os.path.exists(private_storage.location):
+            os.makedirs(private_storage.location)
+
+        file_name = str(output_file.public_identifier) + '.zip'
+        result_file_path = os.path.abspath(os.path.join(settings.RESULT_MEDIA_ROOT, result_file_name))
+        target_file_path = os.path.abspath(os.path.join(private_storage.location, file_name))
+
+        shutil.move(result_file_path,target_file_path)
+        output_file.file = private_storage.open(target_file_path)
+        output_file.save()
+
+        return os.path.isfile(target_file_path)
 
     @staticmethod
     @shared_task
@@ -155,9 +215,9 @@ class GisExcerptConverter(BaseExcerptConverter):
                             'excerpt_east_border': bounding_geometry.east
                         }
 
-                    subprocess.check_call(("docker-compose run bootstrap sh main-bootstrap.sh %s" %
-                                           bbox_args).split(' '))
                     if len(execution_configuration['formats']) > 0:
+                        subprocess.check_call(("docker-compose run bootstrap sh main-bootstrap.sh %s" %
+                                               bbox_args).split(' '))
                         extraction_order.state = models.ExtractionOrderState.PROCESSING
                         extraction_order.save()
                         GisExcerptConverter.extract_excerpts(execution_configuration, extraction_order, bbox_args)
@@ -185,10 +245,8 @@ class GisExcerptConverter(BaseExcerptConverter):
                 BaseExcerptConverter.inform_user(
                     extraction_order.orderer,
                     messages.INFO,
-                    _('The extraction of the order "%(extraction_order)s" has been finished. '
-                      'Created files: %(created_files)s.') % {
-                        'extraction_order': extraction_order,
-                        'created_files': str([file_or_dir for file_or_dir in listdir('/results')])
+                    _('The extraction of the order "%(extraction_order)s" has been finished.') % {
+                        'extraction_order': extraction_order
                     },
                     False
                 )
@@ -204,11 +262,10 @@ class GisExcerptConverter(BaseExcerptConverter):
                     _('The extraction of order %(extraction_order)s failed: %(error)s. '
                       'Please contact an administrator.') % {
                         'extraction_order': extraction_order,
-                        'error': sys.exc_info()[0]
+                        'error': str(sys.exc_info())
                     },
                     False
                 )
                 raise
             finally:
                 os.chdir(original_cwd)
-                print('Created files: ' + str([file for file in listdir('/results')]))
