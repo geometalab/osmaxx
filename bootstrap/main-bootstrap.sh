@@ -45,7 +45,7 @@ init_osmosis() {
 
 fill_initial_osm_data(){
 echo "*** fill initial OSM data ***"
-    wget -q --progress=bar http://download.geofabrik.de/asia/malaysia-singapore-brunei-latest.osm.pbf -O $WORKDIR_OSM/switzerland-latest.osm.pbf
+    wget -q --progress=bar http://download.geofabrik.de/europe/azores-latest.osm.pbf -O $WORKDIR_OSM/switzerland-latest.osm.pbf
     osmconvert $WORKDIR_OSM/switzerland-latest.osm.pbf -b=${WEST},${SOUTH},${EAST},${NORTH} -o=$WORKDIR_OSM/excerpt.osm.pbf
     osm2pgsql --slim --create --extra-attributes --database $DB_NAME \
         --prefix osm --style $DIR/src/terminal.style --tag-transform-script $DIR/src/style.lua\
