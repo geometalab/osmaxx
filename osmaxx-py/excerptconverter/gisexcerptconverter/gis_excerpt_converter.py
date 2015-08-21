@@ -3,6 +3,8 @@ import shutil
 import subprocess
 import tempfile
 import time
+import sys
+from os import listdir
 
 from celery import shared_task
 
@@ -86,7 +88,7 @@ class GisExcerptConverter(BaseExcerptConverter):
         :param bbox_args example: '8.775449276 47.1892350573 8.8901920319 47.2413633153'
         :return:
         """
-        for export_format_key, export_format_config in GisExcerptConverter.export_formats():
+        for export_format_key, export_format_config in GisExcerptConverter.export_formats().items():
             if export_format_key in execution_configuration['formats']:
                 extraction_command = "docker-compose run excerpt python excerpt.py %(bbox_args)s -f %(format)s" % {
                     'bbox_args':  bbox_args,
@@ -118,6 +120,9 @@ class GisExcerptConverter(BaseExcerptConverter):
                 wait_time += 5
                 if wait_time > 30:
                     raise
+
+        extraction_order.state = models.ExtractionOrderState.WAITING
+        extraction_order.save()
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             original_cwd = os.getcwd()
@@ -152,7 +157,10 @@ class GisExcerptConverter(BaseExcerptConverter):
 
                     subprocess.check_call(("docker-compose run bootstrap sh main-bootstrap.sh %s" %
                                            bbox_args).split(' '))
-                    GisExcerptConverter.extract_excerpts(execution_configuration, extraction_order, bbox_args)
+                    if len(execution_configuration['formats']) > 0:
+                        extraction_order.state = models.ExtractionOrderState.PROCESSING
+                        extraction_order.save()
+                        GisExcerptConverter.extract_excerpts(execution_configuration, extraction_order, bbox_args)
 
                 elif type(bounding_geometry) == models.OsmosisPolygonFilterBoundingGeometry:
                     BaseExcerptConverter.inform_user(
@@ -177,16 +185,30 @@ class GisExcerptConverter(BaseExcerptConverter):
                 BaseExcerptConverter.inform_user(
                     extraction_order.orderer,
                     messages.INFO,
-                    _('The extraction of the order "%s" has been finished.') % extraction_order,
+                    _('The extraction of the order "%(extraction_order)s" has been finished. '
+                      'Created files: %(created_files)s.') % {
+                        'extraction_order': extraction_order,
+                        'created_files': str([file_or_dir for file_or_dir in listdir('/results')])
+                    },
                     False
                 )
+                extraction_order.state = models.ExtractionOrderState.FINISHED
+                extraction_order.save()
             except:
+                extraction_order.state = models.ExtractionOrderState.CANCELED
+                extraction_order.save()
+
                 BaseExcerptConverter.inform_user(
                     extraction_order.orderer,
                     messages.ERROR,
-                    _('The extraction of order %s failed. Please contact an administrator.') % extraction_order,
+                    _('The extraction of order %(extraction_order)s failed: %(error)s. '
+                      'Please contact an administrator.') % {
+                        'extraction_order': extraction_order,
+                        'error': sys.exc_info()[0]
+                    },
                     False
                 )
                 raise
             finally:
                 os.chdir(original_cwd)
+                print('Created files: ' + str([file for file in listdir('/results')]))
