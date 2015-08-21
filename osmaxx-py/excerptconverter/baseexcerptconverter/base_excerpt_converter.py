@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
 
+from osmaxx.excerptexport import models
+
 
 class BaseExcerptConverter(metaclass=abstract_base_class.ABCMeta):
     available_converters = []
@@ -31,6 +33,20 @@ class BaseExcerptConverter(metaclass=abstract_base_class.ABCMeta):
     @shared_task
     def execute_task(extraction_order_id, supported_export_formats, execution_configuration):
         raise NotImplemented
+
+    @staticmethod
+    def file_conversion_finished_of_extraction_order(extraction_order):
+        if extraction_order.output_files.count() >= len(extraction_order.extraction_formats):
+            BaseExcerptConverter.inform_user(
+                extraction_order.orderer,
+                messages.SUCCESS,
+                _('The extraction of the order "%(order_id)s" has been finished.') % {
+                    'order_id': extraction_order.id
+                },
+                True
+            )
+            extraction_order.state = models.ExtractionOrderState.FINISHED
+            extraction_order.save()
 
     @staticmethod
     def inform_user(user, message_type, message_text, email=True):

@@ -45,6 +45,26 @@ class ExtractionOrder(models.Model):
 
     @extraction_configuration.setter
     def extraction_configuration(self, value):
+        """
+        :return example:
+            {
+                'gis': {
+                    'formats': ['txt', 'file_gdb'],
+                    'options': {
+                        'coordinate_reference_system': 'wgs72',
+                        'detail_level': 'verbatim'
+                    }
+                },
+                'routing': { ... }
+            }
+        """
         if not value:
             value = {}
         self._extraction_configuration = json.dumps(value)
+
+    @property
+    def extraction_formats(self):
+        extraction_formats = []
+        for export_format_key, export_format in self.extraction_configuration.items():
+            extraction_formats = extraction_formats + export_format['formats']
+        return extraction_formats

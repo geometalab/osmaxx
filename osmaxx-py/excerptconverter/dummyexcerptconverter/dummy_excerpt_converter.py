@@ -105,7 +105,7 @@ class DummyExcerptConverter(BaseExcerptConverter):
         extraction_order.state = models.ExtractionOrderState.PROCESSING
         extraction_order.save()
 
-        message_text = _('Your extraction order "%s" has been started' % extraction_order)
+        message_text = _('The Dummy conversion of extraction order "%s" has been started.' % extraction_order.id)
         BaseExcerptConverter.inform_user(extraction_order.orderer, messages.INFO, message_text, False)
 
         DummyExcerptConverter.create_output_files(
@@ -116,10 +116,5 @@ class DummyExcerptConverter(BaseExcerptConverter):
 
         time.sleep(fake_work_waiting_time_in_seconds)
 
-        # now set the new state
-        extraction_order.state = models.ExtractionOrderState.FINISHED
-        extraction_order.save()
-
-        # inform the user of the status change.
-        message_text = _('Your extraction order %s has been processed' % extraction_order)
-        BaseExcerptConverter.inform_user(extraction_order.orderer, messages.SUCCESS, message_text)
+        # now set the new state (if all files have been processed) and inform the user about the state
+        BaseExcerptConverer.file_conversion_finished_of_extraction_order(extraction_order)

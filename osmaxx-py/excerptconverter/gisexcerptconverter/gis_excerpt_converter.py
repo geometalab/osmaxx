@@ -194,14 +194,13 @@ class GisExcerptConverter(BaseExcerptConverter):
                     os.path.join(tmp_dir, 'docker-compose.yml')
                 )
                 os.chdir(tmp_dir)
-                subprocess.check_call("docker-compose build".split(' '))
                 # database needs time to be ready
                 subprocess.check_output("docker-compose run bootstrap sleep 10".split(' '))
 
                 BaseExcerptConverter.inform_user(
                     extraction_order.orderer,
                     messages.INFO,
-                    _('The extraction of the order "%s" is ready to start.') % extraction_order,
+                    _('The GIS extraction of the order "%s" is has been started.') % extraction_order.id,
                     False
                 )
 
@@ -242,26 +241,14 @@ class GisExcerptConverter(BaseExcerptConverter):
                 subprocess.check_call("docker-compose stop --timeout 0".split(' '))
                 subprocess.check_call("docker-compose rm -f".split(' '))
 
-                BaseExcerptConverter.inform_user(
-                    extraction_order.orderer,
-                    messages.INFO,
-                    _('The extraction of the order "%(extraction_order)s" has been finished.') % {
-                        'extraction_order': extraction_order
-                    },
-                    False
-                )
-                extraction_order.state = models.ExtractionOrderState.FINISHED
-                extraction_order.save()
+                BaseExcerptConverter.file_conversion_finished_of_extraction_order(extraction_order)
             except:
-                extraction_order.state = models.ExtractionOrderState.CANCELED
-                extraction_order.save()
-
                 BaseExcerptConverter.inform_user(
                     extraction_order.orderer,
                     messages.ERROR,
-                    _('The extraction of order %(extraction_order)s failed: %(error)s. '
+                    _('The extraction of order %(order_id)s failed: %(error)s. '
                       'Please contact an administrator.') % {
-                        'extraction_order': extraction_order,
+                        'order_id': extraction_order.id,
                         'error': str(sys.exc_info())
                     },
                     False
