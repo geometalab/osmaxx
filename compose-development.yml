@@ -8,6 +8,8 @@ shareddatadev:
     - /data
     # database
     - /database/data
+    # temporary results directory used as pipe between multiple docker forests
+    - /tmp/osmaxx-results:/results
   net: "none"
 
 sourcedev:

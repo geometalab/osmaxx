@@ -4,6 +4,7 @@ shareddata:
   volumes:
     - /data
     - /database/data
+    - /tmp/osmaxx-results:/results
   net: "none"
 
 webapp:
