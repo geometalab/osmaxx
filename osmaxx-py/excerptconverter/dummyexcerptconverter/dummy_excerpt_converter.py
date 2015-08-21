@@ -81,41 +81,46 @@ class DummyExcerptConverter(BaseExcerptConverter):
     @staticmethod
     @shared_task
     def execute_task(extraction_order_id, supported_export_formats, execution_configuration):
-        wait_time = 0
-        # wait for the db to be updated!
-        extraction_order = None
-        while extraction_order is None:
-            try:
-                extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
-            except models.ExtractionOrder.DoesNotExist:
-                time.sleep(5)
-                wait_time += 5
-                if wait_time > 30:
-                    raise
+        if len(execution_configuration['formats']) > 0:
+            wait_time = 0
+            # wait for the db to be updated!
+            extraction_order = None
+            while extraction_order is None:
+                try:
+                    extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
+                except models.ExtractionOrder.DoesNotExist:
+                    time.sleep(5)
+                    wait_time += 5
+                    if wait_time > 30:
+                        raise
 
-        fake_work_waiting_time_in_seconds = 5
+            fake_work_waiting_time_in_seconds = 5
 
-        # now set the new state
-        extraction_order.state = models.ExtractionOrderState.WAITING
-        extraction_order.save()
+            # now set the new state
+            extraction_order.state = models.ExtractionOrderState.WAITING
+            extraction_order.save()
 
-        time.sleep(fake_work_waiting_time_in_seconds)
+            time.sleep(fake_work_waiting_time_in_seconds)
 
-        # now set the new state
-        extraction_order.state = models.ExtractionOrderState.PROCESSING
-        extraction_order.save()
+            # now set the new state
+            extraction_order.state = models.ExtractionOrderState.PROCESSING
+            extraction_order.save()
 
-        message_text = _('Your extraction order "%s" has been started' % extraction_order)
-        BaseExcerptConverter.inform_user(extraction_order.orderer, messages.INFO, message_text, False)
+            message_text = _('Your extraction order "%s" has been started' % extraction_order)
+            BaseExcerptConverter.inform_user(extraction_order.orderer, messages.INFO, message_text, False)
 
-        DummyExcerptConverter.create_output_files(execution_configuration, extraction_order, supported_export_formats)
+            DummyExcerptConverter.create_output_files(
+                execution_configuration,
+                extraction_order,
+                supported_export_formats
+            )
 
-        time.sleep(fake_work_waiting_time_in_seconds)
+            time.sleep(fake_work_waiting_time_in_seconds)
 
-        # now set the new state
-        extraction_order.state = models.ExtractionOrderState.FINISHED
-        extraction_order.save()
+            # now set the new state
+            extraction_order.state = models.ExtractionOrderState.FINISHED
+            extraction_order.save()
 
-        # inform the user of the status change.
-        message_text = _('Your extraction order %s has been processed' % extraction_order)
-        BaseExcerptConverter.inform_user(extraction_order.orderer, messages.SUCCESS, message_text)
+            # inform the user of the status change.
+            message_text = _('Your extraction order %s has been processed' % extraction_order)
+            BaseExcerptConverter.inform_user(extraction_order.orderer, messages.SUCCESS, message_text)
