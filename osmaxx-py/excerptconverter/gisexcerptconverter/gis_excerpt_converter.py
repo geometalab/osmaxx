@@ -51,6 +51,7 @@ class GisExcerptConverter(BaseExcerptConverter):
     @staticmethod
     def export_options():
         return {
+            # has to be implemented next:
             # 'coordinate_reference_system': {
             #     'label': 'Coordinate reference system',
             #     'type': 'choice',
