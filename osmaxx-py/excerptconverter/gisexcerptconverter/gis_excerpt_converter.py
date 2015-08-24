@@ -4,16 +4,18 @@ import subprocess
 import tempfile
 import time
 import sys
+import traceback
 
 from celery import shared_task
 
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.contrib import messages
 from django.core.files import File
 from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
 
 from excerptconverter.baseexcerptconverter import BaseExcerptConverter
+from excerptconverter import ConverterHelper
 
 from osmaxx.excerptexport import models
 
@@ -83,7 +85,7 @@ class GisExcerptConverter(BaseExcerptConverter):
         }
 
     @staticmethod
-    def extract_excerpts(execution_configuration, extraction_order, bbox_args):
+    def extract_excerpts(execution_configuration, extraction_order, bbox_args, converter_helper):
         """
         Extract excerpt for chosen formats (execution_configuration) using docker-compose
         to trigger the conversion process (defined in blackbox/docker-compose-conversion-blackbox.yml)
@@ -107,8 +109,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                     for result_file_name in os.listdir(settings.RESULT_MEDIA_ROOT):
                         # gis files are packaged in a zip file
                         if GisExcerptConverter.create_output_file(extraction_order, result_file_name):
-                            BaseExcerptConverter.inform_user(
-                                extraction_order.orderer,
+                            converter_helper.inform_user(
                                 messages.SUCCESS,
                                 _('Extraction of "%(file_type)s" of extraction order "%(order_id)s" was successful. '
                                   '(File %(file_index)s of %(number_of_files)s of %(converter_name)s converter)') % {
@@ -121,8 +122,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                                 False
                             )
                         else:
-                            BaseExcerptConverter.inform_user(
-                                extraction_order.orderer,
+                            converter_helper.inform_user(
                                 messages.ERROR,
                                 _('The extraction of "%(file)s" of extraction order "%(order_id)s" failed.') % {
                                     'file': result_file_name,
@@ -131,8 +131,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                                 False
                             )
                 else:
-                    BaseExcerptConverter.inform_user(
-                        extraction_order.orderer,
+                    converter_helper.inform_user(
                         messages.ERROR,
                         _('The extraction of "%(file_type)s" of extraction order "%(order_id)s" failed.') % {
                             'file_type': export_format_config['name'],
@@ -181,6 +180,8 @@ class GisExcerptConverter(BaseExcerptConverter):
                 if wait_time > 30:
                     raise
 
+
+        converter_helper = ConverterHelper(extraction_order)
         extraction_order.state = models.ExtractionOrderState.WAITING
         extraction_order.save()
 
@@ -197,8 +198,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                 # database needs time to be ready
                 subprocess.check_output("docker-compose run bootstrap sleep 10".split(' '))
 
-                BaseExcerptConverter.inform_user(
-                    extraction_order.orderer,
+                converter_helper.inform_user(
                     messages.INFO,
                     _('The GIS extraction of the order "%s" is has been started.') % extraction_order.id,
                     False
@@ -219,19 +219,17 @@ class GisExcerptConverter(BaseExcerptConverter):
                                                bbox_args).split(' '))
                         extraction_order.state = models.ExtractionOrderState.PROCESSING
                         extraction_order.save()
-                        GisExcerptConverter.extract_excerpts(execution_configuration, extraction_order, bbox_args)
+                        GisExcerptConverter.extract_excerpts(execution_configuration, extraction_order, bbox_args, converter_helper)
 
                 elif type(bounding_geometry) == models.OsmosisPolygonFilterBoundingGeometry:
-                    BaseExcerptConverter.inform_user(
-                        extraction_order.orderer,
+                    converter_helper.inform_user(
                         messages.ERROR,
                         _('GIS excerpt converter is not yet able to extract polygon excerpts.'),
                         False
                     )
 
                 else:
-                    BaseExcerptConverter.inform_user(
-                        extraction_order.orderer,
+                    converter_helper.inform_user(
                         messages.ERROR,
                         _('GIS excerpt converter is not yet able to extract excerpts of type %s.') %
                         type(bounding_geometry).__name__,
@@ -241,15 +239,14 @@ class GisExcerptConverter(BaseExcerptConverter):
                 subprocess.check_call("docker-compose stop --timeout 0".split(' '))
                 subprocess.check_call("docker-compose rm -f".split(' '))
 
-                BaseExcerptConverter.file_conversion_finished_of_extraction_order(extraction_order)
+                converter_helper.file_conversion_finished()
             except:
-                BaseExcerptConverter.inform_user(
-                    extraction_order.orderer,
+                converter_helper.inform_user(
                     messages.ERROR,
                     _('The extraction of order %(order_id)s failed: %(error)s. '
                       'Please contact an administrator.') % {
                         'order_id': extraction_order.id,
-                        'error': str(sys.exc_info())
+                        'error': traceback.format_tb(sys.exc_info())
                     },
                     False
                 )

@@ -51,6 +51,7 @@ celery:
   environment:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+    - DJANGO_EMAIL_HOST=email
 
 database:
   extends:
