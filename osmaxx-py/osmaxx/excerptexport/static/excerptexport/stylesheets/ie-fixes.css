@@ -1,6 +1,6 @@
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    /* readd IE default style to reatyle it isable for IE uesers
-     * IE does not support styling for select and option as buttons :-(
+    /* Re-add IE default style to restyle it isable for IE uesers, as
+     * IE does not support styling for select and option as buttons. :-(
      */
     select.btn-group, .select-button-group > select.btn-group {
         font-size: 1.5rem !important;
