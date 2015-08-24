@@ -28,6 +28,17 @@
             locationFilterBounds._southWest.lat = this.inputElementsNewBoundingBox.inputElementSouth.value;
             this.locationFilter.setBounds(locationFilterBounds);
         };
+        
+        this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields = function(select, locationFilterBounds) {
+            if(select.value != "") {
+                var optionElement = select.querySelector('option[value="'+select.value+'"]');
+            }
+            return select.value != "" &&
+                optionElement.getAttribute('data-north') == locationFilterBounds._northEast.lat &&
+                optionElement.getAttribute('data-west') == locationFilterBounds._southWest.lng &&
+                optionElement.getAttribute('data-east') == locationFilterBounds._northEast.lng &&
+                optionElement.getAttribute('data-south') == locationFilterBounds._southWest.lat
+        }
 
         /**
          * if the shown excerpt on the map changes and the change was not made by selecting an existing excerpt in the list
@@ -36,11 +47,7 @@
         this.userChangeExcerptOnMapShowNewExcerptPart = function() {
             var locationFilterBounds = this.locationFilter.getBounds();
             var select = this.selectElementExistingExcerpts;
-            if(!(selectElementExistingExcerpts.value != "" &&
-                    select.querySelector('option[value="'+select.value+'"]').getAttribute('data-north') == locationFilterBounds._northEast.lat &&
-                    select.querySelector('option[value="'+select.value+'"]').getAttribute('data-west') == locationFilterBounds._southWest.lng &&
-                    select.querySelector('option[value="'+select.value+'"]').getAttribute('data-east') == locationFilterBounds._northEast.lng &&
-                    select.querySelector('option[value="'+select.value+'"]').getAttribute('data-south') == locationFilterBounds._southWest.lat)) {
+            if(!this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields(select, locationFilterBounds)) {
                 this.formElementPartsSwitcher.value = 'new-excerpt';
                 this.formElementPartsSwitcher.dispatchEvent(new Event('change'));
             }
