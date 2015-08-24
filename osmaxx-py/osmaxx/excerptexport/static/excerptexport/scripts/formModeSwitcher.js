@@ -29,7 +29,7 @@
         // IE may throw an error here "Object doesn't support this action".
         // It seems IE won't trigger a change event on select boxes.
         // I didn't find a solution to get the supported actions,
-        // so the error is still there: Fuck you IE.
+        // so the error is still there: Use a better browser.
         // Note: The switcher is working regardless.
         formPartsSwitcher.dispatchEvent(new Event('change'));
     };
@@ -55,7 +55,7 @@
                 // IE may throw an error here "Object doesn't support this action".
                 // It seems IE won't trigger a change event on select boxes.
                 // I didn't find a solution to get the supported actions,
-                // so the error is still there: Fuck you IE.
+                // so the error is still there: Use a better browser.
                 // Note: The switcher is working regardless.
                 formPartsSwitcher.dispatchEvent(new Event('change'));
             }
