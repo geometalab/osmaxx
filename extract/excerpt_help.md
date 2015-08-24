@@ -1,6 +1,6 @@
-#excerpt.py documentation
+# excerpt.py documentation
 
-functions
+## functions
 
 1. name_generator- generates the name of the db depending on the date and time
 2. to_mercator- converts the map projection of the default osm format to the mercator projection
