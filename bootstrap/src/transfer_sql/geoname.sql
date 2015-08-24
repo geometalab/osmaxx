@@ -23,8 +23,8 @@ INSERT INTO osmaxx.geoname_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation 
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom, 
 -- Checks the data and fills value in case of NULL -- 
@@ -73,7 +73,7 @@ CREATE TABLE osmaxx.geoname_p (
 INSERT INTO osmaxx.geoname_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype, -- Node
 	way AS geom,  
 -- Checks the data and fills value in case of NULL -- 
 	case 
@@ -98,8 +98,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,
 

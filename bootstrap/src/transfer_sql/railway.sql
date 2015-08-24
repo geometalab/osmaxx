@@ -28,7 +28,7 @@ CREATE TABLE osmaxx.railway_l(
 INSERT INTO osmaxx.railway_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'W' AS geomtype, 
+	'W' AS geomtype, 	-- Way
 	ST_Multi(way) AS geom,
 	'railway' as aggtype,
 -- Combining different tags for Railway --
@@ -65,7 +65,7 @@ INSERT INTO osmaxx.railway_l
 INSERT INTO osmaxx.railway_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'W' AS geomtype, 
+	'W' AS geomtype, 	-- Way
 	ST_Multi(way) AS geom,
 	'aerialway' as aggtype,
 -- Combining different tags for Aerial Railway --

@@ -22,8 +22,8 @@ INSERT INTO osmaxx.adminarea_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- R=Relation -- 
-	 ELSE 'W' 		-- W=Way --
+	 WHEN osm_id<0 THEN 'R' -- R=Relation 
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 
 	ST_Multi(way) AS geom,
@@ -76,8 +76,8 @@ INSERT INTO osmaxx.boundary_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- R=Relation --
-	 ELSE 'W' 		-- W=Way --
+	 WHEN osm_id<0 THEN 'R' -- R=Relation
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,
 	

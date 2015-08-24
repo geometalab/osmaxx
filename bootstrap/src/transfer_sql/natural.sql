@@ -22,8 +22,8 @@ INSERT INTO osmaxx.natural_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- R=Relation --	
-	 ELSE 'W' 		-- W=Way --
+	 WHEN osm_id<0 THEN 'R' -- R=Relation	
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,  
 
@@ -67,7 +67,7 @@ CREATE TABLE osmaxx.natural_p (
 INSERT INTO osmaxx.natural_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'N' AS geomtype, -- N=Node --
+	'N' AS geomtype, -- N=Node
 	way AS geom,  
 -- Differentiating between different natural NODES --
 	case 
@@ -91,8 +91,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relations --
-	 ELSE 'W' 		-- W=Way --
+	 WHEN osm_id<0 THEN 'R' -- Relations
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,  
 -- Differentiating between different natural NODES --

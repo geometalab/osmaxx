@@ -22,8 +22,8 @@ INSERT INTO osmaxx.utility_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relation --
-	 ELSE 'W' 		-- Way --
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,  
 -- Combining Tags for different kinds of Utility POIs --
@@ -71,8 +71,8 @@ INSERT INTO osmaxx.utility_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation 
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Multi(way) AS geom,
 	'man_made' AS aggtype,
@@ -111,7 +111,7 @@ CREATE TABLE osmaxx.utility_p(
 INSERT INTO osmaxx.utility_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'N' AS geomtype, 
+	'N' AS geomtype, 	-- Node
 	way AS geom,
 -- Combining Tags for different kinds of Power POIs --
 	case
@@ -157,8 +157,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,  
 	case
@@ -207,8 +207,8 @@ INSERT INTO osmaxx.utility_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relation --
-	 ELSE 'W' 		-- Way --
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	way AS geom,
 	'man_made' AS aggtype,
@@ -269,7 +269,7 @@ CREATE TABLE osmaxx.utility_l(
 INSERT INTO osmaxx.utility_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'W' AS geomtype, 
+	'W' AS geomtype,  	-- Way
 	ST_Multi(way) AS geom, 
 	'power' as aggtype, 
 -- Combining Tags for different kinds of Utility POIs --
@@ -299,7 +299,7 @@ INSERT INTO osmaxx.utility_l
 INSERT INTO osmaxx.utility_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'W' AS geomtype, 
+	'W' AS geomtype, -- Way
 	ST_Multi(way) AS geom,
 	'man_made' AS aggtype,
 	man_made as type,

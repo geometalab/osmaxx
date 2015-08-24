@@ -23,8 +23,8 @@ INSERT INTO osmaxx.traffic_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relation --
-	 ELSE 'W' 		-- Way --
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,  
 	case
@@ -78,7 +78,7 @@ CREATE TABLE osmaxx.traffic_p(
 INSERT INTO osmaxx.traffic_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'N' AS geomtype, -- Node --
+	'N' AS geomtype, 	-- Node
 	way AS geom,
 
 -- Differentiating Traffic POIs --
@@ -139,8 +139,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,  
 	case

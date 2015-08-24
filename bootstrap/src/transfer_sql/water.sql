@@ -21,8 +21,8 @@ INSERT INTO osmaxx.water_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relation --
-	 ELSE 'W' 		-- Way --
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,
 	ST_Multi(way) AS geom,
 -- Classifying different Water Bodies --
@@ -67,7 +67,7 @@ CREATE TABLE osmaxx.water_p(
 INSERT INTO osmaxx.water_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype,	-- Nodes --
+	'N' AS geomtype,	-- Node
 	way AS geom,
 -- Classifying different Water Bodies --
 	case
@@ -92,8 +92,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relation -- 
-	 ELSE 'W' 		-- Way --
+	 WHEN osm_id<0 THEN 'R' -- Relation 
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,
 	ST_Centroid(way) AS geom,
 -- Classifying different Water Bodies --
@@ -142,8 +142,8 @@ INSERT INTO osmaxx.water_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relation -- 
-	 ELSE 'W' 		-- Way --
+	 WHEN osm_id<0 THEN 'R' -- Relation 
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,
 	ST_Multi(way) AS geom,
 -- Classifying different Water Bodies --

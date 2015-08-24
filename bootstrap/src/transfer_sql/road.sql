@@ -28,7 +28,7 @@ CREATE TABLE osmaxx.road_l(
 INSERT INTO osmaxx.road_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'W' AS geomtype, 
+	'W' AS geomtype, 	-- Way
 	ST_Multi(way) AS geom,
 -- Creating tags for groups of roads --
 	case
@@ -143,7 +143,7 @@ UNION
 INSERT INTO osmaxx.road_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'W' AS geomtype, 
+	'W' AS geomtype, 	-- Way
 	ST_Multi(way) AS geom,
 	'roundabout'as aggtype,
 -- Creating tags for groups of roads --
@@ -191,7 +191,7 @@ INSERT INTO osmaxx.road_l
 UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'W' AS geomtype, 
+	'W' AS geomtype, 	-- Way
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 	'roundabout'as aggtype,
 -- Creating tags for groups of roads --

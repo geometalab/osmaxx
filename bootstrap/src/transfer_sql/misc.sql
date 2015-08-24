@@ -23,8 +23,8 @@ INSERT INTO osmaxx.misc_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,
 	'barrier' as aggtype,
@@ -49,8 +49,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 	'barrier' as aggtype,
@@ -77,8 +77,8 @@ INSERT INTO osmaxx.misc_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- R=Relation --
-	 ELSE 'W' 		-- W=Way --
+	 WHEN osm_id<0 THEN 'R' -- R=Relation 
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,
 	'natural' as aggtype,
@@ -97,8 +97,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- R=Relation --
-	 ELSE 'W' 		-- W=Way --
+	 WHEN osm_id<0 THEN 'R' -- R=Relation
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 	'natural' as aggtype,
@@ -119,8 +119,8 @@ INSERT INTO osmaxx.misc_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,
 	'traffic_calming' as aggtype,
@@ -143,8 +143,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- R=Relation --
-	 ELSE 'W' 		-- W=Way --
+	 WHEN osm_id<0 THEN 'R' -- R=Relation
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 	'traffic_calming' as aggtype,
@@ -170,8 +170,8 @@ INSERT INTO osmaxx.misc_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- R=Relation --
-	 ELSE 'W' 		-- W=Way --
+	 WHEN osm_id<0 THEN 'R' -- R=Relation
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,
 	'air_traffic' as aggtype,
@@ -190,8 +190,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- R=Relation --
-	 ELSE 'W' 		-- W=Way --
+	 WHEN osm_id<0 THEN 'R' -- R=Relation
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 	'air_traffic' as aggtype,

@@ -66,19 +66,19 @@ echo "*** fill initial OSM data ***"
 PSQL='psql -v ON_ERROR_STOP=1 -U postgres '
 
 createfunctions(){
-  echo 'creating functions...'
+  echo 'CREATING FUNCTIONS'
   $PSQL -f ./src/create_functions.sql $DB_NAME
 }
 
 
 cleandata(){
-  echo 'cleaning database...'
+  echo 'CLEANING DATABASE'
   $PSQL -f ./src/sweeping_data.sql $DB_NAME
 }
 
 
 filterdata(){
-  echo 'filtering data...'
+  echo 'FILTERING DATA'
   sh filter_data.sh $DB_NAME
 }
 
@@ -94,4 +94,4 @@ create_statistics(){
 STARTTIME=$(date +%s)
 setup_db && init_osmosis  && fill_initial_osm_data && createfunctions && cleandata && filterdata && create_statistics
 ENDTIME=$(date +%s)
-echo "It took $(($ENDTIME - $STARTTIME)) seconds to complete..."
+echo "It took $(($ENDTIME - $STARTTIME)) seconds to complete."

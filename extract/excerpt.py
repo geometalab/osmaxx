@@ -26,7 +26,7 @@ def get_statistics(data, name):
     subprocess.check_call(statcmd)
 
 #Calls the shell script that exports siles of the specified format(file_format) from existing database
-def export_format(data, name, file_format):
+def export_from_db_to_format(data, name, file_format):
     get_statistics(data, name)
     dbcmd = 'sh', './extract/extract_format.sh', data[0], data[1], data[2], data[3], name, file_format
     subprocess.check_call(dbcmd)
@@ -46,5 +46,5 @@ if __name__ == '__main__':
     max_xy=to_mercator(args.xmax, args.ymax)
     name=name_generator()
 
-    export_format([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name, args.format)
+    export_from_db_to_format([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name, args.format)
     print name+' have been completed in '+args.format+' format.'

@@ -22,8 +22,8 @@ INSERT INTO osmaxx.transport_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relation --
-	 ELSE 'W' 		-- Way --
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,  
 -- Combining Tags for different kinds of Transport POIs --
@@ -95,7 +95,7 @@ CREATE TABLE osmaxx.transport_p(
 INSERT INTO osmaxx.transport_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, -- Nodes --
+	'N' AS geomtype, 	-- Node
 	way AS geom,
 -- Combining Tags for different kinds of Transport POIs --
 	case
@@ -146,8 +146,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relation --	
-	 ELSE 'W' 		-- Way --
+	 WHEN osm_id<0 THEN 'R' -- Relation	
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,  
 -- Combining Tags for different kinds of Transport POIs --
