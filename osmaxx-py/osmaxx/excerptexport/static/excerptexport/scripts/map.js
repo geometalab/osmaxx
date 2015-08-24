@@ -30,10 +30,11 @@
         };
         
         this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields = function(select, locationFilterBounds) {
-            if(select.value != "") {
-                var optionElement = select.querySelector('option[value="'+select.value+'"]');
+            if(select.value == "") {
+                return false;
             }
-            return select.value != "" &&
+            var optionElement = select.querySelector('option[value="'+select.value+'"]');
+            return
                 optionElement.getAttribute('data-north') == locationFilterBounds._northEast.lat &&
                 optionElement.getAttribute('data-west') == locationFilterBounds._southWest.lng &&
                 optionElement.getAttribute('data-east') == locationFilterBounds._northEast.lng &&
