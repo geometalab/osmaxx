@@ -25,7 +25,7 @@ def get_statistics(data, name):
     statcmd = 'bash', './extract/extract_statistics', data[0], data[1], data[2], data[3], name
     subprocess.check_call(statcmd)
 
-#Calls the shell script that exports siles of the specified format(file_format) from existing database
+#Calls the shell script that exports files of the specified format(file_format) from existing database
 def export_format(data, name, file_format):
     get_statistics(data, name)
     dbcmd = 'sh', './extract/extract_format.sh', data[0], data[1], data[2], data[3], name, file_format
