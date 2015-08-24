@@ -23,15 +23,17 @@ INSERT INTO osmaxx.misc_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,
 	'barrier' as aggtype,
+-- Combining different tags into barrier tag --
 	case
  	 when barrier in ('gate','fence','city_wall', 'hedge', 'wall','avalanche_protection','retaining_wall', 'border_control') then barrier
 	 else 'barrier'
 	end AS type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -42,19 +44,22 @@ INSERT INTO osmaxx.misc_l
 	cast(tags as text) as tags
   FROM osm_line
   WHERE barrier is not null
+
 UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 	'barrier' as aggtype,
+-- Combining different tags into barrier tag --
 	case
  	 when barrier in ('gate','fence','city_wall', 'hedge', 'wall','avalanche_protection','retaining_wall', 'border_control') then barrier
 	 else 'barrier'
 	end AS type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -67,12 +72,13 @@ UNION
   WHERE  barrier is not null;
 
 -- natural --
+	
 INSERT INTO osmaxx.misc_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation 
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,
 	'natural' as aggtype,
@@ -91,8 +97,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 	'natural' as aggtype,
@@ -113,11 +119,12 @@ INSERT INTO osmaxx.misc_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,
 	'traffic_calming' as aggtype,
+-- Combining different tags into traffic_calming tag --
 	case
 	 when traffic_calming in ('hump','bump','table','chicane','cushion') then traffic_calming
 	 else 'traffic_calming'
@@ -136,15 +143,17 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 	'traffic_calming' as aggtype,
+-- Combining different tags into traffic_calming tag --
 	case
 	 when traffic_calming in ('hump','bump','table','chicane','cushion') then traffic_calming
 	 else 'traffic_calming'
 	end AS type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -161,8 +170,8 @@ INSERT INTO osmaxx.misc_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,
 	'air_traffic' as aggtype,
@@ -181,8 +190,8 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 	'air_traffic' as aggtype,

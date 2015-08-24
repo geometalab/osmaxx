@@ -8,8 +8,29 @@ YMIN=$2
 XMAX=$3
 YMAX=$4
 FILENAME=$5
+FORMAT=$6
 DIR=`pwd`
 
+#Initialise the variables according to the format requested by the user
+case $FORMAT in
+
+'fgdb') 
+	TYPE="FileGDB"
+	EXT=".gdb" 
+	EXTRA="";;
+'gpkg') 
+	TYPE="GPKG"
+	EXT=".gpkg" 
+	EXTRA="";;
+'shp') 
+	TYPE="ESRI Shapefile"
+	EXT=".shp" 
+	EXTRA="";;
+'spatialite') 
+	TYPE="SQLite"
+	EXT=".sqlite" 
+	EXTRA='-dsco "SPATIALITE=YES" -nlt GEOMETRY';; # TODO: Remove or change -nlt because of geometry reading problems
+esac
 
 if [ -z $DIR/data/$FILENAME ]; then 
 echo 'Enter the filename..'
@@ -23,11 +44,11 @@ else
 
 	echo "starting "$FILENAME
 	mkdir -p $DIR/data
-	ogr2ogr -f SQLite $DIR/data/$FILENAME.sqlite PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" -clipsrc $XMIN $YMIN $XMAX $YMAX -dsco "SPATIALITE=YES" -nlt GEOMETRY 
-	echo $FILENAME" have been Generated.. Zipping files"
+	ogr2ogr -f $TYPE $DIR/data/$FILENAME$EXT PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" -clipsrc $XMIN $YMIN $XMAX $YMAX $EXTRA
+	echo $FILENAME$EXT" have been Generated.. Zipping files"
 
 	cd $DIR
-	zip -r --move $DIR/data/$FILENAME.zip ./data/$FILENAME.sqlite
+	zip -r --move $DIR/data/$FILENAME.zip ./data/$FILENAME$EXT
 
 	cd $DIR/static
         zip -g $DIR/data/$FILENAME.zip ./README.txt

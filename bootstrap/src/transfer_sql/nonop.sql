@@ -1,6 +1,7 @@
 -----------------
 ---  nonop_l  ---
 -----------------
+-- Planned Infrastructure not usable for Traffic  or transport --
 DROP TABLE if exists osmaxx.nonop_l; 
 CREATE TABLE osmaxx.nonop_l (
 	osm_id bigint, 
@@ -25,11 +26,14 @@ CREATE TABLE osmaxx.nonop_l (
 INSERT INTO osmaxx.nonop_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
+-- R=Relation & W=Way --	
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	END AS geomtype, 
+
 	ST_Multi(way) AS geom,  
+-- Differentiating between Highway and Railway --
 	case	
 	when highway is not null then 'highway'
 	when railway is not null then 'railway' 
@@ -43,15 +47,19 @@ INSERT INTO osmaxx.nonop_l
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	ref as ref,
+-- Checking for bridges with different tags associated to bridges --
 	case
 	when bridge in ('split_log' , 'beam', 'culvert', 'low_water_crossing', 'yes', 'suspension', 'viaduct', 'aqueduct', 'covered') then TRUE
 	else FALSE
 	end as bridge,
+-- Checking for tunnels with different tags associated to tunnels --
 	case
 	when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector','teilweise', 'viaduct', 'tunnel', 'yes') then TRUE
 	else FALSE
 	end as tunnel,
+
 	z_order as z_order,
+-- Differentiating the different types of transport --
 	case 
 	 when highway='planned' or railway='planned' then 'P' 
 	 when highway='disused'  or railway='disused' then 'D' 

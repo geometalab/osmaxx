@@ -1,4 +1,4 @@
-# Osmaxx postgis conversion
+﻿# Osmaxx postgis conversion
 
 Imports Open Street Map data from planet file into database and extracts the data as gis, gdb and shape.
 
@@ -28,7 +28,7 @@ To extract an excerpt, you need to do the following:
 * Prepare the database (will download Switzerland)
 ```shell
 docker-compose run bootstrap /bin/bash -c \
-  'sleep 10 && sh main-bootstrap.sh {excerptSouthBorder} {excerptWestBorder} {excerptNorthBorder} {excerptEastBorder}'
+  'sleep 10 && sh main-bootstrap.sh {excerptWestBorder} {excerptSouthBorder} {excerptEastBorder}  {excerptNorthBorder}'
   
 # Example: 
 # * main-bootstrap.sh will download osm-pbf file of switzerland and cut out the 

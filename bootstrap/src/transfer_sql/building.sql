@@ -23,8 +23,8 @@ INSERT INTO osmaxx.building_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,  
 	building as type, 

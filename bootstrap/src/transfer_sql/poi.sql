@@ -37,10 +37,12 @@ INSERT INTO osmaxx.poi_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
-	 END AS geomtype,  
+	WHEN osm_id<0 THEN 'R' -- Relation
+	ELSE 'W'		-- Way 				
+	END AS geomtype,  
 	ST_Multi(way) AS geom,
+
+-- Combining the different tags in Amenity into different categories --
 	case
 	 when amenity in('police','fire_station','post_box','post_office','telephone','library','townhall','courthouse','prison','embassy',
 			 'community_centre','nursing_home','arts_centre','grave_yard','marketplace','mortuary') then 'public'
@@ -80,6 +82,7 @@ INSERT INTO osmaxx.poi_a
 					'fire_hydrant','mortuary') then amenity
 	 else 'amenity'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -107,15 +110,17 @@ INSERT INTO osmaxx.poi_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Multi(way) AS geom,
 	'leisure' as aggtype,
+-- Combining the different tags in Leisure into different categories --
 	case
 	 when leisure in('dog_park','golf_course','ice_rink','pitch','playground','sports_centre','stadium','pitch','water_park','swimming_pool','common','garden','track','miniature_golf') then leisure
 	 else 'leisure'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -135,6 +140,7 @@ INSERT INTO osmaxx.poi_a
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE leisure not in ('nature_reserve','park','recreation_ground','slipway','marina');
+
 ---------------------------
 --       man_made        --
 ---------------------------
@@ -142,10 +148,11 @@ INSERT INTO osmaxx.poi_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R'  -- R=Relation
+	 ELSE 'W'		-- W=Way
 	 END AS geomtype,  
 	ST_Multi(way) AS geom,
+-- Combining the different tags in Man-made POIs into different categories --
 	case
 	 when man_made in ('tower','water_tower','windmill','lighthouse','watermill','surveillance') then 'miscpoi'
 	 else 'man_made'
@@ -160,6 +167,7 @@ INSERT INTO osmaxx.poi_a
 	 when man_made in ('lighthouse','surveillance','water_tower','watermill','windmill') then man_made
 	 else 'man_made'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -186,10 +194,11 @@ INSERT INTO osmaxx.poi_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Multi(way) AS geom,
+-- Combining the different tags in Historic POIs into different categories --
 	case
 	 when historic in ('monument','memorial','castle','ruins','archaeological_site','wayside_cross','wayside_shrine','battlefield','fort') then 'destination'
 	 else 'historic'
@@ -226,11 +235,12 @@ INSERT INTO osmaxx.poi_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Multi(way) AS geom,
 	'shop' as aggtype,
+-- Combining the different tags in Shopping into different categories --
 	case
 	 when shop in ('beverages','alcohol') then 'beverages'
 	 when shop in ('doityourself','hardware') then 'hardware'
@@ -267,10 +277,11 @@ INSERT INTO osmaxx.poi_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R'  -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Multi(way) AS geom,
+-- Combining the different tags in Tourism into different categories --
 	case
 	 when tourism in ('hotel','motel','bed_and _breakfast','guest_house','hostel','chalet') then 'accomondation_in'
 	 when tourism in ('camp_site','alpine_hut','caravan_site') or amenity='shelter' then 'accomondation_out'
@@ -315,10 +326,11 @@ INSERT INTO osmaxx.poi_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Multi(way) AS geom,
+-- Combining the different tags in Sports into different categories --
 	case
 	 when sport in ('swimming_pool','tennis','soccer') then 'leisure'
 	 else 'sport'
@@ -329,6 +341,7 @@ INSERT INTO osmaxx.poi_a
 	 when sport='soccer' then 'soccer_pitch'
 	 else 'sport'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -355,16 +368,18 @@ INSERT INTO osmaxx.poi_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Multi(way) AS geom,
+-- Combining the different tags in Highway into different categories --
 	case
 	 when highway='emergency_access_point' then 'miscpoi'
 	end as aggtype,
 	case
 	 when highway='emergency_access_point' then 'emergency_access'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -391,10 +406,11 @@ INSERT INTO osmaxx.poi_a
  SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Multi(way) AS geom,
+-- Combining the different tags in Emergency into different categories --
 	case
 	 when emergency in ('phone','fire_hydrant') then 'miscpoi'
 	end as aggtype,
@@ -402,6 +418,7 @@ INSERT INTO osmaxx.poi_a
 	 when emergency='phone' then 'emergency_phone'
 	 when emergency='fire_hydrant' then 'fire_hydrant'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -428,11 +445,12 @@ INSERT INTO osmaxx.poi_a
  SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Multi(way) AS geom,
 	'miscpoi' as aggtype,
+-- Combining the different tags in drinking water into different categories --
 	case
 	 when amenity='fountain' then
 		case 
@@ -472,8 +490,8 @@ INSERT INTO osmaxx.poi_a
  SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Multi(way) AS geom,
 	'public' as aggtype,
@@ -535,8 +553,9 @@ CREATE TABLE osmaxx.poi_p(
 INSERT INTO osmaxx.poi_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype,  -- Node
 	way AS geom,
+-- Combining the different tags in Amenity into different categories --
 	case
 	 when amenity in('police','fire_station','post_box','post_office','telephone','library','townhall','courthouse','prison','embassy',
 			 'community_centre','nursing_home','arts_centre','grave_yard','marketplace','mortuary') then 'public'
@@ -576,6 +595,7 @@ INSERT INTO osmaxx.poi_p
 					'fire_hydrant','mortuary') then amenity
 	 else 'amenity'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -599,10 +619,11 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R'  -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Centroid(way) AS geom,
+-- Combining the different tags in Amenity into different categories --
 	case
 	 when amenity in('police','fire_station','post_box','post_office','telephone','library','townhall','courthouse','prison','embassy',
 			 'community_centre','nursing_home','arts_centre','grave_yard','marketplace','mortuary') then 'public'
@@ -668,7 +689,7 @@ UNION
 INSERT INTO osmaxx.poi_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype, -- Node
 	way AS geom,
 	'leisure' as aggtype,
 	case
@@ -698,11 +719,12 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R'  -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Centroid(way) AS geom,
 	'leisure' as aggtype,
+-- Combining the different tags in Leisure into different categories --
 	case
 	 when leisure in('dog_park','golf_course','ice_rink','pitch','playground','sports_centre','stadium','pitch','water_park','swimming_pool','common','garden','track','miniature_golf') then leisure
 	 else 'leisure'
@@ -732,8 +754,9 @@ UNION
 INSERT INTO osmaxx.poi_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype, -- Node
 	way AS geom,
+-- Combining the different tags in Man-made POIs into different categories --
 	case
 	 when man_made in ('tower','water_tower','windmill','lighthouse','watermill','surveillance') then 'miscpoi'
 	 else 'man_made'
@@ -771,10 +794,11 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R'  -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Centroid(way) AS geom,
+-- Combining the different tags in Man-made POIs into different categories --
 	case
 	 when man_made in ('tower','water_tower','windmill','lighthouse','watermill','surveillance') then 'miscpoi'
 	 else 'man_made'
@@ -789,6 +813,7 @@ UNION
 	 when man_made in ('lighthouse','surveillance','water_tower','watermill','windmill') then man_made
 	 else 'man_made'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -814,8 +839,9 @@ UNION
 INSERT INTO osmaxx.poi_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype, -- Node
 	way AS geom,
+-- Combining the different tags in Historic POIs into different categories --
 	case
 	 when historic in ('monument','memorial','castle','ruins','archaeological_site','wayside_cross','wayside_shrine','battlefield','fort') then 'destination'
 	 else 'historic'
@@ -824,6 +850,7 @@ INSERT INTO osmaxx.poi_p
 	 when historic in ('archaeological_site','battlefield','castle','fort','memorial','monument','ruins','wayside_cross','wayside_shrine') then historic
 	 else 'historic'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -847,10 +874,11 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R'  -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Centroid(way) AS geom,
+-- Combining the different tags in Historic POIs into different categories --
 	case
 	 when historic in ('monument','memorial','castle','ruins','archaeological_site','wayside_cross','wayside_shrine','battlefield','fort') then 'destination'
 	 else 'historic'
@@ -859,6 +887,7 @@ UNION
 	 when historic in ('archaeological_site','battlefield','castle','fort','memorial','monument','ruins','wayside_cross','wayside_shrine') then historic
 	 else 'historic'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -886,9 +915,10 @@ UNION
 INSERT INTO osmaxx.poi_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype,  -- Node
 	way AS geom,
 	'shop' as aggtype,
+-- Combining the different tags in Shop into different categories --
 	case
 	 when shop in ('beverages','alcohol') then 'beverages'
 	 when shop in ('doityourself','hardware') then 'hardware'
@@ -898,6 +928,7 @@ INSERT INTO osmaxx.poi_p
 			'optician','outdoor','shoes','sports','stationery','supermarket','toys','travel_agency','video','laundry') then shop
 	 else 'shop'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -921,11 +952,12 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Centroid(way) AS geom,
 	'shop' as aggtype,
+-- Combining the different tags in Shop into different categories --
 	case
 	 when shop in ('beverages','alcohol') then 'beverages'
 	 when shop in ('doityourself','hardware') then 'hardware'
@@ -961,8 +993,9 @@ UNION
 INSERT INTO osmaxx.poi_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype,  -- Node
 	way AS geom,
+-- Combining the different tags in Tourism POIs into different categories --
 	case
 	 when tourism in ('hotel','motel','bed_and _breakfast','guest_house','hostel','chalet') then 'accomondation_in'
 	 when tourism in ('camp_site','alpine_hut','caravan_site') or amenity='shelter' then 'accomondation_out'
@@ -1003,10 +1036,11 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R'  -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Centroid(way) AS geom,
+-- Combining the different tags in Tourism POIs into different categories --
 	case
 	 when tourism in ('hotel','motel','bed_and _breakfast','guest_house','hostel','chalet') then 'accomondation_in'
 	 when tourism in ('camp_site','alpine_hut','caravan_site') or amenity='shelter' then 'accomondation_out'
@@ -1023,6 +1057,7 @@ UNION
 	 when tourism in ('hotel','motel','bed_and _breakfast','guest_house','hostel','chalet','camp_site','alpine_hut','caravan_site',
 				'attraction','museum','artwork','picnic_site','viewpoint','zoo','theme_park') then tourism 
 	 else 'tourism'
+
 	end as type,
 	name as name,
 	"name:en" as name_en, 
@@ -1050,8 +1085,9 @@ UNION
 INSERT INTO osmaxx.poi_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype, -- Node
 	way AS geom,
+-- Combining the different tags in Sports into different categories --
 	case
 	 when sport in ('swimming_pool','tennis','soccer') then 'leisure'
 
@@ -1086,10 +1122,11 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	WHEN osm_id<0 THEN 'R' 	-- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Centroid(way) AS geom,
+-- Combining the different tags in Sports into different categories --
 	case
 	 when sport in ('swimming_pool','tennis','soccer') then 'leisure'
 	 else 'sport'
@@ -1100,6 +1137,7 @@ UNION
 	 when sport='soccer' then 'soccer_pitch'
 	 else 'sport'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -1125,8 +1163,9 @@ UNION
 INSERT INTO osmaxx.poi_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype,	--Node 
 	way AS geom,
+-- Combining the different tags in Highway into different categories --
 	case
 	 when highway='emergency_access_point' then 'miscpoi'
 	end as aggtype,
@@ -1156,16 +1195,18 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Centroid(way) AS geom,
+-- Combining the different tags in Highway into different categories --
 	case
 	 when highway='emergency_access_point' then 'miscpoi'
 	end as aggtype,
 	case
 	 when highway='emergency_access_point' then 'emergency_access'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -1191,8 +1232,9 @@ UNION
 INSERT INTO osmaxx.poi_p
  SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype, 	-- Node
 	way AS geom,
+-- Combining the different tags in Emergency into different categories --
 	case
 	 when emergency in ('phone','fire_hydrant') then 'miscpoi'
 	end as aggtype,
@@ -1223,10 +1265,11 @@ UNION
  SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype,  
 	ST_Centroid(way) AS geom,
+-- Combining the different tags in Emergency into different categories --
 	case
 	 when emergency in ('phone','fire_hydrant') then 'miscpoi'
 	end as aggtype,
@@ -1234,6 +1277,7 @@ UNION
 	 when emergency='phone' then 'emergency_phone'
 	 when emergency='fire_hydrant' then 'fire_hydrant'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -1260,9 +1304,10 @@ UNION
 INSERT INTO osmaxx.poi_p
  SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'N' AS geomtype, 
+	'N' AS geomtype,	-- Node
 	way AS geom,
 	'miscpoi' as aggtype,
+-- Combining the different tags in Drinking Water into different categories --
 	case
 	 when amenity='fountain' then
 		case 
@@ -1275,6 +1320,7 @@ INSERT INTO osmaxx.poi_p
 		 else 'water_well'
 		end
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -1303,6 +1349,7 @@ UNION
 	 END AS geomtype,  
 	ST_Centroid(way) AS geom,
 	'miscpoi' as aggtype,
+-- Combining the different tags in Drinking Water into different categories --
 	case
 	 when amenity='fountain' then
 		case 
@@ -1315,6 +1362,7 @@ UNION
 		 else 'water_well'
 		end
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
