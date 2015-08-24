@@ -140,9 +140,7 @@ optgroup:before {
     display:inline-block;
     border: none;
     background: none;
-    background: none;
     -moz-appearance: none;
-    -ms-appearance: none;
     -webkit-appearance: none;
     appearance: none;
     overflow: hidden;
