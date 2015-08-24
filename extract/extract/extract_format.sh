@@ -8,11 +8,11 @@ YMIN=$2
 XMAX=$3
 YMAX=$4
 FILENAME=$5
-FORM=$6
+FORMAT=$6
 DIR=`pwd`
 
 #Initialise the variables according to the format requested by the user
-case $FORM in
+case $FORMAT in
 
 'fgdb') 
 	TYPE="FileGDB"

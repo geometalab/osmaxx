@@ -14,7 +14,10 @@ set -e
 DB_NAME=osmaxx_db
 DIR=$(pwd)
 WORKDIR_OSM=/tmp/osmosis
-# SQL
+WEST=${1}
+SOUTH=${2}
+EAST=${3}
+NORTH=${4}
 
 execute_sql() {
     psql --dbname $DB_NAME -c "$1" -U postgres
@@ -45,12 +48,19 @@ init_osmosis() {
 
 fill_initial_osm_data(){
 echo "*** fill initial OSM data ***"
-    wget -q --progress=bar http://download.geofabrik.de/europe/azores-latest.osm.pbf -O $WORKDIR_OSM/switzerland-latest.osm.pbf
+    #Download the entire region's map
+    wget --progress=bar http://download.geofabrik.de/europe/switzerland-latest.osm.pbf -O $WORKDIR_OSM/switzerland-latest.osm.pbf
+
+    #Cut the region map into the required area map through the given coordinates
     osmconvert $WORKDIR_OSM/switzerland-latest.osm.pbf -b=${WEST},${SOUTH},${EAST},${NORTH} -o=$WORKDIR_OSM/excerpt.osm.pbf
+
+    #Convert the OSM data to the required PostgreSQL format
     osm2pgsql --slim --create --extra-attributes --database $DB_NAME \
         --prefix osm --style $DIR/src/terminal.style --tag-transform-script $DIR/src/style.lua\
         --number-processes 8 --username postgres --hstore-all --input-reader pbf $WORKDIR_OSM/excerpt.osm.pbf
 }
+
+
 
 # http://petereisentraut.blogspot.ch/2010/03/running-sql-scripts-with-psql.html
 PSQL='psql -v ON_ERROR_STOP=1 -U postgres '
@@ -60,10 +70,12 @@ createfunctions(){
   $PSQL -f ./src/create_functions.sql $DB_NAME
 }
 
+
 cleandata(){
   echo 'cleaning database...'
   $PSQL -f ./src/sweeping_data.sql $DB_NAME
 }
+
 
 filterdata(){
   echo 'filtering data...'
@@ -78,15 +90,8 @@ create_statistics(){
   ENDTIME=$(date +%s)
 }
 
+
 STARTTIME=$(date +%s)
-
-WEST=${1}
-SOUTH=${2}
-EAST=${3}
-NORTH=${4}
-
-# setup_db && init_osmosis  && fill_initial_osm_data  && cleandata && filterdata
 setup_db && init_osmosis  && fill_initial_osm_data && createfunctions && cleandata && filterdata && create_statistics
-# filterdata
 ENDTIME=$(date +%s)
 echo "It took $(($ENDTIME - $STARTTIME)) seconds to complete..."
