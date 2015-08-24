@@ -1,5 +1,5 @@
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    /* Re-add IE default style to restyle it isable for IE uesers, as
+    /* Re-add IE default style to restyle it usable for IE users, as
      * IE does not support styling for select and option as buttons. :-(
      */
     select.btn-group, .select-button-group > select.btn-group {
