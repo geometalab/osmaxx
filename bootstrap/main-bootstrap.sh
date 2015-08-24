@@ -82,6 +82,12 @@ filterdata(){
 }
 
 STARTTIME=$(date +%s)
+
+WEST=${1}
+SOUTH=${2}
+EAST=${3}
+NORTH=${4}
+
 # setup_db && init_osmosis  && fill_initial_osm_data  && cleandata && filterdata
 setup_db && init_osmosis  && fill_initial_osm_data && createfunctions && cleandata && filterdata
 # filterdata
