@@ -32,8 +32,6 @@ case $FORMAT in
 	EXTRA='-dsco "SPATIALITE=YES" -nlt GEOMETRY';; # TODO: Remove or change -nlt because of geometry reading problems
 esac
 
-echo $FILENAME
-
 if [ -z $DIR/data/$FILENAME ]; then 
 echo 'Enter the filename..'
 elif [ -d $DIR/data/$FILENAME ]; then
