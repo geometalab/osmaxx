@@ -22,7 +22,7 @@ def to_mercator(mercator_x_lon, mercator_y_lat):
 
 #Extract Statistics
 def get_statistics(data, name):
-    statcmd = 'bash', './extract/extract_statistics', data[0], data[1], data[2], data[3], name
+    statcmd = 'bash', './extract/extract_statistics.sh', data[0], data[1], data[2], data[3], name
     subprocess.check_call(statcmd)
 
 #Calls the shell script that exports files of the specified format(file_format) from existing database
