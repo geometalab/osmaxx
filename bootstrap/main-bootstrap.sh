@@ -50,7 +50,7 @@ fill_initial_osm_data(){
     echo "*** fill initial OSM data ***"
 
     # Download the region map specified through the given coordinates
-    wget -qO- "http://overpass.osm.rambler.ru/cgi/xapi_meta?*[bbox=${EAST},${SOUTH},${WEST},${NORTH}]"\
+    wget -qO- "http://overpass.osm.rambler.ru/cgi/xapi_meta?*[bbox=${WEST},${SOUTH},${EAST},${NORTH}]"\
         | osmconvert --out-pbf - > $WORKDIR_OSM/excerpt.osm.pbf
 
     #Convert the OSM data to the required PostgreSQL format
