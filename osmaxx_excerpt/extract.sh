@@ -1,4 +1,0 @@
-#python excerpt.py 36.7035198212 -1.344585964 36.8252277374 -1.2577477129
-#python excerpt.py 8.775449276 47.1892350573 8.8901920319 47.2413633153 -f shp
-#python excerpt.py 8.8 47.20 8.9 47.26
-python excerpt.py 8.8 47.20 8.9 47.26 -f spatialite

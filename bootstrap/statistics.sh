@@ -186,6 +186,7 @@ echo >>$FILE
 
 #poi_a
 echo 'poi_a'>>$FILE
+#Public
 val=(police fire_station post_box post_office telephone library townhall courthouse prison embassy community_centre nursing_home arts_centre grave_yard marketplace government)
 for val in ${val[@]}
 do
@@ -195,7 +196,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Recycling
 val=(general_recycling glass paper clothes metal)
 for val in ${val[@]}
 do
@@ -205,7 +206,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Education
 val=(university school kindergarten college public_building)
 for val in ${val[@]}
 do
@@ -215,7 +216,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Health
 val=(pharmacy hospital clinic social_facility doctors dentist veterinary)
 for val in ${val[@]}
 do
@@ -225,7 +226,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Leisure
 val=(theatre nightclub cinema playground dog_park sports_centre tennis_pitch soccer_pitch pitch swimming_pool golf_course stadium ice_rink miniature_golf track garden common leisure)
 for val in ${val[@]}
 do
@@ -235,7 +236,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Catering
 val=(restaurant fast_food cafe pub bar food_court biergarten)
 for val in ${val[@]}
 do
@@ -245,7 +246,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Accomodation
 val=(hotel motel guest_house hostel chalet)
 for val in ${val[@]}
 do
@@ -255,7 +256,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+# Accomodaion_out
 val=(shelter camp_site alpine_hut caravan_site)
 for val in ${val[@]}
 do
@@ -266,7 +267,7 @@ sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
 
-
+#Shop
 val=(supermarket bakery kiosk mall department_store convenience clothes florist chemist books butcher shoes beverages optician jewelry gift sports_shop stationery outdoor mobile_phone toys newsagent greengrocer beauty video car bicycle hardware furniture computer garden_centre hairdresser car_repair car_rental car_wash car_sharing bicycle_rental travel_agency laundry shop)
 for val in ${val[@]}
 do
@@ -276,7 +277,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+# Vending
 val=(vending_machine vending_cigarettes vending_parking)
 for val in ${val[@]}
 do
@@ -287,7 +288,7 @@ sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
 
-
+#Money
 val=(bank atm money_changer)
 for val in ${val[@]}
 do
@@ -297,7 +298,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#tourism
 val=(information map board guidepost tourism)
 for val in ${val[@]}
 do
@@ -307,7 +308,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Attractions
 val=(attraction museum monument memorial artwork castle ruins archaeological_site wayside_cross wayside_shrine battlefield fort picnic_site viewpoint zoo theme_park)
 for val in ${val[@]}
 do
@@ -317,7 +318,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Miscellaneous
 val=(toilets bench drinking_water fountain hunting_stand waste_basket surveillance emergency_phone fire_hydrant emergency_access tower comm_tower water_tower observation_tower windmill lighthouse  water_well watermill)
 for val in ${val[@]}
 do
@@ -327,19 +328,19 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Sport
 echo 'sport'>>$FILE
 count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_a where aggtype='sport' and type='sport'" $DB_NAME)
 printf "sport, sport, %s\n" $count>>$FILE;
-
+#Man-made POIs
 echo 'man_made'>>$FILE
 count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_a where aggtype='man_made' and type='man_made'" $DB_NAME)
 printf "man_made, man_made, %s\n" $count>>$FILE;
-
+#Historic POIs
 echo 'historic'>>$FILE
 count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_a where aggtype='historic' and type='historic'" $DB_NAME)
 printf "historic, historic, %s\n" $count>>$FILE;
-
+#Amenities
 echo 'amenity'>>$FILE
 count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_a where aggtype='amenity' and type='amenity'" $DB_NAME)
 printf "amenity, amenity, %s\n" $count>>$FILE;
@@ -347,6 +348,7 @@ printf "amenity, amenity, %s\n" $count>>$FILE;
 
 #poi_p
 echo 'poi_p'>>$FILE
+#Public
 val=(police fire_station post_box post_office telephone library townhall courthouse prison embassy community_centre nursing_home arts_centre grave_yard marketplace government)
 for val in ${val[@]}
 do
@@ -356,7 +358,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Recycling
 val=(general_recycling glass paper clothes metal)
 for val in ${val[@]}
 do
@@ -366,7 +368,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Education
 val=(university school kindergarten college public_building)
 for val in ${val[@]}
 do
@@ -376,7 +378,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Health
 val=(pharmacy hospital clinic social_facility doctors dentist veterinary)
 for val in ${val[@]}
 do
@@ -386,7 +388,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Leisure
 val=(theatre nightclub cinema playground dog_park sports_centre tennis_pitch soccer_pitch pitch swimming_pool golf_course stadium ice_rink miniature_golf track garden common leisure)
 for val in ${val[@]}
 do
@@ -396,7 +398,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Catering
 val=(restaurant fast_food cafe pub bar food_court biergarten)
 for val in ${val[@]}
 do
@@ -406,7 +408,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Accomodation
 val=(hotel motel guest_house hostel chalet)
 for val in ${val[@]}
 do
@@ -416,7 +418,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Accomodation_out
 val=(shelter camp_site alpine_hut caravan_site)
 for val in ${val[@]}
 do
@@ -426,7 +428,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Shops
 val=(supermarket bakery kiosk mall department_store convenience clothes florist chemist books butcher shoes beverages optician jewelry gift sports_shop stationery outdoor mobile_phone toys newsagent greengrocer beauty video car bicycle hardware furniture computer garden_centre hairdresser car_repair car_rental car_wash car_sharing bicycle_rental travel_agency laundry shop)
 for val in ${val[@]}
 do
@@ -436,7 +438,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Vending
 val=(vending_machine vending_cigarettes vending_parking)
 for val in ${val[@]}
 do
@@ -447,7 +449,7 @@ sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
 
-
+#Money
 val=(bank atm money_changer)
 for val in ${val[@]}
 do
@@ -457,7 +459,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#tourism
 val=(information map board guidepost tourism)
 for val in ${val[@]}
 do
@@ -467,7 +469,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#attractions
 val=(attraction museum monument memorial artwork castle ruins archaeological_site wayside_cross wayside_shrine battlefield fort picnic_site viewpoint zoo theme_park)
 for val in ${val[@]}
 do
@@ -477,7 +479,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Miscellaneous POIs
 val=(toilets bench drinking_water fountain hunting_stand waste_basket surveillance emergency_phone fire_hydrant emergency_access tower comm_tower water_tower observation_tower windmill lighthouse  water_well watermill)
 for val in ${val[@]}
 do
@@ -487,19 +489,19 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Sport
 echo 'sport'>>$FILE
 count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_p where aggtype='sport' and type='sport'" $DB_NAME)
 printf "sport, sport, %s\n" $count>>$FILE;
-
+#Man-made POIs
 echo 'man_made'>>$FILE
 count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_p where aggtype='man_made' and type='man_made'" $DB_NAME)
 printf "man_made, man_made, %s\n" $count>>$FILE;
-
+#Historic POIs
 echo 'historic'>>$FILE
 count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_p where aggtype='historic' and type='historic'" $DB_NAME)
 printf "historic, historic, %s\n" $count>>$FILE;
-
+#Amenities
 echo 'amenity'>>$FILE
 count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_p where aggtype='amenity' and type='amenity'" $DB_NAME)
 printf "amenity, amenity, %s\n" $count>>$FILE;
@@ -528,7 +530,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
-
+#Roundabout
 val=(motorway trunk primary secondary tertiary unclassified residential living_street pedestrian motorway_link trunk_link primary_link secondary_link service track grade1 grade2 grade3 grade4 grade5 bridleway cycleway footway path steps roundabout)
 for val in ${val[@]}
 do
@@ -627,6 +629,7 @@ echo >>$FILE
 
 #utility_l
 echo 'utility_l'>>$FILE
+#Power
 val=(line minor_line cable minor_cable power)
 for val in ${val[@]}
 do
@@ -636,6 +639,7 @@ done
 sort -k3 -rn $TEMPFILE>>$FILE
 rm $TEMPFILE
 echo >>$FILE
+#Pipeline
 val=(pipeline)
 for val in ${val[@]}
 do

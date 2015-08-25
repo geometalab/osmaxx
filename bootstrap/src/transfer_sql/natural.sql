@@ -22,10 +22,12 @@ INSERT INTO osmaxx.natural_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation	
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Multi(way) AS geom,  
+
+-- Differentiating between different natural AREAS --
 	case 
 	 when "natural" in ('bare_rock','beach','cave_entrance','fell','grassland','heath','moor','mud','sand','scree','sinkhole','wood','glacier','wetland') then "natural"
 	 when "natural"='scrub' or landuse='scrub' then 'scrub' 
@@ -65,14 +67,16 @@ CREATE TABLE osmaxx.natural_p (
 INSERT INTO osmaxx.natural_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'N' AS geomtype, 
+	'N' AS geomtype, -- N=Node
 	way AS geom,  
+-- Differentiating between different natural NODES --
 	case 
 	 when "natural" in ('beach','cave_entrance','fell','grassland','heath','moor','mud','peak','rock','saddle','sand','sinkhole','stone',
 				'tree','volcano','wood','glacier','wetland') then "natural"
 	 when "natural"='scrub' or landuse='scrub' then 'scrub' 
 	 else 'natural'
 	 end as type, 
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -87,10 +91,11 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relations
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,  
+-- Differentiating between different natural NODES --
 	case 
 	 when "natural" in ('beach','cave_entrance','fell','grassland','heath',
 				'moor','mud','peak','rock','saddle','sand','sinkhole','stone',
@@ -98,6 +103,7 @@ UNION
 	 when "natural"='scrub' or landuse='scrub' then 'scrub' 
 	 else 'natural'
 	 end as type, 
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 

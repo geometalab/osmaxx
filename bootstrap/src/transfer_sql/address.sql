@@ -25,12 +25,14 @@ CREATE TABLE osmaxx.address_p(
 ------------------
 --   building   --
 ------------------
+
+-- Without the Entrance Node i.e; just the building --
 INSERT INTO osmaxx.address_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
-	'N' AS geomtype, 
+	'N' AS geomtype, -- When address is linked to a node 
 	way AS geom,
-	'b' AS type,
+	'b' AS type, --When address is linked to a building
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -48,12 +50,14 @@ INSERT INTO osmaxx.address_p
 	"addr:place" as postcity
   FROM osm_point
 where building not in ('entrance') and ("addr:street" is not null or "addr:place" is not null)
+
+-- Without the Entrance Node and the addresses are part of a way  --
 UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation 
+	 ELSE 'W' 		-- W=Way 
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,
 	'b' AS type,
@@ -78,10 +82,12 @@ where building not in ('entrance') and ("addr:street" is not null or "addr:place
 --------------
 -- entrance --
 --------------
+
+-- With the entrance node --
 INSERT INTO osmaxx.address_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
-	'N' AS geomtype, 
+	'N' AS geomtype, 	-- Node 
 	way AS geom,
 	'e' AS type,
 	name as name,
@@ -101,12 +107,14 @@ INSERT INTO osmaxx.address_p
 	"addr:place" as postcity
   FROM osm_point
   where building='entrance' and ("addr:street" is not null or "addr:place" is not null)
+
+-- With the entrance node and the addresses are part of a way --
   UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- R=Relation 
+	 ELSE 'W' 		-- W=Way
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,
 	'e' AS type,
@@ -159,11 +167,11 @@ INSERT INTO osmaxx.address_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE 
-	 WHEN osm_id<0 THEN 'R' 
-	 ELSE 'W' 
+	 WHEN osm_id<0 THEN 'R' -- Relation
+	 ELSE 'W' 		-- Way
 	 END AS geomtype, 
 	ST_Centroid(way) AS geom,
-	'p' AS type,
+	'p' AS type,	
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -189,6 +197,7 @@ CREATE TEMP TABLE temp_tbl(line_id integer, addr_street text, housenr integer, p
 
 select
   line_id, addr_street, interpolation_type, first_housenr, last_housenr, line_geom,
+-- Interpolation Function, turns address way into respective buildings and nodes --
   addr_interpolate(line_id, addr_street, interpolation_type, first_housenr, last_housenr, line_geom)
 from addr_interpolated
 limit 1 \g ./tmp/FORCE_CONTINUE.txt;
@@ -197,7 +206,7 @@ INSERT INTO osmaxx.address_p
  SELECT
 	temp_tbl.line_id as osm_id,
 	osm_line."osm_timestamp" as lastchange,
-	'N' AS geomtype, 
+	'N' AS geomtype, -- N=Node --
 	temp_tbl.point_geom AS geom,
 	'i' AS type,
 	osm_line.name as name,

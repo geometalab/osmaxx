@@ -23,12 +23,14 @@ CREATE TABLE osmaxx.road_l(
 	bridge boolean,
 	tunnel boolean
 );
+
 -- road --
 INSERT INTO osmaxx.road_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'W' AS geomtype, 
+	'W' AS geomtype, 	-- Way
 	ST_Multi(way) AS geom,
+-- Creating tags for groups of roads --
 	case
 	 when highway in ('motorway','trunk','primary','secondary','tertiary') then 'major_road'
 	 when highway in ('unclassified','residential','living_street','pedestrian') then 'minor_road'
@@ -51,6 +53,7 @@ INSERT INTO osmaxx.road_l
 			'path','steps') then highway
 	 else 'road'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -65,10 +68,12 @@ INSERT INTO osmaxx.road_l
 	else 'no'
 	end as oneway,
 	z_order as z_order,
+-- Creating tags for groups of Road Bridges --
 	case
 	when bridge in ('split_log' , 'beam', 'culvert', 'low_water_crossing', 'yes', 'suspension', 'viaduct', 'aqueduct', 'covered') then TRUE
 	else FALSE
 	end as bridge,
+-- Creating tags for groups of Road Tunnels --
 	case
 	when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector','teilweise', 'viaduct', 'tunnel', 'yes') then TRUE
 	else FALSE
@@ -80,6 +85,7 @@ UNION
 	osm_timestamp as lastchange, 
 	'W' AS geomtype, 
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
+-- Creating tags for groups of roads --
 	case
 	 when highway in ('motorway','trunk','primary','secondary','tertiary') then 'major_road'
 	 when highway in ('unclassified','residential','living_street','pedestrian') then 'minor_road'
@@ -102,6 +108,7 @@ UNION
 			'path','steps') then highway
 	 else 'road'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -116,14 +123,19 @@ UNION
 	else 'no'
 	end as oneway,
 	z_order as z_order,
+
+-- Creating tags for groups of Road Bridges --
 	case
 	when bridge in ('split_log' , 'beam', 'culvert', 'low_water_crossing', 'yes', 'suspension', 'viaduct', 'aqueduct', 'covered') then TRUE
 	else FALSE
 	end as bridge,
+
+-- Creating tags for groups of Road Tunnels --
 	case
 	when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector','teilweise', 'viaduct', 'tunnel', 'yes') then TRUE
 	else FALSE
 	end as tunnel
+
  	FROM osm_polygon
  	WHERE highway not in ('abandon','construction','planned','disused') or junction not in ('roundabout');
 
@@ -131,9 +143,10 @@ UNION
 INSERT INTO osmaxx.road_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
-	'W' AS geomtype, 
+	'W' AS geomtype, 	-- Way
 	ST_Multi(way) AS geom,
 	'roundabout'as aggtype,
+-- Creating tags for groups of roads --
 	case
 	 when highway='track' then
 		case
@@ -147,6 +160,7 @@ INSERT INTO osmaxx.road_l
 			'path','steps') then highway
 	 else 'roundabout'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -161,22 +175,26 @@ INSERT INTO osmaxx.road_l
 	else 'no'
 	end as oneway,
 	z_order as z_order,
+-- Creating tags for groups of Road Bridges --
 	case
 	when bridge in ('split_log' , 'beam', 'culvert', 'low_water_crossing', 'yes', 'suspension', 'viaduct', 'aqueduct', 'covered') then TRUE
 	else FALSE
 	end as bridge,
+-- Creating tags for groups of Road Tunnels --
 	case
 	when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector','teilweise', 'viaduct', 'tunnel', 'yes') then TRUE
 	else FALSE
 	end as tunnel
+
  	FROM osm_line
  	WHERE junction='roundabout'
 UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
-	'W' AS geomtype, 
+	'W' AS geomtype, 	-- Way
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 	'roundabout'as aggtype,
+-- Creating tags for groups of roads --
 	case
 	 when highway='track' then
 		case
@@ -190,6 +208,7 @@ UNION
 			'path','steps') then highway
 	 else 'roundabout'
 	end as type,
+
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
@@ -204,10 +223,12 @@ UNION
 	else 'no'
 	end as oneway,
 	z_order as z_order,
+-- Creating tags for groups of Road Bridges --
 	case
 	when bridge in ('split_log' , 'beam', 'culvert', 'low_water_crossing', 'yes', 'suspension', 'viaduct', 'aqueduct', 'covered') then TRUE
 	else FALSE
 	end as bridge,
+-- Creating tags for groups of Tunnel Bridges--	
 	case
 	when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector','teilweise', 'viaduct', 'tunnel', 'yes') then TRUE
 	else FALSE
