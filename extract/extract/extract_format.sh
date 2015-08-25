@@ -44,7 +44,7 @@ else
 	rm $DIR/data/$FILENAME.zip
 	fi
 
-	echo "starting "$FILENAME
+	echo "exporting to "$FILENAME$EXT
 	mkdir -p $DIR/data
 	ogr2ogr -f $TYPE $DIR/data/$FILENAME$EXT PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" -clipsrc $XMIN $YMIN $XMAX $YMAX $EXTRA
 	echo $FILENAME$EXT" have been Generated.. Zipping files"
