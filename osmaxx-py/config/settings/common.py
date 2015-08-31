@@ -50,10 +50,12 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'osmaxx.excerptexport',
     'osmaxx.social_auth',
+    # TODO: Remove dummy converter or move out of common settings (e.g. to test-specific settings)
     'excerptconverter.dummyexcerptconverter',
     'excerptconverter.gisexcerptconverter'
 )
 CELERY_IMPORTS = [
+    # TODO: Remove dummy converter or move out of common settings (e.g. to test-specific settings)
     'excerptconverter.dummyexcerptconverter.dummy_excerpt_converter',
     'excerptconverter.gisexcerptconverter.gis_excerpt_converter'
 ]
