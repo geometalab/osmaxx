@@ -119,7 +119,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                                     'converter_name': GisExcerptConverter.name(),
                                     'order_id': extraction_order.id
                                 },
-                                False
+                                email=False
                             )
                         else:
                             converter_helper.inform_user(
@@ -128,7 +128,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                                     'file': result_file_name,
                                     'order_id': extraction_order.id
                                 },
-                                False
+                                email=False
                             )
                 else:
                     converter_helper.inform_user(
@@ -137,7 +137,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                             'file_type': export_format_config['name'],
                             'order_id': extraction_order.id
                         },
-                        False
+                        email=False
                     )
 
     @staticmethod
@@ -200,7 +200,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                 converter_helper.inform_user(
                     messages.INFO,
                     _('The GIS extraction of the order "%s" is has been started.') % extraction_order.id,
-                    False
+                    email=False
                 )
 
                 bounding_geometry = extraction_order.excerpt.bounding_geometry
@@ -229,7 +229,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                     converter_helper.inform_user(
                         messages.ERROR,
                         _('GIS excerpt converter is not yet able to extract polygon excerpts.'),
-                        False
+                        email=False
                     )
 
                 else:
@@ -237,7 +237,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                         messages.ERROR,
                         _('GIS excerpt converter is not yet able to extract excerpts of type %s.') %
                         type(bounding_geometry).__name__,
-                        False
+                        email=False
                     )
 
                 subprocess.check_call("docker-compose stop --timeout 0".split(' '))
@@ -252,7 +252,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                         'order_id': extraction_order.id,
                         'error': traceback.format_tb(sys.exc_info())
                     },
-                    False
+                    email=False
                 )
                 raise
             finally:

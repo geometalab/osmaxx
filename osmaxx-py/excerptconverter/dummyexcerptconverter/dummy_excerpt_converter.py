@@ -76,10 +76,10 @@ class DummyExcerptConverter(BaseExcerptConverter):
 
             if private_storage.exists(file_name):
                 message_text = _('"%s" created successful' % file_name)
-                converter_helper.inform_user(messages.SUCCESS, message_text, False)
+                converter_helper.inform_user(messages.SUCCESS, message_text, email=False)
             else:
                 message_text = _('Creation of "%s" failed!' % file_name)
-                converter_helper.inform_user(messages.ERROR, message_text, False)
+                converter_helper.inform_user(messages.ERROR, message_text, email=False)
 
     @staticmethod
     @shared_task
@@ -111,7 +111,7 @@ class DummyExcerptConverter(BaseExcerptConverter):
             extraction_order.save()
 
             message_text = _('The Dummy conversion of extraction order "%s" has been started.') % extraction_order.id
-            converter_helper.inform_user(messages.INFO, message_text, False)
+            converter_helper.inform_user(messages.INFO, message_text, email=False)
 
             DummyExcerptConverter.create_output_files(
                 execution_configuration,
@@ -124,4 +124,4 @@ class DummyExcerptConverter(BaseExcerptConverter):
             # now set the new state (if all files have been processed) and inform the user about the state
             converter_helper.file_conversion_finished()
         except:
-            converter_helper.inform_user(messages.ERROR, traceback.format_tb(sys.exc_info()), False)
+            converter_helper.inform_user(messages.ERROR, traceback.format_tb(sys.exc_info()), email=False)

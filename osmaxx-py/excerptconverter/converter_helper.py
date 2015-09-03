@@ -19,7 +19,7 @@ class ConverterHelper:
                 _('The extraction of the order "%(order_id)s" has been finished.') % {
                     'order_id': self.extraction_order.id
                 },
-                True
+                email=True
             )
             self.extraction_order.state = models.ExtractionOrderState.FINISHED
             self.extraction_order.save()
