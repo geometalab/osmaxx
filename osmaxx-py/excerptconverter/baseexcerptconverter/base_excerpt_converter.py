@@ -2,10 +2,6 @@ import abc as abstract_base_class
 
 from celery import shared_task
 
-from django.utils.translation import ugettext_lazy as _
-
-from osmaxx.excerptexport import models
-
 
 class BaseExcerptConverter(metaclass=abstract_base_class.ABCMeta):
     available_converters = []

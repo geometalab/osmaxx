@@ -30,7 +30,7 @@ class ConverterManager:
     def execute_converters(self):
         for Converter in self.available_converters:
             if (Converter.__name__ in self.extraction_order.extraction_configuration and
-                len(self.extraction_order.extraction_configuration[Converter.__name__]['formats']) > 0):
+               len(self.extraction_order.extraction_configuration[Converter.__name__]['formats']) > 0):
 
                 Converter.execute(
                     self.extraction_order,

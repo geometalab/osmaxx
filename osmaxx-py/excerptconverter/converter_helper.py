@@ -6,7 +6,6 @@ import stored_messages
 
 from osmaxx.excerptexport import models
 
-from excerptconverter.baseexcerptconverter import BaseExcerptConverter
 
 class ConverterHelper:
     def __init__(self, extraction_order):

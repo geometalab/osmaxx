@@ -10,7 +10,6 @@ from celery import shared_task
 
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.core.files import File
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
@@ -160,7 +159,7 @@ class GisExcerptConverter(BaseExcerptConverter):
         result_file_path = os.path.abspath(os.path.join(settings.RESULT_MEDIA_ROOT, result_file_name))
         target_file_path = os.path.abspath(os.path.join(private_storage.location, file_name))
 
-        shutil.move(result_file_path,target_file_path)
+        shutil.move(result_file_path, target_file_path)
         output_file.file = private_storage.open(target_file_path)
         output_file.save()
 
@@ -180,7 +179,6 @@ class GisExcerptConverter(BaseExcerptConverter):
                 wait_time += 5
                 if wait_time > 30:
                     raise
-
 
         converter_helper = ConverterHelper(extraction_order)
         extraction_order.state = models.ExtractionOrderState.WAITING
@@ -220,7 +218,12 @@ class GisExcerptConverter(BaseExcerptConverter):
                                                bbox_args).split(' '))
                         extraction_order.state = models.ExtractionOrderState.PROCESSING
                         extraction_order.save()
-                        GisExcerptConverter.extract_excerpts(execution_configuration, extraction_order, bbox_args, converter_helper)
+                        GisExcerptConverter.extract_excerpts(
+                            execution_configuration,
+                            extraction_order,
+                            bbox_args,
+                            converter_helper
+                        )
 
                 elif type(bounding_geometry) == models.OsmosisPolygonFilterBoundingGeometry:
                     converter_helper.inform_user(
