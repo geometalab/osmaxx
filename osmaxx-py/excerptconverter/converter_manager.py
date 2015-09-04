@@ -37,8 +37,9 @@ class ConverterManager:
             )
 
     def _get_converters_from_configuration(self):
-        return [C for C in self.available_converters if C.__name__ in self.is_needed_for_configuration(C)]
+        return [C for C in self.available_converters
+                if C.__name__ in self._config_has_formats_provided_by_converter(C)]
 
-    def is_needed_for_configuration(self, Converter):
+    def _config_has_formats_provided_by_converter(self, Converter):
         return (Converter.__name__ in self.extraction_order.extraction_configuration and
                 len(self.extraction_order.extraction_configuration[Converter.__name__]['formats']) > 0)
