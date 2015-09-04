@@ -3,8 +3,6 @@ import shutil
 import subprocess
 import tempfile
 import time
-import sys
-import traceback
 
 from celery import shared_task
 
@@ -256,10 +254,9 @@ class GisExcerptConverter(BaseExcerptConverter):
                 inform_user(
                     extraction_order.orderer,
                     messages.ERROR,
-                    _('The extraction of order %(order_id)s failed: %(error)s. '
+                    _('The extraction of order %(order_id)s failed. '
                       'Please contact an administrator.') % {
-                        'order_id': extraction_order.id,
-                        'error': traceback.format_tb(sys.exc_info())
+                        'order_id': extraction_order.id
                     },
                     email=False
                 )

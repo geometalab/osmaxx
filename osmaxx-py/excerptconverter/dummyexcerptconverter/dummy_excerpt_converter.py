@@ -1,7 +1,5 @@
 import os
-import sys
 import time
-import traceback
 
 from celery import shared_task
 
@@ -125,5 +123,6 @@ class DummyExcerptConverter(BaseExcerptConverter):
             # now set the new state (if all files have been processed) and inform the user about the state
             file_conversion_finished(extraction_order)
         except:
-            inform_user(extraction_order.orderer, messages.ERROR, traceback.format_tb(sys.exc_info()), email=False)
+            message_text = _('The Dummy conversion of extraction order "%s" failed.') % extraction_order.id
+            inform_user(extraction_order.orderer, messages.ERROR, message_text, email=False)
             raise
