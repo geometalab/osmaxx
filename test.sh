@@ -60,8 +60,8 @@ function run_production_tests() {
 }
 
 function setup() {
-    # does the same as reset, but it makes the execution of the tests more readable.
     echo '' > ${LOGFILE}
+    docker_compose pull;
     reset_containers;
     docker_compose up -d ${DB_CONTAINER};
     sleep 3;
