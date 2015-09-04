@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 
 from excerptconverter.baseexcerptconverter import BaseExcerptConverter
-from excerptconverter import ConverterHelper
+from excerptconverter.converter_helper import inform_user, file_conversion_finished
 
 from osmaxx.excerptexport import models
 
@@ -55,7 +55,7 @@ class DummyExcerptConverter(BaseExcerptConverter):
         }
 
     @staticmethod
-    def create_output_files(execution_configuration, extraction_order, supported_export_formats, converter_helper):
+    def create_output_files(execution_configuration, extraction_order, supported_export_formats):
         for format_key in execution_configuration['formats']:
             output_file = models.OutputFile.objects.create(
                 mime_type=supported_export_formats[format_key]['mime_type'],
@@ -75,11 +75,13 @@ class DummyExcerptConverter(BaseExcerptConverter):
             output_file.save()
 
             if private_storage.exists(file_name):
+                message_level = messages.SUCCESS
                 message_text = _('"%s" created successful' % file_name)
-                converter_helper.inform_user(messages.SUCCESS, message_text, email=False)
             else:
+                message_level = messages.ERROR
                 message_text = _('Creation of "%s" failed!' % file_name)
-                converter_helper.inform_user(messages.ERROR, message_text, email=False)
+            user = extraction_order.orderer
+            inform_user(user, message_level, message_text, email=False)
 
     @staticmethod
     @shared_task
@@ -97,7 +99,6 @@ class DummyExcerptConverter(BaseExcerptConverter):
                     raise
 
         try:
-            converter_helper = ConverterHelper(extraction_order)
             fake_work_waiting_time_in_seconds = 5
 
             # now set the new state
@@ -111,17 +112,17 @@ class DummyExcerptConverter(BaseExcerptConverter):
             extraction_order.save()
 
             message_text = _('The Dummy conversion of extraction order "%s" has been started.') % extraction_order.id
-            converter_helper.inform_user(messages.INFO, message_text, email=False)
+            inform_user(extraction_order.orderer, messages.INFO, message_text, email=False)
 
             DummyExcerptConverter.create_output_files(
                 execution_configuration,
                 extraction_order,
-                supported_export_formats, converter_helper
+                supported_export_formats
             )
 
             time.sleep(fake_work_waiting_time_in_seconds)
 
             # now set the new state (if all files have been processed) and inform the user about the state
-            converter_helper.file_conversion_finished()
+            file_conversion_finished(extraction_order)
         except:
-            converter_helper.inform_user(messages.ERROR, traceback.format_tb(sys.exc_info()), email=False)
+            inform_user(extraction_order.orderer, messages.ERROR, traceback.format_tb(sys.exc_info()), email=False)
