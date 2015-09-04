@@ -28,14 +28,13 @@ class ConverterManager:
         self.run_as_celery_tasks = run_as_celery_tasks
 
     def execute_converters(self):
-        for Converter in self.available_converters:
-            if self.is_needed_for_configuration(Converter):
-
-                Converter.execute(
-                    self.extraction_order,
-                    self.extraction_order.extraction_configuration[Converter.__name__],
-                    self.run_as_celery_tasks
-                )
+        needed_converters = [C for C in self.available_converters if C.__name__ in self.is_needed_for_configuration(C)]
+        for Converter in needed_converters:
+            Converter.execute(
+                self.extraction_order,
+                self.extraction_order.extraction_configuration[Converter.__name__],
+                self.run_as_celery_tasks
+            )
 
     def is_needed_for_configuration(self, Converter):
         return (Converter.__name__ in self.extraction_order.extraction_configuration and
