@@ -29,11 +29,14 @@ class ConverterManager:
 
     def execute_converters(self):
         for Converter in self.available_converters:
-            if (Converter.__name__ in self.extraction_order.extraction_configuration and
-               len(self.extraction_order.extraction_configuration[Converter.__name__]['formats']) > 0):
+            if self.is_needed_for_configuration(Converter):
 
                 Converter.execute(
                     self.extraction_order,
                     self.extraction_order.extraction_configuration[Converter.__name__],
                     self.run_as_celery_tasks
                 )
+
+    def is_needed_for_configuration(self, Converter):
+        return (Converter.__name__ in self.extraction_order.extraction_configuration and
+                len(self.extraction_order.extraction_configuration[Converter.__name__]['formats']) > 0)
