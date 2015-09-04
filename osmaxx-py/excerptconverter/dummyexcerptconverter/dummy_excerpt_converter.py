@@ -126,3 +126,4 @@ class DummyExcerptConverter(BaseExcerptConverter):
             file_conversion_finished(extraction_order)
         except:
             inform_user(extraction_order.orderer, messages.ERROR, traceback.format_tb(sys.exc_info()), email=False)
+            raise
