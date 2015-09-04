@@ -63,14 +63,10 @@ function setup() {
     echo '' > ${LOGFILE}
     docker_compose pull;
     reset_containers;
-    docker_compose up -d ${DB_CONTAINER};
-    sleep 3;
 }
 
 function reset() {
     reset_containers;
-    docker_compose up -d ${DB_CONTAINER};
-    sleep 3;
 }
 
 function tear_down() {
@@ -81,6 +77,8 @@ function reset_containers() {
     docker_compose stop -t 0 &>> ${LOGFILE};
     docker_compose rm -vf &>> ${LOGFILE};
     docker_compose build &>> ${LOGFILE};
+    docker_compose up -d ${DB_CONTAINER};
+    sleep 3;
 }
 
 function reset_container() {
