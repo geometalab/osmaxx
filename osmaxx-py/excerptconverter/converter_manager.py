@@ -28,7 +28,7 @@ class ConverterManager:
         self.run_as_celery_tasks = run_as_celery_tasks
 
     def execute_converters(self):
-        needed_converters = [C for C in self.available_converters if C.__name__ in self.is_needed_for_configuration(C)]
+        needed_converters = [C for C in self.available_converters if self.is_needed_for_configuration(C)]
         for Converter in needed_converters:
             Converter.execute(
                 self.extraction_order,
