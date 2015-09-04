@@ -158,8 +158,10 @@ function docker_volume_configuration_tests() {
 }
 
 function persisting_database_data_tests() {
-    docker_compose run $WEBAPP_CONTAINER bash -c './manage.py migrate' > /tmp/irgendesfile
-    if grep -q 'Applying excerptexport' /tmp/irgendesfile; then
+    MIGRATION_RESULT_FILE='/tmp/temporary_osmaxx_migration_result'
+    docker_compose run $WEBAPP_CONTAINER bash -c './manage.py migrate' > ${MIGRATION_RESULT_FILE}
+
+    if grep -q 'Applying excerptexport' ${MIGRATION_RESULT_FILE}; then
         log "${GREEN}Migrations applied successfully.${RESET}"
     else
         log "${RED}Migrations could not be applied!${RESET}"
@@ -168,14 +170,14 @@ function persisting_database_data_tests() {
     reset_container ${DB_CONTAINER};
     docker_compose up -d ${DB_CONTAINER};
 
-    docker_compose run $WEBAPP_CONTAINER bash -c './manage.py migrate' > /tmp/irgendesfile
+    docker_compose run $WEBAPP_CONTAINER bash -c './manage.py migrate' > ${MIGRATION_RESULT_FILE}
 
-    if grep -q 'No migrations to apply' /tmp/irgendesfile; then
+    if grep -q 'No migrations to apply' ${MIGRATION_RESULT_FILE}; then
         log "${GREEN}Database migrations retained correctly.${RESET}"
     else
         log "${RED}Database migrations not retained, data only container not working correctly!${RESET}"
     fi
-    rm -f /tmp/irgendesfile;
+    rm -f ${MIGRATION_RESULT_FILE};
 }
 
 main;
