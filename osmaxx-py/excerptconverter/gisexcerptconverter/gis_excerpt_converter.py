@@ -8,16 +8,13 @@ from celery import shared_task
 
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
 from excerptconverter.baseexcerptconverter import BaseExcerptConverter
 from excerptconverter.converter_helper import inform_user, file_conversion_finished
 
 from osmaxx.excerptexport import models
-
-
-private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
+from osmaxx.utils import private_storage
 
 
 class GisExcerptConverter(BaseExcerptConverter):
