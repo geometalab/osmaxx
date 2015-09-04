@@ -63,10 +63,14 @@ function setup() {
     # does the same as reset, but it makes the execution of the tests more readable.
     echo '' > ${LOGFILE}
     reset_containers;
+    docker_compose up -d ${DB_CONTAINER};
+    sleep 3;
 }
 
 function reset() {
     reset_containers;
+    docker_compose up -d ${DB_CONTAINER};
+    sleep 3;
 }
 
 function tear_down() {
@@ -75,14 +79,14 @@ function tear_down() {
 
 function reset_containers() {
     docker_compose stop -t 0 &>> ${LOGFILE};
-    docker_compose rm -f &>> ${LOGFILE};
+    docker_compose rm -vf &>> ${LOGFILE};
     docker_compose build &>> ${LOGFILE};
 }
 
 function reset_container() {
     local CONTAINER_TO_BE_RESETTED=$1
     docker_compose stop -t 0 ${CONTAINER_TO_BE_RESETTED} &>> ${LOGFILE};
-    docker_compose rm -f ${CONTAINER_TO_BE_RESETTED} &>> ${LOGFILE};
+    docker_compose rm -vf ${CONTAINER_TO_BE_RESETTED} &>> ${LOGFILE};
     docker_compose build ${CONTAINER_TO_BE_RESETTED} &>> ${LOGFILE};
 }
 
@@ -154,20 +158,26 @@ function docker_volume_configuration_tests() {
 }
 
 function persisting_database_data_tests() {
+    MIGRATION_RESULT_FILE='/tmp/temporary_osmaxx_migration_result'
+    docker_compose run $WEBAPP_CONTAINER bash -c './manage.py migrate' > ${MIGRATION_RESULT_FILE}
 
-    if docker_compose run $WEBAPP_CONTAINER bash -c './manage.py migrate' | grep -q 'No migrations to apply'; then
-        log "${RED}Migrations could not be applied!${RESET}"
-    else
+    if grep -q 'Applying excerptexport' ${MIGRATION_RESULT_FILE}; then
         log "${GREEN}Migrations applied successfully.${RESET}"
+    else
+        log "${RED}Migrations could not be applied!${RESET}"
     fi
 
     reset_container ${DB_CONTAINER};
+    docker_compose up -d ${DB_CONTAINER};
 
-    if docker_compose run $WEBAPP_CONTAINER bash -c './manage.py migrate' | grep -q 'No migrations to apply'; then
+    docker_compose run $WEBAPP_CONTAINER bash -c './manage.py migrate' > ${MIGRATION_RESULT_FILE}
+
+    if grep -q 'No migrations to apply' ${MIGRATION_RESULT_FILE}; then
         log "${GREEN}Database migrations retained correctly.${RESET}"
     else
         log "${RED}Database migrations not retained, data only container not working correctly!${RESET}"
     fi
+    rm -f ${MIGRATION_RESULT_FILE};
 }
 
 main;

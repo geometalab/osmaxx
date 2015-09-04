@@ -15,7 +15,7 @@ shareddatadev:
 sourcedev:
   build: docker/volume-mount
   volumes:
-    - osmaxx-py:/home/osmaxx/source
+    - ./osmaxx-py:/home/osmaxx/source
     - ~/.cache/pip:/home/osmaxx/.cache/pip
 
 webappdev:

@@ -1,0 +1,18 @@
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    /* Re-add IE default style to restyle it usable for IE users, as
+     * IE does not support styling for select and option as buttons. :-(
+     */
+    select.btn-group, .select-button-group > select.btn-group {
+        font-size: 1.5rem !important;
+        display: block;
+        width: auto!important;
+        border: 1px solid rgb(33,33,33) !important;
+    }
+    select.btn-group > option:checked {
+        border-color: none;
+        background-color: rgb(51, 152, 254);
+    }
+    select.btn-group > option {
+        font-size: 1.5rem !important;
+    }
+}
