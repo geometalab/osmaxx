@@ -196,8 +196,12 @@ class GisExcerptConverter(BaseExcerptConverter):
                     os.path.join(tmp_dir, 'docker-compose.yml')
                 )
                 os.chdir(tmp_dir)
-                # database needs time to be ready
-                subprocess.check_output("docker-compose run bootstrap sleep 10".split(' '))
+                # use newest images
+                subprocess.check_output("docker-compose pull".split(' '))
+                # database needs to be ready
+                subprocess.check_output("docker-compose up -d db".split(' '))
+                # wait for the db to be up
+                subprocess.check_output("sleep 10".split(' '))
 
                 inform_user(
                     extraction_order.orderer,
@@ -245,7 +249,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                     )
 
                 subprocess.check_call("docker-compose stop --timeout 0".split(' '))
-                subprocess.check_call("docker-compose rm -f".split(' '))
+                subprocess.check_call("docker-compose rm -vf".split(' '))
 
                 file_conversion_finished(extraction_order.orderer)
             except:
