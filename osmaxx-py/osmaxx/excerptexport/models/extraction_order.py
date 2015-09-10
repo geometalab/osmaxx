@@ -16,6 +16,7 @@ class ExtractionOrderState(enum.Enum):
     PROCESSING = 3
     FINISHED = 4
     CANCELED = 5
+    FAILED = 6
 
 
 class ExtractionOrder(models.Model):

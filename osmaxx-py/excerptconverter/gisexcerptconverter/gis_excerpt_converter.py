@@ -248,6 +248,9 @@ class GisExcerptConverter(BaseExcerptConverter):
 
                 file_conversion_finished(extraction_order.orderer)
             except:
+                extraction_order.state = models.ExtractionOrderState.FAILED
+                extraction_order.save()
+
                 inform_user(
                     extraction_order.orderer,
                     messages.ERROR,
