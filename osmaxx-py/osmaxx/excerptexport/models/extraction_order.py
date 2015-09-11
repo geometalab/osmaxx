@@ -67,5 +67,6 @@ class ExtractionOrder(models.Model):
     def extraction_formats(self):
         extraction_formats = []
         for export_format_key, export_format in self.extraction_configuration.items():
+            # merge lists to flat nested structure
             extraction_formats = extraction_formats + export_format['formats']
         return extraction_formats
