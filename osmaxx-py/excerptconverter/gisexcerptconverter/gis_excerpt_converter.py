@@ -27,18 +27,15 @@ class GisExcerptConverter(BaseExcerptConverter):
         return {
             'spatialite': {
                 'name': 'SpatiaLite (SQLite)',
-                'file_extension': 'sqlite',
-                'mime_type': 'application/x-sqlite3'
+                'file_extension': 'sqlite'
             },
             'gpkg': {
                 'name': 'Geo package',
-                'file_extension': 'gpkg',
-                'mime_type': 'application/octet-stream'  # Not verified!
+                'file_extension': 'gpkg'
             },
             'shp': {
                 'name': 'Shape file',
-                'file_extension': 'shp',
-                'mime_type': 'application/octet-stream'  # Not verified!
+                'file_extension': 'shp'
             }
         }
 
