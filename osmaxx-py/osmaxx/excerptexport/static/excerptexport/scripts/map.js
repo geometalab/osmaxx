@@ -1,3 +1,4 @@
+'use strict';
 (function(){
     var ExcerptManager = function(locationFilter, inputElementsNewBoundingBox, selectElementExistingExcerpts, formElementPartsSwitcher) {
         this.locationFilter = locationFilter;
@@ -34,11 +35,12 @@
                 return false;
             }
             var optionElement = select.querySelector('option[value="'+select.value+'"]');
-            return
+            return (
                 optionElement.getAttribute('data-north') == locationFilterBounds._northEast.lat &&
                 optionElement.getAttribute('data-west') == locationFilterBounds._southWest.lng &&
                 optionElement.getAttribute('data-east') == locationFilterBounds._northEast.lng &&
                 optionElement.getAttribute('data-south') == locationFilterBounds._southWest.lat
+            );
         }
 
         /**

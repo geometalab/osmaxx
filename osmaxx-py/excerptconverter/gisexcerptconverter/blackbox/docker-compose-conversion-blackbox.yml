@@ -1,0 +1,18 @@
+bootstrap:
+  image: geometalab/osmaxx-postgis-conversion-bootstrap:latest
+  links:
+    - db
+  environment:
+    - PGHOST=db
+  volumes:
+    - tmp/osmosis/:/tmp/osmosis/
+excerpt:
+  image: geometalab/osmaxx-postgis-conversion-export:latest
+  links:
+    - db
+  environment:
+    - PGHOST=db
+  volumes:
+    - /tmp/osmaxx-results:/home/excerpt/data/
+db:
+  image: geometalab/postgis-with-translit

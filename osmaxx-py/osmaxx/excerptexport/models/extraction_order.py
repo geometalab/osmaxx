@@ -16,6 +16,7 @@ class ExtractionOrderState(enum.Enum):
     PROCESSING = 3
     FINISHED = 4
     CANCELED = 5
+    FAILED = 6
 
 
 class ExtractionOrder(models.Model):
@@ -45,6 +46,27 @@ class ExtractionOrder(models.Model):
 
     @extraction_configuration.setter
     def extraction_configuration(self, value):
+        """
+        :return example:
+            {
+                'gis': {
+                    'formats': ['txt', 'file_gdb'],
+                    'options': {
+                        'coordinate_reference_system': 'wgs72',
+                        'detail_level': 'verbatim'
+                    }
+                },
+                'routing': { ... }
+            }
+        """
         if not value:
             value = {}
         self._extraction_configuration = json.dumps(value)
+
+    @property
+    def extraction_formats(self):
+        extraction_formats = []
+        for export_format_config in self.extraction_configuration.values():
+            # merge lists to flat nested structure
+            extraction_formats = extraction_formats + export_format_config['formats']
+        return extraction_formats

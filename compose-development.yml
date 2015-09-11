@@ -8,6 +8,8 @@ shareddatadev:
     - /data
     # database
     - /database/data
+    # temporary results directory used as pipe between multiple docker forests
+    - /tmp/osmaxx-results:/results
   net: "none"
 
 sourcedev:
@@ -37,6 +39,8 @@ webappdev:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
     - DJANGO_DEBUG=true
+    - DJANGO_EMAIL_HOST=emaildev
+
 
 rabbitmqdev:
   extends:
@@ -48,6 +52,8 @@ celerydev:
     file: compose-common.yml
     service: base
   command: honcho start -f Procfile.celery
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
   volumes_from:
     - sourcedev
     - shareddatadev
@@ -59,6 +65,7 @@ celerydev:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
     - DJANGO_DEBUG=true
+    - DJANGO_EMAIL_HOST=emaildev
 
 databasedev:
   extends:

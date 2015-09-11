@@ -6,6 +6,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from excerptconverter import ConverterManager
 from excerptconverter.baseexcerptconverter import BaseExcerptConverter
 from excerptconverter.dummyexcerptconverter import DummyExcerptConverter
+from excerptconverter.gisexcerptconverter import GisExcerptConverter
 
 from osmaxx.excerptexport import models
 
@@ -141,7 +142,8 @@ class ConverterManagerTestCase(TestCase):
             collections.OrderedDict(sorted({
                 SomeExcerptConverter.__name__: SomeExcerptConverter.converter_configuration(),
                 DummyExcerptConverter.__name__: DummyExcerptConverter.converter_configuration(),
-                TestExcerptConverter.__name__: TestExcerptConverter.converter_configuration()
+                TestExcerptConverter.__name__: TestExcerptConverter.converter_configuration(),
+                GisExcerptConverter.__name__: GisExcerptConverter.converter_configuration()
             }.items()))
         )
 
