@@ -107,7 +107,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                             converter_helper.inform_user(
                                 messages.SUCCESS,
                                 _('Extraction of "%(file_type)s" of extraction order "%(order_id)s" was successful. '
-                                  '(File %(file_index)s of %(number_of_files)s of %(converter_name)s converter)') % {
+                                  '(of %(number_of_files)s files of %(converter_name)s converter)') % {
                                     'file_type': export_format_config['name'],
                                     'file_index': index,
                                     'number_of_files': len(execution_configuration['formats']),

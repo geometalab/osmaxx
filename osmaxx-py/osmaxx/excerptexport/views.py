@@ -97,7 +97,7 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
                 converter_manager.execute_converters()
 
                 messages.success(request, _(
-                    'Successful creation of extraction order extraction order %(id)s. '
+                    'Queued extraction order %(id)s. '
                     'The conversion process will start soon.'
                 ) % {'id': extraction_order.id})
                 return HttpResponseRedirect(
