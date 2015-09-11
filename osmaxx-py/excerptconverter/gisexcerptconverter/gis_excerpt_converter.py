@@ -200,13 +200,12 @@ class GisExcerptConverter(BaseExcerptConverter):
 
                 bounding_geometry = extraction_order.excerpt.bounding_geometry
                 if type(bounding_geometry) == models.BBoxBoundingGeometry:
-                    bbox_args = '%(excerpt_south_border)s %(excerpt_west_border)s %(excerpt_north_border)s ' \
-                        '%(excerpt_east_border)s' % {
-                            'excerpt_north_border': bounding_geometry.north,
-                            'excerpt_west_border': bounding_geometry.west,
-                            'excerpt_south_border': bounding_geometry.south,
-                            'excerpt_east_border': bounding_geometry.east
-                        }
+                    bbox_args = ' '.join([
+                        bounding_geometry.south,
+                        bounding_geometry.west,
+                        bounding_geometry.north,
+                        bounding_geometry.east
+                    ])
 
                     if len(execution_configuration['formats']) > 0:
                         subprocess.check_call(("docker-compose run bootstrap sh main-bootstrap.sh %s" %
