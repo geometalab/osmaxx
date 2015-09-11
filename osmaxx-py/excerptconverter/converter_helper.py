@@ -7,6 +7,8 @@ import stored_messages
 from osmaxx.excerptexport import models
 
 
+# functions using database (extraction_order) must be instance methods of a class
+# -> free functions will not work: database connection error
 class ConverterHelper:
     def __init__(self, extraction_order):
         self.extraction_order = extraction_order
