@@ -200,7 +200,7 @@ class GisExcerptConverter(BaseExcerptConverter):
 
                 bounding_geometry = extraction_order.excerpt.bounding_geometry
                 if type(bounding_geometry) == models.BBoxBoundingGeometry:
-                    bbox_args = ' '.join([
+                    bbox_args = ' '.join(str(coordinate) for coordinate in [
                         bounding_geometry.south,
                         bounding_geometry.west,
                         bounding_geometry.north,
