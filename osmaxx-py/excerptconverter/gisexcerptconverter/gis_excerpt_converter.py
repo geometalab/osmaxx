@@ -180,7 +180,6 @@ class GisExcerptConverter(BaseExcerptConverter):
             original_cwd = os.getcwd()
 
             try:
-                print(tmp_dir)
                 shutil.copyfile(
                     os.path.join(os.path.dirname(__file__), 'blackbox', 'docker-compose-conversion-blackbox.yml'),
                     os.path.join(tmp_dir, 'docker-compose.yml')
