@@ -41,9 +41,11 @@ celery:
   extends:
     file: compose-common.yml
     service: base
+  command: honcho start -f Procfile.celery
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
   volumes_from:
     - shareddata
-  command: honcho start -f Procfile.celery
   links:
     - rabbitmq:rabbit
     - database
