@@ -19,7 +19,8 @@ CREATE TABLE osmaxx.address_p(
 	street text,
 	housenumber text,
 	postcode text,
-	city text
+	city text,
+    country text
 );
 
 ------------------
@@ -44,10 +45,12 @@ INSERT INTO osmaxx.address_p
 	case 
 	when "addr:street" is not null then "addr:street"
 	when "addr:place" is not null then "addr:place"
+    else "addr:street"
 	end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as city
+	"addr:place" as city,
+    "addr:country" as country
   FROM osm_point
 where building not in ('entrance') and ("addr:street" is not null or "addr:place" is not null)
 
@@ -72,10 +75,12 @@ UNION
 	case 
 	when "addr:street" is not null then "addr:street"
 	when "addr:place" is not null then "addr:place"
-	end  as street,
+	else "addr:street"
+    end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as city
+	"addr:place" as city,
+    "addr:country" as country
   FROM osm_polygon
 where building not in ('entrance') and ("addr:street" is not null or "addr:place" is not null);
 
@@ -101,10 +106,12 @@ INSERT INTO osmaxx.address_p
 	case 
 	when "addr:street" is not null then "addr:street"
 	when "addr:place" is not null then "addr:place"
-	end  as street,
+	else "addr:street"
+    end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as city
+	"addr:place" as city,
+    "addr:country" as country
   FROM osm_point
   where building='entrance' and ("addr:street" is not null or "addr:place" is not null)
 
@@ -129,10 +136,12 @@ INSERT INTO osmaxx.address_p
 	case 
 	when "addr:street" is not null then "addr:street"
 	when "addr:place" is not null then "addr:place"
-	end  as street,
+	else "addr:street"
+    end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as city
+	"addr:place" as city,
+    "addr:country" as country
   FROM osm_polygon
   where building='entrance' and ("addr:street" is not null or "addr:place" is not null);
 
@@ -157,10 +166,12 @@ INSERT INTO osmaxx.address_p
 	case 
 	when "addr:street" is not null then "addr:street"
 	when "addr:place" is not null then "addr:place"
-	end  as street,
+	else "addr:street"
+    end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as city
+	"addr:place" as city,
+    "addr:country" as country
   FROM osm_point
  WHERE place is not null  and ("addr:street" is not null or "addr:place" is not null)
   UNION
@@ -183,10 +194,12 @@ INSERT INTO osmaxx.address_p
 	case 
 	when "addr:street" is not null then "addr:street"
 	when "addr:place" is not null then "addr:place"
+    else "addr:street"
 	end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as city
+	"addr:place" as city, 
+    "addr:country" as country
   FROM osm_polygon
  WHERE place is not null  and ("addr:street" is not null or "addr:place" is not null);
 
@@ -220,7 +233,8 @@ INSERT INTO osmaxx.address_p
 	temp_tbl.addr_street as street,
 	temp_tbl.housenr as housenumber,
 	osm_line."addr:postcode" as postcode,
-	osm_line."addr:place" as city
+	osm_line."addr:place" as city,
+    osm_line."addr:country" as country
  FROM temp_tbl 
  INNER JOIN osm_line
  ON temp_tbl.line_id=osm_line.osm_id;
