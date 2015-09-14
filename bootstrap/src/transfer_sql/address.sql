@@ -19,7 +19,7 @@ CREATE TABLE osmaxx.address_p(
 	street text,
 	housenumber text,
 	postcode text,
-	postcity text
+	city text
 );
 
 ------------------
@@ -47,7 +47,7 @@ INSERT INTO osmaxx.address_p
 	end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as postcity
+	"addr:place" as city
   FROM osm_point
 where building not in ('entrance') and ("addr:street" is not null or "addr:place" is not null)
 
@@ -75,7 +75,7 @@ UNION
 	end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as postcity
+	"addr:place" as city
   FROM osm_polygon
 where building not in ('entrance') and ("addr:street" is not null or "addr:place" is not null);
 
@@ -104,7 +104,7 @@ INSERT INTO osmaxx.address_p
 	end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as postcity
+	"addr:place" as city
   FROM osm_point
   where building='entrance' and ("addr:street" is not null or "addr:place" is not null)
 
@@ -132,7 +132,7 @@ INSERT INTO osmaxx.address_p
 	end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as postcity
+	"addr:place" as city
   FROM osm_polygon
   where building='entrance' and ("addr:street" is not null or "addr:place" is not null);
 
@@ -160,7 +160,7 @@ INSERT INTO osmaxx.address_p
 	end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as postcity
+	"addr:place" as city
   FROM osm_point
  WHERE place is not null  and ("addr:street" is not null or "addr:place" is not null)
   UNION
@@ -186,7 +186,7 @@ INSERT INTO osmaxx.address_p
 	end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as postcity
+	"addr:place" as city
   FROM osm_polygon
  WHERE place is not null  and ("addr:street" is not null or "addr:place" is not null);
 
@@ -220,7 +220,7 @@ INSERT INTO osmaxx.address_p
 	temp_tbl.addr_street as street,
 	temp_tbl.housenr as housenumber,
 	osm_line."addr:postcode" as postcode,
-	osm_line."addr:place" as postcity
+	osm_line."addr:place" as city
  FROM temp_tbl 
  INNER JOIN osm_line
  ON temp_tbl.line_id=osm_line.osm_id;

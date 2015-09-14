@@ -49,7 +49,7 @@ init_osmosis() {
 fill_initial_osm_data(){
 echo "*** fill initial OSM data ***"
     #Download the entire region's map
-    wget --progress=bar http://download.geofabrik.de/europe/switzerland-latest.osm.pbf -O $WORKDIR_OSM/switzerland-latest.osm.pbf
+    wget --progress=bar http://download.geofabrik.de/europe/liechtenstein-latest.osm.pbf -O $WORKDIR_OSM/switzerland-latest.osm.pbf
 
     #Cut the region map into the required area map through the given coordinates
     osmconvert $WORKDIR_OSM/switzerland-latest.osm.pbf -b=${WEST},${SOUTH},${EAST},${NORTH} -o=$WORKDIR_OSM/excerpt.osm.pbf

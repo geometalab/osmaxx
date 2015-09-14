@@ -12,7 +12,7 @@ CREATE OR REPLACE VIEW view_osmaxx.address_p AS SELECT
 	street,
 	housenumber,
 	postcode,
-	postcity
+	city
 FROM osmaxx.address_p;
 
 CREATE OR REPLACE VIEW view_osmaxx.adminarea_a AS SELECT 

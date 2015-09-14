@@ -46,7 +46,7 @@ else
 
 	echo "exporting to "$FILENAME$EXT
 	mkdir -p $DIR/data
-	ogr2ogr -f $TYPE $DIR/data/$FILENAME$EXT PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" -clipsrc $XMIN $YMIN $XMAX $YMAX $EXTRA
+	ogr2ogr -f "$TYPE" $DIR/data/$FILENAME$EXT PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" -clipsrc $XMIN $YMIN $XMAX $YMAX $EXTRA
 	echo $FILENAME$EXT" have been Generated.. Zipping files"
 
 	cd $DIR
