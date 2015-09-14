@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 14:34+0200\n"
+"POT-Creation-Date: 2015-09-14 09:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,30 +17,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: excerptconverter/baseexcerptconverter/base_excerpt_converter.py:55
+#: excerptconverter/converter_helper.py:21
+#, python-format
+msgid "The extraction of the order \"%(order_id)s\" has been finished."
+msgstr ""
+
+#: excerptconverter/converter_helper.py:47
 msgid ""
 "There is no email address assigned to your account. You won't be notified by "
 "email on process finish!"
 msgstr ""
 
-#: excerptconverter/dummyexcerptconverter/dummy_excerpt_converter.py:75
+#: excerptconverter/dummyexcerptconverter/dummy_excerpt_converter.py:73
 #, python-format
 msgid "\"%s\" created successful"
 msgstr ""
 
-#: excerptconverter/dummyexcerptconverter/dummy_excerpt_converter.py:78
+#: excerptconverter/dummyexcerptconverter/dummy_excerpt_converter.py:76
 #, python-format
 msgid "Creation of \"%s\" failed!"
 msgstr ""
 
 #: excerptconverter/dummyexcerptconverter/dummy_excerpt_converter.py:108
 #, python-format
-msgid "Your extraction order \"%s\" has been started"
+msgid "The Dummy conversion of extraction order \"%s\" has been started."
 msgstr ""
 
-#: excerptconverter/dummyexcerptconverter/dummy_excerpt_converter.py:120
+#: excerptconverter/dummyexcerptconverter/dummy_excerpt_converter.py:124
 #, python-format
-msgid "Your extraction order %s has been processed"
+msgid "The Dummy conversion of extraction order \"%s\" failed."
+msgstr ""
+
+#: excerptconverter/gisexcerptconverter/gis_excerpt_converter.py:106
+#, python-format
+msgid ""
+"Extraction of \"%(file_type)s\" of extraction order \"%(order_id)s\" was "
+"successful. (of %(number_of_files)s files of %(converter_name)s converter)"
+msgstr ""
+
+#: excerptconverter/gisexcerptconverter/gis_excerpt_converter.py:119
+#, python-format
+msgid ""
+"The extraction of \"%(file)s\" of extraction order \"%(order_id)s\" failed."
+msgstr ""
+
+#: excerptconverter/gisexcerptconverter/gis_excerpt_converter.py:128
+#, python-format
+msgid ""
+"The extraction of \"%(file_type)s\" of extraction order \"%(order_id)s\" "
+"failed."
+msgstr ""
+
+#: excerptconverter/gisexcerptconverter/gis_excerpt_converter.py:197
+#, python-format
+msgid "The GIS extraction of the order \"%s\" is has been started."
+msgstr ""
+
+#: excerptconverter/gisexcerptconverter/gis_excerpt_converter.py:225
+msgid "GIS excerpt converter is not yet able to extract polygon excerpts."
+msgstr ""
+
+#: excerptconverter/gisexcerptconverter/gis_excerpt_converter.py:232
+#, python-format
+msgid "GIS excerpt converter is not yet able to extract excerpts of type %s."
+msgstr ""
+
+#: excerptconverter/gisexcerptconverter/gis_excerpt_converter.py:247
+#, python-format
+msgid ""
+"The extraction of order %(order_id)s failed. Please contact an administrator."
 msgstr ""
 
 #: osmaxx/excerptexport/forms/export_options_form.py:15
@@ -93,23 +138,23 @@ msgstr ""
 msgid "bounding geometry"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:22
+#: osmaxx/excerptexport/models/extraction_order.py:23
 msgid "state"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:23
+#: osmaxx/excerptexport/models/extraction_order.py:24
 msgid "process start date"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:25
+#: osmaxx/excerptexport/models/extraction_order.py:26
 msgid "extraction options"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:28
+#: osmaxx/excerptexport/models/extraction_order.py:29
 msgid "orderer"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:29
+#: osmaxx/excerptexport/models/extraction_order.py:30
 msgid "excerpt"
 msgstr ""
 
@@ -326,23 +371,21 @@ msgstr ""
 msgid "Export options"
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:93
+#: osmaxx/excerptexport/views.py:92
 msgid "Invalid excerpt."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:101
+#: osmaxx/excerptexport/views.py:100
 #, python-format
-msgid ""
-"Successful creation of extraction order extraction order %(id)s. The "
-"conversion process will start soon."
+msgid "Queued extraction order %(id)s. The conversion process will start soon."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:109
+#: osmaxx/excerptexport/views.py:108
 #, python-format
 msgid "Creation of extraction order \"%s\" failed."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:113
+#: osmaxx/excerptexport/views.py:112
 msgid "Invalid export options."
 msgstr ""
 
