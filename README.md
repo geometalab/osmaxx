@@ -48,26 +48,30 @@ Then initiate the project defaults by running the following command:
 
 ```shell
 # For development:
-docker-compose run osmaxxwebappdev /bin/bash -c 'python3 manage.py migrate && python3 manage.py createsuperuser'
+docker-compose up -d databasedev;
+docker-compose run webappdev /bin/bash -c './manage.py migrate && ./manage.py createsuperuser'
 
 # For production:
-docker-compose run osmaxxwebapp /bin/bash -c 'python3 manage.py migrate && python3 manage.py createsuperuser'
+docker-compose up -d databaseprod;
+docker-compose run webapp /bin/bash -c './manage.py migrate && ./manage.py createsuperuser'
 ```
 
 Alternative to this command, bootstrap the container and execute the commands inside the container by hand:
 
 ```shell
 # For development:
-docker-compose run osmaxxwebappdev /bin/bash
+docker-compose up -d databasedev
+docker-compose run webappdev /bin/bash
 
 # For production:
-docker-compose run osmaxxwebapp /bin/bash
+docker-compose up -d database
+docker-compose run webapp /bin/bash
 ```
 
 Inside the container:
 
-1. Execute migrations: `$ python3 manage.py migrate`
-2. (optional, recommended) setup a superuser: `$ python3 manage.py createsuperuser`
+1. Execute migrations: `$ ./manage.py migrate`
+2. (optional, recommended) setup a superuser: `$ ./manage.py createsuperuser`
 
 
 ### Running the project
@@ -99,3 +103,17 @@ LINE 1: ..."django_site"."domain", "django_site"."name" FROM "django_si...
 ```
 
 You forgot to **run the migrations**
+
+
+#### Tests failed, but worked before with no apparent change
+
+Do not run `docker-compose build --no-cache`. Use `docker-compose rm -f && docker-compose build`, or
+if you really want to start clean, remove all docker containers
+
+`docker rm -f $(docker ps -q)`
+
+and remove all images
+
+`docker rmi -f $(docker images -q)`
+
+*WARNING*: This removes all containers/images on the machine.

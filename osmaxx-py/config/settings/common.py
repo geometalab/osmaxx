@@ -50,10 +50,10 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'osmaxx.excerptexport',
     'osmaxx.social_auth',
-    'excerptconverter.dummyexcerptconverter'
+    'excerptconverter.gisexcerptconverter'
 )
 CELERY_IMPORTS = [
-    'excerptconverter.dummyexcerptconverter.dummy_excerpt_converter'
+    'excerptconverter.gisexcerptconverter.gis_excerpt_converter'
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -198,6 +198,7 @@ STATICFILES_FINDERS = (
 
 MEDIA_ROOT = env.str('DJANGO_MEDIA_ROOT', default=str(ROOT_DIR('..', 'media')))
 PRIVATE_MEDIA_ROOT = env.str('DJANGO_PRIVATE_MEDIA_ROOT', default=str(ROOT_DIR.path('..', 'private_media')))
+RESULT_MEDIA_ROOT = env.str('DJANGO_RESULT_MEDIA_ROOT', default=str(ROOT_DIR.path('..', 'results_media')))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'

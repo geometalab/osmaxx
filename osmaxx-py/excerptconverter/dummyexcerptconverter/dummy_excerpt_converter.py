@@ -1,20 +1,17 @@
-import time
 import os
+import time
 
 from celery import shared_task
 
-from django.conf import settings
-from django.core.files.storage import FileSystemStorage
 from django.core.files.base import ContentFile
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 
 from excerptconverter.baseexcerptconverter import BaseExcerptConverter
+from excerptconverter import ConverterHelper
 
 from osmaxx.excerptexport import models
-
-
-private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
+from osmaxx.utils import private_storage
 
 
 class DummyExcerptConverter(BaseExcerptConverter):
@@ -52,7 +49,7 @@ class DummyExcerptConverter(BaseExcerptConverter):
         }
 
     @staticmethod
-    def create_output_files(execution_configuration, extraction_order, supported_export_formats):
+    def create_output_files(execution_configuration, extraction_order, supported_export_formats, converter_helper):
         for format_key in execution_configuration['formats']:
             output_file = models.OutputFile.objects.create(
                 mime_type=supported_export_formats[format_key]['mime_type'],
@@ -72,11 +69,12 @@ class DummyExcerptConverter(BaseExcerptConverter):
             output_file.save()
 
             if private_storage.exists(file_name):
+                message_level = messages.SUCCESS
                 message_text = _('"%s" created successful' % file_name)
-                BaseExcerptConverter.inform_user(extraction_order.orderer, messages.SUCCESS, message_text, False)
             else:
+                message_level = messages.ERROR
                 message_text = _('Creation of "%s" failed!' % file_name)
-                BaseExcerptConverter.inform_user(extraction_order.orderer, messages.ERROR, message_text, False)
+            converter_helper.inform_user(message_level, message_text, email=False)
 
     @staticmethod
     @shared_task
@@ -93,29 +91,36 @@ class DummyExcerptConverter(BaseExcerptConverter):
                 if wait_time > 30:
                     raise
 
-        fake_work_waiting_time_in_seconds = 5
+        try:
+            converter_helper = ConverterHelper(extraction_order)
+            fake_work_waiting_time_in_seconds = 5
 
-        # now set the new state
-        extraction_order.state = models.ExtractionOrderState.WAITING
-        extraction_order.save()
+            # now set the new state
+            extraction_order.state = models.ExtractionOrderState.WAITING
+            extraction_order.save()
 
-        time.sleep(fake_work_waiting_time_in_seconds)
+            time.sleep(fake_work_waiting_time_in_seconds)
 
-        # now set the new state
-        extraction_order.state = models.ExtractionOrderState.PROCESSING
-        extraction_order.save()
+            # now set the new state
+            extraction_order.state = models.ExtractionOrderState.PROCESSING
+            extraction_order.save()
 
-        message_text = _('Your extraction order "%s" has been started' % extraction_order)
-        BaseExcerptConverter.inform_user(extraction_order.orderer, messages.INFO, message_text, False)
+            message_text = _('The Dummy conversion of extraction order "%s" has been started.') % extraction_order.id
+            converter_helper.inform_user(messages.INFO, message_text, email=False)
 
-        DummyExcerptConverter.create_output_files(execution_configuration, extraction_order, supported_export_formats)
+            DummyExcerptConverter.create_output_files(
+                execution_configuration,
+                extraction_order,
+                supported_export_formats,
+                converter_helper
+            )
 
-        time.sleep(fake_work_waiting_time_in_seconds)
+            time.sleep(fake_work_waiting_time_in_seconds)
 
-        # now set the new state
-        extraction_order.state = models.ExtractionOrderState.FINISHED
-        extraction_order.save()
-
-        # inform the user of the status change.
-        message_text = _('Your extraction order %s has been processed' % extraction_order)
-        BaseExcerptConverter.inform_user(extraction_order.orderer, messages.SUCCESS, message_text)
+            # now set the new state (if all files have been processed) and inform the user about the state
+            converter_helper.file_conversion_finished()
+        except:
+            # TODO: log stack trace
+            message_text = _('The Dummy conversion of extraction order "%s" failed.') % extraction_order.id
+            converter_helper.inform_user(messages.ERROR, message_text, email=False)
+            raise

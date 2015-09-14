@@ -4,7 +4,18 @@ from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 
 
 class BoundingGeometry(models.Model):
-    pass
+    @property
+    def type(self):
+        return type(self).__name__
+
+    @property
+    def geometry_instance(self):
+        if hasattr(self, 'bboxboundinggeometry'):
+            return self.bboxboundinggeometry
+        elif hasattr(self, 'osmosispolygonfilterboundinggeometry'):
+            return self.osmosispolygonfilterboundinggeometry
+        else:
+            return self
 
 
 class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
@@ -12,6 +23,9 @@ class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
     Bounding geometry based on a 'Osmosis polygon filter file format' file.
     """
     polygon_file = models.FileField(storage=get_private_upload_storage())
+
+    def __str__(self):
+        return 'Polygon file: ' + self.polygon_file
 
 
 class BBoxBoundingGeometry(BoundingGeometry):

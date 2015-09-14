@@ -9,8 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
-from django.core.files.storage import FileSystemStorage
-from django.conf import settings
 
 from .models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
 from .models.extraction_order import ExtractionOrderState
@@ -22,16 +20,17 @@ from osmaxx.contrib.auth.frontend_permissions import (
 from . import settings as excerptexport_settings
 from .forms import ExportOptionsForm, NewExcerptForm
 from excerptconverter import ConverterManager
-
-private_storage = FileSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
+from osmaxx.utils import private_storage
 
 
 class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, View):
     def get(self, request, excerpt_form_initial_data=None):
         active_excerpts = Excerpt.objects.filter(is_active=True)
-        active_bbox_excerpts = active_excerpts.filter(bounding_geometry__bboxboundinggeometry__isnull=False)
+        active_bbox_excerpts = active_excerpts.filter(
+            bounding_geometry_raw_reference__bboxboundinggeometry__isnull=False
+        )
         active_file_excerpts = active_excerpts.filter(
-            bounding_geometry__osmosispolygonfilterboundinggeometry__isnull=False)
+            bounding_geometry_raw_reference__osmosispolygonfilterboundinggeometry__isnull=False)
         view_model = {
             'user': request.user,
             'export_options_form': ExportOptionsForm(ConverterManager.converter_configuration(), auto_id='%s'),
@@ -97,8 +96,8 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
                 converter_manager = ConverterManager(extraction_order)
                 converter_manager.execute_converters()
 
-                messages.success(request, _(
-                    'Successful creation of extraction order extraction order %(id)s. '
+                messages.info(request, _(
+                    'Queued extraction order %(id)s. '
                     'The conversion process will start soon.'
                 ) % {'id': extraction_order.id})
                 return HttpResponseRedirect(

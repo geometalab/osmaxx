@@ -49,9 +49,7 @@ For developers have write access to this repository:
 	Implementation of feature #123 (Merge will close #123 ).
 
 	* locales **NOT** compiled -> do this on release (prevent huge locale diffs in changes)
-	* ran flake8
-	* ran check
-	* ran test
+	* ran tests
 	* tested views by hand:
 	  * /orders/new [get/post]
 	  * /orders/{id}

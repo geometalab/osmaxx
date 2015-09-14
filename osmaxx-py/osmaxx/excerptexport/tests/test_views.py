@@ -68,6 +68,10 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
                 'options': {
                     'detail_level': 'verbatim'
                 }
+            },
+            'GisExcerptConverter': {
+                'formats': [],
+                'options': {}
             }
         }
 

@@ -1,11 +1,6 @@
 import abc as abstract_base_class
-import stored_messages
 
 from celery import shared_task
-
-from django.contrib import messages
-from django.core.mail import send_mail
-from django.utils.translation import ugettext_lazy as _
 
 
 class BaseExcerptConverter(metaclass=abstract_base_class.ABCMeta):
@@ -31,30 +26,6 @@ class BaseExcerptConverter(metaclass=abstract_base_class.ABCMeta):
     @shared_task
     def execute_task(extraction_order_id, supported_export_formats, execution_configuration):
         raise NotImplemented
-
-    @staticmethod
-    def inform_user(user, message_type, message_text, email=True):
-        stored_messages.api.add_message_for(
-            users=[user],
-            level=message_type,
-            message_text=message_text
-        )
-
-        if email:
-            if hasattr(user, 'email'):
-                send_mail(
-                    '[OSMAXX] '+message_text,
-                    message_text,
-                    'no-reply@osmaxx.hsr.ch',
-                    [user.email]
-                )
-            else:
-                BaseExcerptConverter.inform_user(
-                    user,
-                    messages.WARNING,
-                    _("There is no email address assigned to your account. "
-                      "You won't be notified by email on process finish!"),
-                    email=False)
 
     @classmethod
     def converter_configuration(cls):
