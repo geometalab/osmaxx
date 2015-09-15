@@ -81,15 +81,14 @@ git flow release start '1.4.0'
 ### Finish release
 
 ```shell
+git checkout master
+git pull origin master
+git checkout develop
+
 git flow release finish '1.4.0'
 
 git checkout develop
-git push github develop --tags
-
-git checkout master
-git push github develop --tags
-
-git checkout develop
+git push origin develop:develop master:master '1.4.0'
 ```
 
 Go to Github repository /releases and add description of the release.

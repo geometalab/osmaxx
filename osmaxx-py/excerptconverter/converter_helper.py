@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.core.mail import send_mail
+#from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
 
 import stored_messages
@@ -35,12 +35,14 @@ class ConverterHelper:
 
         if email:
             if hasattr(self.user, 'email'):
-                send_mail(
-                    '[OSMAXX] '+message_text,
-                    message_text,
-                    'no-reply@osmaxx.hsr.ch',
-                    [self.user.email]
-                )
+                pass
+                # TODO: fix it
+                # send_mail(
+                #     '[OSMAXX] '+message_text,
+                #     message_text,
+                #     'no-reply@osmaxx.hsr.ch',
+                #     [self.user.email]
+                # )
             else:
                 self.inform_user(
                     messages.WARNING,
