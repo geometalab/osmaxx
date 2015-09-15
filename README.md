@@ -28,7 +28,7 @@ To run this project locally, you need docker and docker-compose installed
 (https://docs.docker.com/installation/ubuntulinux/ and https://docs.docker.com/compose/install/).
 
 
-### Initialization/Docker container bootstrapping
+### Initialization
 
 ```shell
 # For development:
@@ -38,7 +38,12 @@ ln -s compose-development.yml docker-compose.yml
 ln -s compose-production.yml docker-compose.yml
 ```
 
-To setup all the containers and their dependencies, run
+### Docker container bootstrapping
+
+Take a look at the scripts ```setup.development.sh``` and ```setup.production.sh``. 
+These scripts will setup the container forest, run migrations and create a superuser (interactive).
+
+To setup all the containers and their dependencies by hand, run
 
 ```shell
 docker-compose build
@@ -52,7 +57,7 @@ docker-compose up -d databasedev;
 docker-compose run webappdev /bin/bash -c './manage.py migrate && ./manage.py createsuperuser'
 
 # For production:
-docker-compose up -d databaseprod;
+docker-compose up -d database;
 docker-compose run webapp /bin/bash -c './manage.py migrate && ./manage.py createsuperuser'
 ```
 
