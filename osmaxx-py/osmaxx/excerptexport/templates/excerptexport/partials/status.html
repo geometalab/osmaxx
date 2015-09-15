@@ -11,5 +11,7 @@
         <span style="color: seagreen;" title="{{ state }}">&check;</span>
     {% elif state == 'canceled' %}
         <span style="color: maroon;" title="{{ state }}">&Chi;</span>
+    {% elif state == 'failed' %}
+        <span style="color: darkred;" title="{{ state }}">&empty;</span>
     {% endif %}
 {% endwith %}

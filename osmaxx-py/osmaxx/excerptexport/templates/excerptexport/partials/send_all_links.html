@@ -3,7 +3,7 @@
 <a href="mailto:?subject=Download%20map%20data%20of%20{{ extraction_order.excerpt.name }}&body=
 {% for file in extraction_order.output_files.all %}
 {% if not file.deleted_on_filesystem %}
-http://{{ host_domain }}{% url 'excerptexport:download' uuid=file.public_identifier %}%0D%0A
+{{ file.content_type }}: http://{{ host_domain }}{% url 'excerptexport:download' uuid=file.public_identifier %}%0D%0A
 {% endif %}
 {% endfor %}
     ">

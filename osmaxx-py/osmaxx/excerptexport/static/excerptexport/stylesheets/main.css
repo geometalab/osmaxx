@@ -223,8 +223,10 @@ table tr:nth-child(odd) td  { background: rgb(210,240,255); }
 [data-order-status="PROCESSING"] { background: lightcyan; border: 0.1rem solid turquoise; }
 [data-order-status="FINISHED"] { background: honeydew; border: 0.1rem solid seagreen; }
 [data-order-status="CANCELED"] { background: peachpuff; border: 0.1rem solid maroon; }
+[data-order-status="FAILED"] { background: mistyrose; border: 0.1rem solid maroon; }
 
 .download_files li[data-file-deleted] { opacity: 0.5; }
+.download_detail { display: block; }
 
 
 /** bootstrap fixes */

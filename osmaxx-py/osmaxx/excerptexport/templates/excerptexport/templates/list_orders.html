@@ -13,13 +13,17 @@
         {% for extraction_order in extraction_orders.all %}
             <div class="order" data-order-status="{{ extraction_order.get_state_display }}">
                 <h3>{% include 'excerptexport/partials/status.html' with status=extraction_order.get_state_display %}
-                    <a href="{% url 'excerptexport:status' extraction_order.id %}">#{{ extraction_order.id }}</a>
-                    {% blocktrans with excerpt_name=extraction_order.excerpt.name %}Extraction of &quot;{{ excerpt_name }}&quot;{% endblocktrans %}
+                    <a href="{% url 'excerptexport:status' extraction_order.id %}">#{{ extraction_order.id }}
+                    {% blocktrans with excerpt_name=extraction_order.excerpt.name %}Extraction of &quot;{{ excerpt_name }}&quot;{% endblocktrans %}</a>
                 </h3>
-
-                {% if extraction_order.are_downloads_ready %}
-                    {% include 'excerptexport/partials/download_list.html' with files=extraction_order.output_files host_domain=host_domain %}
-                {% endif %}
+                <p>
+                    {% if extraction_order.process_start_date %}
+                    <span class="date download_detail">{{ extraction_order.process_start_date|date:"SHORT_DATE_FORMAT" }}</span>
+                    {% endif %}
+                    {% if extraction_order.output_files.count > 0 %}
+                    <span class="number_of_downloads download_detail">{% blocktrans with number_of_output_files=extraction_order.output_files.count %}<strong>{{ number_of_output_files }} Downloads</strong>{% endblocktrans %}</span>
+                    {% endif %}
+                </p>
             </div>
         {% endfor %}
     </div>

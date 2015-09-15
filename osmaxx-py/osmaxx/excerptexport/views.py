@@ -119,7 +119,7 @@ def list_downloads(request):
         'extraction_orders': ExtractionOrder.objects.filter(
             orderer=request.user,
             state=ExtractionOrderState.FINISHED
-        )
+        ).order_by('-id')[:excerptexport_settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
     }
     return render_to_response('excerptexport/templates/list_downloads.html', context=view_context,
                               context_instance=RequestContext(request))
