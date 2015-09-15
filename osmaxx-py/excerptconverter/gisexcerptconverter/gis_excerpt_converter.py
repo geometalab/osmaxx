@@ -100,7 +100,8 @@ class GisExcerptConverter(BaseExcerptConverter):
                 if len(os.listdir(settings.RESULT_MEDIA_ROOT)) > 0:
                     for result_file_name in os.listdir(settings.RESULT_MEDIA_ROOT):
                         # gis files are packaged in a zip file
-                        if GisExcerptConverter.create_output_file(extraction_order, result_file_name):
+                        if GisExcerptConverter.create_output_file(
+                                extraction_order, result_file_name, export_format_key):
                             converter_helper.inform_user(
                                 messages.SUCCESS,
                                 _('Extraction of "%(file_type)s" of extraction order "%(order_id)s" was successful. '
@@ -133,7 +134,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                     )
 
     @staticmethod
-    def create_output_file(extraction_order, result_file_name):
+    def create_output_file(extraction_order, result_file_name, export_format_key):
         """
         Move file to private media storage and add OutputFile to Extractionorder
 
@@ -141,6 +142,8 @@ class GisExcerptConverter(BaseExcerptConverter):
         """
         output_file = models.OutputFile.objects.create(
             mime_type='application/zip',
+            file_extension='zip',
+            content_type=export_format_key,
             extraction_order=extraction_order
         )
 

@@ -1,5 +1,3 @@
-import os
-
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.core.servers.basehttp import FileWrapper
@@ -132,10 +130,7 @@ def download_file(request, uuid):
     if not output_file.file:
         return HttpResponseNotFound('<p>No output file attached to output file record.</p>')
 
-    download_file_name = excerptexport_settings.APPLICATION_SETTINGS['download_file_name'] % {
-        'id': str(output_file.public_identifier),
-        'name': os.path.basename(output_file.file.name)
-    }
+    download_file_name = output_file.download_file_name
 
     # stream file in chunks
     response = StreamingHttpResponse(
