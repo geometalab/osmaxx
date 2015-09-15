@@ -24,7 +24,8 @@ class DownloadsTestCase(TestCase):
         excerpt = Excerpt.objects.create(name='Neverland', is_active=True, is_public=True, owner=user,
                                          bounding_geometry=bg)
         extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
-        output_file = OutputFile.objects.create(mime_type='test/plain', extraction_order=extraction_order)
+        output_file = OutputFile.objects.create(mime_type='test/plain', extraction_order=extraction_order,
+                                                content_type='text', file_extension='txt')
 
         file_path = os.path.join(settings.PRIVATE_MEDIA_ROOT, str(output_file.public_identifier) + '.txt')
 
@@ -42,7 +43,7 @@ class DownloadsTestCase(TestCase):
         self.assertEqual(response['Content-Length'], str(os.path.getsize(file_path)))
         self.assertEqual(
             response['Content-Disposition'],
-            'attachment; filename=%s' % os.path.basename(output_file.file.name)
+            'attachment; filename=%s' % output_file.download_file_name
         )
         self.assertEqual(b''.join(response.streaming_content), b'Test text')
 
