@@ -53,6 +53,7 @@ node,way   denomination text         linear
 node,way   drinkable	text         linear
 node       ele          text         linear
 node,way   emergency    text         polygon
+node,way   entrance     text         polygon
 node,way   foot         text         linear
 node,way   frequency    text         linear
 node,way   generator:source    text  linear

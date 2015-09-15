@@ -43,16 +43,16 @@ INSERT INTO osmaxx.address_p
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case 
-	when "addr:street" is not null then "addr:street"
-	when "addr:place" is not null then "addr:place"
-    else "addr:street"
+		when "addr:street" is not null then "addr:street"
+		when "addr:place" is not null then "addr:place"
+    	else NULL
 	end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
 	"addr:place" as city,
     "addr:country" as country
   FROM osm_point
-where building not in ('entrance') and ("addr:street" is not null or "addr:place" is not null)
+where building !='entrance' and (entrance !='yes' or entrance =NULL)
 
 -- Without the Entrance Node and the addresses are part of a way  --
 UNION
@@ -73,16 +73,16 @@ UNION
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case 
-	when "addr:street" is not null then "addr:street"
-	when "addr:place" is not null then "addr:place"
-	else "addr:street"
+		when "addr:street" is not null then "addr:street"
+		when "addr:place" is not null then "addr:place"
+		else NULL
     end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
 	"addr:place" as city,
     "addr:country" as country
   FROM osm_polygon
-where building not in ('entrance') and ("addr:street" is not null or "addr:place" is not null);
+where building !='entrance';
 
 --------------
 -- entrance --
@@ -106,14 +106,14 @@ INSERT INTO osmaxx.address_p
 	case 
 	when "addr:street" is not null then "addr:street"
 	when "addr:place" is not null then "addr:place"
-	else "addr:street"
+	else NULL
     end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
 	"addr:place" as city,
     "addr:country" as country
   FROM osm_point
-  where building='entrance' and ("addr:street" is not null or "addr:place" is not null)
+  where (building='entrance' or entrance='yes') 
 
 -- With the entrance node and the addresses are part of a way --
   UNION
@@ -134,16 +134,16 @@ INSERT INTO osmaxx.address_p
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case 
-	when "addr:street" is not null then "addr:street"
-	when "addr:place" is not null then "addr:place"
-	else "addr:street"
+        when "addr:street" is not null then "addr:street"
+        when "addr:place" is not null then "addr:place"
+        else NULL
     end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
 	"addr:place" as city,
     "addr:country" as country
   FROM osm_polygon
-  where building='entrance' and ("addr:street" is not null or "addr:place" is not null);
+  where (building='entrance') ;
 
 
 -------------
@@ -164,44 +164,16 @@ INSERT INTO osmaxx.address_p
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case 
-	when "addr:street" is not null then "addr:street"
-	when "addr:place" is not null then "addr:place"
-	else "addr:street"
+		when "addr:street" is not null then "addr:street"
+		when "addr:place" is not null then "addr:place"
+		else NULL
     end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
 	"addr:place" as city,
     "addr:country" as country
-  FROM osm_point
- WHERE place is not null  and ("addr:street" is not null or "addr:place" is not null)
-  UNION
-  SELECT osm_id as osm_id,
-	osm_timestamp as lastchange,
-	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relation
-	 ELSE 'W' 		-- Way
-	 END AS geomtype, 
-	ST_Centroid(way) AS geom,
-	'p' AS type,	
-	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
-	transliterate(name) as label,
-	cast(tags as text) as tags,
-	case 
-	when "addr:street" is not null then "addr:street"
-	when "addr:place" is not null then "addr:place"
-    else "addr:street"
-	end  as street,
-	"addr:housenumber" as housenumber,
-	"addr:postcode" as postcode,
-	"addr:place" as city, 
-    "addr:country" as country
-  FROM osm_polygon
- WHERE place is not null  and ("addr:street" is not null or "addr:place" is not null);
+  FROM osm_point;
+
 
 -------------------
 -- interpolation --
