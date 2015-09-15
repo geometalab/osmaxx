@@ -20,7 +20,7 @@ CREATE TABLE osmaxx.address_p(
 	housenumber text,
 	postcode text,
 	city text,
-    country text
+    country text    
 );
 
 ------------------
@@ -39,7 +39,8 @@ INSERT INTO osmaxx.address_p
 	"name:fr" as name_fr, 
 	"name:es" as name_es, 
 	"name:de" as name_de, 
-	int_name as name_int, 
+	int_name as name_int,
+    
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case 
@@ -52,7 +53,7 @@ INSERT INTO osmaxx.address_p
 	"addr:place" as city,
     "addr:country" as country
   FROM osm_point
-where building !='entrance' and (entrance !='yes' or entrance =NULL)
+where building !='entrance' and (entrance !='yes' or entrance ='')
 
 -- Without the Entrance Node and the addresses are part of a way  --
 UNION
@@ -68,7 +69,7 @@ UNION
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
 	"name:es" as name_es, 
-	"name:de" as name_de, 
+	"name:de" as name_de,
 	int_name as name_int, 
 	transliterate(name) as label,
 	cast(tags as text) as tags,
@@ -100,7 +101,7 @@ INSERT INTO osmaxx.address_p
 	"name:fr" as name_fr, 
 	"name:es" as name_es, 
 	"name:de" as name_de, 
-	int_name as name_int, 
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case 
@@ -130,7 +131,7 @@ INSERT INTO osmaxx.address_p
 	"name:fr" as name_fr, 
 	"name:es" as name_es, 
 	"name:de" as name_de, 
-	int_name as name_int, 
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case 
@@ -160,7 +161,7 @@ INSERT INTO osmaxx.address_p
 	"name:fr" as name_fr, 
 	"name:es" as name_es, 
 	"name:de" as name_de, 
-	int_name as name_int, 
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case 
