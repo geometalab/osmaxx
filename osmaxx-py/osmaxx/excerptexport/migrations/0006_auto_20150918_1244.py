@@ -14,6 +14,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='outputfile',
             name='content_type',
-            field=models.CharField(max_length=64, null=True, verbose_name='content type', blank=True),
+            field=models.CharField(max_length=64, default='', verbose_name='content type'),
+        ),
+        migrations.AddField(
+            model_name='outputfile',
+            name='file_extension',
+            field=models.CharField(max_length=64, default='', verbose_name='file extension'),
         ),
     ]
