@@ -3,9 +3,9 @@ import uuid
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from .extraction_order import ExtractionOrder
-from osmaxx.excerptexport import settings as excerptexport_settings
 from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 
 
@@ -24,7 +24,7 @@ class OutputFile(models.Model):
 
     @property
     def download_file_name(self):
-        return excerptexport_settings.APPLICATION_SETTINGS['download_file_name'] % {
+        return settings.OSMAXX['download_file_name'] % {
             'id': str(self.public_identifier),
             'name': os.path.basename(self.file.name),
             'date': self.create_date.strftime("%Y%m%d"),

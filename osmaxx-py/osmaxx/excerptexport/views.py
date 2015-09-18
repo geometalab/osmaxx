@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
+from django.conf import settings
 
 from .models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
 from .models.extraction_order import ExtractionOrderState
@@ -15,7 +16,6 @@ from osmaxx.contrib.auth.frontend_permissions import (
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
-from . import settings as excerptexport_settings
 from .forms import ExportOptionsForm, NewExcerptForm
 from excerptconverter import ConverterManager
 from osmaxx.utils import private_storage
@@ -119,7 +119,7 @@ def list_downloads(request):
         'extraction_orders': ExtractionOrder.objects.filter(
             orderer=request.user,
             state=ExtractionOrderState.FINISHED
-        ).order_by('-id')[:excerptexport_settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
+        ).order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
     }
     return render_to_response('excerptexport/templates/list_downloads.html', context=view_context,
                               context_instance=RequestContext(request))
@@ -136,7 +136,7 @@ def download_file(request, uuid):
     response = StreamingHttpResponse(
         FileWrapper(
             private_storage.open(output_file.file),
-            excerptexport_settings.APPLICATION_SETTINGS['download_chunk_size']
+            settings.OSMAXX['download_chunk_size']
         ),
         content_type=output_file.mime_type
     )
@@ -162,7 +162,7 @@ def list_orders(request):
     view_context = {
         'host_domain': request.get_host(),
         'extraction_orders': ExtractionOrder.objects.filter(orderer=request.user)
-        .order_by('-id')[:excerptexport_settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
+        .order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
     }
     return render_to_response('excerptexport/templates/list_orders.html', context=view_context,
                               context_instance=RequestContext(request))
