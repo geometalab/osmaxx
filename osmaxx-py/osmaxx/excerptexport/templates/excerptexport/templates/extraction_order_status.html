@@ -15,7 +15,7 @@
             <span class="smaller"><a href=""><button>&#8635; {% trans 'Reload' %}</button></a></span>
         </h2>
         <table>
-            <body>
+            <tbody>
                 <tr><th>{% trans 'ID' %}</th><td>{{ extraction_order.id }}</td></tr>
                 <tr><th>{% trans 'Excerpt' %}</th><td>{{ extraction_order.excerpt.name }}</td></tr>
                 <tr>
@@ -31,7 +31,7 @@
                 <tr><th>{% trans 'Extraction started at' %}</th><td>{{ extraction_order.process_start_date|date:"r" }}</td></tr>
                 {% endif %}
                 <tr><th>{% trans 'Issuer' %}</th><td>{{ extraction_order.orderer.get_username }}</td></tr>
-            </body>
+            </tbody>
         </table>
 
         {% if extraction_order.output_files.count > 0 %}
