@@ -115,6 +115,7 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
 @frontend_access_required()
 def list_downloads(request):
     view_context = {
+        'protocol': request.scheme,
         'host_domain': request.get_host(),
         'extraction_orders': ExtractionOrder.objects.filter(
             orderer=request.user,
@@ -149,6 +150,7 @@ def download_file(request, uuid):
 @frontend_access_required()
 def extraction_order_status(request, extraction_order_id):
     view_context = {
+        'protocol': request.scheme,
         'host_domain': request.get_host(),
         'extraction_order': get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
     }
@@ -160,6 +162,7 @@ def extraction_order_status(request, extraction_order_id):
 @frontend_access_required()
 def list_orders(request):
     view_context = {
+        'protocol': request.scheme,
         'host_domain': request.get_host(),
         'extraction_orders': ExtractionOrder.objects.filter(orderer=request.user)
         .order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
