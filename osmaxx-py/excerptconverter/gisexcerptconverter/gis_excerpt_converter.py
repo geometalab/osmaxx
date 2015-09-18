@@ -91,7 +91,7 @@ class GisExcerptConverter(BaseExcerptConverter):
             index = 0
             if export_format_key in execution_configuration['formats']:
                 index += 1
-                extraction_command = "docker-compose run excerpt python excerpt.py %(bbox_args)s -f %(format)s" % {
+                extraction_command = "docker-compose run --rm excerpt python excerpt.py %(bbox_args)s -f %(format)s" % {  # noqa
                     'bbox_args':  bbox_args,
                     'format': export_format_key
                 }
@@ -208,7 +208,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                     ])
 
                     if len(execution_configuration['formats']) > 0:
-                        subprocess.check_call(("docker-compose run bootstrap sh main-bootstrap.sh %s" %
+                        subprocess.check_call(("docker-compose run --rm bootstrap sh main-bootstrap.sh %s" %
                                                bbox_args).split(' '))
                         extraction_order.state = models.ExtractionOrderState.PROCESSING
                         extraction_order.save()
@@ -233,10 +233,6 @@ class GisExcerptConverter(BaseExcerptConverter):
                         type(bounding_geometry).__name__,
                         email=False
                     )
-
-                subprocess.check_call("docker-compose stop --timeout 0".split(' '))
-                subprocess.check_call("docker-compose rm -vf".split(' '))
-
                 converter_helper.file_conversion_finished()
             except:
                 extraction_order.state = models.ExtractionOrderState.FAILED
@@ -252,4 +248,9 @@ class GisExcerptConverter(BaseExcerptConverter):
                 )
                 raise
             finally:
+                try:
+                    subprocess.check_call("docker-compose stop --timeout 0".split(' '))
+                    subprocess.check_call("docker-compose rm -v -f".split(' '))
+                except:
+                    pass
                 os.chdir(original_cwd)
