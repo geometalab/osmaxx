@@ -176,10 +176,13 @@ def list_orders(request):
 
 
 def access_denied(request):
+    admin_user_name = settings.OSMAXX['account_manager_username']
+
     view_context = {
         'next_page': request.GET['next'],
         'user': request.user,
-        'admin_user': User.objects.get(username=settings.ACCOUNT_MANAGER_USERNAME)
+        'admin_user': User.objects.get(username=admin_user_name) if
+        User.objects.filter(username=admin_user_name).exists() == 1 else None
     }
     return render_to_response('excerptexport/templates/access_denied.html', context=view_context,
                               context_instance=RequestContext(request))

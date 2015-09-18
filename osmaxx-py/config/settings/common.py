@@ -106,10 +106,6 @@ ADMINS = ()
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 
-# The email adress of this user will be used to generate the mailto link for users
-# to request access to osmaxx (access_denied page)
-ACCOUNT_MANAGER_USERNAME = 'admin'
-
 # DATABASE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
@@ -374,4 +370,10 @@ MESSAGE_TAGS = {
     25: 'success',
     30: 'warning',
     40: 'error'
+}
+
+OSMAXX = {
+    # The email adress of this user will be used to generate the mailto link for users
+    # to request access to osmaxx (access_denied page)
+    'account_manager_username': 'admin'
 }
