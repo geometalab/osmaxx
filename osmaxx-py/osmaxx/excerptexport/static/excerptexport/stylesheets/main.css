@@ -225,6 +225,15 @@ table tr:nth-child(odd) td  { background: rgb(210,240,255); }
 [data-order-status="CANCELED"] { background: peachpuff; border: 0.1rem solid maroon; }
 [data-order-status="FAILED"] { background: mistyrose; border: 0.1rem solid maroon; }
 
+.symbol.undefined { color: maroon; }
+.symbol.initialized { color: cornflowerblue; }
+.symbol.waiting { color: gold; }
+.symbol.rotated90deg { display: inline-block; -ms-transform: rotate(90deg); -webkit-transform: rotate(90deg); transform: rotate(90deg); }
+.symbol.processing { color: olive; }
+.symbol.finished { color: seagreen; }
+.symbol.canceled { color: maroon; }
+.symbol.failed { color: darkred; }
+
 .download_files li[data-file-deleted] { opacity: 0.5; }
 .download_detail { display: block; }
 
