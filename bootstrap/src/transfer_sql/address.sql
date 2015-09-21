@@ -53,7 +53,7 @@ INSERT INTO osmaxx.address_p
 	"addr:place" as city,
     "addr:country" as country
   FROM osm_point
-where building !='entrance' and ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='')
+where building !='entrance' and entrance is null and ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='')
 
 -- Without the Entrance Node and the addresses are part of a way  --
 UNION
@@ -83,7 +83,7 @@ UNION
 	"addr:place" as city,
     "addr:country" as country
   FROM osm_polygon
-where building !='entrance' and ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='');
+where building !='entrance' and entrance is null and ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='');
 
 --------------
 -- Entrance and Nodes--
@@ -96,7 +96,7 @@ INSERT INTO osmaxx.address_p
 	'N' AS geomtype, 	-- Node 
 	way AS geom,
     case
-        when (building='entrance' or entrance='yes') then 'e'
+        when (building='entrance' or entrance is not null) then 'e'
         else 'p'
     end as type,
 	name as name,
