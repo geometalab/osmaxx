@@ -47,12 +47,11 @@ init_osmosis() {
 }
 
 fill_initial_osm_data(){
-echo "*** fill initial OSM data ***"
-    #Download the entire region's map
-    wget --progress=bar http://download.geofabrik.de/europe/switzerland-latest.osm.pbf -O $WORKDIR_OSM/switzerland-latest.osm.pbf
+    echo "*** fill initial OSM data ***"
 
-    #Cut the region map into the required area map through the given coordinates
-    osmconvert $WORKDIR_OSM/switzerland-latest.osm.pbf -b=${WEST},${SOUTH},${EAST},${NORTH} -o=$WORKDIR_OSM/excerpt.osm.pbf
+    # Download the region map specified through the given coordinates
+    wget -qO- "http://overpass.osm.rambler.ru/cgi/xapi_meta?*[bbox=${WEST},${SOUTH},${EAST},${NORTH}]"\
+        | osmconvert --out-pbf - > $WORKDIR_OSM/excerpt.osm.pbf
 
     #Convert the OSM data to the required PostgreSQL format
     osm2pgsql --slim --create --extra-attributes --database $DB_NAME \
