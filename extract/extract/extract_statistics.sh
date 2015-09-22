@@ -20,7 +20,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.adminarea_a where type='"$val"' and osmaxx.adminarea_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -32,7 +32,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.boundary_l where type='"$val"' and osmaxx.boundary_l.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -44,7 +44,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.geoname_l where type='"$val"' and osmaxx.geoname_l.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -56,7 +56,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.geoname_p where type='"$val"' and osmaxx.geoname_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -68,7 +68,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.landuse_a where type='"$val"' and osmaxx.landuse_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -80,7 +80,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.military_a where type='"$val"' and osmaxx.military_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -92,7 +92,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.military_p where type='"$val"' and osmaxx.military_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -104,7 +104,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.misc_l where type='"$val"' and osmaxx.misc_l.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -116,7 +116,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.natural_a where type='"$val"' and osmaxx.natural_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -128,7 +128,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.natural_p where type='"$val"' and osmaxx.natural_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -140,7 +140,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.nonop_l where type='highway' and status='"$val"' and osmaxx.nonop_l.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "highway,%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -150,7 +150,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.nonop_l where type='railway' and status='"$val"' and osmaxx.nonop_l.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "railway,%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -163,7 +163,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.pow_a where type='"$val"' and osmaxx.pow_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -175,7 +175,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.pow_p where type='"$val"' and osmaxx.pow_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -507,7 +507,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.railway_l where type='"$val"' and osmaxx.railway_l.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -541,7 +541,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.route_l where type='"$val"' and osmaxx.route_l.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -553,7 +553,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.traffic_a where type='"$val"' and osmaxx.traffic_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -565,7 +565,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.traffic_p where type='"$val"' and osmaxx.traffic_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -577,7 +577,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.transport_a where type='"$val"' and osmaxx.transport_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -589,7 +589,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.transport_p where type='"$val"' and osmaxx.transport_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -602,7 +602,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.utility_a where type='"$val"' and osmaxx.utility_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -614,7 +614,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.utility_p where type='"$val"' and osmaxx.utility_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -626,7 +626,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.utility_l where type='"$val"' and osmaxx.utility_l.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "power,%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 val=(pipeline)
@@ -635,7 +635,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.utility_l where type='"$val"' and osmaxx.utility_l.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "man_made,%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -647,7 +647,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.water_a where type='"$val"' and osmaxx.water_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -659,7 +659,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.water_p where type='"$val"' and osmaxx.water_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
@@ -671,7 +671,7 @@ do
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.water_l where type='"$val"' and osmaxx.water_l.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
-sort -k2 -rn TEMP.txt>>$FILE
+sort --key=2 --reverse --numeric-sort TEMP.txt>>$FILE
 rm TEMP.txt
 echo >>$FILE
 
