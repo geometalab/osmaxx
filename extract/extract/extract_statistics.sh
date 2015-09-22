@@ -17,7 +17,7 @@ echo "adminarea_a">> $FILE
 val=(admin_level1 national admin_level3 admin_level4 admin_level5 admin_level6 admin_level7 admin_level8 admin_level9 admin_level10 admin_level11 administrative national_park protected_area)
 for val in ${val[@]}
 do
-	count=$(psql -U postgres -Atc "SELECT count(type) from "osmaxx.adminarea_a" where type='"$val"' and osmaxx.adminarea_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
+	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.adminarea_a where type='"$val"' and osmaxx.adminarea_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 	printf "%20s,%20s\n" $val	$count>>TEMP.txt;
 done
 sort -k2 -rn TEMP.txt>>$FILE
