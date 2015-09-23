@@ -69,7 +69,7 @@ class GetObjectOrNoneTests(TestCase):
 
         # An empty list is returned if the list is empty.
         self.assertEqual(
-            [],
+            None,
             get_list_or_none(a1.article_set, title__icontains="Shrubbery")
         )
 
