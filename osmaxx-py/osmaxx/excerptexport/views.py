@@ -1,4 +1,5 @@
 import os
+import logging
 
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
@@ -23,6 +24,9 @@ from . import settings as excerptexport_settings
 from .forms import ExportOptionsForm, NewExcerptForm
 from excerptconverter import ConverterManager
 from osmaxx.utils import private_storage
+
+
+logger = logging.getLogger(__name__)
 
 
 class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, View):
@@ -175,14 +179,20 @@ def list_orders(request):
                               context_instance=RequestContext(request))
 
 
-def access_denied(request):
+def get_admin_user_or_none():
     admin_user_name = settings.OSMAXX['account_manager_username']
+    try:
+        return User.objects.get(username=admin_user_name)
+    except User.DoesNotExist:
+        logging.exception("Admin user '%s' missing." % settings.OSMAXX['account_manager_username'])
+        return None
 
+
+def access_denied(request):
     view_context = {
         'next_page': request.GET['next'],
         'user': request.user,
-        'admin_user': User.objects.get(username=admin_user_name) if
-        User.objects.filter(username=admin_user_name).exists() == 1 else None
+        'admin_user': get_admin_user_or_none()
     }
     return render_to_response('excerptexport/templates/access_denied.html', context=view_context,
                               context_instance=RequestContext(request))
