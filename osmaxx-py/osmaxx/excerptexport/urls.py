@@ -7,14 +7,14 @@ from osmaxx.excerptexport.views import (
     download_file,
     extraction_order_status,
     list_orders,
-    NewExtractionOrderView
+    NewExtractionOrderView,
+    access_denied,
 )
 
 
 except_export_urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="excerptexport/templates/index.html"), name='index'),
-    url(r'^access_denied/$', TemplateView.as_view(template_name="excerptexport/templates/access_denied.html"),
-        name='access_denied'),
+    url(r'^access_denied/$', access_denied, name='access_denied'),
 
     url(r'^downloads/$', list_downloads, name='downloads'),
     url(r'^downloads/(?P<uuid>[A-Za-z0-9_-]+)/$', download_file, name='download'),
