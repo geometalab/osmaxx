@@ -21,7 +21,7 @@ def get_object_or_none(klass, *args, **kwargs):
 
 def get_list_or_none(klass, *args, **kwargs):
     """
-    Uses filter() to return a list of objects, or raise a Http404 exception if
+    Uses filter() to return a list of objects, or return None if
     the list is empty.
 
     klass may be a Model, Manager, or QuerySet object. All other passed
