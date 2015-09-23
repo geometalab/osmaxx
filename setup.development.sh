@@ -13,6 +13,6 @@ docker-compose build
 
 # migrate
 docker-compose up -d databasedev
-sleep 3
+sleep 10
 docker-compose run --rm webappdev /bin/bash -c './manage.py migrate && ./manage.py createsuperuser'
-
+docker-compose run --rm webappdev
