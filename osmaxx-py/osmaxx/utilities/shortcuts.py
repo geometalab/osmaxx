@@ -28,7 +28,7 @@ def get_list_or_none(klass, *args, **kwargs):
     arguments and keyword arguments are used in the filter() query.
     """
     queryset = _get_queryset(klass)
-    obj_list = list(queryset.filter(*args, **kwargs))
-    if not obj_list:
+    object_list = list(queryset.filter(*args, **kwargs))
+    if not object_list:
         return None
-    return obj_list
+    return object_list
