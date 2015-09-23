@@ -5,9 +5,9 @@ DROP TABLE if exists osmaxx.address_p;
 CREATE TABLE osmaxx.address_p(
 	osm_id bigint, 
 	lastchange timestamp without time zone, 
-	geomtype text,
+	geomtype char(1),
 	geom geometry(POINT,900913),
-	type text, 
+	type char(1), 
 	name text, 
 	name_en text, 
 	name_fr text, 
