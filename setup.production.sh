@@ -19,7 +19,7 @@ docker run -v "$(pwd):/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "C
 
 # migrate
 docker run -v "$(pwd):/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:$DOCKER_COMPOSE_TAG" up -d database
-sleep 3
+sleep 10
 docker run -v "$(pwd):/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" -it --rm "dduportal/docker-compose:$DOCKER_COMPOSE_TAG" \
     run --rm webapp /bin/bash -c "python3 manage.py migrate && python3 manage.py createsuperuser"
 docker run -v "$(pwd):/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:$DOCKER_COMPOSE_TAG" stop
