@@ -6,9 +6,11 @@ from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
+from django.conf import settings
 
 from .models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
 from .models.extraction_order import ExtractionOrderState
@@ -170,4 +172,17 @@ def list_orders(request):
         .order_by('-id')[:excerptexport_settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
     }
     return render_to_response('excerptexport/templates/list_orders.html', context=view_context,
+                              context_instance=RequestContext(request))
+
+
+def access_denied(request):
+    admin_user_name = settings.OSMAXX['account_manager_username']
+
+    view_context = {
+        'next_page': request.GET['next'],
+        'user': request.user,
+        'admin_user': User.objects.get(username=admin_user_name) if
+        User.objects.filter(username=admin_user_name).exists() == 1 else None
+    }
+    return render_to_response('excerptexport/templates/access_denied.html', context=view_context,
                               context_instance=RequestContext(request))

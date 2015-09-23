@@ -371,3 +371,9 @@ MESSAGE_TAGS = {
     30: 'warning',
     40: 'error'
 }
+
+OSMAXX = {
+    # The email adress of this user will be used to generate the mailto link for users
+    # to request access to osmaxx (access_denied page)
+    'account_manager_username': env.str('ACCOUNT_MANAGER_USERNAME', default='admin')
+}
