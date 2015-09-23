@@ -12,8 +12,10 @@
             <button>&#9993; {% trans 'Send link' %}</button>
         </a>
         <div class="copy-link">
-            <label>{% trans 'Copy link:'%} </label><!--
-            --><textarea class="form-control">{{ protocol }}://{{ host_domain }}{{ download_url }}</textarea>
+            {% spaceless %}
+                <label>{% trans 'Copy link:'%} </label>
+                <textarea class="form-control">{{ protocol }}://{{ host_domain }}{{ download_url }}</textarea>
+            {% endspaceless %}
         </div>
     </li>
     {% endif %}
