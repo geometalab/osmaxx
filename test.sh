@@ -119,7 +119,7 @@ function application_tests() {
     log "Application tests:"
     log "------------------${RESET}"
 
-    docker_compose run $WEBAPP_CONTAINER /bin/bash -c "python3 manage.py test" &>> ${LOGFILE};
+    docker_compose run $WEBAPP_CONTAINER /bin/bash -c "DJANGO_SETTINGS_MODULE=config.settings.test; python3 manage.py test" &>> ${LOGFILE};
 
     if [ $? -eq 0 ]; then
         log "${GREEN}Tests passed successfully.${RESET}"

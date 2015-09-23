@@ -1,6 +1,4 @@
-import os
 import logging
-
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.core.servers.basehttp import FileWrapper
@@ -20,7 +18,6 @@ from osmaxx.contrib.auth.frontend_permissions import (
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
-from . import settings as excerptexport_settings
 from .forms import ExportOptionsForm, NewExcerptForm
 from excerptconverter import ConverterManager
 from osmaxx.utils import private_storage
@@ -123,11 +120,12 @@ class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Vi
 @frontend_access_required()
 def list_downloads(request):
     view_context = {
+        'protocol': request.scheme,
         'host_domain': request.get_host(),
         'extraction_orders': ExtractionOrder.objects.filter(
             orderer=request.user,
             state=ExtractionOrderState.FINISHED
-        )
+        ).order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
     }
     return render_to_response('excerptexport/templates/list_downloads.html', context=view_context,
                               context_instance=RequestContext(request))
@@ -138,16 +136,13 @@ def download_file(request, uuid):
     if not output_file.file:
         return HttpResponseNotFound('<p>No output file attached to output file record.</p>')
 
-    download_file_name = excerptexport_settings.APPLICATION_SETTINGS['download_file_name'] % {
-        'id': str(output_file.public_identifier),
-        'name': os.path.basename(output_file.file.name)
-    }
+    download_file_name = output_file.download_file_name
 
     # stream file in chunks
     response = StreamingHttpResponse(
         FileWrapper(
             private_storage.open(output_file.file),
-            excerptexport_settings.APPLICATION_SETTINGS['download_chunk_size']
+            settings.OSMAXX['download_chunk_size']
         ),
         content_type=output_file.mime_type
     )
@@ -160,6 +155,7 @@ def download_file(request, uuid):
 @frontend_access_required()
 def extraction_order_status(request, extraction_order_id):
     view_context = {
+        'protocol': request.scheme,
         'host_domain': request.get_host(),
         'extraction_order': get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
     }
@@ -171,9 +167,10 @@ def extraction_order_status(request, extraction_order_id):
 @frontend_access_required()
 def list_orders(request):
     view_context = {
+        'protocol': request.scheme,
         'host_domain': request.get_host(),
         'extraction_orders': ExtractionOrder.objects.filter(orderer=request.user)
-        .order_by('-id')[:excerptexport_settings.APPLICATION_SETTINGS['orders_history_number_of_items']]
+        .order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
     }
     return render_to_response('excerptexport/templates/list_orders.html', context=view_context,
                               context_instance=RequestContext(request))

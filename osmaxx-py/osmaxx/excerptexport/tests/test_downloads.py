@@ -8,7 +8,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from osmaxx.excerptexport.models import OutputFile, Excerpt, ExtractionOrder
-from osmaxx.excerptexport import settings as excerptexport_settings
 from osmaxx.excerptexport.models import BBoxBoundingGeometry
 
 
@@ -16,7 +15,6 @@ class DownloadsTestCase(TestCase):
     def setUp(self):
         if not os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
             os.makedirs(settings.PRIVATE_MEDIA_ROOT)
-        excerptexport_settings.APPLICATION_SETTINGS['download_file_name'] = '%(name)s'
 
     def test_file_download(self):
         user = User.objects.create_user('user', 'user@example.com', 'pw')
@@ -24,9 +22,10 @@ class DownloadsTestCase(TestCase):
         excerpt = Excerpt.objects.create(name='Neverland', is_active=True, is_public=True, owner=user,
                                          bounding_geometry=bg)
         extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
-        output_file = OutputFile.objects.create(mime_type='test/plain', extraction_order=extraction_order)
+        output_file = OutputFile.objects.create(mime_type='test/plain', extraction_order=extraction_order,
+                                                content_type='text', file_extension='txt')
 
-        file_path = os.path.join(settings.PRIVATE_MEDIA_ROOT, str(output_file.public_identifier) + '.txt')
+        file_path = os.path.join(settings.PRIVATE_MEDIA_ROOT, str(output_file.download_file_name))
 
         with open(file_path, 'w') as file_reference:
             new_file = File(file_reference)
@@ -42,7 +41,7 @@ class DownloadsTestCase(TestCase):
         self.assertEqual(response['Content-Length'], str(os.path.getsize(file_path)))
         self.assertEqual(
             response['Content-Disposition'],
-            'attachment; filename=%s' % os.path.basename(output_file.file.name)
+            'attachment; filename=%s' % output_file.download_file_name
         )
         self.assertEqual(b''.join(response.streaming_content), b'Test text')
 

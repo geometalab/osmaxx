@@ -172,7 +172,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
-        self.assertIsNone(newly_created_order.process_start_date)
+        self.assertIsNotNone(newly_created_order.process_start_date)
         self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'A very interesting region')
@@ -194,7 +194,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
-        self.assertIsNone(newly_created_order.process_start_date)
+        self.assertIsNotNone(newly_created_order.process_start_date)
         self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'Some old Excerpt')
