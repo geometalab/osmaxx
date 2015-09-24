@@ -34,6 +34,7 @@ node,way   addr:interpolation  text  linear
 node,way   addr:place      text  linear
 node,way   addr:postcode      text  linear
 node,way   addr:street      text  linear 
+node,way   addr:country      text  linear 
 node,way   admin_level  text         linear
 node,way   aerialway    text         linear
 node,way   aeroway      text         polygon
@@ -52,6 +53,7 @@ node,way   denomination text         linear
 node,way   drinkable	text         linear
 node       ele          text         linear
 node,way   emergency    text         polygon
+node,way   entrance     text         polygon
 node,way   foot         text         linear
 node,way   frequency    text         linear
 node,way   generator:source    text  linear

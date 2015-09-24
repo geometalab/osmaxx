@@ -5,7 +5,7 @@ DROP TABLE if exists osmaxx.road_l;
 CREATE TABLE osmaxx.road_l(
 	osm_id bigint, 
 	lastchange timestamp without time zone, 
-	geomtype text,
+	geomtype char(1),
 	geom geometry(MULTILINESTRING,900913),
 	aggtype text,
 	type text, 
