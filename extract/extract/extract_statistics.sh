@@ -53,6 +53,14 @@ gather_statistics(){
 	echo >>$FILE
 }
 
+gather_statistics_2(){
+	
+	echo "$1">>$FILE
+	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.$2 where aggtype='"$1"' and type='"$1"' and osmaxx.$2.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
+	printf "$1    $1 %20s\n" $count>>$FILE;
+	
+}
+
 #adminarea_a
 echo "adminarea_a">> $FILE
 val=(admin_level1 national admin_level3 admin_level4 admin_level5 admin_level6 admin_level7 admin_level8 admin_level9 admin_level10 admin_level11 administrative national_park protected_area)
@@ -166,21 +174,13 @@ gather_statistics val[@]  poi_a 2 destination
 val=(toilets bench drinking_water fountain hunting_stand waste_basket surveillance emergency_phone fire_hydrant emergency_access tower comm_tower water_tower observation_tower windmill lighthouse wastewater_plant water_well watermill water_works )
 gather_statistics val[@]  poi_a 2 miscpoi
 
-echo 'sport'>>$FILE
-count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_a where aggtype='sport' and type='sport' and osmaxx.poi_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-printf "sport    sport %20s\n" $count>>$FILE;
+gather_statistics_2 sport poi_a
 
-echo 'man_made'>>$FILE
-count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_a where aggtype='man_made' and type='man_made' and osmaxx.poi_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-printf "man_made man_made %20s\n" $count>>$FILE;
+gather_statistics_2 man_made poi_a
 
-echo 'historic'>>$FILE
-count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_a where aggtype='historic' and type='historic' and osmaxx.poi_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-printf "historic historic %20s\n" $count>>$FILE;
+gather_statistics_2 historic poi_a
 
-echo 'amenity'>>$FILE
-count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_a where aggtype='amenity' and type='amenity' and osmaxx.poi_a.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-printf "amenity  amenity %20s\n" $count>>$FILE;
+gather_statistics_2 amenity poi_a
 
 
 #poi_p
@@ -227,21 +227,13 @@ gather_statistics val[@]  poi_a 2 destination
 val=(toilets bench drinking_water fountain hunting_stand waste_basket surveillance emergency_phone fire_hydrant emergency_access tower comm_tower water_tower observation_tower windmill lighthouse wastewater_plant water_well watermill water_works )
 gather_statistics val[@]  poi_a 2 miscpoi
 
-echo 'sport'>>$FILE
-count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_p where aggtype='sport' and type='sport' and osmaxx.poi_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-printf "sport    sport %20s\n" $count>>$FILE;
+gather_statistics_2 sport poi_p
 
-echo 'man_made'>>$FILE
-count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_p where aggtype='man_made' and type='man_made' and osmaxx.poi_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-printf "man_made man_made %20s\n" $count>>$FILE;
+gather_statistics_2 man_made poi_a
 
-echo 'historic'>>$FILE
-count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_p where aggtype='historic' and type='historic' and osmaxx.poi_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-printf "historic historic %20s\n" $count>>$FILE;
+gather_statistics_2 historic poi_a
 
-echo 'amenity'>>$FILE
-count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.poi_p where aggtype='amenity' and type='amenity' and osmaxx.poi_p.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-printf "amenity  amenity %20s\n" $count>>$FILE;
+gather_statistics_2 amenity poi_a
 
 #railway_l
 echo 'railway_l'>>$FILE
