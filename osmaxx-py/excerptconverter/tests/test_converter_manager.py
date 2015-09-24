@@ -1,4 +1,6 @@
 import collections
+import datetime
+from django.utils import timezone
 from django.test.testcases import TestCase
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -150,6 +152,10 @@ class ConverterManagerTestCase(TestCase):
     def test_full_converter_pipeline(self):
         converter_manager = ConverterManager(self.extraction_order, run_as_celery_tasks=False)
         converter_manager.execute_converters()
+        self.assertTrue(converter_manager.extraction_order.process_start_date < timezone.now())
+        self.assertTrue(
+            converter_manager.extraction_order.process_start_date > (timezone.now()-datetime.timedelta(0, 1))
+        )
         self.assertEqual(
             collections.OrderedDict(sorted(ConverterManagerTestCase.temp_result_storage.items())),
             collections.OrderedDict(sorted({

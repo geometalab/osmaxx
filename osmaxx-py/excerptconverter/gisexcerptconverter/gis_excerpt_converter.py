@@ -82,7 +82,14 @@ class GisExcerptConverter(BaseExcerptConverter):
         Extract excerpt for chosen formats (execution_configuration) using docker-compose
         to trigger the conversion process (defined in blackbox/docker-compose-conversion-blackbox.yml)
 
-        :param execution_configuration:
+        :param execution_configuration: example
+            {
+                'formats': ['txt', 'file_gdb'],
+                'options': {
+                    'coordinate_reference_system': 'wgs72',
+                    'detail_level': 'verbatim'
+                }
+            }
         :param extraction_order:
         :param bbox_args example: '8.775449276 47.1892350573 8.8901920319 47.2413633153'
         :return:
