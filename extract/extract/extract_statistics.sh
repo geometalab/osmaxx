@@ -36,13 +36,13 @@ gather_statistics(){
 				LABEL="";;
 			2) 
 				TEXT="where type='"$element"'"
-				LABEL=$LABEL",";;
+				LABEL=$4",";;
 			3)
 				TEXT="where type='"$LABEL"' and status='"$element"'"
-				LABEL=$LABEL",";;
+				LABEL=$4",";;
 			4)
 				TEXT="where aggtype='"$LABEL"' and type='"$element"'"
-				LABEL=$LABEL",";;
+				LABEL=$4",";;
 			esac
 
 			count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.$TABLE $TEXT and osmaxx.$TABLE.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)	
