@@ -72,6 +72,29 @@ class TestE2E(unittest.TestCase):
         self.assertEqual(r.status_code, 200)
         self._logout()
 
+    def test_create_new_excerpt_succeeds(self):
+        client = self._login()['client']
+
+        csrf_token = client.cookies['csrftoken']
+
+        payload = {
+            'csrfmiddlewaretoken': csrf_token,
+            'form-mode': 'new-excerpt',
+            'new_excerpt_name': 'HSR',
+            'new_excerpt_bounding_box_north': 47.22407852727801,
+            'new_excerpt_bounding_box_west': 8.815616369247437,
+            'new_excerpt_bounding_box_east': 8.819221258163452,
+            'new_excerpt_bounding_box_south': 47.222388077452706,
+            'export_options.GisExcerptConverter.formats': [
+                'spatialite',
+                'gpkg',
+                'shp',
+            ],
+        }
+        r = client.post('http://localhost:8000/orders/new/', data=payload)
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.history[0].status_code, 302)
+
 
 if __name__ == '__main__':
     _start_containers()
