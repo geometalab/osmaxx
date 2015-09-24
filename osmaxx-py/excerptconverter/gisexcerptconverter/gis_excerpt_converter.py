@@ -157,8 +157,11 @@ class GisExcerptConverter(BaseExcerptConverter):
         shutil.move(result_file_path, target_file_path)
         output_file.file = private_storage.open(target_file_path)
         output_file.save()
+        # remove temporary file in private_storage
+        # (file.save will copy the original file and add an random hash to the name)
+        private_storage.delete(target_file_path)
 
-        return os.path.isfile(target_file_path)
+        return (not os.path.isfile(target_file_path)) and private_storage.exists(output_file.file)
 
     @staticmethod
     @shared_task
