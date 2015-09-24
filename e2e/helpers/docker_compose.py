@@ -1,3 +1,4 @@
+import os
 import shlex
 import subprocess
 from time import sleep
@@ -22,41 +23,41 @@ def pull():
 
 def start():
     subprocess.check_call("docker-compose up -d databasedev".split(' '))
+
     sleep(10)
+
     subprocess.check_call(
         shlex.split("docker-compose run --rm webappdev /bin/bash -c './manage.py migrate'", comments=True)
     )
+
     subprocess.check_call("docker-compose up -d".split(' '))
+    # threading.Thread(group=None,
+    #     target=subprocess.check_call,
+    #     args=("docker-compose up".split(' '),)
+    # ).start()
 
 
-def create_superuser_for_test(username, email=""):
+def create_superuser_for_test(username, password, email=""):
     """
     password is `password` for testing purposes
     """
-    superuser_fixture_yaml = """
-- fields:
-    date_joined: 2015-09-24 04:30:13.073706+00:00
-    email: '%(email)s'
-    first_name: ''
-    groups: []
-    is_active: true
-    is_staff: true
-    is_superuser: true
-    last_login: null
-    last_name: ''
-    password: pbkdf2_sha256$20000$udZmTmpcfGYE$+hQotzuagjhSAGWnUayGjCP/f6yNHFq5ByvqTnnFp5M=
-    user_permissions: []
-    username: %(username)s
-  model: auth.user
-  pk: 1
-    """ % {'email': email, 'username': username}
+    superuser_command = """from django.contrib.auth.models import User
+User.objects.create_superuser(username='{username}', password='{password}', email='{email}')
+    """.format(email=email, username=username, password=password)
+    # TODO: this only works on development
+    filename = os.path.join(os.path.dirname(__file__), '..', '..', 'osmaxx-py', 'create_superuser.py')
+    file = open(filename, mode='w')
+    file.write(superuser_command)
+    file.flush()
+    file.close()
+    subprocess_command = 'docker-compose run --rm webappdev /bin/bash -c "./manage.py runscript create_superuser.py"'
     subprocess.check_call(
         shlex.split(
-            'docker-compose run --rm webappdev /bin/bash -c "echo \"{}\" > fixture.json;'
-            './manage.py loaddata fixture.json"'.format(superuser_fixture_yaml),
+            subprocess_command,
             comments=True
         )
     )
+    os.unlink(filename)
 
 __all__ = [
     stop, clean, build, pull, start, create_superuser_for_test
