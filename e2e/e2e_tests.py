@@ -1,20 +1,22 @@
 import os
+import sys
 from time import sleep
 import unittest
-import subprocess
 
 try:
     import requests
     from bs4 import BeautifulSoup
 except ImportError:
-    requirements_file = os.path.join(os.path.dirname(__file__), 'requirements.txt')
-    subprocess.check_call("pip install -r {}".format(requirements_file).split(' '))
+    import pip
+    pip.main(['install', 'requests', 'beautifulsoup4'])
     import requests
     from bs4 import BeautifulSoup  # noqa ignore imported but unused
 
 from helpers.html_helpers import make_soup
 from helpers.zip_file_helpers import check_if_result_contains_data
 from helpers import docker_compose
+
+sys.path.append(os.path.join(__file__))
 
 ADMIN_USER_FOR_TESTS = 'admin'
 ADMIN_PASSWORD_FOR_TESTS = 'admin'
