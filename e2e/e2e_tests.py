@@ -38,8 +38,8 @@ def _stop_containers():
     """
     stop the containers and then cleanup
     """
-    # docker_compose.stop()
-    # docker_compose.clean()
+    docker_compose.stop()
+    docker_compose.clean()
 
 
 class TestE2E(unittest.TestCase):
