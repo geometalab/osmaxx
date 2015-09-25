@@ -18,12 +18,8 @@ function main(){
     fi
 
     # FIXME: currently only work on development settings
-    if [[ $(ls -l docker-compose.yml) == *"development.yml"* ]]; then
-        if [ $RUN_E2E ]; then
-            if [ $RUN_E2E = 'true' ]; then
-                run_e2e_tests;
-            fi
-        fi
+    if [[ $(ls -l docker-compose.yml) == *"development.yml"* ]] && [ $RUN_E2E ] && [ $RUN_E2E = 'true' ]; then
+        run_e2e_tests;
     fi
 }
 
