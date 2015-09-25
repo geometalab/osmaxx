@@ -10,7 +10,6 @@ except ImportError:
     print('#### Please install requests and beautifulsoup4, ie. `pip install requests beautifulsoup4` ####')
     raise
 
-from helpers.html_helpers import make_soup
 from helpers.zip_file_helpers import check_if_result_contains_data
 from helpers import docker_compose
 
@@ -63,6 +62,9 @@ class TestE2E(unittest.TestCase):
         host = 'http://localhost:8000{}'
         return host.format(link)
 
+    def _make_soup(self, content):
+        return BeautifulSoup(content, 'html.parser')
+
     def _download_and_test_zip_contents(self, client, download_link):
         download_link = self._make_link(download_link)
         r = client.get(download_link)
@@ -80,7 +82,7 @@ class TestE2E(unittest.TestCase):
     def test_login_success_with_csrf_token(self):
         login = self._login(next='/orders/')
         r = login['request']
-        soup = make_soup(r.content)
+        soup = self._make_soup(r.content)
         self.assertIsNotNone(soup.find(name='a', attrs={'href': '/logout/?next=/'}))
         self.assertEqual(r.status_code, 200)
 
@@ -115,12 +117,12 @@ class TestE2E(unittest.TestCase):
         sleep(5*60)  # five minutes; generating should be done after that
 
         r = client.get(self._make_link('/orders/'))
-        soup = make_soup(r.content)
+        soup = self._make_soup(r.content)
 
         link = self._make_link(soup.find(attrs={'class': 'container-row content'}).a.attrs['href'])
 
         r = client.get(link)
-        soup = make_soup(r.content)
+        soup = self._make_soup(r.content)
 
         link_targets = [
             link_target.attrs['href'] for link_target in
