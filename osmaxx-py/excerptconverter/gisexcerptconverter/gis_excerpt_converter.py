@@ -1,3 +1,4 @@
+import logging
 import os
 import shutil
 import subprocess
@@ -15,6 +16,9 @@ from excerptconverter import ConverterHelper
 
 from osmaxx.excerptexport import models
 from osmaxx.utils import private_storage
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 
 class GisExcerptConverter(BaseExcerptConverter):
@@ -173,6 +177,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                 time.sleep(5)
                 wait_time += 5
                 if wait_time > 30:
+                    logger.exception()
                     raise
 
         converter_helper = ConverterHelper(extraction_order)
@@ -249,11 +254,13 @@ class GisExcerptConverter(BaseExcerptConverter):
                     },
                     email=False
                 )
+                logger.exception()
                 raise
             finally:
                 try:
                     subprocess.check_call("docker-compose stop --timeout 0".split(' '))
                     subprocess.check_call("docker-compose rm -v -f".split(' '))
                 except:
+                    logger.exception("couldn't clean up docker containers")
                     pass
                 os.chdir(original_cwd)
