@@ -45,7 +45,7 @@ class TestE2E(unittest.TestCase):
     CSRF_TOKEN = ''
 
     def _login(self, next=None):
-        login_url = 'http://localhost:8000/login/'
+        login_url = self._make_link('/login/')
         client = requests.session()
         client.get(login_url)
 
@@ -60,7 +60,7 @@ class TestE2E(unittest.TestCase):
         return {'request': r, 'client': client}
 
     def _logout(self):
-        return requests.get('http://localhost:8000/logout/')
+        return requests.get(self._make_link('/logout/'))
 
     def _make_link(self, link):
         host = 'http://localhost:8000{}'
@@ -72,12 +72,12 @@ class TestE2E(unittest.TestCase):
         check_if_result_contains_data(r.content, self.assertGreater)
 
     def test_server_is_running(self):
-        r = requests.get('http://localhost:8000/')
+        r = requests.get(self._make_link('/'))
         self.assertEqual(r.status_code, 200)
 
     def test_login_denied_without_csrf_token(self):
         login_data = {'username': ADMIN_USER_FOR_TESTS, 'password': ADMIN_PASSWORD_FOR_TESTS}
-        r = requests.post('http://localhost:8000/login/', data=login_data)
+        r = requests.post(self._make_link('/login/'), data=login_data)
         self.assertEqual(r.status_code, 403)
 
     def test_login_success_with_csrf_token(self):
@@ -107,7 +107,7 @@ class TestE2E(unittest.TestCase):
                 'shp',
             ],
         }
-        r = client.post('http://localhost:8000/orders/new/', data=payload)
+        r = client.post(self._make_link('/orders/new/'), data=payload)
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.history[0].status_code, 302)
 
