@@ -31,24 +31,23 @@ gather_statistics(){
 			case $OPTION in
 		
 			1) 
-				TEXT="where type='"$ELEMENT"'"
+				TYPE="where type='"$ELEMENT"'"
 				LABEL="";;						#No LABEL to be attached, just the variable from the array
 			2) 
-				TEXT="where type='"$ELEMENT"'"
+				TYPE="where type='"$ELEMENT"'"
 				LABEL=$4",";;						#Label to be attached to the stat count in the "FILE"
 			3)
-				TEXT="where type='"$4"' and status='"$ELEMENT"'"
+				TYPE="where type='"$4"' and status='"$ELEMENT"'"
 				LABEL=$4",";;						#Label to be attached to the stat count in the "FILE"
 			4)
-				TEXT="where aggtype='"$4"' and type='"$ELEMENT"'"
+				TYPE="where aggtype='"$4"' and type='"$ELEMENT"'"
 				LABEL=$4",";;						#Label to be attached to the stat count in the "FILE"
 			5)
-				TEXT="where aggtype<>'"$5"' and type='"$ELEMENT"'"	#As LABEL and aggtype parameter are different we need a fifth argument
+				TYPE="where aggtype<>'"$5"' and type='"$ELEMENT"'"	#As LABEL and aggtype parameter are different we need a fifth argument
 				LABEL=$4",";;
 			esac
 
-			COUNT=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.$TABLE $TEXT and osmaxx.$TABLE.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-			echo "SELECT count(type) from osmaxx.$TABLE $TEXT and osmaxx.$TABLE.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)"
+			COUNT=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.$TABLE $TYPE and osmaxx.$TABLE.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
 			printf "$LABEL%20s,%20s\n" $ELEMENT	$COUNT>>TEMP.txt;
 		done
 	sort --key=$KEY --reverse --numeric-sort TEMP.txt>>$FILE
@@ -59,9 +58,9 @@ gather_statistics(){
 
 
 #Different Tables with their arrays for statistics compilation
-#Function to be called depends on the table, most call the gather_statistics because of the sort and similar psql statement
-#As of now only four types of POIs in both table call the second function as they dont need the sort function 
-#and they need different printf statement 
+#How to call the function
+#gather_statistics <array> <table_name> <Type of PSQL statement(1,2,3,4)> <Label for tables with subentries> <aggtype parameter When Type=5>
+#The Special Case is for Table Road_l and subentry Road(or !roundabout)
 
 #adminarea_a
 echo "adminarea_a">> $FILE
