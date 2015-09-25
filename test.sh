@@ -27,7 +27,7 @@ function main(){
     fi
 }
 
-function create_tmp_virtualenv() {
+function create_tmp_virtualenv_and_activate() {
     virtualenv tmp/e2e_tests;
     source tmp/e2e_tests/bin/activate;
     # install dependencies
@@ -41,7 +41,7 @@ function delete_tmp_virtualenv() {
 }
 
 function run_e2e_tests() {
-    create_tmp_virtualenv;
+    create_tmp_virtualenv_and_activate;
     python e2e/e2e_tests.py;
     delete_tmp_virtualenv;
 }
