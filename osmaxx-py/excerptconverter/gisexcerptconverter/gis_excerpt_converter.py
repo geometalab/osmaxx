@@ -119,23 +119,27 @@ class GisExcerptConverter(BaseExcerptConverter):
                                 email=False
                             )
                         else:
+                            message = _('The extraction of "%(file)s" of extraction order "%(order_id)s" failed.') % {
+                                'file': result_file_name,
+                                'order_id': extraction_order.id
+                            }
                             converter_helper.inform_user(
                                 messages.ERROR,
-                                _('The extraction of "%(file)s" of extraction order "%(order_id)s" failed.') % {
-                                    'file': result_file_name,
-                                    'order_id': extraction_order.id
-                                },
+                                message,
                                 email=False
                             )
+                            logger.error(message)
                 else:
+                    message = _('The extraction of "%(file_type)s" of extraction order "%(order_id)s" failed.') % {
+                        'file_type': export_format_config['name'],
+                        'order_id': extraction_order.id
+                    }
                     converter_helper.inform_user(
                         messages.ERROR,
-                        _('The extraction of "%(file_type)s" of extraction order "%(order_id)s" failed.') % {
-                            'file_type': export_format_config['name'],
-                            'order_id': extraction_order.id
-                        },
+                        message,
                         email=False
                     )
+                    logger.error(message)
 
     @staticmethod
     def create_output_file(extraction_order, result_file_name, export_format_key):
@@ -228,19 +232,23 @@ class GisExcerptConverter(BaseExcerptConverter):
                         )
 
                 elif type(bounding_geometry) == models.OsmosisPolygonFilterBoundingGeometry:
+                    message = _('GIS excerpt converter is not yet able to extract polygon excerpts.')
                     converter_helper.inform_user(
                         messages.ERROR,
-                        _('GIS excerpt converter is not yet able to extract polygon excerpts.'),
+                        message,
                         email=False
                     )
-
+                    logging.error(message)
                 else:
+                    message = _('GIS excerpt converter is not yet able to extract excerpts of type {type}.').format(
+                        type=type(bounding_geometry).__name__
+                    )
                     converter_helper.inform_user(
                         messages.ERROR,
-                        _('GIS excerpt converter is not yet able to extract excerpts of type %s.') %
-                        type(bounding_geometry).__name__,
+                        message,
                         email=False
                     )
+                    logging.error(message)
                 converter_helper.file_conversion_finished()
             except:
                 extraction_order.state = models.ExtractionOrderState.FAILED

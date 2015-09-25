@@ -78,6 +78,7 @@ class DummyExcerptConverter(BaseExcerptConverter):
             else:
                 message_level = messages.ERROR
                 message_text = _('Creation of "%s" failed!' % file_name)
+                logger.error(message_text)
             converter_helper.inform_user(message_level, message_text, email=False)
 
     @staticmethod
