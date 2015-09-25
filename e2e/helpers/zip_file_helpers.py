@@ -5,10 +5,9 @@ import zipfile
 def check_if_result_contains_data(binary_data, assert_greater):
     FILE_NAME = 'file.zip'
     try:
-        file = open(FILE_NAME, mode='wb')
-        file.write(binary_data)
-        file.flush()
-        file.close()
+        with open(FILE_NAME, mode='wb') as file:
+            file.write(binary_data)
+
         with zipfile.ZipFile(FILE_NAME, 'r') as zip_file:
             for zip_info in zip_file.filelist:
                 endings = (
