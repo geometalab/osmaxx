@@ -42,10 +42,9 @@ User.objects.create_superuser(username='{username}', password='{password}', emai
     """.format(email=email, username=username, password=password)
     # TODO: this only works on development mode with mounted source volumes
     filename = os.path.join(os.path.dirname(__file__), '..', '..', 'osmaxx-py', 'create_superuser.py')
-    file = open(filename, mode='w')
-    file.write(superuser_command)
-    file.flush()
-    file.close()
+    with open(filename, mode='w') as file:
+        file.write(superuser_command)
+
     subprocess_command = 'docker-compose run --rm webappdev /bin/bash -c "{}"'.format(
         './manage.py runscript --silent create_superuser.py',
     )
