@@ -17,7 +17,7 @@ function main(){
         run_production_tests;
     fi
 
-    # TODO: currently only work on development settings
+    # FIXME: currently only work on development settings
     if [[ $(ls -l docker-compose.yml) == *"development.yml"* ]]; then
         if [ $RUN_E2E ]; then
             if [ $RUN_E2E = 'true' ]; then

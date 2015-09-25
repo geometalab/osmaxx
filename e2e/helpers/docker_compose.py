@@ -40,7 +40,7 @@ def create_superuser_for_test(username, password, email=""):
     superuser_command = """from django.contrib.auth.models import User
 User.objects.create_superuser(username='{username}', password='{password}', email='{email}')
     """.format(email=email, username=username, password=password)
-    # TODO: this only works on development mode with mounted source volumes
+    # FIXME: this only works on development mode with mounted source volumes
     filename = os.path.join(os.path.dirname(__file__), '..', '..', 'osmaxx-py', 'create_superuser.py')
     with open(filename, mode='w') as file:
         file.write(superuser_command)
