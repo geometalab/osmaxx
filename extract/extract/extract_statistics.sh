@@ -15,10 +15,9 @@ fi
 gather_statistics(){
 
 	#SETUP THE VARIOUS VARIABLES FOR THE STATISTICS COMPILATION	
-	val=(${!1})			#Array with values to be used for statistics for a table
+	VAL=(${!1})			#Array with values to be used for statistics for a table
 	TABLE=$2			#Table Name from which stats are to be accumulated
 	OPTION=$3			#Type of PSQL command to be used for the particular table
-	LABEL=$4			#Label to be attached to the stat count in the "FILE"
 	count=0				#STAT Count
 	if [ "$OPTION" = '1' ] || [ "$OPTION" = "3" ]; then 
 		KEY=2
@@ -27,26 +26,30 @@ gather_statistics(){
 	fi
 
 	#START COMPILATION OF STATISTICS
-	for element in "${val[@]}"
+	for ELEMENT in "${VAL[@]}"
 		do
 			case $OPTION in
 		
 			1) 
-				TEXT="where type='"$element"'"
-				LABEL="";;
+				TEXT="where type='"$ELEMENT"'"
+				LABEL="";;						#No LABEL to be attached, just the variable from the array
 			2) 
-				TEXT="where type='"$element"'"
-				LABEL=$4",";;
+				TEXT="where type='"$ELEMENT"'"
+				LABEL=$4",";;						#Label to be attached to the stat count in the "FILE"
 			3)
-				TEXT="where type='"$LABEL"' and status='"$element"'"
-				LABEL=$4",";;
+				TEXT="where type='"$4"' and status='"$ELEMENT"'"
+				LABEL=$4",";;						#Label to be attached to the stat count in the "FILE"
 			4)
-				TEXT="where aggtype='"$LABEL"' and type='"$element"'"
+				TEXT="where aggtype='"$4"' and type='"$ELEMENT"'"
+				LABEL=$4",";;						#Label to be attached to the stat count in the "FILE"
+			5)
+				TEXT="where aggtype<>'"$5"' and type='"$ELEMENT"'"	#As LABEL and aggtype parameter are different we need a fifth argument
 				LABEL=$4",";;
 			esac
 
-			count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.$TABLE $TEXT and osmaxx.$TABLE.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)	
-			printf "$LABEL%20s,%20s\n" $element	$count>>TEMP.txt;
+			COUNT=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.$TABLE $TEXT and osmaxx.$TABLE.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
+			echo "SELECT count(type) from osmaxx.$TABLE $TEXT and osmaxx.$TABLE.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)"
+			printf "$LABEL%20s,%20s\n" $ELEMENT	$COUNT>>TEMP.txt;
 		done
 	sort --key=$KEY --reverse --numeric-sort TEMP.txt>>$FILE
 	rm TEMP.txt
@@ -57,9 +60,13 @@ gather_statistics_2(){
 	
 	echo "$1">>$FILE
 	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.$2 where aggtype='"$1"' and type='"$1"' and osmaxx.$2.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-	printf "$1    $1 %20s\n" $count>>$FILE;
+	printf "$1    $1 ,%20s\n" $count>>$FILE;
 	
 }
+
+#Different Tables with their arrays for statistics compilation
+#Function to be called depends on the table, most call the gather_statistics because of the sort and similar psql statement
+#As of now only four types of POIs in both table call the second function as they dont need the sort function but different printf statement 
 
 #adminarea_a
 echo "adminarea_a">> $FILE
@@ -210,30 +217,30 @@ val=(shelter camp_site alpine_hut caravan_site)
 gather_statistics val[@]  poi_p 2 accomodation_out
 
 val=(supermarket bakery kiosk mall department_store convenience clothes florist chemist books butcher shoes beverages optician jewelry gift sports stationery outdoor mobile_phone toys newsagent greengrocer beauty video car bicycle hardware furniture computer garden_centre hairdresser car_repair car_rental car_wash car_sharing bicycle_rental travel_agency laundry shop)
-gather_statistics val[@]  poi_a 4 shop
+gather_statistics val[@]  poi_p 4 shop
 
 val=(vending_machine vending_cigarettes vending_parking)
-gather_statistics val[@]  poi_a 4 vending
+gather_statistics val[@]  poi_p 4 vending
 
 val=(bank atm money_changer)
-gather_statistics val[@]  poi_a 4 money
+gather_statistics val[@]  poi_p 4 money
 
 val=(information map board guidepost tourism)
-gather_statistics val[@]  poi_a 4 tourism
+gather_statistics val[@]  poi_p 4 tourism
 
 val=(attraction museum monument memorial artwork castle ruins archaeological_site wayside_cross wayside_shrine battlefield fort picnic_site viewpoint zoo theme_park)
-gather_statistics val[@]  poi_a 2 destination
+gather_statistics val[@]  poi_p 2 destination
 
 val=(toilets bench drinking_water fountain hunting_stand waste_basket surveillance emergency_phone fire_hydrant emergency_access tower comm_tower water_tower observation_tower windmill lighthouse wastewater_plant water_well watermill water_works )
-gather_statistics val[@]  poi_a 2 miscpoi
+gather_statistics val[@]  poi_p 2 miscpoi
 
 gather_statistics_2 sport poi_p
 
-gather_statistics_2 man_made poi_a
+gather_statistics_2 man_made poi_p
 
-gather_statistics_2 historic poi_a
+gather_statistics_2 historic poi_p
 
-gather_statistics_2 amenity poi_a
+gather_statistics_2 amenity poi_p
 
 #railway_l
 echo 'railway_l'>>$FILE
@@ -243,14 +250,7 @@ gather_statistics val[@]  railway_l 1
 #road_l
 echo 'road_l'>>$FILE
 val=(motorway trunk primary secondary tertiary unclassified residential living_street pedestrian motorway_link trunk_link primary_link secondary_link service track grade1 grade2 grade3 grade4 grade5 bridleway cycleway footway path steps road)
-for val in ${val[@]}
-do
-	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.road_l where aggtype<>'roundabout' and type='"$val"' and osmaxx.road_l.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-	printf "road,%20s,%20s\n" $val	$count>>TEMP.txt;
-done
-sort -k3 -rn TEMP.txt>>$FILE
-rm TEMP.txt
-echo >>$FILE
+gather_statistics val[@]  road_l 5 road roundabout
 
 val=(motorway trunk primary secondary tertiary unclassified residential living_street pedestrian motorway_link trunk_link primary_link secondary_link service track grade1 grade2 grade3 grade4 grade5 bridleway cycleway footway path steps roundabout)
 gather_statistics val[@]  road_l 4 roundabout
