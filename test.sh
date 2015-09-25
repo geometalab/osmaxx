@@ -30,6 +30,8 @@ function main(){
 function create_tmp_virtualenv() {
     virtualenv tmp/e2e_tests;
     source tmp/e2e_tests/bin/activate;
+    # install dependencies
+    pip install requests beautifulsoup4;
 }
 
 function delete_tmp_virtualenv() {

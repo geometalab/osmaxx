@@ -5,12 +5,10 @@ import unittest
 
 try:
     import requests
-    from bs4 import BeautifulSoup
-except ImportError:
-    import pip
-    pip.main(['install', 'requests', 'beautifulsoup4'])
-    import requests
     from bs4 import BeautifulSoup  # noqa ignore imported but unused
+except ImportError:
+    print('#### Please install requests and beautifulsoup4, ie. `pip install requests beautifulsoup4` ####')
+    raise
 
 from helpers.html_helpers import make_soup
 from helpers.zip_file_helpers import check_if_result_contains_data
