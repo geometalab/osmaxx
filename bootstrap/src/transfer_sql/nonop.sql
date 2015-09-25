@@ -6,7 +6,7 @@ DROP TABLE if exists osmaxx.nonop_l;
 CREATE TABLE osmaxx.nonop_l (
 	osm_id bigint, 
 	lastchange timestamp without time zone, 
-	geomtype text,
+	geomtype char(1),
 	geom geometry(MULTILINESTRING,900913), 
 	type text, 
 	name text, 

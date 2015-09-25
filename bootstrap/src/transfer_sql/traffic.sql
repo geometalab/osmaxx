@@ -5,7 +5,7 @@ DROP TABLE if exists osmaxx.traffic_a;
 CREATE TABLE osmaxx.traffic_a(
 	osm_id bigint, 
 	lastchange timestamp without time zone, 
-	geomtype text,
+	geomtype char(1),
 	geom geometry(MULTIPOLYGON,900913),
 	aggtype text,
 	type text, 

@@ -5,9 +5,9 @@ DROP TABLE if exists osmaxx.address_p;
 CREATE TABLE osmaxx.address_p(
 	osm_id bigint, 
 	lastchange timestamp without time zone, 
-	geomtype text,
+	geomtype char(1),
 	geom geometry(POINT,900913),
-	type text, 
+	type char(1), 
 	name text, 
 	name_en text, 
 	name_fr text, 
@@ -19,7 +19,8 @@ CREATE TABLE osmaxx.address_p(
 	street text,
 	housenumber text,
 	postcode text,
-	postcity text
+	city text,
+    country text    
 );
 
 ------------------
@@ -38,18 +39,21 @@ INSERT INTO osmaxx.address_p
 	"name:fr" as name_fr, 
 	"name:es" as name_es, 
 	"name:de" as name_de, 
-	int_name as name_int, 
+	int_name as name_int,
+    
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case 
-	when "addr:street" is not null then "addr:street"
-	when "addr:place" is not null then "addr:place"
+		when "addr:street" is not null then "addr:street"
+		when "addr:place" is not null then "addr:place"
+    	else NULL
 	end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as postcity
+	"addr:place" as city,
+    "addr:country" as country
   FROM osm_point
-where building not in ('entrance') and ("addr:street" is not null or "addr:place" is not null)
+where building !='entrance' and entrance is null and ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='')
 
 -- Without the Entrance Node and the addresses are part of a way  --
 UNION
@@ -65,22 +69,24 @@ UNION
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
 	"name:es" as name_es, 
-	"name:de" as name_de, 
+	"name:de" as name_de,
 	int_name as name_int, 
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case 
-	when "addr:street" is not null then "addr:street"
-	when "addr:place" is not null then "addr:place"
-	end  as street,
+		when "addr:street" is not null then "addr:street"
+		when "addr:place" is not null then "addr:place"
+		else NULL
+    end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as postcity
+	"addr:place" as city,
+    "addr:country" as country
   FROM osm_polygon
-where building not in ('entrance') and ("addr:street" is not null or "addr:place" is not null);
+where building !='entrance' and entrance is null and ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='');
 
 --------------
--- entrance --
+-- Entrance and Nodes--
 --------------
 
 -- With the entrance node --
@@ -89,106 +95,29 @@ INSERT INTO osmaxx.address_p
 	osm_timestamp as lastchange,
 	'N' AS geomtype, 	-- Node 
 	way AS geom,
-	'e' AS type,
+    case
+        when (building='entrance' or entrance is not null) then 'e'
+        else 'p'
+    end as type,
 	name as name,
 	"name:en" as name_en, 
 	"name:fr" as name_fr, 
 	"name:es" as name_es, 
 	"name:de" as name_de, 
-	int_name as name_int, 
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case 
-	when "addr:street" is not null then "addr:street"
-	when "addr:place" is not null then "addr:place"
-	end  as street,
+        when "addr:street" is not null then "addr:street"
+        when "addr:place" is not null then "addr:place"
+        else NULL
+    end  as street,
 	"addr:housenumber" as housenumber,
 	"addr:postcode" as postcode,
-	"addr:place" as postcity
+	"addr:place" as city,
+    "addr:country" as country
   FROM osm_point
-  where building='entrance' and ("addr:street" is not null or "addr:place" is not null)
-
--- With the entrance node and the addresses are part of a way --
-  UNION
-  SELECT osm_id as osm_id,
-	osm_timestamp as lastchange,
-	CASE 
-	 WHEN osm_id<0 THEN 'R' -- R=Relation 
-	 ELSE 'W' 		-- W=Way
-	 END AS geomtype, 
-	ST_Centroid(way) AS geom,
-	'e' AS type,
-	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
-	transliterate(name) as label,
-	cast(tags as text) as tags,
-	case 
-	when "addr:street" is not null then "addr:street"
-	when "addr:place" is not null then "addr:place"
-	end  as street,
-	"addr:housenumber" as housenumber,
-	"addr:postcode" as postcode,
-	"addr:place" as postcity
-  FROM osm_polygon
-  where building='entrance' and ("addr:street" is not null or "addr:place" is not null);
-
-
--------------
---  place  --
--------------
-INSERT INTO osmaxx.address_p
-  SELECT osm_id as osm_id,
-	osm_timestamp as lastchange,
-	'N' AS geomtype, 
-	way AS geom,
-	'p' AS type,
-	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
-	transliterate(name) as label,
-	cast(tags as text) as tags,
-	case 
-	when "addr:street" is not null then "addr:street"
-	when "addr:place" is not null then "addr:place"
-	end  as street,
-	"addr:housenumber" as housenumber,
-	"addr:postcode" as postcode,
-	"addr:place" as postcity
-  FROM osm_point
- WHERE place is not null  and ("addr:street" is not null or "addr:place" is not null)
-  UNION
-  SELECT osm_id as osm_id,
-	osm_timestamp as lastchange,
-	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relation
-	 ELSE 'W' 		-- Way
-	 END AS geomtype, 
-	ST_Centroid(way) AS geom,
-	'p' AS type,	
-	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
-	transliterate(name) as label,
-	cast(tags as text) as tags,
-	case 
-	when "addr:street" is not null then "addr:street"
-	when "addr:place" is not null then "addr:place"
-	end  as street,
-	"addr:housenumber" as housenumber,
-	"addr:postcode" as postcode,
-	"addr:place" as postcity
-  FROM osm_polygon
- WHERE place is not null  and ("addr:street" is not null or "addr:place" is not null);
+  where ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='');
 
 -------------------
 -- interpolation --
@@ -220,7 +149,8 @@ INSERT INTO osmaxx.address_p
 	temp_tbl.addr_street as street,
 	temp_tbl.housenr as housenumber,
 	osm_line."addr:postcode" as postcode,
-	osm_line."addr:place" as postcity
+	osm_line."addr:place" as city,
+    osm_line."addr:country" as country
  FROM temp_tbl 
  INNER JOIN osm_line
  ON temp_tbl.line_id=osm_line.osm_id;
