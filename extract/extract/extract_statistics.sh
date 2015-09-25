@@ -56,17 +56,12 @@ gather_statistics(){
 	echo >>$FILE
 }
 
-gather_statistics_2(){
-	
-	echo "$1">>$FILE
-	count=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.$2 where aggtype='"$1"' and type='"$1"' and osmaxx.$2.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-	printf "$1    $1 ,%20s\n" $count>>$FILE;
-	
-}
+
 
 #Different Tables with their arrays for statistics compilation
 #Function to be called depends on the table, most call the gather_statistics because of the sort and similar psql statement
-#As of now only four types of POIs in both table call the second function as they dont need the sort function but different printf statement 
+#As of now only four types of POIs in both table call the second function as they dont need the sort function 
+#and they need different printf statement 
 
 #adminarea_a
 echo "adminarea_a">> $FILE
@@ -181,13 +176,21 @@ gather_statistics val[@] poi_a 2 destination
 val=(toilets bench drinking_water fountain hunting_stand waste_basket surveillance emergency_phone fire_hydrant emergency_access tower comm_tower water_tower observation_tower windmill lighthouse wastewater_plant water_well watermill water_works )
 gather_statistics val[@] poi_a 2 miscpoi
 
-gather_statistics_2 sport poi_a
+echo 'sport'>>$FILE
+val=(sport)
+gather_statistics val[@] poi_a 4 sport
 
-gather_statistics_2 man_made poi_a
+echo 'man_made'>>$FILE
+val=(man_made)
+gather_statistics val[@] poi_a 4 man_made
 
-gather_statistics_2 historic poi_a
+echo 'historic'>>$FILE
+val=(historic)
+gather_statistics val[@] poi_a 4 historic
 
-gather_statistics_2 amenity poi_a
+echo 'amenity'>>$FILE
+val=(amenity)
+gather_statistics val[@] poi_a 4 amenity
 
 
 #poi_p
@@ -234,13 +237,21 @@ gather_statistics val[@] poi_p 2 destination
 val=(toilets bench drinking_water fountain hunting_stand waste_basket surveillance emergency_phone fire_hydrant emergency_access tower comm_tower water_tower observation_tower windmill lighthouse wastewater_plant water_well watermill water_works )
 gather_statistics val[@] poi_p 2 miscpoi
 
-gather_statistics_2 sport poi_p
+echo 'sport'>>$FILE
+val=(sport)
+gather_statistics val[@] poi_p 4 sport
 
-gather_statistics_2 man_made poi_p
+echo 'man_made'>>$FILE
+val=(man_made)
+gather_statistics val[@] poi_p 4 man_made
 
-gather_statistics_2 historic poi_p
+echo 'historic'>>$FILE
+val=(historic)
+gather_statistics val[@] poi_p 4 historic
 
-gather_statistics_2 amenity poi_p
+echo 'amenity'>>$FILE
+val=(amenity)
+gather_statistics val[@] poi_p 4 amenity
 
 #railway_l
 echo 'railway_l'>>$FILE
