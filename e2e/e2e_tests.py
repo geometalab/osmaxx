@@ -2,8 +2,6 @@ import os
 from time import sleep
 import unittest
 import subprocess
-from helpers.html_helpers import make_soup
-from helpers.zip_file_helpers import check_if_result_contains_data
 
 try:
     import requests
@@ -14,6 +12,8 @@ except ImportError:
     import requests
     from bs4 import BeautifulSoup  # noqa ignore imported but unused
 
+from helpers.html_helpers import make_soup
+from helpers.zip_file_helpers import check_if_result_contains_data
 from helpers import docker_compose
 
 ADMIN_USER_FOR_TESTS = 'admin'
