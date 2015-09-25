@@ -16,6 +16,32 @@ function main(){
     else
         run_production_tests;
     fi
+
+    # TODO: currently only work on development settings
+    if [[ $(ls -l docker-compose.yml) == *"development.yml"* ]]; then
+        if [ $RUN_E2E ]; then
+            if [ $RUN_E2E = 'true' ]; then
+                run_e2e_tests;
+            fi
+        fi
+    fi
+}
+
+function create_tmp_virtualenv() {
+    virtualenv tmp/e2e_tests;
+    source tmp/e2e_tests/bin/activate;
+}
+
+function delete_tmp_virtualenv() {
+    deactivate;
+    echo "removing virtualenv in tmp/e2e_tests";
+    rm tmp/e2e_tests -rI;
+}
+
+function run_e2e_tests() {
+    create_tmp_virtualenv;
+    python e2e/e2e_tests.py;
+    delete_tmp_virtualenv;
 }
 
 function run_development_tests() {
