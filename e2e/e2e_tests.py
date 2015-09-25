@@ -59,9 +59,6 @@ class TestE2E(unittest.TestCase):
         r = client.post(login_url, data=login_data)
         return {'request': r, 'client': client}
 
-    def _logout(self):
-        return requests.get(self._make_link('/logout/'))
-
     def _make_link(self, link):
         host = 'http://localhost:8000{}'
         return host.format(link)
@@ -86,7 +83,6 @@ class TestE2E(unittest.TestCase):
         soup = make_soup(r.content)
         self.assertIsNotNone(soup.find(name='a', attrs={'href': '/logout/?next=/'}))
         self.assertEqual(r.status_code, 200)
-        self._logout()
 
     def test_create_new_excerpt_succeeds(self):
         client = self._login()['client']
