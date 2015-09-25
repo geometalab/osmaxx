@@ -122,11 +122,16 @@ class TestE2E(unittest.TestCase):
         r = client.get(link)
         soup = make_soup(r.content)
 
-        for soup_link_index in range(0, 5, 2):
-            self._download_and_test_zip_contents(
-                client,
-                soup.find(name='ul', attrs={'class': 'download_files'}).find_all('a')[soup_link_index].attrs['href']
-            )
+        link_targets = [
+            link_target.attrs['href'] for link_target in
+            soup.find(name='ul', attrs={'class': 'download_files'}).find_all('a')
+        ]
+
+        download_links = link_targets[0], link_targets[2], link_targets[4]
+
+        self._download_and_test_zip_contents(client, download_links[0])
+        self._download_and_test_zip_contents(client, download_links[1])
+        self._download_and_test_zip_contents(client, download_links[2])
 
 if __name__ == '__main__':
     _start_containers()
