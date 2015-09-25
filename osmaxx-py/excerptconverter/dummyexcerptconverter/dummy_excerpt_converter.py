@@ -1,5 +1,6 @@
 import os
 import time
+import logging
 
 from celery import shared_task
 
@@ -12,6 +13,9 @@ from excerptconverter import ConverterHelper
 
 from osmaxx.excerptexport import models
 from osmaxx.utils import private_storage
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 
 class DummyExcerptConverter(BaseExcerptConverter):
@@ -89,10 +93,11 @@ class DummyExcerptConverter(BaseExcerptConverter):
                 time.sleep(5)
                 wait_time += 5
                 if wait_time > 30:
+                    logger.exception()
                     raise
 
+        converter_helper = ConverterHelper(extraction_order)
         try:
-            converter_helper = ConverterHelper(extraction_order)
             fake_work_waiting_time_in_seconds = 5
 
             # now set the new state
@@ -120,7 +125,7 @@ class DummyExcerptConverter(BaseExcerptConverter):
             # now set the new state (if all files have been processed) and inform the user about the state
             converter_helper.file_conversion_finished()
         except:
-            # TODO: log stack trace
             message_text = _('The Dummy conversion of extraction order "%s" failed.') % extraction_order.id
             converter_helper.inform_user(messages.ERROR, message_text, email=False)
+            logger.exception()
             raise
