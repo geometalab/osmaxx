@@ -27,23 +27,23 @@ function main(){
     fi
 }
 
-function create_tmp_virtualenv_and_activate() {
+function create_and_activate_tmp_virtualenv() {
     virtualenv tmp/e2e_tests;
     source tmp/e2e_tests/bin/activate;
     # install dependencies
     pip install requests beautifulsoup4;
 }
 
-function delete_tmp_virtualenv() {
+function deactivate_and_delete_tmp_virtualenv() {
     deactivate;
     echo "removing virtualenv in tmp/e2e_tests";
     rm tmp/e2e_tests -rI;
 }
 
 function run_e2e_tests() {
-    create_tmp_virtualenv_and_activate;
+    create_and_activate_tmp_virtualenv;
     python e2e/e2e_tests.py;
-    delete_tmp_virtualenv;
+    deactivate_and_delete_tmp_virtualenv;
 }
 
 function run_development_tests() {
