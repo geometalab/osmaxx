@@ -31,10 +31,6 @@ def start():
     )
 
     subprocess.check_call("docker-compose up -d".split(' '))
-    # threading.Thread(group=None,
-    #     target=subprocess.check_call,
-    #     args=("docker-compose up".split(' '),)
-    # ).start()
 
 
 def create_superuser_for_test(username, password, email=""):
@@ -44,7 +40,7 @@ def create_superuser_for_test(username, password, email=""):
     superuser_command = """from django.contrib.auth.models import User
 User.objects.create_superuser(username='{username}', password='{password}', email='{email}')
     """.format(email=email, username=username, password=password)
-    # TODO: this only works on development
+    # TODO: this only works on development mode with mounted source volumes
     filename = os.path.join(os.path.dirname(__file__), '..', '..', 'osmaxx-py', 'create_superuser.py')
     file = open(filename, mode='w')
     file.write(superuser_command)
