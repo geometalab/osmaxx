@@ -46,7 +46,9 @@ User.objects.create_superuser(username='{username}', password='{password}', emai
     file.write(superuser_command)
     file.flush()
     file.close()
-    subprocess_command = 'docker-compose run --rm webappdev /bin/bash -c "./manage.py runscript create_superuser.py"'
+    subprocess_command = 'docker-compose run --rm webappdev /bin/bash -c "{}"'.format(
+        './manage.py runscript --silent create_superuser.py',
+    )
     subprocess.check_call(
         shlex.split(
             subprocess_command,
