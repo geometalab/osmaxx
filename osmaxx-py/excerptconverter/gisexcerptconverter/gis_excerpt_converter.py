@@ -123,23 +123,23 @@ class GisExcerptConverter(BaseExcerptConverter):
                                 'file': result_file_name,
                                 'order_id': extraction_order.id
                             }
+                            logger.error(message)
                             converter_helper.inform_user(
                                 messages.ERROR,
                                 message,
                                 email=False
                             )
-                            logger.error(message)
                 else:
                     message = _('The extraction of "%(file_type)s" of extraction order "%(order_id)s" failed.') % {
                         'file_type': export_format_config['name'],
                         'order_id': extraction_order.id
                     }
+                    logger.error(message)
                     converter_helper.inform_user(
                         messages.ERROR,
                         message,
                         email=False
                     )
-                    logger.error(message)
 
     @staticmethod
     def create_output_file(extraction_order, result_file_name, export_format_key):
@@ -181,7 +181,14 @@ class GisExcerptConverter(BaseExcerptConverter):
                 time.sleep(5)
                 wait_time += 5
                 if wait_time > 30:
-                    logger.exception()
+                    logger.exception(
+                        "Even after waiting for #{wait_time} #{time_unit_abbreviation}, the extraction order "
+                        "#{extraction_order_id} hasn't been created".format(
+                            wait_time=wait_time,
+                            time_unit_abbreviation='s',
+                            extraction_order_id=extraction_order_id,
+                        )
+                    )
                     raise
 
         converter_helper = ConverterHelper(extraction_order)
@@ -233,13 +240,20 @@ class GisExcerptConverter(BaseExcerptConverter):
 
                 elif type(bounding_geometry) == models.OsmosisPolygonFilterBoundingGeometry:
                     message = _('GIS excerpt converter is not yet able to extract polygon excerpts.')
+                    logging.error(message)
                     converter_helper.inform_user(
                         messages.ERROR,
                         message,
                         email=False
                     )
-                    logging.error(message)
                 else:
+                    logging.error(
+                        'GIS excerpt converter is not yet able to extract excerpts of type {type} - failed because of'
+                        'geometry id: {geometry_id}'.format(
+                            type=type(bounding_geometry).__name__,
+                            geometry_id=bounding_geometry.id,
+                        )
+                    )
                     message = _('GIS excerpt converter is not yet able to extract excerpts of type {type}.').format(
                         type=type(bounding_geometry).__name__
                     )
@@ -248,9 +262,12 @@ class GisExcerptConverter(BaseExcerptConverter):
                         message,
                         email=False
                     )
-                    logging.error(message)
                 converter_helper.file_conversion_finished()
             except:
+                logger.exception('The extraction of order {order_id} failed.'.format(
+                    order_id=extraction_order.id,
+                ))
+
                 extraction_order.state = models.ExtractionOrderState.FAILED
                 extraction_order.save()
 
@@ -262,13 +279,14 @@ class GisExcerptConverter(BaseExcerptConverter):
                     },
                     email=False
                 )
-                logger.exception()
                 raise
             finally:
                 try:
                     subprocess.check_call("docker-compose stop --timeout 0".split(' '))
                     subprocess.check_call("docker-compose rm -v -f".split(' '))
                 except:
-                    logger.exception("couldn't clean up docker containers")
+                    logger.exception("couldn't clean up docker containers in directory {directory}".format(
+                        directory=tmp_dir
+                    ))
                     pass
                 os.chdir(original_cwd)

@@ -94,7 +94,14 @@ class DummyExcerptConverter(BaseExcerptConverter):
                 time.sleep(5)
                 wait_time += 5
                 if wait_time > 30:
-                    logger.exception()
+                    logger.exception(
+                        "Even after waiting for #{wait_time} #{time_unit_abbreviation}, the extraction order "
+                        "#{extraction_order_id} hasn't been created".format(
+                            wait_time=wait_time,
+                            time_unit_abbreviation='s',
+                            extraction_order_id=extraction_order_id,
+                        )
+                    )
                     raise
 
         converter_helper = ConverterHelper(extraction_order)
@@ -126,7 +133,12 @@ class DummyExcerptConverter(BaseExcerptConverter):
             # now set the new state (if all files have been processed) and inform the user about the state
             converter_helper.file_conversion_finished()
         except:
+            logger.exception('conversion of extraction order with id '
+                             '"{extraction_order_id}" for user {user} failed.'
+                             ''.format(
+                                 extraction_order_id=extraction_order.id,
+                                 user=converter_helper.user,
+                             ))
             message_text = _('The Dummy conversion of extraction order "%s" failed.') % extraction_order.id
             converter_helper.inform_user(messages.ERROR, message_text, email=False)
-            logger.exception()
             raise
