@@ -1,3 +1,5 @@
+# INFO: remember to update the setup.production.sh if you change something here.
+
 shareddata:
   image: buildpack-deps:jessie
   command: /bin/true
