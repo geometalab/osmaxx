@@ -10,7 +10,7 @@ docker create --name osmaxx-starter -v "$(pwd):/app"  -v "/var/run/docker.sock:/
 
 # stop containers & cleanup
 docker run -v "$(pwd):/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:$DOCKER_COMPOSE_TAG" stop
-# TODO: data containers should not be removed!
+# FIXME: data containers should not be removed!
 docker run -v "$(pwd):/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:$DOCKER_COMPOSE_TAG" rm -f
 
 # pull & build
