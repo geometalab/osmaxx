@@ -288,5 +288,4 @@ class GisExcerptConverter(BaseExcerptConverter):
                     logger.exception("couldn't clean up docker containers in directory {directory}".format(
                         directory=tmp_dir
                     ))
-                    pass
                 os.chdir(original_cwd)
