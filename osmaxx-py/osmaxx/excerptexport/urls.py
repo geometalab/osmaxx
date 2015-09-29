@@ -12,7 +12,7 @@ from osmaxx.excerptexport.views import (
 )
 
 
-except_export_urlpatterns = [
+excerpt_export_urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="excerptexport/templates/index.html"), name='index'),
     url(r'^access_denied/$', access_denied, name='access_denied'),
 
@@ -31,4 +31,4 @@ login_logout_patterns = [
         {'template_name': 'excerptexport/templates/logout.html'}, name='logout'),
 ]
 
-urlpatterns = except_export_urlpatterns + login_logout_patterns
+urlpatterns = excerpt_export_urlpatterns + login_logout_patterns
