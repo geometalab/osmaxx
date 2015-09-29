@@ -7,7 +7,7 @@ from osmaxx.utils import PrivateSystemStorage
 
 class PrivateSystemStorageTestCase(TestCase):
     def setUp(self):
-        self.directory_name = 'OSMAXX_OjM3cRB2xgSuDXr5yBxxzds9mO8gmP'
+        self.directory_name = 'OSMAXX_private-storage-directory-for-tests'
 
     def test_creates_a_new_directory_if_it_does_not_exist(self):
         directory_path = os.path.join('/tmp/', self.directory_name)
