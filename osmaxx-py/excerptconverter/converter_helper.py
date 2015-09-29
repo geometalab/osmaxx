@@ -1,5 +1,4 @@
 from django.contrib import messages
-#from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
 
 import stored_messages
