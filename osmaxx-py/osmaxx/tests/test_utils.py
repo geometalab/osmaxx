@@ -1,7 +1,9 @@
-import string
-import random
-from django.test import TestCase
 import os
+import random
+import string
+
+from django.test import TestCase
+
 from osmaxx.utils import PrivateSystemStorage
 
 
