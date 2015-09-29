@@ -91,20 +91,36 @@ To deploy to production server:
 
 ## Deploying a Hotfix
 
-Follow the above steps until 5a.
+First, stop the systemd restarter:
+```shell
+sudo systemctl stop docker-osmaxx.service
+```
 
-Replace step 5b with:
+Then, follow the steps until 5a from [Deployment](#Deployment).
 
-5. 
-  b.
+Replace step `5b` with:
 
-    ```shell
-    docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" pull celery webapp
-    ```
-    Rebuild Containers:
-    
-    ```shell
-      docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" build celery webapp
-    ```
-  
-    Now, Follow the rest of the steps. 
+*5b.*
+
+```shell
+docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" pull celery webapp
+ ```
+
+In case you're unsure, if Dockerhub was fast enough to build the images already, rebuild webapp & celery container:
+
+```shell
+docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" build celery webapp
+```
+
+Run the migrations, if your Hotfix contained changes to the database:
+
+```shell
+docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" up -d database
+docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" -it --rm "dduportal/docker-compose:1.3.1" run --rm webapp /bin/bash -c "python3 manage.py migrate"
+```
+
+Restart the service:
+
+```shell
+sudo systemctl start docker-osmaxx.service
+```
