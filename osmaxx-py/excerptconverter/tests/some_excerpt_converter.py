@@ -1,4 +1,6 @@
-from excerptconverter.converter_helper import module_converter_configuration, run_model_execute
+from celery import shared_task
+
+from excerptconverter.converter_helper import module_converter_configuration
 
 
 NAME = 'Dummy'
@@ -22,15 +24,6 @@ def converter_configuration():
     return module_converter_configuration(NAME, EXPORT_FORMATS, EXPORT_OPTIONS)
 
 
-def execute(extraction_order, execution_configuration, run_as_celery_tasks):
-    return run_model_execute(
-        execute_task,
-        EXPORT_FORMATS,
-        extraction_order,
-        execution_configuration,
-        run_as_celery_tasks
-    )
-
-
-def execute_task(extraction_order_id, supported_export_formats, converter_configuration):
+@shared_task
+def execute_task(extraction_order_id, converter_configuration):
     pass

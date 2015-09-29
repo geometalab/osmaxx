@@ -7,7 +7,7 @@ from django.core.files.base import ContentFile
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 
-from excerptconverter.converter_helper import ConverterHelper, module_converter_configuration, run_model_execute
+from excerptconverter.converter_helper import ConverterHelper, module_converter_configuration
 
 from osmaxx.excerptexport import models
 from osmaxx.utils import private_storage
@@ -43,16 +43,6 @@ def converter_configuration():
     return module_converter_configuration(NAME, EXPORT_FORMATS, EXPORT_OPTIONS)
 
 
-def execute(extraction_order, execution_configuration, run_as_celery_tasks):
-    return run_model_execute(
-        execute_task,
-        EXPORT_FORMATS,
-        extraction_order,
-        execution_configuration,
-        run_as_celery_tasks
-    )
-
-
 def create_output_files(execution_configuration, extraction_order, supported_export_formats, converter_helper):
     for format_key in execution_configuration['formats']:
         output_file = models.OutputFile.objects.create(
@@ -82,7 +72,7 @@ def create_output_files(execution_configuration, extraction_order, supported_exp
 
 
 @shared_task
-def execute_task(extraction_order_id, supported_export_formats, execution_configuration):
+def execute(extraction_order_id, execution_configuration):
     wait_time = 0
     # wait for the db to be updated!
     extraction_order = None
@@ -116,7 +106,7 @@ def execute_task(extraction_order_id, supported_export_formats, execution_config
         create_output_files(
             execution_configuration,
             extraction_order,
-            supported_export_formats,
+            EXPORT_FORMATS,
             converter_helper
         )
 

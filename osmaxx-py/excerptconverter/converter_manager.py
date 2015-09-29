@@ -35,11 +35,17 @@ class ConverterManager:
             self.extraction_order.process_start_date = timezone.now()
             self.extraction_order.save()
         for Converter in converters_in_configuration:
-            Converter.execute(
-                self.extraction_order,
-                self.extraction_order.extraction_configuration[Converter.__name__],
-                self.run_as_celery_tasks
-            )
+
+            if self.run_as_celery_tasks:
+                Converter.execute.delay(
+                    self.extraction_order.id,
+                    self.extraction_order.extraction_configuration[Converter.__name__]
+                )
+            else:
+                Converter.execute(
+                    self.extraction_order.id,
+                    self.extraction_order.extraction_configuration[Converter.__name__]
+                )
 
     def _get_converters_from_configuration(self):
         return [C for C in self.available_converters if self._config_has_formats_provided_by_converter(C)]

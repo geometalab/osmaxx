@@ -173,9 +173,8 @@ class GisExcerptConverterTestCase(TestCase):
         os.listdir = MagicMock()
         os.chdir = MagicMock()
 
-        gis_excerpt_converter.execute_task(
+        gis_excerpt_converter.execute(
             self.extraction_order.id,
-            self.gis_excerpt_converter_export_formats,
             self.extraction_configuration['excerptconverter.gisexcerptconverter.gis_excerpt_converter']
         )
 

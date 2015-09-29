@@ -11,7 +11,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 
-from excerptconverter.converter_helper import ConverterHelper, module_converter_configuration, run_model_execute
+from excerptconverter.converter_helper import ConverterHelper, module_converter_configuration
 
 from osmaxx.excerptexport import models
 from osmaxx.utils import private_storage
@@ -70,16 +70,6 @@ EXPORT_OPTIONS = {
 
 def converter_configuration():
     return module_converter_configuration(NAME, EXPORT_FORMATS, EXPORT_OPTIONS)
-
-
-def execute(extraction_order, execution_configuration, run_as_celery_tasks):
-    return run_model_execute(
-        execute_task,
-        EXPORT_FORMATS,
-        extraction_order,
-        execution_configuration,
-        run_as_celery_tasks
-    )
 
 
 def extract_excerpts(execution_configuration, extraction_order, bbox_args, converter_helper):
@@ -175,7 +165,7 @@ def create_output_file(extraction_order, result_file_name, export_format_key):
 
 
 @shared_task
-def execute_task(extraction_order_id, supported_export_formats, execution_configuration):
+def execute(extraction_order_id, execution_configuration):
     wait_time = 0
     # wait for the db to be updated!
     extraction_order = None
