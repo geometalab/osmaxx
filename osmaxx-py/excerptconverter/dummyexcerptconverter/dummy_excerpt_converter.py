@@ -95,8 +95,8 @@ class DummyExcerptConverter(BaseExcerptConverter):
                 wait_time += 5
                 if wait_time > 30:
                     logger.exception(
-                        "Even after waiting for #{wait_time} #{time_unit_abbreviation}, the extraction order "
-                        "#{extraction_order_id} hasn't been created".format(
+                        "Even after waiting for {wait_time} {time_unit_abbreviation}, the extraction order "
+                        "{extraction_order_id} hasn't been created".format(
                             wait_time=wait_time,
                             time_unit_abbreviation='s',
                             extraction_order_id=extraction_order_id,
