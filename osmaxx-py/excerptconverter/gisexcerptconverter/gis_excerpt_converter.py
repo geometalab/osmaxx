@@ -4,6 +4,7 @@ import subprocess
 import tempfile
 import time
 
+
 from celery import shared_task
 
 from django.conf import settings
@@ -98,7 +99,7 @@ def extract_excerpts(execution_configuration, extraction_order, bbox_args, conve
     :param bbox_args example: '8.775449276 47.1892350573 8.8901920319 47.2413633153'
     :return:
     """
-    for export_format_key, export_format_config in export_formats().items():
+    for export_format_key, export_format_config in export_formats.items():
         index = 0
         if export_format_key in execution_configuration['formats']:
             index += 1
