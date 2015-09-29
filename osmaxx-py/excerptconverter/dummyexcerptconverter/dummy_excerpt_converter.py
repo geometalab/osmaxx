@@ -74,10 +74,10 @@ def create_output_files(execution_configuration, extraction_order, supported_exp
 
         if private_storage.exists(file_name):
             message_level = messages.SUCCESS
-            message_text = _('"%s" created successful' % file_name)
+            message_text = _('"{file_name}" created successful').format(file_name=file_name)
         else:
             message_level = messages.ERROR
-            message_text = _('Creation of "%s" failed!' % file_name)
+            message_text = _('Creation of "{file_name}" failed!').format(file_name=file_name)
         converter_helper.inform_user(message_level, message_text, email=False)
 
 
@@ -109,7 +109,8 @@ def execute_task(extraction_order_id, supported_export_formats, execution_config
         extraction_order.state = models.ExtractionOrderState.PROCESSING
         extraction_order.save()
 
-        message_text = _('The Dummy conversion of extraction order "%s" has been started.') % extraction_order.id
+        message_text = _('The Dummy conversion of extraction order "{order_id}" has been started.').format(
+            order_id=extraction_order.id)
         converter_helper.inform_user(messages.INFO, message_text, email=False)
 
         create_output_files(
@@ -125,6 +126,7 @@ def execute_task(extraction_order_id, supported_export_formats, execution_config
         converter_helper.file_conversion_finished()
     except:
         # TODO: log stack trace
-        message_text = _('The Dummy conversion of extraction order "%s" failed.') % extraction_order.id
+        message_text = _('The Dummy conversion of extraction order "{order_id}" failed.').format(
+            order_id=extraction_order.id)
         converter_helper.inform_user(messages.ERROR, message_text, email=False)
         raise

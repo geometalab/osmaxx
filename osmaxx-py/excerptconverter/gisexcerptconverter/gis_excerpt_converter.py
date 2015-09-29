@@ -103,10 +103,8 @@ def extract_excerpts(execution_configuration, extraction_order, bbox_args, conve
         index = 0
         if export_format_key in execution_configuration['formats']:
             index += 1
-            extraction_command = "docker-compose run --rm excerpt python excerpt.py %(bbox_args)s -f %(format)s" % {  # noqa
-                'bbox_args':  bbox_args,
-                'format': export_format_key
-            }
+            extraction_command = "docker-compose run --rm excerpt python excerpt.py {bbox_args} -f {format}"\
+                .format(bbox_args=bbox_args, format=export_format_key)
             subprocess.check_call(extraction_command.split(' '))
 
             if len(os.listdir(settings.RESULT_MEDIA_ROOT)) > 0:
@@ -116,32 +114,32 @@ def extract_excerpts(execution_configuration, extraction_order, bbox_args, conve
                             extraction_order, result_file_name, export_format_key):
                         converter_helper.inform_user(
                             messages.SUCCESS,
-                            _('Extraction of "%(file_type)s" of extraction order "%(order_id)s" was successful. '
-                              '(of %(number_of_files)s files of %(converter_name)s converter)') % {
-                                'file_type': export_format_config['name'],
-                                'file_index': index,
-                                'number_of_files': len(execution_configuration['formats']),
-                                'converter_name': name,
-                                'order_id': extraction_order.id
-                            },
+                            _('Extraction of "{file_type}" of extraction order "{order_id}" was successful. '
+                              '(of {number_of_files} files of {converter_name} converter)').format(
+                                file_type=export_format_config['name'],
+                                file_index=index,
+                                number_of_files=len(execution_configuration['formats']),
+                                converter_name=name,
+                                order_id=extraction_order.id
+                            ),
                             email=False
                         )
                     else:
                         converter_helper.inform_user(
                             messages.ERROR,
-                            _('The extraction of "%(file)s" of extraction order "%(order_id)s" failed.') % {
-                                'file': result_file_name,
-                                'order_id': extraction_order.id
-                            },
+                            _('The extraction of "{file}" of extraction order "{order_id}" failed.').format(
+                                file=result_file_name,
+                                order_id=extraction_order.id
+                            ),
                             email=False
                         )
             else:
                 converter_helper.inform_user(
                     messages.ERROR,
-                    _('The extraction of "%(file_type)s" of extraction order "%(order_id)s" failed.') % {
-                        'file_type': export_format_config['name'],
-                        'order_id': extraction_order.id
-                    },
+                    _('The extraction of "{file_type}" of extraction order "{order_id}" failed.').format(
+                        file_type=export_format_config['name'],
+                        order_id=extraction_order.id
+                    ),
                     email=False
                 )
 
@@ -212,7 +210,9 @@ def execute_task(extraction_order_id, supported_export_formats, execution_config
 
             converter_helper.inform_user(
                 messages.INFO,
-                _('The GIS extraction of the order "%s" is has been started.') % extraction_order.id,
+                _('The GIS extraction of the order "{order_id}" is has been started.').format(
+                    order_id=extraction_order.id
+                ),
                 email=False
             )
 
@@ -226,8 +226,9 @@ def execute_task(extraction_order_id, supported_export_formats, execution_config
                 ])
 
                 if len(execution_configuration['formats']) > 0:
-                    subprocess.check_call(("docker-compose run --rm bootstrap sh main-bootstrap.sh %s" %
-                                           bbox_args).split(' '))
+                    subprocess.check_call(("docker-compose run --rm bootstrap sh main-bootstrap.sh {bbox_args}".format(
+                        bbox_args=bbox_args
+                    )).split(' '))
                     extraction_order.state = models.ExtractionOrderState.PROCESSING
                     extraction_order.save()
                     extract_excerpts(
@@ -247,8 +248,9 @@ def execute_task(extraction_order_id, supported_export_formats, execution_config
             else:
                 converter_helper.inform_user(
                     messages.ERROR,
-                    _('GIS excerpt converter is not yet able to extract excerpts of type %s.') %
-                    type(bounding_geometry).__name__,
+                    _('GIS excerpt converter is not yet able to extract excerpts of type {type}.').format(
+                        type=type(bounding_geometry).__name__
+                    ),
                     email=False
                 )
             converter_helper.file_conversion_finished()
@@ -258,10 +260,9 @@ def execute_task(extraction_order_id, supported_export_formats, execution_config
 
             converter_helper.inform_user(
                 messages.ERROR,
-                _('The extraction of order %(order_id)s failed. '
-                  'Please contact an administrator.') % {
-                    'order_id': extraction_order.id
-                },
+                _('The extraction of order {order_id} failed. Please contact an administrator.').format(
+                    order_id=extraction_order.id
+                ),
                 email=False
             )
             raise

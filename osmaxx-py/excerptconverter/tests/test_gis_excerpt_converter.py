@@ -180,7 +180,8 @@ class GisExcerptConverterTestCase(TestCase):
 
         subprocess.check_output.assert_any_call("docker-compose pull".split(' '))
         subprocess.check_output.assert_any_call("docker-compose up -d db".split(' '))
-        subprocess.check_call.assert_any_call(("docker-compose run --rm bootstrap sh main-bootstrap.sh %s" %
-                                               self.bbox_args).split(' '))
+        subprocess.check_call.assert_any_call((
+            "docker-compose run --rm bootstrap sh main-bootstrap.sh {bbox_args}".format(bbox_args=self.bbox_args)
+        ).split(' '))
         subprocess.check_call.assert_any_call("docker-compose stop --timeout 0".split(' '))
         subprocess.check_call.assert_any_call("docker-compose rm -v -f".split(' '))
