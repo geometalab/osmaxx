@@ -1,4 +1,4 @@
-import datetime
+from django.utils import timezone
 
 from excerptconverter.baseexcerptconverter import BaseExcerptConverter
 
@@ -32,7 +32,7 @@ class ConverterManager:
     def execute_converters(self):
         converters_in_configuration = self._get_converters_from_configuration()
         if len(converters_in_configuration) > 0:
-            self.extraction_order.process_start_date = datetime.datetime.now()
+            self.extraction_order.process_start_date = timezone.now()
             self.extraction_order.save()
         for Converter in converters_in_configuration:
             Converter.execute(

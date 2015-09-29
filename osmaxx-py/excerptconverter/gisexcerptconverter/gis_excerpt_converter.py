@@ -155,9 +155,6 @@ class GisExcerptConverter(BaseExcerptConverter):
             extraction_order=extraction_order
         )
 
-        if not os.path.exists(private_storage.location):
-            os.makedirs(private_storage.location)
-
         file_name = str(output_file.public_identifier) + '.zip'
         result_file_path = os.path.abspath(os.path.join(settings.RESULT_MEDIA_ROOT, result_file_name))
         target_file_path = os.path.abspath(os.path.join(private_storage.location, file_name))
