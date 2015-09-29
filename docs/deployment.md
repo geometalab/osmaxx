@@ -106,13 +106,13 @@ Replace step `5b` with:
 docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" pull celery webapp
  ```
 
-In case you're unsure whether Dockerhub was fast enough to build the images already, rebuild webapp & celery container:
+In case you're unsure whether Dockerhub was fast enough to build the images already, rebuild containers `webapp` and `celery`:
 
 ```shell
 docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" build celery webapp
 ```
 
-Run the migrations if your hotfix contained changes to the database:
+If your hotfix changes the database, also run the migrations:
 
 ```shell
 docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" up -d database
