@@ -17,7 +17,6 @@ from excerptconverter import ConverterHelper
 from osmaxx.excerptexport import models
 from osmaxx.utils import private_storage
 
-# Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 
