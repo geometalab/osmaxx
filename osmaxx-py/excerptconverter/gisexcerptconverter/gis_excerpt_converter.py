@@ -107,21 +107,21 @@ class GisExcerptConverter(BaseExcerptConverter):
                                 extraction_order, result_file_name, export_format_key):
                             converter_helper.inform_user(
                                 messages.SUCCESS,
-                                _('Extraction of "%(file_type)s" of extraction order "%(order_id)s" was successful. '
-                                  '(of %(number_of_files)s files of %(converter_name)s converter)') % {
-                                    'file_type': export_format_config['name'],
-                                    'file_index': index,
-                                    'number_of_files': len(execution_configuration['formats']),
-                                    'converter_name': GisExcerptConverter.name(),
-                                    'order_id': extraction_order.id
-                                },
+                                _('Extraction of "{file_type}" of extraction order "{order_id}" was successful. '
+                                  '(of {number_of_files} files of {converter_name} converter)').format(
+                                    file_type=export_format_config['name'],
+                                    file_index=index,
+                                    number_of_files=len(execution_configuration['formats']),
+                                    converter_name=GisExcerptConverter.name(),
+                                    order_id=extraction_order.id,
+                                ),
                                 email=False
                             )
                         else:
-                            message = _('The extraction of "%(file)s" of extraction order "%(order_id)s" failed.') % {
-                                'file': result_file_name,
-                                'order_id': extraction_order.id
-                            }
+                            message = _('The extraction of "{file}" of extraction order "{order_id}" failed.').format(
+                                file=result_file_name,
+                                order_id=extraction_order.id,
+                            )
                             logger.error(message)
                             converter_helper.inform_user(
                                 messages.ERROR,
@@ -129,10 +129,10 @@ class GisExcerptConverter(BaseExcerptConverter):
                                 email=False
                             )
                 else:
-                    message = _('The extraction of "%(file_type)s" of extraction order "%(order_id)s" failed.') % {
-                        'file_type': export_format_config['name'],
-                        'order_id': extraction_order.id
-                    }
+                    message = _('The extraction of "{file}" of extraction order "{order_id}" failed.').format(
+                        file_type=export_format_config['name'],
+                        order_id=extraction_order.id,
+                    )
                     logger.error(message)
                     converter_helper.inform_user(
                         messages.ERROR,
@@ -212,7 +212,9 @@ class GisExcerptConverter(BaseExcerptConverter):
 
                 converter_helper.inform_user(
                     messages.INFO,
-                    _('The GIS extraction of the order "%s" is has been started.') % extraction_order.id,
+                    _('The GIS extraction of the order "{order_id}" is has been started.').format(
+                        order_id=extraction_order.id,
+                    ),
                     email=False
                 )
 
@@ -272,10 +274,10 @@ class GisExcerptConverter(BaseExcerptConverter):
 
                 converter_helper.inform_user(
                     messages.ERROR,
-                    _('The extraction of order %(order_id)s failed. '
-                      'Please contact an administrator.') % {
-                        'order_id': extraction_order.id
-                    },
+                    _('The extraction of order {order_id} failed. '
+                      'Please contact an administrator.').format(
+                        order_id=extraction_order.id,
+                    ),
                     email=False
                 )
                 raise

@@ -117,7 +117,9 @@ class DummyExcerptConverter(BaseExcerptConverter):
             extraction_order.state = models.ExtractionOrderState.PROCESSING
             extraction_order.save()
 
-            message_text = _('The Dummy conversion of extraction order "%s" has been started.') % extraction_order.id
+            message_text = _('The Dummy conversion of extraction order "{order_id}" has been started.').format(
+                order_id=extraction_order.id,
+            )
             converter_helper.inform_user(messages.INFO, message_text, email=False)
 
             DummyExcerptConverter.create_output_files(
@@ -138,6 +140,8 @@ class DummyExcerptConverter(BaseExcerptConverter):
                                  extraction_order_id=extraction_order.id,
                                  user=converter_helper.user,
                              ))
-            message_text = _('The Dummy conversion of extraction order "%s" failed.') % extraction_order.id
+            message_text = _('The Dummy conversion of extraction order "{order_id}" failed.').format(
+                order_id=extraction_order.id,
+            )
             converter_helper.inform_user(messages.ERROR, message_text, email=False)
             raise
