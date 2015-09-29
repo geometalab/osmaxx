@@ -16,6 +16,30 @@ function main(){
     else
         run_production_tests;
     fi
+
+    # FIXME: currently only work on development settings
+    if [[ $(ls -l docker-compose.yml) == *"development.yml"* ]] && [ $RUN_E2E ] && [ $RUN_E2E = 'true' ]; then
+        run_e2e_tests;
+    fi
+}
+
+function create_and_activate_tmp_virtualenv() {
+    virtualenv tmp/e2e_tests;
+    source tmp/e2e_tests/bin/activate;
+    # install dependencies
+    pip install requests beautifulsoup4;
+}
+
+function deactivate_and_delete_tmp_virtualenv() {
+    deactivate;
+    echo "removing virtualenv in tmp/e2e_tests";
+    rm tmp/e2e_tests -rI;
+}
+
+function run_e2e_tests() {
+    create_and_activate_tmp_virtualenv;
+    python e2e/e2e_tests.py;
+    deactivate_and_delete_tmp_virtualenv;
 }
 
 function run_development_tests() {
