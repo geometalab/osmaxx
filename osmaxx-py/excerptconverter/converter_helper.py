@@ -1,5 +1,4 @@
 from django.contrib import messages
-#from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
 
 import stored_messages
@@ -18,9 +17,9 @@ class ConverterHelper:
         if self.extraction_order.output_files.count() >= len(self.extraction_order.extraction_formats):
             self.inform_user(
                 messages.SUCCESS,
-                _('The extraction of the order "%(order_id)s" has been finished.') % {
-                    'order_id': self.extraction_order.id
-                },
+                _('The extraction of the order "{order_id}" has been finished.').format(
+                    order_id=self.extraction_order.id,
+                ),
                 email=True
             )
             self.extraction_order.state = models.ExtractionOrderState.FINISHED
@@ -36,7 +35,7 @@ class ConverterHelper:
         if email:
             if hasattr(self.user, 'email'):
                 pass
-                # TODO: fix it
+                # FIXME: fix email sending
                 # send_mail(
                 #     '[OSMAXX] '+message_text,
                 #     message_text,

@@ -1,3 +1,4 @@
+import logging
 import os
 import shutil
 import subprocess
@@ -15,6 +16,8 @@ from excerptconverter import ConverterHelper
 
 from osmaxx.excerptexport import models
 from osmaxx.utils import private_storage
+
+logger = logging.getLogger(__name__)
 
 
 class GisExcerptConverter(BaseExcerptConverter):
@@ -105,32 +108,36 @@ class GisExcerptConverter(BaseExcerptConverter):
                                 extraction_order, result_file_name, export_format_key):
                             converter_helper.inform_user(
                                 messages.SUCCESS,
-                                _('Extraction of "%(file_type)s" of extraction order "%(order_id)s" was successful. '
-                                  '(of %(number_of_files)s files of %(converter_name)s converter)') % {
-                                    'file_type': export_format_config['name'],
-                                    'file_index': index,
-                                    'number_of_files': len(execution_configuration['formats']),
-                                    'converter_name': GisExcerptConverter.name(),
-                                    'order_id': extraction_order.id
-                                },
+                                _('Extraction of "{file_type}" of extraction order "{order_id}" was successful. '
+                                  '(of {number_of_files} files of {converter_name} converter)').format(
+                                    file_type=export_format_config['name'],
+                                    file_index=index,
+                                    number_of_files=len(execution_configuration['formats']),
+                                    converter_name=GisExcerptConverter.name(),
+                                    order_id=extraction_order.id,
+                                ),
                                 email=False
                             )
                         else:
+                            message = _('The extraction of "{file}" of extraction order "{order_id}" failed.').format(
+                                file=result_file_name,
+                                order_id=extraction_order.id,
+                            )
+                            logger.error(message)
                             converter_helper.inform_user(
                                 messages.ERROR,
-                                _('The extraction of "%(file)s" of extraction order "%(order_id)s" failed.') % {
-                                    'file': result_file_name,
-                                    'order_id': extraction_order.id
-                                },
+                                message,
                                 email=False
                             )
                 else:
+                    message = _('The extraction of "{file}" of extraction order "{order_id}" failed.').format(
+                        file_type=export_format_config['name'],
+                        order_id=extraction_order.id,
+                    )
+                    logger.error(message)
                     converter_helper.inform_user(
                         messages.ERROR,
-                        _('The extraction of "%(file_type)s" of extraction order "%(order_id)s" failed.') % {
-                            'file_type': export_format_config['name'],
-                            'order_id': extraction_order.id
-                        },
+                        message,
                         email=False
                     )
 
@@ -174,6 +181,14 @@ class GisExcerptConverter(BaseExcerptConverter):
                 time.sleep(5)
                 wait_time += 5
                 if wait_time > 30:
+                    logger.exception(
+                        "Even after waiting for {wait_time} {time_unit_abbreviation}, the extraction order "
+                        "{extraction_order_id} hasn't been created".format(
+                            wait_time=wait_time,
+                            time_unit_abbreviation='s',
+                            extraction_order_id=extraction_order_id,
+                        )
+                    )
                     raise
 
         converter_helper = ConverterHelper(extraction_order)
@@ -198,7 +213,9 @@ class GisExcerptConverter(BaseExcerptConverter):
 
                 converter_helper.inform_user(
                     messages.INFO,
-                    _('The GIS extraction of the order "%s" is has been started.') % extraction_order.id,
+                    _('The GIS extraction of the order "{order_id}" is has been started.').format(
+                        order_id=extraction_order.id,
+                    ),
                     email=False
                 )
 
@@ -224,30 +241,44 @@ class GisExcerptConverter(BaseExcerptConverter):
                         )
 
                 elif type(bounding_geometry) == models.OsmosisPolygonFilterBoundingGeometry:
+                    message = _('GIS excerpt converter is not yet able to extract polygon excerpts.')
+                    logging.error(message)
                     converter_helper.inform_user(
                         messages.ERROR,
-                        _('GIS excerpt converter is not yet able to extract polygon excerpts.'),
+                        message,
                         email=False
                     )
-
                 else:
+                    logging.error(
+                        'GIS excerpt converter is not yet able to extract excerpts of type {type} - failed because of'
+                        'geometry id: {geometry_id}'.format(
+                            type=type(bounding_geometry).__name__,
+                            geometry_id=bounding_geometry.id,
+                        )
+                    )
+                    message = _('GIS excerpt converter is not yet able to extract excerpts of type {type}.').format(
+                        type=type(bounding_geometry).__name__
+                    )
                     converter_helper.inform_user(
                         messages.ERROR,
-                        _('GIS excerpt converter is not yet able to extract excerpts of type %s.') %
-                        type(bounding_geometry).__name__,
+                        message,
                         email=False
                     )
                 converter_helper.file_conversion_finished()
             except:
+                logger.exception('The extraction of order {order_id} failed.'.format(
+                    order_id=extraction_order.id,
+                ))
+
                 extraction_order.state = models.ExtractionOrderState.FAILED
                 extraction_order.save()
 
                 converter_helper.inform_user(
                     messages.ERROR,
-                    _('The extraction of order %(order_id)s failed. '
-                      'Please contact an administrator.') % {
-                        'order_id': extraction_order.id
-                    },
+                    _('The extraction of order {order_id} failed. '
+                      'Please contact an administrator.').format(
+                        order_id=extraction_order.id,
+                    ),
                     email=False
                 )
                 raise
@@ -256,5 +287,7 @@ class GisExcerptConverter(BaseExcerptConverter):
                     subprocess.check_call("docker-compose stop --timeout 0".split(' '))
                     subprocess.check_call("docker-compose rm -v -f".split(' '))
                 except:
-                    pass
+                    logger.exception("couldn't clean up docker containers in directory {directory}".format(
+                        directory=tmp_dir
+                    ))
                 os.chdir(original_cwd)
