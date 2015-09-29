@@ -1,15 +1,15 @@
 from django.utils import timezone
-from excerptconverter.baseexcerptconverter import BaseExcerptConverter
+from excerptconverter import converter_registry
 
 
 class ConverterManager:
     @staticmethod
     def converter_configuration():
         return {Converter.__name__: Converter.converter_configuration()
-                for Converter in BaseExcerptConverter.available_converters}
+                for Converter in converter_registry.available_converters}
 
     def __init__(self, extraction_order,
-                 available_converters=BaseExcerptConverter.available_converters,
+                 available_converters=converter_registry.available_converters,
                  run_as_celery_tasks=True):
         """"
         :param execution_configuration example:
@@ -30,6 +30,7 @@ class ConverterManager:
 
     def execute_converters(self):
         converters_in_configuration = self._get_converters_from_configuration()
+
         if len(converters_in_configuration) > 0:
             self.extraction_order.process_start_date = timezone.now()
             self.extraction_order.save()

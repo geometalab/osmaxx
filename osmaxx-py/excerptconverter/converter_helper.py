@@ -1,10 +1,53 @@
 from django.contrib import messages
-#from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
 
 import stored_messages
 
 from osmaxx.excerptexport import models
+
+
+def module_converter_configuration(name, export_formats, export_options):
+    return {
+        'name': name,
+        'formats': export_formats,
+        'options': export_options
+    }
+
+
+def run_model_execute(execute_task_method, export_formats,
+                      extraction_order, execution_configuration, run_as_celery_tasks):
+    """
+    Execute excerpt conversion task (queue celery task)
+
+    :param execution_configuration example:
+        {
+            'formats': ['txt', 'file_gdb'],
+            'options': {
+                'coordinate_reference_system': 'wgs72',
+                'detail_level': 'verbatim'
+            }
+        }
+
+    :param export_formats example:
+        {
+            'txt': {
+                'name': 'Text',
+                'file_extension': 'txt',
+                'mime_type': 'text/plain'
+            },
+            'markdown': {
+                'name': 'Markdown',
+                'file_extension': 'md',
+                'mime_type': 'text/markdown'
+            }
+        }
+    :param run_as_celery_tasks:
+        run_as_celery_tasks=False allows to run as normal functions for testing
+    """
+    if run_as_celery_tasks:
+        execute_task_method.delay(extraction_order.id, export_formats, execution_configuration)
+    else:
+        execute_task_method(extraction_order.id, export_formats, execution_configuration)
 
 
 # functions using database (extraction_order) must be instance methods of a class
