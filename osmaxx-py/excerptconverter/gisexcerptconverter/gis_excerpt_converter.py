@@ -81,6 +81,7 @@ class GisExcerptConverter(BaseExcerptConverter):
         """
         Extract excerpt for chosen formats (execution_configuration) using docker-compose
         to trigger the conversion process (defined in blackbox/docker-compose-conversion-blackbox.yml)
+        expected order of bbox_arguments: WEST, SOUTH, EAST, NORTH
 
         :param execution_configuration:
         :param extraction_order:
@@ -201,10 +202,10 @@ class GisExcerptConverter(BaseExcerptConverter):
                 bounding_geometry = extraction_order.excerpt.bounding_geometry
                 if type(bounding_geometry) == models.BBoxBoundingGeometry:
                     bbox_args = ' '.join(str(coordinate) for coordinate in [
-                        bounding_geometry.south,
                         bounding_geometry.west,
+                        bounding_geometry.south,
+                        bounding_geometry.east,
                         bounding_geometry.north,
-                        bounding_geometry.east
                     ])
 
                     if len(execution_configuration['formats']) > 0:
