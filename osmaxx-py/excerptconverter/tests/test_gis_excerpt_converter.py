@@ -148,39 +148,38 @@ class GisExcerptConverterTestCase(TestCase):
         self.assertEqual(subprocess.check_call.call_count, 2)
         self.assertEqual(gis_excerpt_converter.create_output_file.call_count, 2)
 
-    # @patch('excerptconverter.gisexcerptconverter.gis_excerpt_converter')
-    # @patch('subprocess.check_output')
-    # @patch('subprocess.check_call')
-    # @patch('shutil.copyfile')
-    # @patch('excerptconverter.converter_helper')
-    # @patch('os.listdir')
-    # @patch('os.chdir')
-    # def test_execute_task(self, gis_excerpt_converter_mock, m2, m3, m4, m5, m6, m7):
-    #     gis_excerpt_converter_mock.export_formats = MagicMock(return_value=self.gis_excerpt_converter_export_formats)
-    #     subprocess.check_output = MagicMock(return_value=0)
-    #     subprocess.check_call = MagicMock(return_value=0)
-    #
-    #     # Do not create user messages
-    #     converter_helper = ConverterHelper(self.extraction_order)
-    #     converter_helper.inform_user = MagicMock()
-    #     converter_helper.file_conversion_finished = MagicMock()
-    #
-    #     # Do not call the real methods. This methods are tested own tests
-    #     # TODO: this seems to be the problem
-    #     gis_excerpt_converter_mock.extract_excerpts = MagicMock()
-    #
-    #     os.listdir = MagicMock()
-    #     os.chdir = MagicMock()
-    #
-    #     gis_excerpt_converter_mock.execute_task(
-    #         self.extraction_order.id,
-    #         self.gis_excerpt_converter_export_formats,
-    #         self.extraction_configuration['gis_excerpt_converter_mock']
-    #     )
-    #
-    #     subprocess.check_output.assert_any_call("docker-compose pull".split(' '))
-    #     subprocess.check_output.assert_any_call("docker-compose up -d db".split(' '))
-    #     subprocess.check_call.assert_any_call(("docker-compose run --rm bootstrap sh main-bootstrap.sh %s" %
-    #                                            self.bbox_args).split(' '))
-    #     subprocess.check_call.assert_any_call("docker-compose stop --timeout 0".split(' '))
-    #     subprocess.check_call.assert_any_call("docker-compose rm -v -f".split(' '))
+    @patch('excerptconverter.gisexcerptconverter.gis_excerpt_converter')
+    @patch('subprocess.check_output')
+    @patch('subprocess.check_call')
+    @patch('shutil.copyfile')
+    @patch('excerptconverter.converter_helper')
+    @patch('os.listdir')
+    @patch('os.chdir')
+    def test_execute_task(self, gis_excerpt_converter_mock, m2, m3, m4, m5, m6, m7):
+        gis_excerpt_converter.export_formats = MagicMock(return_value=self.gis_excerpt_converter_export_formats)
+        subprocess.check_output = MagicMock(return_value=0)
+        subprocess.check_call = MagicMock(return_value=0)
+
+        # Do not create user messages
+        converter_helper = ConverterHelper(self.extraction_order)
+        converter_helper.inform_user = MagicMock()
+        converter_helper.file_conversion_finished = MagicMock()
+
+        # Do not call the real methods. This methods are tested own tests
+        gis_excerpt_converter_mock.extract_excerpts = MagicMock()
+
+        os.listdir = MagicMock()
+        os.chdir = MagicMock()
+
+        gis_excerpt_converter.execute_task(
+            self.extraction_order.id,
+            self.gis_excerpt_converter_export_formats,
+            self.extraction_configuration['excerptconverter.gisexcerptconverter.gis_excerpt_converter']
+        )
+
+        subprocess.check_output.assert_any_call("docker-compose pull".split(' '))
+        subprocess.check_output.assert_any_call("docker-compose up -d db".split(' '))
+        subprocess.check_call.assert_any_call(("docker-compose run --rm bootstrap sh main-bootstrap.sh %s" %
+                                               self.bbox_args).split(' '))
+        subprocess.check_call.assert_any_call("docker-compose stop --timeout 0".split(' '))
+        subprocess.check_call.assert_any_call("docker-compose rm -v -f".split(' '))

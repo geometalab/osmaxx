@@ -218,10 +218,10 @@ def execute_task(extraction_order_id, supported_export_formats, execution_config
             bounding_geometry = extraction_order.excerpt.bounding_geometry
             if type(bounding_geometry) == models.BBoxBoundingGeometry:
                 bbox_args = ' '.join(str(coordinate) for coordinate in [
-                    bounding_geometry.south,
                     bounding_geometry.west,
-                    bounding_geometry.north,
-                    bounding_geometry.east
+                    bounding_geometry.south,
+                    bounding_geometry.east,
+                    bounding_geometry.north
                 ])
 
                 if len(execution_configuration['formats']) > 0:
