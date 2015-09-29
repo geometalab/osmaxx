@@ -114,6 +114,7 @@ class GisExcerptConverterTestCase(TestCase):
         self.assertFalse(self.result_storage.exists('abcd1234efgk5678.zip'))
 
     @patch('excerptconverter.gisexcerptconverter.gis_excerpt_converter')
+    @patch.dict('excerptconverter.gisexcerptconverter.gis_excerpt_converter.export_formats')
     @patch('subprocess.check_call')
     @patch('excerptconverter.converter_helper')
     @patch('os.listdir')
@@ -121,7 +122,7 @@ class GisExcerptConverterTestCase(TestCase):
                               excerptconverter_converter_helper_mock, os_listdir_mock):
         # return static value instead of implementation dependend
         # -> does not breaks tests on change of gis_excerpt_converter.export_formats
-        gis_excerpt_converter.export_formats = MagicMock(return_value=self.gis_excerpt_converter_export_formats)
+        gis_excerpt_converter.export_formats = self.gis_excerpt_converter_export_formats
         subprocess.check_call = MagicMock(return_value=0)
         # Do not create user messages
         self.converter_helper.inform_user = MagicMock()
