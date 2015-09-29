@@ -88,3 +88,23 @@ To deploy to production server:
   ```shell
   sudo systemctl start docker-osmaxx.service
   ```
+
+## Deploying a Hotfix
+
+Follow the above steps until 5a.
+
+Replace step 5b with:
+
+5. 
+  b.
+
+    ```shell
+    docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" pull celery webapp
+    ```
+    Rebuild Containers:
+    
+    ```shell
+      docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" build celery webapp
+    ```
+  
+    Now, Follow the rest of the steps. 
