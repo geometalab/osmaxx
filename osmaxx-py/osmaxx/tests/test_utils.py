@@ -9,7 +9,7 @@ class PrivateSystemStorageTestCase(TestCase):
     def setUp(self):
         random_directory_name_length = 10
         self.random_directory_name = ''.join(
-            random.choice(string.ascii_lowercase + string.digits) for _ in range(random_directory_name_length)
+            random.choice(string.ascii_lowercase + string.digits) for _throwaway in range(random_directory_name_length)
         )
 
     def test_creates_a_new_directory_if_it_does_not_exist(self):
