@@ -1,5 +1,7 @@
-from django.test import TestCase
 import os
+
+from django.test import TestCase
+
 from osmaxx.utils import PrivateSystemStorage
 
 
