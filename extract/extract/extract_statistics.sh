@@ -31,19 +31,19 @@ gather_statistics(){
 			case $OPTION in
 		
 			1) 
-				TYPE="where type='"$ELEMENT"'"
+				TYPE="where type='$ELEMENT'"
 				LABEL="";;						                    #No LABEL to be attached, just the variable from the array
 			2) 
-				TYPE="where type='"$ELEMENT"'"
+				TYPE="where type='$ELEMENT'"
 				LABEL=$4",";;						                #Label to be attached to the stat count in the "FILE"
 			3)
-				TYPE="where type='"$4"' and status='"$ELEMENT"'"
+				TYPE="where type='$4' and status='$ELEMENT'"
 				LABEL=$4",";;						                #Label to be attached to the stat count in the "FILE"
 			4)
-				TYPE="where aggtype='"$4"' and type='"$ELEMENT"'"
+				TYPE="where aggtype='$4' and type='$ELEMENT'"
 				LABEL=$4",";;						                #Label to be attached to the stat count in the "FILE"
 			5)
-				TYPE="where aggtype<>'"$5"' and type='"$ELEMENT"'"	#As LABEL and aggtype parameter are different we need a fifth argument
+				TYPE="where aggtype<>'$5' and type='$ELEMENT'"	#As LABEL and aggtype parameter are different we need a fifth argument
 				LABEL=$4",";;
 			esac
 
