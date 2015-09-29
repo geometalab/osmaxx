@@ -1,15 +1,15 @@
 from excerptconverter.converter_helper import module_converter_configuration, run_model_execute
 
 
-name = 'Dummy'
-export_formats = {
+NAME = 'Dummy'
+EXPORT_FORMATS = {
     'jpg': {
         'name': 'JPG',
         'file_extension': 'jpg',
         'mime_type': 'image/jpg'
     }
 }
-export_options = {
+EXPORT_OPTIONS = {
     'resolution': {
         'label': 'Resolution',
         'type': 'text',
@@ -19,13 +19,13 @@ export_options = {
 
 
 def converter_configuration():
-    return module_converter_configuration(name, export_formats, export_options)
+    return module_converter_configuration(NAME, EXPORT_FORMATS, EXPORT_OPTIONS)
 
 
 def execute(extraction_order, execution_configuration, run_as_celery_tasks):
     return run_model_execute(
         execute_task,
-        export_formats,
+        EXPORT_FORMATS,
         extraction_order,
         execution_configuration,
         run_as_celery_tasks

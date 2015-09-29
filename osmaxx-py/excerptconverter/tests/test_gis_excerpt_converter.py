@@ -114,15 +114,15 @@ class GisExcerptConverterTestCase(TestCase):
         self.assertFalse(self.result_storage.exists('abcd1234efgk5678.zip'))
 
     @patch('excerptconverter.gisexcerptconverter.gis_excerpt_converter')
-    @patch.dict('excerptconverter.gisexcerptconverter.gis_excerpt_converter.export_formats')
+    @patch.dict('excerptconverter.gisexcerptconverter.gis_excerpt_converter.EXPORT_FORMATS')
     @patch('subprocess.check_call')
     @patch('excerptconverter.converter_helper')
     @patch('os.listdir')
     def test_extract_excerpts(self, gis_excerpt_converter_mock, subprocess_check_call_mock,
                               excerptconverter_converter_helper_mock, os_listdir_mock):
         # return static value instead of implementation dependend
-        # -> does not breaks tests on change of gis_excerpt_converter.export_formats
-        gis_excerpt_converter.export_formats = self.gis_excerpt_converter_export_formats
+        # -> does not breaks tests on change of gis_excerpt_converter.EXPORT_FORMATS
+        gis_excerpt_converter.EXPORT_FORMATS = self.gis_excerpt_converter_export_formats
         subprocess.check_call = MagicMock(return_value=0)
         # Do not create user messages
         self.converter_helper.inform_user = MagicMock()
@@ -150,6 +150,7 @@ class GisExcerptConverterTestCase(TestCase):
         self.assertEqual(gis_excerpt_converter.create_output_file.call_count, 2)
 
     @patch('excerptconverter.gisexcerptconverter.gis_excerpt_converter')
+    @patch.dict('excerptconverter.gisexcerptconverter.gis_excerpt_converter.EXPORT_FORMATS')
     @patch('subprocess.check_output')
     @patch('subprocess.check_call')
     @patch('shutil.copyfile')
@@ -157,7 +158,7 @@ class GisExcerptConverterTestCase(TestCase):
     @patch('os.listdir')
     @patch('os.chdir')
     def test_execute_task(self, gis_excerpt_converter_mock, m2, m3, m4, m5, m6, m7):
-        gis_excerpt_converter.export_formats = MagicMock(return_value=self.gis_excerpt_converter_export_formats)
+        gis_excerpt_converter.EXPORT_FORMATS = self.gis_excerpt_converter_export_formats
         subprocess.check_output = MagicMock(return_value=0)
         subprocess.check_call = MagicMock(return_value=0)
 

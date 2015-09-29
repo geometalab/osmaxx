@@ -4,8 +4,8 @@ from osmaxx.excerptexport import models
 from . import test_result_pipe
 
 
-name = 'Test'
-export_formats = {
+NAME = 'Test'
+EXPORT_FORMATS = {
     'jpg': {
         'name': 'JPG',
         'file_extension': 'jpg',
@@ -22,7 +22,7 @@ export_formats = {
         'mime_type': 'image/svg'
     }
 }
-export_options = {
+EXPORT_OPTIONS = {
     'image_resolution': {
         'label': 'Resolution',
         'type': 'number',
@@ -37,13 +37,13 @@ export_options = {
 
 
 def converter_configuration():
-    return module_converter_configuration(name, export_formats, export_options)
+    return module_converter_configuration(NAME, EXPORT_FORMATS, EXPORT_OPTIONS)
 
 
 def execute(extraction_order, execution_configuration, run_as_celery_tasks):
     return run_model_execute(
         execute_task,
-        export_formats,
+        EXPORT_FORMATS,
         extraction_order,
         execution_configuration,
         run_as_celery_tasks

@@ -17,8 +17,8 @@ from osmaxx.excerptexport import models
 from osmaxx.utils import private_storage
 
 
-name = 'GIS'
-export_formats = {
+NAME = 'GIS'
+EXPORT_FORMATS = {
     'spatialite': {
         'name': 'SpatiaLite (SQLite)',
         'file_extension': 'sqlite'
@@ -32,7 +32,7 @@ export_formats = {
         'file_extension': 'shp'
     }
 }
-export_options = {
+EXPORT_OPTIONS = {
     # has to be implemented next:
     # 'coordinate_reference_system': {
     #     'label': 'Coordinate reference system',
@@ -69,13 +69,13 @@ export_options = {
 
 
 def converter_configuration():
-    return module_converter_configuration(name, export_formats, export_options)
+    return module_converter_configuration(NAME, EXPORT_FORMATS, EXPORT_OPTIONS)
 
 
 def execute(extraction_order, execution_configuration, run_as_celery_tasks):
     return run_model_execute(
         execute_task,
-        export_formats,
+        EXPORT_FORMATS,
         extraction_order,
         execution_configuration,
         run_as_celery_tasks
@@ -99,7 +99,7 @@ def extract_excerpts(execution_configuration, extraction_order, bbox_args, conve
     :param bbox_args example: '8.775449276 47.1892350573 8.8901920319 47.2413633153'
     :return:
     """
-    for export_format_key, export_format_config in export_formats.items():
+    for export_format_key, export_format_config in EXPORT_FORMATS.items():
         index = 0
         if export_format_key in execution_configuration['formats']:
             index += 1
@@ -119,7 +119,7 @@ def extract_excerpts(execution_configuration, extraction_order, bbox_args, conve
                                 file_type=export_format_config['name'],
                                 file_index=index,
                                 number_of_files=len(execution_configuration['formats']),
-                                converter_name=name,
+                                converter_name=NAME,
                                 order_id=extraction_order.id
                             ),
                             email=False

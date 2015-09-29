@@ -13,8 +13,8 @@ from osmaxx.excerptexport import models
 from osmaxx.utils import private_storage
 
 
-name = 'Dummy'
-export_formats = {
+NAME = 'Dummy'
+EXPORT_FORMATS = {
     'txt': {
         'name': 'Text (.txt)',
         'file_extension': 'txt',
@@ -26,7 +26,7 @@ export_formats = {
         'mime_type': 'text/markdown'
     }
 }
-export_options = {
+EXPORT_OPTIONS = {
     'detail_level': {
         'label': 'Detail level',
         'type': 'choice',
@@ -40,13 +40,13 @@ export_options = {
 
 
 def converter_configuration():
-    return module_converter_configuration(name, export_formats, export_options)
+    return module_converter_configuration(NAME, EXPORT_FORMATS, EXPORT_OPTIONS)
 
 
 def execute(extraction_order, execution_configuration, run_as_celery_tasks):
     return run_model_execute(
         execute_task,
-        export_formats,
+        EXPORT_FORMATS,
         extraction_order,
         execution_configuration,
         run_as_celery_tasks
