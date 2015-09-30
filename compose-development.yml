@@ -16,7 +16,6 @@ sourcedev:
   build: docker/volume-mount
   volumes:
     - ./osmaxx-py:/home/osmaxx/source
-    - /tmp/osmaxx_pip_cache/.cache/pip:/home/osmaxx/.cache/pip
 
 webappdev:
   extends:
