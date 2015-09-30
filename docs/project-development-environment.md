@@ -101,3 +101,7 @@ Load docker image from file:
 docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
 docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
 ```
+## Emails sending
+
+Emails during development and testing can be found locally under `/tmp/osmaxx-development-emails`. 
+This file holds all sent emails.

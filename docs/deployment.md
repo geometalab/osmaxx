@@ -14,7 +14,21 @@ To deploy to production server:
   git submodule init && git submodule update
   ```
   Repository details see [Project repository](git-repository.md).
-3. Link production configuration for docker-compose, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
+3. a. Link production configuration for docker-compose, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
+   b. Edit the docker-compose.yml file and change (if needed) the EMAIL settings:
+   ```shell
+    DJANGO_EMAIL_HOST='<your smtp>'
+    DJANGO_EMAIL_HOST_PASSWORD='<your password>'
+    DJANGO_EMAIL_HOST_USER='<your user>'
+    DJANGO_EMAIL_PORT=<PORT>
+    DJANGO_EMAIL_SUBJECT_PREFIX='<set to something smart>'
+    DJANGO_EMAIL_USE_TLS=<true/false>
+    DJANGO_EMAIL_USE_SSL=<true/false>
+    DJANGO_EMAIL_TIMEOUT=<None or Number>
+    DJANGO_EMAIL_SSL_CERTFILET=<None or path>
+    DJANGO_EMAIL_SSL_KEYFILE=<None or path> 
+   ```
+
 4. Add target specific environment variables to compose-production.yml
   * If you are using an nginx proxy (jwilder/nginx-proxy), you need to set the environment variable
     `VIRTUAL_HOST=osmaxx.yourdomain.tld`
