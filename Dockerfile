@@ -14,7 +14,7 @@ ENV HOME /home/$USER
 
 WORKDIR $HOME
 
-# little trick to avoid rebuilding this image over and over again, if you update
+# Little trick to avoid rebuilding this image over and over again. If you update
 # your requirements, please update this to the actual date!
 
 ENV REQS_LAST_UPDATED 30-09-2015 11:48
