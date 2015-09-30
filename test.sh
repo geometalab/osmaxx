@@ -99,7 +99,7 @@ function tear_down() {
 
 function reset_containers() {
     docker_compose stop -t 0 &>> ${LOGFILE};
-    docker_compose rm -f &>> ${LOGFILE};
+    docker_compose rm -vf &>> ${LOGFILE};
     docker_compose build &>> ${LOGFILE};
     docker_compose up -d ${DB_CONTAINER};
     sleep 10;
@@ -108,7 +108,7 @@ function reset_containers() {
 function reset_container() {
     local CONTAINER_TO_BE_RESETTED=$1
     docker_compose stop -t 0 ${CONTAINER_TO_BE_RESETTED} &>> ${LOGFILE};
-    docker_compose rm -f ${CONTAINER_TO_BE_RESETTED} &>> ${LOGFILE};
+    docker_compose rm -vf ${CONTAINER_TO_BE_RESETTED} &>> ${LOGFILE};
     docker_compose build ${CONTAINER_TO_BE_RESETTED} &>> ${LOGFILE};
 }
 
