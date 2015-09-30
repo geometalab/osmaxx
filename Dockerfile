@@ -12,10 +12,17 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -q \
 
 ENV HOME /home/$USER
 
+WORKDIR $HOME
+
+# little trick to avoid rebuilding this image over and over again, if you update
+# your requirements, please update this to the actual date!
+
+ENV REQS_LAST_UPDATED 30-09-2015 11:48
+
+ADD osmaxx-py/requirements $HOME/requirements
+
+RUN pip3 install -r requirements/local.txt
+
 WORKDIR $HOME/source
 
 COPY osmaxx-py $HOME/source
-
-ENV REQS_LAST_UPDATED 22-06-2015 14:24
-
-RUN pip3 install -Ur requirements/local.txt

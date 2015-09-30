@@ -10,7 +10,7 @@ def stop():
 
 def clean():
     stop()
-    subprocess.check_call("docker-compose rm -vf".split(' '))
+    subprocess.check_call("docker-compose rm -f".split(' '))
 
 
 def build():
