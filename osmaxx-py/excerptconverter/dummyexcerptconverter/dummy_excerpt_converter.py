@@ -1,5 +1,6 @@
 import os
 import time
+import logging
 
 from celery import shared_task
 
@@ -11,6 +12,8 @@ from excerptconverter.converter_helper import ConverterHelper, module_converter_
 
 from osmaxx.excerptexport import models
 from osmaxx.utils import private_storage
+
+logger = logging.getLogger(__name__)
 
 
 NAME = 'Dummy'
@@ -68,6 +71,7 @@ def create_output_files(execution_configuration, extraction_order, supported_exp
         else:
             message_level = messages.ERROR
             message_text = _('Creation of "{file_name}" failed!').format(file_name=file_name)
+            logger.error(message_text)
         converter_helper.inform_user(message_level, message_text, email=False)
 
 
@@ -83,10 +87,18 @@ def execute(extraction_order_id, execution_configuration):
             time.sleep(5)
             wait_time += 5
             if wait_time > 30:
+                logger.exception(
+                    "Even after waiting for {wait_time} {time_unit_abbreviation}, the extraction order "
+                    "{extraction_order_id} hasn't been created".format(
+                        wait_time=wait_time,
+                        time_unit_abbreviation='s',
+                        extraction_order_id=extraction_order_id,
+                    )
+                )
                 raise
 
+    converter_helper = ConverterHelper(extraction_order)
     try:
-        converter_helper = ConverterHelper(extraction_order)
         fake_work_waiting_time_in_seconds = 5
 
         # now set the new state
@@ -100,7 +112,8 @@ def execute(extraction_order_id, execution_configuration):
         extraction_order.save()
 
         message_text = _('The Dummy conversion of extraction order "{order_id}" has been started.').format(
-            order_id=extraction_order.id)
+            order_id=extraction_order.id,
+        )
         converter_helper.inform_user(messages.INFO, message_text, email=False)
 
         create_output_files(
@@ -115,8 +128,14 @@ def execute(extraction_order_id, execution_configuration):
         # now set the new state (if all files have been processed) and inform the user about the state
         converter_helper.file_conversion_finished()
     except:
-        # TODO: log stack trace
+        logger.exception('conversion of extraction order with id '
+                         '"{extraction_order_id}" for user {user} failed.'
+                         ''.format(
+                             extraction_order_id=extraction_order.id,
+                             user=converter_helper.user,
+                         ))
         message_text = _('The Dummy conversion of extraction order "{order_id}" failed.').format(
-            order_id=extraction_order.id)
+            order_id=extraction_order.id,
+        )
         converter_helper.inform_user(messages.ERROR, message_text, email=False)
         raise
