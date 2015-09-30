@@ -10,6 +10,8 @@ shareddatadev:
     - /database/data
     # temporary results directory used as pipe between multiple docker forests
     - /tmp/osmaxx-results:/results
+    # emails file from email sending during development and testing
+    - /tmp/osmaxx-development-emails:/dev-emails
   net: "none"
 
 sourcedev:
@@ -33,19 +35,23 @@ webappdev:
   links:
     - rabbitmqdev:rabbit
     - databasedev
-    - emaildev
     - celerydev
   environment:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
     - DJANGO_DEBUG=true
-    - DJANGO_EMAIL_HOST=emaildev
-
-
-rabbitmqdev:
-  extends:
-    file: compose-common.yml
-    service: rabbitmqbase
+    - DJANGO_EMAIL_FILE_PATH=/dev-emails
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
+    - DJANGO_EMAIL_HOST=localhost
+    - DJANGO_EMAIL_HOST_PASSWORD=''
+    - DJANGO_EMAIL_HOST_USER=''
+    - DJANGO_EMAIL_PORT=25
+    - DJANGO_EMAIL_SUBJECT_PREFIX='[OSMAXX-DEV] '
+    - DJANGO_EMAIL_USE_TLS=False
+    - DJANGO_EMAIL_USE_SSL=False
+    - DJANGO_EMAIL_TIMEOUT=None
+    - DJANGO_EMAIL_SSL_CERTFILET=None
+    - DJANGO_EMAIL_SSL_KEYFILE=None
 
 celerydev:
   extends:
@@ -60,12 +66,27 @@ celerydev:
   links:
     - rabbitmqdev:rabbit
     - databasedev
-    - emaildev
   environment:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
     - DJANGO_DEBUG=true
-    - DJANGO_EMAIL_HOST=emaildev
+    - DJANGO_EMAIL_FILE_PATH=/dev-emails
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
+    - DJANGO_EMAIL_HOST=localhost
+    - DJANGO_EMAIL_HOST_PASSWORD=''
+    - DJANGO_EMAIL_HOST_USER=''
+    - DJANGO_EMAIL_PORT=25
+    - DJANGO_EMAIL_SUBJECT_PREFIX='[OSMAXX-DEV] '
+    - DJANGO_EMAIL_USE_TLS=False
+    - DJANGO_EMAIL_USE_SSL=False
+    - DJANGO_EMAIL_TIMEOUT=None
+    - DJANGO_EMAIL_SSL_CERTFILET=None
+    - DJANGO_EMAIL_SSL_KEYFILE=None
+
+rabbitmqdev:
+  extends:
+    file: compose-common.yml
+    service: rabbitmqbase
 
 databasedev:
   extends:
@@ -75,9 +96,3 @@ databasedev:
     - shareddatadev
   environment:
     - PGDATA=/database/data
-
-emaildev:
-  image: python:3
-  ports:
-    - 1025:1025
-  command: python -m smtpd -n -c DebuggingServer 0.0.0.0:1025
