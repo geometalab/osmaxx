@@ -14,9 +14,7 @@ ENV HOME /home/$USER
 
 WORKDIR $HOME
 
-# little trick to avoid rebuilding this image over and over again, if you update
-# your requirements, please update this to the actual date!
-
+# if you update your requirements, please update this to the actual date/time!
 ENV REQS_LAST_UPDATED 30-09-2015 11:48
 
 ADD osmaxx-py/requirements $HOME/requirements
