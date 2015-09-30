@@ -17,7 +17,7 @@ To deploy to production server:
 3. a. Link production configuration for docker-compose, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
    b. Edit the docker-compose.yml file and change (if needed) the EMAIL settings:
    ```shell
-    DJANGO_EMAIL_HOST='<your smtp>'
+    DJANGO_EMAIL_HOST='<your smtp>'   # ie. smtp.example.com
     DJANGO_EMAIL_HOST_PASSWORD='<your password>'
     DJANGO_EMAIL_HOST_USER='<your user>'
     DJANGO_EMAIL_PORT=<PORT>
