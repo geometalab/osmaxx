@@ -14,7 +14,8 @@ ENV HOME /home/$USER
 
 WORKDIR $HOME
 
-# if you update your requirements, please update this to the actual date/time!
+# if you update your requirements, please update this to the actual date/time, 
+# otherwise docker uses the cache from the intermediate image build (not re-running pip3).
 ENV REQS_LAST_UPDATED 30-09-2015 11:48
 
 ADD osmaxx-py/requirements $HOME/requirements
