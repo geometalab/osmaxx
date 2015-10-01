@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# Asking is better then forgetting
+function ask_if_docker_compose_file_has_been_updated() {
+    echo "Are the settings in the compose-production.yml correct and linked it to docker-compose.yml?"
+    select yn in "Yes" "No"; do
+        case $yn in
+            Yes ) break;;
+            No ) exit;;
+        esac
+    done
+}
+
+ask_if_docker_compose_file_has_been_updated
+
 # Setup a docker compose container used to start the production application
 # Setup application & database
 
