@@ -2,7 +2,7 @@
 
 # Asking is better then forgetting
 function ask_if_docker_compose_file_has_been_updated() {
-    echo "Are the settings in the compose-production.yml correct and linked it to docker-compose.yml?"
+    echo "Are the settings in the compose-production.yml correct and is compose-production.yml available through docker-compose.yml (symlink it)?"
     select yn in "Yes" "No"; do
         case $yn in
             Yes ) break;;
