@@ -104,6 +104,7 @@ EMAIL_USE_SSL = env.bool('DJANGO_EMAIL_USE_SSL', default=False)
 EMAIL_TIMEOUT = env.int('DJANGO_EMAIL_TIMEOUT', default=None)
 EMAIL_SSL_CERTFILE = env.bool('DJANGO_EMAIL_SSL_CERTFILET', default=None)
 EMAIL_SSL_KEYFILE = env.bool('DJANGO_EMAIL_SSL_KEYFILE', default=None)
+DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL', default='noreply osmaxx <noreply@osmaxx.hsr.ch>')
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
