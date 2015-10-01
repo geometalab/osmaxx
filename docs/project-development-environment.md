@@ -104,7 +104,7 @@ docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
 ## Emails sending
 
 Emails during development and testing can be found locally under `/tmp/osmaxx-development-emails`. 
-This file holds all sent emails.
+This directory holds all sent emails.
 
 If you should find yourself in need of changing the email settings, please
 have a look at the django settings for emails: 
