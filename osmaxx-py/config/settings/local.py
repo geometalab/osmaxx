@@ -13,7 +13,11 @@ SECRET_KEY = env.str("DJANGO_SECRET_KEY", default='CHANGEME!!!')
 # Mail settings
 # ------------------------------------------------------------------------------
 EMAIL_BACKEND = env.str('DJANGO_EMAIL_BACKEND', 'django.core.mail.backends.filebased.EmailBackend')
-EMAIL_FILE_PATH = env.str('EMAIL_FILE_PATH', default='/tmp/osmaxx_emails/development')
+EMAIL_FILE_PATH = env.str('DJANGO_EMAIL_FILE_PATH', default=None)
+
+# allow default setting (unset) if the variable isn't set in the environment
+if not EMAIL_FILE_PATH:
+    del EMAIL_FILE_PATH
 
 # CACHING
 # ------------------------------------------------------------------------------
