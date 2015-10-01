@@ -6,6 +6,42 @@ import stored_messages
 from osmaxx.excerptexport import models
 
 
+def module_converter_configuration(name, export_formats, export_options):
+    """
+    :param export_formats example:
+        {
+            'txt': {
+                'name': 'Text',
+                'file_extension': 'txt',
+                'mime_type': 'text/plain'
+            },
+            'markdown': {
+                'name': 'Markdown',
+                'file_extension': 'md',
+                'mime_type': 'text/markdown'
+            }
+        }
+    :param export_options example:
+        {
+            'image_resolution': {
+                'label': 'Resolution',
+                'type': 'number',
+                'default': '500'
+            },
+            'quality': {
+                'label': 'Quality',
+                'type': 'number',
+                'default': '10'
+            }
+        }
+    """
+    return {
+        'name': name,
+        'formats': export_formats,
+        'options': export_options
+    }
+
+
 # functions using database (extraction_order) must be instance methods of a class
 # -> free functions will not work: database connection error
 class ConverterHelper:

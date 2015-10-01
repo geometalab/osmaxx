@@ -99,7 +99,7 @@ class TestE2E(unittest.TestCase):
             'new_excerpt_bounding_box_west': 8.815616369247437,
             'new_excerpt_bounding_box_east': 8.819221258163452,
             'new_excerpt_bounding_box_south': 47.222388077452706,
-            'export_options.GisExcerptConverter.formats': [
+            'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats': [
                 'spatialite',
                 'gpkg',
                 'shp',

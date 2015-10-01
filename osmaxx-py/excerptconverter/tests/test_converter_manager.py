@@ -1,109 +1,25 @@
 import collections
+import datetime
+
+from django.utils import timezone
 from django.test.testcases import TestCase
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from excerptconverter import ConverterManager
-from excerptconverter.baseexcerptconverter import BaseExcerptConverter
-from excerptconverter.dummyexcerptconverter import DummyExcerptConverter
-from excerptconverter.gisexcerptconverter import GisExcerptConverter
+from excerptconverter import ConverterManager, converter_registry
+from excerptconverter.gisexcerptconverter import gis_excerpt_converter
+from . import some_excerpt_converter, just_for_test_excerpt_converter, test_result_pipe
 
 from osmaxx.excerptexport import models
 
 
-class SomeExcerptConverter(BaseExcerptConverter):
-    @staticmethod
-    def name():
-        return 'Dummy'
-
-    @staticmethod
-    def export_formats():
-        return {
-            'jpg': {
-                'name': 'JPG',
-                'file_extension': 'jpg',
-                'mime_type': 'image/jpg'
-            }
-        }
-
-    @staticmethod
-    def export_options():
-        return {
-            'resolution': {
-                'label': 'Resolution',
-                'type': 'text',
-                'default': '200'
-            }
-        }
-
-
-class TestExcerptConverter(BaseExcerptConverter):
-    @staticmethod
-    def name():
-        return 'Test'
-
-    @staticmethod
-    def export_formats():
-        return {
-            'jpg': {
-                'name': 'JPG',
-                'file_extension': 'jpg',
-                'mime_type': 'image/jpg'
-            },
-            'png': {
-                'name': 'PNG',
-                'file_extension': 'png',
-                'mime_type': 'image/png'
-            },
-            'svg': {
-                'name': 'SVG',
-                'file_extension': 'svg',
-                'mime_type': 'image/svg'
-            }
-        }
-
-    @staticmethod
-    def export_options():
-        return {
-            'image_resolution': {
-                'label': 'Resolution',
-                'type': 'number',
-                'default': '500'
-            },
-            'quality': {
-                'label': 'Quality',
-                'type': 'number',
-                'default': '10'
-            }
-        }
-
-    @staticmethod
-    def execute_task(extraction_order_id, supported_export_formats, converter_configuration):
-        extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
-        ConverterManagerTestCase.temp_result_storage = {
-            'excerpt_name': extraction_order.excerpt.name,
-            'supported_formats': sorted([export_format_configuration['name']
-                                        for export_format_configuration
-                                        in supported_export_formats.values()]),
-            'conversion_formats': converter_configuration['formats'],
-            'conversion_options_quality': converter_configuration['options']['quality']
-        }
-        extraction_order.state = models.ExtractionOrderState.FINISHED
-        extraction_order.save()
-
-
 class ConverterManagerTestCase(TestCase):
-    temp_result_storage = None
     user = None
     excerpt = None
     extraction_order = None
     extraction_configuration = None
 
     def setUp(self):
-        if SomeExcerptConverter not in BaseExcerptConverter.available_converters:
-            BaseExcerptConverter.available_converters.append(SomeExcerptConverter)
-            BaseExcerptConverter.available_converters.append(TestExcerptConverter)
-
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
         self.excerpt = models.Excerpt.objects.create(
             name='Neverland',
@@ -115,7 +31,7 @@ class ConverterManagerTestCase(TestCase):
             )
         )
         self.extraction_configuration = {
-            'TestExcerptConverter': {
+            'excerptconverter.tests.just_for_test_excerpt_converter': {
                 'formats': ['jpg', 'svg'],
                 'options': {
                     'quality': 8
@@ -127,31 +43,41 @@ class ConverterManagerTestCase(TestCase):
             excerpt=self.excerpt,
             extraction_configuration=self.extraction_configuration
         )
-        self.temp_result_storage = None
+        test_result_pipe.temp_result_storage = None
+
+        if just_for_test_excerpt_converter not in converter_registry.available_converters:
+            converter_registry.available_converters.append(just_for_test_excerpt_converter)
+        if some_excerpt_converter not in converter_registry.available_converters:
+            converter_registry.available_converters.append(some_excerpt_converter)
 
     def tearDown(self):
-        if SomeExcerptConverter in BaseExcerptConverter.available_converters:
-            BaseExcerptConverter.available_converters.remove(SomeExcerptConverter)
-            BaseExcerptConverter.available_converters.remove(TestExcerptConverter)
-        self.temp_result_storage = None
+        test_result_pipe.temp_result_storage = None
+
+        if just_for_test_excerpt_converter in converter_registry.available_converters:
+            converter_registry.available_converters.remove(just_for_test_excerpt_converter)
+        if some_excerpt_converter in converter_registry.available_converters:
+            converter_registry.available_converters.remove(some_excerpt_converter)
 
     def test_converter_configuration(self):
         self.assertEqual(
             # Usage of ordered dict because dict is not sorted, so we will get an arbitrary order -> not testable
             collections.OrderedDict(sorted(ConverterManager.converter_configuration().items())),
             collections.OrderedDict(sorted({
-                SomeExcerptConverter.__name__: SomeExcerptConverter.converter_configuration(),
-                DummyExcerptConverter.__name__: DummyExcerptConverter.converter_configuration(),
-                TestExcerptConverter.__name__: TestExcerptConverter.converter_configuration(),
-                GisExcerptConverter.__name__: GisExcerptConverter.converter_configuration()
+                some_excerpt_converter.__name__: some_excerpt_converter.converter_configuration(),
+                just_for_test_excerpt_converter.__name__: just_for_test_excerpt_converter.converter_configuration(),
+                gis_excerpt_converter.__name__: gis_excerpt_converter.converter_configuration()
             }.items()))
         )
 
     def test_full_converter_pipeline(self):
         converter_manager = ConverterManager(self.extraction_order, run_as_celery_tasks=False)
         converter_manager.execute_converters()
+        self.assertTrue(converter_manager.extraction_order.process_start_date < timezone.now())
+        self.assertTrue(
+            converter_manager.extraction_order.process_start_date > (timezone.now()-datetime.timedelta(0, 1))
+        )
         self.assertEqual(
-            collections.OrderedDict(sorted(ConverterManagerTestCase.temp_result_storage.items())),
+            collections.OrderedDict(sorted(test_result_pipe.temp_result_storage.items())),
             collections.OrderedDict(sorted({
                 'excerpt_name': 'Neverland',
                 'supported_formats': sorted(['JPG', 'PNG', 'SVG']),
