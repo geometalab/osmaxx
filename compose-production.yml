@@ -28,14 +28,6 @@ webapp:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-    - DJANGO_EMAIL_HOST=<changeme>
-    - DJANGO_EMAIL_HOST_PASSWORD='<changeme>'
-    - DJANGO_EMAIL_HOST_USER='<changeme>'
-    - DJANGO_EMAIL_PORT=<changeme>
-    - DJANGO_EMAIL_SUBJECT_PREFIX='<changeme>'
-    - DJANGO_EMAIL_USE_TLS=<changeme>
-    - DJANGO_EMAIL_USE_SSL=<changeme>
-    - DJANGO_EMAIL_TIMEOUT=<changeme>
 
 rabbitmq:
   extends:
@@ -58,14 +50,6 @@ celery:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-    - DJANGO_EMAIL_HOST=<changeme>
-    - DJANGO_EMAIL_HOST_PASSWORD='<changeme>'
-    - DJANGO_EMAIL_HOST_USER='<changeme>'
-    - DJANGO_EMAIL_PORT=<changeme>
-    - DJANGO_EMAIL_SUBJECT_PREFIX='<changeme>'
-    - DJANGO_EMAIL_USE_TLS=<changeme>
-    - DJANGO_EMAIL_USE_SSL=<changeme>
-    - DJANGO_EMAIL_TIMEOUT=<changeme>
 
 database:
   extends:

@@ -15,19 +15,21 @@ To deploy to production server:
   ```
   Repository details see [Project repository](git-repository.md).
 3. a. Link production configuration for docker-compose, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
-   b. Edit the docker-compose.yml file and change (if needed) the EMAIL settings:
-   ```shell
-    DJANGO_EMAIL_HOST='<your smtp>'   # ie. smtp.example.com
-    DJANGO_EMAIL_HOST_PASSWORD='<your password>'
-    DJANGO_EMAIL_HOST_USER='<your user>'
-    DJANGO_EMAIL_PORT=<PORT>
-    DJANGO_EMAIL_SUBJECT_PREFIX='<set to something smart>'
-    DJANGO_EMAIL_USE_TLS=<true/false>
-    DJANGO_EMAIL_USE_SSL=<true/false>
-    DJANGO_EMAIL_TIMEOUT=<None or Number>
-    DJANGO_EMAIL_SSL_CERTFILET=<None or path>
-    DJANGO_EMAIL_SSL_KEYFILE=<None or path> 
-   ```
+   b. Edit the `compose-production.yml` file and change/add environment settings for celery and webapp. 
+      List of available additional settings (no quotes for strings!):
+   
+       ```
+        - DJANGO_EMAIL_HOST=<your smtp>   # ie. smtp.example.com
+        - DJANGO_EMAIL_HOST_PASSWORD=<your password>   # ie. password
+        - DJANGO_EMAIL_HOST_USER=<your user>    # ie. myemailuser
+        - DJANGO_EMAIL_PORT=<PORT>              # ie. 25
+        - DJANGO_EMAIL_SUBJECT_PREFIX=<prefix>  # ie. [MY-OSMAXX], only used for sending mails with `mail_admins` and `mail_managers` 
+        - DJANGO_EMAIL_USE_TLS=<true/false>  # case insensitive
+        - DJANGO_EMAIL_USE_SSL=<true/false>  # case insensitive
+        - DJANGO_EMAIL_TIMEOUT=<Number>   # WARNING: only set this if you really want to have a timeout!
+        - DJANGO_EMAIL_SSL_CERTFILET=<path>   # WARNING: only set this if you have a certfile
+        - DJANGO_EMAIL_SSL_KEYFILE=<path>     # WARNING: only set this if you have a keyfile
+       ```
 
 4. Add target specific environment variables to compose-production.yml
   * If you are using an nginx proxy (jwilder/nginx-proxy), you need to set the environment variable

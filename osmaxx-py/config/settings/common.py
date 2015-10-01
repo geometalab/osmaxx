@@ -101,7 +101,7 @@ EMAIL_PORT = env.int('DJANGO_EMAIL_PORT', default=25)
 EMAIL_SUBJECT_PREFIX = env.str('DJANGO_EMAIL_SUBJECT_PREFIX', default='')
 EMAIL_USE_TLS = env.bool('DJANGO_EMAIL_USE_TLS', default=False)
 EMAIL_USE_SSL = env.bool('DJANGO_EMAIL_USE_SSL', default=False)
-EMAIL_TIMEOUT = env.bool('DJANGO_EMAIL_TIMEOUT', default=None)
+EMAIL_TIMEOUT = env.int('DJANGO_EMAIL_TIMEOUT', default=None)
 EMAIL_SSL_CERTFILE = env.bool('DJANGO_EMAIL_SSL_CERTFILET', default=None)
 EMAIL_SSL_KEYFILE = env.bool('DJANGO_EMAIL_SSL_KEYFILE', default=None)
 
