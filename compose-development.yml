@@ -10,13 +10,14 @@ shareddatadev:
     - /database/data
     # temporary results directory used as pipe between multiple docker forests
     - /tmp/osmaxx-results:/results
+    # emails file from email sending during development and testing
+    - /tmp/osmaxx-development-emails:/dev-emails
   net: "none"
 
 sourcedev:
   build: docker/volume-mount
   volumes:
     - ./osmaxx-py:/home/osmaxx/source
-    - ~/.cache/pip:/home/osmaxx/.cache/pip
 
 webappdev:
   extends:
@@ -33,19 +34,13 @@ webappdev:
   links:
     - rabbitmqdev:rabbit
     - databasedev
-    - emaildev
     - celerydev
   environment:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
     - DJANGO_DEBUG=true
-    - DJANGO_EMAIL_HOST=emaildev
-
-
-rabbitmqdev:
-  extends:
-    file: compose-common.yml
-    service: rabbitmqbase
+    - DJANGO_EMAIL_FILE_PATH=/dev-emails
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
 
 celerydev:
   extends:
@@ -60,12 +55,17 @@ celerydev:
   links:
     - rabbitmqdev:rabbit
     - databasedev
-    - emaildev
   environment:
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
     - DJANGO_DEBUG=true
-    - DJANGO_EMAIL_HOST=emaildev
+    - DJANGO_EMAIL_FILE_PATH=/dev-emails
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
+
+rabbitmqdev:
+  extends:
+    file: compose-common.yml
+    service: rabbitmqbase
 
 databasedev:
   extends:
@@ -75,9 +75,3 @@ databasedev:
     - shareddatadev
   environment:
     - PGDATA=/database/data
-
-emaildev:
-  image: python:3
-  ports:
-    - 1025:1025
-  command: python -m smtpd -n -c DebuggingServer 0.0.0.0:1025

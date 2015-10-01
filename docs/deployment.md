@@ -14,7 +14,23 @@ To deploy to production server:
   git submodule init && git submodule update
   ```
   Repository details see [Project repository](git-repository.md).
-3. Link production configuration for docker-compose, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
+3. a. Link production configuration for docker-compose, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
+   b. Edit the `compose-production.yml` file and change/add environment settings for celery and webapp. 
+      List of available additional settings (no quotes for strings!):
+   
+       ```
+        - DJANGO_EMAIL_HOST=smtp.example.com   # your smtp server for sending
+        - DJANGO_EMAIL_HOST_PASSWORD=password   # the password for the smtp server user
+        - DJANGO_EMAIL_HOST_USER=myuser    # the username for the smtp server user
+        - DJANGO_EMAIL_PORT=25              # the port used by the smtp server
+        - DJANGO_EMAIL_SUBJECT_PREFIX=[My-OSMAXX]  # only used for sending mails with `mail_admins` and `mail_managers` 
+        - DJANGO_EMAIL_USE_TLS=false  # set to true to enable (case insensitive)
+        - DJANGO_EMAIL_USE_SSL=false  # set to true to enable (case insensitive)
+        - DJANGO_EMAIL_TIMEOUT=<Number>   # WARNING: only set this if you really want to have a timeout!
+        - DJANGO_EMAIL_SSL_CERTFILET=<path>   # WARNING: only set this if you have a certfile
+        - DJANGO_EMAIL_SSL_KEYFILE=<path>     # WARNING: only set this if you have a keyfile
+       ```
+
 4. Add target specific environment variables to compose-production.yml
   * If you are using an nginx proxy (jwilder/nginx-proxy), you need to set the environment variable
     `VIRTUAL_HOST=osmaxx.yourdomain.tld`
