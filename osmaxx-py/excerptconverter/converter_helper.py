@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.core import mail
 from django.utils.translation import ugettext_lazy as _
@@ -74,7 +75,7 @@ class ConverterHelper:
                 mail.send_mail(
                     '[OSMAXX] '+message_text,
                     message_text,
-                    'no-reply@osmaxx.hsr.ch',
+                    settings.DEFAULT_FROM_EMAIL,
                     [self.user.email]
                 )
             else:

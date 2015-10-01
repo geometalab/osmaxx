@@ -60,15 +60,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # EMAIL
 # ------------------------------------------------------------------------------
-DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
-                         default='noreply osmaxx <noreply@osmaxx.hsr.ch>')
-EMAIL_HOST = env("DJANGO_EMAIL_HOST", default='emailserver')
-EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD")
-EMAIL_HOST_USER = env('DJANGO_EMAIL_HOST_USERNAME')
-EMAIL_PORT = env.int("DJANGO_EMAIL_PORT", default=587)
-EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[osmaxx] ')
-EMAIL_USE_TLS = env("DJANGO_EMAIL_USE_TLS", default=True)
-SERVER_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
