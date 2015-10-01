@@ -105,3 +105,26 @@ docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
 
 Emails during development and testing can be found locally under `/tmp/osmaxx-development-emails`. 
 This file holds all sent emails.
+
+If you should find yourself in need of changing the email settings, please
+have a look at the django settings for emails: 
+[Django email settings](https://docs.djangoproject.com/en/1.8/ref/settings/#email-backend)
+
+To change them, append `DJANGO_` to the settings name and add it to the environment in the `compose-development.yml`.
+
+The following list ist supported:
+
+```
+    - DJANGO_EMAIL_FILE_PATH=/dev-emails
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
+    - DJANGO_EMAIL_HOST=localhost
+    - DJANGO_EMAIL_HOST_PASSWORD=''
+    - DJANGO_EMAIL_HOST_USER=''
+    - DJANGO_EMAIL_PORT=25
+    - DJANGO_EMAIL_SUBJECT_PREFIX='[OSMAXX-DEV] '
+    - DJANGO_EMAIL_USE_TLS=False
+    - DJANGO_EMAIL_USE_SSL=False
+    - DJANGO_EMAIL_TIMEOUT=None
+    - DJANGO_EMAIL_SSL_CERTFILET=None
+    - DJANGO_EMAIL_SSL_KEYFILE=None
+```
