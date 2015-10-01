@@ -19,13 +19,13 @@ To deploy to production server:
       List of available additional settings (no quotes for strings!):
    
        ```
-        - DJANGO_EMAIL_HOST=<your smtp>   # ie. smtp.example.com
-        - DJANGO_EMAIL_HOST_PASSWORD=<your password>   # ie. password
-        - DJANGO_EMAIL_HOST_USER=<your user>    # ie. myemailuser
-        - DJANGO_EMAIL_PORT=<PORT>              # ie. 25
-        - DJANGO_EMAIL_SUBJECT_PREFIX=<prefix>  # ie. [MY-OSMAXX], only used for sending mails with `mail_admins` and `mail_managers` 
-        - DJANGO_EMAIL_USE_TLS=<true/false>  # case insensitive
-        - DJANGO_EMAIL_USE_SSL=<true/false>  # case insensitive
+        - DJANGO_EMAIL_HOST=smtp.example.com   # your smtp server for sending
+        - DJANGO_EMAIL_HOST_PASSWORD=password   # the password for the smtp server user
+        - DJANGO_EMAIL_HOST_USER=myuser    # the username for the smtp server user
+        - DJANGO_EMAIL_PORT=25              # the port used by the smtp server
+        - DJANGO_EMAIL_SUBJECT_PREFIX=[My-OSMAXX]  # only used for sending mails with `mail_admins` and `mail_managers` 
+        - DJANGO_EMAIL_USE_TLS=false  # set to true to enable (case insensitive)
+        - DJANGO_EMAIL_USE_SSL=false  # set to true to enable (case insensitive)
         - DJANGO_EMAIL_TIMEOUT=<Number>   # WARNING: only set this if you really want to have a timeout!
         - DJANGO_EMAIL_SSL_CERTFILET=<path>   # WARNING: only set this if you have a certfile
         - DJANGO_EMAIL_SSL_KEYFILE=<path>     # WARNING: only set this if you have a keyfile
