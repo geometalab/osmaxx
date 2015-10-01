@@ -1,7 +1,8 @@
 from unittest import mock
+
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
-
 from django.test import TestCase
 from django.utils import timezone
 
@@ -45,7 +46,7 @@ class ConverterHelperTestCase(TestCase):
         send_mail_mock.assert_called_with(
             '[OSMAXX] '+message_text,
             message_text,
-            'no-reply@osmaxx.hsr.ch',
+            settings.DEFAULT_FROM_EMAIL,
             [self.user.email],
         )
 
