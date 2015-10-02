@@ -101,12 +101,12 @@ def extract_excerpts(execution_configuration, extraction_order, bbox_args, conve
                 .format(bbox_args=bbox_args, format=export_format_key)
             subprocess.check_call(extraction_command.split(' '))
 
-            directory = os.path.join(settings.RESULT_MEDIA_ROOT, str(extraction_order.id) + '_' + NAME)
-            if len(os.listdir(directory)) > 0:
-                for result_file_name in os.listdir(directory):
+            result_directory_path = os.path.join(settings.RESULT_MEDIA_ROOT, str(extraction_order.id) + '_' + NAME)
+            if len(os.listdir(result_directory_path)) > 0:
+                for result_file_name in os.listdir(result_directory_path):
                     # gis files are packaged in a zip file
                     if create_output_file(
-                            extraction_order, result_file_name, export_format_key, directory):
+                            extraction_order, result_file_name, export_format_key, result_directory_path):
                         converter_helper.inform_user(
                             messages.SUCCESS,
                             _('Extraction of "{file_type}" of extraction order "{order_id}" was successful. '
@@ -143,7 +143,7 @@ def extract_excerpts(execution_configuration, extraction_order, bbox_args, conve
                 )
 
 
-def create_output_file(extraction_order, result_file_name, export_format_key, directory):
+def create_output_file(extraction_order, result_file_name, export_format_key, result_directory_path):
     """
     Move file to private media storage and add OutputFile to Extractionorder
 
@@ -157,7 +157,7 @@ def create_output_file(extraction_order, result_file_name, export_format_key, di
     )
 
     file_name = str(output_file.public_identifier) + '.zip'
-    result_file_path = os.path.abspath(os.path.join(directory, result_file_name))
+    result_file_path = os.path.abspath(os.path.join(result_directory_path, result_file_name))
     target_file_path = os.path.abspath(os.path.join(private_storage.location, file_name))
 
     shutil.move(result_file_path, target_file_path)
