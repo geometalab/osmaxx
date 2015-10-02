@@ -211,9 +211,13 @@ def execute(extraction_order_id, execution_configuration):
 
             os.chdir(tmp_dir)
 
-            # create a directory for result files of the order -> prevent mess with files of different orders
-            # file collection for appending OutputFiles to ExtractionOrder may be interrupted
-            # '-> files of an order will be collected by an other order
+            # Create a directory for result files of the current order inside the result media storage
+            #
+            # After finishing the conversion, create_output_file() will collect all files in this directory
+            # and attach them to the order.
+            # If the files would be put in the root directory of the result media storage, they will be collected
+            # by an other gis conversion task because the tasks are run parallel and the storage is shared
+            # -> encapsulation of the result files od every extraction order celery task
             os.mkdir(result_directory_path)
 
             with open("docker-compose.yml", "w") as temporary_docker_compose_file:
