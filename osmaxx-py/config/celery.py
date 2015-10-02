@@ -3,11 +3,11 @@ import os
 from celery import Celery
 
 # set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.production')
 
 from django.conf import settings
 
-app = Celery('osmaxx')
+app = Celery('config')
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
