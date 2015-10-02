@@ -98,7 +98,8 @@ class GisExcerptConverterTestCase(TestCase):
         creation_status = gis_excerpt_converter.create_output_file(
             self.extraction_order,
             self.result_file.name,
-            'gpkg'
+            'gpkg',
+            ''
         )
         output_file = self.extraction_order.output_files.get()
 
