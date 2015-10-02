@@ -212,13 +212,13 @@ def execute(extraction_order_id, execution_configuration):
             # -> encapsulation of the result files of every extraction order celery task
             os.mkdir(result_directory_path)
 
+            os.chdir(tmp_dir)
+
             compose_file_path = os.path.join(
                 os.path.dirname(__file__), 'blackbox', 'docker-compose-conversion-blackbox.yml'
             )
             with open(compose_file_path, "r") as compose_file:
                 compose_template = compose_file.read()
-
-            os.chdir(tmp_dir)
 
             with open("docker-compose.yml", "w") as temporary_docker_compose_file:
                 temporary_docker_compose_file.write(compose_template.replace(
