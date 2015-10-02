@@ -48,7 +48,6 @@ gather_statistics(){
 			esac
 
 			COUNTER=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.$TABLE $TYPE and osmaxx.$TABLE.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
-            echo "SELECT count(type) from osmaxx.$TABLE $TYPE and osmaxx.$TABLE.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)"
 			printf "$LABEL%20s,%20s\n" $ELEMENT	$COUNTER>>TEMP.txt;
 		done
 	sort --key=$KEY --reverse --numeric-sort TEMP.txt>>$FILE
