@@ -203,14 +203,6 @@ def execute(extraction_order_id, execution_configuration):
         original_cwd = os.getcwd()
 
         try:
-            compose_file_path = os.path.join(
-                os.path.dirname(__file__), 'blackbox', 'docker-compose-conversion-blackbox.yml'
-            )
-            with open(compose_file_path, "r") as compose_file:
-                compose_template = compose_file.read()
-
-            os.chdir(tmp_dir)
-
             # Create a directory for result files of the current order inside the result media storage
             #
             # After finishing the conversion, create_output_file() will collect all files in this directory
@@ -219,6 +211,14 @@ def execute(extraction_order_id, execution_configuration):
             # by an other gis conversion task because the tasks are run parallel and the storage is shared
             # -> encapsulation of the result files od every extraction order celery task
             os.mkdir(result_directory_path)
+
+            compose_file_path = os.path.join(
+                os.path.dirname(__file__), 'blackbox', 'docker-compose-conversion-blackbox.yml'
+            )
+            with open(compose_file_path, "r") as compose_file:
+                compose_template = compose_file.read()
+
+            os.chdir(tmp_dir)
 
             with open("docker-compose.yml", "w") as temporary_docker_compose_file:
                 temporary_docker_compose_file.write(compose_template.replace(
