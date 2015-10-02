@@ -103,6 +103,7 @@ class TestE2E(unittest.TestCase):
                 'spatialite',
                 'gpkg',
                 'shp',
+                'fgdb',
             ],
         }
         r = client.post(self._make_link('/orders/new/'), data=payload)
@@ -129,11 +130,12 @@ class TestE2E(unittest.TestCase):
             soup.find(name='ul', attrs={'class': 'download_files'}).find_all('a')
         ]
 
-        download_links = link_targets[0], link_targets[2], link_targets[4]
+        download_links = link_targets[0], link_targets[2], link_targets[4], link_targets[6]
 
         self._download_and_test_zip_contents(client, download_links[0])
         self._download_and_test_zip_contents(client, download_links[1])
         self._download_and_test_zip_contents(client, download_links[2])
+        self._download_and_test_zip_contents(client, download_links[3])
 
 if __name__ == '__main__':
     _start_containers()
