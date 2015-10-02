@@ -1,7 +1,8 @@
 # this gdal image comes with support for FileGDB
 FROM geodata/gdal:2.0.0
 
-# unfortunately, the image used starts with the user 'nobody'
+# unfortunately, the image geodata/gdal used starts with the user 'nobody'
+# so a switch is necessary first
 USER root
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
