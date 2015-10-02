@@ -207,7 +207,7 @@ def execute(extraction_order_id, execution_configuration):
             #
             # After finishing the conversion, create_output_file() will collect all files in this directory
             # and attach them to the order.
-            # If the files would be put in the root directory of the result media storage, they will be collected
+            # If the files were put in the root directory of the result media storage, they would be collected
             # by an other gis conversion task because the tasks are run parallel and the storage is shared
             # -> encapsulation of the result files of every extraction order celery task
             os.mkdir(result_directory_path)
