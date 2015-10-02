@@ -1,9 +1,14 @@
-FROM ubuntu:15.04
+# this gdal image comes with support for FileGDB
+FROM geodata/gdal:2.0.0
 
-RUN apt-get update && apt-get install -y\
+# unfortunately, the image geodata/gdal used starts with the user 'nobody'
+# so a switch is necessary first
+USER root
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
     python\
     postgresql-client\
-    gdal-bin\
     zip
 
 ENV HOME /home/excerpt

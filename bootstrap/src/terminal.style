@@ -33,8 +33,8 @@ node,way   addr:housenumber    text  linear
 node,way   addr:interpolation  text  linear
 node,way   addr:place      text  linear
 node,way   addr:postcode      text  linear
-node,way   addr:street      text  linear 
-node,way   addr:country      text  linear 
+node,way   addr:street      text  linear
+node,way   addr:country      text  linear
 node,way   admin_level  text         linear
 node,way   aerialway    text         linear
 node,way   aeroway      text         polygon
@@ -137,6 +137,8 @@ way        way_area     real                # This is calculated during import
 # to include the username, userid, version & timstamp in the DB
 #node,way  osm_user       text         delete
 #node,way  osm_uid        text         delete
-node,way  osm_timestamp  timestamp without time zone   polygon
+# Note: The SQL standard requires that writing just `timestamp` be
+# equivalent to `timestamp without time zone`, and PostgreSQL honors
+# that behavior.
+node,way  osm_timestamp  timestamp    polygon
 node,way  osm_version    text         polygon
-
