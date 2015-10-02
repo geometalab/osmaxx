@@ -22,8 +22,11 @@ base:
     # EMAIL
     - DJANGO_DEFAULT_FROM_EMAIL='noreply osmaxx <noreply@osmaxx.hsr.ch>'
 
+    # Logging
+    - DJANGO_LOG_LEVEL=ERROR
+
     # SECURITY
-    - DJANGO_ALLOWED_HOSTS='[".osmaxx.hsr.ch.",]'
+    - DJANGO_ALLOWED_HOSTS=.osmaxx.hsr.ch.
 
     # SSL
     # set this to 60 seconds and then to 518400 when you can prove it works
@@ -31,7 +34,7 @@ base:
     - DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=true
     - DJANGO_SECURE_SSL_REDIRECT=true
     - DJANGO_SECURE_SSL_HOST='osmaxx.hsr.ch'
-    - DJANGO_SECURE_REDIRECT_EXEMPT=[]
+    - DJANGO_SECURE_REDIRECT_EXEMPT=
 
     # OTHER SECURITY SETTINGS
     - DJANGO_SECURE_CONTENT_TYPE_NOSNIFF=true

@@ -41,6 +41,9 @@ webappdev:
     - DJANGO_DEBUG=true
     - DJANGO_EMAIL_FILE_PATH=/dev-emails
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
+    - DJANGO_LOG_LEVEL=INFO
+    - PYTHONIOENCODING=utf-8
+    - PYTHONUNBUFFERED=non-empty-string
 
 celerydev:
   extends:
@@ -61,6 +64,9 @@ celerydev:
     - DJANGO_DEBUG=true
     - DJANGO_EMAIL_FILE_PATH=/dev-emails
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
+    - DJANGO_LOG_LEVEL=INFO
+    - PYTHONIOENCODING=utf-8
+    - PYTHONUNBUFFERED=non-empty-string
 
 rabbitmqdev:
   extends:
