@@ -1,0 +1,18 @@
+bootstrap:
+  build: bootstrap/
+  links:
+    - database
+  environment:
+    - PGHOST=database
+  volumes:
+    - ./tmp/osmosis/:/tmp/osmosis/
+extract:
+  build: extract/
+  links:
+    - database
+  environment:
+    - PGHOST=database
+  volumes:
+    - ./results:/home/excerpt/data/
+database:
+  image: geometalab/postgis-with-translit
