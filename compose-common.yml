@@ -17,7 +17,6 @@ base:
     ##########################################################################
     # WARNING: restarting the server changes the secret key and thus loggs out
     # other users.
-    - DJANGO_SECRET_KEY=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c120`
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
     # EMAIL
     - DJANGO_DEFAULT_FROM_EMAIL='noreply osmaxx <noreply@osmaxx.hsr.ch>'
