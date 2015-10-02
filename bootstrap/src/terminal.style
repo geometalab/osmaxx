@@ -137,9 +137,8 @@ way        way_area     real                # This is calculated during import
 # to include the username, userid, version & timstamp in the DB
 #node,way  osm_user       text         delete
 #node,way  osm_uid        text         delete
-# Note: The SQL standard requires that writing just timestamp be
-# equivalent to timestamp without time zone, and PostgreSQL honors
-# that behavior. timestamptz is accepted as an abbreviation for
-# timestamp with time zone; this is a PostgreSQL extension.
+# Note: The SQL standard requires that writing just `timestamp` be
+# equivalent to `timestamp without time zone`, and PostgreSQL honors
+# that behavior.
 node,way  osm_timestamp  timestamp    polygon
 node,way  osm_version    text         polygon
