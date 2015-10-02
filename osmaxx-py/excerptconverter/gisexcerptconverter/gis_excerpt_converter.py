@@ -101,11 +101,12 @@ def extract_excerpts(execution_configuration, extraction_order, bbox_args, conve
                 .format(bbox_args=bbox_args, format=export_format_key)
             subprocess.check_call(extraction_command.split(' '))
 
-            if len(os.listdir(settings.RESULT_MEDIA_ROOT)) > 0:
-                for result_file_name in os.listdir(settings.RESULT_MEDIA_ROOT):
+            directory = os.path.join(settings.RESULT_MEDIA_ROOT, str(extraction_order.id) + '_' + NAME)
+            if len(os.listdir(directory)) > 0:
+                for result_file_name in os.listdir(directory):
                     # gis files are packaged in a zip file
                     if create_output_file(
-                            extraction_order, result_file_name, export_format_key):
+                            extraction_order, result_file_name, export_format_key, directory):
                         converter_helper.inform_user(
                             messages.SUCCESS,
                             _('Extraction of "{file_type}" of extraction order "{order_id}" was successful. '
@@ -142,7 +143,7 @@ def extract_excerpts(execution_configuration, extraction_order, bbox_args, conve
                 )
 
 
-def create_output_file(extraction_order, result_file_name, export_format_key):
+def create_output_file(extraction_order, result_file_name, export_format_key, directory):
     """
     Move file to private media storage and add OutputFile to Extractionorder
 
@@ -156,7 +157,7 @@ def create_output_file(extraction_order, result_file_name, export_format_key):
     )
 
     file_name = str(output_file.public_identifier) + '.zip'
-    result_file_path = os.path.abspath(os.path.join(settings.RESULT_MEDIA_ROOT, result_file_name))
+    result_file_path = os.path.abspath(os.path.join(directory, result_file_name))
     target_file_path = os.path.abspath(os.path.join(private_storage.location, file_name))
 
     shutil.move(result_file_path, target_file_path)
@@ -195,15 +196,32 @@ def execute(extraction_order_id, execution_configuration):
     extraction_order.state = models.ExtractionOrderState.WAITING
     extraction_order.save()
 
+    result_directory_name = str(extraction_order.id) + '_' + NAME
+    result_directory_path = os.path.join(settings.RESULT_MEDIA_ROOT, result_directory_name)
+
     with tempfile.TemporaryDirectory() as tmp_dir:
         original_cwd = os.getcwd()
 
         try:
-            shutil.copyfile(
-                os.path.join(os.path.dirname(__file__), 'blackbox', 'docker-compose-conversion-blackbox.yml'),
-                os.path.join(tmp_dir, 'docker-compose.yml')
+            compose_file_path = os.path.join(
+                os.path.dirname(__file__), 'blackbox', 'docker-compose-conversion-blackbox.yml'
             )
+            with open(compose_file_path, "r") as compose_file:
+                compose_template = compose_file.read()
+
             os.chdir(tmp_dir)
+
+            # create a directory for result files of the order -> prevent mess with files of different orders
+            # file collection for appending OutputFiles to ExtractionOrder may be interrupted
+            # '-> files of an order will be collected by an other order
+            os.mkdir(result_directory_path)
+
+            with open("docker-compose.yml", "w") as temporary_docker_compose_file:
+                temporary_docker_compose_file.write(compose_template.replace(
+                    '{directory_identifier}',
+                    result_directory_name)
+                )
+
             # use newest images
             subprocess.check_output("docker-compose pull".split(' '))
             # database needs to be ready
@@ -292,3 +310,4 @@ def execute(extraction_order_id, execution_configuration):
                     directory=tmp_dir
                 ))
             os.chdir(original_cwd)
+            os.rmdir(result_directory_path)

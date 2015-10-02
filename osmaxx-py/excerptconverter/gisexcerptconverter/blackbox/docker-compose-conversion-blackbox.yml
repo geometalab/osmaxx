@@ -13,6 +13,6 @@ excerpt:
   environment:
     - PGHOST=db
   volumes:
-    - /tmp/osmaxx-results:/home/excerpt/data/
+    - /tmp/osmaxx-results/{directory_identifier}:/home/excerpt/data/
 db:
   image: geometalab/postgis-with-translit
