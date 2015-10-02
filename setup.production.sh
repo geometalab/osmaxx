@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Asking is better then forgetting
-function ask_if_docker_compose_file_has_been_updated() {
-    echo "Are the settings in the compose-production.yml correct and is compose-production.yml available through docker-compose.yml (symlink it)?"
+function ask_whether_docker_compose_file_has_been_updated() {
+    echo "Are the settings in the compose-production.yml correct? (Hint: copy and adapt compose-production.yml)"
     select yn in "Yes" "No"; do
         case $yn in
             Yes ) break;;
@@ -11,7 +11,17 @@ function ask_if_docker_compose_file_has_been_updated() {
     done
 }
 
-ask_if_docker_compose_file_has_been_updated
+function ask_whether_a_superuser_shall_be_created() {
+    echo "Shall a superuser be created?"
+    select yn in "Yes" "No"; do
+        case $yn in
+            Yes ) run_docker_compose_dduportal_interactive run --rm webapp ./manage.py createsuperuser;break;;
+            No ) break;;
+        esac
+    done
+}
+
+ask_whether_docker_compose_file_has_been_updated
 
 # Setup a docker compose container used to start the production application
 # Setup application & database
@@ -28,7 +38,7 @@ function run_docker_compose_dduportal_interactive() {
 }
 
 # create container
-docker create --name osmaxx-starter -v "$(pwd):/app"  -v "/var/run/docker.sock:/var/run/docker.sock"  -e "COMPOSE_PROJECT_NAME=osmaxx" "dduportal/docker-compose:${DOCKER_COMPOSE_TAG}" up --no-recreate
+docker create --name osmaxx-starter -v "$(pwd):/app"  -v "/var/run/docker.sock:/var/run/docker.sock"  -e "COMPOSE_PROJECT_NAME=osmaxx" "dduportal/docker-compose:${DOCKER_COMPOSE_TAG}" up --smart-recreate
 
 # stop containers & cleanup
 run_docker_compose_dduportal stop
@@ -47,7 +57,7 @@ run_docker_compose_dduportal up -d database
 
 sleep 10
 
-# FIXME: create superuser should only be needed to be ran once per deployment setup.
-run_docker_compose_dduportal_interactive run --rm webapp /bin/bash -c "python3 manage.py migrate && python3 manage.py createsuperuser"
+run_docker_compose_dduportal_interactive run --rm webapp /bin/bash -c "./manage.py migrate&&./manage.py collectstatic --noinput"
+ask_whether_a_superuser_shall_be_created
 
 run_docker_compose_dduportal stop
