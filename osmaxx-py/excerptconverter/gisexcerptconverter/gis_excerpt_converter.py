@@ -209,7 +209,7 @@ def execute(extraction_order_id, execution_configuration):
             # and attach them to the order.
             # If the files would be put in the root directory of the result media storage, they will be collected
             # by an other gis conversion task because the tasks are run parallel and the storage is shared
-            # -> encapsulation of the result files od every extraction order celery task
+            # -> encapsulation of the result files of every extraction order celery task
             os.mkdir(result_directory_path)
 
             compose_file_path = os.path.join(
