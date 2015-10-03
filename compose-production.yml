@@ -23,19 +23,32 @@ webapp:
     - database
     - celery
   environment:
-    - APP_PORT=8000
-    - APP_HOST=0.0.0.0
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+    - DJANGO_SETTINGS_MODULE=config.settings.production
+    - DJANGO_DEBUG=false
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-    # set to true, if ssl is enabled
-    - DJANGO_SECURE_SSL_REDIRECT=false
-    - DJANGO_CSRF_COOKIE_SECURE=false
-    - DJANGO_CSRF_COOKIE_HTTPONLY=false
-    - PYTHONIOENCODING=utf-8
-    - PYTHONUNBUFFERED=non-empty-string
-    - DJANGO_ALLOWED_HOSTS=your.host.example
-    - DJANGO_LOG_LEVEL=ERROR
+    ######### CHANGE THE SETTINGS BELOW!
+    # THIS MUST BE SET TO A SECRET KEY!
+    - DJANGO_SECRET_KEY=
+    # comma separated list, no brackets, e.g. localhost,dev.myhost.com
+    - DJANGO_ALLOWED_HOSTS=
+    # theses settings should be adapted before deploying
+    - DJANGO_EMAIL_HOST=
+    - DJANGO_EMAIL_HOST_PASSWORD=
+    - DJANGO_EMAIL_HOST_USER=
+    - DJANGO_EMAIL_PORT=
+    - DJANGO_EMAIL_USE_TLS=
+    - DJANGO_EMAIL_USE_SSL=
+    - DJANGO_DEFAULT_FROM_EMAIL=
+    - DJANGO_SERVER_EMAIL=
+    # if SSL is enabled uncomment and fill with correct values these lines
+    # SSL IS ON
+#    - DJANGO_SECURE_SSL_HOST=
+#    - DJANGO_SECURE_SSL_REDIRECT=
+#    - DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=
+#    - DJANGO_SECURE_HSTS_SECONDS=
+#    - DJANGO_SECURE_REDIRECT_EXEMPT=
+#    - DJANGO_CSRF_COOKIE_SECURE=true
+#    - DJANGO_SESSION_COOKIE_SECURE=true
 
 rabbitmq:
   extends:
@@ -55,12 +68,32 @@ celery:
     - rabbitmq:rabbit
     - database
   environment:
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+    - DJANGO_SETTINGS_MODULE=config.settings.production
+    - DJANGO_DEBUG=false
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-    - PYTHONIOENCODING=utf-8
-    - PYTHONUNBUFFERED=non-empty-string
-    - DJANGO_LOG_LEVEL=ERROR
+    ######### CHANGE THE SETTINGS BELOW!
+    # must be set!
+    - DJANGO_SECRET_KEY=
+    # comma separated list, no brackets, e.g. localhost,dev.myhost.com
+    - DJANGO_ALLOWED_HOSTS=
+    # theses settings should be adapted before deploying
+    - DJANGO_EMAIL_HOST=
+    - DJANGO_EMAIL_HOST_PASSWORD=
+    - DJANGO_EMAIL_HOST_USER=
+    - DJANGO_EMAIL_PORT=
+    - DJANGO_EMAIL_USE_TLS=
+    - DJANGO_EMAIL_USE_SSL=
+    - DJANGO_DEFAULT_FROM_EMAIL=
+    - DJANGO_SERVER_EMAIL=
+    # if SSL is enabled uncomment and fill with correct values these lines
+    # SSL IS ON
+#    - DJANGO_SECURE_SSL_HOST=
+#    - DJANGO_SECURE_SSL_REDIRECT=
+#    - DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=
+#    - DJANGO_SECURE_HSTS_SECONDS=
+#    - DJANGO_SECURE_REDIRECT_EXEMPT=
+#    - DJANGO_CSRF_COOKIE_SECURE=true
+#    - DJANGO_SESSION_COOKIE_SECURE=true
 
 database:
   extends:

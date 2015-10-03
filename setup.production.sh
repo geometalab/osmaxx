@@ -26,7 +26,7 @@ ask_whether_docker_compose_file_has_been_updated
 # Setup a docker compose container used to start the production application
 # Setup application & database
 
-DOCKER_COMPOSE_TAG="1.3.1"
+DOCKER_COMPOSE_TAG="1.4.2"
 
 CONTAINERS_TO_BE_UPDATED='webapp celery'
 

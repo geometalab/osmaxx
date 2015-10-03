@@ -12,6 +12,7 @@ MIDDLEWARE_CLASSES = (
 # get an exception when starting, if they are not defined
 SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS")
+print(ALLOWED_HOSTS)
 DATABASES['default'] = env.db("DJANGO_DATABASE_URL")
 
 # add the gunicorn runner
