@@ -1,0 +1,49 @@
+shareddata:
+  image: buildpack-deps:jessie
+  command: /bin/true
+  volumes:
+    - /data
+    - /database/data
+    - /tmp/osmaxx-results:/results
+  net: "none"
+
+databasebase:
+  image: geometalab/postgis:9.4
+
+webapp:
+  build: .
+  ports:
+    - "8000:{{ APP_PORT }}"
+  volumes_from:
+    - shareddata
+{% if production %}
+  command: honcho start -f Procfile.django
+{%  else %}
+  command: honcho start -f Procfile.django.dev
+{% endif %}
+  links:
+    - rabbitmq:rabbit
+    - database
+    - celery
+  links:
+    - rabbitmq:rabbit
+    - database
+    - celery
+  environment:
+{% include 'docker_compose/environment.jj2.yml' with context %}
+
+celery:
+  build: .
+  command: honcho start -f Procfile.celery
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  volumes_from:
+    - shareddata
+  links:
+    - rabbitmq:rabbit
+    - database
+  environment:
+{% include 'docker_compose/environment.jj2.yml' with context %}
+
+rabbitmqbase:
+  image: rabbitmq:3
