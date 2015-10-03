@@ -2,10 +2,10 @@
 Django settings for osmaxx project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/1.7/topics/settings/
+https://docs.djangoproject.com/en/1.8/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.7/ref/settings/
+https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 # flake8: noqa
 import os
@@ -332,11 +332,6 @@ SOCIAL_AUTH_LOGIN_SUCCESS_URL = '/'
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'email']
 
-# TODO: Remove these insecure settings and move them out of the repository!
-# registered for localhost, localhost:8000 and localhost:8080 only!
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '126950426483-l14itbjtoge7iobol097m2lk0brhu1si.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'ojL6tk6NuNC6XVHCvO0nnV8F'
-
 if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing and django-coverage
     DATABASES = {
         'default': {
@@ -392,12 +387,11 @@ BROKER_URL = env.str('DJANGO_CELERY_BROKER_URL', default='amqp://guest:guest@loc
 CELERY_RESULT_BACKEND = BROKER_URL
 
 # Security - defaults taken from Django 1.8
-
 SECRET_KEY = env.str("DJANGO_SECRET_KEY", default=None)
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=[])
-
-## General Security - defaults are not secured!
 X_FRAME_OPTIONS = env.str('DJANGO_X_FRAME_OPTIONS', default='SAMEORIGIN')
+
+## General SECURE Settings - defaults are not secured!
 SECURE_BROWSER_XSS_FILTER = env.bool('DJANGO_SECURE_BROWSER_XSS_FILTER', default=False)
 SECURE_CONTENT_TYPE_NOSNIFF = env.bool('DJANGO_SECURE_CONTENT_TYPE_NOSNIFF', default=False)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS', default=False)
