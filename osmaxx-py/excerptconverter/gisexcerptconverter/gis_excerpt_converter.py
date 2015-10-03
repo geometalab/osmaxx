@@ -22,6 +22,10 @@ logger = logging.getLogger(__name__)
 
 NAME = 'GIS'
 EXPORT_FORMATS = {
+    'fgdb': {
+        'name': 'ESRI File Geodatabase (FileGDB)',
+        'file_extension': 'fgdb'
+    },
     'spatialite': {
         'name': 'SpatiaLite (SQLite)',
         'file_extension': 'sqlite'
