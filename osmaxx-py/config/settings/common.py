@@ -98,13 +98,19 @@ EMAIL_HOST = env.str('DJANGO_EMAIL_HOST', default='localhost')
 EMAIL_HOST_PASSWORD = env.str('DJANGO_EMAIL_HOST_PASSWORD', default='')
 EMAIL_HOST_USER = env.str('DJANGO_EMAIL_HOST_USER', default='')
 EMAIL_PORT = env.int('DJANGO_EMAIL_PORT', default=25)
-EMAIL_SUBJECT_PREFIX = env.str('DJANGO_EMAIL_SUBJECT_PREFIX', default='')
+EMAIL_SUBJECT_PREFIX = env.str('DJANGO_EMAIL_SUBJECT_PREFIX', default='[Django] ')
 EMAIL_USE_TLS = env.bool('DJANGO_EMAIL_USE_TLS', default=False)
 EMAIL_USE_SSL = env.bool('DJANGO_EMAIL_USE_SSL', default=False)
 EMAIL_TIMEOUT = env.int('DJANGO_EMAIL_TIMEOUT', default=None)
 EMAIL_SSL_CERTFILE = env.bool('DJANGO_EMAIL_SSL_CERTFILET', default=None)
 EMAIL_SSL_KEYFILE = env.bool('DJANGO_EMAIL_SSL_KEYFILE', default=None)
-DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL', default='noreply osmaxx <noreply@osmaxx.hsr.ch>')
+DEFAULT_FROM_EMAIL = env.str('DJANGO_DEFAULT_FROM_EMAIL', default='webmaster@localhost')
+SERVER_EMAIL = env.str('DJANGO_SERVER_EMAIL', default='root@localhost')
+
+EMAIL_FILE_PATH = env.str('DJANGO_EMAIL_FILE_PATH', default=None)
+# allow default setting (unset) if the variable isn't set in the environment
+if not EMAIL_FILE_PATH:
+    del EMAIL_FILE_PATH
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -380,3 +386,45 @@ OSMAXX = {
     # to request access to osmaxx (access_denied page)
     'account_manager_username': env.str('ACCOUNT_MANAGER_USERNAME', default='admin'),
 }
+
+# Celery
+BROKER_URL = env.str('DJANGO_CELERY_BROKER_URL', default='amqp://guest:guest@localhost:5672//')
+CELERY_RESULT_BACKEND = BROKER_URL
+
+# Security - defaults taken from Django 1.8
+
+SECRET_KEY = env.str("DJANGO_SECRET_KEY", default=None)
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=[])
+
+## General Security - defaults are not secured!
+X_FRAME_OPTIONS = env.str('DJANGO_X_FRAME_OPTIONS', default='SAMEORIGIN')
+SECURE_BROWSER_XSS_FILTER = env.bool('DJANGO_SECURE_BROWSER_XSS_FILTER', default=False)
+SECURE_CONTENT_TYPE_NOSNIFF = env.bool('DJANGO_SECURE_CONTENT_TYPE_NOSNIFF', default=False)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS', default=False)
+SECURE_HSTS_SECONDS = env.int('DJANGO_SECURE_HSTS_SECONDS', default=0)
+SECURE_PROXY_SSL_HEADER = env.tuple('DJANGO_SECURE_PROXY_SSL_HEADER', default=None)
+SECURE_REDIRECT_EXEMPT = env.list('DJANGO_SECURE_REDIRECT_EXEMPT', default=[])
+SECURE_SSL_HOST = env.str('DJANGO_SECURE_SSL_HOST', default=None)
+SECURE_SSL_REDIRECT = env.bool('DJANGO_SECURE_SSL_REDIRECT', default=False)
+
+## CSRF
+CSRF_COOKIE_SECURE = env.bool('DJANGO_CSRF_COOKIE_SECURE', default=False)
+CSRF_COOKIE_HTTPONLY = env.bool('DJANGO_CSRF_COOKIE_HTTPONLY', default=False)
+CSRF_COOKIE_DOMAIN = env.str('DJANGO_CSRF_COOKIE_DOMAIN', default=None)
+CSRF_COOKIE_NAME = env.str('DJANGO_CSRF_COOKIE_NAME', default='csrftoken')
+CSRF_COOKIE_PATH = env.str('DJANGO_CSRF_COOKIE_PATH', default='/')
+CSRF_FAILURE_VIEW = env.str('DJANGO_CSRF_FAILURE_VIEW', default='django.views.csrf.csrf_failure')
+
+## Sessions
+SESSION_CACHE_ALIAS = env.str('DJANGO_SESSION_CACHE_ALIAS', default='default')
+SESSION_COOKIE_AGE = env.int('DJANGO_SESSION_COOKIE_AGE', default=60*60*24*7*2)  # two weeks in seconds
+SESSION_COOKIE_DOMAIN = env.str('DJANGO_SESSION_COOKIE_DOMAIN', default=None)
+SESSION_COOKIE_HTTPONLY = env.bool('DJANGO_SESSION_COOKIE_HTTPONLY', default=True)
+SESSION_COOKIE_NAME = env.str('DJANGO_SESSION_COOKIE_NAME', default='sessionid')
+SESSION_COOKIE_PATH = env.str('DJANGO_SESSION_COOKIE_PATH', default='/')
+SESSION_COOKIE_SECURE = env.bool('DJANGO_SESSION_COOKIE_SECURE', default=False)
+SESSION_ENGINE = env.str('DJANGO_SESSION_ENGINE', default='django.contrib.sessions.backends.db')
+SESSION_EXPIRE_AT_BROWSER_CLOSE = env.bool('DJANGO_SESSION_EXPIRE_AT_BROWSER_CLOSE', default=False)
+SESSION_FILE_PATH = env.str('DJANGO_SESSION_FILE_PATH', default=None)
+SESSION_SAVE_EVERY_REQUEST = env.bool('DJANGO_SESSION_SAVE_EVERY_REQUEST', default=False)
+SESSION_SERIALIZER = env.str('DJANGO_SESSION_SERIALIZER', default='django.contrib.sessions.serializers.JSONSerializer')
