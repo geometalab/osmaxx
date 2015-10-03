@@ -33,17 +33,14 @@ webappdev:
     - shareddatadev
   links:
     - rabbitmqdev:rabbit
-    - databasedev
-    - celerydev
+    - databasedev:database
+    - celerydev:celery
   environment:
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
+    - DJANGO_SETTINGS_MODULE=config.settings.local
     - DJANGO_DEBUG=true
     - DJANGO_EMAIL_FILE_PATH=/dev-emails
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
-    - DJANGO_LOG_LEVEL=INFO
-    - PYTHONIOENCODING=utf-8
-    - PYTHONUNBUFFERED=non-empty-string
+    - DJANGO_SECRET_KEY=my.secret.key.is.not.secret!
 
 celerydev:
   extends:
@@ -57,16 +54,13 @@ celerydev:
     - shareddatadev
   links:
     - rabbitmqdev:rabbit
-    - databasedev
+    - databasedev:database
   environment:
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
+    - DJANGO_SETTINGS_MODULE=config.settings.local
     - DJANGO_DEBUG=true
     - DJANGO_EMAIL_FILE_PATH=/dev-emails
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
-    - DJANGO_LOG_LEVEL=INFO
-    - PYTHONIOENCODING=utf-8
-    - PYTHONUNBUFFERED=non-empty-string
+    - DJANGO_SECRET_KEY=my.secret.key.is.not.secret!
 
 rabbitmqdev:
   extends:
