@@ -1,3 +1,0 @@
-[submodule "osmaxx-py/osmaxx/excerptexport/static/excerptexport/libraries/leaflet-locationfilter"]
-	path = osmaxx-py/osmaxx/excerptexport/static/excerptexport/libraries/leaflet-locationfilter
-	url = https://github.com/kajic/leaflet-locationfilter.git
