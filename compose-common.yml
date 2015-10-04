@@ -24,9 +24,9 @@ base:
     # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/#python-options
     - PYTHONHASHSEED=random
 
-
-    # Settings only need to be changed, if docker-compose is being changed
+    # Settings above only need to be changed, if docker-compose is being changed
     # or not used at all.
+
     ##########################################################################
 
     # port and host application listens
