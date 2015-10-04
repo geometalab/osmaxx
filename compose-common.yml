@@ -19,6 +19,9 @@ base:
     - PYTHONUNBUFFERED=non-empty-string
     - PYTHONIOENCODING=utf-8
     - DJANGO_LOG_LEVEL=INFO
+    # https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/#python-options
+    - PYTHONHASHSEED=random
+
 
     # Settings only need to be changed, if docker-compose is being changed
     # or not used at all.
