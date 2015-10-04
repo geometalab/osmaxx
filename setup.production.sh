@@ -21,7 +21,7 @@ function ask_whether_a_superuser_shall_be_created() {
     done
 }
 
-final_words() {
+function final_words() {
     echo '-----------------------'
     echo 'you might want to ensure mail sending works as expected:'
     echo 'use the django console (`./manage.py shell`) inside the upped container'
