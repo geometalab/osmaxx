@@ -40,15 +40,10 @@ webapp:
     - DJANGO_EMAIL_USE_SSL=
     - DJANGO_DEFAULT_FROM_EMAIL=
     - DJANGO_SERVER_EMAIL=
-    # if SSL is enabled uncomment and fill with correct values these lines
-    # SSL IS ON
-#    - DJANGO_SECURE_SSL_HOST=
-#    - DJANGO_SECURE_SSL_REDIRECT=
-#    - DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=
-#    - DJANGO_SECURE_HSTS_SECONDS=
-#    - DJANGO_SECURE_REDIRECT_EXEMPT=
+    # SSL IS ON: UNCOMMENT
 #    - DJANGO_CSRF_COOKIE_SECURE=true
 #    - DJANGO_SESSION_COOKIE_SECURE=true
+
 
 rabbitmq:
   extends:
