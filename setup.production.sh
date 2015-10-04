@@ -21,6 +21,18 @@ function ask_whether_a_superuser_shall_be_created() {
     done
 }
 
+final_words() {
+    echo '-----------------------'
+    echo 'you might want to ensure mail sending works as expected:'
+    echo 'use the django console (`./manage.py shell`) inside the upped container'
+    echo 'and enter the following:'
+    echo 'from django.core import mail'
+    echo 'from django.conf import settings'
+    echo 'email_to="<your email account>"  # e.g. user@example.org'
+    echo "mail.send_mail('test subject', 'some message', settings.DEFAULT_FROM_EMAIL, [email_to,])"
+    echo '-----------------------'
+}
+
 ask_whether_docker_compose_file_has_been_updated
 
 # Setup a docker compose container used to start the production application
@@ -61,3 +73,5 @@ run_docker_compose_dduportal_interactive run --rm webapp /bin/bash -c "./manage.
 ask_whether_a_superuser_shall_be_created
 
 run_docker_compose_dduportal stop
+
+final_words
