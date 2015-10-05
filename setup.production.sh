@@ -2,7 +2,7 @@
 
 # Asking is better then forgetting
 function ask_whether_docker_compose_file_has_been_updated() {
-    echo "Are the settings in the compose-production.yml correct? (Hint: copy and adapt compose-production.yml)"
+    echo "Are the settings in the docker-compose.yml correct? (Hint: copy and adapt compose-production.yml)"
     select yn in "Yes" "No"; do
         case $yn in
             Yes ) break;;
