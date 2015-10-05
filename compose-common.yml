@@ -12,8 +12,6 @@ base:
     # --link some-rabbit:rabbit "just works"
     - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
-    - APP_PORT=8000
-    - APP_HOST=0.0.0.0
 
     # Logging
     - PYTHONUNBUFFERED=non-empty-string
@@ -33,30 +31,9 @@ base:
     - APP_PORT=8000
     - APP_HOST=0.0.0.0
 
-    # EMAIL
-    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-    - DJANGO_EMAIL_HOST=localhost
-    - DJANGO_EMAIL_HOST_PASSWORD=
-    - DJANGO_EMAIL_HOST_USER=
-    - DJANGO_EMAIL_PORT=25
-    - DJANGO_EMAIL_USE_TLS=false
-    - DJANGO_EMAIL_USE_SSL=false
-    - DJANGO_DEFAULT_FROM_EMAIL=no-reply@osmaxx.dev
-    - DJANGO_SERVER_EMAIL=no-reply@osmaxx.dev
-
-    # SECURITY - SSL IS OFF
-    - DJANGO_SECRET_KEY=
-    - DJANGO_ALLOWED_HOSTS=
-    - DJANGO_X_FRAME_OPTIONS=SAMEORIGIN
-    - DJANGO_SESSION_COOKIE_HTTPONLY=true
-    - DJANGO_SESSION_COOKIE_HTTPONLY=true
-    - DJANGO_SESSION_COOKIE_SECURE=false
-    - DJANGO_CSRF_COOKIE_HTTPONLY=false
-    - DJANGO_CSRF_COOKIE_SECURE=false
-    - DJANGO_CSRF_COOKIE_HTTPONLY=true
+    # hardened security compared to default settings.
     - DJANGO_SECURE_BROWSER_XSS_FILTER=true
     - DJANGO_SECURE_CONTENT_TYPE_NOSNIFF=true
-    - DJANGO_SECURE_SSL_REDIRECT=false
 
 rabbitmqbase:
   image: rabbitmq:3
