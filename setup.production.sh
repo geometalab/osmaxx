@@ -23,8 +23,8 @@ function ask_whether_a_superuser_shall_be_created() {
 
 function final_words() {
     echo '-----------------------'
-    echo 'you might want to ensure mail sending works as expected:'
-    echo 'use the django console (`./manage.py shell`) inside the upped container'
+    echo 'You might want to ensure mail sending works as expected:'
+    echo 'Use the django console (`./manage.py shell`) inside the upped container'
     echo 'and enter the following:'
     echo 'from django.core import mail'
     echo 'from django.conf import settings'
