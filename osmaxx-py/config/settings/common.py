@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 # flake8: noqa
 import os
+from datetime import timedelta
 import environ
 import sys
 from django.contrib.messages import constants as message_constants
@@ -411,7 +412,7 @@ CSRF_FAILURE_VIEW = env.str('DJANGO_CSRF_FAILURE_VIEW', default='django.views.cs
 
 ## Sessions
 SESSION_CACHE_ALIAS = env.str('DJANGO_SESSION_CACHE_ALIAS', default='default')
-SESSION_COOKIE_AGE = env.int('DJANGO_SESSION_COOKIE_AGE', default=60*60*24*7*2)  # two weeks in seconds
+SESSION_COOKIE_AGE = env.int('DJANGO_SESSION_COOKIE_AGE', default=timedelta(weeks=2).total_seconds())
 SESSION_COOKIE_DOMAIN = env.str('DJANGO_SESSION_COOKIE_DOMAIN', default=None)
 SESSION_COOKIE_HTTPONLY = env.bool('DJANGO_SESSION_COOKIE_HTTPONLY', default=True)
 SESSION_COOKIE_NAME = env.str('DJANGO_SESSION_COOKIE_NAME', default='sessionid')
