@@ -23,15 +23,12 @@ webapp:
     - database
     - celery
   environment:
-    - DJANGO_SETTINGS_MODULE=config.settings.production
-    - DJANGO_DEBUG=false
-    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-    ######### CHANGE THE SETTINGS BELOW!
     # THIS MUST BE SET TO A SECRET KEY!
     - DJANGO_SECRET_KEY=
     # comma separated list, no brackets, e.g. localhost,dev.myhost.com
     - DJANGO_ALLOWED_HOSTS=
     # theses settings should be adapted before deploying
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
     - DJANGO_EMAIL_HOST=
     - DJANGO_EMAIL_HOST_PASSWORD=
     - DJANGO_EMAIL_HOST_USER=
@@ -43,6 +40,11 @@ webapp:
     # if SSL is ON: unomment
 #    - DJANGO_CSRF_COOKIE_SECURE=true
 #    - DJANGO_SESSION_COOKIE_SECURE=true
+
+    ######### these should not require any change
+    - DJANGO_SETTINGS_MODULE=config.settings.production
+    - DJANGO_DEBUG=false
+
 
 
 rabbitmq:
@@ -63,15 +65,12 @@ celery:
     - rabbitmq:rabbit
     - database
   environment:
-    - DJANGO_SETTINGS_MODULE=config.settings.production
-    - DJANGO_DEBUG=false
-    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-    ######### CHANGE THE SETTINGS BELOW!
     # THIS MUST BE SET TO A SECRET KEY!
     - DJANGO_SECRET_KEY=
     # comma separated list, no brackets, e.g. localhost,dev.myhost.com
     - DJANGO_ALLOWED_HOSTS=
     # theses settings should be adapted before deploying
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
     - DJANGO_EMAIL_HOST=
     - DJANGO_EMAIL_HOST_PASSWORD=
     - DJANGO_EMAIL_HOST_USER=
@@ -83,6 +82,10 @@ celery:
     # if SSL is ON: unomment
 #    - DJANGO_CSRF_COOKIE_SECURE=true
 #    - DJANGO_SESSION_COOKIE_SECURE=true
+
+    ######### these should not require any change
+    - DJANGO_SETTINGS_MODULE=config.settings.production
+    - DJANGO_DEBUG=false
 
 database:
   extends:
