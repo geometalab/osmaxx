@@ -202,7 +202,7 @@ defined in the environment variables or set to an empty string (e.g
 * DJANGO_CSRF_COOKIE_PATH`+`: `'/'`, [CSRF_COOKIE_PATH](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-CSRF_COOKIE_PATH)
 * DJANGO_CSRF_FAILURE_VIEW`+`: `'django.views.csrf.csrf_failure'`, [CSRF_FAILURE_VIEW](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-CSRF_FAILURE_VIEW)
 * DJANGO_SESSION_CACHE_ALIAS`+`: `'default'`, [SESSION_CACHE_ALIAS](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-SESSION_CACHE_ALIAS)
-* DJANGO_SESSION_COOKIE_AGE`+`: `60*60*24*7*2`, [SESSION_COOKIE_AGE](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-SESSION_COOKIE_AGE)  # two weeks in seconds
+* DJANGO_SESSION_COOKIE_AGE`+`: `timedelta(weeks=2).total_seconds()`, [SESSION_COOKIE_AGE](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-SESSION_COOKIE_AGE)
 * DJANGO_SESSION_COOKIE_DOMAIN`+`: `None`, [SESSION_COOKIE_DOMAIN](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-SESSION_COOKIE_DOMAIN)
 * DJANGO_SESSION_COOKIE_HTTPONLY`+`: `True`, [SESSION_COOKIE_HTTPONLY](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-SESSION_COOKIE_HTTPONLY)
 * DJANGO_SESSION_COOKIE_NAME`+`: `'sessionid'`, [SESSION_COOKIE_NAME](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-SESSION_COOKIE_NAME)
