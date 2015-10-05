@@ -40,7 +40,7 @@ webapp:
     - DJANGO_EMAIL_USE_SSL=
     - DJANGO_DEFAULT_FROM_EMAIL=
     - DJANGO_SERVER_EMAIL=
-    # SSL IS ON: UNCOMMENT
+    # if SSL is ON: unomment
 #    - DJANGO_CSRF_COOKIE_SECURE=true
 #    - DJANGO_SESSION_COOKIE_SECURE=true
 
@@ -67,7 +67,7 @@ celery:
     - DJANGO_DEBUG=false
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
     ######### CHANGE THE SETTINGS BELOW!
-    # must be set!
+    # THIS MUST BE SET TO A SECRET KEY!
     - DJANGO_SECRET_KEY=
     # comma separated list, no brackets, e.g. localhost,dev.myhost.com
     - DJANGO_ALLOWED_HOSTS=
@@ -80,13 +80,7 @@ celery:
     - DJANGO_EMAIL_USE_SSL=
     - DJANGO_DEFAULT_FROM_EMAIL=
     - DJANGO_SERVER_EMAIL=
-    # if SSL is enabled uncomment and fill with correct values these lines
-    # SSL IS ON
-#    - DJANGO_SECURE_SSL_HOST=
-#    - DJANGO_SECURE_SSL_REDIRECT=
-#    - DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=
-#    - DJANGO_SECURE_HSTS_SECONDS=
-#    - DJANGO_SECURE_REDIRECT_EXEMPT=
+    # if SSL is ON: unomment
 #    - DJANGO_CSRF_COOKIE_SECURE=true
 #    - DJANGO_SESSION_COOKIE_SECURE=true
 

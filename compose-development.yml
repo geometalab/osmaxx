@@ -38,6 +38,8 @@ webappdev:
   environment:
     - DJANGO_SETTINGS_MODULE=config.settings.local
     - DJANGO_DEBUG=true
+    - DJANGO_DEFAULT_FROM_EMAIL=no-reply@osmaxx.dev
+    - DJANGO_SERVER_EMAIL=no-reply@osmaxx.dev
     - DJANGO_EMAIL_FILE_PATH=/dev-emails
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
     - DJANGO_SECRET_KEY=my.secret.key.is.not.secret!
@@ -58,6 +60,8 @@ celerydev:
   environment:
     - DJANGO_SETTINGS_MODULE=config.settings.local
     - DJANGO_DEBUG=true
+    - DJANGO_DEFAULT_FROM_EMAIL=no-reply@osmaxx.dev
+    - DJANGO_SERVER_EMAIL=no-reply@osmaxx.dev
     - DJANGO_EMAIL_FILE_PATH=/dev-emails
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
     - DJANGO_SECRET_KEY=my.secret.key.is.not.secret!
