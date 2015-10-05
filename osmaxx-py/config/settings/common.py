@@ -303,7 +303,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': env.str('DJANGO_LOG_LEVEL', 'DEBUG'),
+            'level': env.str('DJANGO_LOG_LEVEL', default='DEBUG'),
         },
     },
 }
