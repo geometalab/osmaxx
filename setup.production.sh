@@ -28,7 +28,7 @@ function final_words() {
     echo 'and enter the following:'
     echo 'from django.core import mail'
     echo 'from django.conf import settings'
-    echo 'email_to="<your email account>"  # e.g. user@example.org'
+    echo 'email_to="user@example.org"  # Replace with your own email address!'
     echo "mail.send_mail('test subject', 'some message', settings.DEFAULT_FROM_EMAIL, [email_to,])"
     echo '-----------------------'
 }
