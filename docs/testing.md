@@ -31,6 +31,7 @@ There's a script to facilitate testing including some docker integration tests:
 
 ### Warnings 
 
+* It needs a Firefox browser installed (for now)
 * These run for quite a long time (over five Minutes!). 
 * The containers are being destroyed at the beginning (creating a clean state). Resulting in
     * Only run one test at a time
@@ -40,9 +41,12 @@ There's a script to facilitate testing including some docker integration tests:
 
 ### Prerequisites
 
-An activated virtualenv with requests and beautifulsoup4 installed.
+An activated virtualenv with requests installed.
 
 ```shell
+virtualenv tmp
+. ./tmp/bin/activate
+pip install -r e2e/requirements.txt
 python e2e/e2e_tests.py
 ```
 
