@@ -8,8 +8,13 @@ def stop():
     subprocess.check_call("docker-compose stop -t 0".split(' '))
 
 
+def kill():
+    subprocess.check_call("docker-compose kill".split(' '))
+
+
 def clean():
     stop()
+    kill()
     subprocess.check_call("docker-compose rm -vf".split(' '))
 
 
