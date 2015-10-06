@@ -27,13 +27,13 @@ function create_and_activate_tmp_virtualenv() {
     virtualenv tmp/e2e_tests;
     source tmp/e2e_tests/bin/activate;
     # install dependencies
-    pip install requests beautifulsoup4;
+    pip install requests selenium;
 }
 
 function deactivate_and_delete_tmp_virtualenv() {
     deactivate;
     echo "removing virtualenv in tmp/e2e_tests";
-    rm tmp/e2e_tests -rI;
+    rm tmp/e2e_tests -rf;
 }
 
 function run_e2e_tests() {
