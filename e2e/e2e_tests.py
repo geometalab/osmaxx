@@ -87,8 +87,8 @@ class SeleniumTests(unittest.TestCase):
         login_form = self.browser.find_element_by_id('osmaxx-login-form')
         username = self.browser.find_element_by_id('id_username')
         password = self.browser.find_element_by_id("id_password")
-        username.send_keys('admin')
-        password.send_keys('admin')
+        username.send_keys(ADMIN_USER_FOR_TESTS)
+        password.send_keys(ADMIN_PASSWORD_FOR_TESTS)
         login_form.find_element_by_xpath("//input[@type='submit']").click()
 
     def _logout(self):
