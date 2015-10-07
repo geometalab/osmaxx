@@ -118,15 +118,15 @@ class SeleniumTests(unittest.TestCase):
 
     def _wait_for_order_to_complete_and_fetch_resulting_links(self):
         poll_frequency_in_seconds = 10
-        waited_time = 0
+        waited_time_in_seconds = 0
         status_element = self._get_status_element()
         while '✓' not in status_element:
             self.assertFalse('∅' in status_element)
 
-            waited_time += poll_frequency_in_seconds
+            waited_time_in_seconds += poll_frequency_in_seconds
             sleep(poll_frequency_in_seconds)
 
-            if waited_time >= self.wait_time_seconds:
+            if waited_time_in_seconds >= self.wait_time_seconds:
                 raise selenium_exceptions.TimeoutException
             else:
                 self.browser.get(self.browser.current_url)
