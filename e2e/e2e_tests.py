@@ -75,7 +75,7 @@ class SeleniumTests(unittest.TestCase):
         self._login()
         self._create_new_order()
         self._go_to_order()
-        links = self._wait_for_order_to_complete_and_fetch_download_links()
+        links = self._wait_for_order_to_complete_and_fetch_resulting_links()
         self.assertEqual(len(links), 8)
         download_links = self._get_download_links_from_links(links)
         for download_link in download_links:
@@ -116,7 +116,7 @@ class SeleniumTests(unittest.TestCase):
         )
         self.browser.find_element_by_xpath(xpath_link_to_order).click()
 
-    def _wait_for_order_to_complete_and_fetch_download_links(self):
+    def _wait_for_order_to_complete_and_fetch_resulting_links(self):
         poll_frequency_in_seconds = 10
         waited_time = 0
         status_element = self._get_status_element()
