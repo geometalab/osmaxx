@@ -1,15 +1,15 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
+import datetime
 import os
-import sys
-from time import sleep
-import unittest
 from selenium import webdriver
 from selenium.common import exceptions as selenium_exceptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+import sys
+from time import sleep
+import unittest
 
 try:
     import requests
@@ -47,8 +47,7 @@ def _stop_and_remove_containers():
 
 
 class SeleniumTests(unittest.TestCase):
-    # wait maximal 5 minutes
-    wait_time_seconds = 5*60
+    wait_time_seconds = datetime.timedelta(minutes=5).total_seconds()
     excerpt_data = {
         'send_keys': {
             'new_excerpt_name': 'HSR',
