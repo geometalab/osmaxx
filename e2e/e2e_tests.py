@@ -6,16 +6,12 @@ import sys
 from time import sleep
 import unittest
 
-try:
-    import requests
-    from selenium import webdriver
-    from selenium.common import exceptions as selenium_exceptions
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.support import expected_conditions
-    from selenium.webdriver.support.wait import WebDriverWait
-except ImportError:
-    print('#### Please install requests and selenium, ie. `pip install requests` ####')
-    raise
+import requests
+from selenium import webdriver
+from selenium.common import exceptions as selenium_exceptions
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 
 from helpers.zip_file_helpers import check_if_result_contains_data
 from helpers import docker_compose
