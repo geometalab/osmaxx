@@ -1,3 +1,5 @@
+# INFO: remember to update the setup.production.sh if you change something here.
+
 shareddata:
   image: buildpack-deps:jessie
   command: /bin/true
@@ -19,18 +21,31 @@ webapp:
   links:
     - rabbitmq:rabbit
     - database
-    - email
     - celery
   environment:
-    - APP_PORT=8000
-    - APP_HOST=0.0.0.0
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
-    - DJANGO_EMAIL_USE_TLS=false
-    - DJANGO_EMAIL_HOST=email
-    - DJANGO_EMAIL_HOST_PASSWORD=osmaxx
-    - DJANGO_EMAIL_HOST_USERNAME=osmaxx
-    - DJANGO_EMAIL_PORT=25
+    # THIS MUST BE SET TO A SECRET KEY!
+    - DJANGO_SECRET_KEY=
+    # comma separated list, no brackets, e.g. localhost,dev.myhost.com
+    - DJANGO_ALLOWED_HOSTS=
+    # theses settings should be adapted before deploying
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+    - DJANGO_EMAIL_HOST=
+    - DJANGO_EMAIL_HOST_PASSWORD=
+    - DJANGO_EMAIL_HOST_USER=
+    - DJANGO_EMAIL_PORT=
+    - DJANGO_EMAIL_USE_TLS=
+    - DJANGO_EMAIL_USE_SSL=
+    - DJANGO_DEFAULT_FROM_EMAIL=
+    - DJANGO_SERVER_EMAIL=
+    # if SSL is ON: unomment
+#    - DJANGO_CSRF_COOKIE_SECURE=true
+#    - DJANGO_SESSION_COOKIE_SECURE=true
+
+    ######### these should not require any change
+    - DJANGO_SETTINGS_MODULE=config.settings.production
+    - DJANGO_DEBUG=false
+
+
 
 rabbitmq:
   extends:
@@ -49,11 +64,28 @@ celery:
   links:
     - rabbitmq:rabbit
     - database
-    - email
   environment:
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
-    - DJANGO_EMAIL_HOST=email
+    # THIS MUST BE SET TO A SECRET KEY!
+    - DJANGO_SECRET_KEY=
+    # comma separated list, no brackets, e.g. localhost,dev.myhost.com
+    - DJANGO_ALLOWED_HOSTS=
+    # theses settings should be adapted before deploying
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+    - DJANGO_EMAIL_HOST=
+    - DJANGO_EMAIL_HOST_PASSWORD=
+    - DJANGO_EMAIL_HOST_USER=
+    - DJANGO_EMAIL_PORT=
+    - DJANGO_EMAIL_USE_TLS=
+    - DJANGO_EMAIL_USE_SSL=
+    - DJANGO_DEFAULT_FROM_EMAIL=
+    - DJANGO_SERVER_EMAIL=
+    # if SSL is ON: unomment
+#    - DJANGO_CSRF_COOKIE_SECURE=true
+#    - DJANGO_SESSION_COOKIE_SECURE=true
+
+    ######### these should not require any change
+    - DJANGO_SETTINGS_MODULE=config.settings.production
+    - DJANGO_DEBUG=false
 
 database:
   extends:
@@ -63,11 +95,3 @@ database:
     - shareddata
   environment:
     - PGDATA=/database/data
-
-email:
-  image: catatnight/postfix
-  environment:
-    - maildomain=.hsr.ch
-    - smtp_user=osmaxx:osmaxx
-  expose:
-    - 25

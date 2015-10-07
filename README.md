@@ -13,6 +13,7 @@ Website: http://osmaxx.hsr.ch/
 * [Project Development Environment (Docker)](/docs/project-development-environment.md)
 * [Commonly used commands for development](/docs/useful-commands.md)
 * [Deployment](/docs/deployment.md)
+* [Testing](/docs/testing.md)
 
 We do not recommend to run the application local on your machine but it's possible. We recommend to use the development docker containers.
 
@@ -86,6 +87,10 @@ Start the containers using docker compose:
 ```shell
 docker-compose up
 ```
+
+### Testing
+
+Can be found under [Testing](/docs/testing.md).
 
 
 ### Documentation

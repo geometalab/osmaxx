@@ -16,6 +16,30 @@ function main(){
     else
         run_production_tests;
     fi
+
+    # FIXME: currently only work on development settings
+    if [[ $(ls -l docker-compose.yml) == *"development.yml"* ]] && [ $RUN_E2E ] && [ $RUN_E2E = 'true' ]; then
+        run_e2e_tests;
+    fi
+}
+
+function create_and_activate_tmp_virtualenv() {
+    virtualenv --python=/usr/bin/python3 tmp/e2e_tests;
+    source tmp/e2e_tests/bin/activate;
+    # install dependencies
+    pip install requests selenium;
+}
+
+function deactivate_and_delete_tmp_virtualenv() {
+    deactivate;
+    echo "removing virtualenv in tmp/e2e_tests";
+    rm tmp/e2e_tests -rf;
+}
+
+function run_e2e_tests() {
+    create_and_activate_tmp_virtualenv;
+    python e2e/e2e_tests.py;
+    deactivate_and_delete_tmp_virtualenv;
 }
 
 function run_development_tests() {
@@ -78,7 +102,7 @@ function reset_containers() {
     docker_compose rm -vf &>> ${LOGFILE};
     docker_compose build &>> ${LOGFILE};
     docker_compose up -d ${DB_CONTAINER};
-    sleep 3;
+    sleep 10;
 }
 
 function reset_container() {
@@ -119,7 +143,7 @@ function application_tests() {
     log "Application tests:"
     log "------------------${RESET}"
 
-    docker_compose run $WEBAPP_CONTAINER /bin/bash -c "python3 manage.py test" &>> ${LOGFILE};
+    docker_compose run $WEBAPP_CONTAINER /bin/bash -c "DJANGO_SETTINGS_MODULE=config.settings.test python3 manage.py test" &>> ${LOGFILE};
 
     if [ $? -eq 0 ]; then
         log "${GREEN}Tests passed successfully.${RESET}"

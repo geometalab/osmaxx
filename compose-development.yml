@@ -10,13 +10,14 @@ shareddatadev:
     - /database/data
     # temporary results directory used as pipe between multiple docker forests
     - /tmp/osmaxx-results:/results
+    # emails file from email sending during development and testing
+    - /tmp/osmaxx-development-emails:/dev-emails
   net: "none"
 
 sourcedev:
   build: docker/volume-mount
   volumes:
     - ./osmaxx-py:/home/osmaxx/source
-    - ~/.cache/pip:/home/osmaxx/.cache/pip
 
 webappdev:
   extends:
@@ -32,20 +33,16 @@ webappdev:
     - shareddatadev
   links:
     - rabbitmqdev:rabbit
-    - databasedev
-    - emaildev
-    - celerydev
+    - databasedev:database
+    - celerydev:celery
   environment:
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
+    - DJANGO_SETTINGS_MODULE=config.settings.local
     - DJANGO_DEBUG=true
-    - DJANGO_EMAIL_HOST=emaildev
-
-
-rabbitmqdev:
-  extends:
-    file: compose-common.yml
-    service: rabbitmqbase
+    - DJANGO_DEFAULT_FROM_EMAIL=no-reply@osmaxx.dev
+    - DJANGO_SERVER_EMAIL=no-reply@osmaxx.dev
+    - DJANGO_EMAIL_FILE_PATH=/dev-emails
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
+    - DJANGO_SECRET_KEY=my.secret.key.is.not.secret!
 
 celerydev:
   extends:
@@ -59,13 +56,20 @@ celerydev:
     - shareddatadev
   links:
     - rabbitmqdev:rabbit
-    - databasedev
-    - emaildev
+    - databasedev:database
   environment:
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
+    - DJANGO_SETTINGS_MODULE=config.settings.local
     - DJANGO_DEBUG=true
-    - DJANGO_EMAIL_HOST=emaildev
+    - DJANGO_DEFAULT_FROM_EMAIL=no-reply@osmaxx.dev
+    - DJANGO_SERVER_EMAIL=no-reply@osmaxx.dev
+    - DJANGO_EMAIL_FILE_PATH=/dev-emails
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
+    - DJANGO_SECRET_KEY=my.secret.key.is.not.secret!
+
+rabbitmqdev:
+  extends:
+    file: compose-common.yml
+    service: rabbitmqbase
 
 databasedev:
   extends:
@@ -75,9 +79,3 @@ databasedev:
     - shareddatadev
   environment:
     - PGDATA=/database/data
-
-emaildev:
-  image: python:3
-  ports:
-    - 1025:1025
-  command: python -m smtpd -n -c DebuggingServer 0.0.0.0:1025

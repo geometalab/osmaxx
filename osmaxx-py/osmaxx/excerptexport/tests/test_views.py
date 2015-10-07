@@ -1,14 +1,18 @@
-from django.conf import settings
 import shutil
+import os
+
+from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.test import TestCase
-import os
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models import BBoxBoundingGeometry, OsmosisPolygonFilterBoundingGeometry
 from osmaxx.excerptexport.tests.permission_test_helper import PermissionHelperMixin
+
+from excerptconverter import converter_registry
+from excerptconverter.dummyexcerptconverter import dummy_excerpt_converter
 
 
 class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
@@ -23,8 +27,9 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             'new_excerpt_bounding_box_east': '2.0',
             'new_excerpt_bounding_box_south': '3.0',
             'new_excerpt_bounding_box_west': '4.0',
-            'export_options.DummyExcerptConverter.formats': ['txt'],
-            'export_options.DummyExcerptConverter.options.detail_level': 'verbatim',
+            'export_options.excerptconverter.dummyexcerptconverter.dummy_excerpt_converter.formats': ['txt'],
+            'export_options.excerptconverter.dummyexcerptconverter.dummy_excerpt_converter.options.detail_level':
+            'verbatim',
         }
         self.existing_own_excerpt = Excerpt.objects.create(
             name='Some old Excerpt',
@@ -59,21 +64,32 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.existing_excerpt_post_data = {
             'form-mode': 'existing-excerpt',
             'existing_excerpt.id': self.existing_own_excerpt.id,
-            'export_options.DummyExcerptConverter.formats': ['txt'],
-            'export_options.DummyExcerptConverter.options.detail_level': 'verbatim',
+            'export_options.excerptconverter.dummyexcerptconverter.dummy_excerpt_converter.formats': ['txt'],
+            'export_options.excerptconverter.dummyexcerptconverter.dummy_excerpt_converter.options.detail_level':
+            'verbatim',
         }
         self.existing_excerpt_extraction_options = {
-            'DummyExcerptConverter': {
+            'excerptconverter.dummyexcerptconverter.dummy_excerpt_converter': {
                 'formats': ['txt'],
                 'options': {
                     'detail_level': 'verbatim'
                 }
             },
-            'GisExcerptConverter': {
+            'excerptconverter.gisexcerptconverter.gis_excerpt_converter': {
                 'formats': [],
                 'options': {}
             }
         }
+
+        if dummy_excerpt_converter not in converter_registry.available_converters:
+            converter_registry.available_converters.append(dummy_excerpt_converter)
+
+    def tearDown(self):
+        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
+            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
+
+        if dummy_excerpt_converter in converter_registry.available_converters:
+            converter_registry.available_converters.remove(dummy_excerpt_converter)
 
     def test_new_when_not_logged_in(self):
         """
@@ -172,7 +188,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
-        self.assertIsNone(newly_created_order.process_start_date)
+        self.assertIsNotNone(newly_created_order.process_start_date)
         self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'A very interesting region')
@@ -194,11 +210,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
-        self.assertIsNone(newly_created_order.process_start_date)
+        self.assertIsNotNone(newly_created_order.process_start_date)
         self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'Some old Excerpt')
-
-    def tearDown(self):
-        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
-            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)

@@ -14,7 +14,7 @@
         <p>{% trans "Your username and password didn't match. Please try again." %}</p>
         {% endif %}
 
-        <form method="post" action="{% url 'excerptexport:login' %}">
+        <form id="osmaxx-login-form" method="post" action="{% url 'excerptexport:login' %}">
             {% csrf_token %}
             <div class="form-group">
                 <div>{{ form.username.label_tag }}</div>
@@ -30,7 +30,7 @@
         </form>
 
         {% trans 'or use Clavid:' %}<br />
-        <form method="post" action="{% url 'social:begin' 'clavid.ch' %}">{% csrf_token %}
+        <form id="clavidch-login-form" method="post" action="{% url 'social:begin' 'clavid.ch' %}">{% csrf_token %}
             <div class="form-group">
                 <div><label for="openid_user">user name</label></div>
                 <div><input name="openid_user" type="text" required="required" placeholder="username" /><span>.clavid.ch</span></div>
@@ -38,7 +38,7 @@
             <input type="submit" value="login" />
             <input type="hidden" name="next" value="{{ next }}" />
         </form>
-        <form method="post" action="{% url 'social:begin' 'clavid.com' %}">{% csrf_token %}
+        <form id="clavidcom-login-form" method="post" action="{% url 'social:begin' 'clavid.com' %}">{% csrf_token %}
             <div class="form-group">
                 <div><label for="openid_user">user name</label></div>
                 <div><input name="openid_user" type="text" required="required" placeholder="username" />.clavid.com</div>

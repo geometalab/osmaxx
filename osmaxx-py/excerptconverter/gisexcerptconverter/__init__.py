@@ -1,4 +1,4 @@
-from excerptconverter.baseexcerptconverter import BaseExcerptConverter
-from .gis_excerpt_converter import GisExcerptConverter
+from excerptconverter import converter_registry
+from . import gis_excerpt_converter
 
-BaseExcerptConverter.available_converters.append(GisExcerptConverter)
+converter_registry.available_converters.append(gis_excerpt_converter)

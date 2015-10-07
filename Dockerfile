@@ -12,10 +12,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -q \
 
 ENV HOME /home/$USER
 
+WORKDIR $HOME
+
+# if you update your requirements, please update this to the actual date/time, 
+# otherwise docker uses the cache from the intermediate image build (not re-running pip3).
+ENV REQS_LAST_UPDATED 30-09-2015 11:48
+
+ADD osmaxx-py/requirements $HOME/requirements
+
+RUN pip3 install -r requirements/local.txt
+
 WORKDIR $HOME/source
 
 COPY osmaxx-py $HOME/source
-
-ENV REQS_LAST_UPDATED 22-06-2015 14:24
-
-RUN pip3 install -Ur requirements/local.txt
