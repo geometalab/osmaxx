@@ -42,7 +42,7 @@ def _stop_and_remove_containers():
     docker_compose.clean()
 
 
-class SeleniumTests(unittest.TestCase):
+class EndToEndTests(unittest.TestCase):
     wait_time_seconds = datetime.timedelta(minutes=5).total_seconds()
     excerpt_data = {
         'form_text_inputs': {
