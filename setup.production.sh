@@ -50,7 +50,7 @@ function run_docker_compose_dduportal_interactive() {
 }
 
 # create container
-docker create --name osmaxx-starter -v "$(pwd):/app"  -v "/var/run/docker.sock:/var/run/docker.sock"  -e "COMPOSE_PROJECT_NAME=osmaxx" "dduportal/docker-compose:${DOCKER_COMPOSE_TAG}" up --smart-recreate
+docker create --name osmaxx-starter -v "$(pwd):/app"  -v "/var/run/docker.sock:/var/run/docker.sock"  -e "COMPOSE_PROJECT_NAME=osmaxx" "dduportal/docker-compose:${DOCKER_COMPOSE_TAG}" up
 
 # stop containers & cleanup
 run_docker_compose_dduportal stop
