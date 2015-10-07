@@ -59,7 +59,7 @@ run_docker_compose_dduportal stop
 run_docker_compose_dduportal rm -f ${CONTAINERS_TO_BE_UPDATED}
 
 # pull & build
-run_docker_compose_dduportal pull
+run_docker_compose_dduportal pull ${CONTAINERS_TO_BE_UPDATED}
 
 # build all containers explicitly except the data container
 run_docker_compose_dduportal build ${CONTAINERS_TO_BE_UPDATED}
