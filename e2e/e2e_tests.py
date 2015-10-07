@@ -45,7 +45,7 @@ def _stop_and_remove_containers():
 class SeleniumTests(unittest.TestCase):
     wait_time_seconds = datetime.timedelta(minutes=5).total_seconds()
     excerpt_data = {
-        'send_keys': {
+        'form_text_inputs': {
             'new_excerpt_name': 'HSR',
             'new_excerpt_bounding_box_north': '47.22407852727801',
             'new_excerpt_bounding_box_west':  '8.815616369247437',
@@ -100,7 +100,7 @@ class SeleniumTests(unittest.TestCase):
         WebDriverWait(self.browser, 20).until(
             expected_conditions.presence_of_element_located((By.ID, "new_excerpt_name"))
         )
-        for html_id, send_value in self.excerpt_data['send_keys'].items():
+        for html_id, send_value in self.excerpt_data['form_text_inputs'].items():
             element = self.browser.find_element_by_id(html_id)
             element.clear()
             element.send_keys(send_value)
