@@ -107,9 +107,9 @@ class SeleniumTests(unittest.TestCase):
         for html_id in self.excerpt_data['click']:
             self.browser.find_element_by_id(html_id).click()
         self.browser.find_element_by_xpath("//input[@type='submit']").click()
-        self.browser.get(self._make_link('/orders/'))
 
     def _go_to_order(self):
+        self.browser.get(self._make_link('/orders/'))
         xpath_link_to_order = '/html/body/div/div/div[2]/div/h3/a'
         WebDriverWait(self.browser, 60).until(
             expected_conditions.presence_of_element_located((By.XPATH, xpath_link_to_order))
