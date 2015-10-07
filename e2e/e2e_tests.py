@@ -119,18 +119,11 @@ class SeleniumTests(unittest.TestCase):
     def _wait_for_order_to_complete_and_fetch_resulting_links(self):
         poll_frequency_in_seconds = 10
         waited_time_in_seconds = 0
-        status_element = self._get_status_element()
-        while '✓' not in status_element:
-            self.assertFalse('∅' in status_element)
-
+        while not self._download_finished():
             waited_time_in_seconds += poll_frequency_in_seconds
             if waited_time_in_seconds >= self.wait_time_seconds:
                 raise selenium_exceptions.TimeoutException
-
             sleep(poll_frequency_in_seconds)
-            self.browser.get(self.browser.current_url)
-            status_element = self._get_status_element()
-
         links = self._get_download_a_tags()
         return links
 
@@ -157,6 +150,15 @@ class SeleniumTests(unittest.TestCase):
 
     def _get_status_element(self):
         return self.browser.find_element_by_xpath('/html/body/div/div/div[2]/table/tbody/tr[3]/td/span').text
+
+    def _download_finished(self):
+        self._reload_browser()
+        status_element = self._get_status_element()
+        self.assertFalse('∅' in status_element)
+        return '✓' not in status_element
+
+    def _reload_browser(self):
+        self.browser.get(self.browser.current_url)
 
 if __name__ == '__main__':
     _clean_start_containers()
