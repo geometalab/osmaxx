@@ -1,7 +1,8 @@
 celery>=3.1
+# assure docs/deployment.md are updated if upgrading Django.
 Django>=1.8,<1.9
 django-enumfield==1.2.1
-django-environ==0.3.0
+django-environ==0.4.0
 django-secure==1.0.1
 django-stored-messages==1.3.0
 

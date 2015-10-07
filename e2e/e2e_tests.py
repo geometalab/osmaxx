@@ -1,14 +1,17 @@
+#!/usr/bin/env python3
+
+import datetime
 import os
 import sys
 from time import sleep
 import unittest
 
-try:
-    import requests
-    from bs4 import BeautifulSoup  # noqa ignore imported but unused
-except ImportError:
-    print('#### Please install requests and beautifulsoup4, ie. `pip install requests beautifulsoup4` ####')
-    raise
+import requests
+from selenium import webdriver
+from selenium.common import exceptions as selenium_exceptions
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 
 from helpers.zip_file_helpers import check_if_result_contains_data
 from helpers import docker_compose
@@ -19,7 +22,7 @@ ADMIN_USER_FOR_TESTS = 'admin'
 ADMIN_PASSWORD_FOR_TESTS = 'admin'
 
 
-def _start_containers():
+def _clean_start_containers():
     """
     first clean up, then check for newer images and then start the containers.
     Then wait 10 seconds to be certain the webapp is up and ready to receive.
@@ -31,7 +34,7 @@ def _start_containers():
     sleep(10)
 
 
-def _stop_containers():
+def _stop_and_remove_containers():
     """
     stop the containers and then cleanup
     """
@@ -39,105 +42,126 @@ def _stop_containers():
     docker_compose.clean()
 
 
-class TestE2E(unittest.TestCase):
-    COOKIES = dict()
-    CSRF_TOKEN = ''
+class EndToEndTests(unittest.TestCase):
+    wait_time_seconds = datetime.timedelta(minutes=5).total_seconds()
+    excerpt_data = {
+        'form_text_inputs': {
+            'new_excerpt_name': 'HSR',
+            'new_excerpt_bounding_box_north': '47.22407852727801',
+            'new_excerpt_bounding_box_west':  '8.815616369247437',
+            'new_excerpt_bounding_box_east':  '8.819221258163452',
+            'new_excerpt_bounding_box_south': '47.222388077452706',
+        },
+        'checkboxes_to_be_ticked': [
+            'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats_0',
+            'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats_1',
+            'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats_2',
+            'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats_3',
+        ],
+    }
+    driver = webdriver.Firefox
 
-    def _login(self, next=None):
-        login_url = self._make_link('/login/')
-        client = requests.session()
-        client.get(login_url)
+    def setUp(self):
+        self.browser = self.driver()
 
-        csrf_token = client.cookies['csrftoken']
-        login_data = {
-            'password': ADMIN_PASSWORD_FOR_TESTS,
-            'username': ADMIN_USER_FOR_TESTS,
-            'csrfmiddlewaretoken': csrf_token,
-            'next': next,
-        }
-        r = client.post(login_url, data=login_data)
-        return {'request': r, 'client': client}
+    def tearDown(self):
+        self.browser.close()
+
+    def test_login_logout(self):
+        self._login()
+        self._logout()
+
+    def test_create_new_excerpt_succeeds(self):
+        self._login()
+        self._create_new_order()
+        self._go_to_order()
+        links = self._wait_for_order_to_complete_and_fetch_resulting_links()
+        self.assertEqual(len(links), 8)
+        download_links = self._get_download_links_from_links(links)
+        for download_link in download_links:
+            self._download_and_test_zip_contents(download_link)
+
+    # Helper methods
+    def _login(self):
+        self.browser.get(self._make_link('/login/'))
+        login_form = self.browser.find_element_by_id('osmaxx-login-form')
+        username = self.browser.find_element_by_id('id_username')
+        password = self.browser.find_element_by_id("id_password")
+        username.send_keys(ADMIN_USER_FOR_TESTS)
+        password.send_keys(ADMIN_PASSWORD_FOR_TESTS)
+        login_form.find_element_by_xpath("//input[@type='submit']").click()
+
+    def _logout(self):
+        self.browser.get(self._make_link('/logout/'))
+
+    def _create_new_order(self):
+        self.browser.get(self._make_link('/orders/new/#new-excerpt'))
+        # wait for page to load
+        WebDriverWait(self.browser, 20).until(
+            expected_conditions.presence_of_element_located((By.ID, "new_excerpt_name"))
+        )
+        for html_id, send_value in self.excerpt_data['form_text_inputs'].items():
+            element = self.browser.find_element_by_id(html_id)
+            element.clear()
+            element.send_keys(send_value)
+        for html_id in self.excerpt_data['checkboxes_to_be_ticked']:
+            self.browser.find_element_by_id(html_id).click()
+        self.browser.find_element_by_xpath("//input[@type='submit']").click()
+
+    def _go_to_order(self):
+        self.browser.get(self._make_link('/orders/'))
+        xpath_link_to_order = '/html/body/div/div/div[2]/div/h3/a'
+        WebDriverWait(self.browser, 60).until(
+            expected_conditions.presence_of_element_located((By.XPATH, xpath_link_to_order))
+        )
+        self.browser.find_element_by_xpath(xpath_link_to_order).click()
+
+    def _wait_for_order_to_complete_and_fetch_resulting_links(self):
+        poll_frequency_in_seconds = 10
+        waited_time_in_seconds = 0
+        while not self._are_downloads_ready():
+            waited_time_in_seconds += poll_frequency_in_seconds
+            if waited_time_in_seconds >= self.wait_time_seconds:
+                raise selenium_exceptions.TimeoutException
+            sleep(poll_frequency_in_seconds)
+        links = self._get_download_a_tags()
+        return links
+
+    def _get_download_links_from_links(self, links):
+        return [link.get_attribute('href') for link in links[::2]]
+
+    def _download_and_test_zip_contents(self, download_link):
+        r = requests.get(download_link)
+        check_if_result_contains_data(r.content, self.assertGreater)
 
     def _make_link(self, link):
         host = 'http://localhost:8000{}'
         return host.format(link)
 
-    def _make_soup(self, content):
-        return BeautifulSoup(content, 'html.parser')
+    def _get_download_a_tags(self):
+        return self.browser.find_element_by_class_name('download_files').find_elements_by_tag_name('a')
 
-    def _download_and_test_zip_contents(self, client, download_link):
-        download_link = self._make_link(download_link)
-        r = client.get(download_link)
-        check_if_result_contains_data(r.content, self.assertGreater)
+    def _get_status_element(self):
+        return self.browser.find_element_by_xpath('/html/body/div/div/div[2]/table/tbody/tr[3]/td/span').text
 
-    def test_server_is_running(self):
-        r = requests.get(self._make_link('/'))
-        self.assertEqual(r.status_code, 200)
+    def _are_downloads_ready(self):
+        self._reload_browser()
+        status_element = self._get_status_element()
+        self.assertFalse(self._is_extraction_failed(status_element))
+        return self._is_extraction_finished(status_element)
 
-    def test_login_denied_without_csrf_token(self):
-        login_data = {'username': ADMIN_USER_FOR_TESTS, 'password': ADMIN_PASSWORD_FOR_TESTS}
-        r = requests.post(self._make_link('/login/'), data=login_data)
-        self.assertEqual(r.status_code, 403)
+    def _is_extraction_finished(self, status_element):
+        return '✓' in status_element
 
-    def test_login_success_with_csrf_token(self):
-        login = self._login(next='/orders/')
-        r = login['request']
-        soup = self._make_soup(r.content)
-        self.assertIsNotNone(soup.find(name='a', attrs={'href': '/logout/?next=/'}))
-        self.assertEqual(r.status_code, 200)
+    def _is_extraction_failed(self, status_element):
+        return '∅' in status_element
 
-    def test_create_new_excerpt_succeeds(self):
-        client = self._login()['client']
-
-        csrf_token = client.cookies['csrftoken']
-
-        payload = {
-            'csrfmiddlewaretoken': csrf_token,
-            'form-mode': 'new-excerpt',
-            'new_excerpt_name': 'HSR',
-            'new_excerpt_bounding_box_north': 47.22407852727801,
-            'new_excerpt_bounding_box_west': 8.815616369247437,
-            'new_excerpt_bounding_box_east': 8.819221258163452,
-            'new_excerpt_bounding_box_south': 47.222388077452706,
-            'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats': [
-                'spatialite',
-                'gpkg',
-                'shp',
-                'fgdb',
-            ],
-        }
-        r = client.post(self._make_link('/orders/new/'), data=payload)
-        self.assertEqual(r.status_code, 200)
-        self.assertEqual(r.history[0].status_code, 302)
-
-        # check_generated_content
-
-        print("It is running, but waiting for 5 minutes to wait for the process to finish! "
-              "Please be patient and get a coffee. ;-)")
-
-        sleep(5*60)  # five minutes; generating should be done after that
-
-        r = client.get(self._make_link('/orders/'))
-        soup = self._make_soup(r.content)
-
-        link = self._make_link(soup.find(attrs={'class': 'container-row content'}).a.attrs['href'])
-
-        r = client.get(link)
-        soup = self._make_soup(r.content)
-
-        link_targets = [
-            link_target.attrs['href'] for link_target in
-            soup.find(name='ul', attrs={'class': 'download_files'}).find_all('a')
-        ]
-
-        download_links = link_targets[0], link_targets[2], link_targets[4], link_targets[6]
-
-        self._download_and_test_zip_contents(client, download_links[0])
-        self._download_and_test_zip_contents(client, download_links[1])
-        self._download_and_test_zip_contents(client, download_links[2])
-        self._download_and_test_zip_contents(client, download_links[3])
+    def _reload_browser(self):
+        self.browser.get(self.browser.current_url)
 
 if __name__ == '__main__':
-    _start_containers()
-    unittest.main()
-    _stop_containers()
+    _clean_start_containers()
+    try:
+        unittest.main()
+    finally:
+        _stop_and_remove_containers()
