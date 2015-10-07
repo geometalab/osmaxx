@@ -148,7 +148,7 @@ class SeleniumTests(unittest.TestCase):
         self._reload_browser()
         status_element = self._get_status_element()
         self.assertFalse('∅' in status_element)
-        return '✓' not in status_element
+        return '✓' in status_element
 
     def _reload_browser(self):
         self.browser.get(self.browser.current_url)
