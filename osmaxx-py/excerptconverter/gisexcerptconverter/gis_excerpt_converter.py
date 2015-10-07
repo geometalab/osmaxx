@@ -214,7 +214,7 @@ def execute(extraction_order_id, execution_configuration):
             # If the files were put in the root directory of the result media storage, they might be collected
             # by an other gis conversion task because the tasks are run parallel and the storage is shared
             # -> encapsulation of the result files of every extraction order celery task
-            os.mkdir(result_directory_path)
+            os.makedirs(result_directory_path)
 
             os.chdir(tmp_dir)
 
