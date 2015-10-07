@@ -119,7 +119,7 @@ class EndToEndTests(unittest.TestCase):
     def _wait_for_order_to_complete_and_fetch_resulting_links(self):
         poll_frequency_in_seconds = 10
         waited_time_in_seconds = 0
-        while not self._download_finished():
+        while not self._is_download_finished():
             waited_time_in_seconds += poll_frequency_in_seconds
             if waited_time_in_seconds >= self.wait_time_seconds:
                 raise selenium_exceptions.TimeoutException
@@ -144,7 +144,7 @@ class EndToEndTests(unittest.TestCase):
     def _get_status_element(self):
         return self.browser.find_element_by_xpath('/html/body/div/div/div[2]/table/tbody/tr[3]/td/span').text
 
-    def _download_finished(self):
+    def _is_download_finished(self):
         self._reload_browser()
         status_element = self._get_status_element()
         self.assertFalse(self._is_download_failed(status_element))
