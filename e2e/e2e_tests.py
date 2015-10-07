@@ -147,10 +147,10 @@ class EndToEndTests(unittest.TestCase):
     def _is_download_finished(self):
         self._reload_browser()
         status_element = self._get_status_element()
-        self.assertFalse(self._is_download_failed(status_element))
+        self.assertFalse(self._is_extraction_failed(status_element))
         return '✓' in status_element
 
-    def _is_download_failed(self, status_element):
+    def _is_extraction_failed(self, status_element):
         return '∅' in status_element
 
     def _reload_browser(self):
