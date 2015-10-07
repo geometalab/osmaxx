@@ -128,14 +128,7 @@ class SeleniumTests(unittest.TestCase):
         return links
 
     def _get_download_links_from_links(self, links):
-        download_links_index_start = 0
-        download_links_index_skip = 2
-        number_of_downloads = 4
-        return [links[i].get_attribute('href') for i in range(
-            start=download_links_index_start,
-            stop=number_of_downloads * download_links_index_skip - 1,
-            step=download_links_index_skip,
-        )]
+        return [link.get_attribute('href') for link in links[::2]]
 
     def _download_and_test_zip_contents(self, download_link):
         r = requests.get(download_link)
