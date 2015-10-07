@@ -124,13 +124,13 @@ class SeleniumTests(unittest.TestCase):
             self.assertFalse('∅' in status_element)
 
             waited_time_in_seconds += poll_frequency_in_seconds
-            sleep(poll_frequency_in_seconds)
-
             if waited_time_in_seconds >= self.wait_time_seconds:
                 raise selenium_exceptions.TimeoutException
-            else:
-                self.browser.get(self.browser.current_url)
-                status_element = self._get_status_element()
+
+            sleep(poll_frequency_in_seconds)
+            self.browser.get(self.browser.current_url)
+            status_element = self._get_status_element()
+
         links = self._get_download_a_tags()
         return links
 
