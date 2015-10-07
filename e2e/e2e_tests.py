@@ -52,7 +52,7 @@ class SeleniumTests(unittest.TestCase):
             'new_excerpt_bounding_box_east':  '8.819221258163452',
             'new_excerpt_bounding_box_south': '47.222388077452706',
         },
-        'click': [
+        'checkboxes_to_be_ticked': [
             'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats_0',
             'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats_1',
             'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats_2',
@@ -104,7 +104,7 @@ class SeleniumTests(unittest.TestCase):
             element = self.browser.find_element_by_id(html_id)
             element.clear()
             element.send_keys(send_value)
-        for html_id in self.excerpt_data['click']:
+        for html_id in self.excerpt_data['checkboxes_to_be_ticked']:
             self.browser.find_element_by_id(html_id).click()
         self.browser.find_element_by_xpath("//input[@type='submit']").click()
 
