@@ -76,7 +76,7 @@ git flow release start '1.4.0'
 * Update documentation
 	* Readme
 	* Wiki
-
+* Update version number under `osmaxx-py/osmaxx/__init__.py`
 
 ### Finish release
 
