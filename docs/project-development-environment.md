@@ -81,7 +81,8 @@ webappdev:
    ...
     - DJANGO_INTERNAL_IPS=172.17.42.1 # IP from the command above
 ```
-### NOTE This won't be necessary anymore, when docker-compose 1.5 is out
+### Note: More automatic in docker-compose 1.5
+Once **docker-compose 1.5** or better is being used, you can simplify this process by letting docker-compose evaluate the command for you:
 
 See https://github.com/docker/compose/pull/1765.
 
