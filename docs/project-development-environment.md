@@ -81,6 +81,13 @@ webappdev:
    ...
     - DJANGO_INTERNAL_IPS=172.17.42.1 # IP from the command above
 ```
+### NOTE This won't be necessary anymore, when docker-compose 1.5 is out
+
+See https://github.com/docker/compose/pull/1765.
+
+Then one should be able to use:
+
+`- DJANGO_INTERNAL_IPS=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')`
 
 ## Reset the box
 
