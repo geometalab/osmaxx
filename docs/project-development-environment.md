@@ -65,6 +65,22 @@ to your `/etc/hosts` file and access by
 
 [http://osmaxx.dev:8000](http://osmaxx.dev:8000)
 
+## Enable development with debug toolbar enabled
+
+In your `docker-compose.yml` file, add a line containing the content of the command:
+```
+echo $(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
+```
+
+Add that to the docker-compose.yml:
+
+```
+webappdev:
+   ...
+   environment:
+   ...
+    - DJANGO_INTERNAL_IPS=172.17.42.1 # IP from the command above
+```
 
 ## Reset the box
 
