@@ -154,11 +154,8 @@ class GisExcerptConverterTestCase(TestCase):
     @patch.dict('excerptconverter.gisexcerptconverter.gis_excerpt_converter.EXPORT_FORMATS')
     @patch('subprocess.check_output')
     @patch('subprocess.check_call')
-    @patch('shutil.copyfile')
     @patch('excerptconverter.converter_helper')
-    @patch('os.listdir')
-    @patch('os.chdir')
-    def test_execute_task(self, gis_excerpt_converter_mock, m2, m3, m4, m5, m6, m7):
+    def test_execute_task(self, gis_excerpt_converter_mock, m2, m3, m4):
         gis_excerpt_converter.EXPORT_FORMATS = self.gis_excerpt_converter_export_formats
         subprocess.check_output = MagicMock(return_value=0)
         subprocess.check_call = MagicMock(return_value=0)
@@ -170,9 +167,6 @@ class GisExcerptConverterTestCase(TestCase):
 
         # Do not call the real methods. This methods are tested own tests
         gis_excerpt_converter_mock.extract_excerpts = MagicMock()
-
-        os.listdir = MagicMock()
-        os.chdir = MagicMock()
 
         gis_excerpt_converter.execute(
             self.extraction_order.id,
