@@ -65,6 +65,30 @@ to your `/etc/hosts` file and access by
 
 [http://osmaxx.dev:8000](http://osmaxx.dev:8000)
 
+## Enable development with debug toolbar enabled
+
+In your `docker-compose.yml` file, add a line containing the content of the command:
+```
+echo $(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
+```
+
+Add that to the docker-compose.yml:
+
+```
+webappdev:
+   ...
+   environment:
+   ...
+    - DJANGO_INTERNAL_IPS=172.17.42.1 # IP from the command above
+```
+### Note: More automatic in docker-compose 1.5
+Once **docker-compose 1.5** or better is being used, you can simplify this process by letting docker-compose evaluate the command for you:
+
+See https://github.com/docker/compose/pull/1765.
+
+Then one should be able to use:
+
+`- DJANGO_INTERNAL_IPS=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')`
 
 ## Reset the box
 

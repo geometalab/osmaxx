@@ -88,6 +88,10 @@ Start the containers using docker compose:
 docker-compose up
 ```
 
+Unsure which version is running?
+
+Go to `localhost:8000/version/`.
+
 ### Testing
 
 Can be found under [Testing](/docs/testing.md).
