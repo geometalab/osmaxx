@@ -7,7 +7,6 @@ from osmaxx.excerptexport.views import (
     download_file,
     extraction_order_status,
     list_orders,
-    NewExtractionOrderView,
     access_denied,
     order_form_view)
 

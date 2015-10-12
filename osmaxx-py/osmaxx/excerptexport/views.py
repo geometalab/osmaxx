@@ -10,18 +10,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import View, FormView
+from django.views.generic import FormView
 from django.conf import settings
 
-from .models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
+from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState
 from osmaxx.contrib.auth.frontend_permissions import (
     frontend_access_required,
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
-from .forms import ExportOptionsForm, NewExcerptForm
-from excerptconverter import ConverterManager
 from osmaxx.excerptexport.forms.excerpt_export_form import ExcerptOrderForm
 from osmaxx.excerptexport.forms.excerpt_order_form_helpers import get_existing_excerpt_choices_shortcut, \
     SelectWidgetWithDataOptions, get_data_attributes_for_excerpts_shortcut
@@ -65,96 +63,6 @@ class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
         )
 
 order_form_view = OrderFormView.as_view()
-
-
-class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, View):
-    def get(self, request, excerpt_form_initial_data=None):
-        active_excerpts = Excerpt.objects.filter(is_active=True)
-        active_bbox_excerpts = active_excerpts.filter(
-            bounding_geometry_raw_reference__bboxboundinggeometry__isnull=False
-        )
-        active_file_excerpts = active_excerpts.filter(
-            bounding_geometry_raw_reference__osmosispolygonfilterboundinggeometry__isnull=False)
-        view_model = {
-            'user': request.user,
-            'export_options_form': ExportOptionsForm(ConverterManager.converter_configuration(), auto_id='%s'),
-            'new_excerpt_form': NewExcerptForm(auto_id='%s', initial=excerpt_form_initial_data),
-            'excerpts': {
-                'own_private': active_bbox_excerpts.filter(is_public=False, owner=request.user),
-                'own_public': active_bbox_excerpts.filter(is_public=True, owner=request.user),
-                'other_public': active_bbox_excerpts.filter(is_public=True).exclude(owner=request.user),
-                'countries': active_file_excerpts
-            }
-        }
-        return render_to_response('excerptexport/templates/new_excerpt_export.html', context=view_model,
-                                  context_instance=RequestContext(request))
-
-    def post(self, request):
-        export_options_form = ExportOptionsForm(
-            ConverterManager.converter_configuration(),
-            request.POST
-        )
-
-        if export_options_form.is_valid():
-            export_options = export_options_form.get_export_options()
-
-            extraction_order = None
-            if request.POST['form-mode'] == 'existing-excerpt':
-                existing_excerpt_id = request.POST['existing_excerpt.id']
-                extraction_order = ExtractionOrder.objects.create(
-                    excerpt_id=existing_excerpt_id,
-                    orderer=request.user,
-                    extraction_configuration=export_options
-                )
-
-            if request.POST['form-mode'] == 'new-excerpt':
-                new_excerpt_form = NewExcerptForm(request.POST)
-                if new_excerpt_form.is_valid():
-                    form_data = new_excerpt_form.cleaned_data
-                    bounding_geometry = BBoxBoundingGeometry.create_from_bounding_box_coordinates(
-                        form_data['new_excerpt_bounding_box_north'],
-                        form_data['new_excerpt_bounding_box_east'],
-                        form_data['new_excerpt_bounding_box_south'],
-                        form_data['new_excerpt_bounding_box_west']
-                    )
-
-                    excerpt = Excerpt.objects.create(
-                        name=form_data['new_excerpt_name'],
-                        is_active=True,
-                        is_public=form_data['new_excerpt_is_public'],
-                        bounding_geometry=bounding_geometry,
-                        owner=request.user
-                    )
-
-                    extraction_order = ExtractionOrder.objects.create(
-                        excerpt=excerpt,
-                        orderer=request.user,
-                        extraction_configuration=export_options
-                    )
-
-                else:
-                    messages.error(request, _('Invalid excerpt.'))
-                    return self.get(request, new_excerpt_form.data)
-
-            if extraction_order.id:
-                converter_manager = ConverterManager(extraction_order)
-                converter_manager.execute_converters()
-
-                messages.info(request, _(
-                    'Queued extraction order {id}. '
-                    'The conversion process will start soon.'
-                ).format(id=extraction_order.id))
-                return HttpResponseRedirect(
-                    reverse('excerptexport:status', kwargs={'extraction_order_id': extraction_order.id})
-                )
-
-            else:
-                messages.error(request, _('Creation of extraction order "%s" failed.' % extraction_order.id))
-                return self.get(request, export_options_form.data)
-
-        else:
-            messages.error(request, _('Invalid export options.'))
-            return self.get(request, export_options_form.data)
 
 
 @login_required()
