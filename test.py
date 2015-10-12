@@ -25,7 +25,7 @@ class OsmaxxTestSuite:
         else:
             self.run_production_tests()
 
-        # FIXME: currently only work on development settings
+        # FIXME: currently only works on development settings
         if os.path.samefile('docker-compose.yml', 'compose-development.yml') and os.environ.get('RUN_E2E') == 'true':
             self.run_e2e_tests()
 
