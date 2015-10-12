@@ -12,3 +12,16 @@ def _get_available_format_choices():
     return tuple(format_choices)
 
 available_format_choices = _get_available_format_choices()
+
+
+def get_export_options(selected_options):
+    export_options = {}
+    format_namespace_key = None
+    for option in selected_options:
+        key = '.'.join(option.split('.')[:-1])
+        if format_namespace_key != key:
+            format_namespace_key = key
+            export_options[format_namespace_key] = {'options': {}, 'formats': []}
+        format_type = option.split('.')[-1]
+        export_options[format_namespace_key]['formats'].append(format_type)
+    return export_options
