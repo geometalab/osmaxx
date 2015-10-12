@@ -46,6 +46,8 @@ THIRD_PARTY_APPS = (
     'kombu.transport.django.KombuAppConfig',
     # messages for users
     'stored_messages',
+    'rest_framework',
+    'rest_framework_gis',
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
@@ -354,6 +356,14 @@ CELERY_ENABLE_UTC = True
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 
 # Message-Storage Settings
