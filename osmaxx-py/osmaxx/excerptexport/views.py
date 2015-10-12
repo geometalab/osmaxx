@@ -1,4 +1,6 @@
 import logging
+
+from django import forms
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.core.servers.basehttp import FileWrapper
@@ -8,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import View
+from django.views.generic import View, FormView
 from django.conf import settings
 
 from .models import ExtractionOrder, Excerpt, OutputFile, BBoxBoundingGeometry
@@ -20,10 +22,49 @@ from osmaxx.contrib.auth.frontend_permissions import (
 )
 from .forms import ExportOptionsForm, NewExcerptForm
 from excerptconverter import ConverterManager
+from osmaxx.excerptexport.forms.excerpt_export_form import ExcerptOrderForm
+from osmaxx.excerptexport.forms.excerpt_order_form_helpers import get_existing_excerpt_choices_shortcut, \
+    SelectWidgetWithDataOptions, get_data_attributes_for_excerpts_shortcut
 from osmaxx.utils import private_storage
 
 
 logger = logging.getLogger(__name__)
+
+
+class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
+    template_name = 'excerptexport/templates/excerpt_form.html'
+    form_class = ExcerptOrderForm
+
+    def post(self, request, *args, **kwargs):
+        post = super().post(request, *args, **kwargs)
+        return post
+
+    def get_form_class(self):
+        klass = super().get_form_class()
+        klass.declared_fields['existing_excerpts'] = forms.ChoiceField(
+            label=_('Excerpt'),
+            required=True,
+            widget=SelectWidgetWithDataOptions(
+                attrs={'size': 10},
+                data_attributes=get_data_attributes_for_excerpts_shortcut()
+            ),
+            choices=get_existing_excerpt_choices_shortcut(self.request.user),
+        )
+        return klass
+
+    def form_valid(self, form):
+        extraction_order = form.save(self.request.user)
+        messages.info(
+            self.request,
+            _('Queued extraction order {id}. The conversion process will start soon.').format(
+                id=extraction_order.id
+            )
+        )
+        return HttpResponseRedirect(
+            reverse('excerptexport:status', kwargs={'extraction_order_id': extraction_order.id})
+        )
+
+order_form_view = OrderFormView.as_view()
 
 
 class NewExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, View):
