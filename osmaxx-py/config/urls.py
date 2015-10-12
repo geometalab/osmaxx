@@ -11,4 +11,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include(social_urls, namespace='social')),
     url(r'^version/$', include(version_urls, namespace='version')),
+    # browsable REST API
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/', include('osmaxx.excerptexport.rest_api.urls', namespace='excerptexport_api')),
 ]
