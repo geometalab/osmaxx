@@ -14,7 +14,7 @@
     jQuery(document).ready(function() {
         var excerptListFilterField = jQuery('input#excerptListFilterField');
         var excerptListFilterFieldClearer = jQuery('span#excerptListFilterFieldClearer');
-        var excerptListFieldOptions = jQuery('select#existing_excerpt\\.id > optgroup > option');
+        var excerptListFieldOptions = jQuery('select#id_existing_excerpts > optgroup > option');
 
         // hide all options and show the matching
         function filterOptions(excerptListFilterField) {

@@ -240,3 +240,7 @@ table tr:nth-child(odd) td  { background: rgb(210,240,255); }
 
 /** bootstrap fixes */
 #excerptListFilterFieldClearer { pointer-events: auto; cursor: pointer; }
+
+#div_id_form_mode > div > select {
+    overflow: hidden;
+}
