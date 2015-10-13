@@ -24,7 +24,7 @@ def other_public(user):
 
 
 def countries():
-    return _get_active_excerpts().filter(
+    return Excerpt.objects.filter(
         bounding_geometry_raw_reference__osmosispolygonfilterboundinggeometry__isnull=False
     )
 
