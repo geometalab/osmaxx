@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 from crispy_forms import helper as form_helper
 from crispy_forms import layout as form_layout
 from excerptconverter import ConverterManager
+from osmaxx.excerptexport.forms.excerpt_order_form_helpers import SelectWidgetWithDataOptions
 from osmaxx.excerptexport.models import BBoxBoundingGeometry, Excerpt, ExtractionOrder
 from osmaxx.utilities.dict_helpers import select_keys
 from .temporary_form_helper import available_format_choices, get_export_options
@@ -128,25 +129,30 @@ class FormModeMixin(forms.Form):
     form_mode = forms.ChoiceField(
         choices=FORM_MODE_CHOICES,
         label=False,
-        widget=forms.Select(attrs={'size': '2'}),
+        widget=SelectWidgetWithDataOptions(
+            attrs={'size': '2', 'class': 'btn-group', 'data-form-part-switcher': ''},
+            data_attributes={
+                MODE_EXISTING: {
+                    'data-form-part-for': MODE_EXISTING,
+                    'class': "btn btn-default",
+                },
+                MODE_NEW: {
+                    'data-form-part-for': MODE_NEW,
+                    'class': "btn btn-default",
+                },
+            }
+        ),
+        required=True,
         initial='existing-excerpt',
     )
 
     def form_layout(self):
-        return form_layout.HTML('''
-            <div class="form-group select-button-group">
-                <select class="btn-group" role="group" name="form_mode" id="id_form_mode" size="2" required="required" data-form-part-switcher>
-                    <option class="btn btn-default" value="{existing_value}" selected="selected" data-form-part-for="existing-excerpt">{existing_excerpt_string}</option>
-                    <option class="btn btn-default" value="{new_value}" data-form-part-for="new-excerpt">{new_excerpt_string}</option>
-                </select>
-            </div>
-            '''  # noqa: line too long ignored
-        .format(
-            existing_excerpt_string=self.FORM_MODE_CHOICES[0][1],
-            new_excerpt_string=self.FORM_MODE_CHOICES[1][1],
-            new_value=self.MODE_NEW,
-            existing_value=self.MODE_EXISTING,
-            )
+        return form_layout.Div(
+            form_layout.Field(
+                'form_mode',
+                css_class='form-group select-button-group'
+            ),
+            css_class='form-group select-button-group',
         )
 
 
