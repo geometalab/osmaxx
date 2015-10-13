@@ -120,25 +120,22 @@ class OsmaxxTestSuite:
         command_line_list = ['docker-compose', '-f', self.COMPOSE_FILE] + arg_list
         return subprocess.check_output(command_line_list)
 
-    def log(self, message, color=None):
-        if color is None:
-            logger.info(message)
-        else:
-            self._log_colored(message, color)
+    def log(self, message):
+        logger.info(message)
 
     def _log_colored(self, message, color):
         self.log(''.join([color, message, RESET]))
 
     def log_failure(self, message):
-        self.log(message, RED)
+        self._log_colored(message, RED)
 
     def log_success(self, message):
-        self.log(message, GREEN)
+        self._log_colored(message, GREEN)
 
     def log_header(self, title):
         dashed_line = '-' * len(title)
         header = '\n'.join(['', dashed_line, title, dashed_line])
-        self.log(header, MAGENTA)
+        self._log_colored(header, MAGENTA)
 
     #################### CONCRETE TEST IMPLEMENTATIONS ####################
 
