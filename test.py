@@ -19,17 +19,6 @@ logger = logging.getLogger(__file__)
 logger.setLevel(logging.DEBUG)
 
 
-def configure_combined_logging():
-    # Only print INFO and more important to STD OUT ...
-    stdout_log_handler = logging.StreamHandler(sys.stdout)
-    stdout_log_handler.setLevel(logging.INFO)
-    logger.addHandler(stdout_log_handler)
-    # ... but write everything to the test log file
-    file_log_handler = logging.FileHandler(LOGFILE, mode='w')  # mode='w' to overwrite (discard) previous file content
-    file_log_handler.setLevel(logging.DEBUG)
-    logger.addHandler(file_log_handler)
-
-
 class OsmaxxTestSuite:
 
     def main(self):
@@ -212,6 +201,17 @@ class OsmaxxTestSuite:
             self.log_success("Database migrations retained correctly.")
         else:
             self.log_failure("Database migrations not retained, data only container not working correctly!")
+
+
+def configure_combined_logging():
+    # Only print INFO and more important to STD OUT ...
+    stdout_log_handler = logging.StreamHandler(sys.stdout)
+    stdout_log_handler.setLevel(logging.INFO)
+    logger.addHandler(stdout_log_handler)
+    # ... but write everything to the test log file
+    file_log_handler = logging.FileHandler(LOGFILE, mode='w')  # mode='w' to overwrite (discard) previous file content
+    file_log_handler.setLevel(logging.DEBUG)
+    logger.addHandler(file_log_handler)
 
 if __name__ == '__main__':
     configure_combined_logging()
