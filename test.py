@@ -33,9 +33,8 @@ class OsmaxxTestSuite:
             self.run_e2e_tests()
 
     def run_e2e_tests(self):
-        tmp_venv = TmpVirtualEnv()
-        tmp_venv.run_python_script('e2e/e2e_tests.py')
-        tmp_venv.delete()
+        with TmpVirtualEnv() as tmp_venv:
+            tmp_venv.run_python_script('e2e/e2e_tests.py')
 
     def run_development_tests(self):
         self.log_header('=== Development mode ===')
@@ -199,6 +198,12 @@ class TmpVirtualEnv:
         subprocess.check_call('virtualenv --python=/usr/bin/python3 tmp/e2e_tests'.split())
         # install dependencies
         subprocess.check_call('tmp/e2e_tests/bin/pip install requests selenium'.split())
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.delete()
 
     def delete(self):
         print("removing virtualenv in tmp/e2e_tests")
