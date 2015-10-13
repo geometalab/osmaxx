@@ -32,19 +32,10 @@ class OsmaxxTestSuite:
         if os.path.samefile('docker-compose.yml', 'compose-development.yml') and os.environ.get('RUN_E2E') == 'true':
             self.run_e2e_tests()
 
-    def create_tmp_virtualenv(self):
-        subprocess.check_call('virtualenv --python=/usr/bin/python3 tmp/e2e_tests'.split())
-        # install dependencies
-        subprocess.check_call('tmp/e2e_tests/bin/pip install requests selenium'.split())
-
-    def delete_tmp_virtualenv(self):
-        print("removing virtualenv in tmp/e2e_tests")
-        shutil.rmtree('tmp/e2e_tests')
-
     def run_e2e_tests(self):
-        self.create_tmp_virtualenv()
-        subprocess.check_call(['tmp/e2e_tests/bin/python',  'e2e/e2e_tests.py'])
-        self.delete_tmp_virtualenv()
+        tmp_venv = TmpVirtualEnv()
+        tmp_venv.run_python_script('e2e/e2e_tests.py')
+        tmp_venv.delete()
 
     def run_development_tests(self):
         self.log_header('=== Development mode ===')
@@ -201,6 +192,20 @@ class OsmaxxTestSuite:
             self.log_success("Database migrations retained correctly.")
         else:
             self.log_failure("Database migrations not retained, data only container not working correctly!")
+
+
+class TmpVirtualEnv:
+    def __init__(self):
+        subprocess.check_call('virtualenv --python=/usr/bin/python3 tmp/e2e_tests'.split())
+        # install dependencies
+        subprocess.check_call('tmp/e2e_tests/bin/pip install requests selenium'.split())
+
+    def delete(self):
+        print("removing virtualenv in tmp/e2e_tests")
+        shutil.rmtree('tmp/e2e_tests')
+
+    def run_python_script(self, script):
+        subprocess.check_call(['tmp/e2e_tests/bin/python',  script])
 
 
 def configure_combined_logging(logger):
