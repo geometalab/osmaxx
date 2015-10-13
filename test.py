@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
+import logging
 import os
 import shutil
 import subprocess
+import sys
 
 # constants
 TEST_FILE = "/data/test.txt"
@@ -13,10 +15,21 @@ RESET = "\033[0m"
 
 LOGFILE = 'test.log'
 
+logger = logging.getLogger(__file__)
+logger.setLevel(logging.DEBUG)
+
+# Only print INFO and more important to STD OUT ...
+stdout_log_handler = logging.StreamHandler(sys.stdout)
+stdout_log_handler.setLevel(logging.INFO)
+logger.addHandler(stdout_log_handler)
+
+# ... but write everything to the test log file
+file_log_handler = logging.FileHandler(LOGFILE, mode='w')  # mode='w' to overwrite (discard) previous file content
+file_log_handler.setLevel(logging.DEBUG)
+logger.addHandler(file_log_handler)
+
 
 class OsmaxxTestSuite:
-    def __init__(self):
-        self.logfile = open(LOGFILE, mode='w')
 
     def main(self):
         # This function will be called when running this script
@@ -101,7 +114,7 @@ class OsmaxxTestSuite:
         self.log_docker_compose(['build', container_to_be_resetted])
 
     def log_docker_compose(self, arg_list):
-        self.logfile.write(self.docker_compose(arg_list).decode() + '\n')
+        logger.debug(self.docker_compose(arg_list).decode())
 
     def docker_compose(self, arg_list):
         command_line_list = ['docker-compose', '-f', self.COMPOSE_FILE] + arg_list
@@ -109,8 +122,7 @@ class OsmaxxTestSuite:
 
     def log(self, message, color=None):
         if color is None:
-            print(message)
-            self.logfile.write(message + '\n')
+            logger.info(message)
         else:
             self._log_colored(message, color)
 
