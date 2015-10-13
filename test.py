@@ -130,6 +130,9 @@ class OsmaxxTestSuite:
     def log_failure(self, message):
         self.log(message, RED)
 
+    def log_success(self, message):
+        self.log(message, GREEN)
+
     #################### CONCRETE TEST IMPLEMENTATIONS ####################
 
     def application_checks(self):
@@ -143,7 +146,7 @@ class OsmaxxTestSuite:
 
         try:
             self.log_docker_compose(['run', self.WEBAPP_CONTAINER, '/bin/bash', '-c', 'python3 manage.py check'])
-            self.log("Checks passed successfully.", GREEN)
+            self.log_success("Checks passed successfully.")
         except subprocess.CalledProcessError as e:
             self.log(e.output.decode())
             self.log_failure("Checks failed. Please have a look at the {logfile}!".format(logfile=LOGFILE))
@@ -160,7 +163,7 @@ class OsmaxxTestSuite:
         try:
             self.log_docker_compose(['run', self.WEBAPP_CONTAINER, '/bin/bash', '-c',
                                      'DJANGO_SETTINGS_MODULE=config.settings.test python3 manage.py test'])
-            self.log("Tests passed successfully", GREEN)
+            self.log_success("Tests passed successfully")
         except subprocess.CalledProcessError as e:
             self.log(e.output.decode())
             self.log_failure("Tests failed. Please have a look at the {logfile};!".format(logfile=LOGFILE))
@@ -189,7 +192,7 @@ class OsmaxxTestSuite:
                                      "if [ ! -f {test_file} ]; then exit 1; else exit 0; fi;".format(
                                          test_file=TEST_FILE,
                                      )])
-            self.log("Shared test file found: volume mount correct", GREEN)
+            self.log_success("Shared test file found: volume mount correct")
         except subprocess.CalledProcessError as e:
             self.log(e.output.decode())
             self.log_failure("Test file does not exist: volume mount incorrect")
@@ -211,7 +214,7 @@ class OsmaxxTestSuite:
             raise
 
         if b'Applying excerptexport' in migration_stdout:
-            self.log("Migrations applied successfully.", GREEN)
+            self.log_success("Migrations applied successfully.")
         else:
             self.log_failure("Migrations could not be applied!")
 
@@ -221,7 +224,7 @@ class OsmaxxTestSuite:
         migration_stdout = self.docker_compose(['run', self.WEBAPP_CONTAINER, 'bash',  '-c', './manage.py migrate'])
 
         if b'No migrations to apply' in migration_stdout:
-            self.log("Database migrations retained correctly.", GREEN)
+            self.log_success("Database migrations retained correctly.")
         else:
             self.log_failure("Database migrations not retained, data only container not working correctly!")
 
