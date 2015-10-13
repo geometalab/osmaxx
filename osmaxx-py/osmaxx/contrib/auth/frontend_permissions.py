@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
-from rest_framework.permissions import BasePermission
+from rest_framework import permissions
 
 FRONTEND_USER_GROUP = settings.OSMAXX_FRONTEND_USER_GROUP
 
@@ -48,10 +48,17 @@ class FrontendAccessRequiredMixin(object):
         return super(FrontendAccessRequiredMixin, self).dispatch(*args, **kwargs)
 
 
-class AuthenticatedAndAccessPermission(BasePermission):
+class AuthenticatedAndAccessPermission(permissions.BasePermission):
     """
     Allows access only to authenticated users with frontend permissions.
     """
 
     def has_permission(self, request, view):
         return request.user.is_authenticated() and _may_user_access_osmaxx_frontend(request.user)
+
+
+class HasBBoxAccessPermission(permissions.BasePermission):
+    message = 'Accessing this bounding box is not allowed.'
+
+    def has_object_permission(self, request, view, obj):
+        return obj.excerpt.is_public or obj.excerpt.owner == request.user
