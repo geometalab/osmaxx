@@ -44,9 +44,12 @@ class OsmaxxTestSuite:
         self.delete_tmp_virtualenv()
 
     def run_development_tests(self):
-        self.log(MAGENTA)
-        self.log("=== Development mode ===")
-        self.log(RESET)
+        self.log_colored(
+            "\n"
+            "=== Development mode ===\n"
+            "",
+            MAGENTA
+        )
 
         self.WEBAPP_CONTAINER = "webappdev"
         self.CELERY_CONTAINER = "celerydev"
@@ -69,9 +72,12 @@ class OsmaxxTestSuite:
         self.tear_down()
 
     def run_production_tests(self):
-        self.log(MAGENTA)
-        self.log("=== Production mode ===")
-        self.log(RESET)
+        self.log_colored(
+            "\n"
+            "=== Production mode ===\n"
+            "",
+            MAGENTA
+        )
 
         self.WEBAPP_CONTAINER = "webapp"
         self.CELERY_CONTAINER = "celery"
@@ -111,6 +117,9 @@ class OsmaxxTestSuite:
         command_line_list = ['docker-compose', '-f', self.COMPOSE_FILE] + arg_list
         return subprocess.check_output(command_line_list)
 
+    def log_colored(self, message, color):
+        self.log(''.join([color, message, RESET]))
+
     def log(self, message):
         print(message)
         self.logfile.write(message + '\n')
@@ -119,46 +128,54 @@ class OsmaxxTestSuite:
 
     def application_checks(self):
         # application tests
-        self.log("{}-------------------".format(MAGENTA))
-        self.log("Application checks:")
-        self.log("-------------------{}".format(RESET))
+        self.log_colored(
+            "-------------------\n"
+            "Application checks:\n"
+            "-------------------",
+            MAGENTA
+        )
 
         try:
             self.log_docker_compose(['run', self.WEBAPP_CONTAINER, '/bin/bash', '-c', 'python3 manage.py check'])
-            self.log("{green}Checks passed successfully.{reset}".format(green=GREEN, reset=RESET))
+            self.log_colored("Checks passed successfully.", GREEN)
         except subprocess.CalledProcessError as e:
             self.log(e.output.decode())
-            self.log("{red}Checks failed. Please have a look at the {logfile}!{reset}".format(
-                red=RED,
-                reset=RESET,
+            self.log_colored("Checks failed. Please have a look at the {logfile}!".format(
                 logfile=LOGFILE,
-            ))
+            ), RED)
 
     def application_tests(self):
-        self.log(MAGENTA)
-        self.log("------------------")
-        self.log("Application tests:")
-        self.log("------------------{}".format(RESET))
+        self.log_colored(
+            "\n"
+            "------------------\n"
+            "Application tests:\n"
+            "------------------",
+            MAGENTA
+        )
 
         try:
             self.log_docker_compose(['run', self.WEBAPP_CONTAINER, '/bin/bash', '-c',
                                      'DJANGO_SETTINGS_MODULE=config.settings.test python3 manage.py test'])
-            self.log("{}Tests passed successfully.{}".format(GREEN, RESET))
+            self.log_colored("Tests passed successfully", GREEN)
         except subprocess.CalledProcessError as e:
             self.log(e.output.decode())
-            self.log("{red}Tests failed. Please have a look at the {logfile};!{reset}".format(
-                red=RED,
-                reset=RESET,
-                logfile=LOGFILE,
-            ))
+            self.log_colored(
+                "Tests failed. Please have a look at the {logfile};!".format(
+                    logfile=LOGFILE,
+                ),
+                RED
+            )
 
     def docker_volume_configuration_tests(self):
         # docker volume configuration tests
 
-        self.log(MAGENTA)
-        self.log("-------------------------")
-        self.log("Volume integration tests:")
-        self.log("-------------------------{}".format(RESET))
+        self.log_colored(
+            "\n"
+            "-------------------------\n"
+            "Volume integration tests:\n"
+            "-------------------------",
+            MAGENTA
+        )
 
         try:
             self.log_docker_compose(['run', self.CELERY_CONTAINER, '/bin/bash', '-c', "touch {test_file}".format(
@@ -166,17 +183,17 @@ class OsmaxxTestSuite:
             )])
         except subprocess.CalledProcessError as e:
             self.log(e.output.decode())
-            self.log("{red}Test file creation failed {reset}".format(red=RED, reset=RESET))
+            self.log_colored("Test file creation failed", RED)
 
         try:
             self.log_docker_compose(['run', self.WEBAPP_CONTAINER, '/bin/bash', '-c',
                                      "if [ ! -f {test_file} ]; then exit 1; else exit 0; fi;".format(
                                          test_file=TEST_FILE,
                                      )])
-            self.log("{}Shared test file found: volume mount correct {}".format(GREEN, RESET))
+            self.log_colored("Shared test file found: volume mount correct", GREEN)
         except subprocess.CalledProcessError as e:
             self.log(e.output.decode())
-            self.log("{}Test file does not exist: volume mount incorrect {}".format(RED, RESET))
+            self.log_colored("Test file does not exist: volume mount incorrect", RED)
 
         try:
             self.log_docker_compose(['run', self.CELERY_CONTAINER, '/bin/bash', '-c', "rm {test_file}".format(
@@ -184,7 +201,7 @@ class OsmaxxTestSuite:
             )])
         except subprocess.CalledProcessError as e:
             self.log(e.output.decode())
-            self.log("{}Test file clean up failed {}".format(RED, RESET))
+            self.log_colored("Test file clean up failed", RED)
 
     def persisting_database_data_tests(self):
         try:
@@ -195,9 +212,9 @@ class OsmaxxTestSuite:
             raise
 
         if b'Applying excerptexport' in migration_stdout:
-            self.log("{}Migrations applied successfully.{}".format(GREEN, RESET))
+            self.log_colored("Migrations applied successfully.", GREEN)
         else:
-            self.log("{}Migrations could not be applied!{}".format(RED, RESET))
+            self.log_colored("Migrations could not be applied!", RED)
 
         self.reset_container(self.DB_CONTAINER)
         self.docker_compose(['up', '-d', self.DB_CONTAINER])
@@ -205,10 +222,9 @@ class OsmaxxTestSuite:
         migration_stdout = self.docker_compose(['run', self.WEBAPP_CONTAINER, 'bash',  '-c', './manage.py migrate'])
 
         if b'No migrations to apply' in migration_stdout:
-            self.log("{}Database migrations retained correctly.{}".format(GREEN, RESET))
+            self.log_colored("Database migrations retained correctly.", GREEN)
         else:
-            self.log("{}Database migrations not retained, data only container not working correctly!{}".format(
-                RED, RESET))
+            self.log_colored("Database migrations not retained, data only container not working correctly!", RED)
 
 if __name__ == '__main__':
     ots = OsmaxxTestSuite()
