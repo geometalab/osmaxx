@@ -18,15 +18,19 @@ LOGFILE = 'test.log'
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.DEBUG)
 
-# Only print INFO and more important to STD OUT ...
-stdout_log_handler = logging.StreamHandler(sys.stdout)
-stdout_log_handler.setLevel(logging.INFO)
-logger.addHandler(stdout_log_handler)
 
-# ... but write everything to the test log file
-file_log_handler = logging.FileHandler(LOGFILE, mode='w')  # mode='w' to overwrite (discard) previous file content
-file_log_handler.setLevel(logging.DEBUG)
-logger.addHandler(file_log_handler)
+def configure_combined_logging():
+    # Only print INFO and more important to STD OUT ...
+    stdout_log_handler = logging.StreamHandler(sys.stdout)
+    stdout_log_handler.setLevel(logging.INFO)
+    logger.addHandler(stdout_log_handler)
+    # ... but write everything to the test log file
+    file_log_handler = logging.FileHandler(LOGFILE, mode='w')  # mode='w' to overwrite (discard) previous file content
+    file_log_handler.setLevel(logging.DEBUG)
+    logger.addHandler(file_log_handler)
+
+
+configure_combined_logging()
 
 
 class OsmaxxTestSuite:
