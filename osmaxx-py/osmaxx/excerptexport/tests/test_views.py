@@ -100,8 +100,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
-        self.assertTrue(
-            ('Personal excerpts (user)', ((1, 'Some old Excerpt'),)) in
+        self.assertIn(
+            ('Personal excerpts (user)', ((1, 'Some old Excerpt'),)),
             response.context['form'].fields['existing_excerpts'].choices
         )
         self.assertIn(self.existing_own_excerpt.name, response.context['form'].form_html)
@@ -111,8 +111,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
 
-        self.assertTrue(
-            ('Other excerpts', ((2, 'Public Excerpt by someone else'),)) in
+        self.assertIn(
+            ('Other excerpts', ((2, 'Public Excerpt by someone else'),)),
             response.context['form'].fields['existing_excerpts'].choices
         )
         self.assertIn(self.existing_public_foreign_excerpt.name, response.context['form'].form_html)
@@ -127,8 +127,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
-        self.assertTrue(
-            ('Countries', ((4, 'Neverland'),)) in
+        self.assertIn(
+            ('Countries', ((4, 'Neverland'),)),
             response.context['form'].fields['existing_excerpts'].choices
         )
         self.assertIn(self.country.name, response.context['form'].form_html)
