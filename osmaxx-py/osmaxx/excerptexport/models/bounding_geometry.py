@@ -1,12 +1,20 @@
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry, Polygon
 from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
+from osmaxx.utilities.shortcuts import get_actual
 
 
 class BoundingGeometry(models.Model):
     @property
     def type(self):
         return type(self).__name__
+
+    def geometry(self):
+        raise NotImplementedError
+
+    @property
+    def extent(self):
+        return get_actual(self).geometry.extent
 
     @property
     def geometry_instance(self):
@@ -23,6 +31,15 @@ class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
     Bounding geometry based on a 'Osmosis polygon filter file format' file.
     """
     polygon_file = models.FileField(storage=get_private_upload_storage())
+
+    def geometry(self):
+        # fake polygon for now
+        return Polygon([
+            [0, 1],
+            [1, 0],
+            [1, 1],
+            [0, 1],
+        ])
 
     def __str__(self):
         return 'Polygon file: ' + self.polygon_file
