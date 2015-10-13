@@ -44,12 +44,7 @@ class OsmaxxTestSuite:
         self.delete_tmp_virtualenv()
 
     def run_development_tests(self):
-        self.log(
-            "\n"
-            "=== Development mode ===\n"
-            "",
-            MAGENTA
-        )
+        self.log_header('=== Development mode ===')
 
         self.WEBAPP_CONTAINER = "webappdev"
         self.CELERY_CONTAINER = "celerydev"
@@ -72,12 +67,7 @@ class OsmaxxTestSuite:
         self.tear_down()
 
     def run_production_tests(self):
-        self.log(
-            "\n"
-            "=== Production mode ===\n"
-            "",
-            MAGENTA
-        )
+        self.log_header('=== Production mode ===')
 
         self.WEBAPP_CONTAINER = "webapp"
         self.CELERY_CONTAINER = "celery"
@@ -133,16 +123,16 @@ class OsmaxxTestSuite:
     def log_success(self, message):
         self.log(message, GREEN)
 
+    def log_header(self, title):
+        dashed_line = '-' * len(title)
+        header = '\n'.join(['', dashed_line, title, dashed_line])
+        self.log(header, MAGENTA)
+
     #################### CONCRETE TEST IMPLEMENTATIONS ####################
 
     def application_checks(self):
         # application tests
-        self.log(
-            "-------------------\n"
-            "Application checks:\n"
-            "-------------------",
-            MAGENTA
-        )
+        self.log_header('Application checks:')
 
         try:
             self.log_docker_compose(['run', self.WEBAPP_CONTAINER, '/bin/bash', '-c', 'python3 manage.py check'])
@@ -152,13 +142,7 @@ class OsmaxxTestSuite:
             self.log_failure("Checks failed. Please have a look at the {logfile}!".format(logfile=LOGFILE))
 
     def application_tests(self):
-        self.log(
-            "\n"
-            "------------------\n"
-            "Application tests:\n"
-            "------------------",
-            MAGENTA
-        )
+        self.log_header('Application tests:')
 
         try:
             self.log_docker_compose(['run', self.WEBAPP_CONTAINER, '/bin/bash', '-c',
@@ -171,13 +155,7 @@ class OsmaxxTestSuite:
     def docker_volume_configuration_tests(self):
         # docker volume configuration tests
 
-        self.log(
-            "\n"
-            "-------------------------\n"
-            "Volume integration tests:\n"
-            "-------------------------",
-            MAGENTA
-        )
+        self.log_header('Volume integration tests:')
 
         try:
             self.log_docker_compose(['run', self.CELERY_CONTAINER, '/bin/bash', '-c', "touch {test_file}".format(
