@@ -203,7 +203,7 @@ class OsmaxxTestSuite:
             self.log_failure("Database migrations not retained, data only container not working correctly!")
 
 
-def configure_combined_logging():
+def configure_combined_logging(logger):
     # Only print INFO and more important to STD OUT ...
     stdout_log_handler = logging.StreamHandler(sys.stdout)
     stdout_log_handler.setLevel(logging.INFO)
@@ -214,6 +214,6 @@ def configure_combined_logging():
     logger.addHandler(file_log_handler)
 
 if __name__ == '__main__':
-    configure_combined_logging()
+    configure_combined_logging(logger)
     ots = OsmaxxTestSuite()
     ots.main()
