@@ -192,7 +192,8 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
             FormModeMixin.MODE_NEW: ExcerptOrderFormPartExistingMixin,
         }
 
-        self._remove_errors_for_non_participating_fields(fields=form_part_mixin_for_other_mode[form_mode]().fields)
+        ignored_form_fields = form_part_mixin_for_other_mode[form_mode]().fields
+        self._remove_errors_for_non_participating_fields(fields=ignored_form_fields)
 
         return cleaned_data
 
