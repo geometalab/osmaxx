@@ -50,7 +50,6 @@
             }
         };
 
-
         // update coordinates input elements on change of excerpt on map
         this.locationFilter.on("change", function (event) {
             this.updateInputElementsBoundingBox();
@@ -77,11 +76,7 @@
         this._setLocationFilterFromExcerptID = function(ID) {
             var that = this;
             this.selectedExcerptGeoJson = L.geoJson.ajax("/api/bounding_geometry_from_excerpt/"+ID+"/").on('data:loaded', function(){
-                //TODO: differentiate between boundingbox or country and similar
-                // if is boundingbox
-                //    this.locationFilter.enable();
-                // if is polygon
-                //    this.locationFilter.disable();
+        //TODO: differentiate between boundingbox or country and similar; use this.locationFilter.enable()/disable()
                 that.locationFilter.setBounds(this.getBounds());
                 map.fitBounds(that.locationFilter.getBounds());
             });
@@ -92,7 +87,6 @@
             this.selectedExcerptGeoJson.on('data:loaded', function(){
                 map.spin(false);
             });
-
         }.bind(this);
     };
 

@@ -46,18 +46,6 @@ def get_existing_excerpt_choices_shortcut(user):
     )
 
 
-def get_data_attributes_for_excerpts_shortcut():
-    return {
-        excerpt.id: {
-            'data-geometry': "boundingbox",
-            'data-north': excerpt.bounding_geometry.north,
-            'data-east': excerpt.bounding_geometry.east,
-            'data-south': excerpt.bounding_geometry.south,
-            'data-west': excerpt.bounding_geometry.west,
-        } for excerpt in _get_active_excerpts()
-        }
-
-
 class SelectWidgetWithDataOptions(forms.Select):
     def __init__(self, attrs=None, choices=(), data_attributes=None):
         self._data_attributes = data_attributes
