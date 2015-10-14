@@ -187,11 +187,12 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
 
         form_mode = self.cleaned_data['form_mode']
 
-        if form_mode == FormModeMixin.MODE_EXISTING:
-            self._remove_errors_for_non_participating_fields(fields=ExcerptOrderFormPartCoordinatesMixin().fields)
+        form_part_mixin_for_other_mode = {
+            FormModeMixin.MODE_EXISTING: ExcerptOrderFormPartCoordinatesMixin,
+            FormModeMixin.MODE_NEW: ExcerptOrderFormPartExistingMixin,
+        }
 
-        if form_mode == FormModeMixin.MODE_NEW:
-            self._remove_errors_for_non_participating_fields(fields=ExcerptOrderFormPartExistingMixin().fields)
+        self._remove_errors_for_non_participating_fields(fields=form_part_mixin_for_other_mode[form_mode]().fields)
 
         return cleaned_data
 
