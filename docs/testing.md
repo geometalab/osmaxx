@@ -49,6 +49,14 @@ virtualenv tmp
 pip install -r e2e/requirements.txt
 python e2e/e2e_tests.py
 ```
+or
+```shell
+RUN_E2E=true ./test.py
+```
+or
+```shell
+./test.py --end-to-end-tests
+```
 
 To simplify the steps needed, the `test.py` can be used to run all tests, as described in the next section.
  
@@ -61,8 +69,9 @@ To simplify the steps needed, the `test.py` can be used to run all tests, as des
 * it will create a temporary virtualenv and remove it afterwards again
 
 ```shell
-RUN_E2E=true ./test.py
+./test.py
 ```
+
 
 ## Generating the test coverage html
 

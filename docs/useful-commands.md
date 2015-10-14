@@ -19,6 +19,10 @@ docker-compose run webapp /bin/bash -c 'python3 manage.py migrate'
 ```shell
 docker-compose run webappdev /bin/bash -c 'DJANGO_SETTINGS_MODULE=config.settings.test python3 manage.py test'
 ```
+or simply
+```shell
+./test.py --webapp-tests
+```
 
 More about testing can be found in the [Testing](/docs/testing.md) documentation.
 

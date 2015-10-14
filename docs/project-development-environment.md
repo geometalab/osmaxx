@@ -43,7 +43,7 @@ docker-compose run osmaxxwebappdev /bin/bash
 ```
 
 
-## Run tests
+## Run all tests
 (Requires Python 3 on the host.)
 
 ```shell
