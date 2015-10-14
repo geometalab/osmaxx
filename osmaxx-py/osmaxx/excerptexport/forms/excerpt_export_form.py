@@ -182,10 +182,7 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
     def clean(self):
         cleaned_data = super().clean()
 
-        if 'form_mode' not in self.cleaned_data:
-            return cleaned_data
-
-        form_mode = self.cleaned_data['form_mode']
+        form_mode = self.cleaned_data.get('form_mode')
 
         if form_mode == FormModeMixin.MODE_EXISTING:
             form_part_mixin_for_other_mode = ExcerptOrderFormPartCoordinatesMixin
