@@ -29,7 +29,7 @@
             locationFilterBounds._southWest.lat = this.inputElementsNewBoundingBox.inputElementSouth.value;
             this.locationFilter.setBounds(locationFilterBounds);
         };
-        
+
         this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields = function(select, locationFilterBounds) {
             if(select.value == "") {
                 return false;
@@ -41,7 +41,7 @@
                 optionElement.getAttribute('data-east') == locationFilterBounds._northEast.lng &&
                 optionElement.getAttribute('data-south') == locationFilterBounds._southWest.lat
             );
-        }
+        };
 
         /**
          * if the shown excerpt on the map changes and the change was not made by selecting an existing excerpt in the list
@@ -69,9 +69,10 @@
         }.bind(this));
 
         // update excerpt on map on selection of existing excerpt in list
-        this.selectElementExistingExcerpts.addEventListener('change', function(event) {
-            var excerptOption = event.explicitOriginalTarget;
-            if(excerptOption.getAttribute('data-geometry') == 'boundingbox') {
+        this.selectElementExistingExcerpts.addEventListener('change', function() {
+            // we have single select, if it would happen to have two selected, ignore it.
+            var excerptOption = $( "select[id=id_existing_excerpts] option:selected")[0];
+            if(excerptOption.getAttribute('data-geometry') === 'boundingbox') {
                 var bounds = this.locationFilter.getBounds();
                 bounds._northEast.lat = excerptOption.getAttribute('data-north');
                 bounds._southWest.lng = excerptOption.getAttribute('data-west');
@@ -107,13 +108,13 @@
     var excerptManager = new ExcerptManager(
         locationFilter,
         {
-            inputElementNorth: document.getElementById('new_excerpt_bounding_box_north'),
-            inputElementWest: document.getElementById('new_excerpt_bounding_box_west'),
-            inputElementEast: document.getElementById('new_excerpt_bounding_box_east'),
-            inputElementSouth: document.getElementById('new_excerpt_bounding_box_south')
+            inputElementNorth: document.getElementById('id_north'),
+            inputElementWest: document.getElementById('id_west'),
+            inputElementEast: document.getElementById('id_east'),
+            inputElementSouth: document.getElementById('id_south')
         },
-        document.getElementById('existing_excerpt.id'),
-        document.getElementById('form-mode')
+        document.getElementById('id_existing_excerpts'),
+        document.getElementById('id_form_mode')
     );
 
     // push initial values to text inputs

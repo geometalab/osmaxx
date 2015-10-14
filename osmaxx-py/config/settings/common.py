@@ -46,6 +46,9 @@ THIRD_PARTY_APPS = (
     'kombu.transport.django.KombuAppConfig',
     # messages for users
     'stored_messages',
+    # better forms
+    'crispy_forms',
+    # rest API Framework
     'rest_framework',
     'rest_framework_gis',
 )
@@ -394,6 +397,8 @@ OSMAXX = {
     # to request access to osmaxx (access_denied page)
     'account_manager_username': env.str('ACCOUNT_MANAGER_USERNAME', default='admin'),
 }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Celery
 BROKER_URL = env.str('DJANGO_CELERY_BROKER_URL', default='amqp://guest:guest@localhost:5672//')

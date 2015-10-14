@@ -7,9 +7,8 @@ from osmaxx.excerptexport.views import (
     download_file,
     extraction_order_status,
     list_orders,
-    NewExtractionOrderView,
     access_denied,
-)
+    order_form_view)
 
 
 excerpt_export_urlpatterns = [
@@ -20,7 +19,7 @@ excerpt_export_urlpatterns = [
     url(r'^downloads/(?P<uuid>[A-Za-z0-9_-]+)/$', download_file, name='download'),
 
     url(r'^orders/$', list_orders, name='orders'),
-    url(r'^orders/new/$', NewExtractionOrderView.as_view(), name='new'),
+    url(r'^orders/new/$', order_form_view, name='new'),
     url(r'^orders/(?P<extraction_order_id>[0-9]+)$', extraction_order_status, name='status')
 ]
 

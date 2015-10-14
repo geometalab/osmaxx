@@ -46,17 +46,17 @@ class EndToEndTests(unittest.TestCase):
     wait_time_seconds = datetime.timedelta(minutes=5).total_seconds()
     excerpt_data = {
         'form_text_inputs': {
-            'new_excerpt_name': 'HSR',
-            'new_excerpt_bounding_box_north': '47.22407852727801',
-            'new_excerpt_bounding_box_west':  '8.815616369247437',
-            'new_excerpt_bounding_box_east':  '8.819221258163452',
-            'new_excerpt_bounding_box_south': '47.222388077452706',
+            'id_name': 'HSR',
+            'id_north': '47.22407852727801',
+            'id_west':  '8.815616369247437',
+            'id_east':  '8.819221258163452',
+            'id_south': '47.222388077452706',
         },
         'checkboxes_to_be_ticked': [
-            'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats_0',
-            'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats_1',
-            'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats_2',
-            'export_options.excerptconverter.gisexcerptconverter.gis_excerpt_converter.formats_3',
+            'id_formats_1',
+            'id_formats_2',
+            'id_formats_3',
+            'id_formats_4',
         ],
     }
     driver = webdriver.Firefox
@@ -98,7 +98,7 @@ class EndToEndTests(unittest.TestCase):
         self.browser.get(self._make_link('/orders/new/#new-excerpt'))
         # wait for page to load
         WebDriverWait(self.browser, 20).until(
-            expected_conditions.presence_of_element_located((By.ID, "new_excerpt_name"))
+            expected_conditions.presence_of_element_located((By.ID, "id_name"))
         )
         for html_id, send_value in self.excerpt_data['form_text_inputs'].items():
             element = self.browser.find_element_by_id(html_id)

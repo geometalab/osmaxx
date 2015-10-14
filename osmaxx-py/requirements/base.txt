@@ -5,6 +5,7 @@ django-enumfield==1.2.1
 django-environ==0.4.0
 django-secure==1.0.1
 django-stored-messages==1.3.0
+django-crispy-forms==1.5.2
 djangorestframework
 djangorestframework-gis
 markdown
