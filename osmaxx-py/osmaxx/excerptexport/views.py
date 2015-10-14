@@ -21,8 +21,7 @@ from osmaxx.contrib.auth.frontend_permissions import (
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms.excerpt_export_form import ExcerptOrderForm
-from osmaxx.excerptexport.forms.excerpt_order_form_helpers import get_existing_excerpt_choices_shortcut, \
-    SelectWidgetWithDataOptions, get_data_attributes_for_excerpts_shortcut
+from osmaxx.excerptexport.forms.excerpt_order_form_helpers import get_existing_excerpt_choices_shortcut
 from osmaxx.utils import private_storage
 
 
@@ -42,9 +41,8 @@ class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
         klass.declared_fields['existing_excerpts'] = forms.ChoiceField(
             label=_('Excerpt'),
             required=True,
-            widget=SelectWidgetWithDataOptions(
+            widget=forms.Select(
                 attrs={'size': 10},
-                data_attributes=get_data_attributes_for_excerpts_shortcut()
             ),
             choices=get_existing_excerpt_choices_shortcut(self.request.user),
         )
