@@ -19,5 +19,9 @@ class Excerpt(models.Model):
     def bounding_geometry(self, bounding_geometry):
         self.bounding_geometry_raw_reference = bounding_geometry
 
+    @property
+    def extent(self):
+        return self.bounding_geometry_raw_reference.extent
+
     def __str__(self):
         return self.name
