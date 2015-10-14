@@ -62,3 +62,10 @@ class HasBBoxAccessPermission(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return obj.excerpt.is_public or obj.excerpt.owner == request.user
+
+
+class HasExcerptAccessPermission(permissions.BasePermission):
+    message = 'Accessing this excerpt is not allowed.'
+
+    def has_object_permission(self, request, view, obj):
+        return obj.is_public or obj.owner == request.user
