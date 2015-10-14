@@ -191,6 +191,8 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
             form_part_mixin_for_other_mode = ExcerptOrderFormPartCoordinatesMixin
         elif form_mode == FormModeMixin.MODE_NEW:
             form_part_mixin_for_other_mode = ExcerptOrderFormPartExistingMixin
+        else:
+            return cleaned_data
 
         ignored_form_fields = form_part_mixin_for_other_mode().fields
         self._remove_errors_for_non_participating_fields(fields=ignored_form_fields)
