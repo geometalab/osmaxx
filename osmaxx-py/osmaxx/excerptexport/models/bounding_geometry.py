@@ -17,13 +17,12 @@ class BoundingGeometry(models.Model):
         return get_actual(self).geometry.extent
 
     @property
+    def type_of_geometry(self):
+        return str(self.geometry_instance.__class__.__name__)
+
+    @property
     def geometry_instance(self):
-        if hasattr(self, 'bboxboundinggeometry'):
-            return self.bboxboundinggeometry
-        elif hasattr(self, 'osmosispolygonfilterboundinggeometry'):
-            return self.osmosispolygonfilterboundinggeometry
-        else:
-            return self
+        return get_actual(self)
 
 
 class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):

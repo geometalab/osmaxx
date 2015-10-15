@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
+from osmaxx.utilities.shortcuts import get_actual
 
 
 class Excerpt(models.Model):
@@ -18,6 +19,10 @@ class Excerpt(models.Model):
     @bounding_geometry.setter
     def bounding_geometry(self, bounding_geometry):
         self.bounding_geometry_raw_reference = bounding_geometry
+
+    @property
+    def type_of_geometry(self):
+        return self.bounding_geometry_raw_reference.type_of_geometry
 
     @property
     def extent(self):
