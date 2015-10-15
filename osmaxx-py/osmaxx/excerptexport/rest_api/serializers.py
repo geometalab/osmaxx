@@ -19,7 +19,7 @@ class BoundingGeometrySerializer(gis_serializers.GeoFeatureModelSerializer):
     class Meta:
         geo_field = 'geom'
         model = BoundingGeometry
-        fields = ['id']
+        fields = ['id', 'type_of_geometry']
         auto_bbox = True
 
 
@@ -37,5 +37,5 @@ class BoundingGeometryFromExcerptSerializer(gis_serializers.GeoFeatureModelSeria
     class Meta:
         geo_field = 'geom'
         model = Excerpt
-        fields = ['id']
+        fields = ['id', 'type_of_geometry']
         auto_bbox = True
