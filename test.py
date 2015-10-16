@@ -231,7 +231,11 @@ def command_line_arguments():
     )
     for type in TEST_TYPES:
         long_option = type.long_option()
-        test_types_group.add_argument(long_option, action='store_true')
+        test_types_group.add_argument(
+            long_option,
+            help=type.description,
+            action='store_true',
+        )
     return parser.parse_args()
 
 
@@ -246,8 +250,9 @@ def _select_all_tests(args):
 
 
 class TestType:
-    def __init__(self, args_option_name):
+    def __init__(self, args_option_name, description=None):
         self.name = args_option_name
+        self.description = description
 
     def long_option(self):
         return '--{}'.format(self.name.replace('_', '-'))
@@ -260,10 +265,23 @@ class TestType:
 
 
 TEST_TYPES = [
-    TestType('end_to_end_tests'),
-    TestType('docker_composition_tests'),
-    TestType('webapp_tests'),
-    TestType('webapp_checks'),
+    TestType(
+        'end_to_end_tests',
+        description='end-to-end smoke tests from the browser through the whole stack (in docker containers) to the '
+        'converters (in other docker containers) and back again',
+    ),
+    TestType(
+        'docker_composition_tests',
+        description='test whether containers and volumes are set up correctly',
+    ),
+    TestType(
+        'webapp_tests',
+        description='equivalent to `./manage.py test` within the webapp container',
+    ),
+    TestType(
+        'webapp_checks',
+        description='equivalent to `./manage.py check` within the webapp container',
+    ),
 ]
 
 
