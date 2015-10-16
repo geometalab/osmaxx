@@ -38,16 +38,6 @@ class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
     """
     polygon_file = models.FileField(storage=get_private_upload_storage())
 
-    @property
-    def geometry(self):
-        # fake polygon for now
-        return GEOSGeometry(Polygon([
-            [0, 1],
-            [1, 0],
-            [1, 1],
-            [0, 1],
-        ]))
-
     def __str__(self):
         return 'Polygon file: ' + self.polygon_file.name
 
