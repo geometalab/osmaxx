@@ -245,7 +245,7 @@ def execute(extraction_order_id, execution_configuration):
                 email=False
             )
 
-            bounding_geometry = extraction_order.excerpt.bounding_geometry
+            bounding_geometry = extraction_order.excerpt.bounding_geometry.subclass_instance
             if type(bounding_geometry) == models.BBoxBoundingGeometry:
                 bbox_args = ' '.join(str(coordinate) for coordinate in [
                     bounding_geometry.west,
