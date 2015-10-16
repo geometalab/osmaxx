@@ -236,7 +236,7 @@ def command_line_arguments():
 
 
 def _no_tests_selected(args):
-    return not any(getattr(args, type.name) for type in TEST_TYPES)
+    return not any(type.enabled_in_command_line_arguments(args) for type in TEST_TYPES)
 
 
 def _select_all_tests(args):
@@ -251,6 +251,9 @@ class TestType:
 
     def long_option(self):
         return '--{}'.format(self.name.replace('_', '-'))
+
+    def enabled_in_command_line_arguments(self, args):
+        return getattr(args, self.name)
 
 
 TEST_TYPES = [
