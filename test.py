@@ -241,7 +241,7 @@ def _no_tests_selected(args):
 
 def _select_all_tests(args):
     for type in TEST_TYPES:
-        setattr(args, type.name, True)
+        type.enable_in_command_line_arguments(args)
     return args
 
 
@@ -254,6 +254,9 @@ class TestType:
 
     def enabled_in_command_line_arguments(self, args):
         return getattr(args, self.name)
+
+    def enable_in_command_line_arguments(self, args):
+        setattr(args, self.name, True)
 
 
 TEST_TYPES = [
