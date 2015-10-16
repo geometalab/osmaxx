@@ -32,16 +32,3 @@ def get_list_or_none(klass, *args, **kwargs):
     if not object_list:
         return None
     return object_list
-
-
-def get_actual(obj):
-    """Expands `obj` to the actual object type.
-    """
-    for name in dir(obj):
-        try:
-            attr = getattr(obj, name)
-            if isinstance(attr, obj.__class__):
-                return attr
-        except:
-            pass
-    return obj
