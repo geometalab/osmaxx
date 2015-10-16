@@ -100,11 +100,6 @@ See Wiki: https://github.com/geometalab/osmaxx/wiki
 
 ### Problems & Solutions
 
-#### Leaflet is missing
-
-You forgot to **pull the submodules**
-
-
 #### ProgrammingError at /login/
 
 ```

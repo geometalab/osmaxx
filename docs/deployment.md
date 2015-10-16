@@ -11,7 +11,6 @@ To deploy to production server:
 
   ```shell
   git clone --depth 1 -b master https://github.com/geometalab/osmaxx.git osmaxx && cd osmaxx
-  git submodule init && git submodule update
   ```
   Repository details see [Project repository](git-repository.md).
 3. a. Link production configuration for docker-compose, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
