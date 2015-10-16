@@ -253,13 +253,16 @@ class TestType:
         return '--{}'.format(self.name.replace('_', '-'))
 
 
+TEST_TYPES = [
+    TestType('end_to_end_tests'),
+    TestType('docker_composition_tests'),
+    TestType('webapp_tests'),
+    TestType('webapp_checks'),
+]
+
+
 def test_types():
-    return [
-        TestType('end_to_end_tests'),
-        TestType('docker_composition_tests'),
-        TestType('webapp_tests'),
-        TestType('webapp_checks'),
-    ]
+    return TEST_TYPES
 
 
 def configure_combined_logging(logger):
