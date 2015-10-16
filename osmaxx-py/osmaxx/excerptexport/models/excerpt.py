@@ -13,7 +13,7 @@ class Excerpt(models.Model):
 
     @property
     def bounding_geometry(self):
-        return self.bounding_geometry_raw_reference.geometry_instance
+        return self.bounding_geometry_raw_reference.subclass_instance
 
     @bounding_geometry.setter
     def bounding_geometry(self, bounding_geometry):

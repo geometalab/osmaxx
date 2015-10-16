@@ -1,28 +1,34 @@
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry, Polygon
+
+from model_utils.managers import InheritanceManager
+
 from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 from osmaxx.utilities.dict_helpers import are_all_keys_in
-from osmaxx.utilities.shortcuts import get_actual
+
 
 class BoundingGeometry(models.Model):
     @property
     def type(self):
         return type(self).__name__
 
+    @property
     def geometry(self):
         raise NotImplementedError
 
     @property
     def extent(self):
-        return get_actual(self).geometry.extent
+        return self.subclass_instance.geometry.extent
 
     @property
     def type_of_geometry(self):
-        return str(self.geometry_instance.__class__.__name__)
+        return str(self.subclass_instance.geometry.__class__.__name__)
 
     @property
-    def geometry_instance(self):
-        return get_actual(self)
+    def subclass_instance(self):
+        return BoundingGeometry.objects.get_subclass(pk=self.id)
+
+    objects = InheritanceManager()
 
 
 class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
@@ -31,17 +37,18 @@ class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
     """
     polygon_file = models.FileField(storage=get_private_upload_storage())
 
+    @property
     def geometry(self):
         # fake polygon for now
-        return Polygon([
+        return GEOSGeometry(Polygon([
             [0, 1],
             [1, 0],
             [1, 1],
             [0, 1],
-        ])
+        ]))
 
     def __str__(self):
-        return 'Polygon file: ' + self.polygon_file
+        return 'Polygon file: ' + self.polygon_file.name
 
 
 class BBoxBoundingGeometry(BoundingGeometry):
