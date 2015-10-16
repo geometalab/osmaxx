@@ -235,8 +235,8 @@ def command_line_arguments():
     return parser.parse_args()
 
 
-def _no_tests_selected(args):
-    return not any(type.enabled_in_command_line_arguments(args) for type in TEST_TYPES)
+def _some_tests_selected(args):
+    return any(type.enabled_in_command_line_arguments(args) for type in TEST_TYPES)
 
 
 def _select_all_tests(args):
@@ -279,7 +279,7 @@ def configure_combined_logging(logger):
 
 if __name__ == '__main__':
     args = command_line_arguments()
-    if _no_tests_selected(args):
+    if not _some_tests_selected(args):
         _select_all_tests(args)
     configure_combined_logging(logger)
     ots = OsmaxxTestSuite()
