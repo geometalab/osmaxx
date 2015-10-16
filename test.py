@@ -230,7 +230,7 @@ def command_line_arguments():
         'When no test types are specified, tests of all types will be run. '
     )
     for type in test_types():
-        long_option = '--{}'.format(type.replace('_', '-'))
+        long_option = type.long_option()
         test_types_group.add_argument(long_option, action='store_true')
     return parser.parse_args()
 
@@ -245,12 +245,20 @@ def _select_all_tests(args):
     return args
 
 
+class TestType:
+    def __init__(self, args_option_name):
+        self.name = args_option_name
+
+    def long_option(self):
+        return '--{}'.format(self.name.replace('_', '-'))
+
+
 def test_types():
     return [
-        'end_to_end_tests',
-        'docker_composition_tests',
-        'webapp_tests',
-        'webapp_checks'
+        TestType('end_to_end_tests'),
+        TestType('docker_composition_tests'),
+        TestType('webapp_tests'),
+        TestType('webapp_checks'),
     ]
 
 
