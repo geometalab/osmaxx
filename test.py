@@ -236,12 +236,12 @@ def command_line_arguments():
 
 
 def _no_tests_selected(args):
-    return not any(getattr(args, type) for type in TEST_TYPES)
+    return not any(getattr(args, type.name) for type in TEST_TYPES)
 
 
 def _select_all_tests(args):
     for type in TEST_TYPES:
-        setattr(args, type, True)
+        setattr(args, type.name, True)
     return args
 
 
