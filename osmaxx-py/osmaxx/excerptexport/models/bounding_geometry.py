@@ -26,6 +26,7 @@ class BoundingGeometry(models.Model):
 
     @property
     def subclass_instance(self):
+        # TODO: don't make an extra query for this
         return BoundingGeometry.objects.get_subclass(pk=self.id)
 
     objects = InheritanceManager()

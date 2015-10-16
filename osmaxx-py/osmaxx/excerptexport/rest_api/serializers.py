@@ -28,7 +28,7 @@ class BoundingGeometryFromExcerptSerializer(gis_serializers.GeoFeatureModelSeria
     proxy_for_geometry = GeometrySerializerMethodField()
 
     def get_proxy_for_geometry(self, obj):
-        bounding_geometry = obj.bounding_geometry_raw_reference
+        bounding_geometry = obj.bounding_geometry
         return bounding_geometry.subclass_instance.geometry
 
     class Meta:

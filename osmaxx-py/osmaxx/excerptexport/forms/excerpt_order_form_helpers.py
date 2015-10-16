@@ -7,7 +7,7 @@ from osmaxx.excerptexport.models import Excerpt
 
 def _get_active_excerpts():
     return Excerpt.objects.filter(is_active=True).filter(
-        bounding_geometry_raw_reference__bboxboundinggeometry__isnull=False
+        bounding_geometry__bboxboundinggeometry__isnull=False
     )
 
 
@@ -25,7 +25,7 @@ def other_public(user):
 
 def countries():
     return Excerpt.objects.filter(
-        bounding_geometry_raw_reference__osmosispolygonfilterboundinggeometry__isnull=False
+        bounding_geometry__osmosispolygonfilterboundinggeometry__isnull=False
     )
 
 
