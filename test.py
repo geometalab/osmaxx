@@ -224,9 +224,14 @@ class TmpVirtualEnv:
 
 def command_line_arguments():
     parser = argparse.ArgumentParser()
+    test_types_group = parser.add_argument_group(
+        'test types',
+        'When test types are specified, only tests of these types will be run. '
+        'When no test types are specified, tests of all types will be run. '
+    )
     for type in test_types():
         long_option = '--{}'.format(type.replace('_', '-'))
-        parser.add_argument(long_option, action='store_true')
+        test_types_group.add_argument(long_option, action='store_true')
     return parser.parse_args()
 
 
