@@ -229,18 +229,18 @@ def command_line_arguments():
         'When test types are specified, only tests of these types will be run. '
         'When no test types are specified, tests of all types will be run. '
     )
-    for type in test_types():
+    for type in TEST_TYPES:
         long_option = type.long_option()
         test_types_group.add_argument(long_option, action='store_true')
     return parser.parse_args()
 
 
 def _no_tests_selected(args):
-    return not any(getattr(args, type) for type in test_types())
+    return not any(getattr(args, type) for type in TEST_TYPES)
 
 
 def _select_all_tests(args):
-    for type in test_types():
+    for type in TEST_TYPES:
         setattr(args, type, True)
     return args
 
@@ -259,10 +259,6 @@ TEST_TYPES = [
     TestType('webapp_tests'),
     TestType('webapp_checks'),
 ]
-
-
-def test_types():
-    return TEST_TYPES
 
 
 def configure_combined_logging(logger):
