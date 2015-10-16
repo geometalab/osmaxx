@@ -44,8 +44,10 @@ docker-compose run osmaxxwebappdev /bin/bash
 
 
 ## Run tests
+(Requires Python 3 on the host.)
+
 ```shell
-./test.sh
+./test.py
 ```
 
 To run the application tests only, see [Commonly used commands while developing / Run tests](useful-commands.md#run-tests).
