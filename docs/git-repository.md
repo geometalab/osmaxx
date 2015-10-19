@@ -17,11 +17,6 @@ For developers have write access to this repository:
 	(This project uses git-flow's default branch names and branch name prefixes, which `-d` automatically accepts.)
 
 	You should now be on the `develop` branch. Otherwise checkout the development branch: `git checkout development`.
-3. Clone the third party repositories we use through [git submodules](http://www.git-scm.com/book/en/v2/Git-Tools-Submodules)
-
-	```shell
-	git submodule init && git submodule update
-	```
 
 
 ## Contribute
