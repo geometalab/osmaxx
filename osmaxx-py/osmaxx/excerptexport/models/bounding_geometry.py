@@ -14,11 +14,14 @@ class BoundingGeometry(models.Model):
 
     @property
     def geometry(self):
-        raise NotImplementedError
+        subclass_instance = self.subclass_instance
+        if self == subclass_instance:
+            raise NotImplementedError
+        return subclass_instance.geometry
 
     @property
     def extent(self):
-        return self.subclass_instance.geometry.extent
+        return self.geometry.extent
 
     @property
     def type_of_geometry(self):
