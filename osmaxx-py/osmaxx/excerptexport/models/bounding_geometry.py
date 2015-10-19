@@ -1,5 +1,8 @@
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry, Polygon
+
+from model_utils.managers import InheritanceManager
+
 from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 from osmaxx.utilities.dict_helpers import are_all_keys_in
 
@@ -10,13 +13,26 @@ class BoundingGeometry(models.Model):
         return type(self).__name__
 
     @property
-    def geometry_instance(self):
-        if hasattr(self, 'bboxboundinggeometry'):
-            return self.bboxboundinggeometry
-        elif hasattr(self, 'osmosispolygonfilterboundinggeometry'):
-            return self.osmosispolygonfilterboundinggeometry
-        else:
-            return self
+    def geometry(self):
+        subclass_instance = self.subclass_instance
+        if self == subclass_instance:
+            raise NotImplementedError
+        return subclass_instance.geometry
+
+    @property
+    def extent(self):
+        return self.geometry.extent
+
+    @property
+    def type_of_geometry(self):
+        return str(self.subclass_instance.__class__.__name__)
+
+    @property
+    def subclass_instance(self):
+        # TODO: don't make an extra query for this
+        return BoundingGeometry.objects.get_subclass(pk=self.id)
+
+    objects = InheritanceManager()
 
 
 class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
@@ -26,7 +42,7 @@ class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
     polygon_file = models.FileField(storage=get_private_upload_storage())
 
     def __str__(self):
-        return 'Polygon file: ' + self.polygon_file
+        return 'Polygon file: ' + self.polygon_file.name
 
 
 class BBoxBoundingGeometry(BoundingGeometry):

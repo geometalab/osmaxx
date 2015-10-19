@@ -48,6 +48,9 @@ THIRD_PARTY_APPS = (
     'stored_messages',
     # better forms
     'crispy_forms',
+    # rest API Framework
+    'rest_framework',
+    'rest_framework_gis',
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
@@ -356,6 +359,14 @@ CELERY_ENABLE_UTC = True
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 
 # Message-Storage Settings

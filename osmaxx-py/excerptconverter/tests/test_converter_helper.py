@@ -22,7 +22,7 @@ class ConverterHelperTestCase(TestCase):
             excerpt=Excerpt(
                 name='',
                 owner=self.user,
-                bounding_geometry_raw_reference=BoundingGeometry(),
+                bounding_geometry=BoundingGeometry(),
             ),
         )
 

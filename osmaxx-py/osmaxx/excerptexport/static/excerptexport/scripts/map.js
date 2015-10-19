@@ -5,7 +5,7 @@
         this.inputElementsNewBoundingBox = inputElementsNewBoundingBox;
         this.selectElementExistingExcerpts = selectElementExistingExcerpts;
         this.formElementPartsSwitcher = formElementPartsSwitcher;
-
+        this.selectedExcerptGeoJson = null;
 
         /**
          * Synchronize coordinates in input fields to excerpt on map
@@ -30,17 +30,11 @@
             this.locationFilter.setBounds(locationFilterBounds);
         };
 
-        this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields = function(select, locationFilterBounds) {
-            if(select.value == "") {
+        this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields = function(locationFilterBounds) {
+            if (this.selectedExcerptGeoJson == null) {
                 return false;
             }
-            var optionElement = select.querySelector('option[value="'+select.value+'"]');
-            return (
-                optionElement.getAttribute('data-north') == locationFilterBounds._northEast.lat &&
-                optionElement.getAttribute('data-west') == locationFilterBounds._southWest.lng &&
-                optionElement.getAttribute('data-east') == locationFilterBounds._northEast.lng &&
-                optionElement.getAttribute('data-south') == locationFilterBounds._southWest.lat
-            );
+            return (this.selectedExcerptGeoJson.getBounds().equals(locationFilterBounds));
         };
 
         /**
@@ -49,13 +43,11 @@
          */
         this.userChangeExcerptOnMapShowNewExcerptPart = function() {
             var locationFilterBounds = this.locationFilter.getBounds();
-            var select = this.selectElementExistingExcerpts;
-            if(!this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields(select, locationFilterBounds)) {
+            if(!this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields(locationFilterBounds)) {
                 this.formElementPartsSwitcher.value = 'new-excerpt';
                 this.formElementPartsSwitcher.dispatchEvent(new Event('change'));
             }
         };
-
 
         // update coordinates input elements on change of excerpt on map
         this.locationFilter.on("change", function (event) {
@@ -72,25 +64,29 @@
         this.selectElementExistingExcerpts.addEventListener('change', function() {
             // we have single select, if it would happen to have two selected, ignore it.
             var excerptOption = $( "select[id=id_existing_excerpts] option:selected")[0];
-            if(excerptOption.getAttribute('data-geometry') === 'boundingbox') {
-                var bounds = this.locationFilter.getBounds();
-                bounds._northEast.lat = excerptOption.getAttribute('data-north');
-                bounds._southWest.lng = excerptOption.getAttribute('data-west');
-                bounds._northEast.lng = excerptOption.getAttribute('data-east');
-                bounds._southWest.lat = excerptOption.getAttribute('data-south');
-                this.locationFilter.setBounds(bounds);
-                // enable excerpt on map for case it was disable before (e.g. by clicking on a not-boundingbox excerpt in the list)
-                this.locationFilter.enable();
-            } else {
-                // no existing excerpt of type boundingbox -> disable excerpt because we are not able to show not-boundingbox excerpts on map
-                this.locationFilter.disable();
-            }
+            this._setLocationFilterFromExcerptID(excerptOption.value);
         }.bind(this));
 
         // enable excerpt on map on change of form mode (existing excerpt or new excerpt)
         this.formElementPartsSwitcher.addEventListener('change', function(event) {
             this.locationFilter.enable();
         }.bind(this));
+
+        this._setLocationFilterFromExcerptID = function(ID) {
+            var that = this;
+            this.selectedExcerptGeoJson = L.geoJson.ajax("/api/bounding_geometry_from_excerpt/"+ID+"/").on('data:loaded', function(){
+        //TODO: differentiate between boundingbox or country and similar; use this.locationFilter.enable()/disable()
+                that.locationFilter.setBounds(this.getBounds());
+                map.fitBounds(that.locationFilter.getBounds());
+            });
+            this.selectedExcerptGeoJson.on('data:loading', function(){
+                map.spin(true);
+            });
+
+            this.selectedExcerptGeoJson.on('data:loaded', function(){
+                map.spin(false);
+            });
+        }.bind(this);
     };
 
 

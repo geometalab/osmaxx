@@ -7,7 +7,7 @@ from osmaxx.excerptexport.models import Excerpt
 
 def _get_active_excerpts():
     return Excerpt.objects.filter(is_active=True).filter(
-        bounding_geometry_raw_reference__bboxboundinggeometry__isnull=False
+        bounding_geometry__bboxboundinggeometry__isnull=False
     )
 
 
@@ -25,7 +25,7 @@ def other_public(user):
 
 def countries():
     return Excerpt.objects.filter(
-        bounding_geometry_raw_reference__osmosispolygonfilterboundinggeometry__isnull=False
+        bounding_geometry__osmosispolygonfilterboundinggeometry__isnull=False
     )
 
 
@@ -44,18 +44,6 @@ def get_existing_excerpt_choices_shortcut(user):
          tuple((excerpt.id, excerpt.name) for excerpt in countries())
          ),
     )
-
-
-def get_data_attributes_for_excerpts_shortcut():
-    return {
-        excerpt.id: {
-            'data-geometry': "boundingbox",
-            'data-north': excerpt.bounding_geometry.north,
-            'data-east': excerpt.bounding_geometry.east,
-            'data-south': excerpt.bounding_geometry.south,
-            'data-west': excerpt.bounding_geometry.west,
-        } for excerpt in _get_active_excerpts()
-        }
 
 
 class SelectWidgetWithDataOptions(forms.Select):
