@@ -14,7 +14,7 @@ GREEN = "\033[32m"
 MAGENTA = "\033[95m"
 RESET = "\033[0m"
 
-LOGFILE = 'test.log'
+LOGFILE = 'runtests.log'
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.DEBUG)

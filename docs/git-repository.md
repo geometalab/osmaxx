@@ -34,7 +34,7 @@ For developers have write access to this repository:
 2. Code and commit as usual
 3. Run checks and tests
 	```shell
-	./test.py --webapp-checks --webapp-tests
+	./runtests.py --webapp-checks --webapp-tests
 	```
 
 3. Once you're finished, push the feature branch back to this GitHub repo

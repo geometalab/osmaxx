@@ -21,7 +21,7 @@ docker-compose run webappdev /bin/bash -c 'DJANGO_SETTINGS_MODULE=config.setting
 ```
 or simply
 ```shell
-./test.py --webapp-tests
+./runtests.py --webapp-tests
 ```
 
 More about testing can be found in the [Testing](/docs/testing.md) documentation.
