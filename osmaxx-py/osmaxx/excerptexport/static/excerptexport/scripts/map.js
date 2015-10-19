@@ -30,8 +30,8 @@
             this.locationFilter.setBounds(locationFilterBounds);
         };
 
-        this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields = function(select, locationFilterBounds) {
-            if (select.value == "" || this.selectedExcerptGeoJson == null) {
+        this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields = function(locationFilterBounds) {
+            if (this.selectedExcerptGeoJson == null) {
                 return false;
             }
             return (this.selectedExcerptGeoJson.getBounds().equals(locationFilterBounds));
@@ -43,8 +43,7 @@
          */
         this.userChangeExcerptOnMapShowNewExcerptPart = function() {
             var locationFilterBounds = this.locationFilter.getBounds();
-            var select = this.selectElementExistingExcerpts;
-            if(!this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields(select, locationFilterBounds)) {
+            if(!this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields(locationFilterBounds)) {
                 this.formElementPartsSwitcher.value = 'new-excerpt';
                 this.formElementPartsSwitcher.dispatchEvent(new Event('change'));
             }
