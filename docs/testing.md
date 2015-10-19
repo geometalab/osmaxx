@@ -21,8 +21,15 @@ docker-compose run --rm webappdev bash -c 'DJANGO_SETTINGS_MODULE=config.setting
 
 ## Running the test-suite and integration tests
 
-There's a Python 3 script to facilitate testing including some docker integration tests:
+There's a Python 3 script to facilitate testing including some docker integration tests.
 
+It allows some control over what tests to run. Call it with
+```shell
+./runtests.py --help
+```
+to see what options it provides.
+
+To run tests of all available test types, call it without passing any options:
 ```shell
 ./runtests.py
 ```
