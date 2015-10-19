@@ -22,7 +22,7 @@ class BoundingGeometry(models.Model):
 
     @property
     def type_of_geometry(self):
-        return str(self.subclass_instance.geometry.__class__.__name__)
+        return str(self.subclass_instance.__class__.__name__)
 
     @property
     def subclass_instance(self):
