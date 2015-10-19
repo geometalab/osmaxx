@@ -21,10 +21,17 @@ docker-compose run --rm webappdev bash -c 'DJANGO_SETTINGS_MODULE=config.setting
 
 ## Running the test-suite and integration tests
 
-There's a Python 3 script to facilitate testing including some docker integration tests:
+There's a Python 3 script to facilitate testing including some docker integration tests.
 
+It allows some control over what tests to run. Call it with
 ```shell
-./test.py
+./runtests.py --help
+```
+to see what options it provides.
+
+To run tests of all available test types, call it without passing any options:
+```shell
+./runtests.py
 ```
 
 ## Running end to end tests (e2e)
@@ -49,8 +56,16 @@ virtualenv tmp
 pip install -r e2e/requirements.txt
 python e2e/e2e_tests.py
 ```
+or
+```shell
+RUN_E2E=true ./runtests.py
+```
+or
+```shell
+./runtests.py --end-to-end-tests
+```
 
-To simplify the steps needed, the `test.py` can be used to run all tests, as described in the next section.
+To simplify the steps needed, the `runtests.py` can be used to run all tests, as described in the next section.
  
 ## Running all tests
 
@@ -61,8 +76,9 @@ To simplify the steps needed, the `test.py` can be used to run all tests, as des
 * it will create a temporary virtualenv and remove it afterwards again
 
 ```shell
-RUN_E2E=true ./test.py
+./runtests.py
 ```
+
 
 ## Generating the test coverage html
 

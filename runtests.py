@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import logging
 import os
 import shutil
@@ -13,7 +14,7 @@ GREEN = "\033[32m"
 MAGENTA = "\033[95m"
 RESET = "\033[0m"
 
-LOGFILE = 'test.log'
+LOGFILE = 'runtests.log'
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.DEBUG)
@@ -29,7 +30,9 @@ class OsmaxxTestSuite:
             self.run_production_tests()
 
         # FIXME: currently only works on development settings
-        if os.path.samefile('docker-compose.yml', 'compose-development.yml') and os.environ.get('RUN_E2E') == 'true':
+        if os.path.samefile('docker-compose.yml', 'compose-development.yml') and (
+            os.environ.get('RUN_E2E') == 'true' or args.end_to_end_tests
+        ):
             self.run_e2e_tests()
 
     def run_e2e_tests(self):
@@ -45,17 +48,19 @@ class OsmaxxTestSuite:
         self.COMPOSE_FILE = "compose-development.yml"
 
         self.setup()
+        if args.webapp_checks:
+            self.application_checks()
+        if args.webapp_tests:
+            self.application_tests()
 
-        self.application_checks()
-        self.application_tests()
+        self.reset()  # FIXME: Don't always reset, only when necessary.
 
-        self.reset()
+        if args.docker_composition_tests:
+            self.docker_volume_configuration_tests()
 
-        self.docker_volume_configuration_tests()
+            self.reset()
 
-        self.reset()
-
-        self.persisting_database_data_tests()
+            self.persisting_database_data_tests()
 
         self.tear_down()
 
@@ -67,9 +72,13 @@ class OsmaxxTestSuite:
         self.DB_CONTAINER = "database"
         self.COMPOSE_FILE = "compose-production.yml"
 
-        # this is run on the actual production machine as well, so we don't mess with the containers (setup/teardown)
-        self.docker_volume_configuration_tests()
-        self.application_checks()
+        if args.docker_composition_tests:
+            # this is run on the actual production machine as well,
+            # so we don't mess with the containers (setup/teardown)
+            self.docker_volume_configuration_tests()
+
+        if args.webapp_checks:
+            self.application_checks()
 
     def setup(self):
         self.docker_compose(['pull'])
@@ -114,7 +123,7 @@ class OsmaxxTestSuite:
         header = '\n'.join(['', dashed_line, title, dashed_line])
         self._log_colored(header, MAGENTA)
 
-    #################### CONCRETE TEST IMPLEMENTATIONS ####################
+    # ################### CONCRETE TEST IMPLEMENTATIONS ####################
 
     def application_checks(self):
         # application tests
@@ -213,6 +222,69 @@ class TmpVirtualEnv:
         subprocess.check_call(['tmp/e2e_tests/bin/python',  script])
 
 
+def command_line_arguments():
+    parser = argparse.ArgumentParser()
+    test_types_group = parser.add_argument_group(
+        'test types',
+        'When test types are specified, only tests of these types will be run. '
+        'When no test types are specified, tests of all types will be run. '
+    )
+    for type in TEST_TYPES:
+        long_option = type.long_option()
+        test_types_group.add_argument(
+            long_option,
+            help=type.description,
+            action='store_true',
+        )
+    return parser.parse_args()
+
+
+def _some_tests_selected(args):
+    return any(type.enabled_in_command_line_arguments(args) for type in TEST_TYPES)
+
+
+def _select_all_tests(args):
+    for type in TEST_TYPES:
+        type.enable_in_command_line_arguments(args)
+    return args
+
+
+class TestType:
+    def __init__(self, args_option_name, description=None):
+        self.name = args_option_name
+        self.description = description
+
+    def long_option(self):
+        return '--{}'.format(self.name.replace('_', '-'))
+
+    def enabled_in_command_line_arguments(self, args):
+        return getattr(args, self.name)
+
+    def enable_in_command_line_arguments(self, args):
+        setattr(args, self.name, True)
+
+
+TEST_TYPES = [
+    TestType(
+        'end_to_end_tests',
+        description='end-to-end smoke tests from the browser through the whole stack (in docker containers) to the '
+        'converters (in other docker containers) and back again',
+    ),
+    TestType(
+        'docker_composition_tests',
+        description='test whether containers and volumes are set up correctly',
+    ),
+    TestType(
+        'webapp_tests',
+        description='equivalent to `./manage.py test` within the webapp container',
+    ),
+    TestType(
+        'webapp_checks',
+        description='equivalent to `./manage.py check` within the webapp container',
+    ),
+]
+
+
 def configure_combined_logging(logger):
     # Only print INFO and more important to STD OUT ...
     stdout_log_handler = logging.StreamHandler(sys.stdout)
@@ -224,6 +296,9 @@ def configure_combined_logging(logger):
     logger.addHandler(file_log_handler)
 
 if __name__ == '__main__':
+    args = command_line_arguments()
+    if not _some_tests_selected(args):
+        _select_all_tests(args)
     configure_combined_logging(logger)
     ots = OsmaxxTestSuite()
     ots.main()
