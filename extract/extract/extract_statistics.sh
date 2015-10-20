@@ -5,8 +5,9 @@ YMIN=$2
 XMAX=$3
 YMAX=$4
 CRS=900913
-mkdir -p `pwd`/tmp
-FILE=`pwd`/tmp/$5'_STATISTICS.csv'
+DIR=$5
+mkdir -p $DIR/tmp
+FILE=$DIR/tmp/$6'_STATISTICS.csv'
 echo 'Calculating Statistics...'
 if [ -f $FILE ]; then
 rm $FILE
@@ -14,12 +15,12 @@ fi
 
 gather_statistics(){
 
-	#SETUP THE VARIOUS VARIABLES FOR THE STATISTICS COMPILATION	
+	#SETUP THE VARIOUS VARIABLES FOR THE STATISTICS COMPILATION
 	VALUES_FOR_STAT_COLLECTION=(${!1})		#Array with values to be used for statistics for a table
 	TABLE=$2					            #Table Name from which stats are to be accumulated
 	OPTION=$3					            #Type of PSQL command to be used for the particular table
 	COUNTER=0					            #STAT Counter
-	if [ "$OPTION" = '1' ] || [ "$OPTION" = "3" ]; then 
+	if [ "$OPTION" = '1' ] || [ "$OPTION" = "3" ]; then
 		KEY=2
 	elif [ "$OPTION" = "2" ] || [ "$OPTION" = "4" ] || [ "$OPTION" = "5" ]; then
 		KEY=3
@@ -29,11 +30,11 @@ gather_statistics(){
 	for ELEMENT in "${VALUES_FOR_STAT_COLLECTION[@]}"
 		do
 			case $OPTION in
-		
-			1) 
+
+			1)
 				TYPE="where type='$ELEMENT'"
 				LABEL="";;						                    #No LABEL to be attached, just the variable from the array
-			2) 
+			2)
 				TYPE="where type='$ELEMENT'"
 				LABEL=$4",";;						                #Label to be attached to the stat count in the "FILE"
 			3)

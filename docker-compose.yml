@@ -1,5 +1,12 @@
+data:
+  image: busybox
+  command: echo true
+  volumes:
+    - /tmp
 worker:
   build: .
+  volumes_from:
+    - data
   links:
     - database
   environment:

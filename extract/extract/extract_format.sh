@@ -7,32 +7,34 @@ XMIN=$1
 YMIN=$2
 XMAX=$3
 YMAX=$4
-FILENAME=$5
-FORMAT=$6
-DIR=`pwd`
+DIR=$5
+FILENAME=$6
+FORMAT=$7
+
+STATIC_DIR=$(pwd)/static
 
 #Initialise the variables according to the format requested by the user
 case $FORMAT in
 
-'fgdb') 
+'fgdb')
 	TYPE="FileGDB"
-	EXT=".gdb" 
+	EXT=".gdb"
 	EXTRA="";;
-'gpkg') 
+'gpkg')
 	TYPE="GPKG"
-	EXT=".gpkg" 
+	EXT=".gpkg"
 	EXTRA="";;
-'shp') 
+'shp')
 	TYPE="ESRI Shapefile"
-	EXT=".shp" 
+	EXT=".shp"
 	EXTRA="";;
-'spatialite') 
+'spatialite')
 	TYPE="SQLite"
-	EXT=".sqlite" 
+	EXT=".sqlite"
 	EXTRA='-dsco "SPATIALITE=YES" -nlt GEOMETRY';; # TODO: Remove or change -nlt because of geometry reading problems
 esac
 
-if [ -z $DIR/data/$FILENAME ]; then 
+if [ -z $DIR/data/$FILENAME ]; then
 echo 'Enter the filename..'
 elif [ -d $DIR/data/$FILENAME ]; then
 rm $DIR/data/$FILENAME
@@ -50,7 +52,7 @@ else
 	cd $DIR
 	zip -r --move $DIR/data/$FILENAME.zip ./data/$FILENAME$EXT
 
-	cd $DIR/static
+	cd $STATIC_DIR
         zip -g $DIR/data/$FILENAME.zip ./README.txt
         zip -g $DIR/data/$FILENAME.zip ./LICENCE.txt
         zip -g $DIR/data/$FILENAME.zip ./METADATA.txt

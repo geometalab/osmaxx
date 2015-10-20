@@ -6,8 +6,9 @@ import os
 
 
 class Excerpt(object):
-    def __init__(self, xmin, ymin, xmax, ymax, formats, basename='osmaxx_excerpt'):
+    def __init__(self, xmin, ymin, xmax, ymax, formats, output_dir, basename='osmaxx_excerpt'):
         self.formats = formats
+        self.output_dir = output_dir
         self.filename = '_'.join([
             basename,
             time.strftime("%Y-%m-%d_%H%M%S"),
@@ -23,23 +24,23 @@ class Excerpt(object):
         self._get_statistics(self.tmp_statistics_filename)
         for format in self.formats:
             shutil.copyfile(
-                os.path.join('tmp', self.tmp_statistics_filename + '_STATISTICS.csv'),
-                os.path.join('tmp', self.filename + '_STATISTICS.csv')
+                os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'),
+                os.path.join(self.output_dir, 'tmp', self.filename + '_STATISTICS.csv')
             )
             self.export_from_db_to_format(format)
         # remove the temporary statistics file
-        os.remove(os.path.join('tmp', self.tmp_statistics_filename + '_STATISTICS.csv'))
+        os.remove(os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'))
         os.chdir(old_cur_dir)
 
     #Calls the shell script that exports files of the specified format(file_format) from existing database
     def export_from_db_to_format(self, file_format):
-        dbcmd = 'sh', './extract/extract_format.sh', self.xmin, self.ymin, self.xmax, self.ymax, self.filename, file_format
+        dbcmd = 'sh', './extract/extract_format.sh', self.xmin, self.ymin, self.xmax, self.ymax, self.output_dir, self.filename, file_format
         dbcmd = [str(arg) for arg in dbcmd]
         subprocess.check_call(dbcmd)
 
     #Extract Statistics
     def _get_statistics(self, filename):
-        statcmd = 'bash', './extract/extract_statistics.sh', self.xmin, self.ymin, self.xmax, self.ymax, filename
+        statcmd = 'bash', './extract/extract_statistics.sh', self.xmin, self.ymin, self.xmax, self.ymax, self.output_dir, filename
         statcmd = [str(arg) for arg in statcmd]
         subprocess.check_call(statcmd)
 
