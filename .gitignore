@@ -2,3 +2,5 @@
 *.pbf
 tmp/
 .idea
+*.pyc
+__pycache__/
