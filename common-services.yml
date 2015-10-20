@@ -1,0 +1,29 @@
+webapp:
+  build: .
+  command: ./docker_startup_helper.sh
+  environment:
+    # port and host application listens
+    - APP_PORT=8000
+    - APP_HOST=0.0.0.0
+
+    # hardened security compared to default settings.
+    - DJANGO_SECURE_BROWSER_XSS_FILTER=true
+    - DJANGO_SECURE_CONTENT_TYPE_NOSNIFF=true
+    - DJANGO_LOG_LEVEL=INFO
+    - DJANGO_INTERNAL_IPS=172.17.42.1
+
+    # These settings probably shouldn't need a change
+    ##########################################################################
+    # shared data
+    - DJANGO_STATIC_ROOT=/data/static
+    - DJANGO_MEDIA_ROOT=/data/media
+    - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
+
+    # Logging
+    - PYTHONUNBUFFERED=non-empty-string
+    - PYTHONIOENCODING=utf-8
+
+    # We enable Python hash randomization to protect Django from certain DoS attacks.
+    # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/#python-options
+    - PYTHONHASHSEED=random
+

@@ -3,13 +3,30 @@ data:
   command: echo true
   volumes:
     - /tmp
+
 worker:
+  extends:
+    file: common-services.yml
+    service: webapp
   build: .
   volumes_from:
     - data
   links:
-    - database
+    - workerdatabase:database
+    - redis
   environment:
     - PGHOST=database
-database:
+
+rqdashboard:
+  build: rq-dashboard
+  links:
+    - redis
+  ports:
+    - "9090:9181"
+  command: rq-dashboard -H redis
+
+workerdatabase:
   image: geometalab/postgis-with-translit
+
+redis:
+  image: redis

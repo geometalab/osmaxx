@@ -31,7 +31,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update &&\
     zip \
     osmosis \
     osmctools \
-    wget
+    wget \
+    binutils \
+    libproj-dev \
+    gdal-bin \
+    libgeoip1 \
+    gdal-bin \
+    python-gdal \
+    python-pip \
+    python3-pip \
+    ipython
 
 WORKDIR /root/osm2pgsql
 
@@ -45,12 +54,17 @@ RUN mkdir src &&\
   make &&\
   make install
 
-ENV HOME /home/worker
+ENV HOME /home/py
 
 WORKDIR $HOME
 
-ADD ./worker/gis-converter/bootstrap/ $HOME/bootstrap/
-ADD ./worker/gis-converter/extract $HOME/extract/
+ADD requirements.txt $HOME/
+
+RUN pip install honcho
+
+RUN pip3 install -r requirements.txt
+
+ADD ./worker $HOME/worker
 ADD ./convert.py $HOME/
 
 ENTRYPOINT ["python", "convert.py"]
