@@ -25,7 +25,13 @@ def name_generator(basename='osmaxx_excerpt'):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-f','--format',choices=['fgdb','shp','gpkg','spatialite'], default='fgdb', help= 'output formats')
+    parser.add_argument('-f', '--format',
+        action='append',
+        dest='formats',
+        default=[],
+        help='Add (repeated) output formats',
+        choices=['fgdb','shp','gpkg','spatialite'],
+    )
     parser.add_argument('xmin', help='Min Longitude/Left/West', type=float)
     parser.add_argument('ymin', help='Min Latitude/Bottom/South', type=float)
     parser.add_argument('xmax', help='Max Longitude/Right/East', type=float)
@@ -36,5 +42,5 @@ if __name__ == '__main__':
     bounding_box = args.xmin, args.ymin, args.xmax, args.ymax
     boostrap(*bounding_box)
 
-    excerpt = Excerpt(*bounding_box, formats=[args.format])
+    excerpt = Excerpt(*bounding_box, formats=args.formats)
     excerpt.start()
