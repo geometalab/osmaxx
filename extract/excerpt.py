@@ -1,6 +1,7 @@
 import time
 import math
 import subprocess
+import shutil
 import os
 
 
@@ -13,24 +14,32 @@ class Excerpt(object):
         ])
         self.xmin, self.ymin = self._pseudo_mercator_to_mercator(xmin, ymin)
         self.xmax, self.ymax = self._pseudo_mercator_to_mercator(xmax, ymax)
+        self.tmp_statistics_filename = self.filename + '_tmp'
 
     def start(self):
         old_cur_dir = os.getcwd()
         os.chdir(os.path.dirname(__file__))
+        # only create statistics once and remove it when done with all formats
+        self._get_statistics(self.tmp_statistics_filename)
         for format in self.formats:
+            shutil.copyfile(
+                os.path.join('tmp', self.tmp_statistics_filename + '_STATISTICS.csv'),
+                os.path.join('tmp', self.filename + '_STATISTICS.csv')
+            )
             self.export_from_db_to_format(format)
+        # remove the temporary statistics file
+        os.remove(os.path.join('tmp', self.tmp_statistics_filename + '_STATISTICS.csv'))
         os.chdir(old_cur_dir)
 
     #Calls the shell script that exports files of the specified format(file_format) from existing database
     def export_from_db_to_format(self, file_format):
-        self._get_statistics()
         dbcmd = 'sh', './extract/extract_format.sh', self.xmin, self.ymin, self.xmax, self.ymax, self.filename, file_format
         dbcmd = [str(arg) for arg in dbcmd]
         subprocess.check_call(dbcmd)
 
     #Extract Statistics
-    def _get_statistics(self):
-        statcmd = 'bash', './extract/extract_statistics.sh', self.xmin, self.ymin, self.xmax, self.ymax, self.filename
+    def _get_statistics(self, filename):
+        statcmd = 'bash', './extract/extract_statistics.sh', self.xmin, self.ymin, self.xmax, self.ymax, filename
         statcmd = [str(arg) for arg in statcmd]
         subprocess.check_call(statcmd)
 
