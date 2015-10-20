@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 import os
-import sys
 import subprocess
 import argparse
 import time
 
-from extract.excerpt import Excerpt
+from worker.gis_converter.extract.excerpt import Excerpt
 
 
 def boostrap(west, south, east, north):
-    os.chdir(os.path.join(os.path.dirname(__file__), 'bootstrap/'))
+    old_cur_dir = os.getcwd()
+    os.chdir(os.path.join(os.path.dirname(__file__), 'worker', 'gis_converter', 'bootstrap'))
     boostrap_cmd = 'sh', 'main-bootstrap.sh', str(west), str(south), str(east), str(north)
     subprocess.check_call(boostrap_cmd)
-    os.chdir('..')
+    os.chdir(old_cur_dir)
 
 
 if __name__ == '__main__':
