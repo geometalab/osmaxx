@@ -1,50 +1,49 @@
-import time, subprocess, os, argparse
+import time
 import math
-path = os.path.dirname(os.path.realpath(__file__))
-
-#Creates the name for the file
-def name_generator():
-    filename='osmaxx_excerpt_'+time.strftime("%Y-%m-%d")+'_'+time.strftime("%H%M%S")
-    return filename
-
-#Converts the OSM map projection to mercator projection
-def to_mercator(mercator_x_lon, mercator_y_lat):
-    if math.fabs(mercator_x_lon) > 180 or math.fabs(mercator_y_lat) > 90:
-        return
-    num = mercator_x_lon * 0.017453292519943295
-    x_value = 6378137.0 * num
-    additional = mercator_y_lat * 0.017453292519943295
-    mercator_x_lon = x_value
-    mercator_y_lat = 3189068.5 * \
-                     math.log((1.0 + math.sin(additional)) /
-                              (1.0 - math.sin(additional)))
-    return [mercator_x_lon, mercator_y_lat]
-
-#Extract Statistics
-def get_statistics(data, name):
-    statcmd = 'bash', './extract/extract_statistics.sh', data[0], data[1], data[2], data[3], name
-    subprocess.check_call(statcmd)
-
-#Calls the shell script that exports files of the specified format(file_format) from existing database
-def export_from_db_to_format(data, name, file_format):
-    get_statistics(data, name)
-    dbcmd = 'sh', './extract/extract_format.sh', data[0], data[1], data[2], data[3], name, file_format
-    subprocess.check_call(dbcmd)
+import subprocess
+import os
 
 
+class Excerpt(object):
+    def __init__(self, xmin, ymin, xmax, ymax, formats, basename='osmaxx_excerpt'):
+        self.formats = formats
+        self.filename = '_'.join([
+            basename,
+            time.strftime("%Y-%m-%d_%H%M%S"),
+        ])
+        self.xmin, self.ymin = self._pseudo_mercator_to_mercator(xmin, ymin)
+        self.xmax, self.ymax = self._pseudo_mercator_to_mercator(xmax, ymax)
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-f','--format',choices=['fgdb','shp','gpkg','spatialite'], default='fgdb', help= 'output formats')
-    parser.add_argument('xmin', help='Min Longitude/Left/West', type=float)
-    parser.add_argument('ymin', help='Min Latitude/Bottom/South', type=float)
-    parser.add_argument('xmax', help='Max Longitude/Right/East', type=float)
-    parser.add_argument('ymax', help='Max Latitude/Top/North', type=float)
+    def start(self):
+        old_cur_dir = os.getcwd()
+        os.chdir(os.path.dirname(__file__))
+        for format in self.formats:
+            self.export_from_db_to_format(format)
+        os.chdir(old_cur_dir)
 
-    args = parser.parse_args()
-    min_xy=to_mercator(args.xmin, args.ymin)
-    max_xy=to_mercator(args.xmax, args.ymax)
-    name=name_generator()
+    #Calls the shell script that exports files of the specified format(file_format) from existing database
+    def export_from_db_to_format(self, file_format):
+        self._get_statistics()
+        dbcmd = 'sh', './extract/extract_format.sh', self.xmin, self.ymin, self.xmax, self.ymax, self.filename, file_format
+        dbcmd = [str(arg) for arg in dbcmd]
+        subprocess.check_call(dbcmd)
 
-    export_from_db_to_format([str(min_xy[0]), str(min_xy[1]), str(max_xy[0]), str(max_xy[1])], name, args.format)
-    print name+' have been completed in '+args.format+' format.'
+    #Extract Statistics
+    def _get_statistics(self):
+        statcmd = 'bash', './extract/extract_statistics.sh', self.xmin, self.ymin, self.xmax, self.ymax, self.filename
+        statcmd = [str(arg) for arg in statcmd]
+        subprocess.check_call(statcmd)
+
+    #Converts the OSM map projection to mercator projection
+    @staticmethod
+    def _pseudo_mercator_to_mercator(pseudo_mercator_x_lon, pseudo_mercator_y_lat):
+        if math.fabs(pseudo_mercator_x_lon) > 180 or math.fabs(pseudo_mercator_y_lat) > 90:
+            return
+        num = pseudo_mercator_x_lon * 0.017453292519943295
+        x_value = 6378137.0 * num
+        additional = pseudo_mercator_y_lat * 0.017453292519943295
+        mercator_x_lon = x_value
+        mercator_y_lat = 3189068.5 * \
+                         math.log((1.0 + math.sin(additional)) /
+                                  (1.0 - math.sin(additional)))
+        return [mercator_x_lon, mercator_y_lat]
