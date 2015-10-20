@@ -49,8 +49,8 @@ ENV HOME /home/worker
 
 WORKDIR $HOME
 
-ADD ./bootstrap $HOME/bootstrap/
-ADD ./extract $HOME/extract/
+ADD ./worker/gis-converter/bootstrap/ $HOME/bootstrap/
+ADD ./worker/gis-converter/extract $HOME/extract/
 ADD ./convert.py $HOME/
 
 ENTRYPOINT ["python", "convert.py"]
