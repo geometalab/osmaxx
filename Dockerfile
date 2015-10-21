@@ -68,7 +68,8 @@ RUN pip3 install -r requirements.txt
 ADD ./utils $HOME/utils
 # add worker stuff
 ADD ./worker $HOME/worker
-# add base script
-ADD ./convert.py $HOME/
 
-ENTRYPOINT ["python", "convert.py"]
+# expose modules
+ENV PYTHONPATH=PYTHONPATH:$HOME
+
+ENTRYPOINT ["python", "worker/gis_converter/convert.py"]
