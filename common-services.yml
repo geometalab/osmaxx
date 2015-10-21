@@ -12,8 +12,10 @@ webapp:
     - DJANGO_LOG_LEVEL=INFO
     - DJANGO_INTERNAL_IPS=172.17.42.1
 
-    # These settings probably shouldn't need a change
+
+    # You shouldn't normally need to change the settings below
     ##########################################################################
+
     # shared data
     - DJANGO_STATIC_ROOT=/data/static
     - DJANGO_MEDIA_ROOT=/data/media
