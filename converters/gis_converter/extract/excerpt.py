@@ -25,13 +25,12 @@ class Excerpt(object):
                     os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'),
                     os.path.join(self.output_dir, 'tmp', file_basename + '_STATISTICS.csv')
                 )
-                self.export_from_db_to_format(format)
+                self.export_from_db_to_format(file_basename, format)
             # remove the temporary statistics file
             os.remove(os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'))
 
     #Calls the shell script that exports files of the specified format(file_format) from existing database
-    def export_from_db_to_format(self, file_format):
-        file_basename = '_'.join([self.filename_prefix, file_format])
+    def export_from_db_to_format(self, file_basename, file_format):
         dbcmd = 'sh', './extract/extract_format.sh', self.output_dir, file_basename, file_format
         dbcmd = [str(arg) for arg in dbcmd]
         subprocess.check_call(dbcmd)
