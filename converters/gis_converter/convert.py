@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import argparse
 import time
+from converters import osm_cutter
 
 from converters.gis_converter import options
 from converters.gis_converter.bootstrap.bootstrap import boostrap
@@ -29,10 +30,11 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    bounding_box = args.xmin, args.ymin, args.xmax, args.ymax
-    boostrap(*bounding_box)
+    bounding_box = osm_cutter.BBox(args.xmin, args.ymin, args.xmax, args.ymax)
+    pbf_path = osm_cutter.cut_osm_extent(bounding_box)
+    boostrap(pbf_path)
     # strip trailing slash
     if args.out_dir[-1] == '/':
         args.out_dir = args.out_dir[:-1]
-    excerpt = Excerpt(*bounding_box, formats=args.formats, output_dir=args.out_dir)
+    excerpt = Excerpt(formats=args.formats, output_dir=args.out_dir)
     excerpt.start()

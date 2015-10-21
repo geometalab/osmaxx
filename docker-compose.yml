@@ -2,7 +2,7 @@ data:
   image: busybox
   command: echo true
   volumes:
-    - /tmp
+    - /home/njordan/tmp/t:/tmp
 
 worker:
   extends:

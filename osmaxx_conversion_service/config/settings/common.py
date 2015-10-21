@@ -285,6 +285,10 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
 
+OSMAXX_CONVERSION_SERVICE = {
+    'XAPI_MIRROR': 'http://www.overpass-api.de/api/xapi_meta',
+}
+
 # Security - defaults taken from Django 1.8 (not secure enough for production)
 SECRET_KEY = env.str("DJANGO_SECRET_KEY", default=None)
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=[])

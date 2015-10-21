@@ -3,13 +3,9 @@ DBNAME='osmaxx_db'
 USER='postgres'
 PASS='postgres'
 PORT=5432
-XMIN=$1
-YMIN=$2
-XMAX=$3
-YMAX=$4
-DIR=$5
-FILENAME=$6
-FORMAT=$7
+DIR=$1
+FILENAME=$2
+FORMAT=$3
 
 STATIC_DIR=$(pwd)/static
 
@@ -31,7 +27,7 @@ case $FORMAT in
 'spatialite')
 	TYPE="SQLite"
 	EXT=".sqlite"
-	EXTRA='-dsco "SPATIALITE=YES" -nlt GEOMETRY';; # TODO: Remove or change -nlt because of geometry reading problems
+	EXTRA='-dsco "SPATIALITE=YES" -nlt GEOMETRY';; # FIXME: Remove or change -nlt because of geometry reading problems
 esac
 
 if [ -z $DIR/data/$FILENAME ]; then
@@ -46,7 +42,7 @@ else
 
 	echo "exporting to "$FILENAME$EXT
 	mkdir -p $DIR/data
-	ogr2ogr -f "$TYPE" $DIR/data/$FILENAME$EXT PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" -clipsrc $XMIN $YMIN $XMAX $YMAX $EXTRA
+	ogr2ogr -f "$TYPE" $DIR/data/$FILENAME$EXT PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" $EXTRA
 	echo $FILENAME$EXT" have been Generated.. Zipping files"
 
 	cd $DIR

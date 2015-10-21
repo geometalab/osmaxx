@@ -3,7 +3,7 @@ import subprocess
 from utils import chg_dir_with
 
 
-def boostrap(west, south, east, north):
+def boostrap(pbf_file_path):
     with chg_dir_with(os.path.dirname(__file__)):
-        boostrap_cmd = 'sh', 'main-bootstrap.sh', str(west), str(south), str(east), str(north)
+        boostrap_cmd = 'sh', 'main-bootstrap.sh', pbf_file_path
         subprocess.check_call(boostrap_cmd)
