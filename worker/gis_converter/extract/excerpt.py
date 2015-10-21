@@ -3,6 +3,7 @@ import math
 import subprocess
 import shutil
 import os
+from utils import chg_dir_with
 
 
 class Excerpt(object):
@@ -18,19 +19,17 @@ class Excerpt(object):
         self.tmp_statistics_filename = self.filename + '_tmp'
 
     def start(self):
-        old_cur_dir = os.getcwd()
-        os.chdir(os.path.dirname(__file__))
-        # only create statistics once and remove it when done with all formats
-        self._get_statistics(self.tmp_statistics_filename)
-        for format in self.formats:
-            shutil.copyfile(
-                os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'),
-                os.path.join(self.output_dir, 'tmp', self.filename + '_STATISTICS.csv')
-            )
-            self.export_from_db_to_format(format)
-        # remove the temporary statistics file
-        os.remove(os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'))
-        os.chdir(old_cur_dir)
+        with chg_dir_with(os.path.dirname(__file__)):
+            # only create statistics once and remove it when done with all formats
+            self._get_statistics(self.tmp_statistics_filename)
+            for format in self.formats:
+                shutil.copyfile(
+                    os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'),
+                    os.path.join(self.output_dir, 'tmp', self.filename + '_STATISTICS.csv')
+                )
+                self.export_from_db_to_format(format)
+            # remove the temporary statistics file
+            os.remove(os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'))
 
     #Calls the shell script that exports files of the specified format(file_format) from existing database
     def export_from_db_to_format(self, file_format):
