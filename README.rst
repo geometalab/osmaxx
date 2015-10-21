@@ -85,12 +85,20 @@ To build the documentation:
 Register on PyPI
 ----------------
 
-$ python setup.py register
+.. code:: bash
+
+    $ python setup.py register
 
 New release on PyPI
 -------------------
 
-$ python setup.py publish
+.. code:: bash
+
+    $ python setup.py publish
+
 You probably want to also tag the version now:
-      git tag -a 0.1.0 -m 'version 0.1.0'
-      git push --tags
+
+.. code:: bash
+
+    git tag -a 0.1.0 -m 'version 0.1.0'
+    git push --tags
