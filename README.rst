@@ -101,4 +101,4 @@ You probably want to also tag the version now:
 .. code:: bash
 
     git tag -a 0.1.0 -m 'version 0.1.0'
-    git push --tags
+    git push 0.1.0
