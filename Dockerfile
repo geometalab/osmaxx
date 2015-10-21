@@ -64,7 +64,11 @@ RUN pip install honcho
 
 RUN pip3 install -r requirements.txt
 
+# add utilities
+ADD ./utils $HOME/utils
+# add worker stuff
 ADD ./worker $HOME/worker
+# add base script
 ADD ./convert.py $HOME/
 
 ENTRYPOINT ["python", "convert.py"]
