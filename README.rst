@@ -22,7 +22,7 @@ Install using ``pip``\ …
 
 .. code:: bash
 
-    $ pip install osmaxx-conversion-service
+    pip install osmaxx-conversion-service
 
 Example
 -------
@@ -36,13 +36,13 @@ Install testing requirements.
 
 .. code:: bash
 
-    $ pip install -r requirements.txt
+    pip install -r requirements.txt
 
 Run with runtests.
 
 .. code:: bash
 
-    $ ./runtests.py
+    ./runtests.py
 
 You can also use the excellent `tox`_ testing tool to run the tests
 against all supported versions of Python and Django. Install tox
@@ -50,7 +50,7 @@ globally, and then simply run:
 
 .. code:: bash
 
-    $ tox
+    tox
 
 Documentation
 -------------
@@ -59,20 +59,20 @@ To build the documentation, you’ll need to install ``mkdocs``.
 
 .. code:: bash
 
-    $ pip install mkdocs
+    pip install mkdocs
 
 To preview the documentation:
 
 .. code:: bash
 
-    $ mkdocs serve
-    Running at: http://127.0.0.1:8000/
+    mkdocs serve
+    # Running at: http://127.0.0.1:8000/
 
 To build the documentation:
 
 .. code:: bash
 
-    $ mkdocs build
+    mkdocs build
 
 .. _tox: http://tox.readthedocs.org/en/latest/
 
@@ -87,14 +87,14 @@ Register on PyPI
 
 .. code:: bash
 
-    $ python setup.py register
+    python setup.py register
 
 New release on PyPI
 -------------------
 
 .. code:: bash
 
-    $ python setup.py publish
+    python setup.py publish
 
 You probably want to also tag the version now:
 
