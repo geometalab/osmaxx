@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 import argparse
 import time
-from worker.gis_converter.bootstrap.bootstrap import boostrap
-from worker.gis_converter.extract.excerpt import Excerpt
+
+from converters.gis_converter import options
+from converters.gis_converter.bootstrap.bootstrap import boostrap
+from converters.gis_converter.extract.excerpt import Excerpt
 
 
 if __name__ == '__main__':
@@ -16,7 +18,7 @@ if __name__ == '__main__':
         dest='formats',
         default=[],
         help='Add (repeated) output formats',
-        choices=['fgdb','shp','gpkg','spatialite'],
+        choices=options.get_output_formats(),
         required=True,
     )
     parser.add_argument('-o', '--out-dir',

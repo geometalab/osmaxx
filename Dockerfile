@@ -64,12 +64,11 @@ RUN pip install honcho
 
 RUN pip3 install -r requirements.txt
 
-# add utilities
 ADD ./utils $HOME/utils
-# add worker stuff
+ADD ./converters $HOME/converters
 ADD ./worker $HOME/worker
 
 # expose modules
 ENV PYTHONPATH=PYTHONPATH:$HOME
 
-ENTRYPOINT ["python", "worker/gis_converter/convert.py"]
+ENTRYPOINT ["python", "converters/gis_converter/convert.py"]
