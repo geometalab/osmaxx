@@ -32,12 +32,7 @@ def bbox_action(bbox, output_filename):
     command = "osmconvert --out-pbf -o={output_filename} -".format(
         output_filename=output_filename,
     )
-    p_to_pbf = subprocess.Popen(command.split(), stdin=p_wget.stdout)
-    # Allow p_wget to receive a SIGPIPE if p_to_pbf exits.
-    p_wget.stdout.close()
-    p_to_pbf.communicate()
-    if p_to_pbf.returncode != 0: # will be the case if either process failed
-        raise subprocess.CalledProcessError(returncode=p_to_pbf.returncode, cmd=p_to_pbf.args)
+    subprocess.check_call(command.split(), stdin=p_wget.stdout)
     return output_filename
 
 
