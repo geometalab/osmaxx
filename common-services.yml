@@ -1,6 +1,5 @@
 webapp:
   build: .
-  command: ./docker_startup_helper.sh
   environment:
     # port and host application listens
     - APP_PORT=8000
@@ -24,6 +23,8 @@ webapp:
     # Logging
     - PYTHONUNBUFFERED=non-empty-string
     - PYTHONIOENCODING=utf-8
+    - LC_ALL=C.UTF-8
+    - LANG=C.UTF-8
 
     # We enable Python hash randomization to protect Django from certain DoS attacks.
     # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/#python-options

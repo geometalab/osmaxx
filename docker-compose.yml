@@ -15,53 +15,20 @@ rqdashboard:
 redis:
   image: redis
 
-# 3 workers
-worker1:
+# 1 worker
+worker:
   extends:
     file: common-services.yml
     service: webapp
   build: .
+  entrypoint: [honcho, -f, ./worker/Procfile, start]
   volumes_from:
     - data
   links:
-    - workerdatabase1:database
+    - workerdatabase:database
     - redis
   environment:
-    - PGHOST=database
+    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
 
-workerdatabase1:
+workerdatabase:
   image: geometalab/postgis-with-translit
-
-worker2:
-  extends:
-    file: common-services.yml
-    service: webapp
-  build: .
-  volumes_from:
-    - data
-  links:
-    - workerdatabase2:database
-    - redis
-  environment:
-    - PGHOST=database
-
-workerdatabase2:
-  image: geometalab/postgis-with-translit
-
-worker3:
-  extends:
-    file: common-services.yml
-    service: webapp
-  build: .
-  volumes_from:
-    - data
-  links:
-    - workerdatabase3:database
-    - redis
-  environment:
-    - PGHOST=database
-
-workerdatabase3:
-  image: geometalab/postgis-with-translit
-
-
