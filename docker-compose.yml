@@ -29,6 +29,7 @@ worker:
     - redis
   environment:
     - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
+    - PGHOST=database
 
 workerdatabase:
   image: geometalab/postgis-with-translit
