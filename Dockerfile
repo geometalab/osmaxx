@@ -66,7 +66,7 @@ RUN pip3 install -r requirements.txt
 
 ADD ./utils $HOME/utils
 ADD ./converters $HOME/converters
-ADD ./osmaxx_conversion_service $HOME/osmaxx_conversion_service
+ADD ./rest_api $HOME/rest_api
 ADD ./manager $HOME/manager
 ADD ./worker $HOME/worker
 
