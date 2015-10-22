@@ -28,7 +28,7 @@ worker:
     - workerdatabase:database
     - redis
   environment:
-    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
+    - DJANGO_SETTINGS_MODULE=rest_api.config.settings.worker
     - PGHOST=database
 
 workerdatabase:

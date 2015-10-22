@@ -66,12 +66,12 @@ RUN pip3 install -r requirements.txt
 
 ADD ./utils $HOME/utils
 ADD ./converters $HOME/converters
-ADD ./osmaxx_conversion_service $HOME/osmaxx_conversion_service
+ADD ./rest_api $HOME/rest_api
 ADD ./manager $HOME/manager
 ADD ./worker $HOME/worker
 
 # expose modules
 ENV PYTHONPATH=PYTHONPATH:$HOME
-ENV DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+ENV DJANGO_SETTINGS_MODULE=rest_api.config.settings.local
 
 ENTRYPOINT ["/bin/sh", "-c"]
