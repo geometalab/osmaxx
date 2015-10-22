@@ -1,7 +1,8 @@
-from django_rq import job
 import time
-from converters import osm_cutter
 
+from django_rq import job
+
+from converters import osm_cutter
 from converters.gis_converter.bootstrap import bootstrap
 from converters.gis_converter.extract.excerpt import Excerpt
 from converters.osm_cutter import GEOMETRY_CLASSES_ACTION, BBox
