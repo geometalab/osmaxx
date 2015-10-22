@@ -73,4 +73,4 @@ ADD ./worker $HOME/worker
 ENV PYTHONPATH=PYTHONPATH:$HOME
 ENV DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
 
-ENTRYPOINT ["python3", "converters/gis_converter/convert.py"]
+ENTRYPOINT ["python3", "worker/converter_job.py"]
