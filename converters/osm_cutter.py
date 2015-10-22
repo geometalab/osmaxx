@@ -32,6 +32,8 @@ def bbox_action(bbox, output_filename):
     command = "osmconvert --out-pbf -o={output_filename} -".format(
         output_filename=output_filename,
     )
+    # Allow p_wget to receive a SIGPIPE if p_to_pbf exits.
+    p_wget.stdout.close()
     subprocess.check_call(command.split(), stdin=p_wget.stdout)
     return output_filename
 
