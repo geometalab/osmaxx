@@ -15,7 +15,7 @@ class ConversionJobManager:
 
     def __init__(self,
                  geometry=BBox(29.525547623634335, 40.77546776498174, 29.528980851173397, 40.77739734768811),
-                 format_options={'formats':['fgdb', 'spatialite', 'shp', 'gpkg']}):
+                 format_options={'formats': ['fgdb', 'spatialite', 'shp', 'gpkg']}):
         self.geometry = geometry
         self.format_options = format_options
 
