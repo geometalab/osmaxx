@@ -57,5 +57,3 @@ __all__ = [
     'GEOMETRY_CLASSES_ACTION',
     'cut_osm_extent',
 ]
-
-

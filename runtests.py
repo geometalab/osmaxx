@@ -12,7 +12,7 @@ PYTEST_ARGS = {
     'fast': ['tests', '-q'],
 }
 
-FLAKE8_ARGS = ['osmaxx_conversion_service', 'tests', '--ignore=E501']
+FLAKE8_ARGS = ['osmaxx_conversion_service', 'tests', 'worker', 'converters', '--ignore=E501']
 
 sys.path.append(os.path.dirname(__file__))
 

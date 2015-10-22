@@ -21,22 +21,25 @@ class Excerpt(object):
             self._get_statistics(self.tmp_statistics_filename)
             for format in self.formats:
                 file_basename = '_'.join([self.filename_prefix, format])
-                shutil.copyfile(
-                    os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'),
-                    os.path.join(self.output_dir, 'tmp', file_basename + '_STATISTICS.csv')
-                )
-                self.export_from_db_to_format(file_basename, format)
+                self._copy_statistics_file_to_format_dir(file_basename)
+                self._export_from_db_to_format(file_basename, format)
             # remove the temporary statistics file
             os.remove(os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'))
 
-    #Calls the shell script that exports files of the specified format(file_format) from existing database
-    def export_from_db_to_format(self, file_basename, file_format):
+    # Calls the shell script that exports files of the specified format(file_format) from existing database
+    def _export_from_db_to_format(self, file_basename, file_format):
         dbcmd = 'sh', './extract/extract_format.sh', self.output_dir, file_basename, file_format
         dbcmd = [str(arg) for arg in dbcmd]
         subprocess.check_call(dbcmd)
 
-    #Extract Statistics
+    # Extract Statistics
     def _get_statistics(self, filename):
         statcmd = 'bash', './extract/extract_statistics.sh', self.output_dir, filename
         statcmd = [str(arg) for arg in statcmd]
         subprocess.check_call(statcmd)
+
+    def _copy_statistics_file_to_format_dir(self, file_basename):
+        shutil.copyfile(
+            os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'),
+            os.path.join(self.output_dir, 'tmp', file_basename + '_STATISTICS.csv')
+        )

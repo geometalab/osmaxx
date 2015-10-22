@@ -2,7 +2,7 @@ from django_rq import job
 import time
 from converters import osm_cutter
 
-from converters.gis_converter.bootstrap.bootstrap import boostrap
+from converters.gis_converter.bootstrap import bootstrap
 from converters.gis_converter.extract.excerpt import Excerpt
 from converters.osm_cutter import GEOMETRY_CLASSES_ACTION, BBox
 
@@ -27,7 +27,7 @@ def convert(geometry, format_options, output_directory=None):
         output_directory = '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S")
 
     pbf_path = osm_cutter.cut_osm_extent(geometry)
-    boostrap(pbf_path)
+    bootstrap.boostrap(pbf_path)
 
     # strip trailing slash
     if output_directory[-1] == '/':
