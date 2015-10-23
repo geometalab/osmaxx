@@ -45,7 +45,7 @@ def pytest_configure():
             'django.contrib.auth.hashers.MD5PasswordHasher',
             'django.contrib.auth.hashers.CryptPasswordHasher',
         ),
-        RQ_QUEUES = {
+        RQ_QUEUES={
             'default': {
                 'HOST': 'localhost',
                 'PORT': 6379,
@@ -68,7 +68,7 @@ def pytest_configure():
                 'DEFAULT_TIMEOUT': 3600,
             },
         },
-        JWT_AUTH = {
+        JWT_AUTH={
             'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
             'JWT_DECODE_HANDLER': 'rest_framework_jwt.utils.jwt_decode_handler',
             'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
