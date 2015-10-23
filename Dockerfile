@@ -70,6 +70,6 @@ ADD ./utils $HOME/utils
 ADD ./worker $HOME/worker
 
 # expose modules
-ENV PYTHONPATH=PYTHONPATH:$HOME
+ENV PYTHONPATH=$PYTHONPATH:$HOME
 
 ENTRYPOINT ["python", "worker/gis_converter/convert.py"]
