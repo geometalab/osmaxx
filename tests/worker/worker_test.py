@@ -26,10 +26,12 @@ class WorkerTest(TestCase):
         convert(geometry=geometry, format_options=format_options)
         cut_osm_extent_mock.assert_called_once_with(geometry)
         bootstrap_mock.assert_called_once_with(self.pbf_file_path)
-        self.assert_mock_has_exactly_calls_in_any_order(
+        self.assert_mock_has_exactly_calls(
             _export_from_db_to_format_mock,
-            [mock.call(mock.ANY, f) for f in format_options['formats']]
+            [mock.call(mock.ANY, f) for f in format_options['formats']],
+            any_order=True,
         )
 
-    def assert_mock_has_exactly_calls_in_any_order(self, mocked_function, calls):
-        self.assertCountEqual(mocked_function.mock_calls, list(calls))
+    def assert_mock_has_exactly_calls(self, mocked_function, calls, any_order=False):
+        assert_calls_equal = self.assertCountEqual if any_order else self.assertEqual
+        assert_calls_equal(mocked_function.mock_calls, list(calls))
