@@ -19,17 +19,13 @@ redis:
 worker:
   extends:
     file: common-services.yml
-    service: webapp
-  build: .
+    service: environmentvars
+  build: worker/
   entrypoint: [honcho, -f, ./worker/Procfile, start]
   volumes_from:
     - data
   links:
-    - workerdatabase:database
     - redis
   environment:
     - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
-    - PGHOST=database
-
-workerdatabase:
-  image: geometalab/postgis-with-translit
+    - PGHOST=localhost
