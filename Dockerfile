@@ -7,6 +7,10 @@ MAINTAINER HSR Geometalab <geometalab@hsr.ch>
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    \
+    # build and runtime dependencies for osm2pgsql with LUA support
+    #
+    # See https://github.com/geometalab/docker-osm2pgsql
     git-core \
     build-essential \
     libxml2-dev \
@@ -26,6 +30,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     liblua5.2-0 \
     liblua5.2-dev \
     liblua5.1-0 \
+    \
+    # other dependencies of converters/gis_converter
     python \
     postgresql-client \
     zip \
