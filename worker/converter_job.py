@@ -21,8 +21,9 @@ def convert(geometry, format_options, output_directory=None):
     """
 
     # sanity check of input param
-    if geometry.__class__.__name__ not in GEOMETRY_CLASSES_ACTION:
-        raise NotImplementedError(str(type(geometry)) + ' has not been implemented yet')
+    class_name = geometry.__class__.__name__
+    if class_name not in GEOMETRY_CLASSES_ACTION:
+        raise NotImplementedError(class_name + ' has not been implemented yet')
 
     if not output_directory:
         output_directory = '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S")
