@@ -104,7 +104,7 @@ ENV HOME /home/py
 
 # activate translit
 RUN mkdir -p $HOME/worker
-COPY ./01_activate_translit.sql $HOME/worker/
+COPY ./worker/01_activate_translit.sql $HOME/worker/
 WORKDIR $HOME/worker/
 
 USER postgres

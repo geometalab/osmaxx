@@ -20,7 +20,8 @@ worker:
   extends:
     file: common-services.yml
     service: environmentvars
-  build: worker/
+  build: .
+  dockerfile: ./Dockerfile.worker
   entrypoint: [honcho, -f, ./worker/Procfile, start]
   volumes_from:
     - data
