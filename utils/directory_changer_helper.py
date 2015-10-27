@@ -1,7 +1,5 @@
 import shutil
-import sys
 import os
-import tempfile
 
 
 class ChDirWith:
