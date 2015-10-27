@@ -1,5 +1,5 @@
 data:
-  image: busybox
+  image: debian:jessie
   command: echo true
   volumes:
     - /home/njordan/tmp/t:/tmp
