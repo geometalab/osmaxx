@@ -19,12 +19,11 @@ class ChDirWith:
         creates a tmp directory as last resort, and does work there. Defaults to False.
     """
 
-    def __init__(self, directory, create_if_not_exists=True, fallback_to_tempdir_as_last_resort=False):
+    def __init__(self, directory, create_if_not_exists=True):
         self.old_dir = os.getcwd()
         self.new_dir = directory
         self.success = None
-        self.create_if_not_exists = create_if_not_exists or fallback_to_tempdir_as_last_resort
-        self.fallback_to_tempdir_as_last_resort = fallback_to_tempdir_as_last_resort
+        self.create_if_not_exists = create_if_not_exists
 
     def __enter__(self):
         try:
@@ -40,16 +39,7 @@ class ChDirWith:
                         os.chdir(self.new_dir)
                         self.success = True
                     except OSError:
-                        if self.fallback_to_tempdir_as_last_resort:
-                            # fake it!
-                            self.new_dir = tempfile.mkdtemp()
-                            sys.stderr.write("Couldn't enter or create directory `"
-                                             + str(self.new_dir) + "'. Entering "
-                                             + "temporary directory instead. All "
-                                             + "data written will be lost!" + '\n')
-                            self.success = False
-                        else:
-                            raise
+                        raise
                 else:
                     raise
         finally:
