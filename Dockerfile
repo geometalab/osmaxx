@@ -31,7 +31,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     liblua5.2-dev \
     liblua5.1-0 \
     \
-    # other dependencies of converters/gis_converter
+    # other dependencies of converters/gis_converter, worker, manager and rest_api
     python \
     postgresql-client \
     zip \
@@ -48,9 +48,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     python3-pip \
     ipython
 
+# Build and install osm2pgsql:
 WORKDIR /root/osm2pgsql
 
-# OSM2PGSQL
 RUN mkdir src && \
   cd src && \
   git clone https://github.com/openstreetmap/osm2pgsql.git && \
@@ -60,6 +60,7 @@ RUN mkdir src && \
   make && \
   make install
 
+# Install required Python packages:
 ENV HOME /home/py
 
 WORKDIR $HOME
@@ -76,7 +77,7 @@ ADD ./rest_api $HOME/rest_api
 ADD ./manager $HOME/manager
 ADD ./worker $HOME/worker
 
-# expose modules
+# Expose modules:
 ENV PYTHONPATH=PYTHONPATH:$HOME
 ENV DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
 
