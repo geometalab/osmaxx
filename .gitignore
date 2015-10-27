@@ -4,7 +4,7 @@
 .*
 
 # `documentation builds`
-html/
+/html/
 # `coverage` reports
 htmlcov/
 coverage/
