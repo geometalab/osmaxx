@@ -93,4 +93,4 @@ if __name__ == "__main__":
     if run_tests:
         exit_on_failure(pytest.main(pytest_args))
     if run_lint:
-        exit_on_failure(pylint(MODULES_TO_LINT))
+        exit_on_failure(flake8_main(FLAKE8_ARGS))
