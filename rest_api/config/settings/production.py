@@ -1,3 +1,4 @@
+# pylint: skip-file
 '''
 Production Configuration
 '''
