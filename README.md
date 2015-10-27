@@ -60,3 +60,5 @@ docker-compose run extract /bin/bash -c \
 docker-compose stop --timeout 0 # Only use --timeout 0 if you remove the container after
 docker-compose rm -f
 ```
+
+Further Documentation can be found under `docs/`.
