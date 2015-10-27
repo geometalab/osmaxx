@@ -5,6 +5,7 @@
 
 # Documentation builds
 html/
+
 # `coverage` reports
 htmlcov/
 coverage/
