@@ -14,6 +14,18 @@ author_email = 'dasg@hsr.ch, njordan.hsr@gmail.com'
 license = 'MIT'
 
 
+def get_requirements():
+    requirements_file_path = os.path.join(os.path.dirname(__file__), 'requirements.txt')
+    # when using tox, requirements.txt doesn't exist in the temp dir created by tox
+    if os.path.exists(requirements_file_path):
+        from pip.req import parse_requirements
+        parsed_requirements = parse_requirements(requirements_file_path, session=False)
+        requirements = [str(ir.req) for ir in parsed_requirements]
+    else:
+        requirements = []
+    return requirements
+
+
 def get_version(package):
     """
     Return package version as listed in `__version__` in `init.py`.
@@ -73,7 +85,7 @@ setup(
     author_email=author_email,
     packages=get_packages(package),
     package_data=get_package_data(package),
-    install_requires=[],
+    install_requires=get_requirements(),
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',
