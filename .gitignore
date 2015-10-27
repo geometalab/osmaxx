@@ -3,8 +3,9 @@
 *~
 .*
 
-# `coverage` reports
+# `documentation builds`
 html/
+# `coverage` reports
 htmlcov/
 coverage/
 
