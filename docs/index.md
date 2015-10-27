@@ -26,11 +26,7 @@ conversion service API Frontend for Osmaxx
 
 ## Installation
 
-Install using `pip`...
-
-```bash
-$ pip install osmaxx-conversion-service
-```
+TODO: Write installation instruction when done.
 
 ## Example
 
