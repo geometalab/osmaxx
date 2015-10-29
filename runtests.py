@@ -1,7 +1,8 @@
-#! /usr/bin/env python
+#!/usr/bin/env python3
 from __future__ import print_function
 
 import pytest
+from pylint import epylint as lint
 import sys
 import os
 import subprocess
@@ -12,7 +13,8 @@ PYTEST_ARGS = {
     'fast': ['tests', '-q'],
 }
 
-FLAKE8_ARGS = ['rest_api', 'tests', 'manager', 'worker', 'converters', 'utils', '--ignore=E501']
+MODULES_TO_LINT = ['rest_api', 'tests', 'manager', 'worker', 'converters', 'utils']
+FLAKE8_ARGS = MODULES_TO_LINT + ['--ignore=E501']
 
 sys.path.append(os.path.dirname(__file__))
 
@@ -20,6 +22,10 @@ sys.path.append(os.path.dirname(__file__))
 def exit_on_failure(ret, message=None):
     if ret:
         sys.exit(ret)
+
+
+def pylint(args):
+    lint.py_run(' '.join(args))
 
 
 def flake8_main(args):
@@ -48,9 +54,9 @@ if __name__ == "__main__":
     try:
         sys.argv.remove('--nolint')
     except ValueError:
-        run_flake8 = True
+        run_lint = True
     else:
-        run_flake8 = False
+        run_lint = False
 
     try:
         sys.argv.remove('--lintonly')
@@ -65,7 +71,7 @@ if __name__ == "__main__":
         style = 'default'
     else:
         style = 'fast'
-        run_flake8 = False
+        run_lint = False
 
     if len(sys.argv) > 1:
         pytest_args = sys.argv[1:]
@@ -86,5 +92,5 @@ if __name__ == "__main__":
 
     if run_tests:
         exit_on_failure(pytest.main(pytest_args))
-    if run_flake8:
+    if run_lint:
         exit_on_failure(flake8_main(FLAKE8_ARGS))

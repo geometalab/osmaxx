@@ -21,16 +21,12 @@ conversion service API Frontend for Osmaxx
 
 ## Requirements
 
-* Python (2.7, 3.3, 3.4)
-* Django (1.6, 1.7)
+* Python (3.4)
+* Django (1.8)
 
 ## Installation
 
-Install using `pip`...
-
-```bash
-$ pip install osmaxx-conversion-service
-```
+TODO: Write installation instruction when done.
 
 ## Example
 

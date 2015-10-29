@@ -37,7 +37,7 @@ def bbox_action(bbox, output_filename):
 
 
 GEOMETRY_CLASSES_ACTION = {
-    BBox.__name__: bbox_action,
+    BBox: bbox_action,
 }
 
 
@@ -46,11 +46,11 @@ def cut_osm_extent(geometry_defintion):
     output_filename = os.path.join(workdir_osm, 'excerpt.osm.pbf')
     os.makedirs(workdir_osm, exist_ok=True)
 
-    class_name = geometry_defintion.__class__.__name__
-    if class_name in GEOMETRY_CLASSES_ACTION:
-        return GEOMETRY_CLASSES_ACTION[class_name](geometry_defintion, output_filename)
+    klass = geometry_defintion.__class__
+    if klass in GEOMETRY_CLASSES_ACTION:
+        return GEOMETRY_CLASSES_ACTION[klass](geometry_defintion, output_filename)
     else:
-        raise NotImplementedError('Currently, ' + class_name + ' cannot be handled')
+        raise NotImplementedError('Currently, ' + klass.__name__ + ' cannot be handled')
 
 __all__ = [
     'BBox',
