@@ -42,7 +42,8 @@ def convert(geometry, format_options, output_directory=None):
     excerpt.start()
 
 
-if __name__ == '__main__':
+def _command_line_arguments():
+    global args
     parser = argparse.ArgumentParser(
         description='Convert a extent (BoundingBox) to given formats. Use -h for help. '
                     'Usage: converter_job.py '
@@ -60,7 +61,11 @@ if __name__ == '__main__':
                         choices=options.get_output_formats(),
                         required=True,
                         )
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+    args = _command_line_arguments()
     bounding_box = args.west, args.south, args.east, args.north
     geometry = BBox(*bounding_box)
     convert(geometry=geometry, format_options={'formats': args.formats})
