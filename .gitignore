@@ -26,5 +26,6 @@ local/
 __pycache__/
 
 # Hidden by naming convention, but tracked anyway:
+!.dockerignore
 !.gitignore
 !.travis.yml
