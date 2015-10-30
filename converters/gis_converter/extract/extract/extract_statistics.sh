@@ -1,12 +1,8 @@
 #!/bin/bash
 set -e
-XMIN=$1
-YMIN=$2
-XMAX=$3
-YMAX=$4
-CRS=900913
-mkdir -p `pwd`/tmp
-FILE=`pwd`/tmp/$5'_STATISTICS.csv'
+DIR=$1
+mkdir -p $DIR/tmp
+FILE=$DIR/tmp/$2'_STATISTICS.csv'
 echo 'Calculating Statistics...'
 if [ -f $FILE ]; then
 rm $FILE
@@ -14,12 +10,12 @@ fi
 
 gather_statistics(){
 
-	#SETUP THE VARIOUS VARIABLES FOR THE STATISTICS COMPILATION	
+	#SETUP THE VARIOUS VARIABLES FOR THE STATISTICS COMPILATION
 	VALUES_FOR_STAT_COLLECTION=(${!1})		#Array with values to be used for statistics for a table
 	TABLE=$2					            #Table Name from which stats are to be accumulated
 	OPTION=$3					            #Type of PSQL command to be used for the particular table
 	COUNTER=0					            #STAT Counter
-	if [ "$OPTION" = '1' ] || [ "$OPTION" = "3" ]; then 
+	if [ "$OPTION" = '1' ] || [ "$OPTION" = "3" ]; then
 		KEY=2
 	elif [ "$OPTION" = "2" ] || [ "$OPTION" = "4" ] || [ "$OPTION" = "5" ]; then
 		KEY=3
@@ -29,25 +25,25 @@ gather_statistics(){
 	for ELEMENT in "${VALUES_FOR_STAT_COLLECTION[@]}"
 		do
 			case $OPTION in
-		
-			1) 
-				TYPE="where type='$ELEMENT'"
+
+			1)
+				TYPE="type='$ELEMENT'"
 				LABEL="";;						                    #No LABEL to be attached, just the variable from the array
-			2) 
-				TYPE="where type='$ELEMENT'"
+			2)
+				TYPE="type='$ELEMENT'"
 				LABEL=$4",";;						                #Label to be attached to the stat count in the "FILE"
 			3)
-				TYPE="where type='$4' and status='$ELEMENT'"
+				TYPE="type='$4' and status='$ELEMENT'"
 				LABEL=$4",";;						                #Label to be attached to the stat count in the "FILE"
 			4)
-				TYPE="where aggtype='$4' and type='$ELEMENT'"
+				TYPE="aggtype='$4' and type='$ELEMENT'"
 				LABEL=$4",";;						                #Label to be attached to the stat count in the "FILE"
 			5)
-				TYPE="where aggtype<>'$5' and type='$ELEMENT'"	#As LABEL and aggtype parameter are different we need a fifth argument
+				TYPE="aggtype<>'$5' and type='$ELEMENT'"	#As LABEL and aggtype parameter are different we need a fifth argument
 				LABEL=$4",";;
 			esac
 
-			COUNTER=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.$TABLE $TYPE and osmaxx.$TABLE.geom && ST_MakeEnvelope($XMIN, $YMIN, $XMAX, $YMAX, $CRS)" osmaxx_db)
+			COUNTER=$(psql -U postgres -Atc "SELECT count(type) from osmaxx.$TABLE where $TYPE" osmaxx_db)
 			printf "$LABEL%20s,%20s\n" $ELEMENT	$COUNTER>>TEMP.txt;
 		done
 	sort --key=$KEY --reverse --numeric-sort TEMP.txt>>$FILE

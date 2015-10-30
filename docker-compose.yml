@@ -1,18 +1,35 @@
-bootstrap:
-  build: bootstrap/
-  links:
-    - database
-  environment:
-    - PGHOST=database
+data:
+  image: busybox
+  command: echo true
   volumes:
-    - ./tmp/osmosis/:/tmp/osmosis/
-extract:
-  build: extract/
+    - /tmp
+
+rqdashboard:
+  build: rq-dashboard
   links:
-    - database
+    - redis
+  ports:
+    - "9090:9181"
+  command: rq-dashboard -H redis
+
+redis:
+  image: redis
+
+# 1 worker
+worker:
+  extends:
+    file: common-services.yml
+    service: webapp
+  build: .
+  entrypoint: [honcho, -f, ./worker/Procfile, start]
+  volumes_from:
+    - data
+  links:
+    - workerdatabase:database
+    - redis
   environment:
+    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
     - PGHOST=database
-  volumes:
-    - ./results:/home/excerpt/data/
-database:
+
+workerdatabase:
   image: geometalab/postgis-with-translit

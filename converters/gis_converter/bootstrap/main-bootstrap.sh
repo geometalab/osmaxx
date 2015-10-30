@@ -13,11 +13,8 @@ set -e
 
 DB_NAME=osmaxx_db
 DIR=$(pwd)
+PBF_FILE=$1
 WORKDIR_OSM=/tmp/osmosis
-WEST=${1}
-SOUTH=${2}
-EAST=${3}
-NORTH=${4}
 
 execute_sql() {
     psql --dbname $DB_NAME -c "$1" -U postgres
@@ -48,18 +45,11 @@ init_osmosis() {
 
 fill_initial_osm_data(){
     echo "*** fill initial OSM data ***"
-
-    # Download the region map specified through the given coordinates
-    wget -qO- "http://overpass.osm.rambler.ru/cgi/xapi_meta?*[bbox=${WEST},${SOUTH},${EAST},${NORTH}]"\
-        | osmconvert --out-pbf - > $WORKDIR_OSM/excerpt.osm.pbf
-
     #Convert the OSM data to the required PostgreSQL format
     osm2pgsql --slim --create --extra-attributes --database $DB_NAME \
         --prefix osm --style $DIR/src/terminal.style --tag-transform-script $DIR/src/style.lua\
-        --number-processes 8 --username postgres --hstore-all --input-reader pbf $WORKDIR_OSM/excerpt.osm.pbf
+        --number-processes 8 --username postgres --hstore-all --input-reader pbf $PBF_FILE
 }
-
-
 
 # http://petereisentraut.blogspot.ch/2010/03/running-sql-scripts-with-psql.html
 PSQL='psql -v ON_ERROR_STOP=1 -U postgres '

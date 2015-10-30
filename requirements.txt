@@ -1,0 +1,26 @@
+# Minimum Django and REST framework version
+Django>=1.8,<=1.9
+djangorestframework>=3.2,<=3.3
+djangorestframework-gis==0.9.5
+djangorestframework-jwt==1.7.2
+markdown
+django-filter
+django-rq==0.8.0
+django-environ==0.4.0
+django-extensions==1.5.7
+Werkzeug==0.10.4
+django-debug-toolbar==1.4
+whitenoise
+psycopg2==2.6.1
+
+# Test requirements
+pytest-django==2.9.1
+pytest-cov==2.2.0
+flake8==2.4.1
+pylint==1.4.4
+
+# wheel for PyPI installs
+wheel==0.26.0
+
+# MkDocs for documentation previews/deploys
+mkdocs==0.14.0

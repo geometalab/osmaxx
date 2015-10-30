@@ -3,36 +3,34 @@ DBNAME='osmaxx_db'
 USER='postgres'
 PASS='postgres'
 PORT=5432
-XMIN=$1
-YMIN=$2
-XMAX=$3
-YMAX=$4
-FILENAME=$5
-FORMAT=$6
-DIR=`pwd`
+DIR=$1
+FILENAME=$2
+FORMAT=$3
+
+STATIC_DIR=$(pwd)/static
 
 #Initialise the variables according to the format requested by the user
 case $FORMAT in
 
-'fgdb') 
+'fgdb')
 	TYPE="FileGDB"
-	EXT=".gdb" 
+	EXT=".gdb"
 	EXTRA="";;
-'gpkg') 
+'gpkg')
 	TYPE="GPKG"
-	EXT=".gpkg" 
+	EXT=".gpkg"
 	EXTRA="";;
-'shp') 
+'shp')
 	TYPE="ESRI Shapefile"
-	EXT=".shp" 
+	EXT=".shp"
 	EXTRA="";;
-'spatialite') 
+'spatialite')
 	TYPE="SQLite"
-	EXT=".sqlite" 
-	EXTRA='-dsco "SPATIALITE=YES" -nlt GEOMETRY';; # TODO: Remove or change -nlt because of geometry reading problems
+	EXT=".sqlite"
+	EXTRA='-dsco "SPATIALITE=YES" -nlt GEOMETRY';; # FIXME: Remove or change -nlt because of geometry reading problems
 esac
 
-if [ -z $DIR/data/$FILENAME ]; then 
+if [ -z $DIR/data/$FILENAME ]; then
 echo 'Enter the filename..'
 elif [ -d $DIR/data/$FILENAME ]; then
 rm $DIR/data/$FILENAME
@@ -44,13 +42,13 @@ else
 
 	echo "exporting to "$FILENAME$EXT
 	mkdir -p $DIR/data
-	ogr2ogr -f "$TYPE" $DIR/data/$FILENAME$EXT PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" -clipsrc $XMIN $YMIN $XMAX $YMAX $EXTRA
+	ogr2ogr -f "$TYPE" $DIR/data/$FILENAME$EXT PG:"dbname='"$DBNAME"' user='"$USER"' password='"$PASS"' port="$PORT" schemas=view_osmaxx" $EXTRA
 	echo $FILENAME$EXT" have been Generated.. Zipping files"
 
 	cd $DIR
 	zip -r --move $DIR/data/$FILENAME.zip ./data/$FILENAME$EXT
 
-	cd $DIR/static
+	cd $STATIC_DIR
         zip -g $DIR/data/$FILENAME.zip ./README.txt
         zip -g $DIR/data/$FILENAME.zip ./LICENCE.txt
         zip -g $DIR/data/$FILENAME.zip ./METADATA.txt
