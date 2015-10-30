@@ -1,6 +1,6 @@
 import django_rq
 from converters import converter_settings
-from converters.osm_cutter import BBox
+from converters.boundaries import BBox
 from worker.converter_job import convert
 
 
