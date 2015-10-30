@@ -23,10 +23,6 @@ def exit_on_failure(ret, message=None):
         sys.exit(ret)
 
 
-def pylint(args):
-    lint.py_run(' '.join(args))
-
-
 def flake8_main(args):
     print('Running flake8 code linting')
     ret = subprocess.call(['flake8'] + args)
