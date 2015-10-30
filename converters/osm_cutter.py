@@ -1,20 +1,9 @@
-import os
 import subprocess
+
+import os
+
+from converters.boundaries import BBox
 from converters.converter_settings import OSMAXX_CONVERSION_SERVICE
-
-
-class BBox:
-    """
-    A pickleable Bounding Box object
-
-    :param west: float, indicating a position in mercator
-    :param south: float, indicating a position in mercator
-    :param east: float, indicating a position in mercator
-    :param north: float, indicating a position in mercator
-    :returns nothing
-    """
-    def __init__(self, west, south, east, north):
-        self.west, self.south, self.east, self.north = west, south, east, north
 
 
 def bbox_action(bbox, output_filename):
@@ -53,7 +42,6 @@ def cut_osm_extent(geometry_defintion):
         raise NotImplementedError('Currently, ' + klass.__name__ + ' cannot be handled')
 
 __all__ = [
-    'BBox',
     'GEOMETRY_CLASSES_ACTION',
     'cut_osm_extent',
 ]
