@@ -63,4 +63,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     bounding_box = args.west, args.south, args.east, args.north
     geometry = BBox(*bounding_box)
-    convert(geometry=geometry, format_options=args.formats)
+    convert(geometry=geometry, format_options={'formats': args.formats})

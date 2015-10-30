@@ -15,18 +15,16 @@ rqdashboard:
 redis:
   image: redis
 
-# 1 worker
 worker:
   extends:
     file: common-services.yml
     service: environmentvars
   build: .
   dockerfile: ./Dockerfile.worker
-  entrypoint: [honcho, -f, ./worker/Procfile, start]
+  command: [honcho, -f, ./worker/Procfile, start]
   volumes_from:
     - data
   links:
     - redis
   environment:
     - DJANGO_SETTINGS_MODULE=rest_api.config.settings.worker
-    - PGHOST=localhost
