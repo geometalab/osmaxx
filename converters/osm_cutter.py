@@ -1,20 +1,9 @@
-import os
 import subprocess
+
+import os
+
+from converters.boundaries import BBox
 from converters.converter_settings import OSMAXX_CONVERSION_SERVICE
-
-
-class BBox:
-    """
-    A pickleable Bounding Box object
-
-    :param west: float, indicating a position in mercator
-    :param south: float, indicating a position in mercator
-    :param east: float, indicating a position in mercator
-    :param north: float, indicating a position in mercator
-    :returns nothing
-    """
-    def __init__(self, west, south, east, north):
-        self.west, self.south, self.east, self.north = west, south, east, north
 
 
 def bbox_action(bbox, output_filename):
@@ -32,14 +21,12 @@ def bbox_action(bbox, output_filename):
     command = "osmconvert --out-pbf -o={output_filename} -".format(
         output_filename=output_filename,
     )
-    # Allow p_wget to receive a SIGPIPE if p_to_pbf exits.
-    p_wget.stdout.close()
     subprocess.check_call(command.split(), stdin=p_wget.stdout)
     return output_filename
 
 
 GEOMETRY_CLASSES_ACTION = {
-    BBox.__name__: bbox_action,
+    BBox: bbox_action,
 }
 
 
@@ -48,14 +35,13 @@ def cut_osm_extent(geometry_defintion):
     output_filename = os.path.join(workdir_osm, 'excerpt.osm.pbf')
     os.makedirs(workdir_osm, exist_ok=True)
 
-    class_name = geometry_defintion.__class__.__name__
-    if class_name in GEOMETRY_CLASSES_ACTION:
-        return GEOMETRY_CLASSES_ACTION[class_name](geometry_defintion, output_filename)
+    klass = geometry_defintion.__class__
+    if klass in GEOMETRY_CLASSES_ACTION:
+        return GEOMETRY_CLASSES_ACTION[klass](geometry_defintion, output_filename)
     else:
-        raise NotImplementedError('Currently, ' + class_name + ' cannot be handled')
+        raise NotImplementedError('Currently, ' + klass.__name__ + ' cannot be handled')
 
 __all__ = [
-    'BBox',
     'GEOMETRY_CLASSES_ACTION',
     'cut_osm_extent',
 ]

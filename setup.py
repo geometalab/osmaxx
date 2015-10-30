@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 import re
 import os
 import sys
@@ -7,12 +6,24 @@ from setuptools import setup
 
 
 name = 'osmaxx-conversion-service'
-package = 'osmaxx_conversion_service'
+package = 'rest_api'
 description = 'conversion REST service API Frontend for Osmaxx'
 url = 'https://github.com/geometalab/osmaxx-conversion-service'
 author = 'Raphael Das Gupta, Nicola Jordan'
 author_email = 'dasg@hsr.ch, njordan.hsr@gmail.com'
 license = 'MIT'
+
+
+def get_requirements():
+    requirements_file_path = os.path.join(os.path.dirname(__file__), 'requirements.txt')
+    # when using tox, requirements.txt doesn't exist in the temp dir created by tox
+    if os.path.exists(requirements_file_path):
+        from pip.req import parse_requirements
+        parsed_requirements = parse_requirements(requirements_file_path, session=False)
+        requirements = [str(ir.req) for ir in parsed_requirements]
+    else:
+        requirements = []
+    return requirements
 
 
 def get_version(package):
@@ -74,7 +85,7 @@ setup(
     author_email=author_email,
     packages=get_packages(package),
     package_data=get_package_data(package),
-    install_requires=[],
+    install_requires=get_requirements(),
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',

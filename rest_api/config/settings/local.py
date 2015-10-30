@@ -1,3 +1,4 @@
+# pylint: skip-file
 from .common import *  # noqa
 
 DEBUG = env.bool('DJANGO_DEBUG', default=True)

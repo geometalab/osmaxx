@@ -1,5 +1,4 @@
-webapp:
-  build: .
+environmentvars:
   environment:
     # port and host application listens
     - APP_PORT=8000

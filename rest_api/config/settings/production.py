@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# pylint: skip-file
 '''
 Production Configuration
 '''
@@ -9,7 +9,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 ) + MIDDLEWARE_CLASSES
 
-# get an exception when starting, if they are not defined
+# No fallback values for the following settings, as we WANT an exception
+# during start if any of the corresponding environment variables aren't set.
 SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS")
 DATABASES['default'] = env.db("DJANGO_DATABASE_URL")

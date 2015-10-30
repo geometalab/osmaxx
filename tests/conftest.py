@@ -1,3 +1,4 @@
+# pylint: disable=C0111
 from datetime import timedelta
 
 
