@@ -23,7 +23,7 @@ execute_sql() {
 setup_db() {
     echo "*** setup DB with postgis extensions ***"
     dropdb -U postgres --if-exists $DB_NAME
-    createdb   -U postgres $DB_NAME
+    createdb --encoding=UTF8 -U postgres $DB_NAME
     execute_sql "CREATE EXTENSION hstore;"
     execute_sql "CREATE EXTENSION postgis;"
 }
