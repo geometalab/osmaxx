@@ -3,7 +3,7 @@ import time
 
 from django_rq import job
 
-from converters import osm_cutter, options
+from converters import osm_cutter, converter_options
 from converters.gis_converter.bootstrap import bootstrap
 from converters.gis_converter.extract.excerpt import Excerpt
 from converters.osm_cutter import GEOMETRY_CLASSES_ACTION
@@ -57,7 +57,7 @@ if __name__ == '__main__':
                         dest='formats',
                         default=[],
                         help='Add (repeated) output formats',
-                        choices=options.get_output_formats(),
+                        choices=converter_options.get_output_formats(),
                         required=True,
                         )
     args = parser.parse_args()
