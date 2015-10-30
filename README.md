@@ -18,47 +18,38 @@ docker-compose build
 
 ## Documentation
 
-See Wiki https://github.com/geometalab/osmaxx-postgis-conversion/wiki and https://github.com/geometalab/osmaxx/wiki.
+See `docs/` and Wikis:
+- https://github.com/geometalab/osmaxx-postgis-conversion/wiki
+- https://github.com/geometalab/osmaxx/wiki.
 
 
 ## Usage
 
+*Note*: Currently, the generated zip files can't be accessed, since they live in the container only.
+
 To extract an excerpt, you need to do the following:
 
-* Prepare the database (will download Switzerland)
 ```shell
-docker-compose run bootstrap /bin/bash -c \
-  'sleep 10 && sh main-bootstrap.sh {excerptWestBorder} {excerptSouthBorder} {excerptEastBorder}  {excerptNorthBorder}'
-  
-# Example: 
-# * main-bootstrap.sh will download osm-pbf file of switzerland and cut out the 
-#   excerpt (8.775449276 47.1892350573 8.8901920319 47.2413633153) = Rapperswil.
-# * This excerpt will be imported to the database
-docker-compose run bootstrap /bin/bash -c \
-  'sleep 10 && sh main-bootstrap.sh 8.775449276 47.1892350573 8.8901920319 47.2413633153'
-```
-* Extract the data
-```shell
-docker-compose run extract /bin/bash -c \
-  'python excerpt.py {excerptSouthBorder} {excerptWestBorder} {excerptNorthBorder} -f {formatKey}'
-
-# Example:
-# excerpt.py will extract the data from database and convert into specified format
-# * 'shp': Shape file
-# * 'gpkg': Geo package file
-# * 'spatialite': Spatial SQLite file
-docker-compose run extract /bin/bash -c \
-  'python excerpt.py 8.775449276 47.1892350573 8.8901920319 47.2413633153 -f shp && \
-  python excerpt.py 8.775449276 47.1892350573 8.8901920319 47.2413633153 -f gpkg && \
-  python excerpt.py 8.775449276 47.1892350573 8.8901920319 47.2413633153 -f spatialite'
-```
-* Get the result data: 
-  You will find the resultdata in `./result`
-
-* Stop & remove the container
-```shell
-docker-compose stop --timeout 0 # Only use --timeout 0 if you remove the container after
-docker-compose rm -f
+docker-compose run --rm worker /bin/bash -c \
+  'python3 worker/converter_job.py --west {excerptWestBorder} --south {excerptSouthBorder} --east {excerptEastBorder}  
+  --north {excerptNorthBorder} -f fgdb -f shp -f gpkg -f spatialite'
 ```
 
-Further Documentation can be found under `docs/`.
+### Example: 
+
+* worker will download osm-pbf file of selected cut-out-area and cut out the 
+  excerpt (8.775449276 47.1892350573 8.8901920319 47.2413633153) = Rapperswil.
+* This excerpt will be imported to the database
+* Out of the database, the selected format(s) will be exported
+
+```shell
+docker-compose run --rm worker /bin/bash -c \
+   'python3 worker/converter_job.py \
+   --west 8.775449276 --south 47.1892350573 --east 8.8901920319 --north 47.2413633153\
+   -f fgdb -f shp -f gpkg -f spatialite'
+```
+
+The same in one line for easier copy paste:
+```shell
+docker-compose run --rm worker /bin/bash -c python3 worker/converter_job.py  --west 8.775449276 --south 47.1892350573 --east 8.8901920319 --north 47.2413633153  -f fgdb -f shp -f gpkg -f spatialite
+```
