@@ -2,7 +2,7 @@
 from unittest import TestCase
 from unittest import mock
 from converters.gis_converter.extract.excerpt import Excerpt
-from converters.osm_cutter import BBox
+from converters.boundaries import BBox
 from worker.converter_job import convert
 
 
