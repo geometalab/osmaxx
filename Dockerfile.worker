@@ -26,15 +26,22 @@ RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' $PG_MAJ
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y\
+\
+    make \
+    cmake \
+    g++ \
     git-core\
     build-essential\
     libxml2-dev\
+    libgeos-dev \
     libgeos++-dev\
     libpq-dev\
     libboost-dev\
     libboost-system-dev\
     libboost-filesystem-dev\
     libboost-thread-dev\
+    libexpat1-dev \
+    zlib1g-dev \
     libbz2-dev\
     libproj-dev\
     libtool\
@@ -52,7 +59,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     osmctools \
     wget \
     binutils \
-    libproj-dev \
     gdal-bin \
     libgeoip1 \
     gdal-bin \
@@ -63,8 +69,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 \
     postgresql-server-dev-9.3 \
     postgresql-common  \
-    postgresql-$PG_MAJOR \
-    postgresql-contrib-$PG_MAJOR \
+    postgresql-${PG_MAJOR} \
+    postgresql-contrib-${PG_MAJOR} \
 \
     postgresql-${PG_MAJOR}-postgis-${POSTGIS_MAJOR} \
     postgresql-${PG_MAJOR}-postgis-scripts \
@@ -83,8 +89,9 @@ RUN mkdir src &&\
   cd src &&\
   git clone https://github.com/openstreetmap/osm2pgsql.git &&\
   cd osm2pgsql &&\
-  ./autogen.sh &&\
-  ./configure &&\
+  mkdir build &&\
+  cd build &&\
+  cmake ..&&\
   make &&\
   make install
 
@@ -103,13 +110,17 @@ ENV HOME /home/py
 # activate translit
 RUN mkdir -p $HOME/worker
 COPY ./worker/01_activate_translit.sql $HOME/worker/
+COPY ./worker/00_make_db_utf8.sh $HOME/worker/
 WORKDIR $HOME/worker/
 
 USER postgres
 RUN service postgresql start && \
+    ./00_make_db_utf8.sh && \
     psql -f ./01_activate_translit.sql
 
 USER root
+
+RUN sed -i '1ilocal   all             all                                     trust' /etc/postgresql/9.3/main/pg_hba.conf
 
 RUN chmod a+rx $CODE
 
@@ -131,4 +142,6 @@ ADD ./worker $HOME/worker
 ENV PYTHONPATH=PYTHONPATH:$HOME
 ENV DJANGO_SETTINGS_MODULE=rest_api.config.settings.local
 
-ENTRYPOINT ["/bin/sh", "-c"]
+ADD ./worker/entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash", "-c"]
