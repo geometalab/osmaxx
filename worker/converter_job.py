@@ -1,11 +1,13 @@
+import argparse
 import time
 
 from django_rq import job
 
-from converters import osm_cutter
+from converters import osm_cutter, options
 from converters.gis_converter.bootstrap import bootstrap
 from converters.gis_converter.extract.excerpt import Excerpt
-from converters.osm_cutter import GEOMETRY_CLASSES_ACTION, BBox
+from converters.osm_cutter import GEOMETRY_CLASSES_ACTION
+from converters.boundaries import BBox
 
 
 @job
@@ -41,8 +43,24 @@ def convert(geometry, format_options, output_directory=None):
 
 
 if __name__ == '__main__':
-    geometry = BBox(29.525547623634335, 40.77546776498174, 29.528980851173397, 40.77739734768811)
-    format_options = {
-        'formats': ['fgdb', 'spatialite', 'shp', 'gpkg']
-    }
-    convert(geometry=geometry, format_options=format_options)
+    parser = argparse.ArgumentParser(
+        description='Convert a extent (BoundingBox) to given formats. Use -h for help. '
+                    'Usage: converter_job.py '
+                    '-w 29.525547623634335 -s 40.77546776498174 -e 29.528980851173397 -n 40.77739734768811 '
+                    '-f fgdb -f spatialite -f shp -f gpkg')
+    parser.add_argument('--west', '-w', type=float, help='west coordinate of bounding box', required=True)
+    parser.add_argument('--south', '-s', type=float, help='south coordinate of bounding box', required=True)
+    parser.add_argument('--east', '-e', type=float, help='east coordinate of bounding box', required=True)
+    parser.add_argument('--north', '-n', type=float, help='north coordinate of bounding box', required=True)
+    parser.add_argument('-f', '--format',
+                        action='append',
+                        dest='formats',
+                        default=[],
+                        help='Add (repeated) output formats',
+                        choices=options.get_output_formats(),
+                        required=True,
+                        )
+    args = parser.parse_args()
+    bounding_box = args.west, args.south, args.east, args.north
+    geometry = BBox(*bounding_box)
+    convert(geometry=geometry, format_options=args.formats)
