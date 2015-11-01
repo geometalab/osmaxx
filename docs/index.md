@@ -22,7 +22,9 @@ conversion service API Frontend for Osmaxx
 ## Requirements
 
 * Python (3.4)
-* Django (1.8)
+* postgres-server-headers (dev) for psycopg2
+
+For the packages required, see requirements.txt.
 
 ## Installation
 
@@ -31,6 +33,19 @@ TODO: Write installation instruction when done.
 ## Example
 
 TODO: Write example.
+
+## Linting
+
+Using the instruction below for testing, the flake8 tool is also run.
+
+For more comprehensive output, you can use prospector:
+
+```bash
+prospector --with-tool vulture --with-tool pyroma
+```
+
+Information about its options and usage can be found at the 
+[prospector documentation](http://prospector.readthedocs.org/en/master/usage.html)
 
 ## Testing
 
