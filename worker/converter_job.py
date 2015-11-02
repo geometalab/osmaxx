@@ -55,7 +55,9 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
     if not output_directory:
         output_directory = '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S")
 
+    # todo: update status in queue -> started
     pbf_path = notifier.try_or_notify(osm_cutter.cut_osm_extent, geometry)
+    # todo: update status in queue -> extent cutted
     notifier.try_or_notify(bootstrap.boostrap, pbf_path)
 
     # strip trailing slash
@@ -64,7 +66,10 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
 
     formats = format_options['formats']
     excerpt = Excerpt(formats=formats, output_dir=output_directory)
+    # todo: update status in queue -> started conversion
+    # todo: also notify for every conversion format -> started, finished, failed
     notifier.try_or_notify(excerpt.start_format_extraction)
+    # todo: update status in queue -> done
     notifier.notify()
 
 
