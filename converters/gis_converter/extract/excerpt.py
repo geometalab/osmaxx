@@ -15,7 +15,7 @@ class Excerpt(object):
         ])
         self.tmp_statistics_filename = self.filename_prefix + '_tmp'
 
-    def start(self):
+    def start_format_extraction(self):
         with chg_dir_with(os.path.dirname(__file__)):
             # only create statistics once and remove it when done with all formats
             self._get_statistics(self.tmp_statistics_filename)

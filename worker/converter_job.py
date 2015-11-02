@@ -7,7 +7,6 @@ import requests
 from converters import osm_cutter, options
 from converters.gis_converter.bootstrap import bootstrap
 from converters.gis_converter.extract.excerpt import Excerpt
-from converters.osm_cutter import GEOMETRY_CLASSES_ACTION
 from converters.boundaries import BBox
 
 
@@ -37,12 +36,6 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
         uses '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S") for default
     :return: resulting paths/urls for created file
     """
-
-    # sanity check of input param
-    klass = geometry.__class__
-    if klass not in GEOMETRY_CLASSES_ACTION:
-        raise NotImplementedError(klass.__name__ + ' has not been implemented yet')
-
     if not output_directory:
         output_directory = '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S")
 
@@ -55,7 +48,7 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
 
     formats = format_options['formats']
     excerpt = Excerpt(formats=formats, output_dir=output_directory)
-    excerpt.start()
+    excerpt.start_format_extraction()
 
 
 def _command_line_arguments():
