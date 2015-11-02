@@ -16,7 +16,7 @@ class Notifier(object):
 
     def try_or_notify(self, function, *args, **kwargs):
         try:
-            return function(args, kwargs)
+            return function(*args, **kwargs)
         except:
             self.notify()
             raise
