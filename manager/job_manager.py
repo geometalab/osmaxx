@@ -20,6 +20,7 @@ class ConversionJobManager:
         self.format_options = format_options
 
     def start_conversion(self):
+        # todo: ensure job is cleaned up after files have been requested -> in rest_api
         return rq_enqueue_with_settings(
             convert,
             geometry=self.geometry,
