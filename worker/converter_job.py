@@ -10,18 +10,31 @@ from converters.gis_converter.extract.excerpt import Excerpt
 from converters.boundaries import BBox
 
 
-def notify_status_change(callback_url):
-    """
-    fire and forget, and don't care when exceptions occur.
+class Notifier(object):
+    def __init__(self, callback_url):
+        self.callback_url = callback_url
 
-    :param callback_url:
-    :return: nothing
-    """
-    try:
-        if callback_url:
-            requests.get(callback_url)
-    except:
-        pass
+    def try_or_notify(self, function, *args, **kwargs):
+        try:
+            return function(args, kwargs)
+        except:
+            self.notify()
+            raise
+
+    def notify(self):
+        self._notify_status_change()
+
+    def _notify_status_change(self):
+        """
+        fire and forget, and don't care when exceptions occur.
+
+        :param callback_url:
+        :return: nothing
+        """
+        try:
+            requests.get(self.callback_url)
+        except:
+            pass
 
 
 @job
@@ -36,11 +49,14 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
         uses '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S") for default
     :return: resulting paths/urls for created file
     """
+
+    notifier = Notifier(callback_url)
+
     if not output_directory:
         output_directory = '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S")
 
-    pbf_path = osm_cutter.cut_osm_extent(geometry)
-    bootstrap.boostrap(pbf_path)
+    pbf_path = notifier.try_or_notify(osm_cutter.cut_osm_extent, geometry)
+    notifier.try_or_notify(bootstrap.boostrap, pbf_path)
 
     # strip trailing slash
     if output_directory[-1] == '/':
@@ -48,7 +64,8 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
 
     formats = format_options['formats']
     excerpt = Excerpt(formats=formats, output_dir=output_directory)
-    excerpt.start_format_extraction()
+    notifier.try_or_notify(excerpt.start_format_extraction)
+    notifier.notify()
 
 
 def _command_line_arguments():
