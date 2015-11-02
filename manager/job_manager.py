@@ -1,6 +1,6 @@
-import django_rq
 from converters import converter_settings
 from converters.boundaries import BBox
+from manager.rq_helper import rq_enqueue_with_settings
 from worker.converter_job import convert
 
 
@@ -20,7 +20,7 @@ class ConversionJobManager:
         self.format_options = format_options
 
     def start_conversion(self):
-        return django_rq.enqueue(
+        return rq_enqueue_with_settings(
             convert,
             geometry=self.geometry,
             format_options=self.format_options,
