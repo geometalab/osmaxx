@@ -17,10 +17,14 @@ psycopg2==2.6.1
 pytest-django==2.9.1
 pytest-cov==2.2.0
 flake8==2.4.1
-pylint==1.4.4
 
 # wheel for PyPI installs
 wheel==0.26.0
 
 # MkDocs for documentation previews/deploys
 mkdocs==0.14.0
+
+# Extended linting support (Prospector)
+prospector==0.10.2
+pyroma==1.8.2
+vulture==0.8.1

@@ -2,7 +2,6 @@
 from __future__ import print_function
 
 import pytest
-from pylint import epylint as lint
 import sys
 import os
 import subprocess
@@ -22,10 +21,6 @@ sys.path.append(os.path.dirname(__file__))
 def exit_on_failure(ret, message=None):
     if ret:
         sys.exit(ret)
-
-
-def pylint(args):
-    lint.py_run(' '.join(args))
 
 
 def flake8_main(args):
