@@ -2,6 +2,7 @@ import argparse
 import time
 
 from django_rq import job
+import requests
 
 from converters import osm_cutter, options
 from converters.gis_converter.bootstrap import bootstrap
@@ -10,13 +11,28 @@ from converters.osm_cutter import GEOMETRY_CLASSES_ACTION
 from converters.boundaries import BBox
 
 
+def notify_status_change(callback_url):
+    """
+    fire and forget, and don't care when exceptions occur.
+
+    :param callback_url:
+    :return: nothing
+    """
+    try:
+        if callback_url:
+            requests.get(callback_url)
+    except:
+        pass
+
+
 @job
-def convert(geometry, format_options, output_directory=None):
+def convert(geometry, format_options, output_directory=None, callback_url=None):
     """
     Starts converting an excerpt for the specified format options
 
     :param geometry: osm_cutter.BBox or TBD
     :param format_type_options: TBD
+    :param callback_url: TBD
     :param output_directory: where results are being stored
         uses '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S") for default
     :return: resulting paths/urls for created file
