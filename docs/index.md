@@ -24,7 +24,7 @@ conversion service API Frontend for Osmaxx
 * Python (3.4)
 * postgres-server-headers (dev) for psycopg2
 
-For the packages required, see requirements.txt.
+For required Python 3 packages, see `requirements.txt`.
 
 ## Installation
 
