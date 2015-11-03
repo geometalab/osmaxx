@@ -2,7 +2,7 @@ data:
   image: debian:jessie
   command: echo true
   volumes:
-    - /tmp
+    - /tmp/osm
 
 rqdashboard:
   build: rq-dashboard
@@ -14,6 +14,19 @@ rqdashboard:
 
 redis:
   image: redis
+
+manager:
+  extends:
+    file: common-services.yml
+    service: environmentvars
+  build: .
+  dockerfile: ./Dockerfile.rest_api
+  volumes_from:
+    - data
+  links:
+    - redis
+  environment:
+    - DJANGO_SETTINGS_MODULE=rest_api.config.settings.local
 
 worker:
   extends:
