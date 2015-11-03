@@ -1,4 +1,4 @@
-from conversion_service.converters.gis_converter import options as gis_options
+from converters.gis_converter import options as gis_options
 
 converter_options = gis_options
 

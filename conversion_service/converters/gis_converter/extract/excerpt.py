@@ -3,7 +3,7 @@ import shutil
 import subprocess
 import time
 
-from conversion_service.utils import chg_dir_with
+from utils import chg_dir_with
 
 
 class Excerpt(object):

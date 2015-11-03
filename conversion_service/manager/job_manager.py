@@ -1,10 +1,10 @@
 import random
 import string
 
-from conversion_service.converters.boundaries import BBox
-from conversion_service.converters import converter_settings
-from conversion_service.manager.rq_helper import rq_enqueue_with_settings
-from conversion_service.worker.converter_job import convert
+from converters.boundaries import BBox
+from converters import converter_settings
+from manager.rq_helper import rq_enqueue_with_settings
+from worker.converter_job import convert
 
 
 class ConversionJobManager:

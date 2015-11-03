@@ -6,11 +6,11 @@ from django_rq import get_connection
 from rq import get_current_job
 import requests
 
-from conversion_service.converters import osm_cutter, converter_options
-from conversion_service.converters.gis_converter.bootstrap import bootstrap
-from conversion_service.converters.gis_converter.extract.excerpt import Excerpt
-from conversion_service.converters.boundaries import BBox
-from conversion_service.shared import ConversionProgress
+from converters import osm_cutter, converter_options
+from converters.gis_converter.bootstrap import bootstrap
+from converters.gis_converter.extract.excerpt import Excerpt
+from converters.boundaries import BBox
+from shared import ConversionProgress
 
 logger = logging.getLogger(__name__)
 

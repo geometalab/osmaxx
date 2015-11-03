@@ -2,8 +2,8 @@ from django.contrib.gis.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from conversion_service.converters.boundaries import BBox
-from conversion_service.shared import JobStatus, ConversionProgress
+from converters.boundaries import BBox
+from shared import JobStatus, ConversionProgress
 
 
 class Extent(models.Model):
