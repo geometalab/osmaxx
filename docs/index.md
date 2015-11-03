@@ -49,6 +49,14 @@ Information about its options and usage can be found at the
 
 ## Testing
 
+For all tests, a redis-server instance is required.
+
+The most simple way is to run an instance using docker (in a separate bash terminal):
+
+```bash
+docker run -p 6379:6379 --rm --name redis-local redis
+```
+
 Install testing requirements.
 
 ```bash
