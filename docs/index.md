@@ -22,7 +22,9 @@ conversion service API Frontend for Osmaxx
 ## Requirements
 
 * Python (3.4)
-* Django (1.8)
+* postgres-server-headers (dev) for psycopg2
+
+For required Python 3 packages, see `requirements.txt`.
 
 ## Installation
 
@@ -32,7 +34,28 @@ TODO: Write installation instruction when done.
 
 TODO: Write example.
 
+## Linting
+
+Using the instruction below for testing, the flake8 tool is also run.
+
+For more comprehensive output, you can use prospector:
+
+```bash
+prospector --with-tool vulture --with-tool pyroma
+```
+
+Information about its options and usage can be found at the 
+[prospector documentation](http://prospector.readthedocs.org/en/master/usage.html)
+
 ## Testing
+
+For all tests, a redis-server instance is required.
+
+The most simple way is to run an instance using docker (in a separate bash terminal):
+
+```bash
+docker run -p 6379:6379 --rm --name redis-local redis
+```
 
 Install testing requirements.
 

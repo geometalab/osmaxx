@@ -2,7 +2,7 @@ import shutil
 import os
 
 
-class ChDirWith:
+class chg_dir_with:  # noqa  -> disable=N801
     """
     Changes into a arbitrary directory, switching back to the directory after execution of the with statement.
 

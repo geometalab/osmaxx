@@ -1,37 +1,77 @@
 import argparse
+import logging
 import time
 
-from django_rq import job
+from django_rq import get_connection
+from rq import get_current_job
+import requests
 
 from converters import osm_cutter, converter_options
 from converters.gis_converter.bootstrap import bootstrap
 from converters.gis_converter.extract.excerpt import Excerpt
-from converters.osm_cutter import GEOMETRY_CLASSES_ACTION
 from converters.boundaries import BBox
+from worker.job_status import JobStatus
+
+logger = logging.getLogger(__name__)
 
 
-@job
-def convert(geometry, format_options, output_directory=None):
+def set_status_on_job(status):
+    job = get_current_job(connection=get_connection())
+    if job:
+        job.meta['status'] = status
+        job.save()
+    else:
+        logger.info('status changed to: ' + str(status))
+
+
+class Notifier(object):
+    def __init__(self, callback_url):
+        self.callback_url = callback_url
+
+    def try_or_notify(self, function, *args, **kwargs):
+        try:
+            return function(*args, **kwargs)
+        except:
+            set_status_on_job(JobStatus.ERROR)
+            self.notify()
+            raise
+
+    def notify(self):
+        self._notify_status_change()
+
+    def _notify_status_change(self):
+        """
+        fire and forget, and don't care when exceptions occur.
+
+        :param callback_url:
+        :return: nothing
+        """
+        try:
+            requests.get(self.callback_url)
+        except:
+            pass
+
+
+def convert(geometry, format_options, output_directory=None, callback_url=None):
     """
     Starts converting an excerpt for the specified format options
 
     :param geometry: osm_cutter.BBox or TBD
     :param format_type_options: TBD
+    :param callback_url: TBD
     :param output_directory: where results are being stored
         uses '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S") for default
     :return: resulting paths/urls for created file
     """
 
-    # sanity check of input param
-    klass = geometry.__class__
-    if klass not in GEOMETRY_CLASSES_ACTION:
-        raise NotImplementedError(klass.__name__ + ' has not been implemented yet')
+    notifier = Notifier(callback_url)
 
     if not output_directory:
         output_directory = '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S")
 
-    pbf_path = osm_cutter.cut_osm_extent(geometry)
-    bootstrap.boostrap(pbf_path)
+    set_status_on_job(JobStatus.STARTED)
+    pbf_path = notifier.try_or_notify(osm_cutter.cut_osm_extent, geometry)
+    notifier.try_or_notify(bootstrap.boostrap, pbf_path)
 
     # strip trailing slash
     if output_directory[-1] == '/':
@@ -39,10 +79,13 @@ def convert(geometry, format_options, output_directory=None):
 
     formats = format_options['formats']
     excerpt = Excerpt(formats=formats, output_dir=output_directory)
-    excerpt.start()
+    notifier.try_or_notify(excerpt.start_format_extraction)
+    set_status_on_job(JobStatus.DONE)
+    notifier.notify()
 
 
-if __name__ == '__main__':
+def _command_line_arguments():
+    global args
     parser = argparse.ArgumentParser(
         description='Convert a extent (BoundingBox) to given formats. Use -h for help. '
                     'Usage: converter_job.py '
@@ -60,7 +103,11 @@ if __name__ == '__main__':
                         choices=converter_options.get_output_formats(),
                         required=True,
                         )
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+    args = _command_line_arguments()
     bounding_box = args.west, args.south, args.east, args.north
     geometry = BBox(*bounding_box)
     convert(geometry=geometry, format_options={'formats': args.formats})
