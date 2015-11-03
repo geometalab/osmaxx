@@ -15,18 +15,19 @@ rqdashboard:
 redis:
   image: redis
 
-manager:
+api:
   extends:
     file: common-services.yml
     service: environmentvars
   build: .
   dockerfile: ./Dockerfile.rest_api
+  command: [honcho, -f, ./conversion_service/Procfile, start]
   volumes_from:
     - data
   links:
     - redis
   environment:
-    - DJANGO_SETTINGS_MODULE=rest_api.config.settings.local
+    - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
 
 worker:
   extends:
@@ -34,10 +35,10 @@ worker:
     service: environmentvars
   build: .
   dockerfile: ./Dockerfile.worker
-  command: [honcho, -f, ./worker/Procfile, start]
+  command: [honcho, -f, ./conversion_service/worker/Procfile, start]
   volumes_from:
     - data
   links:
     - redis
   environment:
-    - DJANGO_SETTINGS_MODULE=rest_api.config.settings.worker
+    - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.worker

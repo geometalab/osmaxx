@@ -108,10 +108,10 @@ RUN sed --in-place 's/\$\(CXX\) $\(LIBS\) -shared -o \$@ \$</\$\(CXX\) -shared -
 ENV HOME /home/py
 
 # activate translit
-RUN mkdir -p $HOME/worker
-COPY ./worker/01_activate_translit.sql $HOME/worker/
-COPY ./worker/00_make_db_utf8.sh $HOME/worker/
-WORKDIR $HOME/worker/
+RUN mkdir -p $HOME/conversion_service/worker
+COPY ./conversion_service/worker/01_activate_translit.sql $HOME/conversion_service/worker/
+COPY ./conversion_service/worker/00_make_db_utf8.sh $HOME/conversion_service/worker/
+WORKDIR $HOME/conversion_service/worker/
 
 USER postgres
 RUN service postgresql start && \
@@ -132,16 +132,12 @@ RUN pip install honcho
 
 RUN pip3 install -r requirements.txt
 
-ADD ./utils $HOME/utils
-ADD ./converters $HOME/converters
-ADD ./rest_api $HOME/rest_api
-ADD ./manager $HOME/manager
-ADD ./worker $HOME/worker
+ADD ./conversion_service $HOME/conversion_service
 
 # expose modules
 ENV PYTHONPATH=PYTHONPATH:$HOME
-ENV DJANGO_SETTINGS_MODULE=rest_api.config.settings.local
+ENV DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
 
-ADD ./worker/entrypoint.sh /entrypoint.sh
+ADD ./conversion_service/worker/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["bash", "-c"]

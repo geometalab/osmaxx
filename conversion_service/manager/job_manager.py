@@ -1,7 +1,7 @@
 import random
 import string
 
-from conversion_service.converters import BBox
+from conversion_service.converters.boundaries import BBox
 from conversion_service.converters import converter_settings
 from conversion_service.manager.rq_helper import rq_enqueue_with_settings
 from conversion_service.worker.converter_job import convert
@@ -23,7 +23,7 @@ class ConversionJobManager:
 
     def start_conversion(self, callback_url):
         output_directory = self.result_directory + ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(10))
-        # todo: ensure job is cleaned up after files have been requested -> in rest_api
+        # todo: ensure job is cleaned up after files have been requested -> in conversion_service
         return rq_enqueue_with_settings(
             convert,
             callback_url=callback_url,
