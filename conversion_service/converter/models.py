@@ -2,7 +2,7 @@ from django.contrib.gis.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from converters.boundaries import BBox
+from conversion_service.converters import BBox
 from conversion_service.shared import JobStatus, ConversionProgress
 
 

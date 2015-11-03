@@ -1,6 +1,6 @@
 import os
 
-from converters.converter_settings import OSMAXX_CONVERSION_SERVICE
+from conversion_service.converters.converter_settings import OSMAXX_CONVERSION_SERVICE
 
 
 def cut_osm_extent(geometry_defintion):
