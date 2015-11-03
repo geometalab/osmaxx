@@ -9,6 +9,7 @@ from converters.gis_converter.extract.excerpt import Excerpt
 from converters.boundaries import BBox
 from manager.rq_helper import rq_enqueue_with_settings
 from tests.redis_test_helpers import perform_all_jobs_sync
+from worker.job_status import JobStatus
 from worker.converter_job import convert, set_status_on_job
 
 
@@ -31,7 +32,7 @@ class WorkerTest(TestCase):
         bootstrap_mock.assert_called_once_with(self.pbf_file_path)
 
     def test_set_status_on_job(self):
-        job = rq_enqueue_with_settings(set_status_on_job, 'status_msg')
+        job = rq_enqueue_with_settings(set_status_on_job, JobStatus.DONE)
         perform_all_jobs_sync()
         job_fetched = Job.fetch(job.id, connection=get_connection())
-        self.assertDictEqual(job_fetched.meta, {'status': 'status_msg'})
+        self.assertDictEqual(job_fetched.meta, {'status': JobStatus.DONE})

@@ -10,18 +10,18 @@ from converters import osm_cutter, options
 from converters.gis_converter.bootstrap import bootstrap
 from converters.gis_converter.extract.excerpt import Excerpt
 from converters.boundaries import BBox
-
+from worker.job_status import JobStatus
 
 logger = logging.getLogger(__name__)
 
 
-def set_status_on_job(msg):
+def set_status_on_job(status):
     job = get_current_job(connection=get_connection())
     if job:
-        job.meta['status'] = msg
+        job.meta['status'] = status
         job.save()
     else:
-        logger.info('status changed to: ' + msg)
+        logger.info('status changed to: ' + str(status))
 
 
 class Notifier(object):
@@ -32,7 +32,7 @@ class Notifier(object):
         try:
             return function(*args, **kwargs)
         except:
-            set_status_on_job('error')
+            set_status_on_job(JobStatus.ERROR)
             self.notify()
             raise
 
@@ -69,8 +69,7 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
     if not output_directory:
         output_directory = '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S")
 
-    # todo: use existing state constants
-    set_status_on_job('started')
+    set_status_on_job(JobStatus.STARTED)
     pbf_path = notifier.try_or_notify(osm_cutter.cut_osm_extent, geometry)
     notifier.try_or_notify(bootstrap.boostrap, pbf_path)
 
@@ -80,10 +79,8 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
 
     formats = format_options['formats']
     excerpt = Excerpt(formats=formats, output_dir=output_directory)
-    # todo: also notify for every conversion format -> started, finished, failed
     notifier.try_or_notify(excerpt.start_format_extraction)
-    # todo: use existing state constants
-    set_status_on_job('done')
+    set_status_on_job(JobStatus.DONE)
     notifier.notify()
 
 
