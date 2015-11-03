@@ -12,7 +12,7 @@ PYTEST_ARGS = {
     'fast': ['tests', '-q'],
 }
 
-MODULES_TO_LINT = ['conversion_service', 'tests', 'worker', 'converters',]
+MODULES_TO_LINT = ['conversion_service', 'tests', 'converters',]
 FLAKE8_ARGS = MODULES_TO_LINT + ['--ignore=E501']
 
 sys.path.append(os.path.dirname(__file__))

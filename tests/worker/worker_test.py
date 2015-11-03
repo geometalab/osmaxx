@@ -5,12 +5,12 @@ from django.test import TestCase
 from django_rq import get_connection
 from rq.job import Job
 
-from converters.boundaries import BBox
-from converters.gis_converter.extract.excerpt import Excerpt
 from conversion_service.manager.rq_helper import rq_enqueue_with_settings
 from conversion_service.shared import ConversionProgress
+from conversion_service.worker.converter_job import convert, set_progress_on_job
+from converters.boundaries import BBox
+from converters.gis_converter.extract.excerpt import Excerpt
 from tests.redis_test_helpers import perform_all_jobs_sync
-from worker.converter_job import convert, set_progress_on_job
 
 
 class WorkerTest(TestCase):
