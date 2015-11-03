@@ -10,6 +10,5 @@ def cut_osm_extent(geometry_defintion):
     return geometry_defintion.cut_pbf(output_filename=output_filename)
 
 __all__ = [
-    'GEOMETRY_CLASSES_ACTION',
     'cut_osm_extent',
 ]
