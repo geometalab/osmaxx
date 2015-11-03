@@ -1,13 +1,27 @@
 import argparse
+import logging
 import time
 
-from django_rq import job
+from django_rq import get_connection
+from rq import get_current_job
 import requests
 
 from converters import osm_cutter, options
 from converters.gis_converter.bootstrap import bootstrap
 from converters.gis_converter.extract.excerpt import Excerpt
 from converters.boundaries import BBox
+
+
+logger = logging.getLogger(__name__)
+
+
+def set_status_on_job(msg):
+    job = get_current_job(connection=get_connection())
+    if job:
+        job.meta['status'] = msg
+        job.save()
+    else:
+        logger.info('status changed to: ' + msg)
 
 
 class Notifier(object):
@@ -18,6 +32,7 @@ class Notifier(object):
         try:
             return function(*args, **kwargs)
         except:
+            set_status_on_job('error')
             self.notify()
             raise
 
@@ -37,7 +52,6 @@ class Notifier(object):
             pass
 
 
-@job
 def convert(geometry, format_options, output_directory=None, callback_url=None):
     """
     Starts converting an excerpt for the specified format options
@@ -55,9 +69,9 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
     if not output_directory:
         output_directory = '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S")
 
-    # todo: update status in queue -> started
+    # todo: use existing state constants
+    set_status_on_job('started')
     pbf_path = notifier.try_or_notify(osm_cutter.cut_osm_extent, geometry)
-    # todo: update status in queue -> extent cutted
     notifier.try_or_notify(bootstrap.boostrap, pbf_path)
 
     # strip trailing slash
@@ -66,10 +80,10 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
 
     formats = format_options['formats']
     excerpt = Excerpt(formats=formats, output_dir=output_directory)
-    # todo: update status in queue -> started conversion
     # todo: also notify for every conversion format -> started, finished, failed
     notifier.try_or_notify(excerpt.start_format_extraction)
-    # todo: update status in queue -> done
+    # todo: use existing state constants
+    set_status_on_job('done')
     notifier.notify()
 
 
