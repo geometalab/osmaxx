@@ -41,7 +41,7 @@ THIRD_PARTY_APPS = (
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'converter',
+    'conversion_job',
     # 'version',
     # 'api.converters.core',
     # 'api.converters.gis',
