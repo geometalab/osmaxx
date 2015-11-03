@@ -1,8 +1,9 @@
-import time
-import subprocess
-import shutil
 import os
-from utils import chg_dir_with
+import shutil
+import subprocess
+import time
+
+from conversion_service.utils import chg_dir_with
 
 
 class Excerpt(object):

@@ -1,6 +1,7 @@
 import os
 import subprocess
-from utils import chg_dir_with
+
+from conversion_service.utils import chg_dir_with
 
 
 def boostrap(pbf_file_path):
