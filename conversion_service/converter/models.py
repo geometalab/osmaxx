@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from converters.boundaries import BBox
-from rest_api.shared import JobStatus, ConversionProgress
+from conversion_service.shared import JobStatus, ConversionProgress
 
 
 class Extent(models.Model):

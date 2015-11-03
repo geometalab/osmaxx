@@ -22,7 +22,6 @@ RUN pip3 install -r requirements.txt
 ADD ./utils $HOME/utils
 ADD ./converters $HOME/converters
 ADD ./rest_api $HOME/rest_api
-ADD ./manager $HOME/manager
 ADD ./worker $HOME/worker
 
 # Expose modules:

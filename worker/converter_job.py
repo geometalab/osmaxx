@@ -10,7 +10,7 @@ from converters import osm_cutter, converter_options
 from converters.gis_converter.bootstrap import bootstrap
 from converters.gis_converter.extract.excerpt import Excerpt
 from converters.boundaries import BBox
-from rest_api.shared import ConversionProgress
+from conversion_service.shared import ConversionProgress
 
 logger = logging.getLogger(__name__)
 
