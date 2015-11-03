@@ -7,5 +7,5 @@ def rq_enqueue_with_settings(function, *args, **kwargs):
             function,
             result_ttl=converter_settings.OSMAXX_CONVERSION_SERVICE['RESULT_TTL'],
             *args,
-            **kwargs,
+            **kwargs
         )
