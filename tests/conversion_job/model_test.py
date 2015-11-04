@@ -9,13 +9,13 @@ class ExtentTest(TestCase):
         e = Extent()
         self.assertFalse(e._bbox_present())
         self.assertFalse(e._polyfile_present())
-        self.assertRaises(ValidationError, e.clean)
+        self.assertRaisesRegex(ValidationError, 'either .* or .* must be given', e.clean)
 
     def test_validation_raises_when_both_present(self):
         e = Extent(west=0, south=0, east=0, north=0, polyfile='present')
         self.assertTrue(e._bbox_present())
         self.assertTrue(e._polyfile_present())
-        self.assertRaises(ValidationError, e.clean)
+        self.assertRaisesRegex(ValidationError, 'either .* or .* must be given', e.clean)
 
     def test_validation_raises_with_incomplete_bbox(self):
         e = Extent(west=0, east=0)
