@@ -36,6 +36,14 @@ class RQMetaDataTests(django.test.TestCase):
         job_fetched = Job.fetch(job.id, connection=get_connection())
         self.assertDictEqual(job_fetched.meta, {'world': nontrivial_pickleable_object})
 
+    def test_stored_metadata_key_can_be_an_arbitrary_hashable_object(self):
+        nontrivial_hashable_object = ('the key', ('can', b'e', ('an arbitrary', 'hashable'), object))
+        job = rq_enqueue_with_settings(store_in_job, nontrivial_hashable_object, 'hello')
+        perform_all_jobs_sync()
+        job_fetched = Job.fetch(job.id, connection=get_connection())
+        self.assertEqual(job_fetched.meta[nontrivial_hashable_object], 'hello')
+
+
 
 class RQResultTest(django.test.TestCase):
     def test_result_is_not_available_before_job_has_run(self):
