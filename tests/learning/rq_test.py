@@ -13,7 +13,7 @@ def store_helloworld_in_job():
     job.save()
 
 
-class RQConnectionTests(django.test.TestCase):
+class RQMetaDataTests(django.test.TestCase):
     def test_meta_not_available_without_fetch(self, *args, **kwargs):
         job = rq_enqueue_with_settings(store_helloworld_in_job)
         perform_all_jobs_sync()
