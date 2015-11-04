@@ -14,8 +14,12 @@ class Extent(models.Model):
     polyfile = models.FileField(_('polyfile'), null=True, blank=True)
 
     def clean(self, exclude=None, validate_unique=True):
-        if not(self._bbox_present() ^ self._polyfile_present()):
+        if not(self._bbox_present() ^ self._polyfile_present())\
+                or (self._bbox_partially_present() and not self._bbox_present()):
             raise ValidationError(_('either extents ot polyfile must be given'))
+
+    def _bbox_partially_present(self):
+        return any([coordinate is not None for coordinate in [self.west, self.south, self.east, self.north]])
 
     def _bbox_present(self):
         return all([coordinate is not None for coordinate in [self.west, self.south, self.east, self.north]])

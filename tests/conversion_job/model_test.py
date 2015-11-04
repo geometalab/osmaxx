@@ -17,6 +17,18 @@ class ExtentTest(TestCase):
         self.assertTrue(e._polyfile_present())
         self.assertRaises(ValidationError, e.clean)
 
+    def test_validation_raises_with_incomplete_bbox(self):
+        e = Extent(west=0, east=0)
+        self.assertFalse(e._bbox_present())
+        self.assertFalse(e._polyfile_present())
+        self.assertRaises(ValidationError, e.clean)
+
+    def test_validation_raises_with_polyfile_and_incomplete_bbox(self):
+        e = Extent(west=0, east=0, polyfile='present')
+        self.assertFalse(e._bbox_present())
+        self.assertTrue(e._polyfile_present())
+        self.assertRaises(ValidationError, e.clean)
+
     def test_validation_passes_with_bbox(self):
         e = Extent(west=0, south=0, east=0, north=0)
         self.assertTrue(e._bbox_present())
