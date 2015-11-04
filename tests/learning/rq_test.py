@@ -17,6 +17,10 @@ def return_result():
     return 'the result'
 
 
+def return_nontrivial_pickleable_object():
+    return {'the result': ['can', b'e', ('an arbitrary', 'pickleable'), object]}
+
+
 class RQMetaDataTests(django.test.TestCase):
     def test_stored_metadata_is_not_available_on_original_job_proxy_object(self, *args, **kwargs):
         job = rq_enqueue_with_settings(store_helloworld_in_job)
@@ -42,3 +46,8 @@ class RQResultTest(django.test.TestCase):
         job = rq_enqueue_with_settings(return_result)
         perform_all_jobs_sync()
         self.assertEqual(job.result, 'the result')
+
+    def test_result_can_be_an_arbitrary_pickleable_object(self):
+        job = rq_enqueue_with_settings(return_nontrivial_pickleable_object)
+        perform_all_jobs_sync()
+        self.assertEqual(job.result, return_nontrivial_pickleable_object())
