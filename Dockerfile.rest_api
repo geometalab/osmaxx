@@ -25,4 +25,6 @@ ADD ./conversion_service $HOME/conversion_service
 ENV PYTHONPATH=PYTHONPATH:$HOME
 ENV DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
 
-ENTRYPOINT ["/bin/sh", "-c"]
+ADD ./conversion_service/entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
