@@ -14,16 +14,23 @@ class Extent(models.Model):
     polyfile = models.FileField(_('polyfile'), null=True, blank=True)
 
     def clean(self, exclude=None, validate_unique=True):
-        if (self.polyfile is not None) ^ all([self.west, self.south, self.east, self.north]):
+        if self._bbox_present() and self._polyfile_present():
             raise ValidationError(_('either extents ot polyfile must be given'))
+        if (not self._bbox_present()) and (not self._polyfile_present()):
+            raise ValidationError(_('either extents ot polyfile must be given'))
+
+    def _bbox_present(self):
+        return all([coordinate is not None for coordinate in [self.west, self.south, self.east, self.north]])
+
+    def _polyfile_present(self):
+        return bool(self.polyfile)
 
     def get_geometry(self):
         if self.polyfile:
-            raise NotImplementedError
+            raise NotImplementedError('Polyfile is not supported (yet).')
         if all([self.west, self.south, self.east, self.north]):
             return BBox(self.west, self.south, self.east, self.north)
-        else:
-            raise RuntimeError("this really shouldn't be happening! Sorry, we f**ked up.")
+        raise RuntimeError("Should never reach this point.")
 
 
 class ConversionJob(models.Model):
