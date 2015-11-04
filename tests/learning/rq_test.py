@@ -14,12 +14,12 @@ def store_helloworld_in_job():
 
 
 class RQMetaDataTests(django.test.TestCase):
-    def test_meta_not_available_without_fetch(self, *args, **kwargs):
+    def test_stored_metadata_is_not_available_on_original_job_proxy_object(self, *args, **kwargs):
         job = rq_enqueue_with_settings(store_helloworld_in_job)
         perform_all_jobs_sync()
         self.assertDictEqual(job.meta, {})
 
-    def test_meta_retrieval_with_fetch_succeeds(self, *args, **kwargs):
+    def test_stored_metadata_can_be_retrieved_from_freshly_fetched_job(self, *args, **kwargs):
         job = rq_enqueue_with_settings(store_helloworld_in_job)
         perform_all_jobs_sync()
         job_fetched = Job.fetch(job.id, connection=get_connection())
