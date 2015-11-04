@@ -7,9 +7,9 @@ from manager.rq_helper import rq_enqueue_with_settings
 from tests.redis_test_helpers import perform_all_jobs_sync
 
 
-def store_helloworld_in_job():
+def store_in_job(key, value):
     job = get_current_job(connection=get_connection())
-    job.meta['world'] = 'hello'
+    job.meta[key] = value
     job.save()
 
 
@@ -19,12 +19,12 @@ def return_result(result):
 
 class RQMetaDataTests(django.test.TestCase):
     def test_stored_metadata_is_not_available_on_original_job_proxy_object(self, *args, **kwargs):
-        job = rq_enqueue_with_settings(store_helloworld_in_job)
+        job = rq_enqueue_with_settings(store_in_job, 'world', 'hello')
         perform_all_jobs_sync()
         self.assertDictEqual(job.meta, {})
 
     def test_stored_metadata_can_be_retrieved_from_freshly_fetched_job(self, *args, **kwargs):
-        job = rq_enqueue_with_settings(store_helloworld_in_job)
+        job = rq_enqueue_with_settings(store_in_job, 'world', 'hello')
         perform_all_jobs_sync()
         job_fetched = Job.fetch(job.id, connection=get_connection())
         self.assertDictEqual(job_fetched.meta, {'world': 'hello'})
