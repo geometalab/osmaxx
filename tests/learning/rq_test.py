@@ -13,12 +13,8 @@ def store_helloworld_in_job():
     job.save()
 
 
-def return_result():
-    return 'the result'
-
-
-def return_nontrivial_pickleable_object():
-    return {'the result': ['can', b'e', ('an arbitrary', 'pickleable'), object]}
+def return_result(result):
+    return result
 
 
 class RQMetaDataTests(django.test.TestCase):
@@ -43,11 +39,12 @@ class RQResultTest(django.test.TestCase):
             perform_all_jobs_sync()
 
     def test_result_is_available_after_job_has_run(self):
-        job = rq_enqueue_with_settings(return_result)
+        job = rq_enqueue_with_settings(return_result, 'the result')
         perform_all_jobs_sync()
         self.assertEqual(job.result, 'the result')
 
     def test_result_can_be_an_arbitrary_pickleable_object(self):
-        job = rq_enqueue_with_settings(return_nontrivial_pickleable_object)
+        nontrivial_pickleable_object = {'the result': ['can', b'e', ('an arbitrary', 'pickleable'), object]}
+        job = rq_enqueue_with_settings(return_result, nontrivial_pickleable_object)
         perform_all_jobs_sync()
-        self.assertEqual(job.result, return_nontrivial_pickleable_object())
+        self.assertEqual(job.result, nontrivial_pickleable_object)
