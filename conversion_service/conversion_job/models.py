@@ -16,7 +16,7 @@ class Extent(models.Model):
     def clean(self, exclude=None, validate_unique=True):
         if not(self._bbox_present() ^ self._polyfile_present())\
                 or (self._bbox_partially_present() and not self._bbox_present()):
-            raise ValidationError(_('either extents ot polyfile must be given'))
+            raise ValidationError(_('either extents or polyfile must be given'))
 
     def _bbox_partially_present(self):
         return any([coordinate is not None for coordinate in [self.west, self.south, self.east, self.north]])
