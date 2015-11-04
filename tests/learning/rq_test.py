@@ -13,6 +13,10 @@ def store_helloworld_in_job():
     job.save()
 
 
+def return_result():
+    return 'the result'
+
+
 class RQMetaDataTests(django.test.TestCase):
     def test_stored_metadata_is_not_available_on_original_job_proxy_object(self, *args, **kwargs):
         job = rq_enqueue_with_settings(store_helloworld_in_job)
@@ -24,3 +28,17 @@ class RQMetaDataTests(django.test.TestCase):
         perform_all_jobs_sync()
         job_fetched = Job.fetch(job.id, connection=get_connection())
         self.assertDictEqual(job_fetched.meta, {'world': 'hello'})
+
+
+class RQResultTest(django.test.TestCase):
+    def test_result_is_not_available_before_job_has_run(self):
+        job = rq_enqueue_with_settings(return_result)
+        try:
+            self.assertIsNone(job.result)
+        finally:
+            perform_all_jobs_sync()
+
+    def test_result_is_available_after_job_has_run(self):
+        job = rq_enqueue_with_settings(return_result)
+        perform_all_jobs_sync()
+        self.assertEqual(job.result, 'the result')
