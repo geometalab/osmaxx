@@ -14,7 +14,7 @@ class Extent(models.Model):
     polyfile = models.FileField(_('polyfile'), null=True, blank=True)
 
     def clean(self, exclude=None, validate_unique=True):
-        if (not self._bbox_present()) ^ self._polyfile_present():
+        if not(self._bbox_present() ^ self._polyfile_present()):
             raise ValidationError(_('either extents ot polyfile must be given'))
 
     def _bbox_present(self):
