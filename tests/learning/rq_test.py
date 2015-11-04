@@ -18,12 +18,12 @@ def return_result(result):
 
 
 class RQMetaDataTests(django.test.TestCase):
-    def test_stored_metadata_is_not_available_on_original_job_proxy_object(self, *args, **kwargs):
+    def test_stored_metadata_is_not_available_on_original_job_proxy_object(self):
         job = rq_enqueue_with_settings(store_in_job, 'world', 'hello')
         perform_all_jobs_sync()
         self.assertDictEqual(job.meta, {})
 
-    def test_stored_metadata_can_be_retrieved_from_freshly_fetched_job(self, *args, **kwargs):
+    def test_stored_metadata_can_be_retrieved_from_freshly_fetched_job(self):
         job = rq_enqueue_with_settings(store_in_job, 'world', 'hello')
         perform_all_jobs_sync()
         job_fetched = Job.fetch(job.id, connection=get_connection())
