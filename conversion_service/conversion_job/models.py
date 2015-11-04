@@ -14,9 +14,7 @@ class Extent(models.Model):
     polyfile = models.FileField(_('polyfile'), null=True, blank=True)
 
     def clean(self, exclude=None, validate_unique=True):
-        if self._bbox_present() and self._polyfile_present():
-            raise ValidationError(_('either extents ot polyfile must be given'))
-        if (not self._bbox_present()) and (not self._polyfile_present()):
+        if (not self._bbox_present()) ^ self._polyfile_present():
             raise ValidationError(_('either extents ot polyfile must be given'))
 
     def _bbox_present(self):
@@ -32,11 +30,16 @@ class Extent(models.Model):
             return BBox(self.west, self.south, self.east, self.north)
         raise RuntimeError("Should never reach this point.")
 
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
 
 class ConversionJob(models.Model):
     rq_job_id = models.CharField(_('rq job id'), max_length=250)
     callback_url = models.URLField(_('callback url'), max_length=250)
     status = models.IntegerField(_('job status'), choices=JobStatus.choices())
+    extent = models.OneToOneField(Extent, verbose_name=_('Extent'))
 
     @property
     def progress(self):
