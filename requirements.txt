@@ -9,7 +9,9 @@ markdown
 django-filter
 django-rq==0.8.0
 django-environ==0.4.0
-django-extensions==1.5.7
+# FIXME: switch back to pypi as soon as a fix release is available, likely 1.5.8
+#django-extensions==1.5.8
+git+https://github.com/django-extensions/django-extensions.git#master
 Werkzeug==0.10.4
 django-debug-toolbar==1.4
 whitenoise
