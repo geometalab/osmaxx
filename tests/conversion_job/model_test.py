@@ -9,25 +9,25 @@ class ExtentTest(TestCase):
         e = Extent()
         self.assertFalse(e._bbox_present())
         self.assertFalse(e._polyfile_present())
-        self.assertRaisesRegex(ValidationError, 'either .* or .* must be given', e.clean)
+        self.assertRaisesRegex(ValidationError, r'either .* or .* must be given', e.clean)
 
     def test_validation_raises_when_both_present(self):
         e = Extent(west=0, south=0, east=0, north=0, polyfile='present')
         self.assertTrue(e._bbox_present())
         self.assertTrue(e._polyfile_present())
-        self.assertRaisesRegex(ValidationError, 'either .* or .* must be given', e.clean)
+        self.assertRaisesRegex(ValidationError, r'either .* or .* must be given', e.clean)
 
     def test_validation_raises_with_incomplete_bbox(self):
         e = Extent(west=0, east=0)
         self.assertFalse(e._bbox_present())
         self.assertFalse(e._polyfile_present())
-        self.assertRaisesRegex(ValidationError, 'incomplete .* boundaries', e.clean)
+        self.assertRaisesRegex(ValidationError, r'incomplete .* boundaries', e.clean)
 
     def test_validation_raises_with_polyfile_and_incomplete_bbox(self):
         e = Extent(west=0, east=0, polyfile='present')
         self.assertFalse(e._bbox_present())
         self.assertTrue(e._polyfile_present())
-        self.assertRaisesRegex(ValidationError, 'either .* or .* must be given|incomplete .* boundaries', e.clean)
+        self.assertRaisesRegex(ValidationError, r'either .* or .* must be given|incomplete .* boundaries', e.clean)
 
     def test_validation_passes_with_bbox(self):
         e = Extent(west=0, south=0, east=0, north=0)
