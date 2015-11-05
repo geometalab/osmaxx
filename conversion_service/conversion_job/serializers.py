@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from conversion_job.models import Extent, ConversionJob, FormatOption
+from conversion_job.models import Extent, ConversionJob, ConverterOption
 from manager.job_manager import ConversionJobManager
 from rest_api.serializer_helpers import ModelSideValidationMixin
 
@@ -15,7 +15,7 @@ class ExtentSerializer(serializers.ModelSerializer, ModelSideValidationMixin):
 
 class FormatOptionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = FormatOption
+        model = ConverterOption
         fields = ('id', 'progress')
 
 

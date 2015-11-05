@@ -31,9 +31,9 @@ class Extent(models.Model):
         return bool(self.polyfile)
 
     def get_geometry(self):
-        if self.polyfile:
+        if self._polyfile_present():
             raise NotImplementedError('Polyfile is not supported (yet).')
-        if all([self.west, self.south, self.east, self.north]):
+        if self._bbox_present():
             return BBox(self.west, self.south, self.east, self.north)
         raise RuntimeError("Should never reach this point.")
 
@@ -48,15 +48,15 @@ class ConversionJob(models.Model):
     status = models.IntegerField(_('job status'), choices=JobStatus.choices())
     extent = models.OneToOneField(Extent, verbose_name=_('Extent'))
 
-    def get_format_options(self):
-        return Options(output_formats=self.format_options.values_list('output_format'))
+    def get_conversion_options(self):
+        return Options(output_formats=self.converter_options.values_list('output_format'))
 
     @property
     def progress(self):
-        return ConversionProgress(min(self.format_options.values_list('progress')))
+        return ConversionProgress(min(self.converter_options.values_list('progress')))
 
 
-class FormatOption(models.Model):
+class ConverterOption(models.Model):
     output_format = models.CharField(_('format'), choices=CONVERTER_CHOICES['output_formats'], max_length=100)
     progress = models.IntegerField(_('progress'), choices=ConversionProgress.choices())
-    conversion_job = models.ForeignKey(ConversionJob, verbose_name=_('conversion job'), related_name='format_options')
+    conversion_job = models.ForeignKey(ConversionJob, verbose_name=_('conversion job'), related_name='converter_options')
