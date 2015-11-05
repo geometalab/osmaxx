@@ -2,7 +2,9 @@ from django.contrib.gis.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from converters import CONVERTER_CHOICES
 from converters.boundaries import BBox
+from converters.converter import Options
 from shared import JobStatus, ConversionProgress
 
 
@@ -46,11 +48,15 @@ class ConversionJob(models.Model):
     status = models.IntegerField(_('job status'), choices=JobStatus.choices())
     extent = models.OneToOneField(Extent, verbose_name=_('Extent'))
 
+    def get_format_options(self):
+        return Options(output_formats=self.format_options.values_list('output_format'))
+
     @property
     def progress(self):
-        return ConversionProgress(min(self.formats.values_list('progress')))
+        return ConversionProgress(min(self.format_options.values_list('progress')))
 
 
-class Format(models.Model):
+class FormatOption(models.Model):
+    output_format = models.CharField(_('format'), choices=CONVERTER_CHOICES['output_formats'], max_length=100)
     progress = models.IntegerField(_('progress'), choices=ConversionProgress.choices())
-    conversion_job = models.ForeignKey(ConversionJob, verbose_name=_('conversion job'), related_name='formats')
+    conversion_job = models.ForeignKey(ConversionJob, verbose_name=_('conversion job'), related_name='format_options')

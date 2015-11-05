@@ -13,16 +13,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ConversionJob',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
-                ('rq_job_id', models.CharField(max_length=250, verbose_name='rq job id')),
-                ('callback_url', models.URLField(max_length=250, verbose_name='callback url')),
-                ('status', models.IntegerField(choices=[(1, 'queued'), (2, 'started'), (3, 'done'), (-1, 'error')], verbose_name='job status')),
+                ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
+                ('rq_job_id', models.CharField(verbose_name='rq job id', max_length=250)),
+                ('callback_url', models.URLField(verbose_name='callback url', max_length=250)),
+                ('status', models.IntegerField(verbose_name='job status', choices=[(1, 'queued'), (2, 'started'), (3, 'done'), (-1, 'error')])),
             ],
         ),
         migrations.CreateModel(
             name='Extent',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
                 ('west', models.FloatField(verbose_name='west', null=True, blank=True)),
                 ('south', models.FloatField(verbose_name='south', null=True, blank=True)),
                 ('east', models.FloatField(verbose_name='east', null=True, blank=True)),
@@ -31,11 +31,12 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Format',
+            name='FormatOption',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
-                ('progress', models.IntegerField(choices=[(1, 'received'), (2, 'started'), (10, 'successful'), (-1, 'error')], verbose_name='progress')),
-                ('conversion_job', models.ForeignKey(related_name='formats', verbose_name='conversion job', to='conversion_job.ConversionJob')),
+                ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
+                ('output_format', models.CharField(verbose_name='format', choices=[('fgdb', 'fgdb'), ('shp', 'shp'), ('gpkg', 'gpkg'), ('spatialite', 'spatialite')], max_length=100)),
+                ('progress', models.IntegerField(verbose_name='progress', choices=[(1, 'received'), (2, 'started'), (10, 'successful'), (-1, 'error')])),
+                ('conversion_job', models.ForeignKey(verbose_name='conversion job', related_name='format_options', to='conversion_job.ConversionJob')),
             ],
         ),
         migrations.AddField(
