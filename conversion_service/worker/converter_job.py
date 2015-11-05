@@ -77,6 +77,7 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
     if output_directory[-1] == '/':
         output_directory = output_directory[:-1]
 
+    # FIXME: as soon as we support more options, this needs to be simplified
     formats = format_options['formats']
     excerpt = Excerpt(formats=formats, output_dir=output_directory)
     notifier.try_or_notify(excerpt.start_format_extraction)
