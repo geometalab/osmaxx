@@ -27,7 +27,7 @@ class ExtentTest(TestCase):
         e = Extent(west=0, east=0, polyfile='present')
         self.assertFalse(e._bbox_present())
         self.assertTrue(e._polyfile_present())
-        self.assertRaises(ValidationError, e.clean)  # Don't care which of the above messages will be used in this case
+        self.assertRaisesRegex(ValidationError, 'either .* or .* must be given|incomplete .* boundaries', e.clean)
 
     def test_validation_passes_with_bbox(self):
         e = Extent(west=0, south=0, east=0, north=0)
