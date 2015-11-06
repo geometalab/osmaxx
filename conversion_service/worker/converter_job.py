@@ -1,7 +1,6 @@
 import argparse
 import logging
 import os
-import time
 
 from django_rq import get_connection
 from rq import get_current_job
@@ -64,16 +63,12 @@ def convert(geometry, format_options, output_directory, callback_url):
 
     :param geometry: osm_cutter.BBox or TBD
     :param format_options: TBD
-    :param callback_url: TBD
     :param output_directory: where results are being stored
-        uses '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S") for default
+    :param callback_url: TBD
     :return: resulting paths/urls for created file
     """
 
     notifier = Notifier(callback_url)
-
-    if not output_directory:
-        output_directory = '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S")
 
     set_progress_on_job(ConversionProgress.STARTED)
     pbf_path = notifier.try_or_notify(osm_cutter.cut_osm_extent, geometry)
