@@ -2,6 +2,7 @@ from django.contrib.gis.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from converters import CONVERTER_CHOICES
 from converters.boundaries import BBox
 from converters.converter import Options
 from shared import JobStatus, ConversionProgress
@@ -74,18 +75,8 @@ class ConversionJob(models.Model):
 
 
 class GISFormat(models.Model):
-    FORMAT_FGDB = 'fgdb'
-    SHP = 'shp'
-    GPKG = 'gpkg'
-    SQLITE = 'sqlite'
-    FORMAT_CHOICES = (
-        (FORMAT_FGDB, _('fgdb')),
-        (SHP, _('shp')),
-        (GPKG, _('gpkg')),
-        (SQLITE, _('sqlite')),
-    )
     conversion_job = models.ForeignKey(ConversionJob, verbose_name=_('conversion job'), related_name='gis_formats')
-    format = models.CharField(_('format'), choices=FORMAT_CHOICES, max_length=10)
+    format = models.CharField(_('format'), choices=CONVERTER_CHOICES['output_formats'], max_length=10)
 
     class Meta:
         unique_together = ('conversion_job', 'format',)
