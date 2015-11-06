@@ -2,6 +2,7 @@ from django.db import transaction
 from rest_framework import serializers
 
 from conversion_job.models import Extent, ConversionJob, GISFormat, GISOption
+from converters.converter import Options
 from manager.job_manager import ConversionJobManager
 from rest_api.serializer_helpers import ModelSideValidationMixin
 from shared import JobStatus
@@ -59,15 +60,15 @@ class ConversionJobSerializer(serializers.ModelSerializer):
             validated_data['extent'] = extent
             validated_data['status'] = JobStatus.QUEUED.value
             job = super().create(validated_data)
-            format_options = []
+            formats = []
             for gis_format_dict in gis_formats:
-                format_options.append(gis_format_dict['format'])
+                formats.append(gis_format_dict['format'])
                 gis_format_dict['conversion_job'] = job
                 gis_format = GISFormat(**gis_format_dict)
                 gis_format.save()
             rq_job = self._enqueue_rq_job(
                 extent.get_geometry(),
-                format_options,
+                Options(output_formats=formats),
                 job.callback_url,
             )
             job.rq_job_id = rq_job.id

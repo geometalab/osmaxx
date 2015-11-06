@@ -7,6 +7,7 @@ from rq import get_current_job
 import requests
 
 from converters import osm_cutter, converter_options
+from converters.converter import Options
 from converters.gis_converter.bootstrap import bootstrap
 from converters.gis_converter.extract.excerpt import Excerpt
 from converters.boundaries import BBox
@@ -57,7 +58,7 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
     Starts converting an excerpt for the specified format options
 
     :param geometry: osm_cutter.BBox or TBD
-    :param format_type_options: TBD
+    :param format_options: TBD
     :param callback_url: TBD
     :param output_directory: where results are being stored
         uses '/tmp/' + time.strftime("%Y-%m-%d_%H%M%S") for default
@@ -77,8 +78,7 @@ def convert(geometry, format_options, output_directory=None, callback_url=None):
     if output_directory[-1] == '/':
         output_directory = output_directory[:-1]
 
-    # FIXME: as soon as we support more options, this needs to be simplified
-    formats = format_options['formats']
+    formats = format_options.get_output_formats()
     excerpt = Excerpt(formats=formats, output_dir=output_directory)
     notifier.try_or_notify(excerpt.start_format_extraction)
     set_progress_on_job(ConversionProgress.SUCCESSFUL)
@@ -111,4 +111,4 @@ if __name__ == '__main__':
     args = _command_line_arguments()
     bounding_box = args.west, args.south, args.east, args.north
     geometry = BBox(*bounding_box)
-    convert(geometry=geometry, format_options={'formats': args.formats})
+    convert(geometry=geometry, format_options=Options({'output_formats': args.formats}))
