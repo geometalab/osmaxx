@@ -15,9 +15,6 @@ class ExtentViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticatedOrReadOnly,
     )
 
-    # def perform_create(self, serializer):
-    #     serializer.save(owner=self.request.user)
-
 
 class ConversionJobViewSet(viewsets.ModelViewSet):
     queryset = ConversionJob.objects.all()

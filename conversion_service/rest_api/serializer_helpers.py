@@ -3,10 +3,9 @@ from rest_framework import serializers
 
 
 class ModelSideValidationMixin(object):
-    def is_valid(self, *args, **kwargs):
-        is_valid = super().is_valid(*args, **kwargs)
+    def validate(self, data):
         try:
-            self.Meta.model(**self.validated_data).clean()
+            self.Meta.model(**data).clean()
         except ValidationError as e:
             raise serializers.ValidationError(e.message)
-        return is_valid
+        return super().validate(data)

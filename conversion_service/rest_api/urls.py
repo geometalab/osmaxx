@@ -2,12 +2,10 @@ from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
 
 import conversion_job.views
-import rest_api.views
 
 router = DefaultRouter()
 router.register(r'extents', conversion_job.views.ExtentViewSet)
 router.register(r'jobs', conversion_job.views.ConversionJobViewSet)
-router.register(r'format_options', rest_api.views.FormatOptionsViewSet, base_name='format_options')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
