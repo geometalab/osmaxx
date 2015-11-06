@@ -119,8 +119,8 @@ class GISFormat(models.Model):
     def get_result_file_path(self):
         return self.conversion_job.get_resulting_file_path_or_none(self.format)
 
-    def get_download_url(self):
-        return reverse('gisformat-download-result', kwargs={'pk': self.id})
+    def get_download_url(self, request):
+        return reverse('gisformat-download-result', kwargs={'pk': self.id}, request=request)
 
     class Meta:
         unique_together = ('conversion_job', 'format',)

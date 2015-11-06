@@ -1,5 +1,6 @@
 from django.db import transaction
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
 from conversion_job.models import Extent, ConversionJob, GISFormat, GISOption
 from converters.converter import Options
@@ -92,9 +93,17 @@ class ConversionJobSerializer(serializers.ModelSerializer):
 
 # Status Only Serializers
 
+class DownloadURL(serializers.HyperlinkedRelatedField):
+    view_name = 'gisformat-download-result'
+
+    def get_url(self, obj, view_name, request, format):
+        url = reverse(viewname=self.view_name, kwargs={'pk': obj.pk}, request=request)
+        return url
+
+
 class GISFormatStatusSerializer(serializers.ModelSerializer):
     progress = serializers.CharField(source='get_progress_display')
-    result_url = serializers.CharField(source='get_download_url')
+    result_url = DownloadURL(source='pk', read_only=True)
 
     class Meta:
         model = GISFormat
