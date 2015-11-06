@@ -44,7 +44,6 @@ class RQMetaDataTests(django.test.TestCase):
         self.assertEqual(job_fetched.meta[nontrivial_hashable_object], 'hello')
 
 
-
 class RQResultTest(django.test.TestCase):
     def test_result_is_not_available_before_job_has_run(self):
         job = rq_enqueue_with_settings(return_result)
