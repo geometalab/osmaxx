@@ -2,7 +2,7 @@ data:
   image: debian:jessie
   command: echo true
   volumes:
-    - /tmp/osm
+    - /data/results
 
 rqdashboard:
   build: rq-dashboard

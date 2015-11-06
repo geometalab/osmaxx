@@ -19,6 +19,9 @@ environmentvars:
     - DJANGO_MEDIA_ROOT=/data/media
     - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
 
+    # shared result dir
+    - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
+
     # Logging
     - PYTHONUNBUFFERED=non-empty-string
     - PYTHONIOENCODING=utf-8

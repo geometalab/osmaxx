@@ -1,8 +1,10 @@
+import os
+
 from django.contrib.gis.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from converters import CONVERTER_CHOICES
+from converters import CONVERTER_CHOICES, converter_settings
 from converters.boundaries import BBox
 from converters.converter import Options
 from shared import JobStatus, ConversionProgress
@@ -65,6 +67,14 @@ class ConversionJob(models.Model):
     status = models.IntegerField(_('job status'), choices=JobStatus.choices(), default=JobStatus.NEW.value)
     extent = models.OneToOneField(Extent, verbose_name=_('Extent'))
     gis_option = models.OneToOneField(GISOption, verbose_name=_('conversion job'), null=True)
+
+    @property
+    def output_directory(self):
+        # todo: ensure job is cleaned up after files have been requested -> in conversion_service
+        directory = os.path.join(converter_settings.OSMAXX_CONVERSION_SERVICE['RESULT_DIR'], self.id)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        return directory
 
     def get_conversion_options(self):
         return Options(output_formats=self.gis_formats.values_list('format', flat=True))

@@ -69,18 +69,19 @@ class ConversionJobSerializer(serializers.ModelSerializer):
                 gis_format = GISFormat(**gis_format_dict)
                 gis_format.save()
             rq_job = self._enqueue_rq_job(
-                extent.get_geometry(),
-                Options(output_formats=formats),
-                conversion_job.callback_url,
+                geometry=extent.get_geometry(),
+                format_options=Options(output_formats=formats),
+                callback_url=conversion_job.callback_url,
+                output_directory=conversion_job.output_directory,
             )
             conversion_job.rq_job_id = rq_job.id
             conversion_job.status = JobStatus.QUEUED.value
             conversion_job.save()
         return conversion_job
 
-    def _enqueue_rq_job(self, geometry, format_options, callback_url):
+    def _enqueue_rq_job(self, geometry, format_options, callback_url, output_directory):
         cm = ConversionJobManager(geometry=geometry, format_options=format_options)
-        return cm.start_conversion(callback_url)
+        return cm.start_conversion(callback_url, output_directory)
 
     class Meta:
         model = ConversionJob
