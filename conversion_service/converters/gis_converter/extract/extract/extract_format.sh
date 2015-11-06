@@ -35,9 +35,9 @@ echo 'Enter the filename..'
 elif [ -d $DIR/data/$FILENAME ]; then
 rm $DIR/data/$FILENAME
 else
-	if [ -f $DIR/data/$FILENAME".zip" ]; then
+	if [ -f $DIR/FILENAME".zip" ]; then
 	echo 'It Exist'
-	rm $DIR/data/$FILENAME.zip
+	rm $DIR/$FILENAME.zip
 	fi
 
 	echo "exporting to "$FILENAME$EXT
@@ -46,16 +46,16 @@ else
 	echo $FILENAME$EXT" have been Generated.. Zipping files"
 
 	cd $DIR
-	zip -r --move $DIR/data/$FILENAME.zip ./data/$FILENAME$EXT
+	zip -r --move $DIR/$FILENAME.zip ./data/$FILENAME$EXT
 
 	cd $STATIC_DIR
-        zip -g $DIR/data/$FILENAME.zip ./README.txt
-        zip -g $DIR/data/$FILENAME.zip ./LICENCE.txt
-        zip -g $DIR/data/$FILENAME.zip ./METADATA.txt
-	zip -r $DIR/data/$FILENAME.zip ./doc
+        zip -g $DIR/$FILENAME.zip ./README.txt
+        zip -g $DIR/$FILENAME.zip ./LICENCE.txt
+        zip -g $DIR/$FILENAME.zip ./METADATA.txt
+	zip -r $DIR/$FILENAME.zip ./doc
 
 	cd $DIR/tmp
-        zip -g --move $DIR/data/$FILENAME.zip ./$FILENAME'_STATISTICS.csv'
+        zip -g --move $DIR/$FILENAME.zip ./$FILENAME'_STATISTICS.csv'
 
 	echo "Zip done! Exiting...."
 fi

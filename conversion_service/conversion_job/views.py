@@ -1,8 +1,11 @@
 import django_rq
+from django.http import FileResponse
 from rest_framework import viewsets, permissions
+from rest_framework.decorators import detail_route
 
-from conversion_job.models import Extent, ConversionJob
-from conversion_job.serializers import ExtentSerializer, ConversionJobSerializer, ConversionJobStatusSerializer
+from conversion_job.models import Extent, ConversionJob, GISFormat
+from conversion_job.serializers import ExtentSerializer, ConversionJobSerializer, ConversionJobStatusSerializer, \
+    GISFormatStatusSerializer
 from shared import rq_job_status_mapping, ConversionProgress, JobStatus
 
 
@@ -30,6 +33,12 @@ class ConversionJobStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.Ge
     lookup_field = 'rq_job_id'
     lookup_value_regex = '[0-9a-f-]{36}'
 
+    queryset = ConversionJob.objects.all()
+    serializer_class = ConversionJobStatusSerializer
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
     def retrieve(self, request, *args, **kwargs):
         self._update_status_from_rq()
         return super().retrieve(request, *args, **kwargs)
@@ -53,8 +62,15 @@ class ConversionJobStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.Ge
                         gis_format.save()
             conversion_job.save()
 
-    queryset = ConversionJob.objects.all()
-    serializer_class = ConversionJobStatusSerializer
-    permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
-    )
+
+class GISFormatStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    queryset = GISFormat.objects.all()
+    serializer_class = GISFormatStatusSerializer
+
+    @detail_route()
+    def download_result(self, *args, **kwargs):
+        file_path = self.get_object().get_result_file_path()
+        file_name = file_path.split('/')[-1]
+        response = FileResponse(open(file_path, 'rb'))
+        response['Content-Disposition'] = 'attachment; filename="%s"' % file_name
+        return response

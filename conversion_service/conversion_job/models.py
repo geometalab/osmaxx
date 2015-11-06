@@ -3,6 +3,7 @@ import os
 from django.contrib.gis.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from rest_framework.reverse import reverse
 
 from converters import CONVERTER_CHOICES, converter_settings
 from converters.boundaries import BBox
@@ -71,10 +72,29 @@ class ConversionJob(models.Model):
     @property
     def output_directory(self):
         # todo: ensure job is cleaned up after files have been requested -> in conversion_service
-        directory = os.path.join(converter_settings.OSMAXX_CONVERSION_SERVICE['RESULT_DIR'], self.id)
+        directory = os.path.join(converter_settings.OSMAXX_CONVERSION_SERVICE['RESULT_DIR'], str(self.id))
         if not os.path.exists(directory):
             os.makedirs(directory)
         return directory
+
+    def get_resulting_file_path_or_none(self, format):
+        """
+        :param format: format of the file
+        :return: path to result file
+        """
+        file_paths = []
+        for name in os.listdir(self.output_directory):
+            result_file_path = os.path.join(self.output_directory, name)
+            if os.path.isfile(result_file_path):
+                file_paths.append(result_file_path)
+
+        if not file_paths:
+            return None
+
+        file_path = [path for path in file_paths if path.split('.zip')[:-1][0].endswith(format)]
+        if not file_path:
+            return None
+        return file_path[0]
 
     def get_conversion_options(self):
         return Options(output_formats=self.gis_formats.values_list('format', flat=True))
@@ -95,6 +115,12 @@ class GISFormat(models.Model):
         choices=ConversionProgress.choices(),
         default=ConversionProgress.NEW.value,
     )
+
+    def get_result_file_path(self):
+        return self.conversion_job.get_resulting_file_path_or_none(self.format)
+
+    def get_download_url(self):
+        return reverse('gisformat-download-result', kwargs={'pk': self.id})
 
     class Meta:
         unique_together = ('conversion_job', 'format',)

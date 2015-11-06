@@ -94,10 +94,11 @@ class ConversionJobSerializer(serializers.ModelSerializer):
 
 class GISFormatStatusSerializer(serializers.ModelSerializer):
     progress = serializers.CharField(source='get_progress_display')
+    result_url = serializers.CharField(source='get_download_url')
 
     class Meta:
         model = GISFormat
-        fields = ('format', 'progress',)
+        fields = ('format', 'progress', 'result_url', )
 
 
 class ConversionJobStatusSerializer(serializers.ModelSerializer):
