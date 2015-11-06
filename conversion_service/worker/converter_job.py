@@ -29,6 +29,9 @@ def set_progress_on_job(status):
 class Notifier(object):
     def __init__(self, callback_url):
         self.callback_url = callback_url
+        self.noop = False
+        if callback_url is None:
+            self.noop = True
 
     def try_or_notify(self, function, *args, **kwargs):
         try:
@@ -48,10 +51,11 @@ class Notifier(object):
         :param callback_url:
         :return: nothing
         """
-        try:
-            requests.get(self.callback_url)
-        except:
-            pass
+        if not self.noop:
+            try:
+                requests.get(self.callback_url)
+            except:
+                pass
 
 
 def convert(geometry, format_options, output_directory, callback_url):
