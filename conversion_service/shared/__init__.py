@@ -1,6 +1,7 @@
 import enum
 
 from django.utils.translation import ugettext_lazy as _
+from rq.job import JobStatus as RQJobStatus
 
 
 class JobStatus(enum.Enum):
@@ -17,6 +18,14 @@ class JobStatus(enum.Enum):
             (cls.DONE.value, _('done')),
             (cls.ERROR.value, _('error')),
         )
+
+rq_job_status_mapping = {
+    RQJobStatus.QUEUED: JobStatus.QUEUED,
+    RQJobStatus.FINISHED: JobStatus.DONE,
+    RQJobStatus.FAILED: JobStatus.ERROR,
+    RQJobStatus.STARTED: JobStatus.STARTED,
+    RQJobStatus.DEFERRED: JobStatus.QUEUED,
+}
 
 
 class ConversionProgress(enum.Enum):
