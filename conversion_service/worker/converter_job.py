@@ -1,5 +1,6 @@
 import argparse
 import logging
+import os
 import time
 
 from django_rq import get_connection
@@ -53,7 +54,7 @@ class Notifier(object):
             pass
 
 
-def convert(geometry, format_options, output_directory=None, callback_url=None):
+def convert(geometry, format_options, output_directory, callback_url):
     """
     Starts converting an excerpt for the specified format options
 
@@ -111,4 +112,9 @@ if __name__ == '__main__':
     args = _command_line_arguments()
     bounding_box = args.west, args.south, args.east, args.north
     geometry = BBox(*bounding_box)
-    convert(geometry=geometry, format_options=Options({'output_formats': args.formats}))
+    convert(
+        geometry=geometry,
+        format_options=Options({'output_formats': args.formats}),
+        output_directory=os.path.dirname(__file__),
+        callback_url=None,
+    )
