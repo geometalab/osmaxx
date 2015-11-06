@@ -5,6 +5,7 @@ from rq.job import JobStatus as RQJobStatus
 
 
 class JobStatus(enum.Enum):
+    NEW = 0
     QUEUED = 1
     STARTED = 2
     DONE = 3
@@ -13,6 +14,7 @@ class JobStatus(enum.Enum):
     @classmethod
     def choices(cls):
         return (
+            (cls.NEW.value, _('new')),
             (cls.QUEUED.value, _('queued')),
             (cls.STARTED.value, _('started')),
             (cls.DONE.value, _('done')),
@@ -29,6 +31,7 @@ rq_job_status_mapping = {
 
 
 class ConversionProgress(enum.Enum):
+    NEW = 0
     RECEIVED = 1
     STARTED = 2
     SUCCESSFUL = 10
@@ -37,6 +40,7 @@ class ConversionProgress(enum.Enum):
     @classmethod
     def choices(cls):
         return (
+            (cls.NEW.value, _('new')),
             (cls.RECEIVED.value, _('received')),
             (cls.STARTED.value, _('started')),
             (cls.SUCCESSFUL.value, _('successful')),
