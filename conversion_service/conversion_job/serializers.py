@@ -21,6 +21,9 @@ class GISFormatListSerializer(serializers.ListSerializer):
         formats = [GISFormat(**item) for item in validated_data]
         return GISFormat.objects.bulk_create(formats)
 
+    def to_representation(self, data):
+        return data.values_list('format', flat=True)
+
     def to_internal_value(self, data):
         """
         List of strings to list of dicts of native values <- List of dicts of primitive datatypes.
