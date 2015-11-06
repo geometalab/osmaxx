@@ -1,5 +1,5 @@
 data:
-  image: busybox
+  image: debian:jessie
   command: echo true
   volumes:
     - /tmp
@@ -15,21 +15,16 @@ rqdashboard:
 redis:
   image: redis
 
-# 1 worker
 worker:
   extends:
     file: common-services.yml
-    service: webapp
+    service: environmentvars
   build: .
-  entrypoint: [honcho, -f, ./worker/Procfile, start]
+  dockerfile: ./Dockerfile.worker
+  command: [honcho, -f, ./worker/Procfile, start]
   volumes_from:
     - data
   links:
-    - workerdatabase:database
     - redis
   environment:
-    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
-    - PGHOST=database
-
-workerdatabase:
-  image: geometalab/postgis-with-translit
+    - DJANGO_SETTINGS_MODULE=rest_api.config.settings.worker

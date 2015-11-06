@@ -8,6 +8,7 @@ django-filter
 django-rq==0.8.0
 django-environ==0.4.0
 django-extensions==1.5.7
+requests==2.8.1
 Werkzeug==0.10.4
 django-debug-toolbar==1.4
 whitenoise
