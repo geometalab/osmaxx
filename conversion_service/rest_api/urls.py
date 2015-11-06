@@ -6,6 +6,7 @@ import conversion_job.views
 router = DefaultRouter()
 router.register(r'extents', conversion_job.views.ExtentViewSet)
 router.register(r'jobs', conversion_job.views.ConversionJobViewSet)
+router.register(r'conversion_status', conversion_job.views.ConversionJobStatusViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

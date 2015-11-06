@@ -61,22 +61,22 @@ class ConversionJobSerializer(serializers.ModelSerializer):
             extent = Extent(**validated_data.pop('extent'))
             extent.save()
             validated_data['extent'] = extent
-            validated_data['status'] = JobStatus.QUEUED.value
-            job = super().create(validated_data)
+            conversion_job = super().create(validated_data)
             formats = []
             for gis_format_dict in gis_formats:
                 formats.append(gis_format_dict['format'])
-                gis_format_dict['conversion_job'] = job
+                gis_format_dict['conversion_job'] = conversion_job
                 gis_format = GISFormat(**gis_format_dict)
                 gis_format.save()
             rq_job = self._enqueue_rq_job(
                 extent.get_geometry(),
                 Options(output_formats=formats),
-                job.callback_url,
+                conversion_job.callback_url,
             )
-            job.rq_job_id = rq_job.id
-            job.save()
-        return job
+            conversion_job.rq_job_id = rq_job.id
+            conversion_job.status = JobStatus.QUEUED.value
+            conversion_job.save()
+        return conversion_job
 
     def _enqueue_rq_job(self, geometry, format_options, callback_url):
         cm = ConversionJobManager(geometry=geometry, format_options=format_options)
@@ -87,3 +87,23 @@ class ConversionJobSerializer(serializers.ModelSerializer):
         fields = ('id', 'rq_job_id', 'callback_url', 'status', 'gis_formats', 'gis_option', 'extent')
         depth = 1
         read_only_fields = ('rq_job_id', 'status',)
+
+
+# Status Only Serializers
+
+class GISFormatStatusSerializer(serializers.ModelSerializer):
+    progress = serializers.CharField(source='get_progress_display')
+
+    class Meta:
+        model = GISFormat
+        fields = ('format', 'progress',)
+
+
+class ConversionJobStatusSerializer(serializers.ModelSerializer):
+    gis_formats = GISFormatStatusSerializer(many=True)
+    status = serializers.CharField(source='get_status_display')
+
+    class Meta:
+        model = ConversionJob
+        fields = ('rq_job_id', 'status', 'progress', 'gis_formats')
+        read_only_fields = fields
