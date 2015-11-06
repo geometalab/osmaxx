@@ -77,6 +77,12 @@ class ConversionJob(models.Model):
 class GISFormat(models.Model):
     conversion_job = models.ForeignKey(ConversionJob, verbose_name=_('conversion job'), related_name='gis_formats')
     format = models.CharField(_('format'), choices=CONVERTER_CHOICES['output_formats'], max_length=10)
+    progress = models.IntegerField(
+        _('progress'),
+        choices=ConversionProgress.choices(),
+        null=True,
+        blank=True
+    )
 
     class Meta:
         unique_together = ('conversion_job', 'format',)
