@@ -176,3 +176,15 @@ class ExtentTest(TestCase):
             conversion_job.progress,
             [tup[1] for tup in ConversionProgress.choices() if tup[0] == ConversionProgress.NEW.value][0]
         )
+
+    def test_get_download_url(self):
+        extent = Extent.objects.create(west=0, south=0, east=0, north=0)
+        conversion_job = ConversionJob(extent=extent)
+        conversion_job.save()
+
+        gis_format = GISFormat.objects.create(
+            conversion_job=conversion_job,
+            format=converter_options.get_output_formats()[1],
+            progress=ConversionProgress.NEW.value
+        )
+        self.assertIsNotNone(gis_format.get_download_url(request=None))
