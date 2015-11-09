@@ -12,6 +12,7 @@
                 <span class="menu_icon">&#x270e;</span>&nbsp;{% trans 'New excerpt export' %}
             </a>
         </li>
+        {% if user.is_authenticated %}
         <li role="presentation" {% if view == 'orders' %}class="active"{% endif %}>
             <a href="{% url 'excerptexport:orders' %}">
                 <span class="menu_icon">&#x2637;</span>&nbsp;{% trans 'My orders' %}
@@ -22,6 +23,7 @@
                 <span class="menu_icon">&#8681;</span>&nbsp;{% trans 'My downloads' %}
             </a>
         </li>
+        {% endif %}
         <li>
             {% include 'excerptexport/partials/login_logout_link.html' with user=user %}
         </li>
