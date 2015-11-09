@@ -14,36 +14,37 @@
         <p>{% trans "Your username and password didn't match. Please try again." %}</p>
         {% endif %}
 
-        <form id="osmaxx-login-form" method="post" action="{% url 'excerptexport:login' %}">
-            {% csrf_token %}
-            <div class="form-group">
-                <div>{{ form.username.label_tag }}</div>
-                <div>{{ form.username }}</div>
-            </div>
-            <div class="form-group">
-                <div>{{ form.password.label_tag }}</div>
-                <div>{{ form.password }}</div>
-            </div>
+        <p>
+            {% blocktrans %}
+            Please use your <strong>OpenID-account</strong> to authenticate.
+            <br />If you don't have an account already, please <a href="www.clavid.ch">create an account</a> and login.
+            <br /><br />After first login you will be prompted to request the activation of your account.
+            {% endblocktrans %}
+        </p>
 
-            <input type="submit" value="login" />
-            <input type="hidden" name="next" value="{{ next }}" />
-        </form>
-
-        {% trans 'or use Clavid:' %}<br />
+        <h3>clavid.ch users</h3>
         <form id="clavidch-login-form" method="post" action="{% url 'social:begin' 'clavid.ch' %}">{% csrf_token %}
             <div class="form-group">
-                <div><label for="openid_user">user name</label></div>
-                <div><input name="openid_user" type="text" required="required" placeholder="username" /><span>.clavid.ch</span></div>
+                <div><label for="clavid_ch_openid_user">user name</label></div>
+                <div>
+                    <input name="openid_user" id="clavid_ch_openid_user" type="text" required="required" placeholder="username" />
+                    <span>.clavid.ch</span>
+                    <input type="submit" value="login" />
+                </div>
             </div>
-            <input type="submit" value="login" />
             <input type="hidden" name="next" value="{{ next }}" />
         </form>
+
+        <h3>clavid.com users</h3>
         <form id="clavidcom-login-form" method="post" action="{% url 'social:begin' 'clavid.com' %}">{% csrf_token %}
             <div class="form-group">
-                <div><label for="openid_user">user name</label></div>
-                <div><input name="openid_user" type="text" required="required" placeholder="username" />.clavid.com</div>
+                <div><label for="clavid_com_openid_user">user name</label></div>
+                <div>
+                    <input name="openid_user" id="clavid_com_openid_user" type="text" required="required" placeholder="username" />
+                    <span>.clavid.com</span>
+                    <input type="submit" value="login" />
+                </div>
             </div>
-            <input type="submit" value="login" />
             <input type="hidden" name="next" value="{{ next }}" />
         </form>
     </div>
