@@ -242,4 +242,7 @@ table tr:nth-child(odd) td  { background: rgb(210,240,255); }
 
 #div_id_form_mode > div > select {
     overflow: hidden;
+    height: 3.5rem;
+    border: none;
+    box-shadow: none;
 }
