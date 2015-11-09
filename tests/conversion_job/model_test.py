@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
@@ -53,3 +55,19 @@ class ExtentTest(TestCase):
         e = Extent(polyfile='present')
         self.assertRaises(NotImplementedError, e.get_geometry)
         e.clean()
+
+    @patch('conversion_job.models.Extent.clean')
+    def test_save_calls_clean_method(self, clean_mock):
+        e = Extent(polyfile='present')
+        e.save()
+        clean_mock.assert_called_once_with()
+
+    def test_save_call_succeeds_with_polyfile(self):
+        e = Extent(polyfile='present')
+        # no exception expected
+        e.save()
+
+    def test_save_call_succeeds_with_bbox(self):
+        e = Extent(west=0, south=0, east=0, north=0)
+        # no exception expected
+        e.save()
