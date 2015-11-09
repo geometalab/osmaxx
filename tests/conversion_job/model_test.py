@@ -1,9 +1,11 @@
+import os
 from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from conversion_job.models import Extent, ConversionJob
+from converters import converter_settings
 from converters.boundaries import BBox
 
 
@@ -49,12 +51,10 @@ class ExtentTest(TestCase):
     def test_get_geometry_returns_geometry(self):
         e = Extent(west=0, south=0, east=0, north=0)
         self.assertEqual(e.get_geometry().__dict__, BBox(west=0, south=0, east=0, north=0).__dict__)
-        e.clean()
 
     def test_get_geometry_raises_with_polyfile_for_now(self):
         e = Extent(polyfile='present')
         self.assertRaises(NotImplementedError, e.get_geometry)
-        e.clean()
 
     @patch('conversion_job.models.Extent.clean')
     def test_save_calls_clean_method(self, clean_mock):
@@ -73,8 +73,13 @@ class ExtentTest(TestCase):
         e.save()
 
     def test_output_directory_is_created_if_not_exists(self):
-        conversion_job = ConversionJob()
-        # need an id
+        extent = Extent.objects.create(west=0, south=0, east=0, north=0)
+        conversion_job = ConversionJob(extent=extent)
         conversion_job.save()
-
-        self.assertEqual(conversion_job.output_directory, '')
+        directory = conversion_job.output_directory
+        os.rmdir(directory)
+        self.assertFalse(os.path.exists(directory))
+        directory = conversion_job.output_directory
+        self.assertTrue(os.path.exists(directory))
+        self.assertEqual(directory, os.path.join(converter_settings.OSMAXX_CONVERSION_SERVICE['RESULT_DIR'], str(conversion_job.id)))
+        os.rmdir(directory)
