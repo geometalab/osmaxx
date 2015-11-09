@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from conversion_job.models import Extent
+from converters.boundaries import BBox
 
 
 class ExtentTest(TestCase):
@@ -41,4 +42,14 @@ class ExtentTest(TestCase):
         self.assertFalse(e._bbox_present())
         self.assertTrue(e._polyfile_present())
         # no exception expected
+        e.clean()
+
+    def test_get_geometry_returns_geometry(self):
+        e = Extent(west=0, south=0, east=0, north=0)
+        self.assertEqual(e.get_geometry().__dict__, BBox(west=0, south=0, east=0, north=0).__dict__)
+        e.clean()
+
+    def test_get_geometry_raises_with_polyfile_for_now(self):
+        e = Extent(polyfile='present')
+        self.assertRaises(NotImplementedError, e.get_geometry)
         e.clean()

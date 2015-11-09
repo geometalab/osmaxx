@@ -1,2 +1,6 @@
 [run]
-omit = tests/*,conversion_service/config/*
+omit = tests/*,conversion_service/config/*,conversion_service/manage.py
+
+[report]
+show_missing = True
+skip_covered = True

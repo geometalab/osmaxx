@@ -38,7 +38,7 @@ class Extent(models.Model):
             raise NotImplementedError('Polyfile is not supported (yet).')
         if self._bbox_present():
             return BBox(self.west, self.south, self.east, self.north)
-        raise RuntimeError("Should never reach this point.")
+        raise RuntimeError("Should never reach this point.")  # pragma: no cover
 
     def save(self, *args, **kwargs):
         self.clean()
