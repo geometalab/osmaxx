@@ -1,0 +1,9 @@
+{% spaceless %}
+    {% with content_type|lower as type %}
+        {% if type == 'gpkg' %}GeoPackage
+        {% elif type == 'spatialite' %}SQLite based SpatiaLite
+        {% elif type == 'shp' %}ESRI Shapefile
+        {% elif type == 'fgdb' %}ESRI File Geodatabase
+        {% endif %}
+    {% endwith %}
+{% endspaceless %}
