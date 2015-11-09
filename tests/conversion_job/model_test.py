@@ -73,6 +73,8 @@ class ExtentTest(TestCase):
         # no exception expected
         e.save()
 
+
+class ConversionJobTest(TestCase):
     def test_output_directory_is_created_if_not_exists(self):
         extent = Extent.objects.create(west=0, south=0, east=0, north=0)
         conversion_job = ConversionJob(extent=extent)
@@ -177,6 +179,8 @@ class ExtentTest(TestCase):
             [tup[1] for tup in ConversionProgress.choices() if tup[0] == ConversionProgress.NEW.value][0]
         )
 
+
+class GISFormatTest(TestCase):
     def test_get_download_url(self):
         extent = Extent.objects.create(west=0, south=0, east=0, north=0)
         conversion_job = ConversionJob(extent=extent)
