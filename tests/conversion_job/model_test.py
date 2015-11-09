@@ -3,7 +3,7 @@ from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from conversion_job.models import Extent
+from conversion_job.models import Extent, ConversionJob
 from converters.boundaries import BBox
 
 
@@ -71,3 +71,10 @@ class ExtentTest(TestCase):
         e = Extent(west=0, south=0, east=0, north=0)
         # no exception expected
         e.save()
+
+    def test_output_directory_is_created_if_not_exists(self):
+        conversion_job = ConversionJob()
+        # need an id
+        conversion_job.save()
+
+        self.assertEqual(conversion_job.output_directory, '')
