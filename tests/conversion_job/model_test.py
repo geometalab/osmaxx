@@ -4,7 +4,7 @@ from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from conversion_job.models import Extent, ConversionJob
+from conversion_job.models import Extent, ConversionJob, GISFormat
 from converters import converter_settings, converter_options
 from converters.boundaries import BBox
 
@@ -132,3 +132,14 @@ class ExtentTest(TestCase):
             # cleanup
             os.unlink(file_path)
             os.rmdir(out_dir)
+
+    def test_get_saved_conversions_options(self):
+        extent = Extent.objects.create(west=0, south=0, east=0, north=0)
+        conversion_job = ConversionJob(extent=extent)
+        conversion_job.save()
+        format_choice = converter_options.get_output_formats()[2]
+        gis_format = GISFormat.objects.create(conversion_job=conversion_job, format=format_choice)
+        self.assertEqual(
+            conversion_job.get_conversion_options().get_output_formats()[0],
+            gis_format.format
+        )
