@@ -88,7 +88,47 @@ class ExtentTest(TestCase):
         extent = Extent.objects.create(west=0, south=0, east=0, north=0)
         conversion_job = ConversionJob(extent=extent)
         conversion_job.save()
+        format = converter_options.get_output_formats()[0]
         self.assertIsNone(
-            conversion_job.get_resulting_file_path_or_none(format=converter_options.get_output_formats()[0])
+            conversion_job.get_resulting_file_path_or_none(format=format)
         )
 
+    def test_get_resulting_file_path_or_none_returns_file_for_format(self):
+        extent = Extent.objects.create(west=0, south=0, east=0, north=0)
+        conversion_job = ConversionJob(extent=extent)
+        conversion_job.save()
+
+        # create a sample file
+        conversion_format = converter_options.get_output_formats()[0]
+        filename = conversion_format + '.zip'
+        out_dir = conversion_job.output_directory
+        file_path = os.path.join(out_dir, filename)
+        try:
+            open(file_path, 'x').close()
+            self.assertEqual(
+                conversion_job.get_resulting_file_path_or_none(format=conversion_format),
+                file_path
+            )
+        finally:
+            # cleanup
+            os.unlink(file_path)
+            os.rmdir(out_dir)
+
+    def test_get_resulting_file_path_or_none_returns_none_with_unavailable_format(self):
+        extent = Extent.objects.create(west=0, south=0, east=0, north=0)
+        conversion_job = ConversionJob(extent=extent)
+        conversion_job.save()
+
+        # create a sample file
+        conversion_format = converter_options.get_output_formats()[0]
+        unavailable_format = converter_options.get_output_formats()[1]
+        filename = conversion_format + '.zip'
+        out_dir = conversion_job.output_directory
+        file_path = os.path.join(out_dir, filename)
+        try:
+            open(file_path, 'x').close()
+            self.assertIsNone(conversion_job.get_resulting_file_path_or_none(format=unavailable_format))
+        finally:
+            # cleanup
+            os.unlink(file_path)
+            os.rmdir(out_dir)
