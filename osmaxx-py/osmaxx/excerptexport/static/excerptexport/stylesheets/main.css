@@ -13,7 +13,6 @@ header > .topBar    { padding: 1rem; }
                     -webkit-flex-flow: column nowrap; -moz-flex-flow: column nowrap; -ms-flex-flow: column nowrap; flex-flow: column nowrap;
                     overflow-y: auto; height: 100%; }
 .content            { padding: 1rem; }
-.content > *:last-child:after { display: block; content:""; margin-bottom: 1rem; } /* fixes padding-bottom bug */
 
 footer p            { margin: 1rem; }
 
