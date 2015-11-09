@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from conversion_job.models import Extent, ConversionJob
-from converters import converter_settings
+from converters import converter_settings, converter_options
 from converters.boundaries import BBox
 
 
@@ -83,3 +83,12 @@ class ExtentTest(TestCase):
         self.assertTrue(os.path.exists(directory))
         self.assertEqual(directory, os.path.join(converter_settings.OSMAXX_CONVERSION_SERVICE['RESULT_DIR'], str(conversion_job.id)))
         os.rmdir(directory)
+
+    def test_get_resulting_file_path_or_none_returns_none_with_unavailable_formats(self):
+        extent = Extent.objects.create(west=0, south=0, east=0, north=0)
+        conversion_job = ConversionJob(extent=extent)
+        conversion_job.save()
+        self.assertIsNone(
+            conversion_job.get_resulting_file_path_or_none(format=converter_options.get_output_formats()[0])
+        )
+
