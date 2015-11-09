@@ -34,7 +34,7 @@ class ConversionProgress(enum.Enum):
     NEW = 0
     RECEIVED = 1
     STARTED = 2
-    SUCCESSFUL = 10
+    SUCCESSFUL = 3
     ERROR = -1
 
     @classmethod

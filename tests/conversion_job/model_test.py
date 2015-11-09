@@ -7,6 +7,7 @@ from django.test import TestCase
 from conversion_job.models import Extent, ConversionJob, GISFormat
 from converters import converter_settings, converter_options
 from converters.boundaries import BBox
+from shared import ConversionProgress
 
 
 class ExtentTest(TestCase):
@@ -142,4 +143,36 @@ class ExtentTest(TestCase):
         self.assertEqual(
             conversion_job.get_conversion_options().get_output_formats()[0],
             gis_format.format
+        )
+
+    def test_progress_returns_none_without_formats(self):
+        extent = Extent.objects.create(west=0, south=0, east=0, north=0)
+        conversion_job = ConversionJob(extent=extent)
+        conversion_job.save()
+        self.assertIsNone(conversion_job.progress)
+
+    def test_progress_returns_minimal_status_of_attached_gis_formats(self):
+        extent = Extent.objects.create(west=0, south=0, east=0, north=0)
+        conversion_job = ConversionJob(extent=extent)
+        conversion_job.save()
+
+        GISFormat.objects.create(
+            conversion_job=conversion_job,
+            format=converter_options.get_output_formats()[1],
+            progress=ConversionProgress.NEW.value
+        )
+        GISFormat.objects.create(
+            conversion_job=conversion_job,
+            format=converter_options.get_output_formats()[2],
+            progress=ConversionProgress.STARTED.value
+        )
+        GISFormat.objects.create(
+            conversion_job=conversion_job,
+            format=converter_options.get_output_formats()[3],
+            progress=ConversionProgress.SUCCESSFUL.value
+        )
+        self.assertIsNotNone(conversion_job.progress)
+        self.assertEqual(
+            conversion_job.progress,
+            [tup[1] for tup in ConversionProgress.choices() if tup[0] == ConversionProgress.NEW.value][0]
         )
