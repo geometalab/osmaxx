@@ -17,21 +17,16 @@ class BBox:
         self.west, self.south, self.east, self.north = west, south, east, north
 
     def cut_pbf(self, output_filename):  # pragma: nocover
-        xapi_mirror = OSMAXX_CONVERSION_SERVICE.get('XAPI_MIRROR')
-        # Download the region map specified through the given coordinates
-        command = "wget -qO- {xapi_mirror}?map?bbox={west},{south},{east},{north}".format(
-            xapi_mirror=xapi_mirror,
+        pbf_file_path = OSMAXX_CONVERSION_SERVICE.get('PBF_WORLD_FILE_PATH')
+        command = "osmconvert --out-pbf -o={output_filename} -b={west},{south},{east},{north} {pbf_file_path}".format(
+            output_filename=output_filename,
+            pbf_file_path=pbf_file_path,
             west=self.west,
             south=self.south,
             east=self.east,
             north=self.north,
         )
-        p_wget = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-
-        command = "osmconvert --out-pbf -o={output_filename} -".format(
-            output_filename=output_filename,
-        )
-        subprocess.check_call(command.split(), stdin=p_wget.stdout)
+        subprocess.check_call(command.split())
         return output_filename
 
 

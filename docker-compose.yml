@@ -3,6 +3,12 @@ data:
   command: echo true
   volumes:
     - /data/results
+    - /var/data/osm-planet
+
+osmdata:
+  image: geometalab/osm-planet
+  volumes_from:
+    - data
 
 rqdashboard:
   build: rq-dashboard
