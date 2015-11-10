@@ -27,7 +27,7 @@ class OutputFile(models.Model):
         return settings.OSMAXX['download_file_name'] % {
             'id': str(self.public_identifier),
             'name': os.path.basename(self.file.name) if self.file else None,
-            'date': self.create_date.strftime("%Y%m%d"),
+            'date': self.create_date.strftime("%F"),
             'excerpt_name': self.extraction_order.excerpt.name.replace(" ", ""),
             'content_type': self.content_type if self.content_type else 'file',
             'file_extension': self.file_extension

@@ -13,7 +13,6 @@ header > .topBar    { padding: 1rem; }
                     -webkit-flex-flow: column nowrap; -moz-flex-flow: column nowrap; -ms-flex-flow: column nowrap; flex-flow: column nowrap;
                     overflow-y: auto; height: 100%; }
 .content            { padding: 1rem; }
-.content > *:last-child:after { display: block; content:""; margin-bottom: 1rem; } /* fixes padding-bottom bug */
 
 footer p            { margin: 1rem; }
 
@@ -65,7 +64,7 @@ footer p            { margin: 1rem; }
 
 
 /* font */
-h1                  { font-size: 2rem; margin: 1rem; margin-right: 2rem; float: left; }
+h1                  { font-size: 2rem; margin: 1rem; margin-right: 2rem; float: left; color: white; }
 h2                  { margin-top: 0; }
 span.smaller        { font-size: 0.75em; }
 p                   { word-wrap: break-word; }
@@ -220,7 +219,7 @@ table tr:nth-child(odd) td  { background: rgb(210,240,255); }
 [data-order-status="UNDEFINED"], [data-order-status="INITIALIZED"], [data-order-status="WAITING"] { opacity: 0.5; }
 [data-order-status="INITIALIZED"] { background: lightcyan; border: 0.1rem solid cornflowerblue; }
 [data-order-status="WAITING"] { background: lightyellow; border: 0.1rem solid yellow; }
-[data-order-status="PROCESSING"] { background: lightcyan; border: 0.1rem solid turquoise; }
+[data-order-status="PROCESSING"] { background: aliceblue; border: 0.1rem solid steelblue; }
 [data-order-status="FINISHED"] { background: honeydew; border: 0.1rem solid seagreen; }
 [data-order-status="CANCELED"] { background: peachpuff; border: 0.1rem solid maroon; }
 [data-order-status="FAILED"] { background: mistyrose; border: 0.1rem solid maroon; }
@@ -229,7 +228,7 @@ table tr:nth-child(odd) td  { background: rgb(210,240,255); }
 .symbol.initialized { color: cornflowerblue; }
 .symbol.waiting { color: gold; }
 .symbol.rotated90deg { display: inline-block; -ms-transform: rotate(90deg); -webkit-transform: rotate(90deg); transform: rotate(90deg); }
-.symbol.processing { color: olive; }
+.symbol.processing { color: dodgerblue; }
 .symbol.finished { color: seagreen; }
 .symbol.canceled { color: maroon; }
 .symbol.failed { color: darkred; }
@@ -243,4 +242,7 @@ table tr:nth-child(odd) td  { background: rgb(210,240,255); }
 
 #div_id_form_mode > div > select {
     overflow: hidden;
+    height: 3.5rem;
+    border: none;
+    box-shadow: none;
 }

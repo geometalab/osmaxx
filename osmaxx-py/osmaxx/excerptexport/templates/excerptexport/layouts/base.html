@@ -22,7 +22,7 @@
     <div class="page">
         <header>
             <div class="topBar">
-                <h1>Osmaxx</h1>
+                <a href="{% url 'excerptexport:index' %}"><h1>Osmaxx</h1></a>
                 {% include 'excerptexport/partials/navigation.html' with view=view user=user %}
             </div>
             <nav class="breadcrumb">

@@ -83,8 +83,8 @@ class EndToEndTests(unittest.TestCase):
 
     # Helper methods
     def _login(self):
-        self.browser.get(self._make_link('/login/'))
-        login_form = self.browser.find_element_by_id('osmaxx-login-form')
+        self.browser.get(self._make_link('/admin/login/'))
+        login_form = self.browser.find_element_by_id('login-form')
         username = self.browser.find_element_by_id('id_username')
         password = self.browser.find_element_by_id("id_password")
         username.send_keys(ADMIN_USER_FOR_TESTS)
