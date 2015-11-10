@@ -42,7 +42,7 @@ class Extent(models.Model):
 
     @property
     def _bbox_coordinates(self):
-        return [self.west, self.south, self.east, self.north]
+        return self.west, self.south, self.east, self.north
 
     def save(self, *args, **kwargs):
         self.clean()
