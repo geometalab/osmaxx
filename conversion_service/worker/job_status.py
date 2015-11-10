@@ -1,7 +1,7 @@
-import enum
+import enum  # pragma: nocover -> don't test an enum
 
 
-class JobStatus(enum.Enum):
+class JobStatus(enum.Enum):  # pragma: nocover -> don't test an enum
     STARTED = 0
     DONE = 10
     ERROR = 11
