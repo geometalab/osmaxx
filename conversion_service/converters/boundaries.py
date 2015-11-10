@@ -16,7 +16,7 @@ class BBox:
     def __init__(self, west, south, east, north):
         self.west, self.south, self.east, self.north = west, south, east, north
 
-    def cut_pbf(self, output_filename):
+    def cut_pbf(self, output_filename):  # pragma: nocover
         xapi_mirror = OSMAXX_CONVERSION_SERVICE.get('XAPI_MIRROR')
         # Download the region map specified through the given coordinates
         command = "wget -qO- {xapi_mirror}?map?bbox={west},{south},{east},{north}".format(
