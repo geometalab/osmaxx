@@ -1,5 +1,5 @@
 [run]
-omit = tests/*,conversion_service/config/*,conversion_service/manage.py
+omit = tests/*,conversion_service/config/*,conversion_service/manage.py,conversion_service/converters/converter_settings.py
 
 [report]
 show_missing = True
