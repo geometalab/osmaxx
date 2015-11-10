@@ -32,7 +32,7 @@ class Notifier(object):
         if callback_url is None:
             self.noop = True
 
-    def try_or_notify(self, function, *args, **kwargs):
+    def try_or_notify(self, function, *args, **kwargs):  # pragma: nocover
         try:
             return function(*args, **kwargs)
         except:
@@ -50,7 +50,7 @@ class Notifier(object):
         :param callback_url:
         :return: nothing
         """
-        if not self.noop:
+        if not self.noop:  # pragma: nocover
             try:
                 requests.get(self.callback_url)
             except:
@@ -85,7 +85,7 @@ def convert(geometry, format_options, output_directory, callback_url):
     notifier.notify()
 
 
-def _command_line_arguments():
+def _command_line_arguments():  # pragma: nocover
     global args
     parser = argparse.ArgumentParser(
         description='Convert a extent (BoundingBox) to given formats. Use -h for help. '
@@ -107,7 +107,7 @@ def _command_line_arguments():
     return parser.parse_args()
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: nocover
     args = _command_line_arguments()
     bounding_box = args.west, args.south, args.east, args.north
     geometry = BBox(*bounding_box)
