@@ -1,7 +1,7 @@
 import os
 
 
-def cut_osm_extent(geometry_defintion):
+def cut_osm_extent(geometry_defintion):  # pragma: nocover
     workdir_osm = '/tmp/osmaxx_postgis_cutter'
     output_filename = os.path.join(workdir_osm, 'excerpt.osm.pbf')
     os.makedirs(workdir_osm, exist_ok=True)
