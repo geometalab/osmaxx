@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
 
-class ModelSideValidationMixin(object):
+class ModelSideValidationMixin(object):  # pragma: nocover
     def validate(self, data):
         try:
             self.Meta.model(**data).clean()
