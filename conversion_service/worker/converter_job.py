@@ -16,7 +16,7 @@ from shared import ConversionProgress
 logger = logging.getLogger(__name__)
 
 
-def set_progress_on_job(progress):
+def set_progress_on_job(progress):  # pragma: nocover
     job = get_current_job(connection=get_connection())
     if job:
         job.meta['progress'] = progress
