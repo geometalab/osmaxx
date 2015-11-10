@@ -16,13 +16,13 @@ from shared import ConversionProgress
 logger = logging.getLogger(__name__)
 
 
-def set_progress_on_job(status):
+def set_progress_on_job(progress):
     job = get_current_job(connection=get_connection())
     if job:
-        job.meta['progress'] = status
+        job.meta['progress'] = progress
         job.save()
     else:
-        logger.info('status changed to: ' + str(status))
+        logger.info('status changed to: ' + str(progress))
 
 
 class Notifier(object):
