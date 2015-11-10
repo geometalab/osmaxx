@@ -25,10 +25,10 @@ class Extent(models.Model):
             raise ValidationError(_('either extents or polyfile must be given'))
 
     def _bbox_partially_present(self):
-        return any([coordinate is not None for coordinate in self._bbox_coordinates()])
+        return any([coordinate is not None for coordinate in self._bbox_coordinates])
 
     def _bbox_present(self):
-        return all([coordinate is not None for coordinate in self._bbox_coordinates()])
+        return all([coordinate is not None for coordinate in self._bbox_coordinates])
 
     def _polyfile_present(self):
         return bool(self.polyfile)
@@ -37,9 +37,10 @@ class Extent(models.Model):
         if self._polyfile_present():
             raise NotImplementedError('Polyfile is not supported (yet).')
         if self._bbox_present():
-            return BBox(*self._bbox_coordinates())
+            return BBox(*self._bbox_coordinates)
         raise RuntimeError("Should never reach this point.")  # pragma: no cover
 
+    @property
     def _bbox_coordinates(self):
         return [self.west, self.south, self.east, self.north]
 
