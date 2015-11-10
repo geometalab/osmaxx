@@ -9,6 +9,15 @@ from rest_api.serializer_helpers import ModelSideValidationMixin
 from shared import JobStatus
 
 
+class StatusHyperlinkSerializer(serializers.HyperlinkedRelatedField):
+    read_only = True
+    view_name = 'conversion_job_result-detail'
+
+    def get_url(self, obj, view_name, request, format):   # pragma: nocover
+        url = reverse(viewname=self.view_name, kwargs={'rq_job_id': obj.pk}, request=request)
+        return url
+
+
 class ExtentSerializer(ModelSideValidationMixin, serializers.ModelSerializer):
     polyfile = serializers.FileField(max_length=None, allow_empty_file=True, allow_null=True)
 
@@ -52,6 +61,7 @@ class ConversionJobSerializer(serializers.ModelSerializer):
     extent = ExtentSerializer(many=False)
     gis_formats = GISFormatSerializer(required=False, many=True)
     gis_option = GISOptionSerializer()
+    status = StatusHyperlinkSerializer(source='rq_job_id', read_only=True)
 
     def create(self, validated_data):
         gis_formats = validated_data.pop('gis_formats')

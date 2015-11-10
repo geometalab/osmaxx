@@ -6,8 +6,8 @@ import conversion_job.views
 router = DefaultRouter()
 router.register(r'extents', conversion_job.views.ExtentViewSet)
 router.register(r'jobs', conversion_job.views.ConversionJobViewSet)
-router.register(r'conversion_status', conversion_job.views.ConversionJobStatusViewSet)
-router.register(r'gis_format_status', conversion_job.views.GISFormatStatusViewSet)
+router.register(r'conversion_result', conversion_job.views.ConversionJobStatusViewSet, base_name='conversion_job_result')
+router.register(r'gis_format', conversion_job.views.GISFormatStatusViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
