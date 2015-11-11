@@ -9,6 +9,7 @@ from converters import CONVERTER_CHOICES, converter_settings
 from converters.boundaries import BBox
 from converters.converter import Options
 from shared import JobStatus, ConversionProgress
+from utils.directory_helper import get_file_only_path_list_in_directory
 
 
 class Extent(models.Model):
@@ -86,12 +87,7 @@ class ConversionJob(models.Model):
         :param format: format of the file
         :return: path to result file
         """
-        file_paths = []
-        for name in os.listdir(self.output_directory):
-            result_file_path = os.path.join(self.output_directory, name)
-            if os.path.isfile(result_file_path):
-                file_paths.append(result_file_path)
-
+        file_paths = get_file_only_path_list_in_directory(self.output_directory)
         if not file_paths:
             return None
 
