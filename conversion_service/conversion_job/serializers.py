@@ -34,9 +34,7 @@ class GISFormatListSerializer(serializers.ListSerializer):
         """
         List of strings to list of dicts of native values <- List of dicts of primitive datatypes.
         """
-        ret = []
-        for value in data:
-            ret.append({'format': value})
+        ret = [{'format': value} for value in data]
         return super().to_internal_value(ret)
 
 
