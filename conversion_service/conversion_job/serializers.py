@@ -27,21 +27,14 @@ class ExtentSerializer(ModelSideValidationMixin, serializers.ModelSerializer):
 
 
 class GISFormatListSerializer(serializers.ListSerializer):
-    def create(self, validated_data):  # pragma: nocover -> is being tested through ConversionJobSerializer
-        formats = [GISFormat(**item) for item in validated_data]
-        return GISFormat.objects.bulk_create(formats)
-
     def to_representation(self, data):
-        return data.values_list('format', flat=True)  # pragma: nocover -> being tested through ConversionJobSerializer
+        return data.values_list('format', flat=True)
 
     def to_internal_value(self, data):
         """
         List of strings to list of dicts of native values <- List of dicts of primitive datatypes.
         """
-        ret = []
-        for value in data:
-            ret.append({'format': value})
-        return super().to_internal_value(ret)
+        return super().to_internal_value([{'format': value} for value in data])
 
 
 class GISFormatSerializer(serializers.ModelSerializer):
@@ -106,7 +99,11 @@ class ConversionJobSerializer(serializers.ModelSerializer):
 class DownloadURL(serializers.HyperlinkedRelatedField):
     view_name = 'gisformat-download-result'
 
-    def get_url(self, obj, view_name, request, format):   # pragma: nocover
+    def get_url(self, obj, view_name, request, format):
+        gis_format = GISFormat.objects.get(pk=obj.pk)
+        if not gis_format.get_result_file_path():
+            return None
+
         url = reverse(viewname=self.view_name, kwargs={'pk': obj.pk}, request=request)
         return url
 
