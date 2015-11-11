@@ -103,7 +103,8 @@ class ConversionJob(models.Model):
     def progress(self):
         progresses_of_formats = self.gis_formats.values_list('progress', flat=True)
         if len(progresses_of_formats) > 0:
-            return dict(ConversionProgress.choices())[min(progresses_of_formats)]
+            overall_progress_value = min(progresses_of_formats)
+            return dict(ConversionProgress.choices())[overall_progress_value]
         return None
 
 
