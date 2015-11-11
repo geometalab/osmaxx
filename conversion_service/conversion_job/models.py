@@ -9,6 +9,7 @@ from converters import CONVERTER_CHOICES, converter_settings
 from converters.boundaries import BBox
 from converters.converter import Options
 from shared import JobStatus, ConversionProgress
+from utils.directory_helper import get_file_only_path_list_in_directory
 
 
 class Extent(models.Model):
@@ -25,10 +26,10 @@ class Extent(models.Model):
             raise ValidationError(_('either extents or polyfile must be given'))
 
     def _bbox_partially_present(self):
-        return any([coordinate is not None for coordinate in [self.west, self.south, self.east, self.north]])
+        return any([coordinate is not None for coordinate in self._bbox_coordinates])
 
     def _bbox_present(self):
-        return all([coordinate is not None for coordinate in [self.west, self.south, self.east, self.north]])
+        return all([coordinate is not None for coordinate in self._bbox_coordinates])
 
     def _polyfile_present(self):
         return bool(self.polyfile)
@@ -37,8 +38,12 @@ class Extent(models.Model):
         if self._polyfile_present():
             raise NotImplementedError('Polyfile is not supported (yet).')
         if self._bbox_present():
-            return BBox(self.west, self.south, self.east, self.north)
+            return BBox(*self._bbox_coordinates)
         raise RuntimeError("Should never reach this point.")  # pragma: no cover
+
+    @property
+    def _bbox_coordinates(self):
+        return self.west, self.south, self.east, self.north
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -82,12 +87,7 @@ class ConversionJob(models.Model):
         :param format: format of the file
         :return: path to result file
         """
-        file_paths = []
-        for name in os.listdir(self.output_directory):
-            result_file_path = os.path.join(self.output_directory, name)
-            if os.path.isfile(result_file_path):
-                file_paths.append(result_file_path)
-
+        file_paths = get_file_only_path_list_in_directory(self.output_directory)
         if not file_paths:
             return None
 
