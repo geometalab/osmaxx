@@ -60,19 +60,16 @@ class ConversionJobSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         gis_formats = validated_data.pop('gis_formats')
         with transaction.atomic():
-            gis_option = GISOption(**validated_data.pop('gis_option'))
-            gis_option.save()
+            gis_option = GISOption.objects.create(**validated_data.pop('gis_option'))
             validated_data['gis_option'] = gis_option
-            extent = Extent(**validated_data.pop('extent'))
-            extent.save()
+            extent = Extent.objects.create(**validated_data.pop('extent'))
             validated_data['extent'] = extent
             conversion_job = super().create(validated_data)
             formats = []
             for gis_format_dict in gis_formats:
                 formats.append(gis_format_dict['format'])
                 gis_format_dict['conversion_job'] = conversion_job
-                gis_format = GISFormat(**gis_format_dict)
-                gis_format.save()
+                GISFormat.objects.create(**gis_format_dict)
             rq_job = self._enqueue_rq_job(
                 geometry=extent.get_geometry(),
                 format_options=Options(output_formats=formats),
