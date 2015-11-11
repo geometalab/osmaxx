@@ -1,10 +1,14 @@
+import os
+import shutil
 from unittest.mock import patch
 
+from django.http import HttpRequest
 from django.test import TestCase
 
 from conversion_job.models import Extent, ConversionJob, GISFormat
-from conversion_job.serializers import ConversionJobSerializer
+from conversion_job.serializers import ConversionJobSerializer, GISFormatStatusSerializer
 from converters import converter_options
+from shared import ConversionProgress
 
 
 class RQJobMock:
@@ -56,3 +60,50 @@ class GISFormatListSerializerTest(TestCase):
         self.assertCountEqual(kwargs['format_options'].output_formats, converter_options.get_output_formats())
 
         self.assertNotEqual(self.conversion_job, ConversionJob.objects.last())
+
+
+class GISFormatStatusSerializerTest(TestCase):
+    def setUp(self):
+        extent = Extent.objects.create(west=0, south=0, east=0, north=0)
+        self.conversion_job = ConversionJob.objects.create(extent=extent)
+        self.gis_format = GISFormat.objects.create(
+            conversion_job=self.conversion_job,
+            format=converter_options.get_output_formats()[0]
+        )
+        request = HttpRequest()
+        request.META['HTTP_HOST'] = 'some-host'
+        self.format_status_serializer = GISFormatStatusSerializer(self.gis_format, context={'request': request})
+
+    def tearDown(self):
+        shutil.rmtree(self.conversion_job.output_directory)
+        super().tearDown()
+
+    def _create_valid_file(self):
+        matching_file_names = ['{}.zip'.format(f) for f in converter_options.get_output_formats()]
+        for matching_file_name in matching_file_names:
+            open(os.path.join(self.conversion_job.output_directory, matching_file_name), 'x').close()
+
+    def test_get_download_url_is_none_when_file_is_not_available(self):
+        self.gis_format.progress = ConversionProgress.SUCCESSFUL.value
+        self.gis_format.save()
+        self.assertIsNone(self.format_status_serializer.data.get('result_url'))
+
+    def test_get_download_url_is_avilable_if_file_is_avaiable_even_if_progress_is_not_success(self):
+        self._create_valid_file()
+        os.path.join(self.conversion_job.output_directory)
+        self.assertEqual(
+            'http://some-host/gis_format_status/1/download_result/',
+            self.format_status_serializer.data.get('result_url')
+        )
+
+    def test_get_download_url_is_defined_when_status_is_success_and_file_available(self):
+        self._create_valid_file()
+        self.gis_format.progress = ConversionProgress.SUCCESSFUL.value
+        self.gis_format.save()
+        self.assertIsNotNone(self.format_status_serializer.data.get('result_url'))
+
+    def test_get_download_url_is_defined_when_status_raises_error_when_deleted(self):
+        self.gis_format.delete()
+        with self.assertRaises(GISFormat.DoesNotExist):
+            # self.format_status_serializer.data already raises, but .get does raise as well.
+            self.format_status_serializer.data.get('result_url')
