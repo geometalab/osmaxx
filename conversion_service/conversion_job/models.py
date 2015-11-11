@@ -63,7 +63,7 @@ class GISOption(models.Model):
         (DETAIL_LEVEL_SIMPLIFIED, _('simplified')),
         (DETAIL_LEVEL_COMBINED, _('combined')),
     )
-    crs = models.CharField(_('coordinate reference system'), max_length=100, choices=CRS_CHOICES)
+    coordinate_reference_system = models.CharField(_('coordinate reference system'), max_length=100, choices=CRS_CHOICES)
     detail_level = models.IntegerField(_('detail level'), choices=DETAIL_LEVELS)
 
 
@@ -72,7 +72,7 @@ class ConversionJob(models.Model):
     callback_url = models.URLField(_('callback url'), max_length=250)
     status = models.IntegerField(_('job status'), choices=JobStatus.choices(), default=JobStatus.NEW.value)
     extent = models.OneToOneField(Extent, verbose_name=_('Extent'))
-    gis_option = models.OneToOneField(GISOption, verbose_name=_('conversion job'), null=True)
+    gis_options = models.OneToOneField(GISOption, verbose_name=_('conversion job'), null=True)
 
     @property
     def output_directory(self):
