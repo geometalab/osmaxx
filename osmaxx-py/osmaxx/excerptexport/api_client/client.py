@@ -2,6 +2,8 @@ import requests
 import json
 import logging
 
+from osmaxx.excerptexport.models import ExtractionOrderState
+
 logger = logging.getLogger(__name__)
 
 
@@ -50,4 +52,33 @@ class RestClient():
             return True
         else:
             logging.error('API login failed.', response)
+            return False
+
+    def create_job(self, extraction_order):
+        if not self.is_logged_in:
+            raise Exception('Not logged in for request')
+
+        request_url = self.create_url(self.api_paths['job']['create'])
+        request_data = {
+            "callback_url": "http://example.com",
+            "gis_formats": extraction_order.extraction_configuration['gis']['formats'],
+            "gis_options": extraction_order.extraction_configuration['gis']['options'],
+            "extent": {
+                "west": extraction_order.excerpt.bounding_geometry.west,
+                "south": extraction_order.excerpt.bounding_geometry.south,
+                "east": extraction_order.excerpt.bounding_geometry.east,
+                "north": extraction_order.excerpt.bounding_geometry.north,
+                "polyfile": None
+            }
+        }
+
+        response = requests.post(request_url, data=json.dumps(request_data), headers=self.headers)
+
+        if response.status_code == 200 and response.json() and 'rq_job_id' in response.json():
+            response_content = response.json()
+            extraction_order.process_id = response_content['rq_job_id']
+            extraction_order.state = ExtractionOrderState.PROCESSING
+            return True
+        else:
+            logging.error('API job creation failed.', response)
             return False
