@@ -102,7 +102,11 @@ class ConversionJobSerializer(serializers.ModelSerializer):
 class DownloadURL(serializers.HyperlinkedRelatedField):
     view_name = 'gisformat-download-result'
 
-    def get_url(self, obj, view_name, request, format):   # pragma: nocover
+    def get_url(self, obj, view_name, request, format):
+        gis_format = GISFormat.objects.get(pk=obj.pk)
+        if not gis_format.get_result_file_path():
+            return None
+
         url = reverse(viewname=self.view_name, kwargs={'pk': obj.pk}, request=request)
         return url
 
