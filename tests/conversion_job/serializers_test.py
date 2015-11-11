@@ -36,8 +36,8 @@ class GISFormatListSerializerTest(TestCase):
         data = {
             "gis_formats": converter_options.get_output_formats(),
             "callback_url": "http://example.com",
-            "gis_option": {
-                "crs": "WGS_84",
+            "gis_options": {
+                "coordinate_reference_system": "WGS_84",
                 "detail_level": 1,
             },
             "extent": {

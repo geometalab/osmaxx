@@ -47,21 +47,21 @@ class GISFormatSerializer(serializers.ModelSerializer):
 class GISOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = GISOption
-        fields = ('crs', 'detail_level',)
+        fields = ('coordinate_reference_system', 'detail_level',)
 
 
 class ConversionJobSerializer(serializers.ModelSerializer):
     extent = ExtentSerializer(many=False)
     gis_formats = GISFormatSerializer(required=False, many=True)
-    gis_option = GISOptionSerializer()
+    gis_options = GISOptionSerializer()
     status = StatusHyperlinkSerializer(source='rq_job_id', read_only=True)
 
     def create(self, validated_data):
         gis_formats = validated_data.pop('gis_formats')
         with transaction.atomic():
-            gis_option = GISOption(**validated_data.pop('gis_option'))
-            gis_option.save()
-            validated_data['gis_option'] = gis_option
+            gis_options = GISOption(**validated_data.pop('gis_options'))
+            gis_options.save()
+            validated_data['gis_options'] = gis_options
             extent = Extent(**validated_data.pop('extent'))
             extent.save()
             validated_data['extent'] = extent
@@ -89,7 +89,7 @@ class ConversionJobSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ConversionJob
-        fields = ('id', 'rq_job_id', 'callback_url', 'status', 'gis_formats', 'gis_option', 'extent')
+        fields = ('id', 'rq_job_id', 'callback_url', 'status', 'gis_formats', 'gis_options', 'extent')
         depth = 1
         read_only_fields = ('rq_job_id', 'status',)
 
