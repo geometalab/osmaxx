@@ -24,8 +24,8 @@ class GISFormatListSerializerTest(TestCase):
             format=converter_options.get_output_formats()[3]
         )
 
-    @patch('manager.job_manager.ConversionJobManager.start_conversion', return_value=RQJobMock)
-    def test_create(self, *args, **kwargs):
+    @patch('conversion_job.serializers.ConversionJobSerializer._enqueue_rq_job', return_value=RQJobMock)
+    def test_create(self, mock):
         self.assertEqual(GISFormat.objects.count(), 2)
         self.assertEqual(Extent.objects.count(), 1)
         self.assertEqual(ConversionJob.objects.count(), 1)
@@ -51,5 +51,8 @@ class GISFormatListSerializerTest(TestCase):
         self.assertEqual(Extent.objects.count(), 2)
         self.assertEqual(GISFormat.objects.count(), 2 + len(converter_options.get_output_formats()))
         self.assertEqual(ConversionJob.objects.count(), 2)
+
+        args, kwargs = mock.call_args
+        self.assertCountEqual(kwargs['format_options'].output_formats, converter_options.get_output_formats())
 
         self.assertNotEqual(self.conversion_job, ConversionJob.objects.last())
