@@ -101,8 +101,7 @@ class ConversionJob(models.Model):
 
     @property
     def progress(self):
-        progresses_of_formats = [value for value in self.gis_formats.values_list('progress', flat=True)
-                                 if value is not None]
+        progresses_of_formats = self.gis_formats.values_list('progress', flat=True)
         if len(progresses_of_formats) > 0:
             return dict(ConversionProgress.choices())[min(progresses_of_formats)]
         return None
