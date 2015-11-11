@@ -27,12 +27,8 @@ class ExtentSerializer(ModelSideValidationMixin, serializers.ModelSerializer):
 
 
 class GISFormatListSerializer(serializers.ListSerializer):
-    def create(self, validated_data):  # pragma: nocover -> is being tested through ConversionJobSerializer
-        formats = [GISFormat(**item) for item in validated_data]
-        return GISFormat.objects.bulk_create(formats)
-
     def to_representation(self, data):
-        return data.values_list('format', flat=True)  # pragma: nocover -> being tested through ConversionJobSerializer
+        return data.values_list('format', flat=True)
 
     def to_internal_value(self, data):
         """
