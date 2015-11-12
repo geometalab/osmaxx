@@ -30,7 +30,7 @@ class ConversionApiClientTestCase(TestCase):
             }
         }
 
-    def create_response(self, status_code=200, reason='OK', headers={'content-type': 'application/json'}, json={}):
+    def _create_response(self, status_code=200, reason='OK', headers={'content-type': 'application/json'}, json={}):
         response = Response()
         response.status_code = status_code
         response.reason = reason
@@ -39,7 +39,7 @@ class ConversionApiClientTestCase(TestCase):
         return response
 
     def test_successful_login(self):
-        response = self.create_response(
+        response = self._create_response(
             status_code=200,
             reason='OK',
             json={'token': 'abcdefgh12345678'}
@@ -67,7 +67,7 @@ class ConversionApiClientTestCase(TestCase):
             self.assertEqual(api_client.headers['Authorization'], 'JWT abcdefgh12345678')
 
     def test_failed_login(self):
-        response = self.create_response(
+        response = self._create_response(
             status_code=400,
             reason='BAD REQUEST',
             json={'non_field_errors': ['Unable to login with provided credentials.']}
@@ -95,7 +95,7 @@ class ConversionApiClientTestCase(TestCase):
             self.assertFalse('Authorization' in api_client.headers)
 
     def test_create_job(self):
-        response = self.create_response(json={
+        response = self._create_response(json={
             "id": 5,
             "rq_job_id": "81cca3a9-5e66-47ab-8d3f-70739e4204ae",
             "callback_url": "http://example.com",
@@ -154,7 +154,7 @@ class ConversionApiClientTestCase(TestCase):
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
             self.assertEqual(self.extraction_order.process_id, '81cca3a9-5e66-47ab-8d3f-70739e4204ae')
 
-    def status_side_effect(self, url, data={}, headers={}):
+    def _status_side_effect(self, url, data={}, headers={}):
         response = Response()
         response.status_code = 200
         response.reason = 'OK'
@@ -195,7 +195,7 @@ class ConversionApiClientTestCase(TestCase):
         return response
 
     def test_download_files(self):
-        response_mock_factory = CopyingMock(side_effect=self.status_side_effect)
+        response_mock_factory = CopyingMock(side_effect=self._status_side_effect)
         with mock.patch('requests.get', new=response_mock_factory) as request_get_mock:
             api_client = ConversionApiClient(
                 'http', 'www.osmaxx.ch', '8000',
