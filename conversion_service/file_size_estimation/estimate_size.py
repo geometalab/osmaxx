@@ -1,22 +1,29 @@
 import csv
 import math
 
+from django.utils.translation import gettext_lazy as _
+from rest_framework.exceptions import ValidationError
+
+
+class OutOfBoundsError(ValidationError):
+    pass
+
 
 def estimate_size_of_extent(csv_source_file, west, south, east, north):
     if south >= north:
-        raise ArithmeticError('north must be greater than south')
+        raise OutOfBoundsError(_('north must be greater than south'))
 
     if west < -180 or west > 180:
-        raise ArithmeticError('west out of range')
+        raise OutOfBoundsError(_('west out of range'))
 
     if south < -90 or south > 90:
-        raise ArithmeticError('south out of range')
+        raise OutOfBoundsError(_('south out of range'))
 
     if east < -180 or east > 180:
-        raise ArithmeticError('east out of range')
+        raise OutOfBoundsError(_('east out of range'))
 
     if north < -90 or north > 90:
-        raise ArithmeticError('north out of range')
+        raise OutOfBoundsError(_('north out of range'))
 
     size_dict = _get_size_from_csv(csv_source_file)
     if west >= east:

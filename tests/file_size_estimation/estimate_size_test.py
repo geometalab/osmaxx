@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.test import TestCase
 
-from file_size_estimation.estimate_size import estimate_size_of_extent
+from file_size_estimation.estimate_size import estimate_size_of_extent, OutOfBoundsError
 
 
 class EstimateSizeTest(TestCase):
@@ -29,7 +29,7 @@ class EstimateSizeTest(TestCase):
     def test_north_cant_be_greater_than_south(self):
         south_greater_than_north_bbox = [8, 44, 9, 43]
         self.assertRaises(
-            ArithmeticError,
+            OutOfBoundsError,
             estimate_size_of_extent,
             self.csv_file_name,
             *south_greater_than_north_bbox
@@ -55,7 +55,7 @@ class EstimateSizeTest(TestCase):
 
         for extent in out_of_bounds_extents:
             self.assertRaises(
-                ArithmeticError,
+                OutOfBoundsError,
                 estimate_size_of_extent,
                 self.csv_file_name,
                 *extent
