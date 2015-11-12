@@ -90,15 +90,9 @@ class RestClient():
         """
         Downloads the result files if the conversion finished
         """
-        request_url = self.create_url(
-            self.api_paths['job']['status'].replace('{rq_job_id}', extraction_order.process_id)
-        )
-        response = requests.get(request_url, headers=self.headers)
-        if not response.status_code == 200 or not response.json():
-            return False
-        response_content = response.json()
+        response_content = self.job_status(extraction_order)
 
-        if response_content['status'] == 'done' and response_content['progress'] == 'successful':
+        if response_content and response_content['status'] == 'done' and response_content['progress'] == 'successful':
             for download_file in response_content['gis_formats']:
                 if download_file['progress'] == 'successful':
                     result_response = requests.get(download_file['result_url'], headers=self.headers)
@@ -114,3 +108,14 @@ class RestClient():
             return True
         else:
             return False
+
+    def job_status(self, extraction_order):
+        if not self.is_logged_in:
+            raise Exception('Not logged in for request')
+        request_url = self.create_url(
+            self.api_paths['job']['status'].replace('{rq_job_id}', extraction_order.process_id)
+        )
+        response = requests.get(request_url, headers=self.headers)
+        if not response.status_code == 200 or not response.json():
+            return False
+        return response.json()
