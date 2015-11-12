@@ -5,7 +5,7 @@ from requests.models import Response
 from django.contrib.auth.models import User
 from django.test.testcases import TestCase
 
-from osmaxx.excerptexport.api_client import RestClient
+from osmaxx.excerptexport.services import RestClient
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
 
 
@@ -252,7 +252,7 @@ class RestClientTestCase(TestCase):
             ]
         })
         with mock.patch(
-            'osmaxx.excerptexport.api_client.RestClient.job_status',
+            'osmaxx.excerptexport.services.RestClient.job_status',
             new=job_status_mock_factory
         ) as job_status_mock:
             rest_client = RestClient(
@@ -290,10 +290,10 @@ class RestClientTestCase(TestCase):
                 }
             ]
         })
-        with mock.patch('osmaxx.excerptexport.api_client.RestClient.job_status', new=job_status_mock_factory):
+        with mock.patch('osmaxx.excerptexport.services.RestClient.job_status', new=job_status_mock_factory):
             download_file_mock_factory = CopyingMock(return_value=True)
             with mock.patch(
-                'osmaxx.excerptexport.api_client.RestClient.download_result_files',
+                'osmaxx.excerptexport.services.RestClient.download_result_files',
                 new=download_file_mock_factory
             ) as download_file_mock:
                 rest_client = RestClient(
