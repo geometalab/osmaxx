@@ -87,6 +87,9 @@ class RestClient():
             return False
 
     def download_result_files(self, extraction_order):
+        """
+        Downloads the result files if the conversion finished
+        """
         request_url = self.create_url(
             self.api_paths['job']['status'].replace('{rq_job_id}', extraction_order.process_id)
         )

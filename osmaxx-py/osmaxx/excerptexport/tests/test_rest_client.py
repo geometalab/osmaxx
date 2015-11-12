@@ -29,12 +29,20 @@ class RestClientTestCase(TestCase):
             }
         }
 
-    def test_successful_login(self):
+    def create_response(self, status_code=200, reason='OK', headers={'content-type': 'application/json'}, json={}):
         response = Response()
-        response.status_code = 200
-        response.reason = 'OK'
-        response.headers = {'content-type': 'application/json'}
-        response.json = CopyingMock(return_value={'token': 'abcdefgh12345678'})
+        response.status_code = status_code
+        response.reason = reason
+        response.headers = headers
+        response.json = CopyingMock(return_value=json)
+        return response
+
+    def test_successful_login(self):
+        response = self.create_response(
+            status_code=200,
+            reason='OK',
+            json={'token': 'abcdefgh12345678'}
+        )
         response_mock_factory = CopyingMock(return_value=response)
 
         with mock.patch('requests.post', new=response_mock_factory) as request_post_mock:
@@ -58,11 +66,11 @@ class RestClientTestCase(TestCase):
             self.assertEqual(rest_client.headers['Authorization'], 'JWT abcdefgh12345678')
 
     def test_failed_login(self):
-        response = Response()
-        response.status_code = 400
-        response.reason = 'BAD REQUEST'
-        response.headers = {'content-type': 'application/json'}
-        response.json = CopyingMock(return_value={'non_field_errors': ['Unable to login with provided credentials.']})
+        response = self.create_response(
+            status_code=400,
+            reason='BAD REQUEST',
+            json={'non_field_errors': ['Unable to login with provided credentials.']}
+        )
         response_mock_factory = CopyingMock(return_value=response)
 
         with mock.patch('requests.post', new=response_mock_factory) as request_post_mock:
@@ -86,11 +94,7 @@ class RestClientTestCase(TestCase):
             self.assertFalse('Authorization' in rest_client.headers)
 
     def test_create_job(self):
-        response = Response()
-        response.status_code = 200
-        response.reason = 'OK'
-        response.headers = {'content-type': 'application/json'}
-        response.json = CopyingMock(return_value={
+        response = self.create_response(json={
             "id": 5,
             "rq_job_id": "81cca3a9-5e66-47ab-8d3f-70739e4204ae",
             "callback_url": "http://example.com",
@@ -113,6 +117,7 @@ class RestClientTestCase(TestCase):
             }
         })
         response_mock_factory = CopyingMock(return_value=response)
+
         with mock.patch('requests.post', new=response_mock_factory) as request_post_mock:
             rest_client = RestClient(
                 'http', 'www.osmaxx.ch', '8000',
