@@ -10,7 +10,7 @@ from osmaxx.utils import private_storage
 logger = logging.getLogger(__name__)
 
 
-class RestClient():
+class ConversionApiClient():
     def __init__(self, protocol, host, port, api_paths, credentials):
         """
         Args:

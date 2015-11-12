@@ -2,14 +2,15 @@ import json
 from unittest import mock
 from .copying_mock import CopyingMock
 from requests.models import Response
+
 from django.contrib.auth.models import User
 from django.test.testcases import TestCase
 
-from osmaxx.excerptexport.services import RestClient
+from osmaxx.excerptexport.services import ConversionApiClient
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
 
 
-class RestClientTestCase(TestCase):
+class ConversionApiClientTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
         self.bounding_box = BBoxBoundingGeometry.create_from_bounding_box_coordinates(
@@ -46,14 +47,14 @@ class RestClientTestCase(TestCase):
         response_mock_factory = CopyingMock(return_value=response)
 
         with mock.patch('requests.post', new=response_mock_factory) as request_post_mock:
-            rest_client = RestClient(
+            api_client = ConversionApiClient(
                 'http', 'www.osmaxx.ch', '8000',
                 {'login': '/api/token-auth/?format=json'},
                 {'username': 'osmaxxi', 'password': '12345678'}
             )
-            self.assertFalse(rest_client.is_logged_in)
+            self.assertFalse(api_client.is_logged_in)
 
-            status = rest_client.login()
+            status = api_client.login()
 
             request_post_mock.assert_called_with(
                 'http://www.osmaxx.ch:8000/api/token-auth/?format=json',
@@ -62,8 +63,8 @@ class RestClientTestCase(TestCase):
             )
 
             self.assertTrue(status)
-            self.assertTrue(rest_client.is_logged_in)
-            self.assertEqual(rest_client.headers['Authorization'], 'JWT abcdefgh12345678')
+            self.assertTrue(api_client.is_logged_in)
+            self.assertEqual(api_client.headers['Authorization'], 'JWT abcdefgh12345678')
 
     def test_failed_login(self):
         response = self.create_response(
@@ -74,14 +75,14 @@ class RestClientTestCase(TestCase):
         response_mock_factory = CopyingMock(return_value=response)
 
         with mock.patch('requests.post', new=response_mock_factory) as request_post_mock:
-            rest_client = RestClient(
+            api_client = ConversionApiClient(
                 'http', 'www.osmaxx.ch', '8000',
                 {'login': '/api/token-auth/?format=json'},
                 {'username': 'osmaxxi', 'password': 'wrong-password'}
             )
-            self.assertFalse(rest_client.is_logged_in)
+            self.assertFalse(api_client.is_logged_in)
 
-            status = rest_client.login()
+            status = api_client.login()
 
             request_post_mock.assert_called_with(
                 'http://www.osmaxx.ch:8000/api/token-auth/?format=json',
@@ -90,8 +91,8 @@ class RestClientTestCase(TestCase):
             )
 
             self.assertFalse(status)
-            self.assertFalse(rest_client.is_logged_in)
-            self.assertFalse('Authorization' in rest_client.headers)
+            self.assertFalse(api_client.is_logged_in)
+            self.assertFalse('Authorization' in api_client.headers)
 
     def test_create_job(self):
         response = self.create_response(json={
@@ -119,15 +120,15 @@ class RestClientTestCase(TestCase):
         response_mock_factory = CopyingMock(return_value=response)
 
         with mock.patch('requests.post', new=response_mock_factory) as request_post_mock:
-            rest_client = RestClient(
+            api_client = ConversionApiClient(
                 'http', 'www.osmaxx.ch', '8000',
                 {'job': {'create': '/api/jobs'}},
                 {'username': 'osmaxxi', 'password': '12345678'}
             )
-            rest_client.is_logged_in = True
-            rest_client.headers['Authorization'] = 'JWT abcdefgh12345678'
+            api_client.is_logged_in = True
+            api_client.headers['Authorization'] = 'JWT abcdefgh12345678'
 
-            status = rest_client.create_job(self.extraction_order)
+            status = api_client.create_job(self.extraction_order)
 
             request_post_mock.assert_called_with(
                 'http://www.osmaxx.ch:8000/api/jobs',
@@ -196,16 +197,16 @@ class RestClientTestCase(TestCase):
     def test_download_files(self):
         response_mock_factory = CopyingMock(side_effect=self.status_side_effect)
         with mock.patch('requests.get', new=response_mock_factory) as request_get_mock:
-            rest_client = RestClient(
+            api_client = ConversionApiClient(
                 'http', 'www.osmaxx.ch', '8000',
                 {'job': {'status': '/api/conversion_result/{rq_job_id}'}},
                 {'username': 'osmaxxi', 'password': '12345678'}
             )
-            rest_client.is_logged_in = True
-            rest_client.headers['Authorization'] = 'JWT abcdefgh12345678'
+            api_client.is_logged_in = True
+            api_client.headers['Authorization'] = 'JWT abcdefgh12345678'
             self.extraction_order.process_id = '4b529c79-559c-4730-9cd2-03ea91c9a5ef'
 
-            status = rest_client.download_result_files(self.extraction_order)
+            status = api_client.download_result_files(self.extraction_order)
 
             self.assertEqual(request_get_mock.call_count, 3)
             request_get_mock.assert_any_call(
@@ -252,22 +253,22 @@ class RestClientTestCase(TestCase):
             ]
         })
         with mock.patch(
-            'osmaxx.excerptexport.services.RestClient.job_status',
+            'osmaxx.excerptexport.services.ConversionApiClient.job_status',
             new=job_status_mock_factory
         ) as job_status_mock:
-            rest_client = RestClient(
+            api_client = ConversionApiClient(
                 'http', 'www.osmaxx.ch', '8000',
                 {'job': {'status': '/api/conversion_result/{rq_job_id}'}},
                 {'username': 'osmaxxi', 'password': '12345678'}
             )
-            rest_client.is_logged_in = True
-            rest_client.headers['Authorization'] = 'JWT abcdefgh12345678'
+            api_client.is_logged_in = True
+            api_client.headers['Authorization'] = 'JWT abcdefgh12345678'
             self.extraction_order.process_id = '4b529c79-559c-4730-9cd2-03ea91c9a5ef'
 
             self.assertEqual(self.extraction_order.output_files.count(), 0)
             self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
 
-            rest_client.update_order_status(self.extraction_order)
+            api_client.update_order_status(self.extraction_order)
             job_status_mock.assert_called_with(self.extraction_order)
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
             self.assertEqual(self.extraction_order.output_files.count(), 0)
@@ -290,25 +291,25 @@ class RestClientTestCase(TestCase):
                 }
             ]
         })
-        with mock.patch('osmaxx.excerptexport.services.RestClient.job_status', new=job_status_mock_factory):
+        with mock.patch('osmaxx.excerptexport.services.ConversionApiClient.job_status', new=job_status_mock_factory):
             download_file_mock_factory = CopyingMock(return_value=True)
             with mock.patch(
-                'osmaxx.excerptexport.services.RestClient.download_result_files',
+                'osmaxx.excerptexport.services.ConversionApiClient.download_result_files',
                 new=download_file_mock_factory
             ) as download_file_mock:
-                rest_client = RestClient(
+                api_client = ConversionApiClient(
                     'http', 'www.osmaxx.ch', '8000',
                     {'job': {'status': '/api/conversion_result/{rq_job_id}'}},
                     {'username': 'osmaxxi', 'password': '12345678'}
                 )
-                rest_client.is_logged_in = True
-                rest_client.headers['Authorization'] = 'JWT abcdefgh12345678'
+                api_client.is_logged_in = True
+                api_client.headers['Authorization'] = 'JWT abcdefgh12345678'
                 self.extraction_order.process_id = '4b529c79-559c-4730-9cd2-03ea91c9a5ef'
                 self.extraction_order.state = ExtractionOrderState.PROCESSING
 
                 self.assertEqual(self.extraction_order.output_files.count(), 0)
                 self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
 
-                rest_client.update_order_status(self.extraction_order)
+                api_client.update_order_status(self.extraction_order)
                 download_file_mock.assert_called_with(self.extraction_order)
                 self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)

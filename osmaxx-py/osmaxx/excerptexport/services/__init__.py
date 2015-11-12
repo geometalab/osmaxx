@@ -1,2 +1,2 @@
 # flake8: noqa
-from .client import RestClient
+from .conversion_api_client import ConversionApiClient
