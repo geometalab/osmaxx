@@ -47,33 +47,27 @@ class GISFormatSerializer(serializers.ModelSerializer):
 class GISOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = GISOption
-        fields = ('crs', 'detail_level',)
+        fields = ('coordinate_reference_system', 'detail_level',)
 
 
 class ConversionJobSerializer(serializers.ModelSerializer):
     extent = ExtentSerializer(many=False)
     gis_formats = GISFormatSerializer(required=False, many=True)
-    gis_option = GISOptionSerializer()
+    gis_options = GISOptionSerializer()
     status = StatusHyperlinkSerializer(source='rq_job_id', read_only=True)
 
     def create(self, validated_data):
         gis_formats = validated_data.pop('gis_formats')
         with transaction.atomic():
-            gis_option = GISOption(**validated_data.pop('gis_option'))
-            gis_option.save()
-            validated_data['gis_option'] = gis_option
-            extent = Extent(**validated_data.pop('extent'))
-            extent.save()
-            validated_data['extent'] = extent
+            validated_data['gis_options'] = GISOption.objects.create(**validated_data['gis_options'])
+            validated_data['extent'] = Extent.objects.create(**validated_data['extent'])
             conversion_job = super().create(validated_data)
-            formats = []
-            for gis_format_dict in gis_formats:
-                formats.append(gis_format_dict['format'])
-                gis_format_dict['conversion_job'] = conversion_job
-                gis_format = GISFormat(**gis_format_dict)
-                gis_format.save()
+            formats = [
+                GISFormat.objects.create(conversion_job=conversion_job, **gis_format_dict).format
+                for gis_format_dict in gis_formats
+            ]
             rq_job = self._enqueue_rq_job(
-                geometry=extent.get_geometry(),
+                geometry=validated_data['extent'].get_geometry(),
                 format_options=Options(output_formats=formats),
                 callback_url=conversion_job.callback_url,
                 output_directory=conversion_job.output_directory,
@@ -89,12 +83,12 @@ class ConversionJobSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ConversionJob
-        fields = ('id', 'rq_job_id', 'callback_url', 'status', 'gis_formats', 'gis_option', 'extent')
+        fields = ('id', 'rq_job_id', 'callback_url', 'status', 'gis_formats', 'gis_options', 'extent')
         depth = 1
         read_only_fields = ('rq_job_id', 'status',)
 
 
-# Status Only Serializers
+# Status-only serializers
 
 class DownloadURL(serializers.HyperlinkedRelatedField):
     view_name = 'gisformat-download-result'
