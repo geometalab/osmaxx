@@ -90,10 +90,10 @@ class RestClient():
         """
         Downloads the result files if the conversion finished
         """
-        response_content = self.job_status(extraction_order)
+        job_status = self.job_status(extraction_order)
 
-        if response_content and response_content['status'] == 'done' and response_content['progress'] == 'successful':
-            for download_file in response_content['gis_formats']:
+        if job_status and job_status['status'] == 'done' and job_status['progress'] == 'successful':
+            for download_file in job_status['gis_formats']:
                 if download_file['progress'] == 'successful':
                     result_response = requests.get(download_file['result_url'], headers=self.headers)
                     output_file = OutputFile.objects.create(
