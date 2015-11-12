@@ -289,7 +289,7 @@ JWT_AUTH = {
 
 OSMAXX_CONVERSION_SERVICE = {
     'XAPI_MIRROR': 'http://www.overpass-api.de/api/xapi_meta',
-    'RESULT_DIR': env.str('OSMAXX_CONVERSION_SERVICE_RESULT_DIR', default='/tmp/osm/results'),
+    'RESULT_DIR': env.str('OSMAXX_CONVERSION_SERVICE_RESULT_DIR', default='/tmp/osmaxx-conversion-service/results'),
     'RESULT_TTL': env.str('OSMAXX_CONVERSION_SERVICE_RESULT_TTL', default=-1),  # never expire!
 }
 

@@ -2,7 +2,7 @@ from django.conf import settings
 
 OSMAXX_CONVERSION_SERVICE = {
     'XAPI_MIRROR': 'http://www.overpass-api.de/api/xapi_meta',
-    'RESULT_DIR': '/tmp/osm/results',
+    'RESULT_DIR': '/tmp/osmaxx-conversion-service/results',
     'RESULT_TTL': -1,  # never expire!
 }
 
