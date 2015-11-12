@@ -17,7 +17,7 @@ class ExtentViewSet(viewsets.ModelViewSet):
     queryset = Extent.objects.all()
     serializer_class = ExtentSerializer
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
+        permissions.IsAuthenticated,
     )
 
 
@@ -25,7 +25,7 @@ class ConversionJobViewSet(viewsets.ModelViewSet):
     queryset = ConversionJob.objects.all()
     serializer_class = ConversionJobSerializer
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
+        permissions.IsAuthenticated,
     )
 
 
@@ -36,7 +36,7 @@ class ConversionJobStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.Ge
     queryset = ConversionJob.objects.all()
     serializer_class = ConversionJobStatusSerializer
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
+        permissions.IsAuthenticated,
     )
 
     def retrieve(self, request, *args, **kwargs):
