@@ -90,7 +90,7 @@ class ConversionJobSerializer(serializers.ModelSerializer):
 
 # Status-only serializers
 
-class DownloadURL(serializers.HyperlinkedRelatedField):
+class DownloadURLField(serializers.HyperlinkedRelatedField):
     view_name = 'gisformat-download-result'
 
     def get_url(self, obj, view_name, request, format):
@@ -104,7 +104,7 @@ class DownloadURL(serializers.HyperlinkedRelatedField):
 
 class GISFormatStatusSerializer(serializers.ModelSerializer):
     progress = serializers.CharField(source='get_progress_display')
-    result_url = DownloadURL(source='pk', read_only=True)
+    result_url = DownloadURLField(source='pk', read_only=True)
 
     class Meta:
         model = GISFormat
