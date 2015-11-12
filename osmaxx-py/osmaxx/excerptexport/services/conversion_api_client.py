@@ -39,11 +39,18 @@ class ConversionApiClient():
             'Content-Type': 'application/json; charset=UTF-8'
         }
 
-    def create_url(self, path):
+    def _create_url(self, path):
             return self.protocol + '://' + self.host + ':' + (self.port if self.port else '') + path
 
     def login(self):
-        request_url = self.create_url(self.api_paths['login'])
+        """
+        Logs in the api client by requesting an API token
+
+        Returns:
+            True on successful login
+            False on failed login
+        """
+        request_url = self._create_url(self.api_paths['login'])
         request_data = self.credentials
 
         response = requests.post(request_url, data=json.dumps(request_data), headers=self.headers)
@@ -58,10 +65,25 @@ class ConversionApiClient():
             return False
 
     def create_job(self, extraction_order):
+        """
+        Kickoff a conversion job
+
+        Args:
+            extraction_order: an ExtractionOrder object
+                extraction_order.extraction_configuration is directly used for the api
+                -> must be in a compatible format
+
+        Returns:
+            True on successful job creation
+            False on error
+
+        Raises:
+            Exception if the client is not logged in
+        """
         if not self.is_logged_in:
             raise Exception('Not logged in for request')
 
-        request_url = self.create_url(self.api_paths['job']['create'])
+        request_url = self._create_url(self.api_paths['job']['create'])
         request_data = {
             "callback_url": "http://example.com",
             "gis_formats": extraction_order.extraction_configuration['gis']['formats'],
@@ -89,7 +111,15 @@ class ConversionApiClient():
 
     def download_result_files(self, extraction_order):
         """
-        Downloads the result files if the conversion finished
+        Downloads the result files if the conversion was finished,
+        stores the files into the private storage and attaches them as output files to the extraction order
+
+        Args:
+            extraction_order: an ExtractionOrder object to attach the output files
+
+        Returns:
+            True if the job status was fetched successful
+            False if it failed
         """
         job_status = self.job_status(extraction_order)
 
@@ -111,9 +141,36 @@ class ConversionApiClient():
             return False
 
     def job_status(self, extraction_order):
+        """
+        Get the status of the conversion job
+
+        Args:
+            extraction_order: an ExtractionOrder object containing a process id
+
+        Returns:
+            A status dict on success like:
+                {
+                    "rq_job_id": "4b529c79-559c-4730-9cd2-03ea91c9a5ef",
+                    "status": "done",
+                    "progress": "successful",
+                    "gis_formats": [
+                        {
+                            "format": "fgdb",
+                            "progress": "successful",
+                            "result_url": "http://localhost:8000/api/gis_format/11/download_result/"
+                        },
+                        {
+                            "format": "spatialite",
+                            "progress": "successful",
+                            "result_url": "http://localhost:8000/api/gis_format/12/download_result/"
+                        }
+                    ]
+                }
+            False on error
+        """
         if not self.is_logged_in:
             raise Exception('Not logged in for request')
-        request_url = self.create_url(
+        request_url = self._create_url(
             self.api_paths['job']['status'].replace('{rq_job_id}', extraction_order.process_id)
         )
         response = requests.get(request_url, headers=self.headers)
@@ -122,6 +179,16 @@ class ConversionApiClient():
         return response.json()
 
     def update_order_status(self, extraction_order):
+        """
+        Update the status of the extraction order by the status of the conversion job
+
+        Args:
+            extraction_order: an ExtractionOrder object to update the state
+
+        Returns:
+            True if the job status was fetched successful
+            False if it failed
+        """
         job_status = self.job_status(extraction_order)
         if job_status:
             if job_status['status'] == 'done' and job_status['progress'] == 'successful':
