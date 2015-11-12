@@ -88,7 +88,7 @@ class ConversionJobSerializer(serializers.ModelSerializer):
         read_only_fields = ('rq_job_id', 'status',)
 
 
-# Status Only Serializers
+# Status-only serializers
 
 class DownloadURL(serializers.HyperlinkedRelatedField):
     view_name = 'gisformat-download-result'
