@@ -39,7 +39,7 @@ class ConversionJobStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.Ge
         permissions.IsAuthenticatedOrReadOnly,
     )
 
-    def retrieve(self, request, *args, **kwargs):  # pragma: nocover -> tested through test of function below.
+    def retrieve(self, request, *args, **kwargs):
         self._update_status_from_rq()
         return super().retrieve(request, *args, **kwargs)
 
@@ -68,7 +68,7 @@ class GISFormatStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.Generi
     serializer_class = GISFormatStatusSerializer
 
     @detail_route()
-    def download_result(self, *args, **kwargs):  # pragma: nocover
+    def download_result(self, *args, **kwargs):
         file_path = self.get_object().get_result_file_path()
         file_name = file_path.split('/')[-1]
         response = FileResponse(open(file_path, 'rb'))
