@@ -81,6 +81,7 @@ class RestClient():
             response_content = response.json()
             extraction_order.process_id = response_content['rq_job_id']
             extraction_order.state = ExtractionOrderState.PROCESSING
+            extraction_order.save()
             return True
         else:
             logging.error('API job creation failed.', response)
@@ -119,3 +120,19 @@ class RestClient():
         if not response.status_code == 200 or not response.json():
             return False
         return response.json()
+
+    def update_order_status(self, extraction_order):
+        job_status = self.job_status(extraction_order)
+        if job_status:
+            if job_status['status'] == 'done' and job_status['progress'] == 'successful':
+                if not extraction_order.state == ExtractionOrderState.FINISHED and \
+                   not extraction_order.state == ExtractionOrderState.FAILED:
+                    self.download_result_files(extraction_order)
+                    extraction_order.state = ExtractionOrderState.FINISHED
+                    extraction_order.save()
+            elif job_status['status'] == 'started':
+                extraction_order.state = ExtractionOrderState.PROCESSING
+                extraction_order.save()
+            return True
+        else:
+            return False

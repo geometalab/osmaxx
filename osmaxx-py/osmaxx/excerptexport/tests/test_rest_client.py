@@ -232,3 +232,83 @@ class RestClientTestCase(TestCase):
                 self.extraction_order.output_files.order_by('id')[1].file.read(),
                 b'PK\x03\x03\n\x00\x06\x00\x00\xa9\x00\xb9\x00~X\x00\x00\xd0\x8b\x06\x00'
             )
+
+    def test_order_status_processing(self):
+        job_status_mock_factory = CopyingMock(return_value={
+            "rq_job_id": "4b529c79-559c-4730-9cd2-03ea91c9a5ef",
+            "status": "started",
+            "progress": "started",
+            "gis_formats": [
+                {
+                    "format": "fgdb",
+                    "progress": "started",
+                    "result_url": None
+                },
+                {
+                    "format": "spatialite",
+                    "progress": "started",
+                    "result_url": None
+                }
+            ]
+        })
+        with mock.patch(
+            'osmaxx.excerptexport.api_client.RestClient.job_status',
+            new=job_status_mock_factory
+        ) as job_status_mock:
+            rest_client = RestClient(
+                'http', 'www.osmaxx.ch', '8000',
+                {'job': {'status': '/api/conversion_result/{rq_job_id}'}},
+                {'username': 'osmaxxi', 'password': '12345678'}
+            )
+            rest_client.is_logged_in = True
+            rest_client.headers['Authorization'] = 'JWT abcdefgh12345678'
+            self.extraction_order.process_id = '4b529c79-559c-4730-9cd2-03ea91c9a5ef'
+
+            self.assertEqual(self.extraction_order.output_files.count(), 0)
+            self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
+
+            rest_client.update_order_status(self.extraction_order)
+            job_status_mock.assert_called_with(self.extraction_order)
+            self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
+            self.assertEqual(self.extraction_order.output_files.count(), 0)
+
+    def test_order_status_done(self):
+        job_status_mock_factory = CopyingMock(return_value={
+            "rq_job_id": "4b529c79-559c-4730-9cd2-03ea91c9a5ef",
+            "status": "done",
+            "progress": "successful",
+            "gis_formats": [
+                {
+                    "format": "fgdb",
+                    "progress": "successful",
+                    "result_url": "http://localhost:8000/api/gis_format/11/download_result/"
+                },
+                {
+                    "format": "spatialite",
+                    "progress": "successful",
+                    "result_url": "http://localhost:8000/api/gis_format/12/download_result/"
+                }
+            ]
+        })
+        with mock.patch('osmaxx.excerptexport.api_client.RestClient.job_status', new=job_status_mock_factory):
+            download_file_mock_factory = CopyingMock(return_value=True)
+            with mock.patch(
+                'osmaxx.excerptexport.api_client.RestClient.download_result_files',
+                new=download_file_mock_factory
+            ) as download_file_mock:
+                rest_client = RestClient(
+                    'http', 'www.osmaxx.ch', '8000',
+                    {'job': {'status': '/api/conversion_result/{rq_job_id}'}},
+                    {'username': 'osmaxxi', 'password': '12345678'}
+                )
+                rest_client.is_logged_in = True
+                rest_client.headers['Authorization'] = 'JWT abcdefgh12345678'
+                self.extraction_order.process_id = '4b529c79-559c-4730-9cd2-03ea91c9a5ef'
+                self.extraction_order.state = ExtractionOrderState.PROCESSING
+
+                self.assertEqual(self.extraction_order.output_files.count(), 0)
+                self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
+
+                rest_client.update_order_status(self.extraction_order)
+                download_file_mock.assert_called_with(self.extraction_order)
+                self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
