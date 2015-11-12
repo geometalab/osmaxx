@@ -5,11 +5,13 @@ sudo: false
 env:
     - TOX_ENV=py34-flake8
     - TOX_ENV=py34-docs
-    - TOX_ENV=py33-django1.8-drf3.2
     - TOX_ENV=py34-django1.8-drf3.2
 
 matrix:
   fast_finish: true
+
+services:
+  - redis-server
 
 install:
   - pip install tox
