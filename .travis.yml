@@ -11,6 +11,9 @@ env:
 matrix:
   fast_finish: true
 
+services:
+  - redis-server
+
 install:
   - pip install tox
 
