@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from rq.job import JobStatus as RQJobStatus
 
 
-class JobStatus(enum.Enum):
+class JobStatus(enum.IntEnum):
     NEW = 0
     QUEUED = 1
     STARTED = 2
@@ -30,7 +30,7 @@ rq_job_status_mapping = {
 }
 
 
-class ConversionProgress(enum.Enum):
+class ConversionProgress(enum.IntEnum):
     NEW = 0
     RECEIVED = 1
     STARTED = 2
