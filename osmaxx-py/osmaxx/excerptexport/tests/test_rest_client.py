@@ -2,7 +2,6 @@ import json
 from unittest import mock
 from .copying_mock import CopyingMock
 from requests.models import Response
-
 from django.contrib.auth.models import User
 from django.test.testcases import TestCase
 
@@ -148,3 +147,83 @@ class RestClientTestCase(TestCase):
             self.assertTrue(status)
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
             self.assertEqual(self.extraction_order.process_id, '81cca3a9-5e66-47ab-8d3f-70739e4204ae')
+
+    def status_side_effect(self, url, data={}, headers={}):
+        response = Response()
+        response.status_code = 200
+        response.reason = 'OK'
+
+        if '/api/conversion_result/4b529c79-559c-4730-9cd2-03ea91c9a5ef' in url:
+            response.headers = {'content-type': 'application/json'}
+            response.json = CopyingMock(return_value={
+                "rq_job_id": "4b529c79-559c-4730-9cd2-03ea91c9a5ef",
+                "status": "done",
+                "progress": "successful",
+                "gis_formats": [
+                    {
+                        "format": "fgdb",
+                        "progress": "successful",
+                        "result_url": "http://localhost:8000/api/gis_format/11/download_result/"
+                    },
+                    {
+                        "format": "spatialite",
+                        "progress": "successful",
+                        "result_url": "http://localhost:8000/api/gis_format/12/download_result/"
+                    }
+                ]
+            })
+        elif '/api/gis_format/11/download_result/' in url:
+            response.headers = {
+                'content-type': 'text/html; charset=utf-8',
+                'content-disposition': 'attachment; filename="osmaxx_excerpt_2015-11-11_155844_fgdb.zip"'
+            }
+            response._content = b'PK\x03\x04\n\x00\x00\x00\x00\xa9\x00\xa9\x00~X\x00\x00\xf0\x8b\x06\x00\x00\x00'
+
+        elif '/api/gis_format/12/download_result/' in url:
+            response.headers = {
+                'content-type': 'text/html; charset=utf-8',
+                'content-disposition': 'attachment; filename="osmaxx_excerpt_2015-11-11_155845_fgdb.zip"'
+            }
+            response._content = b'PK\x03\x03\n\x00\x06\x00\x00\xa9\x00\xb9\x00~X\x00\x00\xd0\x8b\x06\x00'
+
+        return response
+
+    def test_download_files(self):
+        response_mock_factory = CopyingMock(side_effect=self.status_side_effect)
+        with mock.patch('requests.get', new=response_mock_factory) as request_get_mock:
+            rest_client = RestClient(
+                'http', 'www.osmaxx.ch', '8000',
+                {'job': {'status': '/api/conversion_result/{rq_job_id}'}},
+                {'username': 'osmaxxi', 'password': '12345678'}
+            )
+            rest_client.is_logged_in = True
+            rest_client.headers['Authorization'] = 'JWT abcdefgh12345678'
+            self.extraction_order.process_id = '4b529c79-559c-4730-9cd2-03ea91c9a5ef'
+
+            status = rest_client.download_result_files(self.extraction_order)
+
+            self.assertEqual(request_get_mock.call_count, 3)
+            request_get_mock.assert_any_call(
+                'http://www.osmaxx.ch:8000/api/conversion_result/4b529c79-559c-4730-9cd2-03ea91c9a5ef',
+                headers={'Content-Type': 'application/json; charset=UTF-8', 'Authorization': 'JWT abcdefgh12345678'}
+            )
+            request_get_mock.assert_any_call(
+                'http://localhost:8000/api/gis_format/11/download_result/',
+                headers={'Content-Type': 'application/json; charset=UTF-8', 'Authorization': 'JWT abcdefgh12345678'}
+            )
+            request_get_mock.assert_any_call(
+                'http://localhost:8000/api/gis_format/12/download_result/',
+                headers={'Content-Type': 'application/json; charset=UTF-8', 'Authorization': 'JWT abcdefgh12345678'}
+            )
+            self.assertTrue(status)
+            self.assertEqual(self.extraction_order.output_files.count(), 2)
+            self.assertEqual(self.extraction_order.output_files.order_by('id')[0].content_type, 'fgdb')
+            self.assertEqual(self.extraction_order.output_files.order_by('id')[1].content_type, 'spatialite')
+            self.assertEqual(
+                self.extraction_order.output_files.order_by('id')[0].file.read(),
+                b'PK\x03\x04\n\x00\x00\x00\x00\xa9\x00\xa9\x00~X\x00\x00\xf0\x8b\x06\x00\x00\x00'
+            )
+            self.assertEqual(
+                self.extraction_order.output_files.order_by('id')[1].file.read(),
+                b'PK\x03\x03\n\x00\x06\x00\x00\xa9\x00\xb9\x00~X\x00\x00\xd0\x8b\x06\x00'
+            )

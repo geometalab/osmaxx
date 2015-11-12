@@ -2,7 +2,10 @@ import requests
 import json
 import logging
 
-from osmaxx.excerptexport.models import ExtractionOrderState
+from django.core.files.base import ContentFile
+
+from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
+from osmaxx.utils import private_storage
 
 logger = logging.getLogger(__name__)
 
@@ -81,4 +84,30 @@ class RestClient():
             return True
         else:
             logging.error('API job creation failed.', response)
+            return False
+
+    def download_result_files(self, extraction_order):
+        request_url = self.create_url(
+            self.api_paths['job']['status'].replace('{rq_job_id}', extraction_order.process_id)
+        )
+        response = requests.get(request_url, headers=self.headers)
+        if not response.status_code == 200 or not response.json():
+            return False
+        response_content = response.json()
+
+        if response_content['status'] == 'done' and response_content['progress'] == 'successful':
+            for download_file in response_content['gis_formats']:
+                if download_file['progress'] == 'successful':
+                    result_response = requests.get(download_file['result_url'], headers=self.headers)
+                    output_file = OutputFile.objects.create(
+                        mime_type='application/zip',
+                        file_extension='zip',
+                        content_type=download_file['format'],
+                        extraction_order=extraction_order
+                    )
+                    file_name = str(output_file.public_identifier) + '.zip'
+                    output_file.file = private_storage.save(file_name, ContentFile(result_response.content))
+                    output_file.save()
+            return True
+        else:
             return False
