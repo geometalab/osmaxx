@@ -31,9 +31,6 @@ class GISFormatListSerializer(serializers.ListSerializer):
         return data.values_list('format', flat=True)
 
     def to_internal_value(self, data):
-        """
-        List of strings to list of dicts of native values <- List of dicts of primitive datatypes.
-        """
         return super().to_internal_value([{'format': value} for value in data])
 
 
