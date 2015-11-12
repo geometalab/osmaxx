@@ -3,12 +3,6 @@ from worker.converter_job import convert
 
 
 class ConversionJobManager:
-    """
-
-    :param geometry:
-    :param format_options:
-    """
-
     def __init__(self, geometry, format_options):
         self.geometry = geometry
         self.format_options = format_options
