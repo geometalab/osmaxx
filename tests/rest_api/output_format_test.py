@@ -4,7 +4,7 @@ from converters import converter_options, CONVERTER_CHOICES
 from rest_api.serializers import ConverterOptionsSerializer
 
 
-class OutPutFormatTest(TestCase):
+class OutputFormatTest(TestCase):
     def test_all_attributes_are_present_in_serializer(self):
         serialized = ConverterOptionsSerializer(converter_options)
         self.assertDictEqual(serialized.data, converter_options.__dict__)
