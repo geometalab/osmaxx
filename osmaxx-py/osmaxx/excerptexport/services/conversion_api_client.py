@@ -42,6 +42,24 @@ class ConversionApiClient():
     def _create_url(self, path):
             return self.protocol + '://' + self.host + ':' + (self.port if self.port else '') + path
 
+    def _request_successful(self, response):
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as e:
+            logging.error('API job creation failed.', str(e) + " response: " + str(response.__dict__))
+            return False
+        return True
+
+    def _extract_key_from_json_or_none(self, response, key):
+        if self._request_successful(response):
+            try:
+                json_response = response.json()
+                return json_response.get(key, None)
+            except ValueError:
+                logging.error('API job creation failed because of an JSON decoding Issue.', str(response.__dict__))
+                return None
+        return None
+
     def login(self):
         """
         Logs in the api client by requesting an API token
@@ -55,9 +73,9 @@ class ConversionApiClient():
 
         response = requests.post(request_url, data=json.dumps(request_data), headers=self.headers)
 
-        if response.status_code == 200 and response.json() and \
-           'token' in response.json() and len(response.json()['token']) > 0:
-            self.headers['Authorization'] = 'JWT ' + response.json()['token']
+        token = self._extract_key_from_json_or_none(response, 'token')
+        if token and len(token) > 0:
+            self.headers['Authorization'] = 'JWT ' + token
             self.is_logged_in = True
             return True
         else:
@@ -99,9 +117,9 @@ class ConversionApiClient():
 
         response = requests.post(request_url, data=json.dumps(request_data), headers=self.headers)
 
-        if response.status_code == 200 and response.json() and 'rq_job_id' in response.json():
-            response_content = response.json()
-            extraction_order.process_id = response_content['rq_job_id']
+        rq_job_id = self._extract_key_from_json_or_none(response, 'rq_job_id')
+        if rq_job_id:
+            extraction_order.process_id = rq_job_id
             extraction_order.state = ExtractionOrderState.PROCESSING
             extraction_order.save()
             return True
