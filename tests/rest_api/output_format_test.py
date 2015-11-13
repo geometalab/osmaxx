@@ -5,9 +5,9 @@ from rest_api.serializers import ConverterOptionsSerializer
 
 
 class OutputFormatTest(TestCase):
-    def test_all_attributes_are_present_in_serializer(self):
+    def test_serializer_all_attributes_are_present(self):
         serialized = ConverterOptionsSerializer(converter_options)
         self.assertDictEqual(serialized.data, converter_options.__dict__)
 
-    def test_all_attributes_are_present_in_choices_dict(self):
+    def test_choices_dict_keys_all_attribute_are_present(self):
         self.assertEqual(converter_options.__dict__.keys(), CONVERTER_CHOICES.keys())
