@@ -1,4 +1,6 @@
-﻿# Osmaxx postgis conversion
+[![Build Status](https://travis-ci.org/geometalab/osmaxx-postgis-conversion.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx-postgis-conversion)
+
+# Osmaxx postgis conversion
 
 Imports Open Street Map data from planet file into database and extracts the data as gis, gdb and shape.
 
