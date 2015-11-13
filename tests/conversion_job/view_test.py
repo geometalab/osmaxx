@@ -13,7 +13,7 @@ class Empty:
     pass
 
 
-class DjangoRQGetQueueMock():
+class DjangoRQGetQueueStub:
     def fetch_job(*args, **kwargs):
         rq_job_mock = Empty()
         rq_job_mock.status = RQJobStatus.STARTED
@@ -21,8 +21,8 @@ class DjangoRQGetQueueMock():
         return rq_job_mock
 
 
-def django_rq_get_queue_mock():
-    django_rq_get_queue = DjangoRQGetQueueMock()
+def django_rq_get_queue_stub():
+    django_rq_get_queue = DjangoRQGetQueueStub()
     return django_rq_get_queue
 
 
@@ -43,7 +43,7 @@ class ConversionJobStatusViewSetTest(TestCase):
             format=converter_options.get_output_formats()[3]
         )
 
-    @patch('django_rq.get_queue', django_rq_get_queue_mock)
+    @patch('django_rq.get_queue', django_rq_get_queue_stub)
     @patch('conversion_job.views.ConversionJobStatusViewSet.get_object', get_conversion_job)
     def test__update_status_from_rq(self, *args, **kwargs):
         conversion_job = get_conversion_job()
