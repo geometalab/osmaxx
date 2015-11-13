@@ -12,7 +12,7 @@ PYTEST_ARGS = {
     'fast': ['tests', '-q'],
 }
 
-MODULES_TO_LINT = ['rest_api', 'tests', 'manager', 'worker', 'converters', 'utils']
+MODULES_TO_LINT = ['conversion_service', 'tests', 'setup.py', 'runtests.py', ]
 FLAKE8_ARGS = MODULES_TO_LINT + ['--ignore=E501']
 
 sys.path.append(os.path.dirname(__file__))
@@ -68,6 +68,13 @@ if __name__ == "__main__":
         style = 'fast'
         run_lint = False
 
+    try:
+        sys.argv.remove('--no-coverage')
+    except ValueError:
+        with_coverage = True
+    else:
+        with_coverage = False
+
     if len(sys.argv) > 1:
         pytest_args = sys.argv[1:]
         first_arg = pytest_args[0]
@@ -86,6 +93,8 @@ if __name__ == "__main__":
         pytest_args = PYTEST_ARGS[style]
 
     if run_tests:
+        if with_coverage:
+            pytest_args.extend(['--cov', 'conversion_service'])
         exit_on_failure(pytest.main(pytest_args))
     if run_lint:
         exit_on_failure(flake8_main(FLAKE8_ARGS))

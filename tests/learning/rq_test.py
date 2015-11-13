@@ -3,7 +3,7 @@ from django_rq import get_connection
 from rq import get_current_job
 from rq.job import Job
 
-from manager.rq_helper import rq_enqueue_with_settings
+from conversion_service.manager.rq_helper import rq_enqueue_with_settings
 from tests.redis_test_helpers import perform_all_jobs_sync
 
 
@@ -42,7 +42,6 @@ class RQMetaDataTests(django.test.TestCase):
         perform_all_jobs_sync()
         job_fetched = Job.fetch(job.id, connection=get_connection())
         self.assertEqual(job_fetched.meta[nontrivial_hashable_object], 'hello')
-
 
 
 class RQResultTest(django.test.TestCase):

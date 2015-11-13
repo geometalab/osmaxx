@@ -1,1 +1,0 @@
-api: python3 rest_api/manage.py runserver_plus ${APP_HOST}:${APP_PORT}

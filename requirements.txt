@@ -1,14 +1,15 @@
 # Minimum Django and REST framework version
-Django>=1.8,<=1.9
-djangorestframework>=3.2,<=3.3
+Django>=1.8,<1.9
+djangorestframework>=3.2,<3.4
 djangorestframework-gis==0.9.5
 djangorestframework-jwt==1.7.2
+django-enumfield==1.2.1
+requests==2.8.1
 markdown
 django-filter
 django-rq==0.8.0
 django-environ==0.4.0
-django-extensions==1.5.7
-requests==2.8.1
+django-extensions==1.5.9
 Werkzeug==0.10.4
 django-debug-toolbar==1.4
 whitenoise
