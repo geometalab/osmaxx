@@ -1,6 +1,7 @@
 import requests
 import json
 import logging
+from collections import OrderedDict
 
 from django.core.files.base import ContentFile
 
@@ -102,7 +103,7 @@ class ConversionApiClient():
             raise Exception('Not logged in for request')
 
         request_url = self._create_url(self.api_paths['job']['create'])
-        request_data = {
+        request_data = OrderedDict({
             "callback_url": "http://example.com",
             "gis_formats": extraction_order.extraction_configuration['gis']['formats'],
             "gis_options": extraction_order.extraction_configuration['gis']['options'],
@@ -113,7 +114,7 @@ class ConversionApiClient():
                 "north": extraction_order.excerpt.bounding_geometry.north,
                 "polyfile": None
             }
-        }
+        })
 
         response = requests.post(request_url, data=json.dumps(request_data), headers=self.headers)
 

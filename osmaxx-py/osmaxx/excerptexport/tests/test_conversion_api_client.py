@@ -2,6 +2,7 @@ import json
 from unittest import mock
 from .copying_mock import CopyingMock
 from requests.models import Response
+from collections import OrderedDict
 
 from django.contrib.auth.models import User
 from django.test.testcases import TestCase
@@ -95,7 +96,7 @@ class ConversionApiClientTestCase(TestCase):
             self.assertFalse('Authorization' in api_client.headers)
 
     def test_create_job(self):
-        response = self._create_response(json={
+        response = self._create_response(json=OrderedDict({
             "id": 5,
             "rq_job_id": "81cca3a9-5e66-47ab-8d3f-70739e4204ae",
             "callback_url": "http://example.com",
@@ -116,7 +117,7 @@ class ConversionApiClientTestCase(TestCase):
                 "north": 40.77739734768811,
                 "polyfile": None
             }
-        })
+        }))
         response_mock_factory = CopyingMock(return_value=response)
 
         with mock.patch('requests.post', new=response_mock_factory) as request_post_mock:
@@ -132,7 +133,7 @@ class ConversionApiClientTestCase(TestCase):
 
             request_post_mock.assert_called_with(
                 'http://www.osmaxx.ch:8000/api/jobs',
-                data=json.dumps({
+                data=json.dumps(OrderedDict({
                     "callback_url": "http://example.com",
                     "gis_formats": ["fgdb", "spatialite"],
                     "gis_options": {
@@ -146,8 +147,11 @@ class ConversionApiClientTestCase(TestCase):
                         "north": 40.77739734768811,
                         "polyfile": None
                     }
-                }),
-                headers={'Content-Type': 'application/json; charset=UTF-8', 'Authorization': 'JWT abcdefgh12345678'}
+                })),
+                headers=OrderedDict({
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Authorization': 'JWT abcdefgh12345678'
+                })
             )
 
             self.assertTrue(status)
@@ -161,7 +165,7 @@ class ConversionApiClientTestCase(TestCase):
 
         if '/api/conversion_result/4b529c79-559c-4730-9cd2-03ea91c9a5ef' in url:
             response.headers = {'content-type': 'application/json'}
-            response.json = CopyingMock(return_value={
+            response.json = CopyingMock(return_value=OrderedDict({
                 "rq_job_id": "4b529c79-559c-4730-9cd2-03ea91c9a5ef",
                 "status": "done",
                 "progress": "successful",
@@ -177,19 +181,19 @@ class ConversionApiClientTestCase(TestCase):
                         "result_url": "http://localhost:8000/api/gis_format/12/download_result/"
                     }
                 ]
-            })
+            }))
         elif '/api/gis_format/11/download_result/' in url:
-            response.headers = {
+            response.headers = OrderedDict({
                 'content-type': 'text/html; charset=utf-8',
                 'content-disposition': 'attachment; filename="osmaxx_excerpt_2015-11-11_155844_fgdb.zip"'
-            }
+            })
             response._content = b'PK\x03\x04\n\x00\x00\x00\x00\xa9\x00\xa9\x00~X\x00\x00\xf0\x8b\x06\x00\x00\x00'
 
         elif '/api/gis_format/12/download_result/' in url:
-            response.headers = {
+            response.headers = OrderedDict({
                 'content-type': 'text/html; charset=utf-8',
                 'content-disposition': 'attachment; filename="osmaxx_excerpt_2015-11-11_155845_fgdb.zip"'
-            }
+            })
             response._content = b'PK\x03\x03\n\x00\x06\x00\x00\xa9\x00\xb9\x00~X\x00\x00\xd0\x8b\x06\x00'
 
         return response
@@ -235,7 +239,7 @@ class ConversionApiClientTestCase(TestCase):
             )
 
     def test_order_status_processing(self):
-        job_status_mock_factory = CopyingMock(return_value={
+        job_status_mock_factory = CopyingMock(return_value=OrderedDict({
             "rq_job_id": "4b529c79-559c-4730-9cd2-03ea91c9a5ef",
             "status": "started",
             "progress": "started",
@@ -251,7 +255,7 @@ class ConversionApiClientTestCase(TestCase):
                     "result_url": None
                 }
             ]
-        })
+        }))
         with mock.patch(
             'osmaxx.excerptexport.services.ConversionApiClient.job_status',
             new=job_status_mock_factory
@@ -274,7 +278,7 @@ class ConversionApiClientTestCase(TestCase):
             self.assertEqual(self.extraction_order.output_files.count(), 0)
 
     def test_order_status_done(self):
-        job_status_mock_factory = CopyingMock(return_value={
+        job_status_mock_factory = CopyingMock(return_value=OrderedDict({
             "rq_job_id": "4b529c79-559c-4730-9cd2-03ea91c9a5ef",
             "status": "done",
             "progress": "successful",
@@ -290,7 +294,7 @@ class ConversionApiClientTestCase(TestCase):
                     "result_url": "http://localhost:8000/api/gis_format/12/download_result/"
                 }
             ]
-        })
+        }))
         with mock.patch('osmaxx.excerptexport.services.ConversionApiClient.job_status', new=job_status_mock_factory):
             download_file_mock_factory = CopyingMock(return_value=True)
             with mock.patch(
