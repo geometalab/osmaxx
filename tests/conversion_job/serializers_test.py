@@ -29,7 +29,7 @@ class GISFormatListSerializerTest(TestCase):
         )
 
     @patch('conversion_job.serializers.ConversionJobSerializer._enqueue_rq_job', return_value=RQJobMock)
-    def test_create(self, mock):
+    def test_create_succeeds(self, mock):
         self.assertEqual(GISFormat.objects.count(), 2)
         self.assertEqual(Extent.objects.count(), 1)
         self.assertEqual(ConversionJob.objects.count(), 1)
@@ -78,31 +78,23 @@ class GISFormatStatusSerializerTest(TestCase):
         shutil.rmtree(self.conversion_job.output_directory)
         super().tearDown()
 
-    def _create_valid_file(self):
+    def _create_valid_files(self):
         matching_file_names = ['{}.zip'.format(f) for f in converter_options.get_output_formats()]
         for matching_file_name in matching_file_names:
             open(os.path.join(self.conversion_job.output_directory, matching_file_name), 'x').close()
 
-    def test_get_download_url_is_none_when_file_is_not_available(self):
+    def test_get_download_url_when_file_is_not_available_is_none(self):
         self.gis_format.progress = ConversionProgress.SUCCESSFUL.value
         self.gis_format.save()
         self.assertIsNone(self.format_status_serializer.data.get('result_url'))
 
-    def test_get_download_url_is_avilable_if_file_is_avaiable_even_if_progress_is_not_success(self):
-        self._create_valid_file()
-        os.path.join(self.conversion_job.output_directory)
-        self.assertEqual(
-            'http://some-host/gis_format_status/1/download_result/',
-            self.format_status_serializer.data.get('result_url')
-        )
-
-    def test_get_download_url_is_defined_when_status_is_success_and_file_available(self):
-        self._create_valid_file()
+    def test_get_download_url_when_status_is_success_and_file_available_is_defined(self):
+        self._create_valid_files()
         self.gis_format.progress = ConversionProgress.SUCCESSFUL.value
         self.gis_format.save()
         self.assertIsNotNone(self.format_status_serializer.data.get('result_url'))
 
-    def test_get_download_url_is_defined_when_status_raises_error_when_deleted(self):
+    def test_get_download_url_when_status_raises_error_when_deleted_is_defined(self):
         self.gis_format.delete()
         with self.assertRaises(GISFormat.DoesNotExist):
             # self.format_status_serializer.data already raises, but .get does raise as well.
