@@ -151,6 +151,7 @@ class ConversionApiClient():
                         content_type=download_file['format'],
                         extraction_order=extraction_order
                     )
+
                     file_name = str(output_file.public_identifier) + '.zip'
                     output_file.file = private_storage.save(file_name, ContentFile(result_response.content))
                     output_file.save()
@@ -188,13 +189,16 @@ class ConversionApiClient():
         """
         if not self.is_logged_in:
             raise Exception('Not logged in for request')
+
         request_url = self._create_url(
             self.api_paths['job']['status'].replace('{rq_job_id}', extraction_order.process_id)
         )
         response = requests.get(request_url, headers=self.headers)
-        if not response.status_code == 200 or not response.json():
-            return False
-        return response.json()
+
+        if self._request_successful(response):
+            return response.json()
+        else:
+            return None
 
     def update_order_status(self, extraction_order):
         """
@@ -208,6 +212,7 @@ class ConversionApiClient():
             False if it failed
         """
         job_status = self.job_status(extraction_order)
+
         if job_status:
             if job_status['status'] == 'done' and job_status['progress'] == 'successful':
                 if not extraction_order.state == ExtractionOrderState.FINISHED and \
