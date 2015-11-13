@@ -31,9 +31,6 @@ class GISFormatListSerializer(serializers.ListSerializer):
         return data.values_list('format', flat=True)
 
     def to_internal_value(self, data):
-        """
-        List of strings to list of dicts of native values <- List of dicts of primitive datatypes.
-        """
         return super().to_internal_value([{'format': value} for value in data])
 
 
@@ -90,7 +87,7 @@ class ConversionJobSerializer(serializers.ModelSerializer):
 
 # Status-only serializers
 
-class DownloadURL(serializers.HyperlinkedRelatedField):
+class DownloadURLField(serializers.HyperlinkedRelatedField):
     view_name = 'gisformat-download-result'
 
     def get_url(self, obj, view_name, request, format):
@@ -104,7 +101,7 @@ class DownloadURL(serializers.HyperlinkedRelatedField):
 
 class GISFormatStatusSerializer(serializers.ModelSerializer):
     progress = serializers.CharField(source='get_progress_display')
-    result_url = DownloadURL(source='pk', read_only=True)
+    result_url = DownloadURLField(source='pk', read_only=True)
 
     class Meta:
         model = GISFormat

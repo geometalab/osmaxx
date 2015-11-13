@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python3
 from __future__ import print_function
 
 import pytest
@@ -12,7 +12,7 @@ PYTEST_ARGS = {
     'fast': ['tests', '-q'],
 }
 
-MODULES_TO_LINT = ['conversion_service', 'tests', ]
+MODULES_TO_LINT = ['conversion_service', 'tests', 'setup.py', 'runtests.py', ]
 FLAKE8_ARGS = MODULES_TO_LINT + ['--ignore=E501']
 
 sys.path.append(os.path.dirname(__file__))

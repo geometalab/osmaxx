@@ -118,7 +118,7 @@ class GISFormat(models.Model):
         default=ConversionProgress.NEW.value,
     )
 
-    def get_result_file_path(self):  # pragma: no cover
+    def get_result_file_path(self):
         return self.conversion_job.get_resulting_file_path_or_none(self.format)
 
     def get_download_url(self, request):

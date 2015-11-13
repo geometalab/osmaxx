@@ -6,7 +6,7 @@ from rest_framework.decorators import detail_route
 from conversion_job.models import Extent, ConversionJob, GISFormat
 from conversion_job.serializers import ExtentSerializer, ConversionJobSerializer, ConversionJobStatusSerializer, \
     GISFormatStatusSerializer
-from shared import rq_job_status_mapping, ConversionProgress, JobStatus
+from shared import rq_job_status_mapping
 
 
 class ExtentViewSet(viewsets.ModelViewSet):
@@ -17,7 +17,7 @@ class ExtentViewSet(viewsets.ModelViewSet):
     queryset = Extent.objects.all()
     serializer_class = ExtentSerializer
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
+        permissions.IsAuthenticated,
     )
 
 
@@ -25,7 +25,7 @@ class ConversionJobViewSet(viewsets.ModelViewSet):
     queryset = ConversionJob.objects.all()
     serializer_class = ConversionJobSerializer
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
+        permissions.IsAuthenticated,
     )
 
 
@@ -36,7 +36,7 @@ class ConversionJobStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.Ge
     queryset = ConversionJob.objects.all()
     serializer_class = ConversionJobStatusSerializer
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
+        permissions.IsAuthenticated,
     )
 
     def retrieve(self, request, *args, **kwargs):
@@ -49,17 +49,14 @@ class ConversionJobStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.Ge
 
         # only do work if the job is not yet deleted
         if rq_job:
-            # don't set the status if we're already done
-            if conversion_job.status != JobStatus.DONE.value:
-                conversion_job.status = rq_job_status_mapping[rq_job.status].value
+            conversion_job.status = rq_job_status_mapping[rq_job.status].value
 
             progress = rq_job.meta.get('progress', None)
             if progress:
                 progress_state = progress.value
                 for gis_format in conversion_job.gis_formats.all():
-                    if gis_format.progress != ConversionProgress.SUCCESSFUL.value:
-                        gis_format.progress = progress_state
-                        gis_format.save()
+                    gis_format.progress = progress_state
+                    gis_format.save()
             conversion_job.save()
 
 

@@ -31,13 +31,13 @@ case $FORMAT in
 esac
 
 if [ -z $DIR/data/$FILENAME ]; then
-echo 'Enter the filename..'
+	echo 'Enter the filename..'
 elif [ -d $DIR/data/$FILENAME ]; then
-rm $DIR/data/$FILENAME
+	rm $DIR/data/$FILENAME
 else
 	if [ -f $DIR/FILENAME".zip" ]; then
-	echo 'It Exist'
-	rm $DIR/$FILENAME.zip
+		echo 'It Exist'
+		rm $DIR/$FILENAME.zip
 	fi
 
 	echo "exporting to "$FILENAME$EXT
@@ -49,13 +49,13 @@ else
 	zip -r --move $DIR/$FILENAME.zip ./data/$FILENAME$EXT
 
 	cd $STATIC_DIR
-        zip -g $DIR/$FILENAME.zip ./README.txt
-        zip -g $DIR/$FILENAME.zip ./LICENCE.txt
-        zip -g $DIR/$FILENAME.zip ./METADATA.txt
+	zip -g $DIR/$FILENAME.zip ./README.txt
+	zip -g $DIR/$FILENAME.zip ./LICENCE.txt
+	zip -g $DIR/$FILENAME.zip ./METADATA.txt
 	zip -r $DIR/$FILENAME.zip ./doc
 
 	cd $DIR/tmp
-        zip -g --move $DIR/$FILENAME.zip ./$FILENAME'_STATISTICS.csv'
+	zip -g --move $DIR/$FILENAME.zip ./$FILENAME'_STATISTICS.csv'
 
 	echo "Zip done! Exiting...."
 fi
