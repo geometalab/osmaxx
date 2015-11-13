@@ -57,7 +57,66 @@ docker-compose run --rm api ./conversion_service/manage.py createsuperuser
 
 ## Example
 
-TODO: Write example.
+```python
+import requests
+```
+
+### Login
+
+```python
+url = 'http://localhost:9000/api/token-auth/?format=json'
+headers = {'Content-Type': 'application/json; charset=UTF-8'}
+data = {'username':'osmaxx', 'password':'osmaxx'}
+
+token_request = requests.post(url, data=json.dumps(data), headers=headers)
+token = token_request.json()['token']
+```
+
+
+### Create conversion job
+
+```python
+url = 'http://localhost:9000/api/jobs/'
+headers = {'Content-Type': 'application/json; charset=UTF-8', 'Authorization': 'JWT ' + token}
+data = {
+    "callback_url": "http://example.com",
+    "gis_formats": ["fgdb", "spatialite"],
+    "gis_option": {"coordinate_reference_system": "WGS_84","detail_level": 1},
+    "extent": {
+        "west": 29.525547623634335,
+        "south": 40.77546776498174,
+        "east": 29.528980851173397,
+        "north": 40.77739734768811,
+        "polyfile": None
+    }
+}
+
+conversion_request = requests.post(url, data=json.dumps(data), headers=headers)
+conversion = conversion_request.json()
+```
+
+### Get job status
+
+```python
+url = 'http://localhost:9000/api/conversion_result/8b5285ad-e785-4812-82d2-376a61ebd9d3/'
+headers = {'Content-Type': 'application/json; charset=UTF-8', 'Authorization': 'JWT ' + token}
+
+response = requests.get(url, headers=self.headers)
+status = response.json()
+job_status = status['status']
+```
+
+### Download result files
+
+```python
+if job_status and job_status['status'] == 'done' and job_status['progress'] == 'successful':
+    for download_file in job_status['gis_formats']:
+        if download_file['progress'] == 'successful':
+            result_response = requests.get(download_file['result_url'], headers=self.headers)
+            file_name = ...
+            file = storage.save(file_name, ContentFile(result_response.content))
+```
+
 
 ## Linting
 
