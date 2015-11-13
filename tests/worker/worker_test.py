@@ -23,14 +23,14 @@ class WorkerTest(TestCase):
     @mock.patch.object(Excerpt, '_export_from_db_to_format', return_value=None)
     @mock.patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
     @mock.patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
-    def test_conversion_calls(self, cut_osm_extent_mock, bootstrap_mock, *args, **kwargs):  # pylint: disable=W0613
+    def test_convert_calls_cut_osm_extent_and_bootstrap(self, cut_osm_extent_mock, bootstrap_mock, *args, **kwargs):  # pylint: disable=W0613
         geometry = BBox(29.525547623634335, 40.77546776498174, 29.528980851173397, 40.77739734768811)
         format_options = Options(output_formats=['fgdb', 'spatialite', 'shp', 'gpkg'])
         convert(geometry=geometry, format_options=format_options, callback_url=None, output_directory='/tmp/')
         cut_osm_extent_mock.assert_called_once_with(geometry)
         bootstrap_mock.assert_called_once_with(self.pbf_file_path)
 
-    def test_set_progress_on_job(self):
+    def test_set_progress_on_job_sets_the_progress(self):
         job = rq_enqueue_with_settings(set_progress_on_job, ConversionProgress.SUCCESSFUL)
         perform_all_jobs_sync()
         job_fetched = Job.fetch(job.id, connection=get_connection())
