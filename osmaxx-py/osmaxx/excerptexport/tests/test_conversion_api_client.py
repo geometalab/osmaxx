@@ -55,7 +55,7 @@ class ConversionApiClientTestCase(TestCase):
             )
             self.assertFalse(api_client.is_logged_in)
 
-            status = api_client.login()
+            success = api_client.login()
 
             request_post_mock.assert_called_with(
                 'http://www.osmaxx.ch:8000/api/token-auth/?format=json',
@@ -63,7 +63,7 @@ class ConversionApiClientTestCase(TestCase):
                 headers={'Content-Type': 'application/json; charset=UTF-8'}
             )
 
-            self.assertTrue(status)
+            self.assertTrue(success)
             self.assertTrue(api_client.is_logged_in)
             self.assertEqual(api_client.headers['Authorization'], 'JWT abcdefgh12345678')
 
@@ -83,7 +83,7 @@ class ConversionApiClientTestCase(TestCase):
             )
             self.assertFalse(api_client.is_logged_in)
 
-            status = api_client.login()
+            success = api_client.login()
 
             request_post_mock.assert_called_with(
                 'http://www.osmaxx.ch:8000/api/token-auth/?format=json',
@@ -91,7 +91,7 @@ class ConversionApiClientTestCase(TestCase):
                 headers={'Content-Type': 'application/json; charset=UTF-8'}
             )
 
-            self.assertFalse(status)
+            self.assertFalse(success)
             self.assertFalse(api_client.is_logged_in)
             self.assertFalse('Authorization' in api_client.headers)
 
@@ -129,7 +129,7 @@ class ConversionApiClientTestCase(TestCase):
             api_client.is_logged_in = True
             api_client.headers['Authorization'] = 'JWT abcdefgh12345678'
 
-            status = api_client.create_job(self.extraction_order)
+            success = api_client.create_job(self.extraction_order)
 
             request_post_mock.assert_called_with(
                 'http://www.osmaxx.ch:8000/api/jobs',
@@ -154,7 +154,7 @@ class ConversionApiClientTestCase(TestCase):
                 })
             )
 
-            self.assertTrue(status)
+            self.assertTrue(success)
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
             self.assertEqual(self.extraction_order.process_id, '81cca3a9-5e66-47ab-8d3f-70739e4204ae')
 
@@ -210,7 +210,7 @@ class ConversionApiClientTestCase(TestCase):
             api_client.headers['Authorization'] = 'JWT abcdefgh12345678'
             self.extraction_order.process_id = '4b529c79-559c-4730-9cd2-03ea91c9a5ef'
 
-            status = api_client.download_result_files(self.extraction_order)
+            success = api_client.download_result_files(self.extraction_order)
 
             self.assertEqual(request_get_mock.call_count, 3)
             request_get_mock.assert_any_call(
@@ -225,7 +225,7 @@ class ConversionApiClientTestCase(TestCase):
                 'http://localhost:8000/api/gis_format/12/download_result/',
                 headers={'Content-Type': 'application/json; charset=UTF-8', 'Authorization': 'JWT abcdefgh12345678'}
             )
-            self.assertTrue(status)
+            self.assertTrue(success)
             self.assertEqual(self.extraction_order.output_files.count(), 2)
             self.assertEqual(self.extraction_order.output_files.order_by('id')[0].content_type, 'fgdb')
             self.assertEqual(self.extraction_order.output_files.order_by('id')[1].content_type, 'spatialite')
