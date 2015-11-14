@@ -35,12 +35,10 @@ class TestBBox(TestCase):
         )
 
     def test_get_cut_command_returns_expected_command(self):
-        output_filename = 'cutted_filename.pbf'
         pbf_file_path = settings.OSMAXX_CONVERSION_SERVICE.get('PBF_PLANET_FILE_PATH')
-        expected = "osmconvert --out-pbf -o={output_filename} -b=1.23,-4.56,7.89,0.12 {pbf_file_path}".format(
-            output_filename=output_filename,
+        expected = "osmconvert --out-pbf -o=cutted_filename.pbf -b=1.23,-4.56,7.89,0.12 {pbf_file_path}".format(
             pbf_file_path=pbf_file_path,
         )
         bbox = BBox(west=1.23, south=-4.56, east=7.89, north=0.12)
-        actual = bbox._get_cut_command(output_filename=output_filename)
+        actual = bbox._get_cut_command(output_filename='cutted_filename.pbf')
         self.assertEqual(expected, actual)
