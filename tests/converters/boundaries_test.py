@@ -37,7 +37,7 @@ class TestBBox(TestCase):
 
     def test_get_cut_command_returns_expected_command(self):
         output_filename = 'cutted_filename.pbf'
-        pbf_file_path = settings.OSMAXX_CONVERSION_SERVICE.get('PBF_WORLD_FILE_PATH')
+        pbf_file_path = settings.OSMAXX_CONVERSION_SERVICE.get('PBF_PLANET_FILE_PATH')
         expected = "osmconvert --out-pbf -o={output_filename} -b={west},{south},{east},{north} {pbf_file_path}".format(
             output_filename=output_filename,
             pbf_file_path=pbf_file_path,

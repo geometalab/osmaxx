@@ -17,7 +17,7 @@ class BBox:
         self.west, self.south, self.east, self.north = west, south, east, north
 
     def _get_cut_command(self, output_filename):
-        pbf_file_path = OSMAXX_CONVERSION_SERVICE.get('PBF_WORLD_FILE_PATH')
+        pbf_file_path = OSMAXX_CONVERSION_SERVICE.get('PBF_PLANET_FILE_PATH')
         return "osmconvert --out-pbf -o={output_filename} -b={west},{south},{east},{north} {pbf_file_path}".format(
             output_filename=output_filename,
             pbf_file_path=pbf_file_path,

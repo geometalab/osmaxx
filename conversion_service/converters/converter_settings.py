@@ -1,7 +1,7 @@
 from django.conf import settings
 
 OSMAXX_CONVERSION_SERVICE = {
-    'PBF_WORLD_FILE_PATH': '/var/data/osm-planet/planet-latest.osm.pbf',
+    'PBF_PLANET_FILE_PATH': '/var/data/osm-planet/planet-latest.osm.pbf',
     'RESULT_DIR': '/tmp/osmaxx-conversion-service/results',
     'RESULT_TTL': -1,  # never expire!
 }

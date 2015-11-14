@@ -94,7 +94,7 @@ def pytest_configure():
             'JWT_AUTH_HEADER_PREFIX': 'JWT',
         },
         OSMAXX_CONVERSION_SERVICE={
-            'PBF_WORLD_FILE_PATH': os.path.join(test_data_dir, 'osm', 'monaco-latest.osm.pbf'),
+            'PBF_PLANET_FILE_PATH': os.path.join(test_data_dir, 'osm', 'monaco-latest.osm.pbf'),
         },
 
     )

@@ -288,7 +288,7 @@ JWT_AUTH = {
 }
 
 OSMAXX_CONVERSION_SERVICE = {
-    'PBF_WORLD_FILE_PATH': env.str(
+    'PBF_PLANET_FILE_PATH': env.str(
         'OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH',
         default='~/tmp/osm-planet/planet-latest.osm.pbf'),
     'RESULT_DIR': env.str('OSMAXX_CONVERSION_SERVICE_RESULT_DIR', default='/tmp/osm/results'),
