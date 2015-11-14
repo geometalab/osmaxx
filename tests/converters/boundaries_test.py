@@ -43,3 +43,6 @@ class TestBBox(TestCase):
         bbox = BBox(west=1.23, south=-4.56, east=7.89, north=0.12)
         actual = bbox._get_cut_command(output_filename='outfile.pbf')
         self.assertEqual(expected, actual)
+
+# TODO: What if output filename contains spaces?
+# TODO: What if path to planet file contains spaces?
