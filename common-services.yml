@@ -21,8 +21,8 @@ environmentvars:
 
     # shared result dir
     - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
-    # shared pbf world file
-    - OSMAXX_CONVERSION_SERVICE_PBF_WORLD_FILE_PATH=/var/data/osm-planet/planet-latest.osm.pbf
+    # shared pbf planet file
+    - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/planet-latest.osm.pbf
 
     # Logging
     - PYTHONUNBUFFERED=non-empty-string
