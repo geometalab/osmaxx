@@ -49,12 +49,10 @@ class ExtractionOrder(models.Model):
         """
         :return example:
             {
-                'gis': {
-                    'formats': ['txt', 'file_gdb'],
-                    'options': {
-                        'coordinate_reference_system': 'wgs72',
-                        'detail_level': 'verbatim'
-                    }
+                'gis_formats': ['txt', 'file_gdb'],
+                'gis_options': {
+                    'coordinate_reference_system': 'wgs72',
+                    'detail_level': 'verbatim'
                 },
                 'routing': { ... }
             }
@@ -65,8 +63,4 @@ class ExtractionOrder(models.Model):
 
     @property
     def extraction_formats(self):
-        extraction_formats = []
-        for export_format_config in self.extraction_configuration.values():
-            # merge lists to flat nested structure
-            extraction_formats = extraction_formats + export_format_config['formats']
-        return extraction_formats
+        return json.loads(self.extraction_configuration).get('gis_formats', None)

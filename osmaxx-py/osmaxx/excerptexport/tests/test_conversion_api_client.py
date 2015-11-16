@@ -22,12 +22,10 @@ class ConversionApiClientTestCase(TestCase):
         )
         self.extraction_order = ExtractionOrder.objects.create(excerpt=self.excerpt, orderer=self.user)
         self.extraction_order.extraction_configuration = {
-            'gis': {
-                'formats': ['fgdb', 'spatialite'],
-                'options': {
-                    'coordinate_reference_system': 'WGS_84',
-                    'detail_level': 1
-                }
+            'gis_formats': ['fgdb', 'spatialite'],
+            'gis_options': {
+                'coordinate_reference_system': 'WGS_84',
+                'detail_level': 1
             }
         }
 

@@ -105,8 +105,8 @@ class ConversionApiClient():
         request_url = self._create_url(self.api_paths['job']['create'])
         request_data = OrderedDict({
             "callback_url": "http://example.com",
-            "gis_formats": extraction_order.extraction_configuration['gis']['formats'],
-            "gis_options": extraction_order.extraction_configuration['gis']['options'],
+            "gis_formats": extraction_order.extraction_configuration['gis_formats'],
+            "gis_options": extraction_order.extraction_configuration['gis_options'],
             "extent": {
                 "west": extraction_order.excerpt.bounding_geometry.west,
                 "south": extraction_order.excerpt.bounding_geometry.south,
@@ -227,3 +227,39 @@ class ConversionApiClient():
             return True
         else:
             return False
+
+
+def get_api_client():
+    """
+    Helper method to get a ConversionApiClient instance with setting defaults.
+
+    :return:
+    """
+    from django.conf import settings
+    protocol = settings.OSMAXX.get('CONVERSION_SERVICE_PROTOCOL', 'http')
+    host = settings.OSMAXX.get('CONVERSION_SERVICE_HOST', 'localhost')
+    port = settings.OSMAXX.get('CONVERSION_SERVICE_PORT', '8901')
+    api_paths = settings.OSMAXX.get('CONVERSION_SERVICE_API_PATHS', {
+        'login': '/api/token-auth/?format=json',
+        'job': {
+            'create': '/api/jobs',
+            'status': '/api/conversion_result/{rq_job_id}',
+        }
+    })
+    credentials = settings.OSMAXX.get('CONVERSION_SERVICE_CREDENTIALS', {'username': 'admin', 'password': 'admin'})
+
+    conversion_api_client = ConversionApiClient(
+        protocol=protocol, host=host, port=port, api_paths=api_paths, credentials=credentials
+    )
+    return conversion_api_client
+
+
+def get_authenticated_api_client():
+    """
+    Helper method to get an authenticated ConversionApiClient instance with setting defaults.
+
+    :return:
+    """
+    conversion_api_client = get_api_client()
+    conversion_api_client.login()
+    return conversion_api_client

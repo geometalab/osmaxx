@@ -32,6 +32,7 @@ class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
     template_name = 'excerptexport/templates/excerpt_form.html'
     form_class = ExcerptOrderForm
 
+    # FIXME: remove unused code
     def post(self, request, *args, **kwargs):
         post = super().post(request, *args, **kwargs)
         return post

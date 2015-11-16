@@ -21,7 +21,7 @@ def get_export_options(selected_options):
         key = '.'.join(option.split('.')[:-1])
         if format_namespace_key != key:
             format_namespace_key = key
-            export_options[format_namespace_key] = {'options': {}, 'formats': []}
+            export_options[format_namespace_key] = {'gis_options': {}, 'gis_formats': []}
         format_type = option.split('.')[-1]
-        export_options[format_namespace_key]['formats'].append(format_type)
+        export_options[format_namespace_key]['gis_formats'].append(format_type)
     return export_options
