@@ -27,7 +27,7 @@ class TestBBox(TestCase):
         PBF_PLANET_FILE_PATH='/path/to/planet-latest.osm.pbf',
     )
     @patch('subprocess.call', return_value=0)
-    def test_cut_pbf_calls_correctly(self, sp_call_mock):
+    def test_cut_pbf_calls_osmconvert_correctly(self, sp_call_mock):
         # tests are using sample data from monaco
         bbox = BBox(west=1.23, south=-4.56, east=7.89, north=0.12)
         output_filename = 'outfile.pbf'
