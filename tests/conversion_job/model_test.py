@@ -160,11 +160,11 @@ class ConversionJobTest(TestCase):
                 format=out_format
             )
 
-        initial_progress_list = [ConversionProgress.NEW.value for _ in range(len(formats))]
+        initial_progress_list = [ConversionProgress.NEW.value] * len(formats)
         model_progress_list = list(self.conversion_job.gis_formats.values_list('progress', flat=True))
         self.assertListEqual(model_progress_list, initial_progress_list)
 
-        started_progress_list = [ConversionProgress.STARTED.value for _ in range(len(formats))]
+        started_progress_list = [ConversionProgress.STARTED.value] * len(formats)
         self.conversion_job.update_status_from_rq()
         model_progress_list = list(self.conversion_job.gis_formats.values_list('progress', flat=True))
         self.assertListEqual(model_progress_list, started_progress_list)
