@@ -1,7 +1,7 @@
 from django.conf import settings
 
 OSMAXX_CONVERSION_SERVICE = {
-    'XAPI_MIRROR': 'http://www.overpass-api.de/api/xapi_meta',
+    'PBF_PLANET_FILE_PATH': '/var/data/osm-planet/planet-latest.osm.pbf',
     'RESULT_DIR': '/tmp/osmaxx-conversion-service/results',
     'RESULT_TTL': -1,  # never expire!
 }

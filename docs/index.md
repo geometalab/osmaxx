@@ -28,7 +28,32 @@ For required Python 3 packages, see `requirements.txt`.
 
 ## Installation
 
-TODO: Write installation instruction when done.
+### local development
+
+```bash
+docker-compose stop -t 0 &&\
+ docker-compose build &&\
+ docker-compose run --rm -e osm_planet_mirror=http://download.geofabrik.de/europe/ -e osm_planet_path_relative_to_mirror=switzerland-latest.osm.pbf osmdata &&\
+ docker-compose run --rm osmdata mv /var/data/osm-planet/switzerland-latest.osm.pbf /var/data/osm-planet/planet-latest.osm.pbf &&\
+ docker-compose up -d worker &&\
+ docker-compose run --rm api ./conversion_service/manage.py createsuperuser &&\
+ docker-compose up api
+```
+
+### on the server
+
+```bash
+docker-compose build &&\
+ docker-compose run --rm osmdata &&\
+ docker-compose up -d worker &&\
+ docker-compose up api
+```
+
+and to create an initial user:
+
+```bash
+docker-compose run --rm api ./conversion_service/manage.py createsuperuser
+```
 
 ## Example
 
