@@ -23,8 +23,9 @@ class TestBBox(TestCase):
         # shouldn't raise an error
         BBox(west=0, south=0, east=0, north=0)
 
-    @patch('converters.boundaries.BBox._get_cut_command', return_value='true')
-    def test_cut_pbf_calls_correctly(self, cut_command_mock):
+    @patch('subprocess.call', return_value=0)
+    @patch('converters.boundaries.BBox._get_cut_command')
+    def test_cut_pbf_calls_correctly(self, cut_command_mock, sp_call_mock):
         # tests are using sample data from monaco
         bbox = BBox(west=1.23, south=-4.56, east=7.89, north=0.12)
         output_filename = 'cutted_filename.pbf'
