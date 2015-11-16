@@ -36,8 +36,6 @@ class TestBBox(TestCase):
     @patch.dict('converters.converter_settings.OSMAXX_CONVERSION_SERVICE', {
         'PBF_PLANET_FILE_PATH': '/path/to/planet-latest.osm.pbf',
     })
-    # FIXME: _get_cut_command should also be sensitive to overriding django.conf.settings.OSMAXX_CONVERSION_SERVICE
-    #        but it isn't.
     def test_get_cut_command_returns_expected_command(self, *args, **kwargs):
         expected = "osmconvert --out-pbf -o=outfile.pbf -b=1.23,-4.56,7.89,0.12 /path/to/planet-latest.osm.pbf"
         bbox = BBox(west=1.23, south=-4.56, east=7.89, north=0.12)
