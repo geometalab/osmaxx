@@ -23,9 +23,9 @@ class TestBBox(TestCase):
         # shouldn't raise an error
         BBox(west=0, south=0, east=0, north=0)
 
-    @patch.dict('converters.converter_settings.OSMAXX_CONVERSION_SERVICE', {
-        'PBF_PLANET_FILE_PATH': '/path/to/planet-latest.osm.pbf',
-    })
+    @patch.dict('converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
+        PBF_PLANET_FILE_PATH='/path/to/planet-latest.osm.pbf',
+    )
     @patch('subprocess.call', return_value=0)
     def test_cut_pbf_calls_correctly(self, sp_call_mock):
         # tests are using sample data from monaco
