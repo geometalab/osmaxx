@@ -8,6 +8,7 @@ from conversion_job.models import Extent, ConversionJob, GISFormat
 from converters import converter_settings, converter_options
 from converters.boundaries import BBox
 from shared import ConversionProgress
+from tests.conversion_job.view_test import django_rq_get_queue_stub
 
 
 class ExtentTest(TestCase):
@@ -149,6 +150,26 @@ class ConversionJobTest(TestCase):
             self.conversion_job.progress,
             [tup[1] for tup in ConversionProgress.choices() if tup[0] == ConversionProgress.NEW.value][0]
         )
+
+    @patch('django_rq.get_queue', django_rq_get_queue_stub)
+    def test_update_status_from_rq_sets_the_value_to_started(self, *args, **kwargs):
+        formats = converter_options.get_output_formats()
+        for out_format in formats:
+            GISFormat.objects.create(
+                conversion_job=self.conversion_job,
+                format=out_format
+            )
+
+        initial_progress_list = [ConversionProgress.NEW.value for _ in range(len(formats))]
+        model_progress_list = list(self.conversion_job.gis_formats.values_list('progress', flat=True))
+        self.assertListEqual(model_progress_list, initial_progress_list)
+
+        started_progress_list = [ConversionProgress.STARTED.value for _ in range(len(formats))]
+        self.conversion_job.update_status_from_rq()
+        model_progress_list = list(self.conversion_job.gis_formats.values_list('progress', flat=True))
+        self.assertListEqual(model_progress_list, started_progress_list)
+
+        self.assertEqual(self.conversion_job.progress, dict(ConversionProgress.choices())[ConversionProgress.STARTED])
 
 
 class GISFormatTest(TestCase):

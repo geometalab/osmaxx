@@ -1,5 +1,6 @@
 import os
 
+import django_rq
 from django.contrib.gis.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
@@ -8,7 +9,7 @@ from rest_framework.reverse import reverse
 from converters import CONVERTER_CHOICES, converter_settings
 from converters.boundaries import BBox
 from converters.converter import Options
-from shared import JobStatus, ConversionProgress
+from shared import JobStatus, ConversionProgress, rq_job_status_mapping
 from utils.directory_helper import get_file_only_path_list_in_directory
 
 
@@ -98,6 +99,21 @@ class ConversionJob(models.Model):
 
     def get_conversion_options(self):
         return Options(output_formats=self.gis_formats.values_list('format', flat=True))
+
+    def update_status_from_rq(self):
+        rq_job = django_rq.get_queue().fetch_job(job_id=self.rq_job_id)
+
+        # only do work if the job is not yet deleted
+        if rq_job:
+            self.status = rq_job_status_mapping[rq_job.status].value
+
+            progress = rq_job.meta.get('progress', None)
+            if progress:
+                progress_state = progress.value
+                for gis_format in self.gis_formats.all():
+                    gis_format.progress = progress_state
+                    gis_format.save()
+            self.save()
 
     @property
     def progress(self):

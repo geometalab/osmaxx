@@ -3,7 +3,6 @@ from unittest.mock import patch
 from django.test import TestCase
 
 from conversion_job.models import Extent, ConversionJob, GISFormat
-from conversion_job.views import ConversionJobStatusViewSet
 from converters import converter_options
 from shared import ConversionProgress
 from rq.job import JobStatus as RQJobStatus
@@ -51,17 +50,4 @@ class ConversionJobStatusViewSetTest(TestCase):
         self.assertEqual(
             min(conversion_job.gis_formats.values_list('progress', flat=True)),
             ConversionProgress.NEW.value
-        )
-
-    @patch('django_rq.get_queue', django_rq_get_queue_stub)
-    @patch('conversion_job.views.ConversionJobStatusViewSet.get_object', get_conversion_job)
-    def test_update_status_from_rq_sets_the_value_to_started(self, *args, **kwargs):
-        conversion_job = get_conversion_job()
-
-        conversion_job_status_view = ConversionJobStatusViewSet(kwargs={'rq_job_id': self.conversion_job.rq_job_id})
-        conversion_job_status_view._update_status_from_rq()
-
-        self.assertEqual(
-            min(conversion_job.gis_formats.values_list('progress', flat=True)),
-            ConversionProgress.STARTED.value
         )

@@ -1,4 +1,3 @@
-import django_rq
 from django.http import FileResponse
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import detail_route
@@ -6,7 +5,6 @@ from rest_framework.decorators import detail_route
 from conversion_job.models import Extent, ConversionJob, GISFormat
 from conversion_job.serializers import ExtentSerializer, ConversionJobSerializer, ConversionJobStatusSerializer, \
     GISFormatStatusSerializer
-from shared import rq_job_status_mapping
 
 
 class ExtentViewSet(viewsets.ModelViewSet):
@@ -40,24 +38,9 @@ class ConversionJobStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.Ge
     )
 
     def retrieve(self, request, *args, **kwargs):
-        self._update_status_from_rq()
+        # update conversion status
+        self.get_object().update_status_from_rq()
         return super().retrieve(request, *args, **kwargs)
-
-    def _update_status_from_rq(self):
-        conversion_job = self.get_object()
-        rq_job = django_rq.get_queue().fetch_job(job_id=conversion_job.rq_job_id)
-
-        # only do work if the job is not yet deleted
-        if rq_job:
-            conversion_job.status = rq_job_status_mapping[rq_job.status].value
-
-            progress = rq_job.meta.get('progress', None)
-            if progress:
-                progress_state = progress.value
-                for gis_format in conversion_job.gis_formats.all():
-                    gis_format.progress = progress_state
-                    gis_format.save()
-            conversion_job.save()
 
 
 class GISFormatStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.GenericViewSet):
