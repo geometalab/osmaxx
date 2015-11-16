@@ -46,8 +46,9 @@ class ConversionJobStatusViewSetTest(TestCase):
     @patch('conversion_job.views.ConversionJobStatusViewSet.get_object', get_conversion_job)
     def test_conversion_progress_when_created_is_new(self, *args, **kwargs):
         conversion_job = get_conversion_job()
-
-        self.assertEqual(
-            min(conversion_job.gis_formats.values_list('progress', flat=True)),
-            ConversionProgress.NEW.value
+        model_progress_list = list(conversion_job.gis_formats.values_list('progress', flat=True))
+        self.assertListEqual(
+            model_progress_list,
+            [ConversionProgress.NEW.value for _ in range(len(model_progress_list))]
         )
+        self.assertEqual(conversion_job.progress, dict(ConversionProgress.choices())[ConversionProgress.NEW.value])
