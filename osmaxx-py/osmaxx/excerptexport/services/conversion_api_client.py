@@ -1,87 +1,49 @@
 import requests
-import json
 import logging
 from collections import OrderedDict
 
 from django.core.files.base import ContentFile
 
+from osmaxx.api_client.API_client import RESTApiJWTClient
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import private_storage
 
 logger = logging.getLogger(__name__)
 
 
-class ConversionApiClient():
-    def __init__(self, protocol, host, port, api_paths, credentials):
+class ConversionApiClient(RESTApiJWTClient):
+    service_base = 'http://localhost:8901/api/'
+    login_url = '/token-auth/'
+    conversion_job_url = '/jobs/'
+    job_status_url = '/conversion_result/{job_uuid}/'
+
+    def __init__(self, credentials):
         """
-        Args:
-            protocol:       e.g. 'http'
-            host:           e.g. 'www.osmaxx.ch'
-            port:           e.g. '8000'
-            api_paths:      e.g.
-                {
-                    'login': '/api/token-auth/?format=json'
-                    'job': {
-                        'create': '/api/jobs'
-                        'status': '/api/conversion_result/{rq_job_id}'
-                    }
-                }
-            credentials:    e.g.
-                {'username':'osmaxx', 'password':'osmaxx'}
+        credentials:    e.g.
+            {'username':'osmaxx', 'password':'osmaxx'}
         """
-        self.protocol = protocol
-        self.host = host
-        self.port = port
-        self.api_paths = api_paths
-        self.credentials = credentials
-        self.is_logged_in = False
-
-        self.headers = {
-            'Content-Type': 'application/json; charset=UTF-8'
-        }
-
-    def _create_url(self, path):
-            return self.protocol + '://' + self.host + ':' + (self.port if self.port else '') + path
-
-    def _request_successful(self, response):
-        try:
-            response.raise_for_status()
-        except requests.HTTPError as e:
-            logging.error('API job creation failed.', str(e) + " response: " + str(response.__dict__))
-            return False
-        return True
-
-    def _extract_key_from_json_or_none(self, response, key):
-        if self._request_successful(response):
-            try:
-                json_response = response.json()
-                return json_response.get(key, None)
-            except ValueError:
-                logging.error('API job creation failed because of an JSON decoding Issue.', str(response.__dict__))
-                return None
-        return None
+        super().__init__()
+        # TODO: get username/password from settings (using env vars as well)
+        self.username = credentials['username']
+        self.password = credentials['password']
 
     def login(self):
         """
         Logs in the api client by requesting an API token
 
         Returns:
-            True on successful login
-            False on failed login
+            the response
+            errors: None if successfull, dictionary with error list on failed login
         """
-        request_url = self._create_url(self.api_paths['login'])
-        request_data = self.credentials
-
-        response = requests.post(request_url, data=json.dumps(request_data), headers=self.headers)
-
-        token = self._extract_key_from_json_or_none(response, 'token')
-        if token and len(token) > 0:
-            self.headers['Authorization'] = 'JWT ' + token
-            self.is_logged_in = True
+        if self.token:
+            # already logged in
             return True
-        else:
-            logging.error('API login failed.', response)
-            return False
+
+        self.auth(self.username, self.password)
+
+        if not self.errors:
+            return True
+        return False
 
     def create_job(self, extraction_order):
         """
@@ -93,16 +55,9 @@ class ConversionApiClient():
                 -> must be in a compatible format
 
         Returns:
-            True on successful job creation
-            False on error
-
-        Raises:
-            Exception if the client is not logged in
+            response of the call
         """
-        if not self.is_logged_in:
-            raise Exception('Not logged in for request')
 
-        request_url = self._create_url(self.api_paths['job']['create'])
         request_data = OrderedDict({
             "callback_url": "http://example.com",
             "gis_formats": extraction_order.extraction_configuration['gis_formats'],
@@ -115,18 +70,19 @@ class ConversionApiClient():
                 "polyfile": None
             }
         })
-
-        response = requests.post(request_url, data=json.dumps(request_data), headers=self.headers)
-
-        rq_job_id = self._extract_key_from_json_or_none(response, 'rq_job_id')
-        if rq_job_id:
-            extraction_order.process_id = rq_job_id
-            extraction_order.state = ExtractionOrderState.PROCESSING
-            extraction_order.save()
-            return True
-        else:
+        self.login()
+        response = self.authorized_post(self.conversion_job_url, json_data=request_data)
+        if self.errors:
             logging.error('API job creation failed.', response)
-            return False
+        else:
+            rq_job_id = response.json().get('rq_job_id', None)
+            if rq_job_id:
+                extraction_order.process_id = rq_job_id
+                extraction_order.state = ExtractionOrderState.PROCESSING
+                extraction_order.save()
+            else:
+                logging.error('Could not retrieve api job id from response.', response)
+        return response
 
     def download_result_files(self, extraction_order):
         """
@@ -140,12 +96,12 @@ class ConversionApiClient():
             True if the job status was fetched successful
             False if it failed
         """
+        self.login()
         job_status = self.job_status(extraction_order)
-
         if job_status and job_status['status'] == 'done' and job_status['progress'] == 'successful':
             for download_file in job_status['gis_formats']:
                 if download_file['progress'] == 'successful':
-                    result_response = requests.get(download_file['result_url'], headers=self.headers)
+                    result_response = self.authorized_get(download_file['result_url'])
                     output_file = OutputFile.objects.create(
                         mime_type='application/zip',
                         file_extension='zip',
@@ -188,15 +144,9 @@ class ConversionApiClient():
                 }
             False on error
         """
-        if not self.is_logged_in:
-            raise Exception('Not logged in for request')
+        response = self.authorized_get(self.job_status_url.format(job_uuid=extraction_order.process_id))
 
-        request_url = self._create_url(
-            self.api_paths['job']['status'].replace('{rq_job_id}', extraction_order.process_id)
-        )
-        response = requests.get(request_url, headers=self.headers)
-
-        if self._request_successful(response):
+        if not self.errors:
             return response.json()
         else:
             return None

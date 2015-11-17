@@ -25,7 +25,7 @@ class ExtractionOrder(models.Model):
     _extraction_configuration = models.TextField(
         blank=True, null=True, default='', verbose_name=_('extraction options')
     )
-    process_id = models.TextField(blank=True, null=True, default='', verbose_name=_('process link'))
+    process_id = models.TextField(blank=True, null=True, verbose_name=_('process link'))
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'))
 
