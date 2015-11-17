@@ -3,19 +3,30 @@
 *~
 .*
 
-html/
+# Documentation builds
+/html/
+
+# `coverage` reports
 htmlcov/
 coverage/
+
+# `setup.py` products
 build/
 dist/
 *.egg-info/
 MANIFEST
 
+# venv
 bin/
 include/
 lib/
 local/
+
+# Python 3 centralized *.pyc location
 __pycache__/
 
+# Hidden by naming convention, but tracked anyway:
+!.dockerignore
 !.gitignore
 !.travis.yml
+!.coveragerc

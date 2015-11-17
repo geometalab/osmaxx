@@ -1,5 +1,4 @@
-webapp:
-  build: .
+environmentvars:
   environment:
     # port and host application listens
     - APP_PORT=8000
@@ -20,6 +19,11 @@ webapp:
     - DJANGO_MEDIA_ROOT=/data/media
     - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
 
+    # shared result dir
+    - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
+    # shared pbf planet file
+    - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/planet-latest.osm.pbf
+
     # Logging
     - PYTHONUNBUFFERED=non-empty-string
     - PYTHONIOENCODING=utf-8
@@ -29,4 +33,3 @@ webapp:
     # We enable Python hash randomization to protect Django from certain DoS attacks.
     # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/#python-options
     - PYTHONHASHSEED=random
-

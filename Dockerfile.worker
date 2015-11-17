@@ -1,0 +1,143 @@
+# this gdal image comes with support for FileGDB
+FROM geometalab/gdal-debian:2.0.1
+
+USER root
+
+# explicitly set user/group IDs
+RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
+
+MAINTAINER HSR Geometalab <geometalab@hsr.ch>
+
+# make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
+RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
+
+RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+
+ENV PG_MAJOR 9.3
+ENV POSTGIS_MAJOR 2.1
+
+# postgres sources
+RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
+
+# wheezy backports for translit
+# RUN ["echo", "deb http://http.debian.net/debian wheezy-backports main", ">", "/etc/apt/sources.list.d/wheezy-backports.list"]
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y\
+\
+    make \
+    cmake \
+    g++ \
+    git-core\
+    build-essential\
+    libxml2-dev\
+    libgeos-dev \
+    libgeos++-dev\
+    libpq-dev\
+    libboost-dev\
+    libboost-system-dev\
+    libboost-filesystem-dev\
+    libboost-thread-dev\
+    libexpat1-dev \
+    zlib1g-dev \
+    libbz2-dev\
+    libproj-dev\
+    libtool\
+    automake \
+    libprotobuf-c0-dev\
+    protobuf-c-compiler\
+    lua5.2 \
+    liblua5.2-0 \
+    liblua5.2-dev \
+    liblua5.1-0 \
+    python \
+    postgresql-client \
+    zip \
+    osmosis \
+    osmctools \
+    wget \
+    binutils \
+    gdal-bin \
+    libgeoip1 \
+    gdal-bin \
+    python-gdal \
+    python-pip \
+    python3-pip \
+    ipython \
+\
+    postgresql-server-dev-9.3 \
+    postgresql-common  \
+    postgresql-${PG_MAJOR} \
+    postgresql-contrib-${PG_MAJOR} \
+\
+    postgresql-${PG_MAJOR}-postgis-${POSTGIS_MAJOR} \
+    postgresql-${PG_MAJOR}-postgis-scripts \
+\
+    libicu-dev \
+    debhelper
+
+RUN mkdir -p /var/run/postgresql && chown -R postgres /var/run/postgresql
+
+ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
+
+WORKDIR /root/osm2pgsql
+
+# OSM2PGSQL
+RUN mkdir src &&\
+  cd src &&\
+  git clone https://github.com/openstreetmap/osm2pgsql.git &&\
+  cd osm2pgsql &&\
+  mkdir build &&\
+  cd build &&\
+  cmake ..&&\
+  make &&\
+  make install
+
+ENV CODE /code
+WORKDIR $CODE
+RUN git clone https://github.com/woodpeck/openstreetmap-carto-german.git
+
+WORKDIR $CODE/openstreetmap-carto-german/utf8translit
+RUN sed --in-place 's/\$\(CXX\) $\(LIBS\) -shared -o \$@ \$</\$\(CXX\) -shared -o \$@ \$< $\(LIBS\)/' Makefile && \
+    sed --in-place 's/postgresql-9\.2/postgresql-9.3/' debian/control && \
+    dpkg-buildpackage -uc -us && \
+    dpkg --install ../utf8translit_*.deb
+
+ENV HOME /home/py
+
+# activate translit
+RUN mkdir -p $HOME/conversion_service/worker
+COPY ./conversion_service/worker/01_activate_translit.sql $HOME/conversion_service/worker/
+COPY ./conversion_service/worker/00_make_db_utf8.sh $HOME/conversion_service/worker/
+WORKDIR $HOME/conversion_service/worker/
+
+USER postgres
+RUN service postgresql start && \
+    ./00_make_db_utf8.sh && \
+    psql -f ./01_activate_translit.sql
+
+USER root
+
+RUN sed -i '1ilocal   all             all                                     trust' /etc/postgresql/9.3/main/pg_hba.conf
+
+RUN chmod a+rx $CODE
+
+WORKDIR $HOME
+
+ADD requirements.txt $HOME/requirements.txt
+
+RUN pip install honcho
+
+RUN pip3 install -r requirements.txt
+
+ADD ./conversion_service $HOME/conversion_service
+
+# expose modules
+ENV PYTHONPATH=PYTHONPATH:$HOME
+ENV DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
+
+ADD ./conversion_service/worker/entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash", "-c"]

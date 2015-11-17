@@ -1,0 +1,30 @@
+FROM python:3.4
+
+MAINTAINER HSR Geometalab <geometalab@hsr.ch>
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y\
+\
+    libgeos-dev \
+    libgeos++-dev
+
+# Install required Python packages:
+ENV HOME /home/py
+
+WORKDIR $HOME
+
+ADD requirements.txt $HOME/
+
+RUN pip install honcho
+
+RUN pip3 install -r requirements.txt
+
+ADD ./conversion_service $HOME/conversion_service
+
+# Expose modules:
+ENV PYTHONPATH=PYTHONPATH:$HOME
+ENV DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
+
+ADD ./conversion_service/entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+

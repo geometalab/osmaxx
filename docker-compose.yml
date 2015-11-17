@@ -1,8 +1,14 @@
 data:
-  image: busybox
+  image: debian:jessie
   command: echo true
   volumes:
-    - /home/njordan/tmp/t:/tmp
+    - /data/results
+    - /var/data/osm-planet
+
+osmdata:
+  image: geometalab/osm-planet
+  volumes_from:
+    - data
 
 rqdashboard:
   build: rq-dashboard
@@ -15,20 +21,36 @@ rqdashboard:
 redis:
   image: redis
 
-# 1 worker
-worker:
+postgres:
+  image: geometalab/postgis:9.4
+
+api:
   extends:
     file: common-services.yml
-    service: webapp
+    service: environmentvars
   build: .
-  entrypoint: [honcho, -f, ./worker/Procfile, start]
+  dockerfile: ./Dockerfile.rest_api
+  command: [honcho, -f, ./conversion_service/Procfile, start]
+  ports:
+    - "8000:8000"
   volumes_from:
     - data
   links:
-    - workerdatabase:database
+    - redis
+    - postgres:database
+  environment:
+    - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
+
+worker:
+  extends:
+    file: common-services.yml
+    service: environmentvars
+  build: .
+  dockerfile: ./Dockerfile.worker
+  command: [honcho, -f, ./conversion_service/worker/Procfile, start]
+  volumes_from:
+    - data
+  links:
     - redis
   environment:
-    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
-
-workerdatabase:
-  image: geometalab/postgis-with-translit
+    - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.worker
