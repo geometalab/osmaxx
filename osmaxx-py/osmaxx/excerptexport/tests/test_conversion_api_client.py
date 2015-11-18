@@ -1,18 +1,13 @@
-import json
-from time import sleep
-from unittest import mock
-
 import vcr
 
 from .copying_mock import CopyingMock
 from requests.models import Response
-from collections import OrderedDict
 
 from django.contrib.auth.models import User
 from django.test.testcases import TestCase
 
-from osmaxx.excerptexport.services import ConversionApiClient
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
+from osmaxx.excerptexport.services import ConversionApiClient
 
 
 class ConversionApiClientTestCase(TestCase):
@@ -43,32 +38,32 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_successful_login.yml')
     def test_successful_login(self):
-            api_client = ConversionApiClient(
-                {'username': 'osmaxxi', 'password': '12345678'}
-            )
+        api_client = ConversionApiClient()
 
-            self.assertIsNone(api_client.token)
+        self.assertIsNone(api_client.token)
 
-            success = api_client.login()
+        success = api_client.login()
 
-            self.assertTrue(success)
-            self.assertIsNotNone(api_client.token)
+        self.assertTrue(success)
+        self.assertIsNotNone(api_client.token)
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_failed_login.yml')
     def test_failed_login(self):
-        api_client = ConversionApiClient(
-            {'username': 'osmaxxi', 'password': 'wrong-password'}
-        )
+        api_client = ConversionApiClient()
+        api_client.password = 'invalid'
+
+        self.assertEqual(api_client.password, 'invalid')
         self.assertIsNone(api_client.token)
+
         success = api_client.login()
+
         self.assertEqual({'non_field_errors': ['Unable to login with provided credentials.']}, api_client.errors)
+        self.assertIsNone(api_client.token)
         self.assertFalse(success)
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
     def test_create_job(self):
-        api_client = ConversionApiClient(
-            {'username': 'osmaxxi', 'password': '12345678'}
-        )
+        api_client = ConversionApiClient()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = api_client.create_job(self.extraction_order)
@@ -86,9 +81,7 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_download_files.yml')
     def test_download_files(self):
-        api_client = ConversionApiClient(
-            {'username': 'osmaxxi', 'password': '12345678'}
-        )
+        api_client = ConversionApiClient()
         api_client.create_job(self.extraction_order)
         # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
         # sleep(120)
@@ -110,9 +103,7 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_order_status_processing.yml')
     def test_order_status_processing(self):
-        api_client = ConversionApiClient(
-            {'username': 'osmaxxi', 'password': '12345678'}
-        )
+        api_client = ConversionApiClient()
 
         self.assertEqual(self.extraction_order.output_files.count(), 0)
         self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
@@ -125,9 +116,7 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_order_status_done.yml')
     def test_order_status_done(self):
-        api_client = ConversionApiClient(
-            {'username': 'osmaxxi', 'password': '12345678'}
-        )
+        api_client = ConversionApiClient()
         api_client.create_job(self.extraction_order)
         api_client.update_order_status(self.extraction_order)  # processing
         self.assertEqual(self.extraction_order.output_files.count(), 0)

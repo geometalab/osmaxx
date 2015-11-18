@@ -15,13 +15,10 @@ available_format_choices = _get_available_format_choices()
 
 
 def get_export_options(selected_options):
-    export_options = {}
-    format_namespace_key = None
-    for option in selected_options:
-        key = '.'.join(option.split('.')[:-1])
-        if format_namespace_key != key:
-            format_namespace_key = key
-            export_options[format_namespace_key] = {'gis_options': {}, 'gis_formats': []}
-        format_type = option.split('.')[-1]
-        export_options[format_namespace_key]['gis_formats'].append(format_type)
-    return export_options
+    return {
+        'gis_options': {
+            "coordinate_reference_system": "WGS_84",
+            "detail_level": 1,
+        },
+        'gis_formats': [option.split('.')[-1] for option in selected_options],
+    }

@@ -1,7 +1,6 @@
-import requests
 import logging
 from collections import OrderedDict
-
+from django.conf import settings
 from django.core.files.base import ContentFile
 
 from osmaxx.api_client.API_client import RESTApiJWTClient
@@ -12,20 +11,14 @@ logger = logging.getLogger(__name__)
 
 
 class ConversionApiClient(RESTApiJWTClient):
-    service_base = 'http://localhost:8901/api/'
+    service_base = settings.OSMAXX.get('CONVERSION_SERVICE_URL')
     login_url = '/token-auth/'
-    conversion_job_url = '/jobs/'
-    job_status_url = '/conversion_result/{job_uuid}/'
 
-    def __init__(self, credentials):
-        """
-        credentials:    e.g.
-            {'username':'osmaxx', 'password':'osmaxx'}
-        """
-        super().__init__()
-        # TODO: get username/password from settings (using env vars as well)
-        self.username = credentials['username']
-        self.password = credentials['password']
+    username = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
+    password = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
+
+    conversion_job_url = '/jobs/'
+    conversion_job_status_url = '/conversion_result/{job_uuid}/'
 
     def login(self):
         """
@@ -57,16 +50,17 @@ class ConversionApiClient(RESTApiJWTClient):
         Returns:
             response of the call
         """
+        bounding_geometry = extraction_order.excerpt.bounding_geometry.subclass_instance
 
         request_data = OrderedDict({
             "callback_url": "http://example.com",
             "gis_formats": extraction_order.extraction_configuration['gis_formats'],
             "gis_options": extraction_order.extraction_configuration['gis_options'],
             "extent": {
-                "west": extraction_order.excerpt.bounding_geometry.west,
-                "south": extraction_order.excerpt.bounding_geometry.south,
-                "east": extraction_order.excerpt.bounding_geometry.east,
-                "north": extraction_order.excerpt.bounding_geometry.north,
+                "west": bounding_geometry.west,
+                "south": bounding_geometry.south,
+                "east": bounding_geometry.east,
+                "north": bounding_geometry.north,
                 "polyfile": None
             }
         })
@@ -74,6 +68,7 @@ class ConversionApiClient(RESTApiJWTClient):
         response = self.authorized_post(self.conversion_job_url, json_data=request_data)
         if self.errors:
             logging.error('API job creation failed.', response)
+            print(self.errors)
         else:
             rq_job_id = response.json().get('rq_job_id', None)
             if rq_job_id:
@@ -144,7 +139,7 @@ class ConversionApiClient(RESTApiJWTClient):
                 }
             False on error
         """
-        response = self.authorized_get(self.job_status_url.format(job_uuid=extraction_order.process_id))
+        response = self.authorized_get(self.conversion_job_status_url.format(job_uuid=extraction_order.process_id))
 
         if not self.errors:
             return response.json()
@@ -179,37 +174,12 @@ class ConversionApiClient(RESTApiJWTClient):
             return False
 
 
-def get_api_client():
-    """
-    Helper method to get a ConversionApiClient instance with setting defaults.
-
-    :return:
-    """
-    from django.conf import settings
-    protocol = settings.OSMAXX.get('CONVERSION_SERVICE_PROTOCOL', 'http')
-    host = settings.OSMAXX.get('CONVERSION_SERVICE_HOST', 'localhost')
-    port = settings.OSMAXX.get('CONVERSION_SERVICE_PORT', '8901')
-    api_paths = settings.OSMAXX.get('CONVERSION_SERVICE_API_PATHS', {
-        'login': '/api/token-auth/?format=json',
-        'job': {
-            'create': '/api/jobs',
-            'status': '/api/conversion_result/{rq_job_id}',
-        }
-    })
-    credentials = settings.OSMAXX.get('CONVERSION_SERVICE_CREDENTIALS', {'username': 'admin', 'password': 'admin'})
-
-    conversion_api_client = ConversionApiClient(
-        protocol=protocol, host=host, port=port, api_paths=api_paths, credentials=credentials
-    )
-    return conversion_api_client
-
-
 def get_authenticated_api_client():
     """
-    Helper method to get an authenticated ConversionApiClient instance with setting defaults.
+    Helper method to get an authenticated ConversionApiClient instance.
 
     :return:
     """
-    conversion_api_client = get_api_client()
+    conversion_api_client = ConversionApiClient()
     conversion_api_client.login()
     return conversion_api_client
