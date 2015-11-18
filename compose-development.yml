@@ -45,7 +45,7 @@ webappdev:
     - DJANGO_EMAIL_FILE_PATH=/dev-emails
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
     - DJANGO_SECRET_KEY=my.secret.key.is.not.secret!
-    - DJANGO_OSMAXX_CONVERSION_SERVICE_API_URL=http://conversion_service:8901/api/
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_URL=http://conversion_service:8901/api/
 
 celerydev:
   extends:
