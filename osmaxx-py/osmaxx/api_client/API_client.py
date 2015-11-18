@@ -70,6 +70,15 @@ class RESTApiJWTClient:
         self._make_request_authorized()
         return self.options(self._to_fully_qualified_url(url), **kwargs)
 
+    def service_is_available(self):
+        try:
+            requests.get(self.service_base)
+            is_available = True
+        except ConnectionError as e:
+            logger.error('service {service_url} is down'.format(service_url=self.service_base), e)
+            is_available = False
+        return is_available
+
     def _get_error(self, response):
         error = None
         try:
