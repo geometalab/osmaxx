@@ -68,7 +68,6 @@ class ConversionApiClient(RESTApiJWTClient):
         response = self.authorized_post(self.conversion_job_url, json_data=request_data)
         if self.errors:
             logging.error('API job creation failed.', response)
-            print(self.errors)
         else:
             rq_job_id = response.json().get('rq_job_id', None)
             if rq_job_id:
@@ -139,6 +138,7 @@ class ConversionApiClient(RESTApiJWTClient):
                 }
             False on error
         """
+        self.login()
         response = self.authorized_get(self.conversion_job_status_url.format(job_uuid=extraction_order.process_id))
 
         if not self.errors:

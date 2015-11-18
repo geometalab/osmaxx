@@ -1,0 +1,128 @@
+interactions:
+- request:
+    body: !!binary |
+      eyJ1c2VybmFtZSI6ICJvc21heHhpIiwgIm5leHQiOiAiaHR0cDovL2xvY2FsaG9zdDo4OTAxL2Fw
+      aS8iLCAicGFzc3dvcmQiOiAiMTIzNDU2NzgifQ==
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['85']
+      Content-Type: [application/json; charset=UTF-8]
+      Referer: ['http://localhost:8901/api/token-auth/']
+      User-Agent: [python-requests/2.6.2 CPython/3.4.2 Linux/3.16.0-4-amd64]
+    method: POST
+    uri: http://localhost:8901/api/token-auth/
+  response:
+    body: {string: '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IiIsImV4cCI6MTQ0Nzg0ODkxNiwidXNlcl9pZCI6MywidXNlcm5hbWUiOiJvc21heHhpIn0.04NMRAyOSxwPd3-To78MsYpJJDhHF_9bSWQgs1-wKSk"}'}
+    headers:
+      Allow: ['POST, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 18 Nov 2015 12:10:16 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.3]
+      Vary: [Accept]
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IiIsImV4cCI6MTQ0Nzg0ODkxNiwidXNlcl9pZCI6MywidXNlcm5hbWUiOiJvc21heHhpIn0.04NMRAyOSxwPd3-To78MsYpJJDhHF_9bSWQgs1-wKSk]
+      Connection: [keep-alive]
+      Content-Type: [application/json; charset=UTF-8]
+      User-Agent: [python-requests/2.6.2 CPython/3.4.2 Linux/3.16.0-4-amd64]
+    method: GET
+    uri: http://localhost:8901/api/conversion_result/None/
+  response:
+    body: {string: "\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta http-equiv=\"content-type\"
+        content=\"text/html; charset=utf-8\">\n  <title>Page not found at /api/conversion_result/None/</title>\n
+        \ <meta name=\"robots\" content=\"NONE,NOARCHIVE\">\n  <style type=\"text/css\">\n
+        \   html * { padding:0; margin:0; }\n    body * { padding:10px 20px; }\n    body
+        * * { padding:0; }\n    body { font:small sans-serif; background:#eee; }\n
+        \   body>div { border-bottom:1px solid #ddd; }\n    h1 { font-weight:normal;
+        margin-bottom:.4em; }\n    h1 span { font-size:60%; color:#666; font-weight:normal;
+        }\n    table { border:none; border-collapse: collapse; width:100%; }\n    td,
+        th { vertical-align:top; padding:2px 3px; }\n    th { width:12em; text-align:right;
+        color:#666; padding-right:.5em; }\n    #info { background:#f6f6f6; }\n    #info
+        ol { margin: 0.5em 4em; }\n    #info ol li { font-family: monospace; }\n    #summary
+        { background: #ffc; }\n    #explanation { background:#eee; border-bottom:
+        0px none; }\n  </style>\n</head>\n<body>\n  <div id=\"summary\">\n    <h1>Page
+        not found <span>(404)</span></h1>\n    <table class=\"meta\">\n      <tr>\n
+        \       <th>Request Method:</th>\n        <td>GET</td>\n      </tr>\n      <tr>\n
+        \       <th>Request URL:</th>\n        <td>http://localhost:8901/api/conversion_result/None/</td>\n
+        \     </tr>\n      \n    </table>\n  </div>\n  <div id=\"info\">\n    \n      <p>\n
+        \     Using the URLconf defined in <code>config.urls</code>,\n      Django
+        tried these URL patterns, in this order:\n      </p>\n      <ol>\n        \n
+        \         <li>\n            \n                ^__debug__/\n                \n
+        \           \n          </li>\n        \n          <li>\n            \n                ^api/\n
+        \               \n            \n                ^\n                \n            \n
+        \               ^$\n                [name='api-root']\n            \n          </li>\n
+        \       \n          <li>\n            \n                ^api/\n                \n
+        \           \n                ^\n                \n            \n                ^\\.(?P&lt;format&gt;[a-z0-9]+)/?$\n
+        \               [name='api-root']\n            \n          </li>\n        \n
+        \         <li>\n            \n                ^api/\n                \n            \n
+        \               ^\n                \n            \n                ^extents/$\n
+        \               [name='extent-list']\n            \n          </li>\n        \n
+        \         <li>\n            \n                ^api/\n                \n            \n
+        \               ^\n                \n            \n                ^extents\\.(?P&lt;format&gt;[a-z0-9]+)/?$\n
+        \               [name='extent-list']\n            \n          </li>\n        \n
+        \         <li>\n            \n                ^api/\n                \n            \n
+        \               ^\n                \n            \n                ^extents/(?P&lt;pk&gt;[^/.]+)/$\n
+        \               [name='extent-detail']\n            \n          </li>\n        \n
+        \         <li>\n            \n                ^api/\n                \n            \n
+        \               ^\n                \n            \n                ^extents/(?P&lt;pk&gt;[^/.]+)\\.(?P&lt;format&gt;[a-z0-9]+)/?$\n
+        \               [name='extent-detail']\n            \n          </li>\n        \n
+        \         <li>\n            \n                ^api/\n                \n            \n
+        \               ^\n                \n            \n                ^jobs/$\n
+        \               [name='conversionjob-list']\n            \n          </li>\n
+        \       \n          <li>\n            \n                ^api/\n                \n
+        \           \n                ^\n                \n            \n                ^jobs\\.(?P&lt;format&gt;[a-z0-9]+)/?$\n
+        \               [name='conversionjob-list']\n            \n          </li>\n
+        \       \n          <li>\n            \n                ^api/\n                \n
+        \           \n                ^\n                \n            \n                ^jobs/(?P&lt;pk&gt;[^/.]+)/$\n
+        \               [name='conversionjob-detail']\n            \n          </li>\n
+        \       \n          <li>\n            \n                ^api/\n                \n
+        \           \n                ^\n                \n            \n                ^jobs/(?P&lt;pk&gt;[^/.]+)\\.(?P&lt;format&gt;[a-z0-9]+)/?$\n
+        \               [name='conversionjob-detail']\n            \n          </li>\n
+        \       \n          <li>\n            \n                ^api/\n                \n
+        \           \n                ^\n                \n            \n                ^conversion_result/(?P&lt;rq_job_id&gt;[0-9a-f-]{36})/$\n
+        \               [name='conversion_job_result-detail']\n            \n          </li>\n
+        \       \n          <li>\n            \n                ^api/\n                \n
+        \           \n                ^\n                \n            \n                ^conversion_result/(?P&lt;rq_job_id&gt;[0-9a-f-]{36})\\.(?P&lt;format&gt;[a-z0-9]+)/?$\n
+        \               [name='conversion_job_result-detail']\n            \n          </li>\n
+        \       \n          <li>\n            \n                ^api/\n                \n
+        \           \n                ^\n                \n            \n                ^gis_format/(?P&lt;pk&gt;[^/.]+)/$\n
+        \               [name='gisformat-detail']\n            \n          </li>\n
+        \       \n          <li>\n            \n                ^api/\n                \n
+        \           \n                ^\n                \n            \n                ^gis_format/(?P&lt;pk&gt;[^/.]+)\\.(?P&lt;format&gt;[a-z0-9]+)/?$\n
+        \               [name='gisformat-detail']\n            \n          </li>\n
+        \       \n          <li>\n            \n                ^api/\n                \n
+        \           \n                ^\n                \n            \n                ^gis_format/(?P&lt;pk&gt;[^/.]+)/download_result/$\n
+        \               [name='gisformat-download-result']\n            \n          </li>\n
+        \       \n          <li>\n            \n                ^api/\n                \n
+        \           \n                ^\n                \n            \n                ^gis_format/(?P&lt;pk&gt;[^/.]+)/download_result\\.(?P&lt;format&gt;[a-z0-9]+)/?$\n
+        \               [name='gisformat-download-result']\n            \n          </li>\n
+        \       \n          <li>\n            \n                ^api/\n                \n
+        \           \n                ^api-auth/\n                \n            \n
+        \         </li>\n        \n          <li>\n            \n                ^api/\n
+        \               \n            \n                ^token-auth/$\n                \n
+        \           \n          </li>\n        \n          <li>\n            \n                ^api/\n
+        \               \n            \n                ^token-refresh/$\n                \n
+        \           \n          </li>\n        \n          <li>\n            \n                ^api/\n
+        \               \n            \n                ^token-verify/$\n                \n
+        \           \n          </li>\n        \n      </ol>\n      <p>The current
+        URL, <code>api/conversion_result/None/</code>, didn't match any of these.</p>\n
+        \   \n  </div>\n\n  <div id=\"explanation\">\n    <p>\n      You're seeing
+        this error because you have <code>DEBUG = True</code> in\n      your Django
+        settings file. Change that to <code>False</code>, and Django\n      will display
+        a standard 404 page.\n    </p>\n  </div>\n</body>\n</html>\n"}
+    headers:
+      Connection: [close]
+      Content-Type: [text/html]
+      Date: ['Wed, 18 Nov 2015 12:10:16 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.3]
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 404, message: NOT FOUND}
+version: 1

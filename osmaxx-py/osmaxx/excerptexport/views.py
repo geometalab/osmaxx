@@ -13,6 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 from django.conf import settings
 
+from osmaxx.excerptexport.services import ConversionApiClient
 from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState
 from osmaxx.contrib.auth.frontend_permissions import (
@@ -99,13 +100,21 @@ def download_file(request, uuid):
     return response
 
 
+def _update_progress(extraction_order):
+    conversion_client = ConversionApiClient()
+    conversion_client.update_order_status(extraction_order)
+
+
 @login_required()
 @frontend_access_required()
 def extraction_order_status(request, extraction_order_id):
+    extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
+    _update_progress(extraction_order)
+
     view_context = {
         'protocol': request.scheme,
         'host_domain': request.get_host(),
-        'extraction_order': get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
+        'extraction_order': extraction_order,
     }
     return render_to_response('excerptexport/templates/extraction_order_status.html', context=view_context,
                               context_instance=RequestContext(request))
@@ -114,11 +123,14 @@ def extraction_order_status(request, extraction_order_id):
 @login_required()
 @frontend_access_required()
 def list_orders(request):
+    extraction_orders = ExtractionOrder.objects.filter(orderer=request.user)
+    for extraction_order in extraction_orders.filter(state__lt=ExtractionOrderState.FINISHED):
+        _update_progress(extraction_order)
+
     view_context = {
         'protocol': request.scheme,
         'host_domain': request.get_host(),
-        'extraction_orders': ExtractionOrder.objects.filter(orderer=request.user)
-        .order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
+        'extraction_orders': extraction_orders.order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
     }
     return render_to_response('excerptexport/templates/list_orders.html', context=view_context,
                               context_instance=RequestContext(request))
