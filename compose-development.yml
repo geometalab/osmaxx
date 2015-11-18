@@ -35,6 +35,8 @@ webappdev:
     - rabbitmqdev:rabbit
     - databasedev:database
     - celerydev:celery
+  external_links:
+    - osmaxxpostgisconversion_api_1:conversion_service
   environment:
     - DJANGO_SETTINGS_MODULE=config.settings.local
     - DJANGO_DEBUG=true
@@ -43,6 +45,7 @@ webappdev:
     - DJANGO_EMAIL_FILE_PATH=/dev-emails
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
     - DJANGO_SECRET_KEY=my.secret.key.is.not.secret!
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_API_URL=http://conversion_service:8901/api/
 
 celerydev:
   extends:
