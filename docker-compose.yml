@@ -32,7 +32,9 @@ api:
   dockerfile: ./Dockerfile.rest_api
   command: [honcho, -f, ./conversion_service/Procfile, start]
   ports:
-    - "8000:8000"
+    - "8901:8901"
+  expose:
+    - "8901"
   volumes_from:
     - data
   links:
