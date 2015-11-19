@@ -23,7 +23,7 @@ class MostSignificantEnumMixin(enum.Enum):
             return None
 
 
-class JobStatus(str, MostSignificantEnumMixin):
+class JobStatus(MostSignificantEnumMixin):
     ERROR = 'error'
     NEW = 'new'
     QUEUED = 'queued'
@@ -53,7 +53,7 @@ rq_job_status_mapping = {
 }
 
 
-class ConversionProgress(str, MostSignificantEnumMixin):
+class ConversionProgress(MostSignificantEnumMixin):
     ERROR = 'error'
     NEW = 'new'
     RECEIVED = 'received'
