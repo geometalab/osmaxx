@@ -101,12 +101,13 @@ class ConversionJob(models.Model):
 
     @property
     def progress(self):
-        progresses_of_formats = self.gis_formats.values_list('progress', flat=True)
-        if len(progresses_of_formats) > 0:
-            overall_progress_value = min(progresses_of_formats)
-            progress_names_for_progress_values = dict(ConversionProgress.choices())
-            return progress_names_for_progress_values[overall_progress_value]
-        return None
+        progresses_of_formats = [
+            ConversionProgress(progress) for progress in self.gis_formats.values_list('progress', flat=True)
+        ]
+        overall_progress = ConversionProgress.most_significant(progresses_of_formats)
+        if overall_progress is not None:
+            overall_progress = overall_progress.value
+        return overall_progress
 
 
 class GISFormat(models.Model):
