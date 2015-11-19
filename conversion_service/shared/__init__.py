@@ -1,24 +1,23 @@
 import enum
 
-from django.utils.translation import ugettext_lazy as _
 from rq.job import JobStatus as RQJobStatus
 
 
-class JobStatus(enum.IntEnum):
-    NEW = 0
-    QUEUED = 1
-    STARTED = 2
-    DONE = 3
-    ERROR = -1
+class JobStatus(str, enum.Enum):
+    NEW = 'new'
+    QUEUED = 'queued'
+    STARTED = 'started'
+    DONE = 'done'
+    ERROR = 'error'
 
     @classmethod
     def choices(cls):
         return (
-            (cls.NEW.value, _('new')),
-            (cls.QUEUED.value, _('queued')),
-            (cls.STARTED.value, _('started')),
-            (cls.DONE.value, _('done')),
-            (cls.ERROR.value, _('error')),
+            (cls.NEW.value, 'new'),
+            (cls.QUEUED.value, 'queued'),
+            (cls.STARTED.value, 'started'),
+            (cls.DONE.value, 'done'),
+            (cls.ERROR.value, 'error'),
         )
 
 rq_job_status_mapping = {
@@ -30,19 +29,19 @@ rq_job_status_mapping = {
 }
 
 
-class ConversionProgress(enum.IntEnum):
-    NEW = 0
-    RECEIVED = 1
-    STARTED = 2
-    SUCCESSFUL = 3
-    ERROR = -1
+class ConversionProgress(str, enum.Enum):
+    NEW = 'new'
+    RECEIVED = 'received'
+    STARTED = 'started'
+    SUCCESSFUL = 'successful'
+    ERROR = 'error'
 
     @classmethod
     def choices(cls):
         return (
-            (cls.NEW.value, _('new')),
-            (cls.RECEIVED.value, _('received')),
-            (cls.STARTED.value, _('started')),
-            (cls.SUCCESSFUL.value, _('successful')),
-            (cls.ERROR.value, _('error')),
+            (cls.NEW.value, 'new'),
+            (cls.RECEIVED.value, 'received'),
+            (cls.STARTED.value, 'started'),
+            (cls.SUCCESSFUL.value, 'successful'),
+            (cls.ERROR.value, 'error'),
         )

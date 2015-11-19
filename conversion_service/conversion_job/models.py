@@ -70,7 +70,7 @@ class GISOption(models.Model):
 class ConversionJob(models.Model):
     rq_job_id = models.CharField(_('rq job id'), max_length=250)
     callback_url = models.URLField(_('callback url'), max_length=250)
-    status = models.IntegerField(_('job status'), choices=JobStatus.choices(), default=JobStatus.NEW.value)
+    status = models.CharField(_('job status'), choices=JobStatus.choices(), default=JobStatus.NEW.value, max_length=20)
     extent = models.OneToOneField(Extent, verbose_name=_('Extent'))
     gis_options = models.OneToOneField(GISOption, verbose_name=_('conversion job'), null=True)
 
@@ -112,10 +112,11 @@ class ConversionJob(models.Model):
 class GISFormat(models.Model):
     conversion_job = models.ForeignKey(ConversionJob, verbose_name=_('conversion job'), related_name='gis_formats')
     format = models.CharField(_('format'), choices=CONVERTER_CHOICES['output_formats'], max_length=10)
-    progress = models.IntegerField(
+    progress = models.CharField(
         _('progress'),
         choices=ConversionProgress.choices(),
         default=ConversionProgress.NEW.value,
+        max_length=20,
     )
 
     def get_result_file_path(self):
