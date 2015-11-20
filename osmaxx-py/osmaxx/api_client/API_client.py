@@ -80,9 +80,9 @@ class RESTApiJWTClient:
         return is_available
 
     def _get_error(self, response):
-        error = None
         try:
             response.raise_for_status()
+            error = None
         except requests.HTTPError as e:
             try:
                 error = e.response.json()
