@@ -30,7 +30,7 @@ api:
     service: environmentvars
   build: .
   dockerfile: ./Dockerfile.rest_api
-  command: [honcho, -f, ./conversion_service/Procfile, start]
+  command: [honcho, -f, ./conversion_service/Procfile.dev, start]
   ports:
     - "8901:8901"
   expose:
