@@ -17,7 +17,7 @@ class MostSignificantEnumMixin(enum.Enum):
     @classmethod
     def most_significant(cls, status_list):
         if len(status_list) > 0:
-            return cls._precedence_list()[min(cls._precedence_list().index(member) for member in status_list)]
+            return min(status_list, key=cls._precedence_list().index)
         else:
             return None
 
