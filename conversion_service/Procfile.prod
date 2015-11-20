@@ -1,1 +1,1 @@
-api: python3 ./conversion_service/manage.py runserver_plus ${APP_HOST}:${APP_PORT}
+api: gunicorn --workers ${NUM_WORKERS} --chdir=conversion_service config.wsgi --bind ${APP_HOST}:${APP_PORT}
