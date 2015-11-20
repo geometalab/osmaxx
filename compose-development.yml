@@ -34,7 +34,7 @@ webappdev:
   links:
     - databasedev:database
   external_links:
-    # foldername_api_1 where foldername corresponds to where the osmaxx-postgis-conversion is checked out
+    # "${foldername}_api_1", where ${foldername} is the local osmaxx-postgis-conversion git repo
     - osmaxxpostgisconversion_api_1:conversion_service
   environment:
     - DJANGO_SETTINGS_MODULE=config.settings.local
