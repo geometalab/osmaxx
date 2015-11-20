@@ -14,17 +14,10 @@ class MostSignificantEnumMixin(enum.Enum):
     def _precedence_list():
         raise NotImplementedError
 
-    def precedence_over(self, other):
-        return self._precedence_list().index(self) < self._precedence_list().index(other)
-
     @classmethod
     def most_significant(cls, status_list):
         if len(status_list) > 0:
-            most_significant_status = cls._precedence_list()[-1]
-            for status in status_list:
-                if status.precedence_over(most_significant_status):
-                    most_significant_status = status
-            return most_significant_status
+            return cls._precedence_list()[min(cls._precedence_list().index(member) for member in status_list)]
         else:
             return None
 
