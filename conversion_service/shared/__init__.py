@@ -36,13 +36,7 @@ class JobStatus(MostSignificantEnumMixin):
 
     @classmethod
     def choices(cls):
-        return (
-            (cls.NEW.value, 'new'),
-            (cls.QUEUED.value, 'queued'),
-            (cls.STARTED.value, 'started'),
-            (cls.DONE.value, 'done'),
-            (cls.ERROR.value, 'error'),
-        )
+        return tuple((member.value, member.value) for member in cls)
 
 rq_job_status_mapping = {
     RQJobStatus.QUEUED: JobStatus.QUEUED,
@@ -66,10 +60,4 @@ class ConversionProgress(MostSignificantEnumMixin):
 
     @classmethod
     def choices(cls):
-        return (
-            (cls.NEW.value, 'new'),
-            (cls.RECEIVED.value, 'received'),
-            (cls.STARTED.value, 'started'),
-            (cls.SUCCESSFUL.value, 'successful'),
-            (cls.ERROR.value, 'error'),
-        )
+        return tuple((member.value, member.value) for member in cls)
