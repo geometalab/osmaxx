@@ -23,6 +23,7 @@ class MostSignificantEnumMixin(enum.Enum):
 
 
 class JobStatus(ChoicesEnum):
+    # Attention: We rely on the definition order for _precedence_list() below.
     ERROR = 'error'
     NEW = 'new'
     QUEUED = 'queued'
@@ -31,7 +32,7 @@ class JobStatus(ChoicesEnum):
 
     @staticmethod
     def _precedence_list():
-        return [JobStatus.ERROR, JobStatus.NEW, JobStatus.QUEUED, JobStatus.STARTED, JobStatus.DONE]
+        return list(JobStatus)
 
 rq_job_status_mapping = {
     RQJobStatus.QUEUED: JobStatus.QUEUED,
@@ -43,6 +44,7 @@ rq_job_status_mapping = {
 
 
 class ConversionProgress(ChoicesEnum, MostSignificantEnumMixin):
+    # Attention: We rely on the definition order for _precedence_list() below.
     ERROR = 'error'
     NEW = 'new'
     RECEIVED = 'received'
@@ -51,4 +53,4 @@ class ConversionProgress(ChoicesEnum, MostSignificantEnumMixin):
 
     @staticmethod
     def _precedence_list():
-        return [ConversionProgress.ERROR, ConversionProgress.NEW, ConversionProgress.RECEIVED, ConversionProgress.STARTED, ConversionProgress.SUCCESSFUL]
+        return list(ConversionProgress)
