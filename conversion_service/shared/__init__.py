@@ -23,16 +23,11 @@ class MostSignificantEnumMixin(enum.Enum):
 
 
 class JobStatus(ChoicesEnum):
-    # Attention: We rely on the definition order for _precedence_list() below.
     ERROR = 'error'
     NEW = 'new'
     QUEUED = 'queued'
     STARTED = 'started'
     DONE = 'done'
-
-    @staticmethod
-    def _precedence_list():
-        return list(JobStatus)
 
 rq_job_status_mapping = {
     RQJobStatus.QUEUED: JobStatus.QUEUED,
