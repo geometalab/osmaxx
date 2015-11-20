@@ -3,27 +3,27 @@ import enum
 from rq.job import JobStatus as RQJobStatus
 
 
+class ChoicesEnum(enum.Enum):
+    @classmethod
+    def choices(cls):
+        return tuple((member.value, member.value) for member in cls)
+
+
 class MostSignificantEnumMixin(enum.Enum):
     @staticmethod
     def _precedence_list():
         raise NotImplementedError
 
-    def precedence_over(self, other):
-        return self._precedence_list().index(self) < self._precedence_list().index(other)
-
     @classmethod
     def most_significant(cls, status_list):
         if len(status_list) > 0:
-            most_significant_status = cls._precedence_list()[-1]
-            for status in status_list:
-                if status.precedence_over(most_significant_status):
-                    most_significant_status = status
-            return most_significant_status
+            return min(status_list, key=cls._precedence_list().index)
         else:
             return None
 
 
-class JobStatus(MostSignificantEnumMixin):
+class JobStatus(ChoicesEnum):
+    # Attention: We rely on the definition order for _precedence_list() below.
     ERROR = 'error'
     NEW = 'new'
     QUEUED = 'queued'
@@ -32,17 +32,7 @@ class JobStatus(MostSignificantEnumMixin):
 
     @staticmethod
     def _precedence_list():
-        return [JobStatus.ERROR, JobStatus.NEW, JobStatus.QUEUED, JobStatus.STARTED, JobStatus.DONE]
-
-    @classmethod
-    def choices(cls):
-        return (
-            (cls.NEW.value, 'new'),
-            (cls.QUEUED.value, 'queued'),
-            (cls.STARTED.value, 'started'),
-            (cls.DONE.value, 'done'),
-            (cls.ERROR.value, 'error'),
-        )
+        return list(JobStatus)
 
 rq_job_status_mapping = {
     RQJobStatus.QUEUED: JobStatus.QUEUED,
@@ -53,7 +43,8 @@ rq_job_status_mapping = {
 }
 
 
-class ConversionProgress(MostSignificantEnumMixin):
+class ConversionProgress(ChoicesEnum, MostSignificantEnumMixin):
+    # Attention: We rely on the definition order for _precedence_list() below.
     ERROR = 'error'
     NEW = 'new'
     RECEIVED = 'received'
@@ -62,14 +53,4 @@ class ConversionProgress(MostSignificantEnumMixin):
 
     @staticmethod
     def _precedence_list():
-        return [ConversionProgress.ERROR, ConversionProgress.NEW, ConversionProgress.RECEIVED, ConversionProgress.STARTED, ConversionProgress.SUCCESSFUL]
-
-    @classmethod
-    def choices(cls):
-        return (
-            (cls.NEW.value, 'new'),
-            (cls.RECEIVED.value, 'received'),
-            (cls.STARTED.value, 'started'),
-            (cls.SUCCESSFUL.value, 'successful'),
-            (cls.ERROR.value, 'error'),
-        )
+        return list(ConversionProgress)
