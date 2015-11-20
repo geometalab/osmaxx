@@ -16,4 +16,5 @@ done
 sleep 2
 
 python3 conversion_service/manage.py migrate && \
+python3 conversion_service/manage.py collectstatic --noinput && \
 exec "$@"
