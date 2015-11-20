@@ -32,10 +32,9 @@ webappdev:
     - sourcedev
     - shareddatadev
   links:
-    - rabbitmqdev:rabbit
     - databasedev:database
-    - celerydev:celery
   external_links:
+    # foldername_api_1 where foldername corresponds to where the osmaxx-postgis-conversion is checked out
     - osmaxxpostgisconversion_api_1:conversion_service
   environment:
     - DJANGO_SETTINGS_MODULE=config.settings.local
@@ -48,33 +47,6 @@ webappdev:
     - DJANGO_OSMAXX_CONVERSION_SERVICE_URL=http://conversion_service:8901/api/
     - DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=osmaxx
     - DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=osmaxx
-
-celerydev:
-  extends:
-    file: compose-common.yml
-    service: base
-  command: honcho start -f Procfile.celery
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  volumes_from:
-    - sourcedev
-    - shareddatadev
-  links:
-    - rabbitmqdev:rabbit
-    - databasedev:database
-  environment:
-    - DJANGO_SETTINGS_MODULE=config.settings.local
-    - DJANGO_DEBUG=true
-    - DJANGO_DEFAULT_FROM_EMAIL=no-reply@osmaxx.dev
-    - DJANGO_SERVER_EMAIL=no-reply@osmaxx.dev
-    - DJANGO_EMAIL_FILE_PATH=/dev-emails
-    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
-    - DJANGO_SECRET_KEY=my.secret.key.is.not.secret!
-
-rabbitmqdev:
-  extends:
-    file: compose-common.yml
-    service: rabbitmqbase
 
 databasedev:
   extends:

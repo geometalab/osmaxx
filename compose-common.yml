@@ -20,7 +20,6 @@ base:
     - DJANGO_MEDIA_ROOT=/data/media
     - DJANGO_PRIVATE_MEDIA_ROOT=/data/private_media
     - DJANGO_RESULT_MEDIA_ROOT=/results
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
 
     # Logging

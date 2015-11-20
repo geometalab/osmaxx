@@ -43,7 +43,6 @@ class OsmaxxTestSuite:
         self.log_header('=== Development mode ===')
 
         self.WEBAPP_CONTAINER = "webappdev"
-        self.CELERY_CONTAINER = "celerydev"
         self.DB_CONTAINER = "databasedev"
         self.COMPOSE_FILE = "compose-development.yml"
 
@@ -68,7 +67,6 @@ class OsmaxxTestSuite:
         self.log_header('=== Production mode ===')
 
         self.WEBAPP_CONTAINER = "webapp"
-        self.CELERY_CONTAINER = "celery"
         self.DB_CONTAINER = "database"
         self.COMPOSE_FILE = "compose-production.yml"
 
@@ -153,14 +151,6 @@ class OsmaxxTestSuite:
         self.log_header('Volume integration tests:')
 
         try:
-            self.log_docker_compose(['run', self.CELERY_CONTAINER, '/bin/bash', '-c', "touch {test_file}".format(
-                test_file=TEST_FILE,
-            )])
-        except subprocess.CalledProcessError as e:
-            logger.info(e.output.decode())
-            self.log_failure("Test file creation failed")
-
-        try:
             self.log_docker_compose(['run', self.WEBAPP_CONTAINER, '/bin/bash', '-c',
                                      "if [ ! -f {test_file} ]; then exit 1; else exit 0; fi;".format(
                                          test_file=TEST_FILE,
@@ -169,14 +159,6 @@ class OsmaxxTestSuite:
         except subprocess.CalledProcessError as e:
             logger.info(e.output.decode())
             self.log_failure("Test file does not exist: volume mount incorrect")
-
-        try:
-            self.log_docker_compose(['run', self.CELERY_CONTAINER, '/bin/bash', '-c', "rm {test_file}".format(
-                test_file=TEST_FILE,
-            )])
-        except subprocess.CalledProcessError as e:
-            logger.info(e.output.decode())
-            self.log_failure("Test file clean up failed")
 
     def persisting_database_data_tests(self):
         try:

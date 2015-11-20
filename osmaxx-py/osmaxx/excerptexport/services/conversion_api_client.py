@@ -36,6 +36,7 @@ class ConversionApiClient(RESTApiJWTClient):
 
         if not self.errors:
             return True
+        assert not self.errors
         return False
 
     def create_job(self, extraction_order):

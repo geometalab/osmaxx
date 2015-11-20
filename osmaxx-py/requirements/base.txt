@@ -1,4 +1,3 @@
-celery>=3.1
 # assure docs/deployment.md are updated if upgrading Django.
 Django>=1.8,<1.9
 django-enumfield==1.2.1
