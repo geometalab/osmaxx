@@ -1,24 +1,47 @@
 import enum
 
-from django.utils.translation import ugettext_lazy as _
 from rq.job import JobStatus as RQJobStatus
 
 
-class JobStatus(enum.IntEnum):
-    NEW = 0
-    QUEUED = 1
-    STARTED = 2
-    DONE = 3
-    ERROR = -1
+class MostSignificantEnumMixin(enum.Enum):
+    @staticmethod
+    def _precedence_list():
+        raise NotImplementedError
+
+    def precedence_over(self, other):
+        return self._precedence_list().index(self) < self._precedence_list().index(other)
+
+    @classmethod
+    def most_significant(cls, status_list):
+        if len(status_list) > 0:
+            most_significant_status = cls._precedence_list()[-1]
+            for status in status_list:
+                if status.precedence_over(most_significant_status):
+                    most_significant_status = status
+            return most_significant_status
+        else:
+            return None
+
+
+class JobStatus(MostSignificantEnumMixin):
+    ERROR = 'error'
+    NEW = 'new'
+    QUEUED = 'queued'
+    STARTED = 'started'
+    DONE = 'done'
+
+    @staticmethod
+    def _precedence_list():
+        return [JobStatus.ERROR, JobStatus.NEW, JobStatus.QUEUED, JobStatus.STARTED, JobStatus.DONE]
 
     @classmethod
     def choices(cls):
         return (
-            (cls.NEW.value, _('new')),
-            (cls.QUEUED.value, _('queued')),
-            (cls.STARTED.value, _('started')),
-            (cls.DONE.value, _('done')),
-            (cls.ERROR.value, _('error')),
+            (cls.NEW.value, 'new'),
+            (cls.QUEUED.value, 'queued'),
+            (cls.STARTED.value, 'started'),
+            (cls.DONE.value, 'done'),
+            (cls.ERROR.value, 'error'),
         )
 
 rq_job_status_mapping = {
@@ -30,19 +53,23 @@ rq_job_status_mapping = {
 }
 
 
-class ConversionProgress(enum.IntEnum):
-    NEW = 0
-    RECEIVED = 1
-    STARTED = 2
-    SUCCESSFUL = 3
-    ERROR = -1
+class ConversionProgress(MostSignificantEnumMixin):
+    ERROR = 'error'
+    NEW = 'new'
+    RECEIVED = 'received'
+    STARTED = 'started'
+    SUCCESSFUL = 'successful'
+
+    @staticmethod
+    def _precedence_list():
+        return [ConversionProgress.ERROR, ConversionProgress.NEW, ConversionProgress.RECEIVED, ConversionProgress.STARTED, ConversionProgress.SUCCESSFUL]
 
     @classmethod
     def choices(cls):
         return (
-            (cls.NEW.value, _('new')),
-            (cls.RECEIVED.value, _('received')),
-            (cls.STARTED.value, _('started')),
-            (cls.SUCCESSFUL.value, _('successful')),
-            (cls.ERROR.value, _('error')),
+            (cls.NEW.value, 'new'),
+            (cls.RECEIVED.value, 'received'),
+            (cls.STARTED.value, 'started'),
+            (cls.SUCCESSFUL.value, 'successful'),
+            (cls.ERROR.value, 'error'),
         )

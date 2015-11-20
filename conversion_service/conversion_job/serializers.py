@@ -23,7 +23,7 @@ class ExtentSerializer(ModelSideValidationMixin, serializers.ModelSerializer):
 
     class Meta:
         model = Extent
-        fields = ('id', 'west', 'south', 'east', 'north', 'polyfile')
+        fields = ('west', 'south', 'east', 'north', 'polyfile')
 
 
 class GISFormatListSerializer(serializers.ListSerializer):
@@ -80,7 +80,7 @@ class ConversionJobSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ConversionJob
-        fields = ('id', 'rq_job_id', 'callback_url', 'status', 'gis_formats', 'gis_options', 'extent')
+        fields = ('rq_job_id', 'callback_url', 'status', 'gis_formats', 'gis_options', 'extent')
         depth = 1
         read_only_fields = ('rq_job_id', 'status',)
 

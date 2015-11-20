@@ -169,7 +169,7 @@ class ConversionJobTest(TestCase):
         model_progress_list = list(self.conversion_job.gis_formats.values_list('progress', flat=True))
         self.assertListEqual(model_progress_list, started_progress_list)
 
-        self.assertEqual(self.conversion_job.progress, dict(ConversionProgress.choices())[ConversionProgress.STARTED])
+        self.assertEqual(self.conversion_job.progress, ConversionProgress.STARTED.value)
 
 
 class GISFormatTest(TestCase):

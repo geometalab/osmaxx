@@ -11,5 +11,9 @@ while ! exec 6<>/dev/tcp/${POSTGRES_1_PORT_5432_TCP_ADDR}/${POSTGRES_1_PORT_5432
     echo "$(date) - still waiting for the database to come up"
     sleep 1
 done
+
+# apparently needed since 1.9/compose 1.5
+sleep 2
+
 python3 conversion_service/manage.py migrate && \
 exec "$@"

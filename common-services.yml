@@ -1,7 +1,7 @@
 environmentvars:
   environment:
     # port and host application listens
-    - APP_PORT=8000
+    - APP_PORT=8901
     - APP_HOST=0.0.0.0
 
     # hardened security compared to default settings.
