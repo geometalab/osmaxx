@@ -38,9 +38,9 @@ ask_whether_docker_compose_file_has_been_updated
 # Setup a docker compose container used to start the production application
 # Setup application & database
 
-DOCKER_COMPOSE_TAG="1.4.2"
+DOCKER_COMPOSE_TAG="1.5.0"
 
-CONTAINERS_TO_BE_UPDATED='webapp celery'
+CONTAINERS_TO_BE_UPDATED='webapp'
 
 function run_docker_compose_dduportal() {
  docker run -v "$(pwd):/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:${DOCKER_COMPOSE_TAG}" "${@}"

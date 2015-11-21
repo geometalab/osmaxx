@@ -1,3 +1,4 @@
+import vcr
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -40,6 +41,7 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
         # redirect to 'Access Denied' page
         self.assertEqual(response.status_code, 302)
 
+    @vcr.use_cassette('fixtures/vcr/conversion_api-StatusTestCase-test_extraction_order_status_initialized.yml')
     def test_extraction_order_status_initialized(self):
         self.add_permissions_to_user()
         response = self.client.get(reverse(
@@ -51,6 +53,7 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
         self.assertEqual(response.context['extraction_order'], self.extraction_order)
         self.assertContains(response, 'initialized')
 
+    @vcr.use_cassette('fixtures/vcr/conversion_api-StatusTestCase-test_extraction_order_status_finished.yml')
     def test_extraction_order_status_finished(self):
         self.add_permissions_to_user()
         self.extraction_order.state = ExtractionOrderState.FINISHED

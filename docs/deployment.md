@@ -14,7 +14,7 @@ To deploy to production server:
   ```
   Repository details see [Project repository](git-repository.md).
 3. a. Link production configuration for docker-compose, Details see [Docker container bootstrapping](../README.md#initializationdocker-container-bootstrapping).
-   b. Edit the `compose-production.yml` file and change/add environment settings for celery and webapp. 
+   b. Edit the `compose-production.yml` file and change/add environment settings for webapp. 
       List of available additional settings (no quotes for strings!):
    
        ```
@@ -118,13 +118,13 @@ Replace step `5b` with:
 *5b.*
 
 ```shell
-docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" pull celery webapp
+docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" pull webapp
  ```
 
-In case you're unsure whether Dockerhub was fast enough to build the images already, rebuild containers `webapp` and `celery`:
+In case you're unsure whether Dockerhub was fast enough to build the images already, rebuild containers `webapp`:
 
 ```shell
-docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" build celery webapp
+docker run -v "/path/to/source/repo:/app" -v "/var/run/docker.sock:/var/run/docker.sock" -e "COMPOSE_PROJECT_NAME=osmaxx" --rm "dduportal/docker-compose:1.3.1" build webapp
 ```
 
 If your hotfix changes the database, also run the migrations:
@@ -182,8 +182,6 @@ defined in the environment variables or set to an empty string (e.g
 * DJANGO_MEDIA_ROOT`*`: `str(ROOT_DIR('..', 'media'))`, [MEDIA_ROOT](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-MEDIA_ROOT)
 * DJANGO_PRIVATE_MEDIA_ROOT`*`: `str(ROOT_DIR.path('..', 'private_media'))`, is an Osmaxx specific setting.
 * DJANGO_RESULT_MEDIA_ROOT`*`: `str(ROOT_DIR.path('..', 'results_media'))`, is an Osmaxx specific setting.
-* DJANGO_CELERY_BROKER_URL`*`: `'amqp://guest:guest@localhost:5672//'`, [BROKER_URL](http://docs.celeryproject.org/en/latest/configuration.html#broker-url)
-  Broker URL for the celery process
 * **DJANGO_ALLOWED_HOSTS**: `[]`, [ALLOWED_HOSTS](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-ALLOWED_HOSTS)
 * DJANGO_X_FRAME_OPTIONS`+`: `'SAMEORIGIN'`, [X_FRAME_OPTIONS](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-X_FRAME_OPTIONS)
 * DJANGO_SECURE_BROWSER_XSS_FILTER`*`: `False`, [SECURE_BROWSER_XSS_FILTER](https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-SECURE_BROWSER_XSS_FILTER)

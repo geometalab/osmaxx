@@ -8,7 +8,6 @@ import subprocess
 import sys
 
 # constants
-TEST_FILE = "/data/test.txt"
 RED = "\033[31m"
 GREEN = "\033[32m"
 MAGENTA = "\033[95m"
@@ -43,7 +42,6 @@ class OsmaxxTestSuite:
         self.log_header('=== Development mode ===')
 
         self.WEBAPP_CONTAINER = "webappdev"
-        self.CELERY_CONTAINER = "celerydev"
         self.DB_CONTAINER = "databasedev"
         self.COMPOSE_FILE = "compose-development.yml"
 
@@ -56,8 +54,6 @@ class OsmaxxTestSuite:
         self.reset()  # FIXME: Don't always reset, only when necessary.
 
         if args.docker_composition_tests:
-            self.docker_volume_configuration_tests()
-
             self.reset()
 
             self.persisting_database_data_tests()
@@ -68,14 +64,8 @@ class OsmaxxTestSuite:
         self.log_header('=== Production mode ===')
 
         self.WEBAPP_CONTAINER = "webapp"
-        self.CELERY_CONTAINER = "celery"
         self.DB_CONTAINER = "database"
         self.COMPOSE_FILE = "compose-production.yml"
-
-        if args.docker_composition_tests:
-            # this is run on the actual production machine as well,
-            # so we don't mess with the containers (setup/teardown)
-            self.docker_volume_configuration_tests()
 
         if args.webapp_checks:
             self.application_checks()
@@ -146,37 +136,6 @@ class OsmaxxTestSuite:
         except subprocess.CalledProcessError as e:
             logger.info(e.output.decode())
             self.log_failure("Tests failed. Please have a look at the {logfile};!".format(logfile=LOGFILE))
-
-    def docker_volume_configuration_tests(self):
-        # docker volume configuration tests
-
-        self.log_header('Volume integration tests:')
-
-        try:
-            self.log_docker_compose(['run', self.CELERY_CONTAINER, '/bin/bash', '-c', "touch {test_file}".format(
-                test_file=TEST_FILE,
-            )])
-        except subprocess.CalledProcessError as e:
-            logger.info(e.output.decode())
-            self.log_failure("Test file creation failed")
-
-        try:
-            self.log_docker_compose(['run', self.WEBAPP_CONTAINER, '/bin/bash', '-c',
-                                     "if [ ! -f {test_file} ]; then exit 1; else exit 0; fi;".format(
-                                         test_file=TEST_FILE,
-                                     )])
-            self.log_success("Shared test file found: volume mount correct")
-        except subprocess.CalledProcessError as e:
-            logger.info(e.output.decode())
-            self.log_failure("Test file does not exist: volume mount incorrect")
-
-        try:
-            self.log_docker_compose(['run', self.CELERY_CONTAINER, '/bin/bash', '-c', "rm {test_file}".format(
-                test_file=TEST_FILE,
-            )])
-        except subprocess.CalledProcessError as e:
-            logger.info(e.output.decode())
-            self.log_failure("Test file clean up failed")
 
     def persisting_database_data_tests(self):
         try:

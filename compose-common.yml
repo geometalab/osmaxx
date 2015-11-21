@@ -20,7 +20,6 @@ base:
     - DJANGO_MEDIA_ROOT=/data/media
     - DJANGO_PRIVATE_MEDIA_ROOT=/data/private_media
     - DJANGO_RESULT_MEDIA_ROOT=/results
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
     - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
 
     # Logging
@@ -30,6 +29,3 @@ base:
     # We enable Python hash randomization to protect Django from certain DoS attacks.
     # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/#python-options
     - PYTHONHASHSEED=random
-
-rabbitmqbase:
-  image: rabbitmq:3

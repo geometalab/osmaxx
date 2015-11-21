@@ -61,8 +61,8 @@ class ExtractionOrderTestCase(TestCase):
             )
         )
         self.extraction_configuration = {
-            'formats': ['txt'],
-            'options': {
+            'gis_formats': ['txt'],
+            'gis_options': {
                 'detail_level': 'standard'
             }
         }
@@ -71,7 +71,7 @@ class ExtractionOrderTestCase(TestCase):
         extraction_order_id = models.ExtractionOrder.objects.create(
             excerpt=self.excerpt,
             orderer=self.user,
-            extraction_configuration={'formats': ['txt'], 'options': {'detail_level': 'standard'}}
+            extraction_configuration={'gis_formats': ['txt'], 'gis_options': {'detail_level': 'standard'}}
         ).id
         extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
         self.assertEqual(extraction_order.extraction_configuration, self.extraction_configuration)
@@ -80,7 +80,7 @@ class ExtractionOrderTestCase(TestCase):
         extraction_order_id = models.ExtractionOrder.objects.create(
             excerpt=self.excerpt,
             orderer=self.user,
-            extraction_configuration={'formats': ['txt'], 'options': {'detail_level': 'standard'}}
+            extraction_configuration={'gis_formats': ['txt'], 'gis_options': {'detail_level': 'standard'}}
         ).id
         extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
         self.assertEqual(extraction_order._extraction_configuration, json.dumps(self.extraction_configuration))

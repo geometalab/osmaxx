@@ -1,6 +1,15 @@
 from .local import *  # noqa
 
-OSMAXX['download_file_name'] = '%(excerpt_name)s-%(content_type)s-%(id)s.%(file_extension)s'
+DEBUG = False
+
+OSMAXX_TEST_SETTINGS = {
+    'download_file_name': '%(excerpt_name)s-%(content_type)s-%(id)s.%(file_extension)s',
+    'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
+    'CONVERSION_SERVICE_USERNAME': 'osmaxxi',
+    'CONVERSION_SERVICE_PASSWORD': '12345678',
+}
+
+OSMAXX.update(OSMAXX_TEST_SETTINGS)
 
 INSTALLED_APPS += ('osmaxx.utilities.tests.test_models', )
 
@@ -16,7 +25,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': env.str('DJANGO_LOG_LEVEL', default='ERROR'),
+            'level': 'ERROR',
         },
     },
 }

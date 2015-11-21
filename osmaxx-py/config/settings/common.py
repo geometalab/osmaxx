@@ -42,8 +42,6 @@ DJANGO_APPS = (
 )
 THIRD_PARTY_APPS = (
     'social.apps.django_app.default',
-    # celery transporter
-    'kombu.transport.django.KombuAppConfig',
     # messages for users
     'stored_messages',
     # better forms
@@ -58,11 +56,7 @@ LOCAL_APPS = (
 
     'osmaxx.excerptexport',
     'osmaxx.social_auth',
-    'excerptconverter.gisexcerptconverter'
 )
-CELERY_IMPORTS = [
-    'excerptconverter.gisexcerptconverter.gis_excerpt_converter'
-]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -350,16 +344,6 @@ if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing 
 
 POSTGIS_VERSION = (2, 1)
 
-# Celery settings
-CELERY_TIMEZONE = TIME_ZONE
-CELERY_ENABLE_UTC = True
-
-#: Only add pickle to this list if your broker is secured
-#: from unwanted access (see userguide/security.html)
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -396,13 +380,12 @@ OSMAXX = {
     # The email adress of this user will be used to generate the mailto link for users
     # to request access to osmaxx (access_denied page)
     'account_manager_username': env.str('ACCOUNT_MANAGER_USERNAME', default='admin'),
+    'CONVERSION_SERVICE_URL': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_URL', default='http://localhost:8901/api/'),
+    'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME'),
+    'CONVERSION_SERVICE_PASSWORD': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD'),
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
-# Celery
-BROKER_URL = env.str('DJANGO_CELERY_BROKER_URL', default='amqp://guest:guest@localhost:5672//')
-CELERY_RESULT_BACKEND = BROKER_URL
 
 # Security - defaults taken from Django 1.8 (not secure enough for production)
 SECRET_KEY = env.str("DJANGO_SECRET_KEY", default=None)
