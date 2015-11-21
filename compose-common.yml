@@ -29,6 +29,3 @@ base:
     # We enable Python hash randomization to protect Django from certain DoS attacks.
     # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/#python-options
     - PYTHONHASHSEED=random
-
-rabbitmqbase:
-  image: rabbitmq:3
