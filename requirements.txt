@@ -33,3 +33,7 @@ vulture==0.8.1
 
 # production
 gunicorn>=19,<20
+
+# sentry error logging on production
+raven>=5.8,<6
+

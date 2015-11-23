@@ -15,8 +15,11 @@ SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS")
 DATABASES['default'] = env.db("DJANGO_DATABASE_URL")
 
-# add the gunicorn runner
-INSTALLED_APPS += ("gunicorn", )
+INSTALLED_APPS += (
+    'gunicorn',
+    # sentry
+    'raven.contrib.django.raven_compat',
+)
 
 # STORAGE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -31,3 +34,10 @@ INSTALLED_APPS += (
 # Static Assets
 # ------------------------
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+RAVEN_CONFIG = {
+    'dsn': env.str('SENTRY_DSN'),
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    'release': env.str('SENTRY_RELEASE'),
+}
