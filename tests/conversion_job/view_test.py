@@ -51,4 +51,4 @@ class ConversionJobStatusViewSetTest(TestCase):
             model_progress_list,
             [ConversionProgress.NEW.technical_representation] * len(model_progress_list)
         )
-        self.assertEqual(conversion_job.progress, ConversionProgress.NEW.human_readable_name)
+        self.assertEqual(conversion_job.progress, ConversionProgress.NEW.technical_representation)

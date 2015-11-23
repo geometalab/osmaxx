@@ -148,7 +148,7 @@ class ConversionJobTest(TestCase):
         self.assertIsNotNone(self.conversion_job.progress)
         self.assertEqual(
             self.conversion_job.progress,
-            ConversionProgress.NEW.human_readable_name
+            ConversionProgress.NEW.technical_representation
         )
 
     @patch('django_rq.get_queue', django_rq_get_queue_stub)
