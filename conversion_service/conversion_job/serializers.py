@@ -70,7 +70,7 @@ class ConversionJobSerializer(serializers.ModelSerializer):
                 output_directory=conversion_job.output_directory,
             )
             conversion_job.rq_job_id = rq_job.id
-            conversion_job.status = JobStatus.QUEUED.value
+            conversion_job.status = JobStatus.QUEUED.technical_representation
             conversion_job.save()
         return conversion_job
 

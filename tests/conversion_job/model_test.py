@@ -133,22 +133,22 @@ class ConversionJobTest(TestCase):
         GISFormat.objects.create(
             conversion_job=self.conversion_job,
             format=converter_options.get_output_formats()[1],
-            progress=ConversionProgress.NEW.value
+            progress=ConversionProgress.NEW.technical_representation
         )
         GISFormat.objects.create(
             conversion_job=self.conversion_job,
             format=converter_options.get_output_formats()[2],
-            progress=ConversionProgress.STARTED.value
+            progress=ConversionProgress.STARTED.technical_representation
         )
         GISFormat.objects.create(
             conversion_job=self.conversion_job,
             format=converter_options.get_output_formats()[3],
-            progress=ConversionProgress.SUCCESSFUL.value
+            progress=ConversionProgress.SUCCESSFUL.technical_representation
         )
         self.assertIsNotNone(self.conversion_job.progress)
         self.assertEqual(
             self.conversion_job.progress,
-            [tup[1] for tup in ConversionProgress.choices() if tup[0] == ConversionProgress.NEW.value][0]
+            [tup[1] for tup in ConversionProgress.choices() if tup[0] == ConversionProgress.NEW.technical_representation][0]
         )
 
     @patch('django_rq.get_queue', django_rq_get_queue_stub)
@@ -160,16 +160,16 @@ class ConversionJobTest(TestCase):
                 format=out_format
             )
 
-        initial_progress_list = [ConversionProgress.NEW.value] * len(formats)
+        initial_progress_list = [ConversionProgress.NEW.technical_representation] * len(formats)
         model_progress_list = list(self.conversion_job.gis_formats.values_list('progress', flat=True))
         self.assertListEqual(model_progress_list, initial_progress_list)
 
-        started_progress_list = [ConversionProgress.STARTED.value] * len(formats)
+        started_progress_list = [ConversionProgress.STARTED.technical_representation] * len(formats)
         self.conversion_job.update_status_from_rq()
         model_progress_list = list(self.conversion_job.gis_formats.values_list('progress', flat=True))
         self.assertListEqual(model_progress_list, started_progress_list)
 
-        self.assertEqual(self.conversion_job.progress, ConversionProgress.STARTED.value)
+        self.assertEqual(self.conversion_job.progress, ConversionProgress.STARTED.technical_representation)
 
 
 class GISFormatTest(TestCase):
@@ -182,6 +182,6 @@ class GISFormatTest(TestCase):
         gis_format = GISFormat.objects.create(
             conversion_job=self.conversion_job,
             format=converter_options.get_output_formats()[1],
-            progress=ConversionProgress.NEW.value
+            progress=ConversionProgress.NEW.technical_representation
         )
         self.assertIsNotNone(gis_format.get_download_url(request=None))

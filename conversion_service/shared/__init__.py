@@ -6,7 +6,7 @@ from rq.job import JobStatus as RQJobStatus
 class ChoicesEnum(enum.Enum):
     @classmethod
     def choices(cls):
-        return tuple((member.value, member.value) for member in cls)
+        return tuple((member.technical_representation, member.human_readable_name) for member in cls)
 
 
 class MostSignificantEnumMixin(enum.Enum):
@@ -29,6 +29,10 @@ class JobStatus(ChoicesEnum):
     STARTED = 'started'
     DONE = 'done'
 
+    def __init__(self, unique_name):
+        self.technical_representation = unique_name
+        self.human_readable_name = unique_name
+
 rq_job_status_mapping = {
     RQJobStatus.QUEUED: JobStatus.QUEUED,
     RQJobStatus.FINISHED: JobStatus.DONE,
@@ -45,6 +49,10 @@ class ConversionProgress(ChoicesEnum, MostSignificantEnumMixin):
     RECEIVED = 'received'
     STARTED = 'started'
     SUCCESSFUL = 'successful'
+
+    def __init__(self, unique_name):
+        self.technical_representation = unique_name
+        self.human_readable_name = unique_name
 
     @staticmethod
     def _precedence_list():

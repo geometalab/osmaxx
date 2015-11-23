@@ -49,6 +49,6 @@ class ConversionJobStatusViewSetTest(TestCase):
         model_progress_list = list(conversion_job.gis_formats.values_list('progress', flat=True))
         self.assertListEqual(
             model_progress_list,
-            [ConversionProgress.NEW.value] * len(model_progress_list)
+            [ConversionProgress.NEW.technical_representation] * len(model_progress_list)
         )
-        self.assertEqual(conversion_job.progress, dict(ConversionProgress.choices())[ConversionProgress.NEW.value])
+        self.assertEqual(conversion_job.progress, ConversionProgress.NEW.human_readable_name)
