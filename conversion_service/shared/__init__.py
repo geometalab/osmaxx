@@ -10,14 +10,13 @@ class ChoicesEnum(enum.Enum):
 
 
 class MostSignificantEnumMixin(enum.Enum):
-    @staticmethod
-    def _precedence_list():
+    def precedence(self):
         raise NotImplementedError
 
     @classmethod
     def most_significant(cls, status_list):
         if len(status_list) > 0:
-            return min(status_list, key=cls._precedence_list().index)
+            return min(status_list, key=cls.precedence)
         else:
             return None
 
@@ -53,6 +52,9 @@ class ConversionProgress(ChoicesEnum, MostSignificantEnumMixin):
     def __init__(self, unique_name):
         self.technical_representation = unique_name
         self.human_readable_name = unique_name
+
+    def precedence(self):
+        return ConversionProgress._precedence_list().index(self)
 
     @staticmethod
     def _precedence_list():
