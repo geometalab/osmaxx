@@ -17,3 +17,7 @@ RUN pip3 install -r requirements/local.txt
 WORKDIR $HOME/source
 
 COPY osmaxx-py $HOME/source
+
+ADD ./entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
