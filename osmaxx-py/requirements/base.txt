@@ -22,3 +22,6 @@ requests==2.6.2
 gevent==1.0.2
 gunicorn==19.3.0
 PyYAML>=3.11
+
+# sentry error logging on production
+raven>=5.8,<6
