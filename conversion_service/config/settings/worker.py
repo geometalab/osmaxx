@@ -65,7 +65,5 @@ if SENTRY_DSN:
 
     RAVEN_CONFIG = {
         'dsn': SENTRY_DSN,
-        # If you are using git, you can also automatically configure the
-        # release based on the git info.
         'release': env.str('SENTRY_RELEASE', default=''),
     }
