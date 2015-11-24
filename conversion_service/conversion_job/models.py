@@ -71,7 +71,7 @@ class GISOption(models.Model):
 class ConversionJob(models.Model):
     rq_job_id = models.CharField(_('rq job id'), max_length=250)
     callback_url = models.URLField(_('callback url'), max_length=250)
-    status = models.CharField(_('job status'), choices=JobStatus.choices(), default=JobStatus.NEW.value, max_length=20)
+    status = models.CharField(_('job status'), choices=JobStatus.choices(), default=JobStatus.NEW.technical_representation, max_length=20)
     extent = models.OneToOneField(Extent, verbose_name=_('Extent'))
     gis_options = models.OneToOneField(GISOption, verbose_name=_('conversion job'), null=True)
 
@@ -105,11 +105,11 @@ class ConversionJob(models.Model):
 
         # only do work if the job is not yet deleted
         if rq_job:
-            self.status = rq_job_status_mapping[rq_job.status].value
+            self.status = rq_job_status_mapping[rq_job.status].technical_representation
 
             progress = rq_job.meta.get('progress', None)
             if progress:
-                progress_state = progress.value
+                progress_state = progress.technical_representation
                 for gis_format in self.gis_formats.all():
                     gis_format.progress = progress_state
                     gis_format.save()
@@ -122,7 +122,7 @@ class ConversionJob(models.Model):
         ]
         overall_progress = ConversionProgress.most_significant(progresses_of_formats)
         if overall_progress is not None:
-            overall_progress = overall_progress.value
+            overall_progress = overall_progress.technical_representation
         return overall_progress
 
 
@@ -132,7 +132,7 @@ class GISFormat(models.Model):
     progress = models.CharField(
         _('progress'),
         choices=ConversionProgress.choices(),
-        default=ConversionProgress.NEW.value,
+        default=ConversionProgress.NEW.technical_representation,
         max_length=20,
     )
 

@@ -84,13 +84,13 @@ class GISFormatStatusSerializerTest(TestCase):
             open(os.path.join(self.conversion_job.output_directory, matching_file_name), 'x').close()
 
     def test_get_download_url_when_file_is_not_available_is_none(self):
-        self.gis_format.progress = ConversionProgress.SUCCESSFUL.value
+        self.gis_format.progress = ConversionProgress.SUCCESSFUL.technical_representation
         self.gis_format.save()
         self.assertIsNone(self.format_status_serializer.data.get('result_url'))
 
     def test_get_download_url_when_status_is_success_and_file_available_is_defined(self):
         self._create_valid_files()
-        self.gis_format.progress = ConversionProgress.SUCCESSFUL.value
+        self.gis_format.progress = ConversionProgress.SUCCESSFUL.technical_representation
         self.gis_format.save()
         self.assertIsNotNone(self.format_status_serializer.data.get('result_url'))
 
