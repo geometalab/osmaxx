@@ -35,9 +35,57 @@ INSTALLED_APPS += (
 # ------------------------
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-RAVEN_CONFIG = {
-    'dsn': env.str('SENTRY_DSN'),
-    # If you are using git, you can also automatically configure the
-    # release based on the git info.
-    'release': env.str('SENTRY_RELEASE'),
-}
+
+# SENTRY
+SENTRY_DSN = env.str('SENTRY_DSN', default=None)
+
+if SENTRY_DSN:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': True,
+        'root': {
+            'level': 'WARNING',
+            'handlers': ['sentry'],
+        },
+        'formatters': {
+            'verbose': {
+                'format': '%(levelname)s %(asctime)s %(module)s '
+                          '%(process)d %(thread)d %(message)s'
+            },
+        },
+        'handlers': {
+            'sentry': {
+                'level': 'ERROR',
+                'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler'
+            },
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'verbose'
+            }
+        },
+        'loggers': {
+            'django.db.backends': {
+                'level': 'ERROR',
+                'handlers': ['console'],
+                'propagate': False,
+            },
+            'raven': {
+                'level': 'DEBUG',
+                'handlers': ['console'],
+                'propagate': False,
+            },
+            'sentry.errors': {
+                'level': 'DEBUG',
+                'handlers': ['console'],
+                'propagate': False,
+            },
+        },
+    }
+
+    RAVEN_CONFIG = {
+        'dsn': SENTRY_DSN,
+        # If you are using git, you can also automatically configure the
+        # release based on the git info.
+        'release': env.str('SENTRY_RELEASE', default=''),
+    }
