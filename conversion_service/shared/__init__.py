@@ -22,11 +22,11 @@ class MostSignificantEnumMixin(enum.Enum):
 
 
 class JobStatus(ChoicesEnum):
-    ERROR = 'error'
     NEW = 'new'
     QUEUED = 'queued'
     STARTED = 'started'
     DONE = 'done'
+    ERROR = 'error'
 
     def __init__(self, unique_name):
         self.technical_representation = unique_name
@@ -42,11 +42,11 @@ rq_job_status_mapping = {
 
 
 class ConversionProgress(ChoicesEnum, MostSignificantEnumMixin):
-    ERROR = 'error', -1
     NEW = 'new', 0
     RECEIVED = 'received', 1
     STARTED = 'started', 2
     SUCCESSFUL = 'successful', 3
+    ERROR = 'error', -1
 
     def __init__(self, unique_name, precedence):
         self.technical_representation = unique_name
