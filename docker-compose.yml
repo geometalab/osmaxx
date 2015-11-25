@@ -45,8 +45,8 @@ api:
     - postgres:database
   environment:
     - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
-    - SERVICE_USER_NAME=admin
-    - SERVICE_USER_PASSWORD=admin
+    - SERVICE_USER_NAME=dev
+    - SERVICE_USER_PASSWORD=dev
 
 worker:
   extends:
