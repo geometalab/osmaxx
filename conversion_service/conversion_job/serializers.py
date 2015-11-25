@@ -62,7 +62,7 @@ class ConversionJobSerializer(serializers.ModelSerializer):
             validated_data['extent_id'] = extent.id
             conversion_job = super().create(validated_data)
             rq_job = self._enqueue_rq_job(
-                geometry=conversion_job.extent.get_geometry(),
+                geometry=extent.get_geometry(),
                 format_options=Options(output_formats=formats),
                 callback_url=conversion_job.callback_url,
                 output_directory=conversion_job.output_directory,
