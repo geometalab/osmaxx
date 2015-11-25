@@ -3,6 +3,7 @@ import logging
 import os
 
 from django_rq import get_connection
+from rest_framework.reverse import reverse
 from rq import get_current_job
 import requests
 
@@ -26,8 +27,9 @@ def set_progress_on_job(progress):  # pragma: nocover
 
 
 class Notifier(object):
-    def __init__(self, callback_url):
+    def __init__(self, callback_url, status_url):
         self.callback_url = callback_url
+        self.status_url = status_url
         self.noop = False
         if callback_url is None:
             self.noop = True
@@ -51,13 +53,14 @@ class Notifier(object):
         :return: nothing
         """
         if not self.noop:  # pragma: nocover
+            data = {'status': self.status_url} if self.status_url is not None else {}
             try:
-                requests.get(self.callback_url)
+                requests.get(self.callback_url, data=data)
             except:
                 pass
 
 
-def convert(geometry, format_options, output_directory, callback_url):
+def convert(geometry, format_options, output_directory, callback_url, host=None):
     """
     Starts converting an excerpt for the specified format options
 
@@ -68,7 +71,12 @@ def convert(geometry, format_options, output_directory, callback_url):
     :return: resulting paths/urls for created file
     """
 
-    notifier = Notifier(callback_url)
+    job = get_current_job(connection=get_connection())
+    if job is not None and host is not None:
+        status_url = host + reverse(viewname='gisformat', kwargs={'rq_job_id': job.id})
+    else:
+        status_url = None
+    notifier = Notifier(callback_url, status_url)
 
     set_progress_on_job(ConversionProgress.STARTED)
     pbf_path = notifier.try_or_notify(osm_cutter.cut_osm_extent, geometry)

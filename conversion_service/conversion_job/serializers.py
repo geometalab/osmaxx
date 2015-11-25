@@ -55,28 +55,31 @@ class ConversionJobSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         gis_formats = validated_data.pop('gis_formats')
+        formats = [d['format'] for d in gis_formats]
         with transaction.atomic():
-            validated_data['gis_options'] = GISOption.objects.create(**validated_data['gis_options'])
-            validated_data['extent'] = Extent.objects.create(**validated_data['extent'])
-            conversion_job = super().create(validated_data)
-            formats = [
-                GISFormat.objects.create(conversion_job=conversion_job, **gis_format_dict).format
-                for gis_format_dict in gis_formats
-            ]
+            validated_data['gis_options_id'] = GISOption.objects.create(**validated_data.pop('gis_options')).id
+            extent = Extent.objects.create(**validated_data.pop('extent'))
+            validated_data['extent_id'] = extent.id
+
+            ConversionJobModelClass = self.Meta.model  # noqa
+            conversion_job = ConversionJobModelClass(**validated_data)
             rq_job = self._enqueue_rq_job(
-                geometry=validated_data['extent'].get_geometry(),
+                geometry=extent.get_geometry(),
                 format_options=Options(output_formats=formats),
-                callback_url=conversion_job.callback_url,
+                callback_url=validated_data['callback_url'],
                 output_directory=conversion_job.output_directory,
             )
             conversion_job.rq_job_id = rq_job.id
             conversion_job.status = JobStatus.QUEUED.technical_representation
             conversion_job.save()
+            for gis_format_dict in gis_formats:
+                GISFormat.objects.create(conversion_job=conversion_job, **gis_format_dict)
         return conversion_job
 
     def _enqueue_rq_job(self, geometry, format_options, callback_url, output_directory):
         cm = ConversionJobManager(geometry=geometry, format_options=format_options)
-        return cm.start_conversion(callback_url, output_directory)
+        host = self.context.get('request').get_host()
+        return cm.start_conversion(callback_url, output_directory, host)
 
     class Meta:
         model = ConversionJob

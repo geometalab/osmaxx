@@ -1,13 +1,18 @@
 import os
 import shutil
-from unittest.mock import patch
+from unittest.mock import patch, ANY
 
+from collections import namedtuple
+from django.contrib.auth.models import User
 from django.http import HttpRequest
 from django.test import TestCase
 
 from conversion_job.models import Extent, ConversionJob, GISFormat
 from conversion_job.serializers import ConversionJobSerializer, GISFormatStatusSerializer
 from converters import converter_options
+from django.test.utils import override_settings
+from rest_framework.reverse import reverse
+from rest_framework.test import APITestCase
 from shared import ConversionProgress
 
 
@@ -99,3 +104,36 @@ class GISFormatStatusSerializerTest(TestCase):
         with self.assertRaises(GISFormat.DoesNotExist):
             # self.format_status_serializer.data already raises, but .get does raise as well.
             self.format_status_serializer.data.get('result_url')
+
+
+class HostTest(APITestCase):
+
+    test_host = 'the-host.example.com'
+
+    rq_job_stub = namedtuple('RQJob', ['id'])(id='0' * 36)
+
+    @override_settings(ALLOWED_HOSTS=[test_host])
+    @patch('manager.job_manager.ConversionJobManager.start_conversion', return_value=rq_job_stub)
+    def test_foo(self, start_conversion_mock):
+        data = {
+            "callback_url": "http://callback.example.com",
+            "gis_formats": [
+                "fgdb"
+            ],
+            "gis_options": {
+                "coordinate_reference_system": "WGS_84",
+                "detail_level": 1
+            },
+            "extent": {
+                "west": 7.38777995109558,
+                "south": 47.1948706159031,
+                "east": 7.39292979240417,
+                "north": 47.1972544966946,
+                "polyfile": None
+            }
+        }
+        user = User.objects.create_user(username='lauren', password='lauri', email=None)
+        self.client.force_authenticate(user=user)
+        self.client.post(reverse('conversionjob-list'), data, format='json', HTTP_HOST=self.test_host)
+        expected_host = self.test_host
+        start_conversion_mock.assert_called_with(ANY, ANY, expected_host)
