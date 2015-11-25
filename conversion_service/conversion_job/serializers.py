@@ -60,7 +60,9 @@ class ConversionJobSerializer(serializers.ModelSerializer):
             validated_data['gis_options_id'] = GISOption.objects.create(**validated_data.pop('gis_options')).id
             extent = Extent.objects.create(**validated_data.pop('extent'))
             validated_data['extent_id'] = extent.id
-            conversion_job = super().create(validated_data)
+
+            ConversionJobModelClass = self.Meta.model  # noqa
+            conversion_job = ConversionJobModelClass(**validated_data)
             rq_job = self._enqueue_rq_job(
                 geometry=extent.get_geometry(),
                 format_options=Options(output_formats=formats),
