@@ -84,6 +84,9 @@ class EndToEndTests(unittest.TestCase):
     # Helper methods
     def _login(self):
         self.browser.get(self._make_link('/admin/login/'))
+        WebDriverWait(self.browser, 20).until(
+            expected_conditions.presence_of_element_located((By.ID, 'login-form'))
+        )
         login_form = self.browser.find_element_by_id('login-form')
         username = self.browser.find_element_by_id('id_username')
         password = self.browser.find_element_by_id("id_password")
