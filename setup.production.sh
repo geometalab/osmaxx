@@ -69,7 +69,6 @@ run_docker_compose_dduportal up -d database
 
 sleep 10
 
-run_docker_compose_dduportal_interactive run --rm webapp /bin/bash -c "./manage.py migrate && ./manage.py collectstatic --noinput"
 ask_whether_a_superuser_shall_be_created
 
 run_docker_compose_dduportal stop

@@ -29,9 +29,8 @@ def _clean_start_containers():
     """
     docker_compose.clean()
     docker_compose.pull()
-    docker_compose.start()
     docker_compose.create_superuser_for_test(username=ADMIN_USER_FOR_TESTS, password=ADMIN_PASSWORD_FOR_TESTS)
-    sleep(10)
+    docker_compose.start()
 
 
 def _stop_and_remove_containers():
@@ -84,6 +83,9 @@ class EndToEndTests(unittest.TestCase):
     # Helper methods
     def _login(self):
         self.browser.get(self._make_link('/admin/login/'))
+        WebDriverWait(self.browser, 20).until(
+            expected_conditions.presence_of_element_located((By.ID, 'login-form'))
+        )
         login_form = self.browser.find_element_by_id('login-form')
         username = self.browser.find_element_by_id('id_username')
         password = self.browser.find_element_by_id("id_password")
