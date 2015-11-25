@@ -64,7 +64,7 @@ class ConversionJobSerializer(serializers.ModelSerializer):
             rq_job = self._enqueue_rq_job(
                 geometry=extent.get_geometry(),
                 format_options=Options(output_formats=formats),
-                callback_url=conversion_job.callback_url,
+                callback_url=validated_data['callback_url'],
                 output_directory=conversion_job.output_directory,
             )
             conversion_job.rq_job_id = rq_job.id
