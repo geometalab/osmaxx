@@ -381,8 +381,6 @@ OSMAXX = {
     # to request access to osmaxx (access_denied page)
     'account_manager_username': env.str('ACCOUNT_MANAGER_USERNAME', default='admin'),
     'CONVERSION_SERVICE_URL': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_URL', default='http://localhost:8901/api/'),
-    'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME'),
-    'CONVERSION_SERVICE_PASSWORD': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD'),
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
