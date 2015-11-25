@@ -25,6 +25,8 @@ ADD ./conversion_service $HOME/conversion_service
 ENV PYTHONPATH=PYTHONPATH:$HOME
 ENV DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
 
-ADD ./conversion_service/entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+RUN mkdir -p $HOME/docker_entrypoint/conversion_service $HOME/entrypoint
+COPY ./docker_entrypoint/conversion_service $HOME/entrypoint
+
+ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]
 

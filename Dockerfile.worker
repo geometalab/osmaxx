@@ -108,10 +108,10 @@ RUN sed --in-place 's/\$\(CXX\) $\(LIBS\) -shared -o \$@ \$</\$\(CXX\) -shared -
 ENV HOME /home/py
 
 # activate translit
-RUN mkdir -p $HOME/conversion_service/worker
-COPY ./conversion_service/worker/01_activate_translit.sql $HOME/conversion_service/worker/
-COPY ./conversion_service/worker/00_make_db_utf8.sh $HOME/conversion_service/worker/
-WORKDIR $HOME/conversion_service/worker/
+RUN mkdir -p $HOME/conversion_service/worker $HOME/entrypoint
+COPY ./docker_entrypoint/worker $HOME/entrypoint
+
+WORKDIR $HOME/entrypoint/
 
 USER postgres
 RUN service postgresql start && \
@@ -138,7 +138,6 @@ ADD ./conversion_service $HOME/conversion_service
 ENV PYTHONPATH=PYTHONPATH:$HOME
 ENV DJANGO_SETTINGS_MODULE=conversion_service.config.settings.worker
 
-ADD ./conversion_service/worker/entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]
 
 CMD ["bash", "-c"]
