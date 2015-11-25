@@ -111,12 +111,10 @@ ENV HOME /home/py
 RUN mkdir -p $HOME/conversion_service/worker $HOME/entrypoint
 COPY ./docker_entrypoint/worker $HOME/entrypoint
 
-WORKDIR $HOME/entrypoint/
-
 USER postgres
 RUN service postgresql start && \
-    ./00_make_db_utf8.sh && \
-    psql -f ./01_activate_translit.sql
+    $HOME/entrypoint/00_make_db_utf8.sh && \
+    psql -f $HOME/entrypoint/01_activate_translit.sql
 
 USER root
 
