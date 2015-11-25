@@ -78,7 +78,8 @@ class ConversionJobSerializer(serializers.ModelSerializer):
 
     def _enqueue_rq_job(self, geometry, format_options, callback_url, output_directory):
         cm = ConversionJobManager(geometry=geometry, format_options=format_options)
-        return cm.start_conversion(callback_url, output_directory)
+        host = self.context.get('request').get_host()
+        return cm.start_conversion(callback_url, output_directory, host)
 
     class Meta:
         model = ConversionJob
