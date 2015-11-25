@@ -7,6 +7,9 @@ data:
 
 osmdata:
   image: geometalab/osm-planet
+  environment:
+    - osm_planet_mirror=http://download.geofabrik.de/europe/
+    - osm_planet_path_relative_to_mirror=switzerland-latest.osm.pbf
   volumes_from:
     - data
 
@@ -42,6 +45,8 @@ api:
     - postgres:database
   environment:
     - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
+    - SERVICE_USER_NAME=dev
+    - SERVICE_USER_PASSWORD=dev
 
 worker:
   extends:
@@ -56,3 +61,6 @@ worker:
     - redis
   environment:
     - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.worker
+    - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
+    # only switzerland, as stated in `osmdata`
+    - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf

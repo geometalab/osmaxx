@@ -15,4 +15,5 @@ done
 
 python3 conversion_service/manage.py migrate && \
 python3 conversion_service/manage.py collectstatic --noinput && \
+python3 entrypoint/create_user_entrypoint.py && \
 exec "$@"
