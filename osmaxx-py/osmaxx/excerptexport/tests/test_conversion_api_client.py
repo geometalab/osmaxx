@@ -66,6 +66,7 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
     def test_create_job(self):
+        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order)
@@ -81,6 +82,7 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_download_files.yml')
     def test_download_files(self):
+        self.api_client.login()
         self.api_client.create_job(self.extraction_order)
         # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
         # sleep(120)
@@ -102,6 +104,7 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_order_status_processing.yml')
     def test_order_status_processing(self):
+        self.api_client.login()
 
         self.assertEqual(self.extraction_order.output_files.count(), 0)
         self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
@@ -114,6 +117,7 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_order_status_done.yml')
     def test_order_status_done(self):
+        self.api_client.login()
         self.api_client.create_job(self.extraction_order)
         self.api_client.update_order_status(self.extraction_order)  # processing
         self.assertEqual(self.extraction_order.output_files.count(), 0)
