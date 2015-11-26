@@ -85,7 +85,7 @@ class ConversionApiClientTestCase(TestCase):
         self.api_client.login()
         self.api_client.create_job(self.extraction_order)
         # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
-        # sleep(120)
+        # from time import sleep; sleep(120)
         success = self.api_client.download_result_files(self.extraction_order)
         self.assertIsNone(self.api_client.errors)
 
