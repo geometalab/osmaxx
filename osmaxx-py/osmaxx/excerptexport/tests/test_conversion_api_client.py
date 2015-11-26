@@ -10,6 +10,33 @@ from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrde
 from osmaxx.excerptexport.services import ConversionApiClient
 
 
+class ConversionApiClientAuthTestCase(TestCase):
+    @vcr.use_cassette('fixtures/vcr/conversion_api-test_successful_login.yml')
+    def test_successful_login(self):
+        api_client = ConversionApiClient()
+
+        self.assertIsNone(api_client.token)
+
+        success = api_client.login()
+
+        self.assertTrue(success)
+        self.assertIsNotNone(api_client.token)
+
+    @vcr.use_cassette('fixtures/vcr/conversion_api-test_failed_login.yml')
+    def test_failed_login(self):
+        api_client = ConversionApiClient()
+        api_client.password = 'invalid'
+
+        self.assertEqual(api_client.password, 'invalid')
+        self.assertIsNone(api_client.token)
+
+        success = api_client.login()
+
+        self.assertEqual({'non_field_errors': ['Unable to login with provided credentials.']}, api_client.errors)
+        self.assertIsNone(api_client.token)
+        self.assertFalse(success)
+
+
 class ConversionApiClientTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
@@ -35,31 +62,6 @@ class ConversionApiClientTestCase(TestCase):
         response.headers = headers
         response.json = CopyingMock(return_value=json)
         return response
-
-    @vcr.use_cassette('fixtures/vcr/conversion_api-test_successful_login.yml')
-    def test_successful_login(self):
-        api_client = ConversionApiClient()
-
-        self.assertIsNone(api_client.token)
-
-        success = api_client.login()
-
-        self.assertTrue(success)
-        self.assertIsNotNone(api_client.token)
-
-    @vcr.use_cassette('fixtures/vcr/conversion_api-test_failed_login.yml')
-    def test_failed_login(self):
-        api_client = ConversionApiClient()
-        api_client.password = 'invalid'
-
-        self.assertEqual(api_client.password, 'invalid')
-        self.assertIsNone(api_client.token)
-
-        success = api_client.login()
-
-        self.assertEqual({'non_field_errors': ['Unable to login with provided credentials.']}, api_client.errors)
-        self.assertIsNone(api_client.token)
-        self.assertFalse(success)
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
     def test_create_job(self):
