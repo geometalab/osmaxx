@@ -54,6 +54,7 @@ class ConversionApiClientTestCase(TestCase):
                 'detail_level': 1
             }
         }
+        self.api_client = ConversionApiClient()
 
     def _create_response(self, status_code=200, reason='OK', headers={'content-type': 'application/json'}, json={}):
         response = Response()
@@ -65,13 +66,12 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
     def test_create_job(self):
-        api_client = ConversionApiClient()
         self.assertIsNone(self.extraction_order.process_id)
 
-        response = api_client.create_job(self.extraction_order)
+        response = self.api_client.create_job(self.extraction_order)
 
-        self.assertEqual(api_client.headers['Authorization'], 'JWT {token}'.format(token=api_client.token))
-        self.assertIsNone(api_client.errors)
+        self.assertEqual(self.api_client.headers['Authorization'], 'JWT {token}'.format(token=self.api_client.token))
+        self.assertIsNone(self.api_client.errors)
         expected_keys_in_response = ["rq_job_id", "callback_url", "status", "gis_formats", "gis_options", "extent"]
         actual_keys_in_response = list(response.json().keys())
         self.assertCountEqual(expected_keys_in_response, actual_keys_in_response)
@@ -81,12 +81,11 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_download_files.yml')
     def test_download_files(self):
-        api_client = ConversionApiClient()
-        api_client.create_job(self.extraction_order)
+        self.api_client.create_job(self.extraction_order)
         # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
         # sleep(120)
-        success = api_client.download_result_files(self.extraction_order)
-        self.assertIsNone(api_client.errors)
+        success = self.api_client.download_result_files(self.extraction_order)
+        self.assertIsNone(self.api_client.errors)
 
         self.assertTrue(success)
         self.assertEqual(self.extraction_order.output_files.count(), 2)
@@ -103,27 +102,25 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_order_status_processing.yml')
     def test_order_status_processing(self):
-        api_client = ConversionApiClient()
 
         self.assertEqual(self.extraction_order.output_files.count(), 0)
         self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
 
-        api_client.create_job(self.extraction_order)
+        self.api_client.create_job(self.extraction_order)
 
-        api_client.update_order_status(self.extraction_order)
+        self.api_client.update_order_status(self.extraction_order)
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
         self.assertEqual(self.extraction_order.output_files.count(), 0)
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_order_status_done.yml')
     def test_order_status_done(self):
-        api_client = ConversionApiClient()
-        api_client.create_job(self.extraction_order)
-        api_client.update_order_status(self.extraction_order)  # processing
+        self.api_client.create_job(self.extraction_order)
+        self.api_client.update_order_status(self.extraction_order)  # processing
         self.assertEqual(self.extraction_order.output_files.count(), 0)
         self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
 
         # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
         # sleep(120)
 
-        api_client.update_order_status(self.extraction_order)
+        self.api_client.update_order_status(self.extraction_order)
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
