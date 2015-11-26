@@ -1,8 +1,5 @@
 import vcr
 
-from .copying_mock import CopyingMock
-from requests.models import Response
-
 from django.contrib.auth.models import User
 from django.test.testcases import TestCase
 
@@ -55,14 +52,6 @@ class ConversionApiClientTestCase(TestCase):
             }
         }
         self.api_client = ConversionApiClient()
-
-    def _create_response(self, status_code=200, reason='OK', headers={'content-type': 'application/json'}, json={}):
-        response = Response()
-        response.status_code = status_code
-        response.reason = reason
-        response.headers = headers
-        response.json = CopyingMock(return_value=json)
-        return response
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
     def test_create_job(self):
