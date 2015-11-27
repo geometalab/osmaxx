@@ -13,8 +13,8 @@ base:
     - DJANGO_SECURE_CONTENT_TYPE_NOSNIFF=true
     - DJANGO_LOG_LEVEL=INFO
 
-    # These settings probably shouldn't need a change
-    ##########################################################################
+# All the settings below this line shouldn't need a change in development
+##########################################################################
     # shared data
     - DJANGO_STATIC_ROOT=/data/static
     - DJANGO_MEDIA_ROOT=/data/media
