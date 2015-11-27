@@ -4,7 +4,7 @@ import os
 
 from django_rq import get_connection
 from rest_framework.reverse import reverse
-from rq import get_current_job
+import rq
 import requests
 
 from converters import osm_cutter, converter_options
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 def set_progress_on_job(progress):  # pragma: nocover
-    job = get_current_job(connection=get_connection())
+    job = rq.get_current_job(connection=get_connection())
     if job:
         job.meta['progress'] = progress
         job.save()
@@ -71,9 +71,9 @@ def convert(geometry, format_options, output_directory, callback_url, host=None)
     :return: resulting paths/urls for created file
     """
 
-    job = get_current_job(connection=get_connection())
+    job = rq.get_current_job(connection=get_connection())
     if job is not None and host is not None:
-        status_url = host + reverse(viewname='gisformat', kwargs={'rq_job_id': job.id})
+        status_url = host + reverse(viewname='gisformat-detail', kwargs={'pk': job.id})
     else:
         status_url = None
     notifier = Notifier(callback_url, status_url)
