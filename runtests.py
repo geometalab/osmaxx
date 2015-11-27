@@ -8,6 +8,8 @@ import subprocess
 import sys
 
 # constants
+from django.core.management import ManagementUtility
+
 RED = "\033[31m"
 GREEN = "\033[32m"
 MAGENTA = "\033[95m"
@@ -38,20 +40,19 @@ class OsmaxxTestSuite:
         self.DB_CONTAINER = "databasedev"
         self.COMPOSE_FILE = "compose-development.yml"
 
-        self.setup()
         if args.webapp_checks:
+            self.setup()
             self.application_checks()
+            self.reset()  # FIXME: Don't always reset, only when necessary.
+            self.tear_down()
+
         if args.webapp_tests:
             self.application_tests()
 
-        self.reset()  # FIXME: Don't always reset, only when necessary.
-
         if args.docker_composition_tests:
             self.reset()
-
             self.persisting_database_data_tests()
-
-        self.tear_down()
+            self.tear_down()
 
     def setup(self):
         self.docker_compose(['pull'])
@@ -113,9 +114,20 @@ class OsmaxxTestSuite:
         self.log_header('Application tests:')
 
         try:
-            self.log_docker_compose(['run', self.WEBAPP_CONTAINER, '/bin/bash', '-c',
-                                     'DJANGO_SETTINGS_MODULE=config.settings.test python3 manage.py test'])
-            self.log_success("Tests passed successfully")
+            import django  # noqa
+        except ImportError:
+            print('Are you in a activated virtualenv and have installed the settings?')
+            print('virtualenv --python=/usr/bin/python3 tmp;source ./tmp/bin/activate;\
+                pip install -r osmaxx-py/requirements/local.txt')
+            return
+
+        try:
+            osmaxx_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'osmaxx-py')
+            sys.path.append(osmaxx_path)
+            os.chdir(osmaxx_path)
+            os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.test'
+            utility = ManagementUtility(['manage.py', 'test'])
+            utility.execute()
         except subprocess.CalledProcessError as e:
             logger.info(e.output.decode())
             self.log_failure("Tests failed. Please have a look at the {logfile};!".format(logfile=LOGFILE))
