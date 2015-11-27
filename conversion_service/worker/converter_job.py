@@ -73,7 +73,7 @@ def convert(geometry, format_options, output_directory, callback_url, host=None)
 
     job = rq.get_current_job(connection=get_connection())
     if job is not None and host is not None:
-        status_url = host + reverse(viewname='gisformat', kwargs={'rq_job_id': job.id})
+        status_url = host + reverse(viewname='gisformat-detail', kwargs={'pk': job.id})
     else:
         status_url = None
     notifier = Notifier(callback_url, status_url)
