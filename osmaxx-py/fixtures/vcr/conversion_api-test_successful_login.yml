@@ -1,25 +1,25 @@
 interactions:
 - request:
     body: !!binary |
-      eyJ1c2VybmFtZSI6ICJkZXYiLCAibmV4dCI6ICJodHRwOi8vY29udmVyc2lvbnNlcnZpY2U6ODkw
-      MS9hcGkvIiwgInBhc3N3b3JkIjogImRldiJ9
+      eyJ1c2VybmFtZSI6ICJkZXYiLCAibmV4dCI6ICJodHRwOi8vbG9jYWxob3N0Ojg5MDEvYXBpLyIs
+      ICJwYXNzd29yZCI6ICJkZXYifQ==
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      Content-Length: ['84']
+      Content-Length: ['76']
       Content-Type: [application/json; charset=UTF-8]
-      Referer: ['http://conversionservice:8901/api/token-auth/']
-      User-Agent: [python-requests/2.6.2 CPython/3.4.2 Linux/3.16.0-38-generic]
+      Referer: ['http://localhost:8901/api/token-auth/']
+      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.16.0-38-generic]
     method: POST
-    uri: http://conversionservice:8901/api/token-auth/
+    uri: http://localhost:8901/api/token-auth/
   response:
-    body: {string: '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRldiIsImV4cCI6MTQ0ODYzNTc5MCwidXNlcl9pZCI6MSwiZW1haWwiOiIifQ._Cg-NRpoe6BMj3CIFTy5KTVCP5A-_u6vFTE4UEuIfSs"}'}
+    body: {string: '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDg2NDUyMDIsImVtYWlsIjoiIiwidXNlcm5hbWUiOiJkZXYiLCJ1c2VyX2lkIjoxfQ.vPmWNBEJPCqMyaFX7YB-Ixk6VSSLN0eYqej--MLWzsA"}'}
     headers:
       Allow: ['POST, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Fri, 27 Nov 2015 14:44:50 GMT']
+      Date: ['Fri, 27 Nov 2015 17:21:42 GMT']
       Server: [Werkzeug/0.10.4 Python/3.4.3]
       Vary: [Accept]
       X-Frame-Options: [SAMEORIGIN]
