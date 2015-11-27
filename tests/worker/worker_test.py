@@ -39,17 +39,13 @@ class WorkerTest(TestCase):
         self.assertDictEqual(job_fetched.meta, {'progress': ConversionProgress.SUCCESSFUL})
 
 
-def do_nothing_callable():
-    pass
-
-
 class ConvertTest(TestCase):
     pbf_file_path = '/some_path/to/pbf.pbf'
     mocked_job_id = '0' * 36
     rq_job_stub = namedtuple('RQJob', ['id', 'meta', 'save'])(
         id=mocked_job_id,
         meta={'progress': ''},
-        save=do_nothing_callable,
+        save=mock.Mock(),
     )
 
     @mock.patch('os.remove')
