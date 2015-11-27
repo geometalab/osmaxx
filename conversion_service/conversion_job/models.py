@@ -77,6 +77,10 @@ class ConversionJob(models.Model):
 
     @property
     def output_directory(self):
+        """
+        Only available on saved model instances.
+        """
+        assert self.id is not None
         # todo: ensure job is cleaned up after files have been requested -> in conversion_service
         directory = os.path.join(converter_settings.OSMAXX_CONVERSION_SERVICE['RESULT_DIR'], str(self.id))
         if not os.path.exists(directory):
