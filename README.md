@@ -34,15 +34,12 @@ To run this project locally, you need docker and docker-compose installed
 ```shell
 # For development:
 ln -s compose-development.yml docker-compose.yml
-
-# For production:
-ln -s compose-production.yml docker-compose.yml
 ```
 
 ### Docker container bootstrapping
 
-Take a look at the scripts ```setup.development.sh``` and ```setup.production.sh``. 
-These scripts will setup the container forest, run migrations and create a superuser (interactive).
+Take a look at the script ```setup.development.sh```.
+These script will setup the container forest, run migrations and create a superuser (interactive).
 
 To setup all the containers and their dependencies by hand, run
 
@@ -55,11 +52,7 @@ Then initiate the project defaults by running the following command:
 ```shell
 # For development:
 docker-compose up -d databasedev;
-docker-compose run webappdev /bin/bash -c './manage.py migrate && ./manage.py createsuperuser'
-
-# For production:
-docker-compose up -d database;
-docker-compose run webapp /bin/bash -c './manage.py migrate && ./manage.py createsuperuser'
+docker-compose run webappdev /bin/bash -c './manage.py createsuperuser'
 ```
 
 Alternative to this command, bootstrap the container and execute the commands inside the container by hand:
@@ -68,16 +61,11 @@ Alternative to this command, bootstrap the container and execute the commands in
 # For development:
 docker-compose up -d databasedev
 docker-compose run webappdev /bin/bash
-
-# For production:
-docker-compose up -d database
-docker-compose run webapp /bin/bash
 ```
 
 Inside the container:
 
-1. Execute migrations: `$ ./manage.py migrate`
-2. (optional, recommended) setup a superuser: `$ ./manage.py createsuperuser`
+1. (optional, recommended) setup a superuser: `$ ./manage.py createsuperuser`
 
 
 ### Running the project
