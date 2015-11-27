@@ -84,7 +84,8 @@ class ConversionApiClientTestCase(TestCase):
         api_client = ConversionApiClient()
         api_client.create_job(self.extraction_order)
         # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
-        # sleep(120)
+        # import time
+        # time.sleep(120)
         success = api_client.download_result_files(self.extraction_order)
         self.assertIsNone(api_client.errors)
 
@@ -94,7 +95,7 @@ class ConversionApiClientTestCase(TestCase):
         self.assertEqual(self.extraction_order.output_files.order_by('id')[1].content_type, 'spatialite')
         self.assertEqual(
             len(self.extraction_order.output_files.order_by('id')[0].file.read()),
-            446013
+            446029
         )
         self.assertEqual(
             len(self.extraction_order.output_files.order_by('id')[1].file.read()),
@@ -123,7 +124,8 @@ class ConversionApiClientTestCase(TestCase):
         self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
 
         # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
-        # sleep(120)
+        # import time
+        # time.sleep(120)
 
         api_client.update_order_status(self.extraction_order)
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)

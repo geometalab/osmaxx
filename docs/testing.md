@@ -1,5 +1,26 @@
 # Testing
 
+If you want to record (new or recreate) vcr cassettes, before running tests,
+start all the services once and let them finish:
+
+```bash
+docker-compose up
+```
+
+When everything is done, use Ctrl-c to quit and start the tests.
+
+Please also note, that in the `test_conversion_api_client.py` there are waits that need to be activated
+before rerecording the cassettes:
+
+```python
+        # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
+        # import time
+        # time.sleep(120)
+```
+
+If you get size errors after rerecording, this is normal: usually there is more data when recording the data
+at a later point in time.
+
 ## Running the standard test-suite
 
 running locally, in the `osmaxx-py` directory (using a virtualenv):
