@@ -62,7 +62,8 @@ class ConversionJobSerializer(serializers.ModelSerializer):
             validated_data['extent_id'] = extent.id
 
             ConversionJobModelClass = self.Meta.model  # noqa
-            conversion_job = ConversionJobModelClass(**validated_data)
+            # we need to save, because the path depends on the id!
+            conversion_job = ConversionJobModelClass.objects.create(**validated_data)
             rq_job = self._enqueue_rq_job(
                 geometry=extent.get_geometry(),
                 format_options=Options(output_formats=formats),
