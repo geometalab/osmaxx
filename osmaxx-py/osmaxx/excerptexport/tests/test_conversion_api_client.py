@@ -113,7 +113,7 @@ class ConversionApiClientTestCase(TestCase):
         self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
 
         # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
-        # sleep(120)
+        # from time import sleep; sleep(120)
 
         self.api_client.update_order_status(self.extraction_order)
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
