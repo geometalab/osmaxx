@@ -22,23 +22,16 @@ logger.setLevel(logging.DEBUG)
 class OsmaxxTestSuite:
 
     def main(self):
-        # This function will be called when running this script
-        if os.path.samefile('docker-compose.yml', 'compose-development.yml'):
-            self.run_development_tests()
-        else:
-            self.run_production_tests()
-
+        self.run_tests()
         # FIXME: currently only works on development settings
-        if os.path.samefile('docker-compose.yml', 'compose-development.yml') and (
-            os.environ.get('RUN_E2E') == 'true' or args.end_to_end_tests
-        ):
+        if os.environ.get('RUN_E2E') == 'true' or args.end_to_end_tests:
             self.run_e2e_tests()
 
     def run_e2e_tests(self):
         with TmpVirtualEnv() as tmp_venv:
             tmp_venv.run_python_script('e2e/e2e_tests.py')
 
-    def run_development_tests(self):
+    def run_tests(self):
         self.log_header('=== Development mode ===')
 
         self.WEBAPP_CONTAINER = "webappdev"
@@ -59,16 +52,6 @@ class OsmaxxTestSuite:
             self.persisting_database_data_tests()
 
         self.tear_down()
-
-    def run_production_tests(self):
-        self.log_header('=== Production mode ===')
-
-        self.WEBAPP_CONTAINER = "webapp"
-        self.DB_CONTAINER = "database"
-        self.COMPOSE_FILE = "compose-production.yml"
-
-        if args.webapp_checks:
-            self.application_checks()
 
     def setup(self):
         self.docker_compose(['pull'])

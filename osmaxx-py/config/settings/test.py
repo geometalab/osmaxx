@@ -5,8 +5,8 @@ DEBUG = False
 OSMAXX_TEST_SETTINGS = {
     'download_file_name': '%(excerpt_name)s-%(content_type)s-%(id)s.%(file_extension)s',
     'CONVERSION_SERVICE_URL': 'http://coversion-service:8901/api/',
-    'CONVERSION_SERVICE_USERNAME': 'osmaxxi',
-    'CONVERSION_SERVICE_PASSWORD': '12345678',
+    'CONVERSION_SERVICE_USERNAME': 'dev',
+    'CONVERSION_SERVICE_PASSWORD': 'dev',
 }
 
 OSMAXX.update(OSMAXX_TEST_SETTINGS)

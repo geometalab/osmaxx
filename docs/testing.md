@@ -29,7 +29,8 @@ It allows some control over what tests to run. Call it with
 ```
 to see what options it provides.
 
-To run tests of all available test types, call it without passing any options:
+To run tests of all available test types, call it without passing any options (be sure to read the part about
+running end to end test before you are doing this!):
 ```shell
 ./runtests.py
 ```
@@ -38,6 +39,7 @@ To run tests of all available test types, call it without passing any options:
 
 ### Warnings 
 
+* before doing anything, you *MUST* run `docker-compose run --rm osmplanet` to have the pbf data at hand!
 * It needs a Firefox browser installed (for now)
 * These run for quite a long time (over five Minutes!). 
 * The containers are being destroyed at the beginning (creating a clean state). Resulting in
