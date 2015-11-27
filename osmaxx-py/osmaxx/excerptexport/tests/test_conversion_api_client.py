@@ -1,3 +1,4 @@
+import time
 import vcr
 
 from .copying_mock import CopyingMock
@@ -79,28 +80,31 @@ class ConversionApiClientTestCase(TestCase):
         self.assertEqual(self.extraction_order.process_id, response.json().get('rq_job_id'))
         self.assertIsNotNone(self.extraction_order.process_id)
 
-    @vcr.use_cassette('fixtures/vcr/conversion_api-test_download_files.yml')
     def test_download_files(self):
-        api_client = ConversionApiClient()
-        api_client.create_job(self.extraction_order)
-        # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
-        # import time
-        # time.sleep(120)
-        success = api_client.download_result_files(self.extraction_order)
-        self.assertIsNone(api_client.errors)
+        with vcr.use_cassette('fixtures/vcr/conversion_api-test_download_files.yml') as cassette:
+            api_client = ConversionApiClient()
+            api_client.create_job(self.extraction_order)
 
-        self.assertTrue(success)
-        self.assertEqual(self.extraction_order.output_files.count(), 2)
-        self.assertEqual(self.extraction_order.output_files.order_by('id')[0].content_type, 'fgdb')
-        self.assertEqual(self.extraction_order.output_files.order_by('id')[1].content_type, 'spatialite')
-        self.assertEqual(
-            len(self.extraction_order.output_files.order_by('id')[0].file.read()),
-            446029
-        )
-        self.assertEqual(
-            len(self.extraction_order.output_files.order_by('id')[1].file.read()),
-            368378
-        )
+            if cassette.dirty:
+                # wait for external service to complete request
+                time.sleep(120)
+
+            success = api_client.download_result_files(self.extraction_order)
+            self.assertIsNone(api_client.errors)
+            self.assertTrue(success)
+            self.assertEqual(self.extraction_order.output_files.count(), 2)
+            self.assertEqual(self.extraction_order.output_files.order_by('id')[0].content_type, 'fgdb')
+            self.assertEqual(self.extraction_order.output_files.order_by('id')[1].content_type, 'spatialite')
+            self.assertAlmostEqual(
+                len(self.extraction_order.output_files.order_by('id')[0].file.read()),
+                446005,
+                delta=10000
+            )
+            self.assertAlmostEqual(
+                len(self.extraction_order.output_files.order_by('id')[1].file.read()),
+                368378,
+                delta=10000
+            )
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_order_status_processing.yml')
     def test_order_status_processing(self):
@@ -115,17 +119,17 @@ class ConversionApiClientTestCase(TestCase):
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
         self.assertEqual(self.extraction_order.output_files.count(), 0)
 
-    @vcr.use_cassette('fixtures/vcr/conversion_api-test_order_status_done.yml')
     def test_order_status_done(self):
-        api_client = ConversionApiClient()
-        api_client.create_job(self.extraction_order)
-        api_client.update_order_status(self.extraction_order)  # processing
-        self.assertEqual(self.extraction_order.output_files.count(), 0)
-        self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
+        with vcr.use_cassette('fixtures/vcr/conversion_api-test_order_status_done.yml') as cassette:
+            api_client = ConversionApiClient()
+            api_client.create_job(self.extraction_order)
+            api_client.update_order_status(self.extraction_order)  # processing
+            self.assertEqual(self.extraction_order.output_files.count(), 0)
+            self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
 
-        # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
-        # import time
-        # time.sleep(120)
+            if cassette.dirty:
+                # wait for external service to complete request
+                time.sleep(120)
 
-        api_client.update_order_status(self.extraction_order)
-        self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
+            api_client.update_order_status(self.extraction_order)
+            self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
