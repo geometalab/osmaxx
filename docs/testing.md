@@ -7,37 +7,12 @@ start all the services once and let them finish:
 docker-compose up
 ```
 
-When everything is done, use Ctrl-c to quit and start the tests.
-
-Please also note, that in the `test_conversion_api_client.py` there are waits that need to be activated
-before rerecording the cassettes:
-
-```python
-        # HACK: enable this line if testing against a new version of the api, otherwise vcr records the wrong answer!
-        # import time
-        # time.sleep(120)
-```
-
-If you get size errors after rerecording, this is normal: usually there is more data when recording the data
-at a later point in time.
-
 ## Running the standard test-suite
 
 running locally, in the `osmaxx-py` directory (using a virtualenv):
 
 ```shell
 DJANGO_SETTINGS_MODULE=config.settings.test ./manage.py test
-```
-
-### Notice
-
-Since the ampq Service is not available, you'll get a 4 failing tests. Therefore it is recommended to
-run them in a docker container, as described below.
-
-Using docker and docker-compose:
- 
-```shell
-docker-compose run --rm webappdev bash -c 'DJANGO_SETTINGS_MODULE=config.settings.test ./manage.py test'
 ```
 
 ## Running the test-suite and integration tests
