@@ -96,8 +96,9 @@ class ConversionApiClientTestCase(TestCase):
             success = api_client.download_result_files(self.extraction_order)
             self.assertIsNone(api_client.errors)
             self.assertTrue(success)
+            content_types_of_output_files = (f.content_type for f in self.extraction_order.output_files.all())
             self.assertCountEqual(
-                (f.content_type for f in self.extraction_order.output_files.all()),
+                content_types_of_output_files,
                 ['fgdb', 'spatialite']
             )
             self.assertAlmostEqual(
