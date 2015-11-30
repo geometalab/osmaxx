@@ -1,26 +1,25 @@
 interactions:
 - request:
     body: !!binary |
-      eyJ1c2VybmFtZSI6ICJvc21heHhpIiwgInBhc3N3b3JkIjogIjEyMzQ1Njc4IiwgIm5leHQiOiAi
-      aHR0cDovL2xvY2FsaG9zdDo4OTAxL2FwaS8iLCAiaGVhZGVycyI6IHsiUmVmZXJlciI6ICJodHRw
-      Oi8vbG9jYWxob3N0Ojg5MDEvYXBpL3Rva2VuLWF1dGgvIiwgIkNvbnRlbnQtVHlwZSI6ICJhcHBs
-      aWNhdGlvbi9qc29uOyBjaGFyc2V0PVVURi04In19
+      eyJ1c2VybmFtZSI6ICJkZXYiLCAibmV4dCI6ICJodHRwOi8vbG9jYWxob3N0Ojg5MDEvYXBpLyIs
+      ICJwYXNzd29yZCI6ICJkZXYifQ==
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      Content-Length: ['201']
-      Content-Type: [application/json]
-      User-Agent: [python-requests/2.6.2 CPython/3.4.2 Linux/3.16.0-4-amd64]
+      Content-Length: ['76']
+      Content-Type: [application/json; charset=UTF-8]
+      Referer: ['http://localhost:8901/api/token-auth/']
+      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.16.0-38-generic]
     method: POST
     uri: http://localhost:8901/api/token-auth/
   response:
-    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NDc3NjAyMDEsInVzZXJfaWQiOjIsInVzZXJuYW1lIjoib3NtYXh4aSIsImVtYWlsIjoiIn0.V1CX-PDoEKdWMIx1IYnh_uIgLkTyVu9DfV4BwT80424"}'}
+    body: {string: '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDg2NDUyMDIsImVtYWlsIjoiIiwidXNlcm5hbWUiOiJkZXYiLCJ1c2VyX2lkIjoxfQ.vPmWNBEJPCqMyaFX7YB-Ixk6VSSLN0eYqej--MLWzsA"}'}
     headers:
       Allow: ['POST, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Tue, 17 Nov 2015 11:31:41 GMT']
+      Date: ['Fri, 27 Nov 2015 17:21:42 GMT']
       Server: [Werkzeug/0.10.4 Python/3.4.3]
       Vary: [Accept]
       X-Frame-Options: [SAMEORIGIN]
