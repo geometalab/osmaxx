@@ -116,7 +116,7 @@ class OsmaxxTestSuite:
         try:
             import django  # noqa
         except ImportError:
-            print('Are you in a activated virtualenv and have installed the settings?')
+            print('Are you in a activated virtualenv and have installed the requirements?')
             print('virtualenv --python=/usr/bin/python3 tmp;source ./tmp/bin/activate;\
                 pip install -r osmaxx-py/requirements/local.txt')
             return
