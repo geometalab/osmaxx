@@ -334,14 +334,6 @@ SOCIAL_AUTH_LOGIN_SUCCESS_URL = '/'
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'email']
 
-if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing and django-coverage
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-            'NAME': os.path.join(BASE_DIR, 'test_db.sqlite3'),
-        }
-    }
-
 POSTGIS_VERSION = (2, 1)
 
 REST_FRAMEWORK = {

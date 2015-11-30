@@ -1,22 +1,18 @@
 # Testing
 
+If you want to record (new or recreate) vcr cassettes, before running tests,
+start all the services once and let them finish:
+
+```bash
+docker-compose up
+```
+
 ## Running the standard test-suite
 
 running locally, in the `osmaxx-py` directory (using a virtualenv):
 
 ```shell
 DJANGO_SETTINGS_MODULE=config.settings.test ./manage.py test
-```
-
-### Notice
-
-Since the ampq Service is not available, you'll get a 4 failing tests. Therefore it is recommended to
-run them in a docker container, as described below.
-
-Using docker and docker-compose:
- 
-```shell
-docker-compose run --rm webappdev bash -c 'DJANGO_SETTINGS_MODULE=config.settings.test ./manage.py test'
 ```
 
 ## Running the test-suite and integration tests
@@ -29,7 +25,8 @@ It allows some control over what tests to run. Call it with
 ```
 to see what options it provides.
 
-To run tests of all available test types, call it without passing any options:
+To run tests of all available test types, call it without passing any options (be sure to read the part about
+running end to end test before you are doing this!):
 ```shell
 ./runtests.py
 ```
@@ -38,6 +35,7 @@ To run tests of all available test types, call it without passing any options:
 
 ### Warnings 
 
+* before doing anything, you *MUST* run `docker-compose run --rm osmplanet` to have the pbf data at hand!
 * It needs a Firefox browser installed (for now)
 * These run for quite a long time (over five Minutes!). 
 * The containers are being destroyed at the beginning (creating a clean state). Resulting in

@@ -29,9 +29,8 @@ def _clean_start_containers():
     """
     docker_compose.clean()
     docker_compose.pull()
-    docker_compose.start()
     docker_compose.create_superuser_for_test(username=ADMIN_USER_FOR_TESTS, password=ADMIN_PASSWORD_FOR_TESTS)
-    sleep(10)
+    docker_compose.start()
 
 
 def _stop_and_remove_containers():

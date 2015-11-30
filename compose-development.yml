@@ -33,9 +33,9 @@ webappdev:
     - shareddatadev
   links:
     - databasedev:database
-  external_links:
-    # "${foldername}_api_1", where ${foldername} is the local osmaxx-postgis-conversion git repo
-    - osmaxxpostgisconversion_api_1:conversion_service
+    - conversionservice:conversionservice
+    # only needed to have a worker up and running
+    - conversionworker:conversionworker
   environment:
     - DJANGO_SETTINGS_MODULE=config.settings.local
     - DJANGO_DEBUG=true
@@ -44,9 +44,12 @@ webappdev:
     - DJANGO_EMAIL_FILE_PATH=/dev-emails
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
     - DJANGO_SECRET_KEY=my.secret.key.is.not.secret!
-    - DJANGO_OSMAXX_CONVERSION_SERVICE_URL=http://conversion_service:8901/api/
-    - DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=osmaxx
-    - DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=osmaxx
+    # should correspond to link defined under `links`
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_URL=http://conversionservice:8901/api/
+    # corresponds to `conversionservice`: SERVICE_USER_NAME
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=dev
+    # corresponds to `conversionservice`: SERVICE_USER_PASSWORD
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=dev
 
 databasedev:
   extends:
@@ -56,3 +59,58 @@ databasedev:
     - shareddatadev
   environment:
     - PGDATA=/database/data
+
+######## CONVERSION SERVICE ###########
+conversionworker:
+  extends:
+    file: compose-common.yml
+    service: conversionenvironment
+  image: geometalab/osmaxx-conversion-worker
+  command: [honcho, -f, ./conversion_service/worker/Procfile, start]
+  volumes_from:
+    - conversionservicedata
+  links:
+    - conversionserviceredis:redis
+
+conversionservice:
+  extends:
+    file: compose-common.yml
+    service: conversionenvironment
+  image: geometalab/osmaxx-conversion-service
+  command: [honcho, -f, ./conversion_service/Procfile.dev, start]
+  ports:
+    - "8901:8901"
+  expose:
+    - "8901"
+  volumes_from:
+    - conversionservicedata
+  links:
+    - conversionserviceredis:redis
+    - conversionservicepostgres:database
+  environment:
+    - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
+    # needs to be the same as `DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME` in `webappdev`
+    - SERVICE_USER_NAME=dev
+    # needs to be the same as `DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD` in `webappdev`
+    - SERVICE_USER_PASSWORD=dev
+
+conversionservicedata:
+  image: debian:jessie
+  command: echo true
+  volumes:
+    - /data/results
+    - /tmp/osm-planet/:/var/data/osm-planet
+
+osmplanet:
+  image: geometalab/osm-planet
+  volumes_from:
+    - conversionservicedata
+  environment:
+    - osm_planet_mirror=http://download.geofabrik.de/europe/
+    - osm_planet_path_relative_to_mirror=switzerland-latest.osm.pbf
+
+conversionserviceredis:
+  image: redis
+
+conversionservicepostgres:
+  image: geometalab/postgis:9.4
