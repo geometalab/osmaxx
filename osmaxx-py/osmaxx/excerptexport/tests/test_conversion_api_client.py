@@ -96,9 +96,10 @@ class ConversionApiClientTestCase(TestCase):
             success = api_client.download_result_files(self.extraction_order)
             self.assertIsNone(api_client.errors)
             self.assertTrue(success)
-            self.assertEqual(self.extraction_order.output_files.count(), 2)
-            self.assertEqual(self.extraction_order.output_files.order_by('id')[0].content_type, 'fgdb')
-            self.assertEqual(self.extraction_order.output_files.order_by('id')[1].content_type, 'spatialite')
+            self.assertCountEqual(
+                (f.content_type for f in self.extraction_order.output_files.all()),
+                ['fgdb', 'spatialite']
+            )
             self.assertAlmostEqual(
                 len(self.extraction_order.output_files.order_by('id')[0].file.read()),
                 446005,
