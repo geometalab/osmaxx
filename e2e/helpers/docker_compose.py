@@ -1,7 +1,6 @@
 import os
 import shlex
 import subprocess
-from time import sleep
 
 
 def stop():
@@ -27,14 +26,6 @@ def pull():
 
 
 def start():
-    subprocess.check_call("docker-compose up -d databasedev".split(' '))
-
-    sleep(10)
-
-    subprocess.check_call(
-        shlex.split("docker-compose run --rm webappdev /bin/bash -c './manage.py migrate'", comments=True)
-    )
-
     subprocess.check_call("docker-compose up -d".split(' '))
 
 

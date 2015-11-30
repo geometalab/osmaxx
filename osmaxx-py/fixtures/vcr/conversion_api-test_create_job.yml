@@ -1,54 +1,53 @@
 interactions:
 - request:
     body: !!binary |
-      eyJwYXNzd29yZCI6ICIxMjM0NTY3OCIsICJ1c2VybmFtZSI6ICJvc21heHhpIiwgIm5leHQiOiAi
-      aHR0cDovL2xvY2FsaG9zdDo4OTAxL2FwaS8ifQ==
+      eyJ1c2VybmFtZSI6ICJkZXYiLCAibmV4dCI6ICJodHRwOi8vbG9jYWxob3N0Ojg5MDEvYXBpLyIs
+      ICJwYXNzd29yZCI6ICJkZXYifQ==
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      Content-Length: ['85']
+      Content-Length: ['76']
       Content-Type: [application/json; charset=UTF-8]
       Referer: ['http://localhost:8901/api/token-auth/']
-      User-Agent: [python-requests/2.6.2 CPython/3.4.2 Linux/3.16.0-4-amd64]
+      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.16.0-38-generic]
     method: POST
     uri: http://localhost:8901/api/token-auth/
   response:
-    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IiIsImV4cCI6MTQ0Nzc2MzM1NSwidXNlcm5hbWUiOiJvc21heHhpIn0.Jj-y0vLnMA7LklSPGT5S2yITfd2zlAkr-Nwdi8tPz8Q"}'}
+    body: {string: '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDg2NDQ5NTgsImVtYWlsIjoiIiwidXNlcm5hbWUiOiJkZXYiLCJ1c2VyX2lkIjoxfQ.F8xUECd1Ypk9o1HDwM8v4vAfmbiVK-U11iMAWJ_Ikck"}'}
     headers:
       Allow: ['POST, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Tue, 17 Nov 2015 12:24:15 GMT']
+      Date: ['Fri, 27 Nov 2015 17:17:38 GMT']
       Server: [Werkzeug/0.10.4 Python/3.4.3]
       Vary: [Accept]
       X-Frame-Options: [SAMEORIGIN]
     status: {code: 200, message: OK}
 - request:
     body: !!binary |
-      eyJnaXNfb3B0aW9ucyI6IHsiY29vcmRpbmF0ZV9yZWZlcmVuY2Vfc3lzdGVtIjogIldHU184NCIs
-      ICJkZXRhaWxfbGV2ZWwiOiAxfSwgImV4dGVudCI6IHsicG9seWZpbGUiOiBudWxsLCAibm9ydGgi
-      OiA0MC43NzczOTczNDc2ODgxMSwgInNvdXRoIjogNDAuNzc1NDY3NzY0OTgxNzQsICJ3ZXN0Ijog
-      MjkuNTI1NTQ3NjIzNjM0MzM1LCAiZWFzdCI6IDI5LjUyODk4MDg1MTE3MzM5N30sICJjYWxsYmFj
-      a191cmwiOiAiaHR0cDovL2V4YW1wbGUuY29tIiwgImdpc19mb3JtYXRzIjogWyJmZ2RiIiwgInNw
-      YXRpYWxpdGUiXX0=
+      eyJjYWxsYmFja191cmwiOiAiaHR0cDovL2V4YW1wbGUuY29tIiwgImdpc19mb3JtYXRzIjogWyJm
+      Z2RiIiwgInNwYXRpYWxpdGUiXSwgImdpc19vcHRpb25zIjogeyJkZXRhaWxfbGV2ZWwiOiAxLCAi
+      Y29vcmRpbmF0ZV9yZWZlcmVuY2Vfc3lzdGVtIjogIldHU184NCJ9LCAiZXh0ZW50IjogeyJwb2x5
+      ZmlsZSI6IG51bGwsICJub3J0aCI6IDQwLjc3NzM5NywgImVhc3QiOiAyOS41Mjg5ODEsICJzb3V0
+      aCI6IDQwLjc3NTQ2OCwgIndlc3QiOiAyOS41MjU1NDh9fQ==
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IiIsImV4cCI6MTQ0Nzc2MzM1NSwidXNlcm5hbWUiOiJvc21heHhpIn0.Jj-y0vLnMA7LklSPGT5S2yITfd2zlAkr-Nwdi8tPz8Q]
+      Authorization: [JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDg2NDQ5NTgsImVtYWlsIjoiIiwidXNlcm5hbWUiOiJkZXYiLCJ1c2VyX2lkIjoxfQ.F8xUECd1Ypk9o1HDwM8v4vAfmbiVK-U11iMAWJ_Ikck]
       Connection: [keep-alive]
-      Content-Length: ['296']
+      Content-Length: ['262']
       Content-Type: [application/json; charset=UTF-8]
-      User-Agent: [python-requests/2.6.2 CPython/3.4.2 Linux/3.16.0-4-amd64]
+      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.16.0-38-generic]
     method: POST
     uri: http://localhost:8901/api/jobs/
   response:
-    body: {string: '{"rq_job_id":"43dd809f-36fa-4986-8f3e-717258ce7752","callback_url":"http://example.com","status":"http://localhost:8901/api/conversion_result/43dd809f-36fa-4986-8f3e-717258ce7752/","gis_formats":["fgdb","spatialite"],"gis_options":{"coordinate_reference_system":"WGS_84","detail_level":1},"extent":{"west":29.525547623634335,"south":40.77546776498174,"east":29.528980851173397,"north":40.77739734768811,"polyfile":null}}'}
+    body: {string: '{"rq_job_id":"dfa70a20-426f-446a-98f3-d10a48908ab2","callback_url":"http://example.com","status":"http://localhost:8901/api/conversion_result/dfa70a20-426f-446a-98f3-d10a48908ab2/","gis_formats":["fgdb","spatialite"],"gis_options":{"coordinate_reference_system":"WGS_84","detail_level":1},"extent":{"west":29.525548,"south":40.775468,"east":29.528981,"north":40.777397,"polyfile":null}}'}
     headers:
       Allow: ['GET, POST, HEAD, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Tue, 17 Nov 2015 12:24:15 GMT']
+      Date: ['Fri, 27 Nov 2015 17:17:38 GMT']
       Server: [Werkzeug/0.10.4 Python/3.4.3]
       Vary: ['Accept, Cookie']
       X-Frame-Options: [SAMEORIGIN]
