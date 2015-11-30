@@ -1,3 +1,4 @@
+import os
 import time
 import vcr
 
@@ -81,11 +82,14 @@ class ConversionApiClientTestCase(TestCase):
         self.assertIsNotNone(self.extraction_order.process_id)
 
     def test_download_files(self):
-        with vcr.use_cassette('fixtures/vcr/conversion_api-test_download_files.yml') as cassette:
+        cassette_file_location = 'fixtures/vcr/conversion_api-test_download_files.yml'
+        cassette_empty = not os.path.exists(cassette_file_location)
+
+        with vcr.use_cassette(cassette_file_location):
             api_client = ConversionApiClient()
             api_client.create_job(self.extraction_order)
 
-            if cassette.dirty:
+            if cassette_empty:
                 # wait for external service to complete request
                 time.sleep(120)
 
@@ -120,14 +124,17 @@ class ConversionApiClientTestCase(TestCase):
         self.assertEqual(self.extraction_order.output_files.count(), 0)
 
     def test_order_status_done(self):
-        with vcr.use_cassette('fixtures/vcr/conversion_api-test_order_status_done.yml') as cassette:
+        cassette_file_location = 'fixtures/vcr/conversion_api-test_order_status_done.yml'
+        cassette_empty = not os.path.exists(cassette_file_location)
+
+        with vcr.use_cassette(cassette_file_location):
             api_client = ConversionApiClient()
             api_client.create_job(self.extraction_order)
             api_client.update_order_status(self.extraction_order)  # processing
             self.assertEqual(self.extraction_order.output_files.count(), 0)
             self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
 
-            if cassette.dirty:
+            if cassette_empty:
                 # wait for external service to complete request
                 time.sleep(120)
 
