@@ -35,7 +35,7 @@ class CallbackHandlingTest(APITestCase):
         }
 
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
-    @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)
+    @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
     def test_calling_tracker_when_status_query_indicates_started_updates_extraction_order_state(self, *args, **mocks):
         requests_mock = mocks['requests']
