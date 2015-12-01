@@ -1,12 +1,16 @@
+from urllib.parse import urlparse
+
 import os
 import time
 import vcr
 
 from django.contrib.auth.models import User
+from django.core.urlresolvers import resolve
 from django.test.testcases import TestCase
 
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
 from osmaxx.excerptexport.services import ConversionApiClient
+from osmaxx.job_progress.views import tracker
 
 
 class ConversionApiClientAuthTestCase(TestCase):
@@ -70,6 +74,33 @@ class ConversionApiClientTestCase(TestCase):
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
         self.assertEqual(self.extraction_order.process_id, response.json().get('rq_job_id'))
         self.assertIsNotNone(self.extraction_order.process_id)
+
+    @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
+    def test_callback_url_of_created_job_resolves_to_job_updater(self):
+        self.api_client.login()
+        self.assertIsNone(self.extraction_order.process_id)
+
+        response = self.api_client.create_job(self.extraction_order)
+
+        callback_url = response.json()['callback_url']
+        scheme, host, callback_path, params, *_ = urlparse(callback_url)
+        assert scheme.startswith('http')  # also matches https
+
+        match = resolve(callback_path)
+        self.assertEqual(match.func, tracker)
+
+    @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
+    def test_callback_url_of_created_job_refers_to_correct_extraction_order(self):
+        self.api_client.login()
+        self.assertIsNone(self.extraction_order.process_id)
+
+        response = self.api_client.create_job(self.extraction_order)
+
+        callback_url = response.json()['callback_url']
+        scheme, host, callback_path, params, *_ = urlparse(callback_url)
+
+        match = resolve(callback_path)
+        self.assertEqual(match.kwargs, {'order_id': str(self.extraction_order.id)})
 
     def test_download_files(self):
         cassette_file_location = 'fixtures/vcr/conversion_api-test_download_files.yml'

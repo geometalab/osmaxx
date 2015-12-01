@@ -6,6 +6,7 @@ from django.core.files.base import ContentFile
 from osmaxx.api_client.API_client import RESTApiJWTClient
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import private_storage
+from rest_framework.reverse import reverse
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +54,9 @@ class ConversionApiClient(RESTApiJWTClient):
         bounding_geometry = extraction_order.excerpt.bounding_geometry.subclass_instance
 
         request_data = OrderedDict({
-            "callback_url": "http://example.com",
+            "callback_url": "http://example.com{0}".format(
+                reverse('job_progress:tracker', kwargs=dict(order_id=extraction_order.id))
+            ),
             "gis_formats": extraction_order.extraction_configuration['gis_formats'],
             "gis_options": extraction_order.extraction_configuration['gis_options'],
             "extent": {
