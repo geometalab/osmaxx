@@ -75,6 +75,7 @@ class ConversionApiClient(RESTApiJWTClient):
             rq_job_id = response.json().get('rq_job_id', None)
             if rq_job_id:
                 extraction_order.process_id = rq_job_id
+                extraction_order.progress_url = response.json()['status']
                 extraction_order.state = ExtractionOrderState.PROCESSING
                 extraction_order.save()
             else:
@@ -142,12 +143,15 @@ class ConversionApiClient(RESTApiJWTClient):
             False on error
         """
         self.login()
-        response = self.authorized_get(self.conversion_job_status_url.format(job_uuid=extraction_order.process_id))
-
-        if not self.errors:
-            return response.json()
-        else:
+        if not extraction_order.progress_url:  # None or empty
             return None
+
+        response = self.authorized_get(url=extraction_order.progress_url)
+
+        if self.errors:
+            return None
+
+        return response.json()
 
     def update_order_status(self, extraction_order):
         """

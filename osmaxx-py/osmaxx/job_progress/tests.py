@@ -3,12 +3,13 @@ from unittest.mock import patch
 
 import requests_mock
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
 from osmaxx.excerptexport.services.conversion_api_client import ConversionApiClient
 from osmaxx.job_progress import views
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APIRequestFactory
 
 
 class CallbackHandlingTest(APITestCase):
@@ -59,6 +60,12 @@ class CallbackHandlingTest(APITestCase):
             })
         )
 
-        views.tracker(request=None, order_id=self.extraction_order.id)
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(order_id=self.extraction_order.id)),
+            data=dict(status='http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/')
+        )
+
+        views.tracker(request, order_id=self.extraction_order.id)
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)

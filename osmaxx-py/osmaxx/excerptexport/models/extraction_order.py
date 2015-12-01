@@ -28,6 +28,7 @@ class ExtractionOrder(models.Model):
     process_id = models.TextField(blank=True, null=True, verbose_name=_('process link'))
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'))
+    progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
 
     def __str__(self):
         return '[' + str(self.id) + '] orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt.name +\
