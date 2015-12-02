@@ -7,7 +7,6 @@ from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
@@ -136,20 +135,17 @@ def list_orders(request):
                               context_instance=RequestContext(request))
 
 
-def get_admin_user_or_none():
-    admin_user_name = settings.OSMAXX['account_manager_username']
-    try:
-        return User.objects.get(username=admin_user_name)
-    except User.DoesNotExist:
-        logging.exception("Admin user '%s' missing." % settings.OSMAXX['account_manager_username'])
-        return None
-
-
 def access_denied(request):
+    user_administrator_email = settings.OSMAXX.get('OSMAXX_ACCOUNT_MANAGER_EMAIL')
+    if not user_administrator_email:
+        logging.exception(
+            "You don't have an `user_administrator_email` defined. Please add one."
+        )
+
     view_context = {
         'next_page': request.GET['next'],
         'user': request.user,
-        'admin_user': get_admin_user_or_none()
+        'user_administrator_email': user_administrator_email,
     }
     return render_to_response('excerptexport/templates/access_denied.html', context=view_context,
                               context_instance=RequestContext(request))

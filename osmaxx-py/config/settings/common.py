@@ -371,7 +371,7 @@ OSMAXX = {
     'orders_history_number_of_items': 100,
     # The email adress of this user will be used to generate the mailto link for users
     # to request access to osmaxx (access_denied page)
-    'account_manager_username': env.str('ACCOUNT_MANAGER_USERNAME', default='admin'),
+    'ACCOUNT_MANAGER_EMAIL': env.str('OSMAXX_ACCOUNT_MANAGER_EMAIL', default=DEFAULT_FROM_EMAIL),
     'CONVERSION_SERVICE_URL': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_URL', default='http://localhost:8901/api/'),
     'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME', default='default_user'),
     'CONVERSION_SERVICE_PASSWORD': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD', default='default_password'),
