@@ -49,7 +49,7 @@ class CallbackHandlingTest(APITestCase):
 
         self.assertRaises(
             Http404,
-            views.tracker, request, order_id=self.nonexistant_extraction_order_id
+            views.tracker, request, str(order_id=self.nonexistant_extraction_order_id)
         )
         request.resolver_match
 
@@ -85,6 +85,6 @@ class CallbackHandlingTest(APITestCase):
             data=dict(status='http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/')
         )
 
-        views.tracker(request, order_id=self.extraction_order.id)
+        views.tracker(request, order_id=str(self.extraction_order.id))
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
