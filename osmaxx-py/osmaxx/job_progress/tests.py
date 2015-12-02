@@ -4,6 +4,7 @@ from unittest.mock import patch
 import requests_mock
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.http.response import Http404
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
@@ -33,6 +34,24 @@ class CallbackHandlingTest(APITestCase):
                 'detail_level': 1
             }
         }
+        self.nonexistant_extraction_order_id = 999
+        self.assertRaises(
+            ExtractionOrder.DoesNotExist,
+            ExtractionOrder.objects.get, pk=self.nonexistant_extraction_order_id
+        )
+
+    def test_calling_tracker_with_nonexistant_extraction_order_raises_404_not_found(self):
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(order_id=self.nonexistant_extraction_order_id)),
+            data=dict(status='http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/')
+        )
+
+        self.assertRaises(
+            Http404,
+            views.tracker, request, order_id=self.nonexistant_extraction_order_id
+        )
+        request.resolver_match
 
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
