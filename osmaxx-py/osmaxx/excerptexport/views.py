@@ -136,7 +136,7 @@ def list_orders(request):
 
 
 def access_denied(request):
-    user_administrator_email = settings.OSMAXX.get('OSMAXX_ACCOUNT_MANAGER_EMAIL')
+    user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
     if not user_administrator_email:
         logging.exception(
             "You don't have an user account manager email address defined. Please set OSMAXX_ACCOUNT_MANAGER_EMAIL."
