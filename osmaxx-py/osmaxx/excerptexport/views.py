@@ -139,7 +139,7 @@ def access_denied(request):
     user_administrator_email = settings.OSMAXX.get('OSMAXX_ACCOUNT_MANAGER_EMAIL')
     if not user_administrator_email:
         logging.exception(
-            "You don't have an `user_administrator_email` defined. Please add one."
+            "You don't have an user account manager email address defined. Please set OSMAXX_ACCOUNT_MANAGER_EMAIL."
         )
 
     view_context = {
