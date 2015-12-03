@@ -21,7 +21,6 @@ class ExtractionOrderState(enum.Enum):
 
 class ExtractionOrder(models.Model):
     state = enum.EnumField(ExtractionOrderState, default=ExtractionOrderState.INITIALIZED, verbose_name=_('state'))
-    process_start_date = models.DateTimeField(null=True, verbose_name=_('process start date'))
     _extraction_configuration = models.TextField(
         blank=True, null=True, default='', verbose_name=_('extraction options')
     )

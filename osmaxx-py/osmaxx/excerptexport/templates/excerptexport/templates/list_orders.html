@@ -17,9 +17,6 @@
                     {% blocktrans with excerpt_name=extraction_order.excerpt.name %}Extraction of &quot;{{ excerpt_name }}&quot;{% endblocktrans %}</a>
                 </h3>
                 <p>
-                    {% if extraction_order.process_start_date %}
-                    <span class="date download_detail">{{ extraction_order.process_start_date|date:"SHORT_DATE_FORMAT" }}</span>
-                    {% endif %}
                     {% if extraction_order.output_files.count > 0 %}
                     <span class="number_of_downloads download_detail">{% blocktrans with number_of_output_files=extraction_order.output_files.count %}<strong>{{ number_of_output_files }} Downloads</strong>{% endblocktrans %}</span>
                     {% endif %}

@@ -27,9 +27,6 @@
                         {% endwith %}
                     </td>
                 </tr>
-                {% if extraction_order.process_start_date %}
-                <tr><th>{% trans 'Extraction started at' %}</th><td>{{ extraction_order.process_start_date|date:"r" }}</td></tr>
-                {% endif %}
                 <tr><th>{% trans 'Issuer' %}</th><td>{{ extraction_order.orderer.get_username }}</td></tr>
             </tbody>
         </table>
