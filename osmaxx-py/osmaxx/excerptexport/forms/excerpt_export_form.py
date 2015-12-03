@@ -221,11 +221,11 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
         else:
             raise Http404()
         extraction_order.save()
-        self._execute_converters(extraction_order)
+        self.execute_converters(extraction_order)
         return extraction_order
 
     # helper methods
-    def _execute_converters(self, extraction_order):
+    def execute_converters(self, extraction_order):
         get_authenticated_api_client().create_job(extraction_order)
 
     def _generate_extraction_options(self):
