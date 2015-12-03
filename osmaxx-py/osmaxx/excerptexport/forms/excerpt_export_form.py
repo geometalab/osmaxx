@@ -6,7 +6,6 @@ from crispy_forms import helper as form_helper
 from crispy_forms import layout as form_layout
 from osmaxx.excerptexport.forms.excerpt_order_form_helpers import SelectWidgetWithDataOptions
 from osmaxx.excerptexport.models import BBoxBoundingGeometry, Excerpt, ExtractionOrder
-from osmaxx.excerptexport.services.conversion_api_client import get_authenticated_api_client
 from osmaxx.utilities.dict_helpers import select_keys
 from .temporary_form_helper import available_format_choices, get_export_options
 
@@ -224,9 +223,6 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
         return extraction_order
 
     # helper methods
-    def execute_converters(self, extraction_order):
-        get_authenticated_api_client().create_job(extraction_order)
-
     def _generate_extraction_options(self):
         return get_export_options(self.cleaned_data['formats'])
 
