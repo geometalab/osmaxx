@@ -14,7 +14,7 @@ def get_polyfile_name_to_file_mapping():
     return polyfile_mapping
 
 
-def polyfile_to_GEOSGeometry(relative_polygon_file):
+def polyfile_to_geos_geometry(relative_polygon_file):
     with open(os.path.join(polyfile_location, relative_polygon_file)) as poly_file:
         poly = GEOSGeometry(parse_poly(poly_file.readlines()))
     return poly
@@ -44,7 +44,7 @@ def parse_poly(lines):
 
         elif in_ring:
             # we are in a ring and picking up new coordinates.
-            ring.append([val for val in map(float, line.split())])
+            ring.append([val for val in map(float, line.split())])  # noqa: this is too complicated for flake to understand that ring will be defined if we reach this point
 
         elif not in_ring and line.strip() == 'END':
             # we are at the end of the whole polygon.
@@ -59,7 +59,7 @@ def parse_poly(lines):
         elif not in_ring:
             # we are at the start of a polygon part.
             coords.append([[]])
-            ring = coords[-1][0]
+            ring = coords[-1][0]  # noqa: it is in fact used in the next iteration.
             in_ring = True
 
-    return MultiPolygon ( *(Polygon ( *polycoords ) for polycoords in coords) )
+    return MultiPolygon(*(Polygon(*polycoords) for polycoords in coords))
