@@ -216,9 +216,9 @@ table tr:nth-child(odd) td  { background: rgb(210,240,255); }
 .order { padding: 0  1rem; margin: 0.5rem 0; border: 0.05rem solid silver; background: whitesmoke; border-radius: 0.25rem; }
 .order h3 { margin: 0.5rem 0; }
 
-[data-order-status="UNDEFINED"], [data-order-status="INITIALIZED"], [data-order-status="WAITING"] { opacity: 0.5; }
+[data-order-status="UNDEFINED"], [data-order-status="INITIALIZED"], [data-order-status="QUEUED"] { opacity: 0.5; }
 [data-order-status="INITIALIZED"] { background: lightcyan; border: 0.1rem solid cornflowerblue; }
-[data-order-status="WAITING"] { background: lightyellow; border: 0.1rem solid yellow; }
+[data-order-status="QUEUED"] { background: lightyellow; border: 0.1rem solid yellow; }
 [data-order-status="PROCESSING"] { background: aliceblue; border: 0.1rem solid steelblue; }
 [data-order-status="FINISHED"] { background: honeydew; border: 0.1rem solid seagreen; }
 [data-order-status="CANCELED"] { background: peachpuff; border: 0.1rem solid maroon; }

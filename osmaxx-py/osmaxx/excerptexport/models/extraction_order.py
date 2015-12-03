@@ -12,7 +12,7 @@ from .excerpt import Excerpt
 class ExtractionOrderState(enum.Enum):
     UNDEFINED = 0
     INITIALIZED = 1
-    WAITING = 2
+    QUEUED = 2
     PROCESSING = 3
     FINISHED = 4
     CANCELED = 5
