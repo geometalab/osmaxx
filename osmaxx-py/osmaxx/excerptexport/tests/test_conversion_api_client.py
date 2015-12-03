@@ -71,7 +71,7 @@ class ConversionApiClientTestCase(TestCase):
         expected_keys_in_response = ["rq_job_id", "callback_url", "status", "gis_formats", "gis_options", "extent"]
         actual_keys_in_response = list(response.json().keys())
         self.assertCountEqual(expected_keys_in_response, actual_keys_in_response)
-        self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
+        self.assertEqual(self.extraction_order.state, ExtractionOrderState.QUEUED)
         self.assertEqual(self.extraction_order.process_id, response.json().get('rq_job_id'))
         self.assertIsNotNone(self.extraction_order.process_id)
 

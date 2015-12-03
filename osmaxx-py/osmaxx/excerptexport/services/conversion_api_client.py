@@ -76,7 +76,7 @@ class ConversionApiClient(RESTApiJWTClient):
             if rq_job_id:
                 extraction_order.process_id = rq_job_id
                 extraction_order.progress_url = response.json()['status']
-                extraction_order.state = ExtractionOrderState.PROCESSING
+                extraction_order.state = ExtractionOrderState.QUEUED
                 extraction_order.save()
             else:
                 logging.error('Could not retrieve api job id from response.', response)

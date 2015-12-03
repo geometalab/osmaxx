@@ -178,8 +178,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
-        # from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-        # self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED) TODO: Re-enable
+        from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
+        self.assertEqual(newly_created_order.state, ExtractionOrderState.QUEUED)
         # self.assertIsNotNone(newly_created_order.process_start_date) TODO: Re-enable
         # TODO: Re-enable
         # self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
@@ -202,8 +202,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
-        # from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-        # self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED) TODO: Re-enable
+        from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
+        self.assertEqual(newly_created_order.state, ExtractionOrderState.QUEUED)
         # self.assertIsNotNone(newly_created_order.process_start_date) TODO: Re-enable
         # TODO: Re-enable
         # self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
