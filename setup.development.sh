@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Setup a docker compose container used to start the development application
-# Setup application & database
-
 # stop containers & cleanup
 docker-compose stop
 docker-compose rm -f
@@ -11,5 +8,5 @@ docker-compose rm -f
 docker-compose pull
 docker-compose build
 
-# migrate
-docker-compose run --rm webappdev /bin/bash -c './manage.py createsuperuser'
+# create superuser
+docker-compose run webappdev /bin/bash -c './manage.py createsuperuser'
