@@ -8,13 +8,14 @@ from countries.utils import get_polyfile_name_to_file_mapping, polyfile_to_geos_
 
 class Migration(migrations.Migration):
     def import_countries(apps, schema_editor):  # noqa
+        tolerance = 0.01  # in degrees
         Country = apps.get_model("countries", "Country")  # noqa
         for name, polyfile_path in get_polyfile_name_to_file_mapping().items():
-            geometry = polyfile_to_geos_geometry(polyfile_path)
+            geometry = polyfile_to_geos_geometry(polyfile_path, simplify_tolerance=tolerance)
             Country.objects.create(
                 name=name,
                 polyfile=polyfile_path,
-                associated_multipolygon=geometry,
+                simplified_polygon=geometry,
             )
 
     def remove_countries(apps, schema_editor):  # noqa

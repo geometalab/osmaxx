@@ -14,9 +14,11 @@ def get_polyfile_name_to_file_mapping():
     return polyfile_mapping
 
 
-def polyfile_to_geos_geometry(relative_polygon_file):
+def polyfile_to_geos_geometry(relative_polygon_file, simplify_tolerance=None):
     with open(os.path.join(polyfile_location, relative_polygon_file)) as poly_file:
         poly = GEOSGeometry(parse_poly(poly_file.readlines()))
+        if simplify_tolerance:
+            poly.simplify(tolerance=simplify_tolerance)
     return poly
 
 
