@@ -221,7 +221,6 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
         else:
             raise Http404()
         extraction_order.save()
-        self.execute_converters(extraction_order)
         return extraction_order
 
     # helper methods

@@ -52,6 +52,7 @@ class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
 
     def form_valid(self, form):
         extraction_order = form.save(self.request.user)
+        form.execute_converters(extraction_order)
         messages.info(
             self.request,
             _('Queued extraction order {id}. The conversion process will start soon.').format(
