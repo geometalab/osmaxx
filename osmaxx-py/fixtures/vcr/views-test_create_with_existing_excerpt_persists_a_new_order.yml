@@ -1,0 +1,55 @@
+interactions:
+- request:
+    body: !!binary |
+      eyJuZXh0IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODkwMS9hcGkvIiwgInVzZXJuYW1lIjogImRldiIs
+      ICJwYXNzd29yZCI6ICJkZXYifQ==
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['76']
+      Content-Type: [application/json; charset=UTF-8]
+      Referer: ['http://localhost:8901/api/token-auth/']
+      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.13.0-68-generic]
+    method: POST
+    uri: http://localhost:8901/api/token-auth/
+  response:
+    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6IiIsImV4cCI6MTQ0OTE0OTcxOCwidXNlcm5hbWUiOiJkZXYifQ.vUNyC9jl4eLGydb5xfPWTtQUOaa3gM1Cue4OT5oFaQo"}'}
+    headers:
+      Allow: ['POST, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Thu, 03 Dec 2015 13:30:18 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.3]
+      Vary: [Accept]
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      eyJjYWxsYmFja191cmwiOiAiaHR0cDovL2V4YW1wbGUuY29tL2pvYl9wcm9ncmVzcy90cmFja2Vy
+      LzEvIiwgImdpc19mb3JtYXRzIjogWyJmZ2RiIl0sICJleHRlbnQiOiB7Im5vcnRoIjogMC4wLCAi
+      d2VzdCI6IDAuMCwgInNvdXRoIjogMC4wLCAiZWFzdCI6IDAuMCwgInBvbHlmaWxlIjogbnVsbH0s
+      ICJnaXNfb3B0aW9ucyI6IHsiY29vcmRpbmF0ZV9yZWZlcmVuY2Vfc3lzdGVtIjogIldHU184NCIs
+      ICJkZXRhaWxfbGV2ZWwiOiAxfX0=
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6IiIsImV4cCI6MTQ0OTE0OTcxOCwidXNlcm5hbWUiOiJkZXYifQ.vUNyC9jl4eLGydb5xfPWTtQUOaa3gM1Cue4OT5oFaQo]
+      Connection: [keep-alive]
+      Content-Length: ['248']
+      Content-Type: [application/json; charset=UTF-8]
+      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.13.0-68-generic]
+    method: POST
+    uri: http://localhost:8901/api/jobs/
+  response:
+    body: {string: '{"rq_job_id":"b7dc7b5e-b1c9-4efd-9f6c-48692efa104e","callback_url":"http://example.com/job_progress/tracker/1/","status":"http://localhost:8901/api/conversion_result/b7dc7b5e-b1c9-4efd-9f6c-48692efa104e/","gis_formats":["fgdb"],"gis_options":{"coordinate_reference_system":"WGS_84","detail_level":1},"extent":{"west":0.0,"south":0.0,"east":0.0,"north":0.0,"polyfile":null}}'}
+    headers:
+      Allow: ['GET, POST, HEAD, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Thu, 03 Dec 2015 13:30:18 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.3]
+      Vary: ['Accept, Cookie']
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 201, message: CREATED}
+version: 1
