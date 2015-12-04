@@ -9,6 +9,7 @@ from rest_framework.reverse import reverse
 from converters import CONVERTER_CHOICES, converter_settings
 from converters.boundaries import BBox
 from converters.converter import Options
+from countries.models import Country
 from shared import JobStatus, ConversionProgress, rq_job_status_mapping
 from utils.directory_helper import get_file_only_path_list_in_directory
 
@@ -18,7 +19,7 @@ class Extent(models.Model):
     south = models.FloatField(_('south'), null=True, blank=True)
     east = models.FloatField(_('east'), null=True, blank=True)
     north = models.FloatField(_('north'), null=True, blank=True)
-    polyfile = models.FileField(_('polyfile'), null=True, blank=True)
+    polyfile = models.FileField(_('polyfile (deprecated)'), null=True, blank=True)
 
     def clean(self, exclude=None, validate_unique=True):
         if self._bbox_partially_present() and not self._bbox_present():

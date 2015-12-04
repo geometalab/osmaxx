@@ -19,7 +19,7 @@ class StatusHyperlinkSerializer(serializers.HyperlinkedRelatedField):
 
 
 class ExtentSerializer(ModelSideValidationMixin, serializers.ModelSerializer):
-    polyfile = serializers.FileField(max_length=None, allow_empty_file=True, allow_null=True)
+    polyfile = serializers.FileField(max_length=None, allow_empty_file=True, allow_null=True, required=False)
 
     class Meta:
         model = Extent
