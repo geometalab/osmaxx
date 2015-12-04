@@ -23,26 +23,26 @@
         </p>
 
         <h3>clavid.ch users</h3>
-        <form id="clavidch-login-form" method="post" action="{% url 'social:begin' 'clavid.ch' %}">{% csrf_token %}
+        <form id="clavidch-login-form" method="post" action="{% url 'social:begin' 'clavid.ch' %}" class="form-inline">{% csrf_token %}
             <div class="form-group">
                 <div><label for="clavid_ch_openid_user">user name</label></div>
                 <div>
-                    <input name="openid_user" id="clavid_ch_openid_user" type="text" required="required" placeholder="username" />
+                    <input name="openid_user" class="form-control" id="clavid_ch_openid_user" type="text" required="required" placeholder="username" />
                     <span>.clavid.ch</span>
-                    <input type="submit" value="login" />
+                    <input type="submit" class="btn btn-default" value="login" />
                 </div>
             </div>
             <input type="hidden" name="next" value="{{ next }}" />
         </form>
 
         <h3>clavid.com users</h3>
-        <form id="clavidcom-login-form" method="post" action="{% url 'social:begin' 'clavid.com' %}">{% csrf_token %}
+        <form id="clavidcom-login-form" method="post" action="{% url 'social:begin' 'clavid.com' %}" class="form-inline">{% csrf_token %}
             <div class="form-group">
                 <div><label for="clavid_com_openid_user">user name</label></div>
                 <div>
-                    <input name="openid_user" id="clavid_com_openid_user" type="text" required="required" placeholder="username" />
+                    <input name="openid_user" class="form-control" id="clavid_com_openid_user" type="text" required="required" placeholder="username" />
                     <span>.clavid.com</span>
-                    <input type="submit" value="login" />
+                    <input type="submit" class="btn btn-default" value="login" />
                 </div>
             </div>
             <input type="hidden" name="next" value="{{ next }}" />

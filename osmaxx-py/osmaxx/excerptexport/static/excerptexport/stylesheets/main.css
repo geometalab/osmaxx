@@ -6,7 +6,7 @@ body                { padding: 0; margin: 0; overflow: hidden; }
                     -webkit-flex-flow: column nowrap; -moz-flex-flow: column nowrap; -ms-flex-flow: column nowrap; flex-flow: column nowrap;
                     -webkit-justify-content: space-between; -moz-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between; }
 
-header, footer      { background: #286090; color: white; flex-shrink: 0; /* prevent webkit from shrinking content and overlapping rows*/ }
+header, footer      { background: rgb(0, 80, 146); color: white; flex-shrink: 0; /* prevent webkit from shrinking content and overlapping rows*/ }
 header > .topBar    { padding: 1rem; }
 
 .main               { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
@@ -49,7 +49,7 @@ footer p            { margin: 1rem; }
 .box-column-container.balanced      { -webkit-justify-content: space-around; -moz-justify-content: space-around; -ms-justify-content: space-around; justify-content: space-around; }
 
 
-.messagebox         { box-shadow: 0px 2.5rem 5rem gray; z-index: 10000; }
+.messagebox         { box-shadow: 0px 0rem 2.5rem rgb(128, 128, 128); z-index: 10000; }
 .messages           { margin: 0; padding: 0; list-style: none; width: 100%; }
 .messages > li      { margin: 0; }
 .messages .alert    { border-radius: 0; border-width: 0 0 0 1rem; }
@@ -61,13 +61,15 @@ footer p            { margin: 1rem; }
 /* map */
 #map                { height: 100%; /* fix height in chrome */ min-height: 60vh; }
 .outerMapWrapper    { height: 100%; }
+.leaflet-container  { background: #A9A7A3; }
 
 
 /* font */
-h1                  { font-size: 2rem; margin: 1rem; margin-right: 2rem; float: left; color: white; }
+h1                  { font-size: 2rem; margin: 0; margin-right: 2rem; float: left; color: white; }
 h2                  { margin-top: 0; }
 span.smaller        { font-size: 0.75em; }
 p                   { word-wrap: break-word; }
+a                   { color: rgb(30, 102, 158); }
 
 
 /* icons */
@@ -84,15 +86,31 @@ p                   { word-wrap: break-word; }
     line-height: 2rem;
     text-align: center;
 }
+header .logo {
+    float: left;
+    height: 4rem;
+    width: auto;
+    margin-right: 1rem;
+}
+.hsr-logo {
+    float: right;
+    height: 4rem;
+    width: auto;
+}
+.menu_icon {
+    height: 1.5rem;
+    width: auto;
+    margin-right: 0.5rem;
+}
 
 
 /* navigation */
 nav ul                          { list-style-type: none; padding: 0; }
-ul.nav.nav-pills li a           { background-color: rgb(20, 80, 120); color: white; }
+ul.nav.nav-pills li a           { background-color: rgb(50, 110, 160); color: white; }
 ul.nav.nav-pills li a:hover     { background-color: steelblue; }
 ul.nav.nav-pills li a strong    { font-size: 0.99em; } /* prevent element overflow caused by bold font */
 
-nav.breadcrumb                  { margin: 0; padding: 1rem 2rem; background: rgb(160, 190, 230); border-radius: 0; color: black; }
+nav.breadcrumb                  { margin: 0; padding: 1rem 2rem; background: rgb(170, 190, 210); border-radius: 0; color: black; }
 nav.breadcrumb > ol.breadcrumb                      { margin: 0; padding: 0; background: none; }
 nav.breadcrumb > ol.breadcrumb > li + li::before    { color: rgb(40, 96, 144); }
 nav.breadcrumb > ol.breadcrumb > .active            { color: white; }
@@ -117,14 +135,14 @@ option {
 }
 optgroup {
     border: none;
-    background: rgb(40, 96, 144);
+    background: rgb(0, 80, 146);
     color: white;
     /*padding-top: 0.5rem;*/
 }
 /* firefox: style optgroup header */
 optgroup:before {
     border: none;
-    background: rgb(40, 96, 144);
+    background: rgb(0, 80, 146);
     color: white;
     padding: 0.5rem;
     display: block;
@@ -204,12 +222,9 @@ ul, ol {
 
 
 /* tables */
-table                       { border: 0.5rem solid #286090; }
+table                       { background: #B2CADE; padding: 0.5rem; display: inline-block; }
 table th, table td          { padding: 0.25rem 0.5rem; }
-table th                    { background: rgb(210,240,255); }
-table tr:nth-child(odd) th  { background: rgb(180,220,255); }
-table tr td                 { background: aliceblue; }
-table tr:nth-child(odd) td  { background: rgb(210,240,255); }
+table th                    { padding-right: 2rem; }
 
 
 /* order */
