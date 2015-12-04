@@ -6,7 +6,7 @@ body                { padding: 0; margin: 0; overflow: hidden; }
                     -webkit-flex-flow: column nowrap; -moz-flex-flow: column nowrap; -ms-flex-flow: column nowrap; flex-flow: column nowrap;
                     -webkit-justify-content: space-between; -moz-justify-content: space-between; -ms-justify-content: space-between; justify-content: space-between; }
 
-header, footer      { background: #286090; color: white; flex-shrink: 0; /* prevent webkit from shrinking content and overlapping rows*/ }
+header, footer      { background: rgb(0, 80, 146); color: white; flex-shrink: 0; /* prevent webkit from shrinking content and overlapping rows*/ }
 header > .topBar    { padding: 1rem; }
 
 .main               { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
@@ -68,6 +68,7 @@ h1                  { font-size: 2rem; margin: 1rem; margin-right: 2rem; float: 
 h2                  { margin-top: 0; }
 span.smaller        { font-size: 0.75em; }
 p                   { word-wrap: break-word; }
+a                   { color: rgb(30, 102, 158); }
 
 
 /* icons */
@@ -84,15 +85,31 @@ p                   { word-wrap: break-word; }
     line-height: 2rem;
     text-align: center;
 }
+header .logo {
+    float: left;
+    height: 4rem;
+    width: auto;
+    margin-right: 1rem;
+}
+.hsr-logo {
+    float: right;
+    height: 4rem;
+    width: auto;
+}
+.menu_icon {
+    height: 1.5rem;
+    width: auto;
+    margin-right: 0.5rem;
+}
 
 
 /* navigation */
 nav ul                          { list-style-type: none; padding: 0; }
-ul.nav.nav-pills li a           { background-color: rgb(20, 80, 120); color: white; }
+ul.nav.nav-pills li a           { background-color: rgb(40,100,150); color: white; }
 ul.nav.nav-pills li a:hover     { background-color: steelblue; }
 ul.nav.nav-pills li a strong    { font-size: 0.99em; } /* prevent element overflow caused by bold font */
 
-nav.breadcrumb                  { margin: 0; padding: 1rem 2rem; background: rgb(160, 190, 230); border-radius: 0; color: black; }
+nav.breadcrumb                  { margin: 0; padding: 1rem 2rem; background: rgb(178, 202, 222); border-radius: 0; color: black; }
 nav.breadcrumb > ol.breadcrumb                      { margin: 0; padding: 0; background: none; }
 nav.breadcrumb > ol.breadcrumb > li + li::before    { color: rgb(40, 96, 144); }
 nav.breadcrumb > ol.breadcrumb > .active            { color: white; }

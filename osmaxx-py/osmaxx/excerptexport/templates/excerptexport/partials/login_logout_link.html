@@ -1,11 +1,14 @@
 {% load i18n %}
+{% load staticfiles %}
 
 {% if user.is_authenticated %}
 <a href="{% url 'excerptexport:logout' %}?next={% url 'excerptexport:index' %}">
-    <span class="menu_icon">&prod;&rarr;</span>&nbsp;{% trans 'Logout' %} <strong>{{ user.username }}</strong>
+    <img class="menu_icon" src='{% static "excerptexport/images/icon-logout.png" %}' alt="Logout" />
+    {% trans 'Logout' %} <strong>{{ user.username }}</strong>
 </a>
 {% else %}
 <a href="{% url 'excerptexport:login' %}?next={% url 'excerptexport:index' %}">
-    <span class="menu_icon">&prod;&larr;</span>&nbsp;{% trans 'Login' %}
+    <img class="menu_icon" src='{% static "excerptexport/images/icon-login.png" %}' alt="Login" />
+    {% trans 'Login' %}
 </a>
 {% endif %}
