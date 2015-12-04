@@ -11,3 +11,12 @@ class CountrySerializer(serializers.ModelSerializer):
             'name',
             'simplified_polygon',
         )
+
+
+class CountryListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = (
+            'id',
+            'name',
+        )

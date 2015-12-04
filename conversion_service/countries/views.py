@@ -1,7 +1,8 @@
 from rest_framework import viewsets, permissions
+from rest_framework.response import Response
 
 from countries.models import Country
-from countries.serializers import CountrySerializer
+from countries.serializers import CountrySerializer, CountryListSerializer
 
 
 class CountryViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -10,3 +11,7 @@ class CountryViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.mixins.ListMod
     permission_classes = (
         permissions.IsAuthenticated,
     )
+
+    def list(self, request, *args, **kwargs):
+        serializer = CountryListSerializer(self.queryset, many=True)
+        return Response(serializer.data)
