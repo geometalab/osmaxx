@@ -26,14 +26,12 @@ def polyfile_to_geos_geometry(relative_polygon_file, simplify_tolerance=None):
 
 
 def parse_poly(lines):
-    """
-    Python3 adaptation of http://wiki.openstreetmap.org/wiki/Osmosis/Polygon_Filter_File_Python_Parsing_Geodjango
-
-        directly stemming from: http://wiki.openstreetmap.org/wiki/Osmosis/Polygon_Filter_File_Python_Parsing_Geodjango
+    """ 
         Parse an Osmosis polygon filter file.
+ 
         Accept a sequence of lines from a polygon file, return a django.contrib.gis.geos.MultiPolygon object.
-        http://wiki.openstreetmap.org/wiki/Osmosis/Polygon_Filter_File_Format
-        Adapted from http://wiki.openstreetmap.org/wiki/Osmosis/Polygon_Filter_File_Python_Parsing
+ 
+        Adapted Python 2 code from http://wiki.openstreetmap.org/wiki/Osmosis/Polygon_Filter_File_Format for Python 3
     """
     in_ring = False
     coords = []
