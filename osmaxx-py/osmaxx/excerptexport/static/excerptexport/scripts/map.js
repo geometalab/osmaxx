@@ -45,7 +45,7 @@
             var locationFilterBounds = this.locationFilter.getBounds();
             if(!this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields(locationFilterBounds)) {
                 this.formElementPartsSwitcher.value = 'new-excerpt';
-                this.formElementPartsSwitcher.dispatchEvent(new Event('change'));
+                window.formPartManager.onFormPartsSwitcherChange();
             }
         };
 
@@ -85,7 +85,7 @@
         this._setLocationFilterFromExcerptID = function(ID) {
             var that = this;
             this.selectedExcerptGeoJson = L.geoJson.ajax("/api/bounding_geometry_from_excerpt/"+ID+"/").on('data:loaded', function(){
-        //TODO: differentiate between boundingbox or country and similar; use this.locationFilter.enable()/disable()
+                //TODO: differentiate between boundingbox or country and similar; use this.locationFilter.enable()/disable()
                 that.locationFilter.setBounds(this.getBounds());
                 map.fitBounds(that.locationFilter.getBounds());
             });
