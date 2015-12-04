@@ -23,7 +23,7 @@ class ExtentSerializer(ModelSideValidationMixin, serializers.ModelSerializer):
 
     class Meta:
         model = Extent
-        fields = ('west', 'south', 'east', 'north', 'polyfile')
+        fields = ('west', 'south', 'east', 'north', 'polyfile', 'country')
 
 
 class GISFormatListSerializer(serializers.ListSerializer):

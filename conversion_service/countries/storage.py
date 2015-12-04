@@ -1,8 +1,10 @@
 import os
 
+from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
-polyfile_location = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'polyfiles')
+polyfile_location = settings.OSMAXX_CONVERSION_SERVICE.get('COUNTRIES_POLYFILE_LOCATION') \
+    or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'polyfiles')
 
 
 class CountryModuleInternalStorage(FileSystemStorage):

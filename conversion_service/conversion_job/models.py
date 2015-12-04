@@ -20,6 +20,7 @@ class Extent(models.Model):
     east = models.FloatField(_('east'), null=True, blank=True)
     north = models.FloatField(_('north'), null=True, blank=True)
     polyfile = models.FileField(_('polyfile (deprecated)'), null=True, blank=True)
+    country = models.ForeignKey(Country, verbose_name=_('country'), null=True, blank=True)
 
     def clean(self, exclude=None, validate_unique=True):
         if self._bbox_partially_present() and not self._bbox_present():
@@ -35,6 +36,9 @@ class Extent(models.Model):
 
     def _polyfile_present(self):
         return bool(self.polyfile)
+
+    def _country_present(self):
+        return self.country is not None
 
     def get_geometry(self):
         if self._polyfile_present():
