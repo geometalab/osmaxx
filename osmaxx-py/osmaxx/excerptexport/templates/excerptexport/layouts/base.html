@@ -26,8 +26,7 @@
         <header>
             <div class="topBar">
                 <a href="{% url 'excerptexport:index' %}">
-                    <img class="logo" src='{% static "excerptexport/images/logo-osmaxx-200.png" %}' alt="Logo osmaxx" />
-                    <h1>Osmaxx</h1>
+                    <h1><img class="logo" src='{% static "excerptexport/images/logo-osmaxx-200.png" %}' alt="Osmaxx" /></h1>
                 </a>
                 <img class="hsr-logo" src='{% static "excerptexport/images/logo-hsr.jpg" %}' alt="Logo hsr" />
                 {% include 'excerptexport/partials/navigation.html' with view=view user=user %}

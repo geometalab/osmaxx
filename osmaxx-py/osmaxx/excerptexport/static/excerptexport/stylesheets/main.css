@@ -65,7 +65,7 @@ footer p            { margin: 1rem; }
 
 
 /* font */
-h1                  { font-size: 2rem; margin: 1rem; margin-right: 2rem; float: left; color: white; }
+h1                  { font-size: 2rem; margin: 0; margin-right: 2rem; float: left; color: white; }
 h2                  { margin-top: 0; }
 span.smaller        { font-size: 0.75em; }
 p                   { word-wrap: break-word; }
