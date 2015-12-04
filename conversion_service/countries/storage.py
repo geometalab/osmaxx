@@ -14,9 +14,8 @@ class CountryModuleInternalStorage(FileSystemStorage):
     It saves all data to a `data` subdirectory in the country module.
     """
     def __init__(self, base_url=None, file_permissions_mode=None, directory_permissions_mode=None):
-        location = polyfile_location
         super().__init__(
-            location=location,
+            location=polyfile_location,
             base_url=base_url,
             file_permissions_mode=file_permissions_mode,
             directory_permissions_mode=directory_permissions_mode
