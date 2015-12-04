@@ -16,10 +16,13 @@ def get_polyfile_name_to_file_mapping():
 
 def polyfile_to_geos_geometry(relative_polygon_file, simplify_tolerance=None):
     with open(os.path.join(polyfile_location, relative_polygon_file)) as poly_file:
-        poly = GEOSGeometry(parse_poly(poly_file.readlines()))
+        poly = parse_poly(poly_file.readlines())
         if simplify_tolerance:
-            poly.simplify(tolerance=simplify_tolerance)
-    return poly
+            poly = poly.simplify(tolerance=simplify_tolerance, preserve_topology=True)
+            # simplifying can lead to a polygon. Assure, it stays a multipolygon.
+            if poly and isinstance(poly, Polygon):
+                poly = MultiPolygon(poly)
+    return GEOSGeometry(poly)
 
 
 def parse_poly(lines):
