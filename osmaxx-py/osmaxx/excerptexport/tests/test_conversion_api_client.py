@@ -42,6 +42,7 @@ class ConversionApiClientAuthTestCase(TestCase):
 
 class ConversionApiClientTestCase(TestCase):
     def setUp(self):
+        self.host = 'the-host.example.com'
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
         self.bounding_box = BBoxBoundingGeometry.create_from_bounding_box_coordinates(
             40.77739734768811, 29.528980851173397, 40.77546776498174, 29.525547623634335
@@ -64,7 +65,7 @@ class ConversionApiClientTestCase(TestCase):
         self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
-        response = self.api_client.create_job(self.extraction_order)
+        response = self.api_client.create_job(self.extraction_order, callback_host=self.host)
 
         self.assertEqual(self.api_client.headers['Authorization'], 'JWT {token}'.format(token=self.api_client.token))
         self.assertIsNone(self.api_client.errors)
@@ -80,7 +81,7 @@ class ConversionApiClientTestCase(TestCase):
         self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
-        response = self.api_client.create_job(self.extraction_order)
+        response = self.api_client.create_job(self.extraction_order, callback_host=self.host)
 
         callback_url = response.json()['callback_url']
         scheme, host, callback_path, params, *_ = urlparse(callback_url)
@@ -93,7 +94,7 @@ class ConversionApiClientTestCase(TestCase):
         self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
-        response = self.api_client.create_job(self.extraction_order)
+        response = self.api_client.create_job(self.extraction_order, callback_host=self.host)
 
         callback_url = response.json()['callback_url']
         scheme, host, callback_path, params, *_ = urlparse(callback_url)
@@ -106,12 +107,12 @@ class ConversionApiClientTestCase(TestCase):
         self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
-        response = self.api_client.create_job(self.extraction_order)
+        response = self.api_client.create_job(self.extraction_order, callback_host=self.host)
 
         callback_url = response.json()['callback_url']
         scheme, host, callback_path, params, *_ = urlparse(callback_url)
         assert scheme.startswith('http')  # also matches https
-        # TODO self.assertEqual(host, self.host)
+        self.assertEqual(host, self.host)
 
     def test_download_files(self):
         cassette_file_location = 'fixtures/vcr/conversion_api-test_download_files.yml'
@@ -119,7 +120,7 @@ class ConversionApiClientTestCase(TestCase):
 
         with vcr.use_cassette(cassette_file_location):
             self.api_client.login()
-            self.api_client.create_job(self.extraction_order)
+            self.api_client.create_job(self.extraction_order, callback_host=self.host)
 
             if cassette_empty:
                 # wait for external service to complete request
@@ -149,7 +150,7 @@ class ConversionApiClientTestCase(TestCase):
         self.assertEqual(self.extraction_order.output_files.count(), 0)
         self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
 
-        self.api_client.create_job(self.extraction_order)
+        self.api_client.create_job(self.extraction_order, callback_host=self.host)
 
         self.api_client.update_order_status(self.extraction_order)
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
@@ -161,7 +162,7 @@ class ConversionApiClientTestCase(TestCase):
 
         with vcr.use_cassette(cassette_file_location):
             self.api_client.login()
-            self.api_client.create_job(self.extraction_order)
+            self.api_client.create_job(self.extraction_order, callback_host=self.host)
             self.api_client.update_order_status(self.extraction_order)  # processing
             self.assertEqual(self.extraction_order.output_files.count(), 0)
             self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
