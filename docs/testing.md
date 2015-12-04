@@ -9,9 +9,18 @@ docker-compose up
 
 ## Running the standard test-suite
 
-running locally, in the `osmaxx-py` directory (using a virtualenv):
-
+Required environment:
 ```shell
+sudo apt-get install python3 libpq-dev python3-dev
+
+virtualenv-3.{version} .venv
+source .venv/bin/activate
+pip3 install -r osmaxx-py/requirements/local.txt
+```
+
+Testrunner:
+```shell
+cd 'osmaxx-py'
 DJANGO_SETTINGS_MODULE=config.settings.test ./manage.py test
 ```
 
