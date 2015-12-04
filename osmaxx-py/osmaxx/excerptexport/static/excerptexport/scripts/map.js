@@ -45,7 +45,7 @@
             var locationFilterBounds = this.locationFilter.getBounds();
             if(!this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields(locationFilterBounds)) {
                 this.formElementPartsSwitcher.value = 'new-excerpt';
-                this.formElementPartsSwitcher.dispatchEvent(new Event('change'));
+                window.formPartManager.onFormPartsSwitcherChange();
             }
         };
 
@@ -60,12 +60,22 @@
             this.inputElementsNewBoundingBox[inputElementKey].addEventListener('change', this.updateMapExcerpt.bind(this));
         }.bind(this));
 
+
         // update excerpt on map on selection of existing excerpt in list
-        this.selectElementExistingExcerpts.addEventListener('change', function() {
+        var getExcerptOptionAndUpdateFilter = function() {
             // we have single select, if it would happen to have two selected, ignore it.
-            var excerptOption = $( "select[id=id_existing_excerpts] option:selected")[0];
-            this._setLocationFilterFromExcerptID(excerptOption.value);
-        }.bind(this));
+            var excerptOption = document.querySelector( "#id_existing_excerpts option:checked");
+            if(excerptOption) {
+                this._setLocationFilterFromExcerptID(excerptOption.value);
+            }
+        }.bind(this);
+        this.selectElementExistingExcerpts.addEventListener('click', getExcerptOptionAndUpdateFilter);
+        this.selectElementExistingExcerpts.addEventListener('keyup', function(event) {
+            // enter, arrow up or down
+            if (event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40) {
+                getExcerptOptionAndUpdateFilter();
+            }
+        });
 
         // enable excerpt on map on change of form mode (existing excerpt or new excerpt)
         this.formElementPartsSwitcher.addEventListener('change', function(event) {
@@ -75,7 +85,7 @@
         this._setLocationFilterFromExcerptID = function(ID) {
             var that = this;
             this.selectedExcerptGeoJson = L.geoJson.ajax("/api/bounding_geometry_from_excerpt/"+ID+"/").on('data:loaded', function(){
-        //TODO: differentiate between boundingbox or country and similar; use this.locationFilter.enable()/disable()
+                //TODO: differentiate between boundingbox or country and similar; use this.locationFilter.enable()/disable()
                 that.locationFilter.setBounds(this.getBounds());
                 map.fitBounds(that.locationFilter.getBounds());
             });
