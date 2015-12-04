@@ -3,6 +3,7 @@ import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
+# the import location, it won't be written anything there
 polyfile_location = settings.OSMAXX_CONVERSION_SERVICE.get('COUNTRIES_POLYFILE_LOCATION') \
     or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'polyfiles')
 
