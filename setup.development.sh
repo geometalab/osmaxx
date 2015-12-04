@@ -9,4 +9,4 @@ docker-compose pull
 docker-compose build
 
 # create superuser
-docker-compose run webappdev /bin/bash -c './manage.py createsuperuser'
+docker-compose run --rm webappdev /bin/bash -c './manage.py createsuperuser'
