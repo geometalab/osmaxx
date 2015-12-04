@@ -17,11 +17,11 @@ Website: http://osmaxx.hsr.ch/
 
 We do not recommend to run the application local on your machine but it's possible. We recommend to use the development docker containers.
 
-## Run it locally on Linux
+## Run it locally on Linux (Development)
 
 ### Prerequisites
 
-To run this project locally, you need docker and docker-compose installed
+To run this project locally, you need **docker 1.9** and **docker-compose 1.5** installed
 (https://docs.docker.com/installation/ubuntulinux/ and https://docs.docker.com/compose/install/).
 
 
@@ -46,16 +46,12 @@ docker-compose build
 Then initiate the project defaults by running the following command:
 
 ```shell
-# For development:
-docker-compose up -d databasedev;
 docker-compose run webappdev /bin/bash -c './manage.py createsuperuser'
 ```
 
 Alternative to this command, bootstrap the container and execute the commands inside the container by hand:
 
 ```shell
-# For development:
-docker-compose up -d databasedev
 docker-compose run webappdev /bin/bash
 ```
 
