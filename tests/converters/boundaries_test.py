@@ -7,9 +7,6 @@ from countries.models import Country
 
 
 class TestBBox(TestCase):
-    def setUp(self):
-        self.boundary = BBox(west=0, south=0, east=0, north=0)
-
     def test_init_when_parameters_are_missing_raises_type_error(self):
         self.assertRaises(TypeError, BBox, west=0, south=0, east=0)
         self.assertRaises(TypeError, BBox, west=0, south=0, north=0)
