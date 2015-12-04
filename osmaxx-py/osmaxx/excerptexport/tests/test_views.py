@@ -1,6 +1,6 @@
 import shutil
 import os
-
+import vcr
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.urlresolvers import reverse
@@ -63,7 +63,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             'formats': ['fgdb'],
         }
         self.existing_excerpt_extraction_options = {
-            'formats': ['fgdb'], 'options': {}
+            'gis_formats': ['fgdb'], 'gis_options': {'coordinate_reference_system': 'WGS_84', 'detail_level': 1}
         }
 
     def tearDown(self):
@@ -131,8 +131,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         response = self.client.post(reverse('excerptexport:new'), self.new_excerpt_post_data)
         self.assertEqual(response.status_code, 302)
 
-    # TODO: reenable this test using the new api
-    def x_test_create_with_new_excerpt(self):
+    @vcr.use_cassette('fixtures/vcr/views-test_create_with_new_excerpt.yml')
+    def test_create_with_new_excerpt(self):
         """
         When logged in, POSTing an export request with a new excerpt is successful.
         """
@@ -149,8 +149,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             1
         )
 
-    # TODO: reenable this test using the new api
-    def x_test_create_with_existing_excerpt(self):
+    @vcr.use_cassette('fixtures/vcr/views-test_create_with_existing_excerpt.yml')
+    def test_create_with_existing_excerpt(self):
         """
         When logged in, POSTing an export request using an existing excerpt is successful.
         """
@@ -166,8 +166,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             excerpt_id=self.existing_excerpt_post_data['existing_excerpts']
         ).count(), 1)  # only reproducible because there is only 1
 
-    # TODO: reenable this test using the new api
-    def x_test_create_with_new_excerpt_persists_a_new_order(self):
+    @vcr.use_cassette('fixtures/vcr/views-test_create_with_new_excerpt_persists_a_new_order.yml')
+    def test_create_with_new_excerpt_persists_a_new_order(self):
         """
         When logged in, POSTing an export request with a new excerpt persists a new ExtractionOrder.
         """
@@ -179,14 +179,13 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-        self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
-        self.assertIsNotNone(newly_created_order.process_start_date)
+        self.assertEqual(newly_created_order.state, ExtractionOrderState.QUEUED)
         self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'A very interesting region')
 
-    # TODO: reenable this test using the new api
-    def x_test_create_with_existing_excerpt_persists_a_new_order(self):
+    @vcr.use_cassette('fixtures/vcr/views-test_create_with_existing_excerpt_persists_a_new_order.yml')
+    def test_create_with_existing_excerpt_persists_a_new_order(self):
         """
         When logged in, POSTing an export request using an existing excerpt persists a new ExtractionOrder.
         """
@@ -202,8 +201,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-        self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
-        self.assertIsNotNone(newly_created_order.process_start_date)
-        self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
+        self.assertEqual(newly_created_order.state, ExtractionOrderState.QUEUED)
+        self.assertDictEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'Some old Excerpt')

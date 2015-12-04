@@ -13,6 +13,7 @@ from django.views.generic import FormView
 from django.conf import settings
 
 from osmaxx.excerptexport.services import ConversionApiClient
+from osmaxx.excerptexport.services.conversion_api_client import get_authenticated_api_client
 from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState
 from osmaxx.contrib.auth.frontend_permissions import (
@@ -26,6 +27,10 @@ from osmaxx.utils import private_storage
 
 
 logger = logging.getLogger(__name__)
+
+
+def execute_converters(extraction_order, callback_host):
+    get_authenticated_api_client().create_job(extraction_order, callback_host=callback_host)
 
 
 class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
@@ -51,6 +56,8 @@ class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
 
     def form_valid(self, form):
         extraction_order = form.save(self.request.user)
+        request_host = self.request.get_host()
+        execute_converters(extraction_order, callback_host=request_host)
         messages.info(
             self.request,
             _('Queued extraction order {id}. The conversion process will start soon.').format(

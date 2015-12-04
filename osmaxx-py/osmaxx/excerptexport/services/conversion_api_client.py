@@ -6,6 +6,7 @@ from django.core.files.base import ContentFile
 from osmaxx.api_client.API_client import RESTApiJWTClient
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import private_storage
+from rest_framework.reverse import reverse
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +39,7 @@ class ConversionApiClient(RESTApiJWTClient):
             return True
         return False
 
-    def create_job(self, extraction_order):
+    def create_job(self, extraction_order, callback_host):
         """
         Kickoff a conversion job
 
@@ -53,7 +54,10 @@ class ConversionApiClient(RESTApiJWTClient):
         bounding_geometry = extraction_order.excerpt.bounding_geometry.subclass_instance
 
         request_data = OrderedDict({
-            "callback_url": "http://example.com",
+            "callback_url": "http://{host}{path}".format(
+                host=callback_host,
+                path=reverse('job_progress:tracker', kwargs=dict(order_id=extraction_order.id))
+            ),
             "gis_formats": extraction_order.extraction_configuration['gis_formats'],
             "gis_options": extraction_order.extraction_configuration['gis_options'],
             "extent": {
@@ -72,7 +76,8 @@ class ConversionApiClient(RESTApiJWTClient):
             rq_job_id = response.json().get('rq_job_id', None)
             if rq_job_id:
                 extraction_order.process_id = rq_job_id
-                extraction_order.state = ExtractionOrderState.PROCESSING
+                extraction_order.progress_url = response.json()['status']
+                extraction_order.state = ExtractionOrderState.QUEUED
                 extraction_order.save()
             else:
                 logging.error('Could not retrieve api job id from response.', response)
@@ -139,12 +144,15 @@ class ConversionApiClient(RESTApiJWTClient):
             False on error
         """
         self.login()
-        response = self.authorized_get(self.conversion_job_status_url.format(job_uuid=extraction_order.process_id))
-
-        if not self.errors:
-            return response.json()
-        else:
+        if not extraction_order.progress_url:  # None or empty
             return None
+
+        response = self.authorized_get(url=extraction_order.progress_url)
+
+        if self.errors:
+            return None
+
+        return response.json()
 
     def update_order_status(self, extraction_order):
         """
