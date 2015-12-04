@@ -84,7 +84,7 @@
 
         this._setLocationFilterFromExcerptID = function(ID) {
             var that = this;
-            this.selectedExcerptGeoJson = L.geoJson.ajax("/api/bounding_geometry_from_excerpt/"+ID+"/?format=json").on('data:loaded', function(){
+            this.selectedExcerptGeoJson = L.geoJson.ajax("/api/bounding_geometry_from_excerpt/"+ID+"/").on('data:loaded', function(){
         //TODO: differentiate between boundingbox or country and similar; use this.locationFilter.enable()/disable()
                 that.locationFilter.setBounds(this.getBounds());
                 map.fitBounds(that.locationFilter.getBounds());
