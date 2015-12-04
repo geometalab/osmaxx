@@ -61,6 +61,7 @@ footer p            { margin: 1rem; }
 /* map */
 #map                { height: 100%; /* fix height in chrome */ min-height: 60vh; }
 .outerMapWrapper    { height: 100%; }
+.leaflet-container  { background: #A9A7A3; }
 
 
 /* font */
@@ -105,11 +106,11 @@ header .logo {
 
 /* navigation */
 nav ul                          { list-style-type: none; padding: 0; }
-ul.nav.nav-pills li a           { background-color: rgb(40,100,150); color: white; }
+ul.nav.nav-pills li a           { background-color: rgb(50, 110, 160); color: white; }
 ul.nav.nav-pills li a:hover     { background-color: steelblue; }
 ul.nav.nav-pills li a strong    { font-size: 0.99em; } /* prevent element overflow caused by bold font */
 
-nav.breadcrumb                  { margin: 0; padding: 1rem 2rem; background: rgb(178, 202, 222); border-radius: 0; color: black; }
+nav.breadcrumb                  { margin: 0; padding: 1rem 2rem; background: rgb(170, 190, 210); border-radius: 0; color: black; }
 nav.breadcrumb > ol.breadcrumb                      { margin: 0; padding: 0; background: none; }
 nav.breadcrumb > ol.breadcrumb > li + li::before    { color: rgb(40, 96, 144); }
 nav.breadcrumb > ol.breadcrumb > .active            { color: white; }
@@ -134,14 +135,14 @@ option {
 }
 optgroup {
     border: none;
-    background: rgb(40, 96, 144);
+    background: rgb(0, 80, 146);
     color: white;
     /*padding-top: 0.5rem;*/
 }
 /* firefox: style optgroup header */
 optgroup:before {
     border: none;
-    background: rgb(40, 96, 144);
+    background: rgb(0, 80, 146);
     color: white;
     padding: 0.5rem;
     display: block;
@@ -221,12 +222,9 @@ ul, ol {
 
 
 /* tables */
-table                       { border: 0.5rem solid #286090; }
+table                       { background: #B2CADE; padding: 0.5rem; display: inline-block; }
 table th, table td          { padding: 0.25rem 0.5rem; }
-table th                    { background: rgb(210,240,255); }
-table tr:nth-child(odd) th  { background: rgb(180,220,255); }
-table tr td                 { background: aliceblue; }
-table tr:nth-child(odd) td  { background: rgb(210,240,255); }
+table th                    { padding-right: 2rem; }
 
 
 /* order */
