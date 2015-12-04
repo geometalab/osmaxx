@@ -14,5 +14,5 @@ class InternalCountryFileField(models.FileField):
         if 'storage' in kwargs:  # remove storage from kwargs, since we override it
             kwargs.pop('storage')
 
-        storage = CountryModuleInternalStorage
+        storage = CountryModuleInternalStorage()
         super().__init__(verbose_name=verbose_name, name=name, upload_to=upload_to, storage=storage, **kwargs)
