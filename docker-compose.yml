@@ -3,7 +3,7 @@ data:
   command: echo true
   volumes:
     - /data/results
-    - /var/data/osm-planet
+    - /tmp/osm-planet:/var/data/osm-planet
 
 osmdata:
   image: geometalab/osm-planet
@@ -38,6 +38,8 @@ api:
     - "8901:8901"
   expose:
     - "8901"
+  volumes:
+    - ./conversion_service:/home/py/conversion_service
   volumes_from:
     - data
   links:
