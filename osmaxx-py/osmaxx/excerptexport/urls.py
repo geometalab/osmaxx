@@ -8,7 +8,9 @@ from osmaxx.excerptexport.views import (
     extraction_order_status,
     list_orders,
     access_denied,
-    order_form_view)
+    order_form_view,
+    request_access
+)
 
 
 excerpt_export_urlpatterns = [
@@ -20,14 +22,16 @@ excerpt_export_urlpatterns = [
 
     url(r'^orders/$', list_orders, name='orders'),
     url(r'^orders/new/$', order_form_view, name='new'),
-    url(r'^orders/(?P<extraction_order_id>[0-9]+)$', extraction_order_status, name='status')
+    url(r'^orders/(?P<extraction_order_id>[0-9]+)$', extraction_order_status, name='status'),
+
+    url(r'^request_access/$', request_access, name='request_access')
 ]
 
 login_logout_patterns = [
     url(r'^login/$', login,
         {'template_name': 'excerptexport/templates/login.html'}, name='login'),
     url(r'^logout/$', logout,
-        {'template_name': 'excerptexport/templates/logout.html'}, name='logout'),
+        {'template_name': 'excerptexport/templates/logout.html'}, name='logout')
 ]
 
 urlpatterns = excerpt_export_urlpatterns + login_logout_patterns

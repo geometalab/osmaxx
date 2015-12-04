@@ -86,6 +86,16 @@ a                   { color: rgb(30, 102, 158); }
     line-height: 2rem;
     text-align: center;
 }
+.icon.default {
+    color: white;
+    background: none;
+    margin: 0;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin-right: 1rem;
+}
+
 header .logo {
     float: left;
     height: 4rem;
