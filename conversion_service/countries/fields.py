@@ -5,9 +5,7 @@ from countries.storage import CountryModuleInternalStorage
 
 class InternalCountryFileField(models.FileField):
     """
-    CountryField storage which doesn't expose files to the outside world.
-
-    It saves all data to a `data` subdirectory in the country module.
+    Makes use of the internal CountryModuleInternalStorage.
     """
 
     def __init__(self, verbose_name=None, name=None, upload_to='', **kwargs):

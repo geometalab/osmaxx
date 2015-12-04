@@ -10,7 +10,7 @@ polyfile_location = settings.OSMAXX_CONVERSION_SERVICE.get('COUNTRIES_POLYFILE_L
 
 class CountryModuleInternalStorage(FileSystemStorage):
     """
-    CountryField storage which doesn't expose files to the outside world.
+    country module storage which doesn't expose files to the outside world.
 
     It saves all data to a `data` subdirectory in the country module.
     """
