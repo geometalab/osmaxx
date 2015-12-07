@@ -143,18 +143,25 @@ class ConversionApiClientTestCase(TestCase):
                 delta=10000
             )
 
-    @vcr.use_cassette('fixtures/vcr/conversion_api-test_order_status_processing.yml')
     def test_order_status_processing(self):
-        self.api_client.login()
+        cassette_file_location = 'fixtures/vcr/conversion_api-test_order_status_processing.yml'
+        cassette_empty = not os.path.exists(cassette_file_location)
+        with vcr.use_cassette(cassette_file_location):
+            self.api_client.login()
 
-        self.assertEqual(self.extraction_order.output_files.count(), 0)
-        self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
+            self.assertEqual(self.extraction_order.output_files.count(), 0)
+            self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
+            self.assertEqual(self.extraction_order.state, ExtractionOrderState.INITIALIZED)
 
-        self.api_client.create_job(self.extraction_order, callback_host=self.host)
+            self.api_client.create_job(self.extraction_order, callback_host=self.host)
 
-        self.api_client.update_order_status(self.extraction_order)
-        self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
-        self.assertEqual(self.extraction_order.output_files.count(), 0)
+            if cassette_empty:
+                time.sleep(10)
+
+            self.api_client.update_order_status(self.extraction_order)
+            self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
+            self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.INITIALIZED)
+            self.assertEqual(self.extraction_order.output_files.count(), 0)
 
     def test_order_status_done(self):
         cassette_file_location = 'fixtures/vcr/conversion_api-test_order_status_done.yml'

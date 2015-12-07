@@ -168,15 +168,10 @@ class ConversionApiClient(RESTApiJWTClient):
         job_status = self.job_status(extraction_order)
 
         if job_status:
-            if job_status['status'] == 'done' and job_status['progress'] == 'successful':
-                if not extraction_order.state == ExtractionOrderState.FINISHED and \
-                   not extraction_order.state == ExtractionOrderState.FAILED:
-                    self.download_result_files(extraction_order)
-                    extraction_order.state = ExtractionOrderState.FINISHED
-                    extraction_order.save()
-            elif job_status['status'] == 'started':
-                extraction_order.state = ExtractionOrderState.PROCESSING
-                extraction_order.save()
+            extraction_order.set_status_from_conversion_progress(job_status['progress'])
+            extraction_order.refresh_from_db()
+            if extraction_order.are_downloads_ready:
+                self.download_result_files(extraction_order)
             return True
         else:
             return False
