@@ -172,10 +172,8 @@ def request_access(request):
                 _('Your access request has been sent successfully. '
                   'You will receive an email when your account is ready.')
             )
-        except:
-            logging.exception(
-                "Sending access request e-mail failed! ("+email_message+")"
-            )
+        except Exception as exception:
+            logging.exception("Sending access request e-mail failed: {0}, \n{1}".format(exception, email_message))
             messages.error(
                 request,
                 _('Sending of access request failed. Please contact an administrator.')
