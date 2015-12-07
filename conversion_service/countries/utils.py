@@ -31,7 +31,8 @@ def parse_poly(lines):
  
         Accept a sequence of lines from a polygon file, return a django.contrib.gis.geos.MultiPolygon object.
  
-        Adapted Python 2 code from http://wiki.openstreetmap.org/wiki/Osmosis/Polygon_Filter_File_Format for Python 3
+        Adapted Python 2 code from
+        http://wiki.openstreetmap.org/wiki/Osmosis/Polygon_Filter_File_Python_Parsing_Geodjango for Python 3
     """
     in_ring = False
     coords = []
