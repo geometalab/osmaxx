@@ -7,8 +7,9 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
 from converters import CONVERTER_CHOICES, converter_settings
-from converters.boundaries import BBox
+from converters.boundaries import BBox, PolyfileForCountry
 from converters.converter import Options
+from countries.models import Country
 from shared import JobStatus, ConversionProgress, rq_job_status_mapping
 from utils.directory_helper import get_file_only_path_list_in_directory
 
@@ -18,13 +19,16 @@ class Extent(models.Model):
     south = models.FloatField(_('south'), null=True, blank=True)
     east = models.FloatField(_('east'), null=True, blank=True)
     north = models.FloatField(_('north'), null=True, blank=True)
-    polyfile = models.FileField(_('polyfile'), null=True, blank=True)
+    polyfile = models.FileField(_('polyfile (deprecated)'), null=True, blank=True)
+    country = models.ForeignKey(Country, verbose_name=_('country'), null=True, blank=True)
 
     def clean(self, exclude=None, validate_unique=True):
         if self._bbox_partially_present() and not self._bbox_present():
             raise ValidationError(_('incomplete bounding box boundaries'))
-        if not(self._bbox_present() ^ self._polyfile_present()):
-            raise ValidationError(_('either extents or polyfile must be given'))
+        if not(self._bbox_present() ^ self._country_present()):
+            raise ValidationError(_('either extents or country must be given'))
+        if self._polyfile_present():
+            raise ValidationError(_('polyfile is not supported (deprecated)'))
 
     def _bbox_partially_present(self):
         return any([coordinate is not None for coordinate in self._bbox_coordinates])
@@ -35,11 +39,16 @@ class Extent(models.Model):
     def _polyfile_present(self):
         return bool(self.polyfile)
 
+    def _country_present(self):
+        return self.country is not None
+
     def get_geometry(self):
-        if self._polyfile_present():
-            raise NotImplementedError('Polyfile is not supported (yet).')
         if self._bbox_present():
             return BBox(*self._bbox_coordinates)
+        if self._country_present():
+            return PolyfileForCountry(self.country.polyfile.path)
+        if self._polyfile_present():
+            raise NotImplementedError('Polyfile use is not supported (deprecated).')
         raise RuntimeError("Should never reach this point.")  # pragma: no cover
 
     @property

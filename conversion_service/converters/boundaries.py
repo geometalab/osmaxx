@@ -32,6 +32,32 @@ class BBox:
             north=self.north,
         )
 
+
+class PolyfileForCountry:
+    """
+    A pickleable Country Polyfile object
+
+    :param country_polyfile_path: the path to the be used polyfile
+    :returns nothing
+    """
+    def __init__(self, country_polyfile_path):
+        self.polyfile_path = country_polyfile_path
+
+    def cut_pbf(self, output_filename):
+        command = self._get_cut_command(output_filename=output_filename)
+        subprocess.check_call(command.split())
+        return output_filename
+
+    def _get_cut_command(self, output_filename):
+        pbf_file_path = OSMAXX_CONVERSION_SERVICE.get('PBF_PLANET_FILE_PATH')
+        return "osmconvert --out-pbf -o={output_filename} -B={polyfile_path} {pbf_file_path}".format(
+            output_filename=output_filename,
+            pbf_file_path=pbf_file_path,
+            polyfile_path=self.polyfile_path,
+        )
+
+
 __all__ = [
     'BBox',
+    'PolyfileForCountry',
 ]

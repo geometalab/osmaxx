@@ -42,6 +42,7 @@ THIRD_PARTY_APPS = (
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'conversion_job',
+    'countries',
     # 'version',
     # 'api.converters.core',
     # 'api.converters.gis',
@@ -296,6 +297,8 @@ OSMAXX_CONVERSION_SERVICE = {
     'ESTIMATION_CSV_SOURCE_FILE': env.str(
         'OSMAXX_CONVERSION_SERVICE_ESTIMATION_CSV_SOURCE_FILE',
         default=ROOT_DIR('file_size_estimation', 'planet-stats.csv')),
+    # this is mainly for testing purposes, for easier overriding
+    'COUNTRIES_POLYFILE_LOCATION': None,
 }
 
 # Security - defaults taken from Django 1.8 (not secure enough for production)

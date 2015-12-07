@@ -6,7 +6,8 @@ from django.test import TestCase
 
 from conversion_job.models import Extent, ConversionJob, GISFormat
 from converters import converter_settings, converter_options
-from converters.boundaries import BBox
+from converters.boundaries import BBox, PolyfileForCountry
+from countries.models import Country
 from shared import ConversionProgress
 from tests.conversion_job.view_test import django_rq_get_queue_stub
 
@@ -18,7 +19,12 @@ class ExtentTest(TestCase):
 
     def test_clean_with_bbox_and_polyfile_raises_validation_error(self):
         e = Extent(west=0, south=0, east=0, north=0, polyfile='present')
-        self.assertRaisesRegex(ValidationError, r'either .* or .* must be given', e.clean)
+        self.assertRaises(ValidationError, e.clean)
+
+    def test_clean_with_bbox_and_country_raises_validation_error(self):
+        country = Country.objects.first()
+        e = Extent(west=0, south=0, east=0, north=0, country_id=country.id)
+        self.assertRaises(ValidationError, e.clean)
 
     def test_clean_with_incomplete_bbox_raises_validation_error(self):
         e = Extent(west=0, east=0)
@@ -28,21 +34,36 @@ class ExtentTest(TestCase):
         e = Extent(west=0, east=0, polyfile='present')
         self.assertRaisesRegex(ValidationError, r'either .* or .* must be given|incomplete .* boundaries', e.clean)
 
+    def test_clean_with_incomplete_bbox_and_country_raises_validation_error(self):
+        country = Country.objects.first()
+        e = Extent(west=0, east=0, country_id=country.id)
+        self.assertRaisesRegex(ValidationError, r'either .* or .* must be given|incomplete .* boundaries', e.clean)
+
     def test_clean_with_bbox_only_passes(self):
         e = Extent(west=0, south=0, east=0, north=0)
         # no exception expected
         e.clean()
 
-    def test_clean_with_polyfile_only_passes(self):
-        e = Extent(polyfile='present')
+    def test_clean_with_country_only_passes(self):
+        country = Country.objects.first()
+        e = Extent(country_id=country.id)
         # no exception expected
         e.clean()
 
-    def test_get_geometry_returns_geometry(self):
+    def test_clean_with_polyfile_only_raises(self):
+        e = Extent(polyfile='present')
+        self.assertRaises(ValidationError, e.clean)
+
+    def test_get_geometry_returns_geometry_with_bbox(self):
         e = Extent(west=0, south=0, east=0, north=0)
         self.assertEqual(e.get_geometry().__dict__, BBox(west=0, south=0, east=0, north=0).__dict__)
 
-    def test_get_geometry_raises_with_polyfile_for_now(self):
+    def test_get_geometry_returns_geometry_with_country(self):
+        country = Country.objects.first()
+        e = Extent(country_id=country.id)
+        self.assertEqual(e.get_geometry().__dict__, PolyfileForCountry(country.polyfile.path).__dict__)
+
+    def test_get_geometry_raises_with_polyfile(self):
         e = Extent(polyfile='present')
         self.assertRaises(NotImplementedError, e.get_geometry)
 
@@ -52,13 +73,18 @@ class ExtentTest(TestCase):
         e.save()
         clean_mock.assert_called_once_with()
 
-    def test_save_with_polyfile_succeeds(self):
+    def test_save_with_polyfile_raises(self):
         e = Extent(polyfile='present')
-        # no exception expected
-        e.save()
+        self.assertRaises(ValidationError, e.save)
 
     def test_save_with_bbox_succeeds(self):
         e = Extent(west=0, south=0, east=0, north=0)
+        # no exception expected
+        e.save()
+
+    def test_save_with_country_succeeds(self):
+        country = Country.objects.first()
+        e = Extent(country_id=country.id)
         # no exception expected
         e.save()
 

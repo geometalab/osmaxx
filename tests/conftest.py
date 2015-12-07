@@ -10,7 +10,7 @@ def pytest_configure():
 
     settings.configure(
         DEBUG_PROPAGATE_EXCEPTIONS=True,
-        DATABASES={'default': {'ENGINE': 'django.db.backends.sqlite3',
+        DATABASES={'default': {'ENGINE': 'django.contrib.gis.db.backends.spatialite',
                                'NAME': ':memory:'}},
         SITE_ID=1,
         SECRET_KEY='not very secret in tests',
@@ -38,9 +38,11 @@ def pytest_configure():
             'django.contrib.staticfiles',
 
             'rest_framework',
+            'rest_framework_gis',
             'rest_framework.authtoken',
             'tests',
             'conversion_job',
+            'countries',
         ),
         PASSWORD_HASHERS=(
             'django.contrib.auth.hashers.SHA1PasswordHasher',
@@ -96,6 +98,7 @@ def pytest_configure():
         OSMAXX_CONVERSION_SERVICE={
             'PBF_PLANET_FILE_PATH': os.path.join(test_data_dir, 'osm', 'monaco-latest.osm.pbf'),
             'ESTIMATION_CSV_SOURCE_FILE': os.path.join(test_data_dir, 'estimation', 'planet-150202-stats.csv'),
+            'COUNTRIES_POLYFILE_LOCATION': os.path.join(test_data_dir, 'polyfiles'),
         },
 
     )
