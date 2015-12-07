@@ -13,7 +13,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 from django.conf import settings
 
-from osmaxx.excerptexport.services import ConversionApiClient
 from osmaxx.excerptexport.services.conversion_api_client import get_authenticated_api_client
 from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState
@@ -108,7 +107,7 @@ def download_file(request, uuid):
 
 
 def _update_progress(extraction_order):
-    conversion_client = ConversionApiClient()
+    conversion_client = get_authenticated_api_client()
     conversion_client.update_order_status(extraction_order)
 
 
