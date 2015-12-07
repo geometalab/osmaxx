@@ -9,7 +9,7 @@ from osmaxx.excerptexport.views import (
     list_orders,
     access_denied,
     order_form_view,
-    request_access
+    request_access,
 )
 
 
@@ -24,7 +24,7 @@ excerpt_export_urlpatterns = [
     url(r'^orders/new/$', order_form_view, name='new'),
     url(r'^orders/(?P<extraction_order_id>[0-9]+)$', extraction_order_status, name='status'),
 
-    url(r'^request_access/$', request_access, name='request_access')
+    url(r'^request_access/$', request_access, name='request_access'),
 ]
 
 login_logout_patterns = [
