@@ -119,7 +119,7 @@ class OsmaxxTestSuite:
             print('virtualenv --python=/usr/bin/python3 tmp;source ./tmp/bin/activate;\
                 pip install -r osmaxx-py/requirements/local.txt')
             return
-
+        work_dir = os.getcwd()
         try:
             osmaxx_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'osmaxx-py')
             sys.path.append(osmaxx_path)
@@ -130,6 +130,8 @@ class OsmaxxTestSuite:
         except subprocess.CalledProcessError as e:
             logger.info(e.output.decode())
             self.log_failure("Tests failed. Please have a look at the {logfile};!".format(logfile=LOGFILE))
+        finally:
+            os.chdir(work_dir)
 
     def persisting_database_data_tests(self):
         try:
