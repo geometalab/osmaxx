@@ -38,7 +38,6 @@ class OsmaxxTestSuite:
 
         self.WEBAPP_CONTAINER = "webappdev"
         self.DB_CONTAINER = "databasedev"
-        self.COMPOSE_FILE = "compose-development.yml"
 
         if args.webapp_checks:
             self.setup()
@@ -80,7 +79,7 @@ class OsmaxxTestSuite:
         logger.debug(self.docker_compose(arg_list).decode())
 
     def docker_compose(self, arg_list):
-        command_line_list = ['docker-compose', '-f', self.COMPOSE_FILE] + arg_list
+        command_line_list = ['docker-compose'] + arg_list
         return subprocess.check_output(command_line_list)
 
     def _log_colored(self, message, color):
@@ -120,7 +119,7 @@ class OsmaxxTestSuite:
             print('virtualenv --python=/usr/bin/python3 tmp;source ./tmp/bin/activate;\
                 pip install -r osmaxx-py/requirements/local.txt')
             return
-
+        work_dir = os.getcwd()
         try:
             osmaxx_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'osmaxx-py')
             sys.path.append(osmaxx_path)
@@ -131,6 +130,8 @@ class OsmaxxTestSuite:
         except subprocess.CalledProcessError as e:
             logger.info(e.output.decode())
             self.log_failure("Tests failed. Please have a look at the {logfile};!".format(logfile=LOGFILE))
+        finally:
+            os.chdir(work_dir)
 
     def persisting_database_data_tests(self):
         try:
