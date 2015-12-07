@@ -10,6 +10,15 @@ from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 
 
 class OutputFile(models.Model):
+    FILE_STATUS_UNKNOWN = 0
+    FILE_STATUS_DOWNLOADING = 1
+    FILE_STATUS_AVAILABLE = 2
+
+    FILE_STATUSES = (
+        (FILE_STATUS_UNKNOWN, 'unknown'),
+        (FILE_STATUS_DOWNLOADING, 'downloading'),
+        (FILE_STATUS_AVAILABLE, 'received'),
+    )
     mime_type = models.CharField(max_length=64, verbose_name=_('mime type'))
     file_extension = models.CharField(max_length=64, verbose_name=_('file extension'), default='')
     content_type = models.CharField(max_length=64, verbose_name=_('content type'), default='')
@@ -21,6 +30,7 @@ class OutputFile(models.Model):
 
     extraction_order = models.ForeignKey(ExtractionOrder, related_name='output_files',
                                          verbose_name=_('extraction order'))
+    file_status = models.IntegerField(_('file status'), choices=FILE_STATUSES, default=FILE_STATUS_UNKNOWN)
 
     @property
     def download_file_name(self):
