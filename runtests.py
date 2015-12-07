@@ -38,7 +38,6 @@ class OsmaxxTestSuite:
 
         self.WEBAPP_CONTAINER = "webappdev"
         self.DB_CONTAINER = "databasedev"
-        self.COMPOSE_FILE = "compose-development.yml"
 
         if args.webapp_checks:
             self.setup()
@@ -80,7 +79,7 @@ class OsmaxxTestSuite:
         logger.debug(self.docker_compose(arg_list).decode())
 
     def docker_compose(self, arg_list):
-        command_line_list = ['docker-compose', '-f', self.COMPOSE_FILE] + arg_list
+        command_line_list = ['docker-compose'] + arg_list
         return subprocess.check_output(command_line_list)
 
     def _log_colored(self, message, color):
