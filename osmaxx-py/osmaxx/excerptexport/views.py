@@ -37,11 +37,6 @@ class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
     template_name = 'excerptexport/templates/excerpt_form.html'
     form_class = ExcerptOrderForm
 
-    # FIXME: remove unused code
-    def post(self, request, *args, **kwargs):
-        post = super().post(request, *args, **kwargs)
-        return post
-
     def get_form_class(self):
         klass = super().get_form_class()
         klass.declared_fields['existing_excerpts'] = forms.ChoiceField(
