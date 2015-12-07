@@ -4,12 +4,14 @@ from django.contrib.gis.geos import MultiPolygon, Polygon, GEOSGeometry
 
 from countries.storage import polyfile_location
 
+POLYFILE_ENDING = '.poly'
+
 
 def get_polyfile_name_to_file_mapping():
     polyfile_mapping = {}
     for possible_polyfile in os.listdir(polyfile_location):
-        if possible_polyfile.endswith('.poly'):
-            name = possible_polyfile.split('.poly')[0]
+        if possible_polyfile.endswith(POLYFILE_ENDING):
+            name = possible_polyfile.split(POLYFILE_ENDING)[0]
             polyfile_mapping[name] = possible_polyfile
     return polyfile_mapping
 
