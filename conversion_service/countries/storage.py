@@ -8,9 +8,11 @@ polyfile_location = settings.OSMAXX_CONVERSION_SERVICE.get('COUNTRIES_POLYFILE_L
     or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'polyfiles')
 
 
-class CountryModuleInternalStorage(FileSystemStorage):
+class CountryInternalStorage(FileSystemStorage):
     """
-    country module storage which doesn't expose files to the outside world.
+    country storage which doesn't expose files to the outside world.
+
+    Shouldn't be used outside the country module.
 
     It saves all data to a `data` subdirectory in the country module.
     """
