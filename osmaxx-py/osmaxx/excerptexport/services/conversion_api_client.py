@@ -83,37 +83,32 @@ class ConversionApiClient(RESTApiJWTClient):
                 logging.error('Could not retrieve api job id from response.', response)
         return response
 
-    def download_result_files(self, extraction_order):
+    def _download_result_files(self, extraction_order, job_status):
         """
         Downloads the result files if the conversion was finished,
         stores the files into the private storage and attaches them as output files to the extraction order
 
         Args:
             extraction_order: an ExtractionOrder object to attach the output files
+            job_status: the job status from the conversion api
 
         Returns:
             True if the job status was fetched successful
             False if it failed
         """
-        self.login()
-        job_status = self.job_status(extraction_order)
-        if job_status and job_status['status'] == 'done' and job_status['progress'] == 'successful':
-            for download_file in job_status['gis_formats']:
-                if download_file['progress'] == 'successful':
-                    result_response = self.authorized_get(download_file['result_url'])
-                    output_file = OutputFile.objects.create(
-                        mime_type='application/zip',
-                        file_extension='zip',
-                        content_type=download_file['format'],
-                        extraction_order=extraction_order
-                    )
+        for download_file in job_status['gis_formats']:
+            if download_file['progress'] == 'successful':
+                result_response = self.authorized_get(download_file['result_url'])
+                output_file = OutputFile.objects.create(
+                    mime_type='application/zip',
+                    file_extension='zip',
+                    content_type=download_file['format'],
+                    extraction_order=extraction_order
+                )
 
-                    file_name = str(output_file.public_identifier) + '.zip'
-                    output_file.file = private_storage.save(file_name, ContentFile(result_response.content))
-                    output_file.save()
-            return True
-        else:
-            return False
+                file_name = str(output_file.public_identifier) + '.zip'
+                output_file.file = private_storage.save(file_name, ContentFile(result_response.content))
+                output_file.save()
 
     def job_status(self, extraction_order):
         """
@@ -169,12 +164,9 @@ class ConversionApiClient(RESTApiJWTClient):
 
         if job_status:
             extraction_order.set_status_from_conversion_progress(job_status['progress'])
-            extraction_order.refresh_from_db()
-            if extraction_order.are_downloads_ready:
-                self.download_result_files(extraction_order)
-            return True
-        else:
-            return False
+            extraction_order.save()
+            # if extraction_order.are_downloads_ready and not extraction_order.download_in_progress:
+            self._download_result_files(extraction_order, job_status)
 
 
 def get_authenticated_api_client():

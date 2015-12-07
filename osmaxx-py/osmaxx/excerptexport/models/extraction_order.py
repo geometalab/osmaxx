@@ -82,4 +82,3 @@ class ExtractionOrder(models.Model):
         # don't update if we already we're done or errored out
         if self.state not in [ExtractionOrderState.FINISHED, ExtractionOrderState.FAILED]:
             self.state = get_order_status_from_conversion_progress(job_overall_progress)
-            self.save()

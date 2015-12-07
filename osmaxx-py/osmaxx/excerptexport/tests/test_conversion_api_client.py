@@ -126,9 +126,11 @@ class ConversionApiClientTestCase(TestCase):
                 # wait for external service to complete request
                 time.sleep(120)
 
-            success = self.api_client.download_result_files(self.extraction_order)
+            self.api_client._download_result_files(
+                self.extraction_order,
+                job_status=self.api_client.job_status(self.extraction_order)
+            )
             self.assertIsNone(self.api_client.errors)
-            self.assertTrue(success)
             content_types_of_output_files = (f.content_type for f in self.extraction_order.output_files.all())
             ordered_formats = self.extraction_order.extraction_configuration['gis_formats']
             self.assertCountEqual(content_types_of_output_files, ordered_formats)
