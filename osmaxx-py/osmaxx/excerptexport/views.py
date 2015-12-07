@@ -151,8 +151,11 @@ def request_access(request):
         logging.exception(
             "You don't have an user account manager email address defined. Please set OSMAXX_ACCOUNT_MANAGER_EMAIL."
         )
-
-    try:
+        messages.error(
+            request,
+            _('Sending of access request failed. Please contact an administrator.')
+        )
+    else:
         email_message = _(
             '{first_name} {last_name} requests access for Osmaxx. Please activate the user {username}.'
         ).format(
@@ -160,15 +163,22 @@ def request_access(request):
             first_name=request.user.first_name,
             last_name=request.user.last_name
         )
-        send_mail('Request access for Osmaxx', email_message, request.user.email,
-                  [user_administrator_email], fail_silently=True)
-        messages.success(
-            request,
-            _('Your access request has been sent successfully. You will receive an email when your account is ready.')
-        )
-    except:
-        logging.exception(
-            "Sending access request e-mail failed! ("+email_message+")"
-        )
+
+        try:
+            send_mail('Request access for Osmaxx', email_message, request.user.email,
+                      [user_administrator_email], fail_silently=True)
+            messages.success(
+                request,
+                _('Your access request has been sent successfully. '
+                  'You will receive an email when your account is ready.')
+            )
+        except:
+            logging.exception(
+                "Sending access request e-mail failed! ("+email_message+")"
+            )
+            messages.error(
+                request,
+                _('Sending of access request failed. Please contact an administrator.')
+            )
 
     return redirect(request.GET['next']+'?next='+request.GET['next'])
