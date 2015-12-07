@@ -1,10 +1,11 @@
 import logging
 
 from django import forms
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -143,16 +144,46 @@ def list_orders(request):
 
 
 def access_denied(request):
+    view_context = {
+        'next_page': request.GET['next']
+    }
+    return render_to_response('excerptexport/templates/access_denied.html', context=view_context,
+                              context_instance=RequestContext(request))
+
+
+@login_required()
+def request_access(request):
     user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
     if not user_administrator_email:
         logging.exception(
             "You don't have an user account manager email address defined. Please set OSMAXX_ACCOUNT_MANAGER_EMAIL."
         )
+        messages.error(
+            request,
+            _('Sending of access request failed. Please contact an administrator.')
+        )
+    else:
+        email_message = _(
+            '{first_name} {last_name} requests access for Osmaxx. Please activate the user {username}.'
+        ).format(
+            username=request.user.username,
+            first_name=request.user.first_name,
+            last_name=request.user.last_name
+        )
 
-    view_context = {
-        'next_page': request.GET['next'],
-        'user': request.user,
-        'user_administrator_email': user_administrator_email,
-    }
-    return render_to_response('excerptexport/templates/access_denied.html', context=view_context,
-                              context_instance=RequestContext(request))
+        try:
+            send_mail('Request access for Osmaxx', email_message, request.user.email,
+                      [user_administrator_email], fail_silently=True)
+            messages.success(
+                request,
+                _('Your access request has been sent successfully. '
+                  'You will receive an email when your account is ready.')
+            )
+        except Exception as exception:
+            logging.exception("Sending access request e-mail failed: {0}, \n{1}".format(exception, email_message))
+            messages.error(
+                request,
+                _('Sending of access request failed. Please contact an administrator.')
+            )
+
+    return redirect(request.GET['next']+'?next='+request.GET['next'])

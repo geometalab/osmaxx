@@ -8,6 +8,7 @@ CACHES = {
         'LOCATION': ''
     }
 }
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
