@@ -32,7 +32,8 @@ class WorkerTest(TestCase):
     ):
         geometry = BBox(29.525547623634335, 40.77546776498174, 29.528980851173397, 40.77739734768811)
         format_options = Options(output_formats=['fgdb', 'spatialite', 'shp', 'gpkg'])
-        convert(geometry=geometry, format_options=format_options, callback_url=None, output_directory='/tmp/')
+        convert(geometry=geometry, format_options=format_options, callback_url=None, output_directory='/tmp/',
+                protocol='http')
         cut_osm_extent_mock.assert_called_once_with(geometry)
         bootstrap_mock.assert_called_once_with(self.pbf_file_path)
         self.assert_mock_has_exactly_calls(
@@ -72,7 +73,8 @@ class ConvertTest(TestCase):
     def test_convert_with_host_and_job_assembles_url_correctly(self, notifier_mock, rq_job_stub, *args, **kwargs):
         format_options = Options(output_formats=['fgdb', 'spatialite', 'shp', 'gpkg'])
         geometry, output_directory, callback_url = None, '/tmp/', None
-        host = 'http://converter-host.example.com'
-        convert(geometry, format_options, output_directory, callback_url, host)
-        expected_url = host + reverse(viewname='gisformat-detail', kwargs={'pk': self.mocked_job_id})
+        host = 'converter-host.example.com'
+        protocol = 'http'
+        convert(geometry, format_options, output_directory, callback_url, protocol, host)
+        expected_url = protocol + '://' + host + reverse(viewname='conversion_job_result-detail', kwargs={'rq_job_id': self.mocked_job_id})
         notifier_mock.assert_called_with(callback_url, expected_url)

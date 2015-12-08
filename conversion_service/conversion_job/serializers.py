@@ -80,7 +80,8 @@ class ConversionJobSerializer(serializers.ModelSerializer):
     def _enqueue_rq_job(self, geometry, format_options, callback_url, output_directory):
         cm = ConversionJobManager(geometry=geometry, format_options=format_options)
         host = self.context.get('request').get_host()
-        return cm.start_conversion(callback_url, output_directory, host)
+        protocol = 'https' if self.context.get('request').is_secure() else 'http'
+        return cm.start_conversion(callback_url, output_directory, protocol, host)
 
     class Meta:
         model = ConversionJob

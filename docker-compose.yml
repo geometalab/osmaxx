@@ -57,6 +57,8 @@ worker:
   build: .
   dockerfile: ./Dockerfile.worker
   command: [honcho, -f, ./conversion_service/worker/Procfile, start]
+  volumes:
+    - ./conversion_service:/home/py/conversion_service
   volumes_from:
     - data
   links:
