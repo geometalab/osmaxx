@@ -55,7 +55,9 @@ To run the application tests only, see [Commonly used commands while developing 
 
 ## Access the application
 
-[http://localhost:8000](http://localhost:8000)
+`http://<your_ip>:8000`
+
+where `<your_ip>` is your (public) IP.
 
 or add
 
