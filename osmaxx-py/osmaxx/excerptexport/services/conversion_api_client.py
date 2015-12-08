@@ -20,6 +20,7 @@ class ConversionApiClient(RESTApiJWTClient):
 
     conversion_job_url = '/jobs/'
     conversion_job_status_url = '/conversion_result/{job_uuid}/'
+    estimated_file_size_url = '/estimate_size_in_bytes/'
 
     def login(self):
         """
@@ -180,6 +181,21 @@ class ConversionApiClient(RESTApiJWTClient):
             return True
         else:
             return False
+
+    def estimated_file_size(self, north=0, west=0, south=0, east=0):
+        request_data = {
+            "west": west,
+            "south": south,
+            "east": east,
+            "north": north
+        }
+
+        self.login()
+
+        response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
+        if self.errors:
+            return self.errors
+        return response.json()
 
 
 def get_authenticated_api_client():
