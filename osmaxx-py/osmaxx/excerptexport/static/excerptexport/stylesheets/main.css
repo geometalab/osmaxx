@@ -158,16 +158,7 @@ optgroup:before {
     display: block;
 }
 
-input[type="checkbox"]:invalid { border: 0.05rem solid 1px; }
-input[type="checkbox"]:invalid::after {
-    content: " ";
-    display: block;
-    height: 1em;
-    border-right: 0.25rem solid red;
-    position: relative;
-    left: 0.25rem;
-}
-/*optgroup > option:first-child { border-top: 0.5rem solid rgb(40, 96, 144); display: block; }*/
+input[type="checkbox"]:invalid { outline: 0.1rem solid red; }
 
 /* special select: shown as button group
  * TODO: Fix for IE (does not support appereance:none)
