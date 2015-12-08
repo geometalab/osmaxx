@@ -29,8 +29,8 @@ from osmaxx.utils import private_storage
 logger = logging.getLogger(__name__)
 
 
-def execute_converters(extraction_order, callback_host):
-    get_authenticated_api_client().create_job(extraction_order, callback_host=callback_host)
+def execute_converters(extraction_order, callback_host, protocol):
+    get_authenticated_api_client().create_job(extraction_order, callback_host=callback_host, protocol=protocol)
 
 
 class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
@@ -52,7 +52,8 @@ class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
     def form_valid(self, form):
         extraction_order = form.save(self.request.user)
         request_host = self.request.get_host()
-        execute_converters(extraction_order, callback_host=request_host)
+        request_protocol = 'https' if self.request.is_secure() else 'http'
+        execute_converters(extraction_order, callback_host=request_host, protocol=request_protocol)
         messages.info(
             self.request,
             _('Queued extraction order {id}. The conversion process will start soon.').format(

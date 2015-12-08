@@ -40,7 +40,7 @@ class ConversionApiClient(RESTApiJWTClient):
             return True
         return False
 
-    def create_job(self, extraction_order, callback_host):
+    def create_job(self, extraction_order, callback_host, protocol):
         """
         Kickoff a conversion job
 
@@ -55,7 +55,8 @@ class ConversionApiClient(RESTApiJWTClient):
         bounding_geometry = extraction_order.excerpt.bounding_geometry.subclass_instance
 
         request_data = OrderedDict({
-            "callback_url": "http://{host}{path}".format(
+            "callback_url": "{protocol}://{host}{path}".format(
+                protocol=protocol,
                 host=callback_host,
                 path=reverse('job_progress:tracker', kwargs=dict(order_id=extraction_order.id))
             ),
@@ -140,12 +141,12 @@ class ConversionApiClient(RESTApiJWTClient):
                         {
                             "format": "fgdb",
                             "progress": "successful",
-                            "result_url": "http://localhost:8000/api/gis_format/11/download_result/"
+                            "result_url": "http://<your_ip>:8000/api/gis_format/11/download_result/"
                         },
                         {
                             "format": "spatialite",
                             "progress": "successful",
-                            "result_url": "http://localhost:8000/api/gis_format/12/download_result/"
+                            "result_url": "http://<your_ip>:8000/api/gis_format/12/download_result/"
                         }
                     ]
                 }
@@ -154,7 +155,6 @@ class ConversionApiClient(RESTApiJWTClient):
         self.login()
         if not extraction_order.progress_url:  # None or empty
             return None
-
         response = self.authorized_get(url=extraction_order.progress_url)
 
         if self.errors:
@@ -176,10 +176,11 @@ class ConversionApiClient(RESTApiJWTClient):
         job_status = self.job_status(extraction_order)
 
         if job_status:
-            extraction_order.set_status_from_conversion_progress(job_status['progress'])
+            progress = job_status['progress']
+            extraction_order.set_status_from_conversion_progress(progress)
             extraction_order.save()
-            # if extraction_order.are_downloads_ready and not extraction_order.download_in_progress:
-            self._download_result_files(extraction_order, job_status)
+            if progress == 'successful':
+                self._download_result_files(extraction_order, job_status)
 
 
 def get_authenticated_api_client():
