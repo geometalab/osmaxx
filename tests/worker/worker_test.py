@@ -72,7 +72,8 @@ class ConvertTest(TestCase):
     def test_convert_with_host_and_job_assembles_url_correctly(self, notifier_mock, rq_job_stub, *args, **kwargs):
         format_options = Options(output_formats=['fgdb', 'spatialite', 'shp', 'gpkg'])
         geometry, output_directory, callback_url = None, '/tmp/', None
-        host = 'http://converter-host.example.com'
-        convert(geometry, format_options, output_directory, callback_url, host)
-        expected_url = host + reverse(viewname='gisformat-detail', kwargs={'pk': self.mocked_job_id})
+        host = 'converter-host.example.com'
+        protocol = 'http'
+        convert(geometry, format_options, output_directory, callback_url, protocol, host)
+        expected_url = protocol + '://' + host + reverse(viewname='conversion_job_result-detail', kwargs={'rq_job_id': self.mocked_job_id})
         notifier_mock.assert_called_with(callback_url, expected_url)

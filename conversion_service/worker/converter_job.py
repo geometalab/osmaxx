@@ -55,12 +55,12 @@ class Notifier(object):
         if not self.noop:  # pragma: nocover
             data = {'status': self.status_url} if self.status_url is not None else {}
             try:
-                requests.get(self.callback_url, data=data)
+                requests.get(self.callback_url, params=data)
             except:
                 pass
 
 
-def convert(geometry, format_options, output_directory, callback_url, host=None):
+def convert(geometry, format_options, output_directory, callback_url, protocol=None, host=None):
     """
     Starts converting an excerpt for the specified format options
 
@@ -73,12 +73,15 @@ def convert(geometry, format_options, output_directory, callback_url, host=None)
 
     job = rq.get_current_job(connection=get_connection())
     if job is not None and host is not None:
-        status_url = host + reverse(viewname='gisformat-detail', kwargs={'pk': job.id})
+        status_url = '{0}://'.format(protocol) + host + \
+                     reverse(viewname='conversion_job_result-detail', kwargs={'rq_job_id': job.id})
     else:
         status_url = None
     notifier = Notifier(callback_url, status_url)
 
     set_progress_on_job(ConversionProgress.STARTED)
+    notifier.notify()
+
     pbf_path = notifier.try_or_notify(osm_cutter.cut_osm_extent, geometry)
     notifier.try_or_notify(bootstrap.boostrap, pbf_path)
 

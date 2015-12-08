@@ -136,4 +136,5 @@ class HostTest(APITestCase):
         self.client.force_authenticate(user=user)
         self.client.post(reverse('conversionjob-list'), data, format='json', HTTP_HOST=self.test_host)
         expected_host = self.test_host
-        start_conversion_mock.assert_called_with(ANY, ANY, expected_host)
+        expected_protocol = 'http'  # the fake test-server is using insecure http
+        start_conversion_mock.assert_called_with(ANY, ANY, expected_protocol, expected_host)
