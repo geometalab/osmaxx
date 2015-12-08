@@ -92,30 +92,36 @@ class ConversionApiClient(RESTApiJWTClient):
         Args:
             extraction_order: an ExtractionOrder object to attach the output files
             job_status: the job status from the conversion api
-
-        Returns:
-            True if the job status was fetched successful
-            False if it failed
         """
         with transaction.atomic():
             extraction_order.refresh_from_db()
-            for download_file in job_status['gis_formats']:
-                if download_file['progress'] == 'successful' and \
-                        extraction_order.download_status == extraction_order.DOWNLOAD_STATUS_UNKNOWN:
-                    extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_DOWNLOADING
+            if extraction_order.download_status == extraction_order.DOWNLOAD_STATUS_UNKNOWN:
+                extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_DOWNLOADING
+                extraction_order.save()
+                success = True
+                for download_file in job_status['gis_formats']:
+                    if download_file['progress'] == 'successful':
+                        self._download_file(download_file, extraction_order)
+                    else:
+                        success = False
+                if not success:
+                    extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_UNKNOWN
                     extraction_order.save()
-                    result_response = self.authorized_get(download_file['result_url'])
-                    output_file = OutputFile.objects.create(
-                        mime_type='application/zip',
-                        file_extension='zip',
-                        content_type=download_file['format'],
-                        extraction_order=extraction_order,
-                    )
-                    file_name = str(output_file.public_identifier) + '.zip'
-                    output_file.file = private_storage.save(file_name, ContentFile(result_response.content))
-                    output_file.save()
-            extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_AVAILABLE
-            extraction_order.save()
+                else:
+                    extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_AVAILABLE
+                    extraction_order.save()
+
+    def _download_file(self, download_file_dict, extraction_order):
+        result_response = self.authorized_get(download_file_dict['result_url'])
+        output_file = OutputFile.objects.create(
+            mime_type='application/zip',
+            file_extension='zip',
+            content_type=download_file_dict['format'],
+            extraction_order=extraction_order,
+        )
+        file_name = str(output_file.public_identifier) + '.zip'
+        output_file.file = private_storage.save(file_name, ContentFile(result_response.content))
+        output_file.save()
 
     def job_status(self, extraction_order):
         """
