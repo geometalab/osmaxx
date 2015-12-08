@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 
@@ -42,3 +43,6 @@ def tracker(request, order_id):
             order_id=order.id,
         )
         emissary.info(message)
+    response = HttpResponse('')
+    response.status_code = 200
+    return response
