@@ -13,9 +13,13 @@
         this.updateInputElementsBoundingBox = function() {
             var locationFilterBounds = this.locationFilter.getBounds();
             this.inputElementsNewBoundingBox.inputElementNorth.value = locationFilterBounds._northEast.lat;
+            this.inputElementsNewBoundingBox.inputElementNorth.dispatchEvent(new Event('valueUpdate'));
             this.inputElementsNewBoundingBox.inputElementWest.value = locationFilterBounds._southWest.lng;
+            this.inputElementsNewBoundingBox.inputElementWest.dispatchEvent(new Event('valueUpdate'));
             this.inputElementsNewBoundingBox.inputElementEast.value = locationFilterBounds._northEast.lng;
+            this.inputElementsNewBoundingBox.inputElementEast.dispatchEvent(new Event('valueUpdate'));
             this.inputElementsNewBoundingBox.inputElementSouth.value = locationFilterBounds._southWest.lat;
+            this.inputElementsNewBoundingBox.inputElementSouth.dispatchEvent(new Event('valueUpdate'));
         };
 
         /**

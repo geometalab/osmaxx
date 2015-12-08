@@ -175,8 +175,14 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
                 data_form_part="new-excerpt",
             ),
             ExcerptOrderFormCommonPartMixin(self).form_layout(),
+            form_layout.Div(
+                form_layout.Submit('submit', 'Submit'),
+                form_layout.Div(
+                    form_layout.HTML('<p id="file-size"></p><p id="excerpt-validation" class="error"></p>'),
+                    id="estimated-file-size"
+                )
+            )
         )
-        self.helper.add_input(form_layout.Submit('submit', 'Submit'))
 
     def clean(self):
         cleaned_data = super().clean()

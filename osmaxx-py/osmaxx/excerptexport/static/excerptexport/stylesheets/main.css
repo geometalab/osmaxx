@@ -157,6 +157,14 @@ optgroup:before {
     padding: 0.5rem;
     display: block;
 }
+#estimated-file-size { display: inline-block; }
+#estimated-file-size p {
+    display: inline-block;
+    padding: 0.5rem;
+}
+form .error {
+    color: red;
+}
 
 input[type="checkbox"]:invalid { outline: 0.1rem solid red; }
 
