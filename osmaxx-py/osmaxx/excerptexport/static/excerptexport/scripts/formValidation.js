@@ -10,10 +10,14 @@
             document.getElementById('id_south'),
             document.getElementById('id_west')
         ];
+        this.formModeSwitcher = document.getElementById('id_form_mode');
+        this.existingExcerptSelect = document.getElementById('id_existing_excerpts');
+        this.newExcerptName = document.getElementById('id_name');
 
         this.validity = {
             'extractionFormats': false,
-            'excerptBounds': false
+            'excerptBounds': false,
+            'existingExcerptOrNew': false
         };
 
         this.isFormValid = function() {
@@ -31,6 +35,24 @@
                 this.submitButton.disabled = !overrideState;
             }
         }
+
+        this.validateExistingExcerptOrNew = function() {
+            if(this.formModeSwitcher.value == "existing-excerpt") {
+                var selectValue = this.existingExcerptSelect.value;
+                if (!isNaN(parseFloat(selectValue)) && parseFloat(selectValue) > 0) {
+                    this.validity['existingExcerptOrNew'] = true;
+                } else {
+                    this.validity['existingExcerptOrNew'] = false;
+                }
+            } else if(this.formModeSwitcher.value == "new-excerpt") {
+                if(this.newExcerptName.value.length > 2) {
+                    this.validity['existingExcerptOrNew'] = true;
+                } else {
+                    this.validity['existingExcerptOrNew'] = false;
+                }
+            }
+            this.setSubmitButtonState();
+        }.bind(this);
 
         this.validateExtractionFormatCheckboxes = function() {
             this.validity['extractionFormats'] = (document.querySelectorAll('#div_id_formats input[type="checkbox"]:checked').length > 0);
@@ -87,7 +109,12 @@
             excerptBoundsInputField.addEventListener('valueUpdate', this.validateExcerptBounds);
         }.bind(this));
 
+        this.formModeSwitcher.addEventListener('change', this.validateExistingExcerptOrNew);
+        this.existingExcerptSelect.addEventListener('change', this.validateExistingExcerptOrNew);
+        this.newExcerptName.addEventListener('change', this.validateExistingExcerptOrNew);
+
         this.setSubmitButtonState(false);
+        this.validateExistingExcerptOrNew();
         this.validateExtractionFormatCheckboxes();
         this.validateExcerptBounds();
     };
