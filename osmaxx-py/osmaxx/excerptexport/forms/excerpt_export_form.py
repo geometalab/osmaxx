@@ -178,7 +178,7 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
             form_layout.Div(
                 form_layout.Submit('submit', 'Submit'),
                 form_layout.Div(
-                    form_layout.HTML('<p id="file-size"></p><p id="excerpt-validation" class="error"></p>'),
+                    form_layout.HTML('<p id="excerpt-validation" class="error"></p>'),
                     id="estimated-file-size"
                 )
             )
