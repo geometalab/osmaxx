@@ -11,11 +11,9 @@
         };
 
         this.isFormValid = function() {
-            var isValid = true;
-            Object.keys(this.validity).forEach(function(key){
-                isValid = isValid && this.validity[key];
-            }.bind(this));
-            return isValid;
+            return Object.keys(this.validity).every(function(key){
+                return this.validity[key];
+            }, this);
         };
 
         this.setSubmitButtonState = function() {
