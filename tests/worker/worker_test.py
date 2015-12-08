@@ -32,7 +32,8 @@ class WorkerTest(TestCase):
     ):
         geometry = BBox(29.525547623634335, 40.77546776498174, 29.528980851173397, 40.77739734768811)
         format_options = Options(output_formats=['fgdb', 'spatialite', 'shp', 'gpkg'])
-        convert(geometry=geometry, format_options=format_options, callback_url=None, output_directory='/tmp/')
+        convert(geometry=geometry, format_options=format_options, callback_url=None, output_directory='/tmp/',
+                protocol='http')
         cut_osm_extent_mock.assert_called_once_with(geometry)
         bootstrap_mock.assert_called_once_with(self.pbf_file_path)
         self.assert_mock_has_exactly_calls(

@@ -60,7 +60,7 @@ class Notifier(object):
                 pass
 
 
-def convert(geometry, format_options, output_directory, callback_url, protocol=None, host=None):
+def convert(geometry, format_options, output_directory, callback_url, protocol, host=None):
     """
     Starts converting an excerpt for the specified format options
 
