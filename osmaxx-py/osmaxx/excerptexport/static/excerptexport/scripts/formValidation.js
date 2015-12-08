@@ -70,7 +70,7 @@
         }.bind(this);
 
         this.validateExcerptBounds = function() {
-            var allowedMaxSize = 250*1024*1024; // 500 MB
+            var allowedMaxSize = 250*1024*1024;
 
             var north = document.getElementById('id_north').value;
             var east = document.getElementById('id_east').value;
