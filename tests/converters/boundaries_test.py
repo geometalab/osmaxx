@@ -57,7 +57,13 @@ class TestCountryPolyFile(TestCase):
         output_filename = 'outfile.pbf'
         polyfile.cut_pbf(output_filename)
         sp_call_mock.assert_called_with(
-            "osmconvert --out-pbf -o=outfile.pbf -B={0} /path/to/planet-latest.osm.pbf".format(poly_file_path).split(),
+            [
+                "osmconvert",
+                "--out-pbf",
+                "-o=outfile.pbf",
+                "-B='{0}'".format(poly_file_path),
+                "/path/to/planet-latest.osm.pbf",
+            ]
         )
 
 

@@ -45,16 +45,18 @@ class PolyfileForCountry:
 
     def cut_pbf(self, output_filename):
         command = self._get_cut_command(output_filename=output_filename)
-        subprocess.check_call(command.split())
+        subprocess.check_call(command)
         return output_filename
 
     def _get_cut_command(self, output_filename):
         pbf_file_path = OSMAXX_CONVERSION_SERVICE.get('PBF_PLANET_FILE_PATH')
-        return "osmconvert --out-pbf -o={output_filename} -B={polyfile_path} {pbf_file_path}".format(
-            output_filename=output_filename,
-            pbf_file_path=pbf_file_path,
-            polyfile_path=self.polyfile_path,
-        )
+        return [
+            "osmconvert",
+            "--out-pbf",
+            "-o={0}".format(output_filename),
+            "-B='{0}'".format(self.polyfile_path),
+            "{0}".format(pbf_file_path),
+        ]
 
 
 __all__ = [
