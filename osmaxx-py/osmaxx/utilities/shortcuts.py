@@ -60,18 +60,19 @@ class Emissary:
         self.inform(messages.DEBUG, message)
 
     def inform_mail(self, subject, mail_body, warn_if_no_email=True):
-        email_address = getattr(self.recipient, 'email', None)
-        if email_address:
+        try:
+            email_address = self.recipient.email
             mail.send_mail(
                 '[OSMAXX] ' + subject,
                 mail_body,
                 settings.DEFAULT_FROM_EMAIL,
                 [email_address]
             )
-        if warn_if_no_email and not email_address:
-            self.warn(
-                _("There is no email address assigned to your account. You won't be notified by email!")
-            )
+        except AttributeError:
+            if warn_if_no_email:
+                self.warn(
+                    _("There is no email address assigned to your account. You won't be notified by email!")
+                )
 
     def inform(self, message_type, message):
         stored_messages.api.add_message_for(
