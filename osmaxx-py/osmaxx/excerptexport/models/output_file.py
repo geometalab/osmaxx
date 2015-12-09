@@ -28,7 +28,7 @@ class OutputFile(models.Model):
             'id': str(self.public_identifier),
             'name': os.path.basename(self.file.name) if self.file else None,
             'date': self.create_date.strftime("%F"),
-            'excerpt_name': self.extraction_order.excerpt.name.replace(" ", ""),
+            'excerpt_name': self.extraction_order.excerpt_name,
             'content_type': self.content_type if self.content_type else 'file',
             'file_extension': self.file_extension
         }

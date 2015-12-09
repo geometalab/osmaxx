@@ -1,10 +1,12 @@
 from django.db import models
+from django.http import HttpResponse
 from rest_framework import generics
 from osmaxx.contrib.auth.frontend_permissions import AuthenticatedAndAccessPermission, HasBBoxAccessPermission, \
     HasExcerptAccessPermission
 from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.models.bounding_geometry import BoundingGeometry
 from osmaxx.excerptexport.rest_api.serializers import BoundingGeometrySerializer, BoundingGeometryFromExcerptSerializer
+from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 
 
 class BoundingGeometryMixin:
@@ -35,3 +37,14 @@ class BoundingGeometryFromExcerptList(BoundingGeometryFromExcerptMixin, generics
 
 class BoundingGeometryFromExcerptDetail(BoundingGeometryFromExcerptMixin, generics.RetrieveAPIView):
     pass
+
+
+def country_geojson(request, pk):
+    country_id = pk
+    client = get_authenticated_api_client()
+    country_json_from_conversion_service = client.get_country_geojson(country_id)
+
+    return HttpResponse(
+        country_json_from_conversion_service,
+        content_type="application/json"
+    )

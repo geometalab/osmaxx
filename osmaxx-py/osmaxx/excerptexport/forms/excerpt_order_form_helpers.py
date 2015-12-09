@@ -3,6 +3,7 @@ from django.utils.encoding import force_text
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from osmaxx.excerptexport.models import Excerpt
+from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 
 
 def _get_active_excerpts():
@@ -23,10 +24,16 @@ def other_public(user):
     return _get_active_excerpts().filter(is_public=True).exclude(owner=user)
 
 
-def countries():
-    return Excerpt.objects.filter(
-        bounding_geometry__osmosispolygonfilterboundinggeometry__isnull=False
-    )
+def get_prefixed_countries():
+    return get_authenticated_api_client().get_prefixed_countries()
+
+
+def get_country_choices():
+    return tuple((country['id'], country['name']) for country in get_prefixed_countries())
+
+
+def get_country_id_to_name_dict():
+    return {country['id']: country['name'] for country in get_authenticated_api_client().get_country_list()}
 
 
 def get_existing_excerpt_choices_shortcut(user):
@@ -41,7 +48,7 @@ def get_existing_excerpt_choices_shortcut(user):
          tuple((excerpt.id, excerpt.name) for excerpt in other_public(user))
          ),
         ('Countries',
-         tuple((excerpt.id, excerpt.name) for excerpt in countries())
+         get_country_choices()
          ),
     )
 

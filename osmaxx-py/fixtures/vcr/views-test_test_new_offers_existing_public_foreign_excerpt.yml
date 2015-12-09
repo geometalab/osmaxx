@@ -1,0 +1,49 @@
+interactions:
+- request:
+    body: !!binary |
+      eyJuZXh0IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODkwMS9hcGkvIiwgInBhc3N3b3JkIjogImRldiIs
+      ICJ1c2VybmFtZSI6ICJkZXYifQ==
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['76']
+      Content-Type: [application/json; charset=UTF-8]
+      Referer: ['http://localhost:8901/api/token-auth/']
+      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.16.0-38-generic]
+    method: POST
+    uri: http://localhost:8901/api/token-auth/
+  response:
+    body: {string: '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDk2NTg2MDUsImVtYWlsIjoiIiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJkZXYifQ.EPMuO2J95qc1NHm5R7DLgr7LEaWH5uwbXOvWhJUU05Q"}'}
+    headers:
+      Allow: ['POST, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 09 Dec 2015 10:51:45 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.3]
+      Vary: [Accept]
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDk2NTg2MDUsImVtYWlsIjoiIiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJkZXYifQ.EPMuO2J95qc1NHm5R7DLgr7LEaWH5uwbXOvWhJUU05Q]
+      Connection: [keep-alive]
+      Content-Type: [application/json; charset=UTF-8]
+      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.16.0-38-generic]
+    method: GET
+    uri: http://localhost:8901/api/country/
+  response:
+    body: {string: "[{\"id\":26,\"name\":\"Monaco\"}]"}
+    headers:
+      Allow: ['GET, HEAD, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 09 Dec 2015 10:51:45 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.3]
+      Vary: ['Accept, Cookie']
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 200, message: OK}
+version: 1

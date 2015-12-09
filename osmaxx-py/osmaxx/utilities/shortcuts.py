@@ -1,6 +1,9 @@
+import datetime
+
 from django.conf import settings
 from django.contrib import messages
 from django.core import mail
+from django.core.cache import cache
 from django.shortcuts import _get_queryset
 from django.utils.translation import gettext as _
 
@@ -79,3 +82,11 @@ class Emissary:
             level=message_type,
             message_text=message
         )
+
+
+def get_cached_or_set(cache_string, func, timeout=datetime.timedelta(minutes=15).seconds):
+    cached_value = cache.get(cache_string)
+    if cached_value is None:
+        cached_value = func()
+        cache.set(cache_string, cached_value, timeout=timeout)
+    return cached_value
