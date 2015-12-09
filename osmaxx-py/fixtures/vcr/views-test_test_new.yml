@@ -1,8 +1,8 @@
 interactions:
 - request:
     body: !!binary |
-      eyJuZXh0IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODkwMS9hcGkvIiwgInBhc3N3b3JkIjogImRldiIs
-      ICJ1c2VybmFtZSI6ICJkZXYifQ==
+      eyJuZXh0IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODkwMS9hcGkvIiwgInVzZXJuYW1lIjogImRldiIs
+      ICJwYXNzd29yZCI6ICJkZXYifQ==
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
@@ -14,36 +14,39 @@ interactions:
     method: POST
     uri: http://localhost:8901/api/token-auth/
   response:
-    body: {string: '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDk2NTg2MDQsImVtYWlsIjoiIiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJkZXYifQ.AfNQFaflk5IFRJnbumBr8jJvkF2qyLFN01usZ8QX0Fc"}'}
+    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IiIsImV4cCI6MTQ0OTY3NDk3MSwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJkZXYifQ.JgnDlDDfhDNovosRQF9OTYaNtzvgARkza8atvyO0eo4"}'}
     headers:
       Allow: ['POST, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Wed, 09 Dec 2015 10:51:44 GMT']
+      Date: ['Wed, 09 Dec 2015 15:24:31 GMT']
       Server: [Werkzeug/0.10.4 Python/3.4.3]
       Vary: [Accept]
       X-Frame-Options: [SAMEORIGIN]
     status: {code: 200, message: OK}
 - request:
-    body: null
+    body: !!binary |
+      eyJuZXh0IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODkwMS9hcGkvIiwgInVzZXJuYW1lIjogImRldiIs
+      ICJwYXNzd29yZCI6ICJkZXYifQ==
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDk2NTg2MDQsImVtYWlsIjoiIiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJkZXYifQ.AfNQFaflk5IFRJnbumBr8jJvkF2qyLFN01usZ8QX0Fc]
       Connection: [keep-alive]
+      Content-Length: ['76']
       Content-Type: [application/json; charset=UTF-8]
+      Referer: ['http://localhost:8901/api/token-auth/']
       User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.16.0-38-generic]
-    method: GET
-    uri: http://localhost:8901/api/country/
+    method: POST
+    uri: http://localhost:8901/api/token-auth/
   response:
-    body: {string: "[{\"id\":26,\"name\":\"Monaco\"}]"}
+    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IiIsImV4cCI6MTQ0OTY3NDk3MSwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJkZXYifQ.JgnDlDDfhDNovosRQF9OTYaNtzvgARkza8atvyO0eo4"}'}
     headers:
-      Allow: ['GET, HEAD, OPTIONS']
+      Allow: ['POST, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Wed, 09 Dec 2015 10:51:44 GMT']
+      Date: ['Wed, 09 Dec 2015 15:24:31 GMT']
       Server: [Werkzeug/0.10.4 Python/3.4.3]
-      Vary: ['Accept, Cookie']
+      Vary: [Accept]
       X-Frame-Options: [SAMEORIGIN]
     status: {code: 200, message: OK}
 version: 1
