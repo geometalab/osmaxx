@@ -91,6 +91,7 @@ class CallbackHandlingTest(APITestCase):
 
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
+    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient._download_file')  # mock download
     @requests_mock.Mocker(kw='requests')
     @patch('osmaxx.job_progress.views.Emissary.error')
     @patch('osmaxx.job_progress.views.Emissary.warn')
@@ -108,12 +109,12 @@ class CallbackHandlingTest(APITestCase):
                 "gis_formats": [
                     {
                         "format": "fgdb",
-                        "progress": "finished",
+                        "progress": "successful",
                         "result_url": "http://status.example.com"
                     },
                     {
                         "format": "spatialite",
-                        "progress": "finished",
+                        "progress": "successful",
                         "result_url": "http://status.example.com"
                     }
                 ]

@@ -99,18 +99,16 @@ class ConversionApiClient(RESTApiJWTClient):
             if extraction_order.download_status == extraction_order.DOWNLOAD_STATUS_UNKNOWN:
                 extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_DOWNLOADING
                 extraction_order.save()
-                success = True
-                for download_file in job_status['gis_formats']:
-                    if download_file['progress'] == 'successful':
+                try:
+                    for download_file in job_status['gis_formats']:
+                        assert download_file['progress'] == 'successful'
                         self._download_file(download_file, extraction_order)
-                    else:
-                        success = False
-                if not success:
+                finally:
                     extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_UNKNOWN
                     extraction_order.save()
-                else:
-                    extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_AVAILABLE
-                    extraction_order.save()
+
+                extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_AVAILABLE
+                extraction_order.save()
 
     def _download_file(self, download_file_dict, extraction_order):
         result_response = self.authorized_get(download_file_dict['result_url'])
