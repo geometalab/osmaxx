@@ -61,7 +61,7 @@ class TestCountryPolyFile(TestCase):
                 "osmconvert",
                 "--out-pbf",
                 "-o=outfile.pbf",
-                "-B='{0}'".format(poly_file_path),
+                "-B={0}".format(poly_file_path),
                 "/path/to/planet-latest.osm.pbf",
             ]
         )

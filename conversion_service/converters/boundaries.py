@@ -54,7 +54,7 @@ class PolyfileForCountry:
             "osmconvert",
             "--out-pbf",
             "-o={0}".format(output_filename),
-            "-B='{0}'".format(self.polyfile_path),
+            "-B={0}".format(self.polyfile_path),
             "{0}".format(pbf_file_path),
         ]
 
