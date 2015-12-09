@@ -39,8 +39,9 @@ def tracker(request, order_id):
         emissary.error(message)
         emissary.inform_mail(subject=finished_email_subject, mail_body=finished_email_body)
     else:
-        message = _('The progress of the extraction order "{order_id}" has been updated.').format(
+        message = _("Extraction order {order} is now {order_state}.").format(
             order_id=order.id,
+            order_state=str(order.state),
         )
         emissary.info(message)
     response = HttpResponse('')
