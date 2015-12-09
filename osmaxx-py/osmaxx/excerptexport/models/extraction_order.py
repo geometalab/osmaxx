@@ -90,6 +90,5 @@ class ExtractionOrder(models.Model):
         return json.loads(self.extraction_configuration).get('gis_formats', None)
 
     def set_status_from_conversion_progress(self, job_overall_progress):
-        # Don't update if we're already done or have errored out:
         if self.state not in [ExtractionOrderState.FINISHED, ExtractionOrderState.FAILED]:
             self.state = get_order_status_from_conversion_progress(job_overall_progress)
