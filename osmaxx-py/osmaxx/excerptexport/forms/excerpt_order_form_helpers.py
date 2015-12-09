@@ -38,16 +38,17 @@ def get_country_id_to_name_dict():
 
 def get_existing_excerpt_choices_shortcut(user):
     return (
-        ('Personal excerpts ({username})'.format(username=user.username),
+        ('Personal excerpts ({username}) [{count}]'.format(username=user.username, count=own_private(user).count()),
          tuple((excerpt.id, excerpt.name) for excerpt in own_private(user))
          ),
-        ('Personal public excerpts ({username})'.format(username=user.username),
+        ('Personal public excerpts ({username}) [{count}]'
+         .format(username=user.username, count=own_public(user).count()),
          tuple((excerpt.id, excerpt.name) for excerpt in own_public(user))
          ),
-        ('Other excerpts',
+        ('Other excerpts [{count}]'.format(count=other_public(user).count()),
          tuple((excerpt.id, excerpt.name) for excerpt in other_public(user))
          ),
-        ('Countries',
+        ('Countries [{count}]'.format(count=len(get_country_choices())),
          get_country_choices()
          ),
     )
