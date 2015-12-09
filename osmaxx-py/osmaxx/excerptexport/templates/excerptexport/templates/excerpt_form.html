@@ -9,7 +9,7 @@
 {% block main %}
     <div class="container-row box-column-grid">
         <div class="grid-column column-stretch-5 content">
-            <form action="{% url 'excerptexport:new' %}" method="post" novalidate="novalidate">
+            <form action="{% url 'excerptexport:new' %}" method="post" novalidate="novalidate" id="extractionOrderForm">
                 {% crispy form %}
             </form>
         </div>
@@ -39,6 +39,7 @@
     <!-- form -->
     <script src='{% static "excerptexport/scripts/formModeSwitcher.js" %}'></script>
     <script src='{% static "excerptexport/scripts/excerptFilter.js" %}'></script>
+    <script src='{% static "excerptexport/scripts/formValidation.js" %}'></script>
 
     <!-- Bootstrap plugins -->
     <script type="text/javascript">
