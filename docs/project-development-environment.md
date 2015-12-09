@@ -57,7 +57,10 @@ To run the application tests only, see [Commonly used commands while developing 
 
 `http://<your_ip>:8000`
 
-where `<your_ip>` is your (public) IP.
+where `<your_ip>` is your (public) IP as reported by
+```bash
+ip route get 1 | awk '{print $NF;exit}'
+```
 
 or add
 
