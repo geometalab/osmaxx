@@ -96,7 +96,7 @@ class ConversionApiClient(RESTApiJWTClient):
         """
         with transaction.atomic():
             extraction_order.refresh_from_db()
-            if extraction_order.download_status == extraction_order.DOWNLOAD_STATUS_UNKNOWN:
+            if extraction_order.download_status == extraction_order.DOWNLOAD_STATUS_NOT_DOWNLOADED:
                 extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_DOWNLOADING
                 extraction_order.save()
                 for download_file in job_status['gis_formats']:
