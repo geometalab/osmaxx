@@ -42,9 +42,10 @@ class BoundingGeometryFromExcerptDetail(BoundingGeometryFromExcerptMixin, generi
 
 
 def estimated_file_size(request):
+    file_size_estimation = get_authenticated_api_client().estimated_file_size(
+        north=request.GET['north'], east=request.GET['east'], west=request.GET['west'], south=request.GET['south']
+    )
     return HttpResponse(
-        json.dumps(get_authenticated_api_client().estimated_file_size(
-            north=request.GET['north'], east=request.GET['east'], west=request.GET['west'], south=request.GET['south']
-        )),
+        json.dumps(file_size_estimation),
         content_type="application/json"
     )
