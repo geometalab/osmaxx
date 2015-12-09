@@ -60,15 +60,15 @@ class Emissary:
         self.inform(messages.DEBUG, message)
 
     def inform_mail(self, subject, mail_body, warn_if_no_email=True):
-        email = getattr(self.recipient, 'email', None)
-        if email:
+        email_address = getattr(self.recipient, 'email', None)
+        if email_address:
             mail.send_mail(
                 '[OSMAXX] ' + subject,
                 mail_body,
                 settings.DEFAULT_FROM_EMAIL,
-                [self.recipient.email]
+                [email_address]
             )
-        if warn_if_no_email and not email:
+        if warn_if_no_email and not email_address:
             self.warn(
                 _("There is no email address assigned to your account. You won't be notified by email!")
             )
