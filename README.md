@@ -70,7 +70,9 @@ docker-compose up
 
 Unsure which version is running?
 
-Go to `localhost:8000/version/`.
+Go to `<your_ip>:8000/version/`.
+
+where `<your_ip>` is your public IP.
 
 ### Testing
 

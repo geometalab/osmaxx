@@ -19,7 +19,30 @@ class ExtractionOrderState(enum.Enum):
     FAILED = 6
 
 
+CONVERSION_PROGRESS_TO_EXTRACTION_ORDER_STATE_MAPPING = {
+    'new': ExtractionOrderState.INITIALIZED,
+    'received': ExtractionOrderState.QUEUED,
+    'started': ExtractionOrderState.PROCESSING,
+    'successful': ExtractionOrderState.FINISHED,
+    'error': ExtractionOrderState.FAILED,
+}
+
+
+def get_order_status_from_conversion_progress(progress):
+    return CONVERSION_PROGRESS_TO_EXTRACTION_ORDER_STATE_MAPPING.get(progress, ExtractionOrderState.UNDEFINED)
+
+
 class ExtractionOrder(models.Model):
+    DOWNLOAD_STATUS_UNKNOWN = 0
+    DOWNLOAD_STATUS_DOWNLOADING = 1
+    DOWNLOAD_STATUS_AVAILABLE = 2
+
+    DOWNLOAD_STATUSES = (
+        (DOWNLOAD_STATUS_UNKNOWN, 'unknown'),
+        (DOWNLOAD_STATUS_DOWNLOADING, 'downloading'),
+        (DOWNLOAD_STATUS_AVAILABLE, 'received'),
+    )
+
     state = enum.EnumField(ExtractionOrderState, default=ExtractionOrderState.INITIALIZED, verbose_name=_('state'))
     _extraction_configuration = models.TextField(
         blank=True, null=True, default='', verbose_name=_('extraction options')
@@ -28,6 +51,7 @@ class ExtractionOrder(models.Model):
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'))
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
+    download_status = models.IntegerField(_('file status'), choices=DOWNLOAD_STATUSES, default=DOWNLOAD_STATUS_UNKNOWN)
 
     def __str__(self):
         return '[' + str(self.id) + '] orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt.name +\
@@ -64,3 +88,7 @@ class ExtractionOrder(models.Model):
     @property
     def extraction_formats(self):
         return json.loads(self.extraction_configuration).get('gis_formats', None)
+
+    def set_status_from_conversion_progress(self, job_overall_progress):
+        if self.state not in [ExtractionOrderState.FINISHED, ExtractionOrderState.FAILED]:
+            self.state = get_order_status_from_conversion_progress(job_overall_progress)
