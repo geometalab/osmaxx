@@ -18,7 +18,7 @@
                     {% csrf_token %}
                     <button class="btn btn-primary"><span class="icon default">&#9911;</span> {% trans 'Request access' %}</button>
                 </form>
-                {% blocktrans with next=next_page %}and try <a href="{{ next_page }}">again</a>.{% endblocktrans %}
+                {% blocktrans %}and try again.{% endblocktrans %}
             </p>
         {% else %}
             <h2>{% trans 'Please Login' %}</h2>
