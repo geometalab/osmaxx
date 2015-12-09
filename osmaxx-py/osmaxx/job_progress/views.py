@@ -40,7 +40,7 @@ def tracker(request, order_id):
         emissary.inform_mail(subject=finished_email_subject, mail_body=finished_email_body)
     else:
         message = _("Extraction order {order} is now {order_state}.").format(
-            order_id=order.id,
+            order=order.id,
             order_state=str(order.state),
         )
         emissary.info(message)
