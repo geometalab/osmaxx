@@ -166,10 +166,6 @@ class ConversionApiClient(RESTApiJWTClient):
 
         Args:
             extraction_order: an ExtractionOrder object to update the state
-
-        Returns:
-            True if the job status was fetched successful
-            False if it failed
         """
         job_status = self.job_status(extraction_order)
 
