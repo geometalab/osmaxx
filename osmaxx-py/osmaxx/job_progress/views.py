@@ -14,7 +14,7 @@ def tracker(request, order_id):
     client = get_authenticated_api_client()
     client.update_order_status(order)
 
-    emissary = Emissary(user=order.orderer)
+    emissary = Emissary(recipient=order.orderer)
 
     if order.are_downloads_ready:
         message = _('The extraction of the order "{order_id}" has been finished.').format(order_id=order.id)

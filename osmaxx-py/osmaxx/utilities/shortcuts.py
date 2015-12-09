@@ -41,8 +41,8 @@ def get_list_or_none(klass, *args, **kwargs):
 
 
 class Emissary:
-    def __init__(self, user):
-        self.user = user
+    def __init__(self, recipient):
+        self.recipient = recipient
 
     def info(self, message):
         self.inform(messages.INFO, message)
@@ -60,13 +60,13 @@ class Emissary:
         self.inform(messages.DEBUG, message)
 
     def inform_mail(self, subject, mail_body, warn_if_no_email=True):
-        email = getattr(self.user, 'email', None)
+        email = getattr(self.recipient, 'email', None)
         if email:
             mail.send_mail(
                 '[OSMAXX] ' + subject,
                 mail_body,
                 settings.DEFAULT_FROM_EMAIL,
-                [self.user.email]
+                [self.recipient.email]
             )
         if warn_if_no_email and not email:
             self.warn(
@@ -75,7 +75,7 @@ class Emissary:
 
     def inform(self, message_type, message):
         stored_messages.api.add_message_for(
-            users=[self.user],
+            users=[self.recipient],
             level=message_type,
             message_text=message
         )
