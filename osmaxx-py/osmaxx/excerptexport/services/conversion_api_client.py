@@ -139,12 +139,12 @@ class ConversionApiClient(RESTApiJWTClient):
                         {
                             "format": "fgdb",
                             "progress": "successful",
-                            "result_url": "http://<your_ip>:8000/api/gis_format/11/download_result/"
+                            "result_url": "http://<conversion service host>:8901/api/gis_format/11/download_result/"
                         },
                         {
                             "format": "spatialite",
                             "progress": "successful",
-                            "result_url": "http://<your_ip>:8000/api/gis_format/12/download_result/"
+                            "result_url": "http://<conversion service host>:8901/api/gis_format/12/download_result/"
                         }
                     ]
                 }
