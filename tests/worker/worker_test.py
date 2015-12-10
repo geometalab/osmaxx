@@ -1,4 +1,5 @@
 # pylint: disable=C0111
+import requests
 from collections import namedtuple
 from unittest.mock import patch, Mock, ANY, call as mock_call
 
@@ -14,6 +15,7 @@ from manager.rq_helper import rq_enqueue_with_settings
 from shared import ConversionProgress
 from worker import converter_job
 from tests.redis_test_helpers import perform_all_jobs_sync
+from worker.converter_job import Notifier
 
 
 class WorkerTest(TestCase):
@@ -80,3 +82,19 @@ class ConvertTest(TestCase):
         converter_job.convert(geometry, format_options, output_directory, callback_url, protocol, host)
         expected_url = protocol + '://' + host + reverse(viewname='conversion_job_result-detail', kwargs={'rq_job_id': self.mocked_job_id})
         notifier_mock.assert_called_with(callback_url, expected_url)
+
+
+class NotifierTest(TestCase):
+    @patch.object(requests.sessions.Session, 'send')
+    def test_notify_calls_url_with_status_parameter(self, mock):
+        notifier = Notifier(
+            callback_url='http://osmaxx-ui.example.com/update_job_status/',
+            status_url='https://osmaxx-conversion.example.com/example_job/status'
+        )
+        notifier.notify()
+        args, kwargs = mock.call_args
+        self.assertEqual(
+            args[0].url,
+            'http://osmaxx-ui.example.com/update_job_status/'
+            '?status=https%3A%2F%2Fosmaxx-conversion.example.com%2Fexample_job%2Fstatus'
+        )

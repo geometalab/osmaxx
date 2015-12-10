@@ -52,11 +52,11 @@ class Notifier(object):
         :param callback_url:
         :return: nothing
         """
-        if not self.noop:  # pragma: nocover
+        if not self.noop:
             data = {'status': self.status_url} if self.status_url is not None else {}
             try:
                 requests.get(self.callback_url, params=data)
-            except:
+            except:  # pragma: nocover
                 pass
 
 
