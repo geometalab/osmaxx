@@ -207,6 +207,9 @@ class ConversionApiClient(RESTApiJWTClient):
             return self.errors
         return response.json()
 
+    def get_country_name(self, country_id):
+        return self.get_country(country_id)['name']
+
     def get_country_list_json(self):
         return json.dumps(self.get_prefixed_countries())
 
