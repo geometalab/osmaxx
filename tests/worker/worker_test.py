@@ -12,7 +12,7 @@ from converters.converter import Options
 from converters.gis_converter.extract.excerpt import Excerpt
 from manager.rq_helper import rq_enqueue_with_settings
 from shared import ConversionProgress
-from worker.converter_job import convert, set_progress_on_job
+from worker import converter_job
 from tests.redis_test_helpers import perform_all_jobs_sync
 
 
@@ -32,8 +32,10 @@ class WorkerTest(TestCase):
     ):
         geometry = BBox(29.525547623634335, 40.77546776498174, 29.528980851173397, 40.77739734768811)
         format_options = Options(output_formats=['fgdb', 'spatialite', 'shp', 'gpkg'])
-        convert(geometry=geometry, format_options=format_options, callback_url=None, output_directory='/tmp/',
-                protocol='http')
+        converter_job.convert(
+            geometry=geometry, format_options=format_options, callback_url=None, output_directory='/tmp/',
+            protocol='http'
+        )
         cut_osm_extent_mock.assert_called_once_with(geometry)
         bootstrap_mock.assert_called_once_with(self.pbf_file_path)
         self.assert_mock_has_exactly_calls(
@@ -47,7 +49,7 @@ class WorkerTest(TestCase):
         assert_calls_equal(mocked_function.mock_calls, list(calls))
 
     def test_set_progress_on_job_sets_the_progress(self):
-        job = rq_enqueue_with_settings(set_progress_on_job, ConversionProgress.SUCCESSFUL)
+        job = rq_enqueue_with_settings(converter_job.set_progress_on_job, ConversionProgress.SUCCESSFUL)
         perform_all_jobs_sync()
         job_fetched = Job.fetch(job.id, connection=get_connection())
         self.assertDictEqual(job_fetched.meta, {'progress': ConversionProgress.SUCCESSFUL})
@@ -75,6 +77,6 @@ class ConvertTest(TestCase):
         geometry, output_directory, callback_url = None, '/tmp/', None
         host = 'converter-host.example.com'
         protocol = 'http'
-        convert(geometry, format_options, output_directory, callback_url, protocol, host)
+        converter_job.convert(geometry, format_options, output_directory, callback_url, protocol, host)
         expected_url = protocol + '://' + host + reverse(viewname='conversion_job_result-detail', kwargs={'rq_job_id': self.mocked_job_id})
         notifier_mock.assert_called_with(callback_url, expected_url)
