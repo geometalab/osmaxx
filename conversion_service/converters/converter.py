@@ -50,14 +50,20 @@ class Conversion(object):
             subprocess.check_call(["zip", "-r", "--move", '.'.join([garmin_out_dir, 'zip']), garmin_out_dir])
 
     # Export files of the specified format (file_format) from existing database
-    def _export_from_db_to_format(self, file_basename, file_format):  # pragma: nocover
-        dbcmd = 'sh', './extract/extract_format.sh', self.output_dir, file_basename, file_format
+    def _export_from_db_to_format(self, file_basename, file_format):
+        extract_format_file_path = os.path.join(
+            os.path.dirname(__file__), 'gis_converter', 'extract', 'extract', 'extract_format.sh'
+        )
+        dbcmd = 'sh', extract_format_file_path, self.output_dir, file_basename, file_format
         dbcmd = [str(arg) for arg in dbcmd]
         subprocess.check_call(dbcmd)
 
     # Extract Statistics
-    def _get_statistics(self, filename):  # pragma: nocover
-        statcmd = 'bash', './extract/extract_statistics.sh', self.output_dir, filename
+    def _get_statistics(self, filename):
+        extract_statistics_file_path = os.path.join(
+            os.path.dirname(__file__), 'gis_converter', 'extract', 'extract', 'extract_statistics.sh'
+        )
+        statcmd = 'bash', extract_statistics_file_path, self.output_dir, filename
         statcmd = [str(arg) for arg in statcmd]
         subprocess.check_call(statcmd)
 
