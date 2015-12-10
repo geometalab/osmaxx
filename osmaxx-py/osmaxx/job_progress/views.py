@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 
 from osmaxx.excerptexport.models import extraction_order, ExtractionOrderState
-from osmaxx.excerptexport.services.conversion_api_client import get_authenticated_api_client
+from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from osmaxx.utilities.shortcuts import Emissary
 
 

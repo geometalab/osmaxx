@@ -11,13 +11,13 @@
 {% block main %}
     <div class="container-column content">
         <h2>
-            {% blocktrans with excerpt_name=extraction_order.excerpt.name %}Export status (excerpt &quot;{{ excerpt_name }}&quot;) {% endblocktrans %}
+            {% blocktrans with excerpt_name=extraction_order.excerpt_name %}Export status (excerpt &quot;{{ excerpt_name }}&quot;) {% endblocktrans %}
             <span class="smaller"><a href="" class="btn btn-primary">&#8635; {% trans 'Reload' %}</a></span>
         </h2>
         <table>
             <tbody>
                 <tr><th>{% trans 'ID' %}</th><td>{{ extraction_order.id }}</td></tr>
-                <tr><th>{% trans 'Excerpt' %}</th><td>{{ extraction_order.excerpt.name }}</td></tr>
+                <tr><th>{% trans 'Excerpt' %}</th><td>{{ extraction_order.excerpt_name }}</td></tr>
                 <tr>
                     <th>{% trans 'Status' %}</th>
                     <td>
