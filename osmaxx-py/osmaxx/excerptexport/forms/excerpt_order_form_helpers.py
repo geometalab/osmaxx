@@ -37,6 +37,7 @@ def get_country_id_to_name_dict():
 
 
 def get_existing_excerpt_choices_shortcut(user):
+    country_choices = get_country_choices()
     return (
         ('Personal excerpts ({username}) [{count}]'.format(username=user.username, count=own_private(user).count()),
          tuple((excerpt.id, excerpt.name) for excerpt in own_private(user))
@@ -48,8 +49,8 @@ def get_existing_excerpt_choices_shortcut(user):
         ('Other excerpts [{count}]'.format(count=other_public(user).count()),
          tuple((excerpt.id, excerpt.name) for excerpt in other_public(user))
          ),
-        ('Countries [{count}]'.format(count=len(get_country_choices())),
-         get_country_choices()
+        ('Countries [{count}]'.format(count=len(country_choices)),
+         country_choices
          ),
     )
 
