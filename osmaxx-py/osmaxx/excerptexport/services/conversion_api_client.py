@@ -182,7 +182,7 @@ class ConversionApiClient(RESTApiJWTClient):
         else:
             return False
 
-    def estimated_file_size(self, north=0, west=0, south=0, east=0):
+    def estimated_file_size(self, north, west, south, east):
         request_data = {
             "west": west,
             "south": south,
