@@ -49,7 +49,8 @@ class ExtractionOrder(models.Model):
     )
     process_id = models.TextField(blank=True, null=True, verbose_name=_('process link'))
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
-    excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'))
+    excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True)
+    country_id = models.IntegerField(verbose_name=_('country ID'), null=True, blank=True)
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
     download_status = models.IntegerField(
         _('file status'),
@@ -58,8 +59,16 @@ class ExtractionOrder(models.Model):
     )
 
     def __str__(self):
-        return '[' + str(self.id) + '] orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt.name +\
+        return '[' + str(self.id) + '] orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt_name +\
                ', state: ' + self.get_state_display() + ', output files: ' + str(self.output_files.count())
+
+    @property
+    def excerpt_name(self):
+        if self.excerpt:
+            return self.excerpt.name
+        else:
+            from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
+            return get_authenticated_api_client().get_country_name(self.country_id)
 
     @property
     def are_downloads_ready(self):

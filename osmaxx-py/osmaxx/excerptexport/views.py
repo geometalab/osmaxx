@@ -12,8 +12,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 from django.conf import settings
-
-from osmaxx.excerptexport.services.conversion_api_client import get_authenticated_api_client
+from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState
 from osmaxx.contrib.auth.frontend_permissions import (
