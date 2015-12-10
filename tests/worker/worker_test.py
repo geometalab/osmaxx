@@ -95,6 +95,6 @@ class NotifierTest(TestCase):
         args, kwargs = mock.call_args
         self.assertEqual(
             args[0].url,
-            'http://osmaxx-ui.example.com/update_job_status/'
+            notifier.callback_url +
             '?status=https%3A%2F%2Fosmaxx-conversion.example.com%2Fexample_job%2Fstatus'
         )
