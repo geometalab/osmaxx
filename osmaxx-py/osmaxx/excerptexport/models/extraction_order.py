@@ -67,8 +67,8 @@ class ExtractionOrder(models.Model):
         if self.excerpt:
             return self.excerpt.name
         else:
-            from osmaxx.excerptexport import get_country_id_to_name_dict
-            return get_country_id_to_name_dict()[self.country_id]
+            from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
+            return get_authenticated_api_client().get_country_name(self.country_id)
 
     @property
     def are_downloads_ready(self):
