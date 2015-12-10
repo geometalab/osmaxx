@@ -95,6 +95,6 @@ class NotifierTest(TestCase):
         )
         notifier.notify()
         args, kwargs = mock.call_args
-        scheme, netloc, path, params, query, fragment = urlparse(args[0].url)
-        self.assertEqual(urlunparse((scheme, netloc, path, params, '', fragment)), notifier.callback_url)
-        self.assertEqual(parse_qs(query), dict(status=[notifier.status_url]))
+        url_components = urlparse(args[0].url)
+        self.assertEqual(urlunparse(url_components._replace(query='')), notifier.callback_url)
+        self.assertEqual(parse_qs(url_components.query), dict(status=[notifier.status_url]))
