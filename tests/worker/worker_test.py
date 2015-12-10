@@ -88,13 +88,13 @@ class ConvertTest(TestCase):
 
 class NotifierTest(TestCase):
     @patch.object(requests.sessions.Session, 'send')
-    def test_notify_calls_url_with_status_parameter(self, mock):
+    def test_notify_calls_url_with_status_parameter(self, requests_send_mock):
         notifier = Notifier(
             callback_url='http://osmaxx-ui.example.com/update_job_status/',
             status_url='https://osmaxx-conversion.example.com/example_job/status'
         )
         notifier.notify()
-        args, kwargs = mock.call_args
+        args, kwargs = requests_send_mock.call_args
         url_components = urlparse(args[0].url)
         self.assertEqual(urlunparse(url_components._replace(query='')), notifier.callback_url)
         self.assertEqual(parse_qs(url_components.query), dict(status=[notifier.status_url]))
