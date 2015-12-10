@@ -95,7 +95,8 @@ class NotifierTest(TestCase):
         )
         notifier.notify()
         requests_send_args, requests_send_kwargs = requests_send_mock.call_args
-        url_components = urlparse(self._get_request(*requests_send_args, **requests_send_kwargs).url)
+        request = self._get_request(*requests_send_args, **requests_send_kwargs)
+        url_components = urlparse(request.url)
         self.assertEqual(urlunparse(url_components._replace(query='')), notifier.callback_url)
         self.assertEqual(parse_qs(url_components.query), dict(status=[notifier.status_url]))
 
