@@ -76,7 +76,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     postgresql-${PG_MAJOR}-postgis-scripts \
 \
     libicu-dev \
-    debhelper
+    debhelper \
+\
+    default-jre
 
 RUN mkdir -p /var/run/postgresql && chown -R postgres /var/run/postgresql
 
