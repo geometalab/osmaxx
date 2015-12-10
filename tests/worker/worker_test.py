@@ -1,4 +1,6 @@
 # pylint: disable=C0111
+from urllib.parse import urlparse, urlunparse, parse_qs
+
 import requests
 from collections import namedtuple
 from unittest.mock import patch, Mock, ANY, call as mock_call
@@ -93,8 +95,6 @@ class NotifierTest(TestCase):
         )
         notifier.notify()
         args, kwargs = mock.call_args
-        self.assertEqual(
-            args[0].url,
-            notifier.callback_url +
-            '?status=https%3A%2F%2Fosmaxx-conversion.example.com%2Fexample_job%2Fstatus'
-        )
+        scheme, netloc, path, params, query, fragment = urlparse(args[0].url)
+        self.assertEqual(urlunparse((scheme, netloc, path, params, '', fragment)), notifier.callback_url)
+        self.assertEqual(parse_qs(query), dict(status=[notifier.status_url]))
