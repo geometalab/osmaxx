@@ -181,17 +181,7 @@ class ConversionApiClient(RESTApiJWTClient):
                 self._download_result_files(extraction_order, job_status)
 
     def get_country_list(self):
-        def fetch_countries():
-            self.login()
-            response = self.authorized_get(self.country_base_url)
-            if self.errors:
-                logger.error('could not fetch country list: ', self.errors)
-                return self.errors
-            countries = [
-                {'id': country['id'], 'name': country['name']} for country in response.json()
-            ]
-            return sorted(countries, key=lambda k: k['name'])
-        return get_cached_or_set('osmaxx_conversion_service_countries_list', fetch_countries)
+        return get_cached_or_set('osmaxx_conversion_service_countries_list', self._fetch_countries)
 
     def get_prefixed_countries(self):
         return [
@@ -221,3 +211,14 @@ class ConversionApiClient(RESTApiJWTClient):
         geo_json = self.get_country(country_id)['simplified_polygon']
         geo_json['properties'] = properties
         return json.dumps(geo_json)
+
+    def _fetch_countries(self):
+        self.login()
+        response = self.authorized_get(self.country_base_url)
+        if self.errors:
+            logger.error('could not fetch country list: ', self.errors)
+            return self.errors
+        countries = [
+            {'id': country['id'], 'name': country['name']} for country in response.json()
+        ]
+        return sorted(countries, key=lambda k: k['name'])
