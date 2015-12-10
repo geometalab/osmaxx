@@ -32,10 +32,6 @@ def get_country_choices():
     return tuple((country['id'], country['name']) for country in get_prefixed_countries())
 
 
-def get_country_id_to_name_dict():
-    return {country['id']: country['name'] for country in get_authenticated_api_client().get_country_list()}
-
-
 def get_existing_excerpt_choices_shortcut(user):
     country_choices = get_country_choices()
     return (
