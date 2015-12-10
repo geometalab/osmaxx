@@ -1,6 +1,5 @@
 from django.test import TestCase
-
-from converters.converter import Options
+from converters import Options
 
 
 class TestOptions(TestCase):

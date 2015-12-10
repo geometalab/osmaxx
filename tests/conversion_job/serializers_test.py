@@ -9,7 +9,7 @@ from django.test import TestCase
 
 from conversion_job.models import Extent, ConversionJob, GISFormat
 from conversion_job.serializers import ConversionJobSerializer, GISFormatStatusSerializer
-from converters import converter_options
+from converters.options import CONVERTER_OPTIONS
 from django.test.utils import override_settings
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
@@ -26,11 +26,11 @@ class GISFormatListSerializerTest(TestCase):
         self.conversion_job = ConversionJob.objects.create(extent=self.extent)
         self.gis_format_1 = GISFormat.objects.create(
             conversion_job=self.conversion_job,
-            format=converter_options.get_output_formats()[0]
+            format=CONVERTER_OPTIONS.get_output_formats()[0]
         )
         self.gis_format_2 = GISFormat.objects.create(
             conversion_job=self.conversion_job,
-            format=converter_options.get_output_formats()[3]
+            format=CONVERTER_OPTIONS.get_output_formats()[3]
         )
 
     @patch('conversion_job.serializers.ConversionJobSerializer._enqueue_rq_job', return_value=RQJobMock)
@@ -39,7 +39,7 @@ class GISFormatListSerializerTest(TestCase):
         self.assertEqual(Extent.objects.count(), 1)
         self.assertEqual(ConversionJob.objects.count(), 1)
         data = {
-            "gis_formats": converter_options.get_output_formats(),
+            "gis_formats": CONVERTER_OPTIONS.get_output_formats(),
             "callback_url": "http://example.com",
             "gis_options": {
                 "coordinate_reference_system": "WGS_84",
@@ -58,11 +58,11 @@ class GISFormatListSerializerTest(TestCase):
         conversion_job_serializer.save()
 
         self.assertEqual(Extent.objects.count(), 2)
-        self.assertEqual(GISFormat.objects.count(), 2 + len(converter_options.get_output_formats()))
+        self.assertEqual(GISFormat.objects.count(), 2 + len(CONVERTER_OPTIONS.get_output_formats()))
         self.assertEqual(ConversionJob.objects.count(), 2)
 
         args, kwargs = mock.call_args
-        self.assertCountEqual(kwargs['format_options'].output_formats, converter_options.get_output_formats())
+        self.assertCountEqual(kwargs['format_options'].output_formats, CONVERTER_OPTIONS.get_output_formats())
 
         self.assertNotEqual(self.conversion_job, ConversionJob.objects.last())
 
@@ -73,7 +73,7 @@ class GISFormatStatusSerializerTest(TestCase):
         self.conversion_job = ConversionJob.objects.create(extent=extent)
         self.gis_format = GISFormat.objects.create(
             conversion_job=self.conversion_job,
-            format=converter_options.get_output_formats()[0]
+            format=CONVERTER_OPTIONS.get_output_formats()[0]
         )
         request = HttpRequest()
         request.META['HTTP_HOST'] = 'some-host'
@@ -84,7 +84,7 @@ class GISFormatStatusSerializerTest(TestCase):
         super().tearDown()
 
     def _create_valid_files(self):
-        matching_file_names = ['{}.zip'.format(f) for f in converter_options.get_output_formats()]
+        matching_file_names = ['{}.zip'.format(f) for f in CONVERTER_OPTIONS.get_output_formats()]
         for matching_file_name in matching_file_names:
             open(os.path.join(self.conversion_job.output_directory, matching_file_name), 'x').close()
 

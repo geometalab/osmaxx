@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.reverse import reverse
 
 from conversion_job.models import Extent, ConversionJob, GISFormat, GISOption
-from converters.converter import Options
+from converters import Options
 from manager.job_manager import ConversionJobManager
 from rest_api.serializer_helpers import ModelSideValidationMixin
 from shared import JobStatus

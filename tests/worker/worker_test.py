@@ -8,8 +8,8 @@ from rest_framework.reverse import reverse
 from rq.job import Job
 
 from converters.boundaries import BBox
-from converters.converter import Options
-from converters.gis_converter.extract.excerpt import Excerpt
+from converters.converter import Conversion
+from converters import Options
 from manager.rq_helper import rq_enqueue_with_settings
 from shared import ConversionProgress
 from worker.converter_job import convert, set_progress_on_job
@@ -20,9 +20,9 @@ class WorkerTest(TestCase):
     pbf_file_path = '/some_path/to/pbf.pbf'
 
     @mock.patch('os.remove')
-    @mock.patch.object(Excerpt, '_copy_statistics_file_to_format_dir', return_value=None)
-    @mock.patch.object(Excerpt, '_get_statistics', return_value=None)
-    @mock.patch.object(Excerpt, '_export_from_db_to_format', return_value=None)
+    @mock.patch.object(Conversion, '_copy_statistics_file_to_format_dir', return_value=None)
+    @mock.patch.object(Conversion, '_get_statistics', return_value=None)
+    @mock.patch.object(Conversion, '_export_from_db_to_format', return_value=None)
     @mock.patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
     @mock.patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
     def test_convert_calls_cut_osm_extent_and_bootstrap(  # pylint: disable=W0613
@@ -63,9 +63,9 @@ class ConvertTest(TestCase):
     )
 
     @mock.patch('os.remove')
-    @mock.patch.object(Excerpt, '_copy_statistics_file_to_format_dir', return_value=None)
-    @mock.patch.object(Excerpt, '_get_statistics', return_value=None)
-    @mock.patch.object(Excerpt, '_export_from_db_to_format', return_value=None)
+    @mock.patch.object(Conversion, '_copy_statistics_file_to_format_dir', return_value=None)
+    @mock.patch.object(Conversion, '_get_statistics', return_value=None)
+    @mock.patch.object(Conversion, '_export_from_db_to_format', return_value=None)
     @mock.patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
     @mock.patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
     @mock.patch('rq.get_current_job', return_value=rq_job_stub)

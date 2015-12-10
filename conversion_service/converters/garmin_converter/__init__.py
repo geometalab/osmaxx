@@ -1,7 +1,7 @@
 from converters import Options
 
 options = Options(
-    output_formats=['fgdb', 'shp', 'gpkg', 'spatialite'],
+    output_formats=['garmin', ],
 )
 
 __all__ = [

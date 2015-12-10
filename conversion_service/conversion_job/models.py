@@ -6,9 +6,9 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
-from converters import CONVERTER_CHOICES, converter_settings
+from converters import converter_settings, Options
+from converters.options import CONVERTER_CHOICES
 from converters.boundaries import BBox, PolyfileForCountry
-from converters.converter import Options
 from countries.models import Country
 from shared import JobStatus, ConversionProgress, rq_job_status_mapping
 from utils.directory_helper import get_file_only_path_list_in_directory
