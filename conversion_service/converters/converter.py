@@ -3,6 +3,8 @@ import shutil
 import subprocess
 import time
 
+from converters import garmin_converter
+from converters import gis_converter
 from converters.gis_converter.bootstrap import bootstrap
 from utils import chg_dir_with
 
@@ -19,19 +21,33 @@ class Conversion(object):
         self.pbf_path = osm_pbf_path
 
     def start_format_extraction(self):
-        self._extract_postgis_formats(self.formats)
+        garmin_formats, gis_formats = self._split_formats()
+        self._create_garmin_export(garmin_formats)
+        self._extract_postgis_formats(gis_formats)
 
     def _extract_postgis_formats(self, formats):
-        bootstrap.boostrap(self.pbf_path)
-        with chg_dir_with(os.path.dirname(__file__)):
-            # only create statistics once and remove it when done with all formats
-            self._get_statistics(self.tmp_statistics_filename)
-            for format in formats:
-                file_basename = '_'.join([self.filename_prefix, format])
-                self._copy_statistics_file_to_format_dir(file_basename)
-                self._export_from_db_to_format(file_basename, format)
-            # remove the temporary statistics file
-            os.remove(os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'))
+        if len(formats) > 0:
+            bootstrap.boostrap(self.pbf_path)
+            with chg_dir_with(os.path.dirname(__file__)):
+                # only create statistics once and remove it when done with all formats
+                self._get_statistics(self.tmp_statistics_filename)
+                for format in formats:
+                    file_basename = '_'.join([self.filename_prefix, format])
+                    self._copy_statistics_file_to_format_dir(file_basename)
+                    self._export_from_db_to_format(file_basename, format)
+                # remove the temporary statistics file
+                os.remove(os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'))
+
+    def _create_garmin_export(self, formats):
+        if len(formats) == 1:
+            garmin_format = formats[0]
+            path_to_mkgmap = os.path.abspath(
+                os.path.join(os.path.dirname(__file__), 'garmin_converter', 'command_line_utils', 'mkgmap', 'mkgmap.jar')
+            )
+            garmin_out_dir = os.path.join(self.output_dir, garmin_format)
+            os.makedirs(garmin_out_dir, exist_ok=True)
+            subprocess.check_call(['java', '-jar', path_to_mkgmap, '--output-dir={0}'.format(garmin_out_dir), '--input-file={0}'.format(self.pbf_path)])
+            subprocess.check_call(["zip", "-r", "--move", '.'.join([garmin_out_dir, 'zip']), garmin_out_dir])
 
     # Export files of the specified format (file_format) from existing database
     def _export_from_db_to_format(self, file_basename, file_format):  # pragma: nocover
@@ -50,3 +66,10 @@ class Conversion(object):
             os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'),
             os.path.join(self.output_dir, 'tmp', file_basename + '_STATISTICS.csv')
         )
+
+    def _split_formats(self):
+        garmin_formats = [garmin_format for garmin_format in self.formats
+                          if garmin_format in garmin_converter.options.get_output_formats()]
+        gis_formats = [gis_format for gis_format in self.formats
+                       if gis_format in gis_converter.options.get_output_formats()]
+        return garmin_formats, gis_formats

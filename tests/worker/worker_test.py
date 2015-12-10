@@ -10,6 +10,7 @@ from rq.job import Job
 from converters.boundaries import BBox
 from converters.converter import Conversion
 from converters import Options
+from converters import garmin_converter
 from manager.rq_helper import rq_enqueue_with_settings
 from shared import ConversionProgress
 from worker.converter_job import convert, set_progress_on_job
@@ -53,7 +54,7 @@ class WorkerTest(TestCase):
         self.assertDictEqual(job_fetched.meta, {'progress': ConversionProgress.SUCCESSFUL})
 
 
-class ConvertTest(TestCase):
+class ConversionTest(TestCase):
     pbf_file_path = '/some_path/to/pbf.pbf'
     mocked_job_id = '0' * 36
     rq_job_stub = namedtuple('RQJob', ['id', 'meta', 'save'])(
@@ -78,3 +79,14 @@ class ConvertTest(TestCase):
         convert(geometry, format_options, output_directory, callback_url, protocol, host)
         expected_url = protocol + '://' + host + reverse(viewname='conversion_job_result-detail', kwargs={'rq_job_id': self.mocked_job_id})
         notifier_mock.assert_called_with(callback_url, expected_url)
+
+    @mock.patch('os.remove')
+    @mock.patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
+    @mock.patch.object(Conversion, '_create_garmin_export', return_value=None)
+    def test_convert_with_garmin_gets_called_correctly(
+            self, create_garmin_export_mock, *args, **kwargs):
+        output_directory = '/tmp/'
+        garmin_options = garmin_converter.options
+        conversion = Conversion(garmin_options.get_output_formats(), output_directory, self.pbf_file_path)
+        conversion.start_format_extraction()
+        create_garmin_export_mock.assert_called_with(garmin_options.get_output_formats())
