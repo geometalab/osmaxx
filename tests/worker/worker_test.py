@@ -1,6 +1,6 @@
 # pylint: disable=C0111
 from collections import namedtuple
-from unittest import mock
+from unittest.mock import patch, Mock, ANY, call as mock_call
 
 from django.test import TestCase
 from django_rq import get_connection
@@ -19,12 +19,12 @@ from tests.redis_test_helpers import perform_all_jobs_sync
 class WorkerTest(TestCase):
     pbf_file_path = '/some_path/to/pbf.pbf'
 
-    @mock.patch('os.remove')
-    @mock.patch.object(Excerpt, '_copy_statistics_file_to_format_dir', return_value=None)
-    @mock.patch.object(Excerpt, '_get_statistics', return_value=None)
-    @mock.patch.object(Excerpt, '_export_from_db_to_format', return_value=None)
-    @mock.patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
-    @mock.patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
+    @patch('os.remove')
+    @patch.object(Excerpt, '_copy_statistics_file_to_format_dir', return_value=None)
+    @patch.object(Excerpt, '_get_statistics', return_value=None)
+    @patch.object(Excerpt, '_export_from_db_to_format', return_value=None)
+    @patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
+    @patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
     def test_convert_calls_cut_osm_extent_and_bootstrap(  # pylint: disable=W0613
             self,
             cut_osm_extent_mock, bootstrap_mock, _export_from_db_to_format_mock,
@@ -38,7 +38,7 @@ class WorkerTest(TestCase):
         bootstrap_mock.assert_called_once_with(self.pbf_file_path)
         self.assert_mock_has_exactly_calls(
             _export_from_db_to_format_mock,
-            [mock.call(mock.ANY, f) for f in format_options.get_output_formats()],
+            [mock_call(ANY, f) for f in format_options.get_output_formats()],
             any_order=True,
         )
 
@@ -59,17 +59,17 @@ class ConvertTest(TestCase):
     rq_job_stub = namedtuple('RQJob', ['id', 'meta', 'save'])(
         id=mocked_job_id,
         meta={'progress': ''},
-        save=mock.Mock(),
+        save=Mock(),
     )
 
-    @mock.patch('os.remove')
-    @mock.patch.object(Excerpt, '_copy_statistics_file_to_format_dir', return_value=None)
-    @mock.patch.object(Excerpt, '_get_statistics', return_value=None)
-    @mock.patch.object(Excerpt, '_export_from_db_to_format', return_value=None)
-    @mock.patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
-    @mock.patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
-    @mock.patch('rq.get_current_job', return_value=rq_job_stub)
-    @mock.patch('worker.converter_job.Notifier')
+    @patch('os.remove')
+    @patch.object(Excerpt, '_copy_statistics_file_to_format_dir', return_value=None)
+    @patch.object(Excerpt, '_get_statistics', return_value=None)
+    @patch.object(Excerpt, '_export_from_db_to_format', return_value=None)
+    @patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
+    @patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
+    @patch('rq.get_current_job', return_value=rq_job_stub)
+    @patch('worker.converter_job.Notifier')
     def test_convert_with_host_and_job_assembles_url_correctly(self, notifier_mock, rq_job_stub, *args, **kwargs):
         format_options = Options(output_formats=['fgdb', 'spatialite', 'shp', 'gpkg'])
         geometry, output_directory, callback_url = None, '/tmp/', None
