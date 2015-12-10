@@ -51,10 +51,11 @@ class Conversion(object):
 
     # Export files of the specified format (file_format) from existing database
     def _export_from_db_to_format(self, file_basename, file_format):
-        extract_format_file_path = os.path.join(
-            os.path.dirname(__file__), 'gis_converter', 'extract', 'extract', 'extract_format.sh'
-        )
-        dbcmd = 'sh', extract_format_file_path, self.output_dir, file_basename, file_format
+        extract_base_dir = os.path.join(os.path.dirname(__file__), 'gis_converter', 'extract')
+        extract_format_file_path = os.path.join(extract_base_dir, 'extract', 'extract_format.sh')
+        extra_data_dir = os.path.join(extract_base_dir, 'static')
+
+        dbcmd = 'sh', extract_format_file_path, self.output_dir, file_basename, file_format, extra_data_dir
         dbcmd = [str(arg) for arg in dbcmd]
         subprocess.check_call(dbcmd)
 
