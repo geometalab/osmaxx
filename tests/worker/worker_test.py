@@ -100,5 +100,14 @@ class NotifierTest(TestCase):
         self.assertEqual(urlunparse(url_components._replace(query='')), notifier.callback_url)
         self.assertEqual(parse_qs(url_components.query), dict(status=[notifier.status_url]))
 
+    @patch.object(requests.sessions.Session, 'send')
+    def test_notify_without_callback_url_sends_no_request(self, requests_send_mock):
+        notifier = Notifier(
+            callback_url=None,
+            status_url='https://osmaxx-conversion.example.com/example_job/status'
+        )
+        notifier.notify()
+        self.assertEqual(requests_send_mock.call_count, 0)
+
     def _get_request(self, request, **kwargs):
         return request
