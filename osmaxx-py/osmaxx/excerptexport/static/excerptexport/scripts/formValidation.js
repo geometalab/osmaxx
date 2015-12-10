@@ -90,7 +90,7 @@
                             excerptBoundInputField.setCustomValidity('');
                             document.getElementById('excerpt-validation').textContent = '';
                         } else {
-                            var howMuchToLarge = estimatedFileSize ? Math.round(100/allowedMaxSize*estimatedFileSize-100) + '% ': '';
+                            var howMuchToLarge = estimatedFileSize ? Math.ceil(estimatedFileSize*100/allowedMaxSize-100) + '% ': '';
                             var message = 'Excerpt {percent}too large!'.replace('{percent}', howMuchToLarge);
                             excerptBoundInputField.setCustomValidity(message);
                             document.getElementById('excerpt-validation').textContent = message;
