@@ -40,9 +40,8 @@ class BoundingGeometryFromExcerptDetail(BoundingGeometryFromExcerptMixin, generi
 
 
 def country_geojson(request, pk):
-    country_id = pk
     client = get_authenticated_api_client()
-    country_json_from_conversion_service = client.get_country_geojson(country_id)
+    country_json_from_conversion_service = client.get_country_geojson(pk)
 
     return HttpResponse(
         country_json_from_conversion_service,
