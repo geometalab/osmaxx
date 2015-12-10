@@ -204,8 +204,12 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
             pk = self.cleaned_data['existing_excerpts']
             is_country = pk.startswith(COUNTRY_ID_PREFIX)
             if is_country:
-                extraction_order.country_id = int(pk.strip(COUNTRY_ID_PREFIX))
-                extraction_order.name = 'Country xyz'
+                from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
+                country_id = int(pk.strip(COUNTRY_ID_PREFIX))
+                extraction_order.country_id = country_id
+                extraction_order.name = '{0}'.format(
+                    get_authenticated_api_client().get_country_name(country_id)
+                )
             else:
                 existing_excerpt = Excerpt.objects.get(pk=int(pk))
                 extraction_order.excerpt = existing_excerpt
