@@ -69,9 +69,9 @@ class Conversion(object):
         extract_statistics_file_path = os.path.join(
             os.path.dirname(__file__), 'gis_converter', 'extract', 'extract', 'extract_statistics.sh'
         )
-        statcmd = 'bash', extract_statistics_file_path, self.output_dir, filename
-        statcmd = [str(arg) for arg in statcmd]
-        subprocess.check_call(statcmd)
+        statistic_command = 'bash', extract_statistics_file_path, self.output_dir, filename
+        statistic_command = [str(arg) for arg in statistic_command]
+        subprocess.check_call(statistic_command)
 
     def _copy_statistics_file_to_format_dir(self, file_basename):  # pragma: nocover
         shutil.copyfile(
