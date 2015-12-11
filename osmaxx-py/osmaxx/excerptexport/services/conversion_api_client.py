@@ -36,7 +36,7 @@ class ConversionApiClient(RESTApiJWTClient):
             return None
         process_unfinished = progress in ['new', 'received', 'started']
         timeout_reached = timezone.now() > (
-            extraction_order.process_start_time + settings.OSMAXX.get('EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA')
+            extraction_order.process_due_time
         )
         return process_unfinished and timeout_reached
 
