@@ -32,11 +32,13 @@ class ConversionApiClient(RESTApiJWTClient):
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
+        if extraction_order.process_start_time is None:
+            return None
         process_unfinished = progress in ['new', 'received', 'started']
         timeout_reached = timezone.now() > (
             extraction_order.process_start_time + settings.OSMAXX.get('EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA')
         )
-        return extraction_order.process_start_time and process_unfinished and timeout_reached
+        return process_unfinished and timeout_reached
 
     def login(self):
         """
