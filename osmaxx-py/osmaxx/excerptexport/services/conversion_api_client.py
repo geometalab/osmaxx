@@ -26,6 +26,7 @@ class ConversionApiClient(RESTApiJWTClient):
 
     conversion_job_url = '/jobs/'
     conversion_job_status_url = '/conversion_result/{job_uuid}/'
+    estimated_file_size_url = '/estimate_size_in_bytes/'
     country_base_url = '/country/'
 
     def login(self):
@@ -199,6 +200,21 @@ class ConversionApiClient(RESTApiJWTClient):
 
     def get_country_name(self, country_id):
         return self.get_country(country_id)['name']
+
+    def estimated_file_size(self, north, west, south, east):
+        request_data = {
+            "west": west,
+            "south": south,
+            "east": east,
+            "north": north
+        }
+
+        self.login()
+
+        response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
+        if self.errors:
+            return self.errors
+        return response.json()
 
     def get_country_list_json(self):
         return json.dumps(self.get_prefixed_countries())
