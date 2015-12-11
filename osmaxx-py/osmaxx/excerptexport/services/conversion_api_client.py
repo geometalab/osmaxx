@@ -3,6 +3,7 @@ from collections import OrderedDict
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db import transaction
+from django.utils import timezone
 
 from osmaxx.api_client.API_client import RESTApiJWTClient
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
@@ -21,6 +22,12 @@ class ConversionApiClient(RESTApiJWTClient):
 
     conversion_job_url = '/jobs/'
     conversion_job_status_url = '/conversion_result/{job_uuid}/'
+
+    @staticmethod
+    def _extraction_processing_overdated(progress, extraction_order):
+        return (progress in ['new', 'received', 'started']) and timezone.now() > (
+            extraction_order.process_start_time + settings.OSMAXX.get('EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA')
+        )
 
     def login(self):
         """
@@ -78,6 +85,7 @@ class ConversionApiClient(RESTApiJWTClient):
             rq_job_id = response.json().get('rq_job_id', None)
             if rq_job_id:
                 extraction_order.process_id = rq_job_id
+                extraction_order.process_start_time = timezone.now()
                 extraction_order.progress_url = response.json()['status']
                 extraction_order.state = ExtractionOrderState.QUEUED
                 extraction_order.save()
@@ -170,6 +178,9 @@ class ConversionApiClient(RESTApiJWTClient):
             extraction_order.save()
             if progress == 'successful':
                 self._download_result_files(extraction_order, job_status)
+            elif self._extraction_processing_overdated(progress, extraction_order):
+                extraction_order.state = ExtractionOrderState.FAILED
+                extraction_order.save()
 
 
 def get_authenticated_api_client():

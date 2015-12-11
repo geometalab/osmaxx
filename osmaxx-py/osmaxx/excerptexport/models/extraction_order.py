@@ -51,6 +51,7 @@ class ExtractionOrder(models.Model):
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'))
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
+    process_start_time = models.DateTimeField(verbose_name=_('process start time'), null=True, blank=True)
     download_status = models.IntegerField(
         _('file status'),
         choices=DOWNLOAD_STATUSES,
