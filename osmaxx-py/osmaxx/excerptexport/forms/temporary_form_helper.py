@@ -6,6 +6,7 @@ available_format_choices = (
     ('shp', _('shp')),
     ('gpkg', _('gpkg')),
     ('spatialite', _('spatialite')),
+    ('garmin', _('garmin')),
 )
 
 

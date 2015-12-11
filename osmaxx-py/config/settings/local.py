@@ -4,7 +4,7 @@ DEBUG = env.bool('DJANGO_DEBUG', default=True)
 SECRET_KEY = env.str("DJANGO_SECRET_KEY", default='CHANGEME!!!')
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         'LOCATION': ''
     }
 }
