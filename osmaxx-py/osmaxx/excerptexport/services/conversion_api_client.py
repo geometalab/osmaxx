@@ -32,7 +32,7 @@ class ConversionApiClient(RESTApiJWTClient):
 
     @staticmethod
     def _extraction_processing_overdated(progress, extraction_order):
-        return (progress in ['new', 'received', 'started']) and timezone.now() > (
+        return extraction_order.process_start_time and (progress in ['new', 'received', 'started']) and timezone.now() > (
             extraction_order.process_start_time + settings.OSMAXX.get('EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA')
         )
 
