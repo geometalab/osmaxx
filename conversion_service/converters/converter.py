@@ -39,6 +39,7 @@ class Conversion(object):
                 os.remove(self._get_statistics_file_path())
 
     def _create_garmin_export(self, formats):
+        assert len(formats) <= 1
         if len(formats) == 1:
             garmin_format = formats[0]
             path_to_mkgmap = os.path.abspath(
