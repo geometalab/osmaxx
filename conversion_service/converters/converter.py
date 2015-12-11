@@ -30,13 +30,13 @@ class Conversion(object):
             bootstrap.boostrap(self.pbf_path)
             with chg_dir_with(os.path.dirname(__file__)):
                 # only create statistics once and remove it when done with all formats
-                self._get_statistics(self.tmp_statistics_filename)
+                self._create_statistics(self.tmp_statistics_filename)
                 for format in formats:
                     file_basename = '_'.join([self.filename_prefix, format])
                     self._copy_statistics_file_to_format_dir(file_basename)
                     self._export_from_db_to_format(file_basename, format)
                 # remove the temporary statistics file
-                os.remove(os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'))
+                os.remove(self._get_statistics_file_path())
 
     def _create_garmin_export(self, formats):
         if len(formats) == 1:
@@ -65,7 +65,7 @@ class Conversion(object):
         subprocess.check_call(dbcmd)
 
     # Extract Statistics
-    def _get_statistics(self, filename):
+    def _create_statistics(self, filename):
         extract_statistics_file_path = os.path.join(
             os.path.dirname(__file__), 'gis_converter', 'extract', 'extract', 'extract_statistics.sh'
         )
@@ -75,7 +75,7 @@ class Conversion(object):
 
     def _copy_statistics_file_to_format_dir(self, file_basename):  # pragma: nocover
         shutil.copyfile(
-            os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv'),
+            self._get_statistics_file_path(),
             os.path.join(self.output_dir, 'tmp', file_basename + '_STATISTICS.csv')
         )
 
@@ -85,3 +85,6 @@ class Conversion(object):
         gis_formats = [gis_format for gis_format in self.formats
                        if gis_format in gis_converter.options.get_output_formats()]
         return garmin_formats, gis_formats
+
+    def _get_statistics_file_path(self):
+        return os.path.join(self.output_dir, 'tmp', self.tmp_statistics_filename + '_STATISTICS.csv')

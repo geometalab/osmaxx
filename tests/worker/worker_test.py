@@ -22,7 +22,7 @@ class WorkerTest(TestCase):
 
     @mock.patch('os.remove')
     @mock.patch.object(Conversion, '_copy_statistics_file_to_format_dir', return_value=None)
-    @mock.patch.object(Conversion, '_get_statistics', return_value=None)
+    @mock.patch.object(Conversion, '_create_statistics', return_value=None)
     @mock.patch.object(Conversion, '_export_from_db_to_format', return_value=None)
     @mock.patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
     @mock.patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
@@ -65,7 +65,7 @@ class ConversionTest(TestCase):
 
     @mock.patch('os.remove')
     @mock.patch.object(Conversion, '_copy_statistics_file_to_format_dir', return_value=None)
-    @mock.patch.object(Conversion, '_get_statistics', return_value=None)
+    @mock.patch.object(Conversion, '_create_statistics', return_value=None)
     @mock.patch.object(Conversion, '_export_from_db_to_format', return_value=None)
     @mock.patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
     @mock.patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
