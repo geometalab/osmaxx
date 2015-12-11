@@ -1,6 +1,9 @@
+import os
+
 from django.http import FileResponse
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import detail_route
+from rest_framework.response import Response
 
 from conversion_job.models import Extent, ConversionJob, GISFormat
 from conversion_job.serializers import ExtentSerializer, ConversionJobSerializer, ConversionJobStatusSerializer, \
@@ -54,3 +57,12 @@ class GISFormatStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.Generi
         response = FileResponse(open(file_path, 'rb'))
         response['Content-Disposition'] = 'attachment; filename="%s"' % file_name
         return response
+
+    @detail_route(methods=['delete'])
+    def delete_result(self, *args, **kwargs):
+        format_obj = self.get_object()
+        file_path = format_obj.get_result_file_path()
+        # ignore when file isn't there
+        if file_path:
+            os.remove(format_obj.get_result_file_path())
+        return Response(status=status.HTTP_204_NO_CONTENT)
