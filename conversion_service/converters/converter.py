@@ -61,9 +61,9 @@ class Conversion(object):
         extract_format_file_path = os.path.join(extract_base_dir, 'extract', 'extract_format.sh')
         extra_data_dir = os.path.join(extract_base_dir, 'static')
 
-        dbcmd = 'sh', extract_format_file_path, self.output_dir, file_basename, file_format, extra_data_dir
-        dbcmd = [str(arg) for arg in dbcmd]
-        subprocess.check_call(dbcmd)
+        db_command = 'sh', extract_format_file_path, self.output_dir, file_basename, file_format, extra_data_dir
+        db_command = [str(arg) for arg in db_command]
+        subprocess.check_call(db_command)
 
     # Extract Statistics
     def _create_statistics(self, filename):
