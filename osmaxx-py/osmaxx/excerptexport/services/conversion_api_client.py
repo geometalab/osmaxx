@@ -1,16 +1,21 @@
+import json
 import logging
 from collections import OrderedDict
+
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db import transaction
 from django.utils import timezone
+from rest_framework.reverse import reverse
 
 from osmaxx.api_client.API_client import RESTApiJWTClient
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
+from osmaxx.utilities.shortcuts import get_cached_or_set
 from osmaxx.utils import private_storage
-from rest_framework.reverse import reverse
 
 logger = logging.getLogger(__name__)
+
+COUNTRY_ID_PREFIX = 'country-'
 
 
 class ConversionApiClient(RESTApiJWTClient):
@@ -22,6 +27,8 @@ class ConversionApiClient(RESTApiJWTClient):
 
     conversion_job_url = '/jobs/'
     conversion_job_status_url = '/conversion_result/{job_uuid}/'
+    estimated_file_size_url = '/estimate_size_in_bytes/'
+    country_base_url = '/country/'
 
     @staticmethod
     def _extraction_processing_overdated(progress, extraction_order):
@@ -59,7 +66,10 @@ class ConversionApiClient(RESTApiJWTClient):
         Returns:
             response of the call
         """
-        bounding_geometry = extraction_order.excerpt.bounding_geometry.subclass_instance
+        if hasattr(extraction_order.excerpt, 'bounding_geometry'):
+            bounding_geometry = extraction_order.excerpt.bounding_geometry.subclass_instance
+        else:
+            bounding_geometry = None
 
         request_data = OrderedDict({
             "callback_url": "{protocol}://{host}{path}".format(
@@ -70,11 +80,11 @@ class ConversionApiClient(RESTApiJWTClient):
             "gis_formats": extraction_order.extraction_configuration['gis_formats'],
             "gis_options": extraction_order.extraction_configuration['gis_options'],
             "extent": {
-                "west": bounding_geometry.west,
-                "south": bounding_geometry.south,
-                "east": bounding_geometry.east,
-                "north": bounding_geometry.north,
-                "polyfile": None
+                "west": bounding_geometry.west if bounding_geometry else None,
+                "south": bounding_geometry.south if bounding_geometry else None,
+                "east": bounding_geometry.east if bounding_geometry else None,
+                "north": bounding_geometry.north if bounding_geometry else None,
+                "country": extraction_order.country_id,
             }
         })
         self.login()
@@ -182,13 +192,60 @@ class ConversionApiClient(RESTApiJWTClient):
                 extraction_order.state = ExtractionOrderState.FAILED
                 extraction_order.save()
 
+    def get_country_list(self):
+        return get_cached_or_set('osmaxx_conversion_service_countries_list', self._fetch_countries)
 
-def get_authenticated_api_client():
-    """
-    Helper method to get an authenticated ConversionApiClient instance.
+    def get_prefixed_countries(self):
+        return [
+            {'id': COUNTRY_ID_PREFIX + str(country['id']), 'name': country['name']}
+            for country in self.get_country_list()
+        ]
 
-    :return:
-    """
-    conversion_api_client = ConversionApiClient()
-    conversion_api_client.login()
-    return conversion_api_client
+    def get_country(self, country_id):
+        self.login()
+        response = self.authorized_get(self.country_base_url + country_id + '/')
+        if self.errors:
+            logger.error('could not fetch country list: ', self.errors)
+            return self.errors
+        return response.json()
+
+    def get_country_name(self, country_id):
+        return self.get_country(country_id)['name']
+
+    def estimated_file_size(self, north, west, south, east):
+        request_data = {
+            "west": west,
+            "south": south,
+            "east": east,
+            "north": north
+        }
+
+        self.login()
+
+        response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
+        if self.errors:
+            return self.errors
+        return response.json()
+
+    def get_country_list_json(self):
+        return json.dumps(self.get_prefixed_countries())
+
+    def get_country_json(self, country_id):
+        return json.dumps(self.get_country(country_id.strip(COUNTRY_ID_PREFIX)))
+
+    def get_country_geojson(self, country_id):
+        properties = {'type_of_geometry': "Country"}  # add the type for better distinction in JavaScript
+        geo_json = self.get_country(country_id)['simplified_polygon']
+        geo_json['properties'] = properties
+        return json.dumps(geo_json)
+
+    def _fetch_countries(self):
+        self.login()
+        response = self.authorized_get(self.country_base_url)
+        if self.errors:
+            logger.error('could not fetch country list: ', self.errors)
+            return self.errors
+        countries = [
+            {'id': country['id'], 'name': country['name']} for country in response.json()
+        ]
+        return sorted(countries, key=lambda k: k['name'])

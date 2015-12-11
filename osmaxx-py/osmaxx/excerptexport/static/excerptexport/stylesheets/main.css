@@ -157,17 +157,16 @@ optgroup:before {
     padding: 0.5rem;
     display: block;
 }
-
-input[type="checkbox"]:invalid { border: 0.05rem solid 1px; }
-input[type="checkbox"]:invalid::after {
-    content: " ";
-    display: block;
-    height: 1em;
-    border-right: 0.25rem solid red;
-    position: relative;
-    left: 0.25rem;
+#estimated-file-size { display: inline-block; }
+#estimated-file-size p {
+    display: inline-block;
+    padding: 0.5rem;
 }
-/*optgroup > option:first-child { border-top: 0.5rem solid rgb(40, 96, 144); display: block; }*/
+form .error {
+    color: red;
+}
+
+input[type="checkbox"]:invalid { outline: 0.1rem solid red; }
 
 /* special select: shown as button group
  * TODO: Fix for IE (does not support appereance:none)

@@ -14,7 +14,7 @@
             <div class="order" data-order-status="{{ extraction_order.get_state_display }}">
                 <h3>{% include 'excerptexport/partials/status.html' with status=extraction_order.get_state_display %}
                     <a href="{% url 'excerptexport:status' extraction_order.id %}">#{{ extraction_order.id }}
-                    {% blocktrans with excerpt_name=extraction_order.excerpt.name %}Extraction of &quot;{{ excerpt_name }}&quot;{% endblocktrans %}</a>
+                    {% blocktrans with excerpt_name=extraction_order.excerpt_name %}Extraction of &quot;{{ excerpt_name }}&quot;{% endblocktrans %}</a>
                 </h3>
                 <p>
                     {% if extraction_order.output_files.count > 0 %}
