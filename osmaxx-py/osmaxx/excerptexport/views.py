@@ -129,7 +129,7 @@ def extraction_order_status(request, extraction_order_id):
 def list_orders(request):
     extraction_orders = ExtractionOrder.objects.filter(orderer=request.user)
 
-    # order status will be updated by callback from api. This is just for a failure situation of the api
+    # Order status will be updated by callback from API. This is just for a failure situation of the API.
     for extraction_order in extraction_orders.filter(state__lt=ExtractionOrderState.FINISHED):
         _update_progress(extraction_order)
 
