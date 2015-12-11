@@ -46,7 +46,12 @@ class Conversion(object):
             )
             garmin_out_dir = os.path.join(self.output_dir, garmin_format)
             os.makedirs(garmin_out_dir, exist_ok=True)
-            subprocess.check_call(['java', '-Xms32m', '-Xmx4096m', '-jar', path_to_mkgmap, '--output-dir={0}'.format(garmin_out_dir), '--input-file={0}'.format(self.pbf_path)])
+            subprocess.check_call([
+                'java', '-Xms32m', '-Xmx4096m',
+                '-jar', path_to_mkgmap,
+                '--output-dir={0}'.format(garmin_out_dir),
+                '--input-file={0}'.format(self.pbf_path),
+            ])
             subprocess.check_call(["zip", "-r", "--move", '.'.join([garmin_out_dir, 'zip']), garmin_out_dir])
 
     # Export files of the specified format (file_format) from existing database
