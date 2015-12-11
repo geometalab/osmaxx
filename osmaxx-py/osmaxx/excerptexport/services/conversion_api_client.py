@@ -1,14 +1,20 @@
+import json
 import logging
 from collections import OrderedDict
+
 from django.conf import settings
 from django.core.files.base import ContentFile
+from django.db import transaction
+from rest_framework.reverse import reverse
 
 from osmaxx.api_client.API_client import RESTApiJWTClient
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
+from osmaxx.utilities.shortcuts import get_cached_or_set
 from osmaxx.utils import private_storage
-from rest_framework.reverse import reverse
 
 logger = logging.getLogger(__name__)
+
+COUNTRY_ID_PREFIX = 'country-'
 
 
 class ConversionApiClient(RESTApiJWTClient):
@@ -21,6 +27,7 @@ class ConversionApiClient(RESTApiJWTClient):
     conversion_job_url = '/jobs/'
     conversion_job_status_url = '/conversion_result/{job_uuid}/'
     estimated_file_size_url = '/estimate_size_in_bytes/'
+    country_base_url = '/country/'
 
     def login(self):
         """
@@ -40,7 +47,7 @@ class ConversionApiClient(RESTApiJWTClient):
             return True
         return False
 
-    def create_job(self, extraction_order, callback_host):
+    def create_job(self, extraction_order, callback_host, protocol):
         """
         Kickoff a conversion job
 
@@ -52,21 +59,25 @@ class ConversionApiClient(RESTApiJWTClient):
         Returns:
             response of the call
         """
-        bounding_geometry = extraction_order.excerpt.bounding_geometry.subclass_instance
+        if hasattr(extraction_order.excerpt, 'bounding_geometry'):
+            bounding_geometry = extraction_order.excerpt.bounding_geometry.subclass_instance
+        else:
+            bounding_geometry = None
 
         request_data = OrderedDict({
-            "callback_url": "http://{host}{path}".format(
+            "callback_url": "{protocol}://{host}{path}".format(
+                protocol=protocol,
                 host=callback_host,
                 path=reverse('job_progress:tracker', kwargs=dict(order_id=extraction_order.id))
             ),
             "gis_formats": extraction_order.extraction_configuration['gis_formats'],
             "gis_options": extraction_order.extraction_configuration['gis_options'],
             "extent": {
-                "west": bounding_geometry.west,
-                "south": bounding_geometry.south,
-                "east": bounding_geometry.east,
-                "north": bounding_geometry.north,
-                "polyfile": None
+                "west": bounding_geometry.west if bounding_geometry else None,
+                "south": bounding_geometry.south if bounding_geometry else None,
+                "east": bounding_geometry.east if bounding_geometry else None,
+                "north": bounding_geometry.north if bounding_geometry else None,
+                "country": extraction_order.country_id,
             }
         })
         self.login()
@@ -84,37 +95,37 @@ class ConversionApiClient(RESTApiJWTClient):
                 logging.error('Could not retrieve api job id from response.', response)
         return response
 
-    def download_result_files(self, extraction_order):
+    def _download_result_files(self, extraction_order, job_status):
         """
         Downloads the result files if the conversion was finished,
         stores the files into the private storage and attaches them as output files to the extraction order
 
         Args:
             extraction_order: an ExtractionOrder object to attach the output files
-
-        Returns:
-            True if the job status was fetched successful
-            False if it failed
+            job_status: the job status from the conversion api
         """
-        self.login()
-        job_status = self.job_status(extraction_order)
-        if job_status and job_status['status'] == 'done' and job_status['progress'] == 'successful':
-            for download_file in job_status['gis_formats']:
-                if download_file['progress'] == 'successful':
-                    result_response = self.authorized_get(download_file['result_url'])
-                    output_file = OutputFile.objects.create(
-                        mime_type='application/zip',
-                        file_extension='zip',
-                        content_type=download_file['format'],
-                        extraction_order=extraction_order
-                    )
+        with transaction.atomic():
+            extraction_order.refresh_from_db()
+            if extraction_order.download_status == extraction_order.DOWNLOAD_STATUS_NOT_DOWNLOADED:
+                extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_DOWNLOADING
+                extraction_order.save()
+                for download_file in job_status['gis_formats']:
+                    assert download_file['progress'] == 'successful'
+                    self._download_file(download_file, extraction_order)
+                extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_AVAILABLE
+                extraction_order.save()
 
-                    file_name = str(output_file.public_identifier) + '.zip'
-                    output_file.file = private_storage.save(file_name, ContentFile(result_response.content))
-                    output_file.save()
-            return True
-        else:
-            return False
+    def _download_file(self, download_file_dict, extraction_order):
+        result_response = self.authorized_get(download_file_dict['result_url'])
+        output_file = OutputFile.objects.create(
+            mime_type='application/zip',
+            file_extension='zip',
+            content_type=download_file_dict['format'],
+            extraction_order=extraction_order,
+        )
+        file_name = str(output_file.public_identifier) + '.zip'
+        output_file.file = private_storage.save(file_name, ContentFile(result_response.content))
+        output_file.save()
 
     def job_status(self, extraction_order):
         """
@@ -133,12 +144,12 @@ class ConversionApiClient(RESTApiJWTClient):
                         {
                             "format": "fgdb",
                             "progress": "successful",
-                            "result_url": "http://localhost:8000/api/gis_format/11/download_result/"
+                            "result_url": "http://<conversion service host>:8901/api/gis_format/11/download_result/"
                         },
                         {
                             "format": "spatialite",
                             "progress": "successful",
-                            "result_url": "http://localhost:8000/api/gis_format/12/download_result/"
+                            "result_url": "http://<conversion service host>:8901/api/gis_format/12/download_result/"
                         }
                     ]
                 }
@@ -147,7 +158,6 @@ class ConversionApiClient(RESTApiJWTClient):
         self.login()
         if not extraction_order.progress_url:  # None or empty
             return None
-
         response = self.authorized_get(url=extraction_order.progress_url)
 
         if self.errors:
@@ -161,26 +171,35 @@ class ConversionApiClient(RESTApiJWTClient):
 
         Args:
             extraction_order: an ExtractionOrder object to update the state
-
-        Returns:
-            True if the job status was fetched successful
-            False if it failed
         """
         job_status = self.job_status(extraction_order)
 
         if job_status:
-            if job_status['status'] == 'done' and job_status['progress'] == 'successful':
-                if not extraction_order.state == ExtractionOrderState.FINISHED and \
-                   not extraction_order.state == ExtractionOrderState.FAILED:
-                    self.download_result_files(extraction_order)
-                    extraction_order.state = ExtractionOrderState.FINISHED
-                    extraction_order.save()
-            elif job_status['status'] == 'started':
-                extraction_order.state = ExtractionOrderState.PROCESSING
-                extraction_order.save()
-            return True
-        else:
-            return False
+            progress = job_status['progress']
+            extraction_order.set_status_from_conversion_progress(progress)
+            extraction_order.save()
+            if progress == 'successful':
+                self._download_result_files(extraction_order, job_status)
+
+    def get_country_list(self):
+        return get_cached_or_set('osmaxx_conversion_service_countries_list', self._fetch_countries)
+
+    def get_prefixed_countries(self):
+        return [
+            {'id': COUNTRY_ID_PREFIX + str(country['id']), 'name': country['name']}
+            for country in self.get_country_list()
+        ]
+
+    def get_country(self, country_id):
+        self.login()
+        response = self.authorized_get(self.country_base_url + country_id + '/')
+        if self.errors:
+            logger.error('could not fetch country list: ', self.errors)
+            return self.errors
+        return response.json()
+
+    def get_country_name(self, country_id):
+        return self.get_country(country_id)['name']
 
     def estimated_file_size(self, north, west, south, east):
         request_data = {
@@ -197,13 +216,25 @@ class ConversionApiClient(RESTApiJWTClient):
             return self.errors
         return response.json()
 
+    def get_country_list_json(self):
+        return json.dumps(self.get_prefixed_countries())
 
-def get_authenticated_api_client():
-    """
-    Helper method to get an authenticated ConversionApiClient instance.
+    def get_country_json(self, country_id):
+        return json.dumps(self.get_country(country_id.strip(COUNTRY_ID_PREFIX)))
 
-    :return:
-    """
-    conversion_api_client = ConversionApiClient()
-    conversion_api_client.login()
-    return conversion_api_client
+    def get_country_geojson(self, country_id):
+        properties = {'type_of_geometry': "Country"}  # add the type for better distinction in JavaScript
+        geo_json = self.get_country(country_id)['simplified_polygon']
+        geo_json['properties'] = properties
+        return json.dumps(geo_json)
+
+    def _fetch_countries(self):
+        self.login()
+        response = self.authorized_get(self.country_base_url)
+        if self.errors:
+            logger.error('could not fetch country list: ', self.errors)
+            return self.errors
+        countries = [
+            {'id': country['id'], 'name': country['name']} for country in response.json()
+        ]
+        return sorted(countries, key=lambda k: k['name'])

@@ -19,19 +19,56 @@ class ExtractionOrderState(enum.Enum):
     FAILED = 6
 
 
+CONVERSION_PROGRESS_TO_EXTRACTION_ORDER_STATE_MAPPING = {
+    'new': ExtractionOrderState.INITIALIZED,
+    'received': ExtractionOrderState.QUEUED,
+    'started': ExtractionOrderState.PROCESSING,
+    'successful': ExtractionOrderState.FINISHED,
+    'error': ExtractionOrderState.FAILED,
+}
+
+
+def get_order_status_from_conversion_progress(progress):
+    return CONVERSION_PROGRESS_TO_EXTRACTION_ORDER_STATE_MAPPING.get(progress, ExtractionOrderState.UNDEFINED)
+
+
 class ExtractionOrder(models.Model):
+    DOWNLOAD_STATUS_NOT_DOWNLOADED = 0
+    DOWNLOAD_STATUS_DOWNLOADING = 1
+    DOWNLOAD_STATUS_AVAILABLE = 2
+
+    DOWNLOAD_STATUSES = (
+        (DOWNLOAD_STATUS_NOT_DOWNLOADED, 'unknown'),
+        (DOWNLOAD_STATUS_DOWNLOADING, 'downloading'),
+        (DOWNLOAD_STATUS_AVAILABLE, 'received'),
+    )
+
     state = enum.EnumField(ExtractionOrderState, default=ExtractionOrderState.INITIALIZED, verbose_name=_('state'))
     _extraction_configuration = models.TextField(
         blank=True, null=True, default='', verbose_name=_('extraction options')
     )
     process_id = models.TextField(blank=True, null=True, verbose_name=_('process link'))
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
-    excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'))
+    excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True)
+    country_id = models.IntegerField(verbose_name=_('country ID'), null=True, blank=True)
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
+    download_status = models.IntegerField(
+        _('file status'),
+        choices=DOWNLOAD_STATUSES,
+        default=DOWNLOAD_STATUS_NOT_DOWNLOADED
+    )
 
     def __str__(self):
-        return '[' + str(self.id) + '] orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt.name +\
+        return '[' + str(self.id) + '] orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt_name +\
                ', state: ' + self.get_state_display() + ', output files: ' + str(self.output_files.count())
+
+    @property
+    def excerpt_name(self):
+        if self.excerpt:
+            return self.excerpt.name
+        else:
+            from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
+            return get_authenticated_api_client().get_country_name(self.country_id)
 
     @property
     def are_downloads_ready(self):
@@ -64,3 +101,7 @@ class ExtractionOrder(models.Model):
     @property
     def extraction_formats(self):
         return json.loads(self.extraction_configuration).get('gis_formats', None)
+
+    def set_status_from_conversion_progress(self, job_overall_progress):
+        if self.state not in [ExtractionOrderState.FINISHED, ExtractionOrderState.FAILED]:
+            self.state = get_order_status_from_conversion_progress(job_overall_progress)

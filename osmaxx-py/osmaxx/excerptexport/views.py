@@ -12,9 +12,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 from django.conf import settings
-
-from osmaxx.excerptexport.services import ConversionApiClient
-from osmaxx.excerptexport.services.conversion_api_client import get_authenticated_api_client
+from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState
 from osmaxx.contrib.auth.frontend_permissions import (
@@ -30,18 +28,13 @@ from osmaxx.utils import private_storage
 logger = logging.getLogger(__name__)
 
 
-def execute_converters(extraction_order, callback_host):
-    get_authenticated_api_client().create_job(extraction_order, callback_host=callback_host)
+def execute_converters(extraction_order, callback_host, protocol):
+    get_authenticated_api_client().create_job(extraction_order, callback_host=callback_host, protocol=protocol)
 
 
 class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
     template_name = 'excerptexport/templates/excerpt_form.html'
     form_class = ExcerptOrderForm
-
-    # FIXME: remove unused code
-    def post(self, request, *args, **kwargs):
-        post = super().post(request, *args, **kwargs)
-        return post
 
     def get_form_class(self):
         klass = super().get_form_class()
@@ -58,7 +51,8 @@ class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
     def form_valid(self, form):
         extraction_order = form.save(self.request.user)
         request_host = self.request.get_host()
-        execute_converters(extraction_order, callback_host=request_host)
+        request_protocol = 'https' if self.request.is_secure() else 'http'
+        execute_converters(extraction_order, callback_host=request_host, protocol=request_protocol)
         messages.info(
             self.request,
             _('Queued extraction order {id}. The conversion process will start soon.').format(
@@ -108,7 +102,7 @@ def download_file(request, uuid):
 
 
 def _update_progress(extraction_order):
-    conversion_client = ConversionApiClient()
+    conversion_client = get_authenticated_api_client()
     conversion_client.update_order_status(extraction_order)
 
 

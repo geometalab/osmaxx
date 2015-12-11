@@ -8,7 +8,7 @@ from osmaxx.contrib.auth.frontend_permissions import AuthenticatedAndAccessPermi
 from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.models.bounding_geometry import BoundingGeometry
 from osmaxx.excerptexport.rest_api.serializers import BoundingGeometrySerializer, BoundingGeometryFromExcerptSerializer
-from osmaxx.excerptexport.services.conversion_api_client import get_authenticated_api_client
+from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 
 
 class BoundingGeometryMixin:
@@ -46,3 +46,13 @@ def estimated_file_size(request):
         north=request.GET['north'], east=request.GET['east'], west=request.GET['west'], south=request.GET['south']
     )
     return HttpResponse(json.dumps(file_size_estimation), content_type="application/json")
+
+
+def country_geojson(request, pk):
+    client = get_authenticated_api_client()
+    country_json_from_conversion_service = client.get_country_geojson(pk)
+
+    return HttpResponse(
+        country_json_from_conversion_service,
+        content_type="application/json"
+    )
