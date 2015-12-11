@@ -6,7 +6,7 @@ import time
 from converters import garmin_converter
 from converters import gis_converter
 from converters.gis_converter.bootstrap import bootstrap
-from utils import chg_dir_with
+from utils import changed_dir
 
 
 class Conversion(object):
@@ -28,7 +28,7 @@ class Conversion(object):
     def _extract_postgis_formats(self, formats):
         if len(formats) > 0:
             bootstrap.boostrap(self.pbf_path)
-            with chg_dir_with(os.path.dirname(__file__)):
+            with changed_dir(os.path.dirname(__file__)):
                 # only create statistics once and remove it when done with all formats
                 self._create_statistics(self.tmp_statistics_filename)
                 for format in formats:

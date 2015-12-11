@@ -1,7 +1,7 @@
-# As `with`-statements are used as if they were functions, let's expose chg_dir_with under a name
+# As `with`-statements are used as if they were functions, let's expose changed_dir under a name
 # following function naming conventions (snake_case) rather than class naming conventions (CamelCase):
-from utils.directory_changer_helper import chg_dir_with
+from utils.directory_changer_helper import changed_dir
 
 __all__ = [
-    'chg_dir_with',
+    'changed_dir',
 ]
