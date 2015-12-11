@@ -158,15 +158,18 @@ def request_access(request):
         )
     else:
         email_message = _(
-            '{first_name} {last_name} requests access for Osmaxx. Please activate the user {username}.'
+            '''Hi Admin!
+            {first_name} {last_name} ({email}) requests access for Osmaxx. Please activate the user {username}.
+            '''
         ).format(
             username=request.user.username,
             first_name=request.user.first_name,
-            last_name=request.user.last_name
+            last_name=request.user.last_name,
+            email=request.user.email,
         )
 
         try:
-            send_mail('Request access for Osmaxx', email_message, request.user.email,
+            send_mail('Request access for Osmaxx', email_message, user_administrator_email,
                       [user_administrator_email], fail_silently=True)
             messages.success(
                 request,
