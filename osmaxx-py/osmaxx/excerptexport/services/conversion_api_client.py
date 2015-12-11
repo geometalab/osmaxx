@@ -35,9 +35,7 @@ class ConversionApiClient(RESTApiJWTClient):
         if extraction_order.process_start_time is None:
             return None
         process_unfinished = progress in ['new', 'received', 'started']
-        timeout_reached = timezone.now() > (
-            extraction_order.process_due_time
-        )
+        timeout_reached = timezone.now() > extraction_order.process_due_time
         return process_unfinished and timeout_reached
 
     def login(self):
