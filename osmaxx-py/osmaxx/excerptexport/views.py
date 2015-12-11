@@ -111,7 +111,7 @@ def _update_progress(extraction_order):
 def extraction_order_status(request, extraction_order_id):
     extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
 
-    # order status will be updated by callback from api. This is just for a failure situation of the api
+    # Order status will be updated by callback from API. This is just for a failure situation of the API.
     if extraction_order.state < ExtractionOrderState.FINISHED:
         _update_progress(extraction_order)
 
