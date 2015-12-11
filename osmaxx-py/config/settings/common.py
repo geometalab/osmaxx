@@ -377,7 +377,7 @@ OSMAXX = {
     'download_chunk_size': 8192,
     'orders_history_number_of_items': 100,
     'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timezone.timedelta(
-        hours=env.str('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=12)
+        hours=env.int('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=12)
     ),
     # The email adress of this user will be used to generate the mailto link for users
     # to request access to osmaxx (access_denied page)

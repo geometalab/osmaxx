@@ -13,9 +13,13 @@
         this.updateInputElementsBoundingBox = function() {
             var locationFilterBounds = this.locationFilter.getBounds();
             this.inputElementsNewBoundingBox.inputElementNorth.value = locationFilterBounds._northEast.lat;
+            this.inputElementsNewBoundingBox.inputElementNorth.dispatchEvent(new Event('valueUpdate'));
             this.inputElementsNewBoundingBox.inputElementWest.value = locationFilterBounds._southWest.lng;
+            this.inputElementsNewBoundingBox.inputElementWest.dispatchEvent(new Event('valueUpdate'));
             this.inputElementsNewBoundingBox.inputElementEast.value = locationFilterBounds._northEast.lng;
+            this.inputElementsNewBoundingBox.inputElementEast.dispatchEvent(new Event('valueUpdate'));
             this.inputElementsNewBoundingBox.inputElementSouth.value = locationFilterBounds._southWest.lat;
+            this.inputElementsNewBoundingBox.inputElementSouth.dispatchEvent(new Event('valueUpdate'));
         };
 
         /**
@@ -85,6 +89,8 @@
         this._setLocationFilterFromExcerptID = function(ID) {
             var that = this;
             this.selectedExcerptGeoJson = L.geoJson.ajax("/api/bounding_geometry_from_excerpt/"+ID+"/").on('data:loaded', function(){
+                // We are certain that there is only one layer on this feature, because our API provides it so.
+                var feature_type = this.getLayers()[0].feature.properties.type_of_geometry;
                 //TODO: differentiate between boundingbox or country and similar; use this.locationFilter.enable()/disable()
                 that.locationFilter.setBounds(this.getBounds());
                 map.fitBounds(that.locationFilter.getBounds());

@@ -6,6 +6,7 @@ from crispy_forms import helper as form_helper
 from crispy_forms import layout as form_layout
 from osmaxx.excerptexport.forms.excerpt_order_form_helpers import SelectWidgetWithDataOptions
 from osmaxx.excerptexport.models import BBoxBoundingGeometry, Excerpt, ExtractionOrder
+from osmaxx.excerptexport.services import COUNTRY_ID_PREFIX
 from osmaxx.utilities.dict_helpers import select_keys
 from .temporary_form_helper import available_format_choices, get_export_options
 
@@ -175,8 +176,14 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
                 data_form_part="new-excerpt",
             ),
             ExcerptOrderFormCommonPartMixin(self).form_layout(),
+            form_layout.Div(
+                form_layout.Submit('submit', 'Submit'),
+                form_layout.Div(
+                    form_layout.HTML('<p id="excerpt-validation" class="error"></p>'),
+                    id="estimated-file-size"
+                )
+            )
         )
-        self.helper.add_input(form_layout.Submit('submit', 'Submit'))
 
     def clean(self):
         cleaned_data = super().clean()
@@ -200,8 +207,18 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
         extraction_order.extraction_configuration = self._generate_extraction_options()
 
         if self.cleaned_data['form_mode'] == FormModeMixin.MODE_EXISTING:
-            existing_excerpt = Excerpt.objects.get(pk=int(self.cleaned_data['existing_excerpts']))
-            extraction_order.excerpt = existing_excerpt
+            pk = self.cleaned_data['existing_excerpts']
+            is_country = pk.startswith(COUNTRY_ID_PREFIX)
+            if is_country:
+                from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
+                country_id = int(pk.strip(COUNTRY_ID_PREFIX))
+                extraction_order.country_id = country_id
+                extraction_order.name = '{0}'.format(
+                    get_authenticated_api_client().get_country_name(country_id)
+                )
+            else:
+                existing_excerpt = Excerpt.objects.get(pk=int(pk))
+                extraction_order.excerpt = existing_excerpt
         elif self.cleaned_data['form_mode'] == FormModeMixin.MODE_NEW:
             bbox_kwargs = select_keys(self.cleaned_data, ['north', 'east', 'south', 'west'])
 
