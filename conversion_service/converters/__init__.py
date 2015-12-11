@@ -1,14 +1,13 @@
-from django.utils.translation import gettext_lazy as _
+class Options:
+    def __init__(self, output_formats):
+        self.output_formats = output_formats
 
-from converters.gis_converter import options as gis_options
+    def get_output_formats(self):
+        return self.output_formats
 
-converter_options = gis_options
-
-CONVERTER_CHOICES = dict(
-    output_formats=[(format, _(format)) for format in converter_options.get_output_formats()],
-)
+    def __add__(self, other):
+        return Options(output_formats=self.output_formats + other.output_formats)
 
 __all__ = [
-    'converter_options',
-    'CONVERTER_CHOICES',
+    "Options",
 ]

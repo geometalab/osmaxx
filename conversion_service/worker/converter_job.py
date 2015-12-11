@@ -7,11 +7,11 @@ from rest_framework.reverse import reverse
 import rq
 import requests
 
-from converters import osm_cutter, converter_options
-from converters.converter import Options
-from converters.gis_converter.bootstrap import bootstrap
-from converters.gis_converter.extract.excerpt import Excerpt
+from converters import osm_cutter
+from converters import Options
 from converters.boundaries import BBox
+from converters.converter import Conversion
+from converters.options import CONVERTER_OPTIONS
 from shared import ConversionProgress
 
 logger = logging.getLogger(__name__)
@@ -80,15 +80,14 @@ def convert(geometry, format_options, output_directory, callback_url, protocol, 
     notifier.notify()
 
     pbf_path = notifier.try_or_notify(osm_cutter.cut_osm_extent, geometry)
-    notifier.try_or_notify(bootstrap.boostrap, pbf_path)
 
     # strip trailing slash
     if output_directory[-1] == '/':
         output_directory = output_directory[:-1]
 
     formats = format_options.get_output_formats()
-    excerpt = Excerpt(formats=formats, output_dir=output_directory)
-    notifier.try_or_notify(excerpt.start_format_extraction)
+    conversion = Conversion(formats=formats, osm_pbf_path=pbf_path, output_dir=output_directory)
+    notifier.try_or_notify(conversion.start_format_extraction)
     set_progress_on_job(ConversionProgress.SUCCESSFUL)
     notifier.notify()
 
@@ -109,7 +108,7 @@ def _command_line_arguments():  # pragma: nocover
                         dest='formats',
                         default=[],
                         help='Add (repeated) output formats',
-                        choices=converter_options.get_output_formats(),
+                        choices=CONVERTER_OPTIONS.get_output_formats(),
                         required=True,
                         )
     return parser.parse_args()
@@ -124,4 +123,5 @@ if __name__ == '__main__':  # pragma: nocover
         format_options=Options({'output_formats': args.formats}),
         output_directory=os.path.dirname(__file__),
         callback_url=None,
+        protocol='http',
     )

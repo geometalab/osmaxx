@@ -11,8 +11,9 @@ from rest_framework.reverse import reverse
 from rq.job import Job
 
 from converters.boundaries import BBox
-from converters.converter import Options
-from converters.gis_converter.extract.excerpt import Excerpt
+from converters.converter import Conversion
+from converters import Options
+from converters import garmin_converter
 from manager.rq_helper import rq_enqueue_with_settings
 from shared import ConversionProgress
 from worker import converter_job
@@ -24,9 +25,9 @@ class WorkerTest(TestCase):
     pbf_file_path = '/some_path/to/pbf.pbf'
 
     @patch('os.remove')
-    @patch.object(Excerpt, '_copy_statistics_file_to_format_dir', return_value=None)
-    @patch.object(Excerpt, '_get_statistics', return_value=None)
-    @patch.object(Excerpt, '_export_from_db_to_format', return_value=None)
+    @patch.object(Conversion, '_copy_statistics_file_to_format_dir', return_value=None)
+    @patch.object(Conversion, '_create_statistics', return_value=None)
+    @patch.object(Conversion, '_export_from_db_to_format', return_value=None)
     @patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
     @patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
     def test_convert_calls_cut_osm_extent_and_bootstrap(  # pylint: disable=W0613
@@ -59,7 +60,7 @@ class WorkerTest(TestCase):
         self.assertDictEqual(job_fetched.meta, {'progress': ConversionProgress.SUCCESSFUL})
 
 
-class ConvertTest(TestCase):
+class ConversionTest(TestCase):
     pbf_file_path = '/some_path/to/pbf.pbf'
     mocked_job_id = '0' * 36
     rq_job_stub = namedtuple('RQJob', ['id', 'meta', 'save'])(
@@ -69,9 +70,9 @@ class ConvertTest(TestCase):
     )
 
     @patch('os.remove')
-    @patch.object(Excerpt, '_copy_statistics_file_to_format_dir', return_value=None)
-    @patch.object(Excerpt, '_get_statistics', return_value=None)
-    @patch.object(Excerpt, '_export_from_db_to_format', return_value=None)
+    @patch.object(Conversion, '_copy_statistics_file_to_format_dir', return_value=None)
+    @patch.object(Conversion, '_create_statistics', return_value=None)
+    @patch.object(Conversion, '_export_from_db_to_format', return_value=None)
     @patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
     @patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
     @patch('rq.get_current_job', return_value=rq_job_stub)
@@ -84,6 +85,17 @@ class ConvertTest(TestCase):
         converter_job.convert(geometry, format_options, output_directory, callback_url, protocol, host)
         expected_url = protocol + '://' + host + reverse(viewname='conversion_job_result-detail', kwargs={'rq_job_id': self.mocked_job_id})
         notifier_mock.assert_called_with(callback_url, expected_url)
+
+    @patch('os.remove')
+    @patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
+    @patch.object(Conversion, '_create_garmin_export', return_value=None)
+    def test_convert_with_garmin_gets_called_correctly(
+            self, create_garmin_export_mock, *args, **kwargs):
+        output_directory = '/tmp/'
+        garmin_options = garmin_converter.options
+        conversion = Conversion(garmin_options.get_output_formats(), output_directory, self.pbf_file_path)
+        conversion.start_format_extraction()
+        create_garmin_export_mock.assert_called_with(garmin_options.get_output_formats())
 
 
 class NotifierTest(TestCase):
