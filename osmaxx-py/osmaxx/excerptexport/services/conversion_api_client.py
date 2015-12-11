@@ -24,10 +24,12 @@ class ConversionApiClient(RESTApiJWTClient):
     conversion_job_status_url = '/conversion_result/{job_uuid}/'
 
     @staticmethod
-    def _extraction_processing_overdated(progress, extraction_order):
-        return extraction_order.process_start_time and (progress in ['new', 'received', 'started']) and timezone.now() > (
-            extraction_order.process_start_time + settings.OSMAXX.get('EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA')
-        )
+    def _extraction_processing_overdue(progress, extraction_order):
+        return extraction_order.process_start_time and \
+            (progress in ['new', 'received', 'started']) and \
+            timezone.now() > (
+                extraction_order.process_start_time + settings.OSMAXX.get('EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA')
+            )
 
     def login(self):
         """
@@ -178,7 +180,7 @@ class ConversionApiClient(RESTApiJWTClient):
             extraction_order.save()
             if progress == 'successful':
                 self._download_result_files(extraction_order, job_status)
-            elif self._extraction_processing_overdated(progress, extraction_order):
+            elif self._extraction_processing_overdue(progress, extraction_order):
                 extraction_order.state = ExtractionOrderState.FAILED
                 extraction_order.save()
 
