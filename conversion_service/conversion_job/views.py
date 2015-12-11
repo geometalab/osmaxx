@@ -64,5 +64,5 @@ class GISFormatStatusViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.Generi
         file_path = format_obj.get_result_file_path()
         # ignore when file isn't there
         if file_path:
-            os.remove(format_obj.get_result_file_path())
+            os.remove(file_path)
         return Response(status=status.HTTP_204_NO_CONTENT)
