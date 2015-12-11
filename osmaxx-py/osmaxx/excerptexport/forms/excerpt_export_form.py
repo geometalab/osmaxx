@@ -213,9 +213,7 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
                 from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
                 country_id = int(pk.strip(COUNTRY_ID_PREFIX))
                 extraction_order.country_id = country_id
-                extraction_order.name = '{0}'.format(
-                    get_authenticated_api_client().get_country_name(country_id)
-                )
+                extraction_order.name = get_authenticated_api_client().get_country_name(country_id)
             else:
                 existing_excerpt = Excerpt.objects.get(pk=int(pk))
                 extraction_order.excerpt = existing_excerpt
