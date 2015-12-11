@@ -2,7 +2,7 @@ import shutil
 import os
 
 
-class chg_dir_with:  # pragma: nocover # noqa  -> disable=N801
+class changed_dir:  # pragma: nocover # noqa  -> disable=N801
     """
     Changes into a arbitrary directory, switching back to the directory after execution of the with statement.
 

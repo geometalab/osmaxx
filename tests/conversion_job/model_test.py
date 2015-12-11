@@ -5,7 +5,8 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from conversion_job.models import Extent, ConversionJob, GISFormat
-from converters import converter_settings, converter_options
+from converters import converter_settings
+from converters.options import CONVERTER_OPTIONS
 from converters.boundaries import BBox, PolyfileForCountry
 from countries.models import Country
 from shared import ConversionProgress
@@ -107,14 +108,14 @@ class ConversionJobTest(TestCase):
         os.rmdir(directory)
 
     def test_get_resulting_file_path_or_none_with_format_when_no_file_is_available_returns_none(self):
-        format = converter_options.get_output_formats()[0]
+        format = CONVERTER_OPTIONS.get_output_formats()[0]
         self.assertIsNone(
             self.conversion_job.get_resulting_file_path_or_none(format=format)
         )
 
     def test_get_resulting_file_path_or_none_with_format_when_file_is_available_returns_file(self):
         # create a sample file
-        conversion_format = converter_options.get_output_formats()[0]
+        conversion_format = CONVERTER_OPTIONS.get_output_formats()[0]
         filename = conversion_format + '.zip'
         out_dir = self.conversion_job.output_directory
         file_path = os.path.join(out_dir, filename)
@@ -131,8 +132,8 @@ class ConversionJobTest(TestCase):
 
     def test_get_resulting_file_path_or_none_with_format_when_files_are_available_but_none_in_the_right_format_returns_none(self):
         # create a sample file with exception of the one for the unavailable_format
-        conversion_format = converter_options.get_output_formats()[0]
-        unavailable_format = converter_options.get_output_formats()[1]
+        conversion_format = CONVERTER_OPTIONS.get_output_formats()[0]
+        unavailable_format = CONVERTER_OPTIONS.get_output_formats()[1]
         filename = conversion_format + '.zip'
         out_dir = self.conversion_job.output_directory
         file_path = os.path.join(out_dir, filename)
@@ -145,7 +146,7 @@ class ConversionJobTest(TestCase):
             os.rmdir(out_dir)
 
     def test_format_when_saved_returns_format(self):
-        format_choice = converter_options.get_output_formats()[2]
+        format_choice = CONVERTER_OPTIONS.get_output_formats()[2]
         gis_format = GISFormat.objects.create(conversion_job=self.conversion_job, format=format_choice)
         self.assertEqual(
             self.conversion_job.get_conversion_options().get_output_formats()[0],
@@ -158,17 +159,17 @@ class ConversionJobTest(TestCase):
     def test_progress_when_multiple_stati_are_set_returns_minimal_status_of_attached_gis_formats(self):
         GISFormat.objects.create(
             conversion_job=self.conversion_job,
-            format=converter_options.get_output_formats()[1],
+            format=CONVERTER_OPTIONS.get_output_formats()[1],
             progress=ConversionProgress.NEW.technical_representation
         )
         GISFormat.objects.create(
             conversion_job=self.conversion_job,
-            format=converter_options.get_output_formats()[2],
+            format=CONVERTER_OPTIONS.get_output_formats()[2],
             progress=ConversionProgress.STARTED.technical_representation
         )
         GISFormat.objects.create(
             conversion_job=self.conversion_job,
-            format=converter_options.get_output_formats()[3],
+            format=CONVERTER_OPTIONS.get_output_formats()[3],
             progress=ConversionProgress.SUCCESSFUL.technical_representation
         )
         self.assertIsNotNone(self.conversion_job.progress)
@@ -179,7 +180,7 @@ class ConversionJobTest(TestCase):
 
     @patch('django_rq.get_queue', django_rq_get_queue_stub)
     def test_update_status_from_rq_sets_the_value_to_started(self, *args, **kwargs):
-        formats = converter_options.get_output_formats()
+        formats = CONVERTER_OPTIONS.get_output_formats()
         for out_format in formats:
             GISFormat.objects.create(
                 conversion_job=self.conversion_job,
@@ -207,7 +208,7 @@ class GISFormatTest(TestCase):
     def test_get_download_url_is_not_null(self):
         gis_format = GISFormat.objects.create(
             conversion_job=self.conversion_job,
-            format=converter_options.get_output_formats()[1],
+            format=CONVERTER_OPTIONS.get_output_formats()[1],
             progress=ConversionProgress.NEW.technical_representation
         )
         self.assertIsNotNone(gis_format.get_download_url(request=None))

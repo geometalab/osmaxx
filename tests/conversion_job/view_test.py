@@ -3,7 +3,7 @@ from unittest.mock import patch
 from django.test import TestCase
 
 from conversion_job.models import Extent, ConversionJob, GISFormat
-from converters import converter_options
+from converters.options import CONVERTER_OPTIONS
 from shared import ConversionProgress
 from rq.job import JobStatus as RQJobStatus
 
@@ -35,11 +35,11 @@ class ConversionJobStatusViewSetTest(TestCase):
         self.conversion_job = ConversionJob.objects.create(extent=self.extent)
         self.gis_format_1 = GISFormat.objects.create(
             conversion_job=self.conversion_job,
-            format=converter_options.get_output_formats()[0]
+            format=CONVERTER_OPTIONS.get_output_formats()[0]
         )
         self.gis_format_2 = GISFormat.objects.create(
             conversion_job=self.conversion_job,
-            format=converter_options.get_output_formats()[3]
+            format=CONVERTER_OPTIONS.get_output_formats()[3]
         )
 
     @patch('django_rq.get_queue', django_rq_get_queue_stub)

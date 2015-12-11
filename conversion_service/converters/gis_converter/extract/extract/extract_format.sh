@@ -6,8 +6,7 @@ PORT=5432
 DIR=$1
 FILENAME=$2
 FORMAT=$3
-
-STATIC_DIR=$(pwd)/static
+STATIC_DIR=$4
 
 #Initialise the variables according to the format requested by the user
 case $FORMAT in
