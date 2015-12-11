@@ -52,6 +52,7 @@ class ExtractionOrder(models.Model):
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True)
     country_id = models.IntegerField(verbose_name=_('country ID'), null=True, blank=True)
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
+    process_start_time = models.DateTimeField(verbose_name=_('process start time'), null=True, blank=True)
     download_status = models.IntegerField(
         _('file status'),
         choices=DOWNLOAD_STATUSES,
@@ -101,6 +102,11 @@ class ExtractionOrder(models.Model):
     @property
     def extraction_formats(self):
         return json.loads(self.extraction_configuration).get('gis_formats', None)
+
+    @property
+    def process_due_time(self):
+        from django.conf import settings  # import locally, so migrations can't depend on settings
+        return self.process_start_time + settings.OSMAXX.get('EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA')
 
     def set_status_from_conversion_progress(self, job_overall_progress):
         if self.state not in [ExtractionOrderState.FINISHED, ExtractionOrderState.FAILED]:

@@ -5,6 +5,7 @@ from collections import OrderedDict
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db import transaction
+from django.utils import timezone
 from rest_framework.reverse import reverse
 
 from osmaxx.api_client.API_client import RESTApiJWTClient
@@ -28,6 +29,14 @@ class ConversionApiClient(RESTApiJWTClient):
     conversion_job_status_url = '/conversion_result/{job_uuid}/'
     estimated_file_size_url = '/estimate_size_in_bytes/'
     country_base_url = '/country/'
+
+    @staticmethod
+    def _extraction_processing_overdue(progress, extraction_order):
+        if extraction_order.process_start_time is None:
+            return None
+        process_unfinished = progress in ['new', 'received', 'started']
+        timeout_reached = timezone.now() > extraction_order.process_due_time
+        return process_unfinished and timeout_reached
 
     def login(self):
         """
@@ -88,6 +97,7 @@ class ConversionApiClient(RESTApiJWTClient):
             rq_job_id = response.json().get('rq_job_id', None)
             if rq_job_id:
                 extraction_order.process_id = rq_job_id
+                extraction_order.process_start_time = timezone.now()
                 extraction_order.progress_url = response.json()['status']
                 extraction_order.state = ExtractionOrderState.QUEUED
                 extraction_order.save()
@@ -180,6 +190,9 @@ class ConversionApiClient(RESTApiJWTClient):
             extraction_order.save()
             if progress == 'successful':
                 self._download_result_files(extraction_order, job_status)
+            elif self._extraction_processing_overdue(progress, extraction_order):
+                extraction_order.state = ExtractionOrderState.FAILED
+                extraction_order.save()
 
     def get_country_list(self):
         return get_cached_or_set('osmaxx_conversion_service_countries_list', self._fetch_countries)

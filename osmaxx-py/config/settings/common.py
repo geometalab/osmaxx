@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 from datetime import timedelta
 import environ
-import sys
+
 from django.contrib.messages import constants as message_constants
+from django.utils import timezone
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -376,6 +377,9 @@ OSMAXX = {
     'download_file_name': '%(date)s-%(excerpt_name)s-%(id)s.%(content_type)s.%(file_extension)s',
     'download_chunk_size': 8192,
     'orders_history_number_of_items': 100,
+    'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timezone.timedelta(
+        hours=env.int('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=12)
+    ),
     # The email adress of this user will be used to generate the mailto link for users
     # to request access to osmaxx (access_denied page)
     'ACCOUNT_MANAGER_EMAIL': env.str('OSMAXX_ACCOUNT_MANAGER_EMAIL', default=DEFAULT_FROM_EMAIL),
