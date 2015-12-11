@@ -9,5 +9,10 @@ class BBoxBoundingGeometryAdmin(admin.ModelAdmin):
 admin.site.register(BBoxBoundingGeometry, BBoxBoundingGeometryAdmin)
 admin.site.register(OsmosisPolygonFilterBoundingGeometry)
 admin.site.register(Excerpt)
-admin.site.register(ExtractionOrder)
+
+
+class ExtractionOrderAdmin(admin.ModelAdmin):
+    readonly_fields = ('process_id', '_extraction_configuration', 'progress_url')
+
+admin.site.register(ExtractionOrder, ExtractionOrderAdmin)
 admin.site.register(OutputFile)
