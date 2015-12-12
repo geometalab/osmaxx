@@ -16,7 +16,7 @@ class EstimatedFileSizeViewTests(TestCase):
         self.estimated_file_size_api_client_mock = api_client_instance_mock.estimated_file_size
         self.estimated_file_size_api_client_mock.return_value = 'estimated_size_value'
 
-        self.bbox_edges = {bound: bound + '_value' for bound in ['west', 'south', 'east', 'north']}
+        self.bbox_edges = {bound: "{0}_value".format(bound) for bound in ['west', 'south', 'east', 'north']}
 
         factory = APIRequestFactory()
         self.request = factory.get('/estimated_file_size/', self.bbox_edges)
