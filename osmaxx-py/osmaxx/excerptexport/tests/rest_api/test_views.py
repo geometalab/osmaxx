@@ -9,10 +9,7 @@ from rest_framework.test import APIRequestFactory
 class EstimatedFileSizeViewTests(TestCase):
     def setUp(self):
         api_client_class_mock = self._create_api_client_class_mock()
-
-        api_client_instance_mock = api_client_class_mock.return_value
-        self.estimated_file_size_api_client_mock = api_client_instance_mock.estimated_file_size
-        self.estimated_file_size_api_client_mock.return_value = 'estimated_size_value'
+        self._set_up_api_client_mock(api_client_class_mock)
 
         self.bbox_edges = {bound: "{0}_value".format(bound) for bound in ['west', 'south', 'east', 'north']}
 
@@ -32,3 +29,8 @@ class EstimatedFileSizeViewTests(TestCase):
         self.addCleanup(p.stop)
         api_client_class_mock = p.start()
         return api_client_class_mock
+
+    def _set_up_api_client_mock(self, api_client_class_mock):
+        api_client_instance_mock = api_client_class_mock.return_value
+        self.estimated_file_size_api_client_mock = api_client_instance_mock.estimated_file_size
+        self.estimated_file_size_api_client_mock.return_value = 'estimated_size_value'
