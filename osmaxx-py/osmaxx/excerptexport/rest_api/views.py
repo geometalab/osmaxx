@@ -45,4 +45,5 @@ def estimated_file_size(request):
     bbox = {bound: request.GET[bound] for bound in ['north', 'east', 'west', 'south']}
     client = get_authenticated_api_client()
     file_size_estimation = client.estimated_file_size(**bbox)
-    return HttpResponse(json.dumps(file_size_estimation), content_type="application/json")
+    response_content = json.dumps(file_size_estimation)
+    return HttpResponse(response_content, content_type="application/json")
