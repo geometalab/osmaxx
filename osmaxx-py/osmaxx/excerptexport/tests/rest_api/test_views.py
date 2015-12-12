@@ -8,9 +8,7 @@ from rest_framework.test import APIRequestFactory
 
 class EstimatedFileSizeViewTests(TestCase):
     def setUp(self):
-        p = patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient')
-        self.addCleanup(p.stop)
-        api_client_class_mock = p.start()
+        api_client_class_mock = self._create_api_client_class_mock()
 
         api_client_instance_mock = api_client_class_mock.return_value
         self.estimated_file_size_api_client_mock = api_client_instance_mock.estimated_file_size
@@ -28,3 +26,9 @@ class EstimatedFileSizeViewTests(TestCase):
     def test_estimated_file_size_view_returns_response_with_size_returned_by_api_client(self):
         response = api_views.estimated_file_size(self.request)
         self.assertContains(response, json.dumps(self.estimated_file_size_api_client_mock.return_value))
+
+    def _create_api_client_class_mock(self):
+        p = patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient')
+        self.addCleanup(p.stop)
+        api_client_class_mock = p.start()
+        return api_client_class_mock
