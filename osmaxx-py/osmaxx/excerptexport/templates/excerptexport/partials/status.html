@@ -13,7 +13,7 @@
         {% elif state == 'canceled' %}
             <span class="symbol canceled" title="{{ state }}">&Chi;</span>
         {% elif state == 'failed' %}
-            <span class="symbol failed" title="{{ state }}">&empty;</span>
+            <span class="symbol failed" title="{{ state }}">&#x2716;</span>
         {% endif %}
     {% endwith %}
 {% endspaceless %}

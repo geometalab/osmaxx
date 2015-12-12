@@ -2,13 +2,12 @@ import shutil
 import os
 import vcr
 from django.conf import settings
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.test import TestCase
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
-from osmaxx.excerptexport.models import BBoxBoundingGeometry, OsmosisPolygonFilterBoundingGeometry
+from osmaxx.excerptexport.models import BBoxBoundingGeometry
 from osmaxx.excerptexport.tests.permission_test_helper import PermissionHelperMixin
 
 
@@ -48,15 +47,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             owner=other_user,
             bounding_geometry=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
         )
-        self.country = Excerpt.objects.create(
-            name='Neverland',
-            is_active=True,
-            is_public=False,
-            owner=other_user,
-            bounding_geometry=OsmosisPolygonFilterBoundingGeometry.objects.create(
-                polygon_file=SimpleUploadedFile('in_memory_file.poly', b'the file content (not a real .poly file)')
-            )
-        )
         self.existing_excerpt_post_data = {
             'form_mode': 'existing-excerpt',
             'existing_excerpts': self.existing_own_excerpt.id,
@@ -77,6 +67,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         response = self.client.get(reverse('excerptexport:new'))
         self.assertEqual(response.status_code, 302)
 
+    @vcr.use_cassette('fixtures/vcr/views-test_test_new.yml')
     def test_new(self):
         """
         When logged in, we get the excerpt choice form.
@@ -87,6 +78,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Create new excerpt')
 
+    @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_existing_own_excerpt.yml')
     def test_new_offers_existing_own_excerpt(self):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
@@ -97,6 +89,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         )
         self.assertIn(self.existing_own_excerpt.name, response.context['form'].form_html)
 
+    @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_existing_public_foreign_excerpt.yml')
     def test_new_offers_existing_public_foreign_excerpt(self):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
@@ -108,21 +101,23 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         )
         self.assertIn(self.existing_public_foreign_excerpt.name, response.context['form'].form_html)
 
+    @vcr.use_cassette('fixtures/vcr/views-test_new_doesnt_offer_existing_private_foreign_excerpt.yml')
     def test_new_doesnt_offer_existing_private_foreign_excerpt(self):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
         self.assertNotContains(response, self.existing_private_foreign_excerpt.name)
 
+    @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_country.yml')
     def test_new_offers_country(self):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:new'))
         self.assertIn(
-            ('Countries [1]', ((4, 'Neverland'),)),
+            ('Countries [1]', (('country-26', 'Monaco'),)),
             response.context['form'].fields['existing_excerpts'].choices
         )
-        self.assertIn(self.country.name, response.context['form'].form_html)
+        self.assertIn('Monaco', response.context['form'].form_html)
 
     def test_create_when_not_logged_in(self):
         """

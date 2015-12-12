@@ -15,7 +15,7 @@ class OutputFile(models.Model):
     content_type = models.CharField(max_length=64, verbose_name=_('content type'), default='')
     file = models.FileField(storage=get_private_upload_storage(), blank=True, null=True,
                             verbose_name=_('file'))
-    create_date = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
+    creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
     deleted_on_filesystem = models.BooleanField(default=False, verbose_name=_('deleted on filesystem'))
     public_identifier = models.UUIDField(primary_key=False, default=uuid.uuid4, verbose_name=_('public identifier'))
 
@@ -27,8 +27,8 @@ class OutputFile(models.Model):
         return settings.OSMAXX['download_file_name'] % {
             'id': str(self.public_identifier),
             'name': os.path.basename(self.file.name) if self.file else None,
-            'date': self.create_date.strftime("%F"),
-            'excerpt_name': self.extraction_order.excerpt.name.replace(" ", ""),
+            'date': self.creation_date.strftime("%F"),
+            'excerpt_name': self.extraction_order.excerpt_name.replace(" ", ""),
             'content_type': self.content_type if self.content_type else 'file',
             'file_extension': self.file_extension
         }

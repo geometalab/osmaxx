@@ -1,4 +1,13 @@
+import datetime
+
+from django.conf import settings
+from django.contrib import messages
+from django.core import mail
+from django.core.cache import cache
 from django.shortcuts import _get_queryset
+from django.utils.translation import gettext as _
+
+import stored_messages
 
 
 def get_object_or_none(klass, *args, **kwargs):
@@ -32,3 +41,53 @@ def get_list_or_none(klass, *args, **kwargs):
     if not object_list:
         return None
     return object_list
+
+
+class Emissary:
+    def __init__(self, recipient):
+        self.recipient = recipient
+
+    def info(self, message):
+        self.inform(messages.INFO, message)
+
+    def success(self, message):
+        self.inform(messages.SUCCESS, message)
+
+    def warn(self, message):
+        self.inform(messages.WARNING, message)
+
+    def error(self, message):
+        self.inform(messages.ERROR, message)
+
+    def debug(self, message):
+        self.inform(messages.DEBUG, message)
+
+    def inform_mail(self, subject, mail_body, warn_if_no_email=True):
+        try:
+            email_address = self.recipient.email
+            mail.send_mail(
+                '[OSMAXX] ' + subject,
+                mail_body,
+                settings.DEFAULT_FROM_EMAIL,
+                [email_address]
+            )
+        except AttributeError:
+            if warn_if_no_email:
+                self.warn(
+                    _("There is no email address assigned to your account. You won't be notified by email!")
+                )
+
+    def inform(self, message_type, message):
+        stored_messages.api.add_message_for(
+            users=[self.recipient],
+            level=message_type,
+            message_text=message
+        )
+
+
+def get_cached_or_set(cache_string, func, timeout=datetime.timedelta(minutes=15).seconds):
+    cached_value = cache.get(cache_string)
+    if cached_value is None:
+        cached_value = func()
+        cache.set(cache_string, cached_value, timeout=timeout)
+    return cached_value

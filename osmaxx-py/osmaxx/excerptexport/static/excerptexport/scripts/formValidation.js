@@ -22,11 +22,9 @@
         };
 
         this.isFormValid = function() {
-            var isValid = true;
-            Object.keys(this.validity).forEach(function(key){
-                isValid = isValid && this.validity[key];
-            }.bind(this));
-            return isValid;
+            return Object.keys(this.validity).every(function(key){
+                return this.validity[key];
+            }, this);
         };
 
         this.setSubmitButtonState = function(overrideState) {
@@ -63,7 +61,7 @@
                 if(this.validity['extractionFormats']) {
                     checkbox.setCustomValidity('');
                 } else {
-                    checkbox.setCustomValidity('Please choose minimal one export format!');
+                    checkbox.setCustomValidity('Please choose at least one export format!');
                 }
             }.bind(this));
             this.setSubmitButtonState();
@@ -90,8 +88,8 @@
                             excerptBoundInputField.setCustomValidity('');
                             document.getElementById('excerpt-validation').textContent = '';
                         } else {
-                            var howMuchToLarge = estimatedFileSize ? Math.round(100/allowedMaxSize*estimatedFileSize-100) + '% ': '';
-                            var message = 'Excerpt {percent}too large!'.replace('{percent}', howMuchToLarge);
+                            var howMuchTooLarge = estimatedFileSize ? Math.ceil(estimatedFileSize * 100 / allowedMaxSize - 100) + '% ' : '';
+                            var message = 'Excerpt {percent}too large!'.replace('{percent}', howMuchTooLarge);
                             excerptBoundInputField.setCustomValidity(message);
                             document.getElementById('excerpt-validation').textContent = message;
                         }
