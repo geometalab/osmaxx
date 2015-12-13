@@ -39,6 +39,25 @@ class CallbackHandlingTest(APITestCase):
             ExtractionOrder.DoesNotExist,
             ExtractionOrder.objects.get, pk=self.nonexistant_extraction_order_id
         )
+        self.fgdb_started_and_spatialite_queued_response = json.dumps(
+            {
+                "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
+                "status": "started",
+                "progress": "started",
+                "gis_formats": [
+                    {
+                        "format": "fgdb",
+                        "progress": "started",
+                        "result_url": None
+                    },
+                    {
+                        "format": "spatialite",
+                        "progress": "queued",
+                        "result_url": None
+                    }
+                ]
+            }
+        )
 
     def test_calling_tracker_with_nonexistant_extraction_order_raises_404_not_found(self):
         factory = APIRequestFactory()
@@ -60,23 +79,7 @@ class CallbackHandlingTest(APITestCase):
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
-            text=json.dumps({
-                "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
-                "status": "started",
-                "progress": "started",
-                "gis_formats": [
-                    {
-                        "format": "fgdb",
-                        "progress": "started",
-                        "result_url": None
-                    },
-                    {
-                        "format": "spatialite",
-                        "progress": "queued",
-                        "result_url": None
-                    }
-                ]
-            })
+            text=self.fgdb_started_and_spatialite_queued_response
         )
 
         factory = APIRequestFactory()
@@ -97,23 +100,7 @@ class CallbackHandlingTest(APITestCase):
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
-            text=json.dumps({
-                "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
-                "status": "started",
-                "progress": "started",
-                "gis_formats": [
-                    {
-                        "format": "fgdb",
-                        "progress": "started",
-                        "result_url": None
-                    },
-                    {
-                        "format": "spatialite",
-                        "progress": "queued",
-                        "result_url": None
-                    }
-                ]
-            })
+            text=self.fgdb_started_and_spatialite_queued_response
         )
 
         factory = APIRequestFactory()
