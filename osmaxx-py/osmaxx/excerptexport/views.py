@@ -169,7 +169,7 @@ def request_access(request):
         )
 
         try:
-            send_mail('Request access for Osmaxx', email_message, user_administrator_email,
+            send_mail('Request access for Osmaxx', email_message, settings.DEFAULT_FROM_EMAIL,
                       [user_administrator_email], fail_silently=True)
             messages.success(
                 request,
