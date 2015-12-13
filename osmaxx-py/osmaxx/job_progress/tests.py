@@ -91,6 +91,46 @@ class CallbackHandlingTest(APITestCase):
 
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
+    @requests_mock.Mocker(kw='requests')
+    @patch('osmaxx.job_progress.views.Emissary.info')
+    def test_calling_tracker_when_status_query_indicates_started_informs_user(self, info_mock, *args, **mocks):
+        requests_mock = mocks['requests']
+        requests_mock.get(
+            'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
+            text=json.dumps({
+                "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
+                "status": "started",
+                "progress": "started",
+                "gis_formats": [
+                    {
+                        "format": "fgdb",
+                        "progress": "started",
+                        "result_url": None
+                    },
+                    {
+                        "format": "spatialite",
+                        "progress": "queued",
+                        "result_url": None
+                    }
+                ]
+            })
+        )
+
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(order_id=self.extraction_order.id)),
+            data=dict(status='http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/')
+        )
+
+        views.tracker(request, order_id=str(self.extraction_order.id))
+        info_mock.assert_called_with(
+            'Extraction order {order_id} is now PROCESSING.'.format(
+                order_id=self.extraction_order.id
+            )
+        )
+
+    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient._download_file')  # mock download
     @requests_mock.Mocker(kw='requests')
     @patch('osmaxx.job_progress.views.Emissary.error')
