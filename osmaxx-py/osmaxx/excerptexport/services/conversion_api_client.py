@@ -205,7 +205,8 @@ class ConversionApiClient(RESTApiJWTClient):
 
     def get_country(self, country_id):
         self.login()
-        response = self.authorized_get(self.country_base_url + country_id + '/')
+        country_url = self.country_base_url + str(country_id) + '/'
+        response = self.authorized_get(country_url)
         if self.errors:
             logger.error('could not fetch country list: ', self.errors)
             return self.errors
