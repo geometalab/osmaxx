@@ -41,7 +41,7 @@ def tracker(request, order_id):
     else:
         message = _("Extraction order {order} is now {order_state}.").format(
             order=order.id,
-            order_state=str(order.state),
+            order_state=ExtractionOrderState.label(order.state),
         )
         emissary.info(message)
     response = HttpResponse('')
