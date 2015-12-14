@@ -30,9 +30,6 @@ class Notifier(object):
     def __init__(self, callback_url, status_url):
         self.callback_url = callback_url
         self.status_url = status_url
-        self.noop = False
-        if callback_url is None:
-            self.noop = True
 
     def try_or_notify(self, function, *args, **kwargs):  # pragma: nocover
         try:
@@ -52,11 +49,11 @@ class Notifier(object):
         :param callback_url:
         :return: nothing
         """
-        if not self.noop:  # pragma: nocover
+        if self.callback_url:
             data = {'status': self.status_url} if self.status_url is not None else {}
             try:
                 requests.get(self.callback_url, params=data)
-            except:
+            except:  # pragma: nocover
                 pass
 
 
