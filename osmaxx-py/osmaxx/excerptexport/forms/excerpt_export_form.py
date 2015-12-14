@@ -36,6 +36,14 @@ class ExcerptOrderFormPartCoordinatesMixin(ExcerptOrderFormPartExcerptNameMixin,
         required=True,
     )
 
+    is_public = forms.BooleanField(
+        label=_('Public'),
+        required=False,
+        help_text=_("Others will see name and bounding box of this excerpt. "
+                    "They won't see that you created it or when you did so."),
+        initial=True,
+    )
+
     def form_layout(self):
         return form_layout.Div(
             form_layout.HTML('<h2>' + _('New excerpt') + '</h2>'),
@@ -63,18 +71,15 @@ class ExcerptOrderFormPartCoordinatesMixin(ExcerptOrderFormPartExcerptNameMixin,
                 css_class='form-group',
                 id='bbox-values',
             ),
+            form_layout.Fieldset(
+                _('Visibility'),
+                'is_public',
+            ),
             id=FormModeMixin.MODE_NEW,
         )
 
 
 class ExcerptOrderFormCommonPartMixin(forms.Form):
-    is_public = forms.BooleanField(
-        label=_('Public'),
-        required=False,
-        help_text=_("Others will see name and bounding box of this excerpt. "
-                    "They won't see that you created it or when you did so."),
-        initial=True,
-    )
     formats = forms.MultipleChoiceField(
         label=_("GIS export formats:"),
         choices=available_format_choices,
@@ -84,10 +89,6 @@ class ExcerptOrderFormCommonPartMixin(forms.Form):
 
     def form_layout(self):
         return form_layout.Div(
-            form_layout.Fieldset(
-                _('Visibility'),
-                'is_public',
-            ),
             form_layout.Fieldset(
                 _('GIS export formats'),
                 'formats',
