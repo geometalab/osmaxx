@@ -22,7 +22,6 @@
         };
 
         this.isFormValid = function() {
-            console.log(this.validity);
             return Object.keys(this.validity).every(function(key){
                 return this.validity[key];
             }, this);
@@ -39,7 +38,6 @@
 
         this.validateExistingExcerptOrNew = function() {
             if(this.formModeSwitcher.value == "existing-excerpt") {
-            console.log('exist');
                 var selectValue = this.existingExcerptSelect.value;
                 if (selectValue && selectValue.length >= 1) {
                     this.validity['existingExcerptOrNew'] = true;
@@ -47,7 +45,6 @@
                     this.validity['existingExcerptOrNew'] = false;
                 }
             } else if(this.formModeSwitcher.value == "new-excerpt") {
-            console.log('new');
                 if(this.newExcerptName.value.length > 2) {
                     this.validity['existingExcerptOrNew'] = true;
                 } else {
