@@ -49,6 +49,7 @@
             var locationFilterBounds = this.locationFilter.getBounds();
             if(!this.isSelectOptionSelectedAndExcerptOnMapInSyncWithInputFields(locationFilterBounds)) {
                 this.formElementPartsSwitcher.value = 'new-excerpt';
+                this.formElementPartsSwitcher.dispatchEvent(new Event('valueUpdate'));
                 window.formPartManager.onFormPartsSwitcherChange();
             }
         };

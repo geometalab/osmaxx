@@ -22,6 +22,7 @@
         };
 
         this.isFormValid = function() {
+            console.log(this.validity);
             return Object.keys(this.validity).every(function(key){
                 return this.validity[key];
             }, this);
@@ -38,13 +39,15 @@
 
         this.validateExistingExcerptOrNew = function() {
             if(this.formModeSwitcher.value == "existing-excerpt") {
+            console.log('exist');
                 var selectValue = this.existingExcerptSelect.value;
-                if (!isNaN(parseFloat(selectValue)) && parseFloat(selectValue) > 0) {
+                if (selectValue && selectValue.length >= 1) {
                     this.validity['existingExcerptOrNew'] = true;
                 } else {
                     this.validity['existingExcerptOrNew'] = false;
                 }
             } else if(this.formModeSwitcher.value == "new-excerpt") {
+            console.log('new');
                 if(this.newExcerptName.value.length > 2) {
                     this.validity['existingExcerptOrNew'] = true;
                 } else {
@@ -68,34 +71,40 @@
         }.bind(this);
 
         this.validateExcerptBounds = function() {
-            var allowedMaxSize = 250*1024*1024;
+            if(this.formModeSwitcher.value == "new-excerpt") {
+                var allowedMaxSize = 250 * 1024 * 1024;
 
-            var north = document.getElementById('id_north').value;
-            var east = document.getElementById('id_east').value;
-            var south = document.getElementById('id_south').value;
-            var west = document.getElementById('id_west').value;
+                var north = document.getElementById('id_north').value;
+                var east = document.getElementById('id_east').value;
+                var south = document.getElementById('id_south').value;
+                var west = document.getElementById('id_west').value;
 
-            jQuery.getJSON(
-                '/api/estimated_file_size/',
-                { 'north': north, 'east': east, 'south': south, 'west': west },
-                function(data) {
-                    var estimatedFileSize = Number(data['estimated_file_size_in_bytes']);
-                    this.validity['excerptBounds'] = estimatedFileSize < allowedMaxSize;
-                    this.setSubmitButtonState();
-                    
-                    this.excerptBoundInputFields.forEach(function(excerptBoundInputField) {
-                        if(this.validity['excerptBounds']) {
-                            excerptBoundInputField.setCustomValidity('');
-                            document.getElementById('excerpt-validation').textContent = '';
-                        } else {
-                            var howMuchTooLarge = estimatedFileSize ? Math.ceil(estimatedFileSize * 100 / allowedMaxSize - 100) + '% ' : '';
-                            var message = 'Excerpt {percent}too large!'.replace('{percent}', howMuchTooLarge);
-                            excerptBoundInputField.setCustomValidity(message);
-                            document.getElementById('excerpt-validation').textContent = message;
-                        }
-                    }.bind(this));
-                }.bind(this)
-            );
+                jQuery.getJSON(
+                    '/api/estimated_file_size/',
+                    {'north': north, 'east': east, 'south': south, 'west': west},
+                    function (data) {
+                        var estimatedFileSize = Number(data['estimated_file_size_in_bytes']);
+                        this.validity['excerptBounds'] = estimatedFileSize < allowedMaxSize;
+                        this.setSubmitButtonState();
+
+                        this.excerptBoundInputFields.forEach(function (excerptBoundInputField) {
+                            if (this.validity['excerptBounds']) {
+                                excerptBoundInputField.setCustomValidity('');
+                                document.getElementById('excerpt-validation').textContent = '';
+                            } else {
+                                var howMuchTooLarge = estimatedFileSize ? Math.ceil(estimatedFileSize * 100 / allowedMaxSize - 100) + '% ' : '';
+                                var message = 'Excerpt {percent}too large!'.replace('{percent}', howMuchTooLarge);
+                                excerptBoundInputField.setCustomValidity(message);
+                                document.getElementById('excerpt-validation').textContent = message;
+                            }
+                        }.bind(this));
+                    }.bind(this)
+                );
+            } else {
+                this.validity['excerptBounds'] = true;
+                document.getElementById('excerpt-validation').textContent = '';
+                this.setSubmitButtonState();
+            }
         }.bind(this);
 
         // watch elements
@@ -106,9 +115,14 @@
         this.excerptBoundInputFields.forEach(function(excerptBoundsInputField) {
             excerptBoundsInputField.addEventListener('valueUpdate', this.validateExcerptBounds);
         }.bind(this));
+        this.formModeSwitcher.addEventListener('change', this.validateExcerptBounds);
+        this.formModeSwitcher.addEventListener('valueUpdate', this.validateExcerptBounds);
+        this.existingExcerptSelect.addEventListener('change', this.validateExcerptBounds);
 
         this.formModeSwitcher.addEventListener('change', this.validateExistingExcerptOrNew);
+        this.formModeSwitcher.addEventListener('valueUpdate', this.validateExistingExcerptOrNew);
         this.existingExcerptSelect.addEventListener('change', this.validateExistingExcerptOrNew);
+
         this.newExcerptName.addEventListener('change', this.validateExistingExcerptOrNew);
         this.newExcerptName.addEventListener('input', this.validateExistingExcerptOrNew);
         this.newExcerptName.addEventListener('paste', this.validateExistingExcerptOrNew);

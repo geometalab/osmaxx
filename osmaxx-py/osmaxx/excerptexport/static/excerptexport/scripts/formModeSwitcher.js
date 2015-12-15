@@ -35,6 +35,7 @@
             // param of inactive form part given -> change to parts
             if(formModeParam != '' && formModeParam != activeFormPartId) {
                 this.formPartsSwitcher.value = formModeParam;
+                this.formPartsSwitcher.dispatchEvent(new Event('valueUpdate'));
             }
 
             this.onFormPartsSwitcherChange();
@@ -56,6 +57,7 @@
 
             if(this.formPartsSwitcher.value != formPartId) {
                 this.formPartsSwitcher.value = formPartId;
+                this.formPartsSwitcher.dispatchEvent(new Event('valueUpdate'));
                 this.onFormPartsSwitcherChange();
             }
         }.bind(this);
