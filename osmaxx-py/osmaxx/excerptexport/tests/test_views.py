@@ -200,3 +200,20 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertDictEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'Some old Excerpt')
+
+    @vcr.use_cassette('fixtures/vcr/views-test_create_with_country_when_garmin_selected_is_invalid.yml')
+    def test_create_with_country_when_garmin_selected_is_invalid(self):
+        self.add_permissions_to_user()
+        self.client.login(username='user', password='pw')
+        country_id = 'country-237'  # country id from recorded test
+        country_post_data = {
+            'form_mode': 'existing-excerpt',
+            'existing_excerpts': country_id,
+            'formats': ['garmin'],
+        }
+        response = self.client.post(
+            reverse('excerptexport:new'),
+            country_post_data,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'The Garmin export option is not available for countries.')
