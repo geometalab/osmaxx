@@ -94,6 +94,9 @@
                 if (that.country !== null) {
                     map.removeLayer(that.country);
                 }
+                // FIXME: dirty hack to hide the garmin export option
+                jQuery('#id_formats_5').parent().hide();
+
                 that.locationFilter.disable();
                 that.country = that.selectedExcerptGeoJson;
                 map.addLayer(that.country);
@@ -104,6 +107,9 @@
                 if (that.country !== null) {
                     map.removeLayer(that.country);
                 }
+                // FIXME: dirty hack to show the garmin export option
+                jQuery('#id_formats_5').parent().show();
+
                 that.locationFilter.enable();
                 that.locationFilter.setBounds(geometry.getBounds());
                 map.fitBounds(that.locationFilter.getBounds());
