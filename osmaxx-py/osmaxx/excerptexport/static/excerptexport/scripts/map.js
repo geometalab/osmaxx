@@ -6,6 +6,7 @@
         this.selectElementExistingExcerpts = selectElementExistingExcerpts;
         this.formElementPartsSwitcher = formElementPartsSwitcher;
         this.selectedExcerptGeoJson = null;
+        this.country = null;
 
         /**
          * Synchronize coordinates in input fields to excerpt on map
@@ -88,12 +89,39 @@
 
         this._setLocationFilterFromExcerptID = function(ID) {
             var that = this;
+
+            this._handleCountry = function (country){
+                if (that.country !== null) {
+                    map.removeLayer(that.country);
+                }
+                that.locationFilter.disable();
+                that.country = that.selectedExcerptGeoJson;
+                map.addLayer(that.country);
+                map.fitBounds(country.getBounds());
+            };
+
+            this._handleBBoxBoundingGeometry = function (geometry){
+                if (that.country !== null) {
+                    map.removeLayer(that.country);
+                }
+                that.locationFilter.enable();
+                that.locationFilter.setBounds(geometry.getBounds());
+                map.fitBounds(that.locationFilter.getBounds());
+            };
+
             this.selectedExcerptGeoJson = L.geoJson.ajax("/api/bounding_geometry_from_excerpt/"+ID+"/").on('data:loaded', function(){
                 // We are certain that there is only one layer on this feature, because our API provides it so.
                 var feature_type = this.getLayers()[0].feature.properties.type_of_geometry;
-                //TODO: differentiate between boundingbox or country and similar; use this.locationFilter.enable()/disable()
-                that.locationFilter.setBounds(this.getBounds());
-                map.fitBounds(that.locationFilter.getBounds());
+                switch(feature_type) {
+                    case 'BBoxBoundingGeometry':
+                        that._handleBBoxBoundingGeometry(this);
+                        break;
+                    case 'Country':
+                        that._handleCountry(this);
+                        break;
+                    default:
+                        break;
+                }
             });
             this.selectedExcerptGeoJson.on('data:loading', function(){
                 map.spin(true);
@@ -104,7 +132,6 @@
             });
         }.bind(this);
     };
-
 
     var map = L.map('map').setView([0, 0], 2);
     // add an OpenStreetMap tile layer

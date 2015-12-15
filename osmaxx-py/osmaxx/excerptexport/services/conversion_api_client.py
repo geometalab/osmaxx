@@ -237,10 +237,16 @@ class ConversionApiClient(RESTApiJWTClient):
         return json.dumps(self.get_country(country_id.strip(COUNTRY_ID_PREFIX)))
 
     def get_country_geojson(self, country_id):
+        geometry = self.get_country(country_id)['simplified_polygon']
         properties = {'type_of_geometry': "Country"}  # add the type for better distinction in JavaScript
-        geo_json = self.get_country(country_id)['simplified_polygon']
-        geo_json['properties'] = properties
-        return json.dumps(geo_json)
+        return json.dumps(self._to_geo_json_feature(geometry, properties))
+
+    def _to_geo_json_feature(self, geometry, properties=None):
+        feature = OrderedDict()
+        feature["type"] = "Feature"
+        feature["geometry"] = geometry
+        feature['properties'] = properties
+        return feature
 
     def _fetch_countries(self):
         self.login()
