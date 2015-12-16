@@ -31,7 +31,7 @@ class OsmaxxTestSuite:
 
     def run_e2e_tests(self):
         with TmpVirtualEnv() as tmp_venv:
-            tmp_venv.run_python_script('e2e/e2e_tests.py')
+            tmp_venv.run_python_script('tests/e2e/e2e_tests.py')
 
     def run_tests(self):
         self.log_header('=== Development mode ===')
