@@ -185,8 +185,9 @@ class ConversionApiClientTestCase(TestCase):
             self.api_client.update_order_status(self.extraction_order)
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
 
+    @patch.object(ConversionApiClient, 'login')
     @patch.object(ConversionApiClient, 'authorized_get')
-    def test_get_country_when_country_id_is_int_succeeds(self, authorized_get_mock):
+    def test_get_country_when_country_id_is_int_succeeds(self, authorized_get_mock, *args, **kwargs):
         country_id = 1
         client = ConversionApiClient()
         expected_country_url = client.country_base_url + str(country_id) + '/'
