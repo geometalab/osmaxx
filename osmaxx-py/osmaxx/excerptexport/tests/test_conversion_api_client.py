@@ -193,4 +193,3 @@ class ConversionApiClientTestCase(TestCase):
         expected_country_url = client.country_base_url + str(country_id) + '/'
         client.get_country(country_id)
         authorized_get_mock.assert_called_with(expected_country_url)
-
