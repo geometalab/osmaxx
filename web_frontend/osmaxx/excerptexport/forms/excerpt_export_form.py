@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.http import Http404
 from django.utils.translation import ugettext as _
 
@@ -189,10 +190,12 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
     def clean(self):
         cleaned_data = super().clean()
 
-        form_mode = self.cleaned_data.get('form_mode')
+        form_mode = cleaned_data.get('form_mode')
 
         if form_mode == FormModeMixin.MODE_EXISTING:
             form_part_mixin_for_other_mode = ExcerptOrderFormPartCoordinatesMixin
+            if self._is_country(cleaned_data['existing_excerpts']) and 'garmin' in cleaned_data['formats']:
+                raise ValidationError(_('The Garmin export option is not available for countries.'))
         elif form_mode == FormModeMixin.MODE_NEW:
             form_part_mixin_for_other_mode = ExcerptOrderFormPartExistingMixin
         else:
@@ -209,8 +212,7 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
 
         if self.cleaned_data['form_mode'] == FormModeMixin.MODE_EXISTING:
             pk = self.cleaned_data['existing_excerpts']
-            is_country = pk.startswith(COUNTRY_ID_PREFIX)
-            if is_country:
+            if self._is_country(pk):
                 from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
                 country_id = int(pk.strip(COUNTRY_ID_PREFIX))
                 extraction_order.country_id = country_id
@@ -237,6 +239,9 @@ class ExcerptOrderForm(ExcerptOrderFormPartCoordinatesMixin, ExcerptOrderFormCom
             raise Http404()
         extraction_order.save()
         return extraction_order
+
+    def _is_country(self, pk):
+        return pk.startswith(COUNTRY_ID_PREFIX)
 
     # helper methods
     def _generate_extraction_options(self):
