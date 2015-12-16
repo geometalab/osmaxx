@@ -89,7 +89,7 @@ To simplify the steps needed, the `runtests.py` can be used to run all tests, as
 ## Generating the test coverage html
 
 ```shell
-docker-compose run webappdev bash -c "DJANGO_SETTINGS_MODULE=config.settings.test coverage run --source='.' manage.py test;coverage html"
+docker-compose run webapp bash -c "DJANGO_SETTINGS_MODULE=config.settings.test coverage run --source='.' manage.py test;coverage html"
 ``` 
 
 and then open the directory `web_frontend/htmlcov/index.html` in a browser.

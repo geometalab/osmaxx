@@ -32,7 +32,7 @@ webapp:
     - sources
     - shareddata
   links:
-    - databasedev:database
+    - database:database
     - conversionservice:conversionservice
     # only needed to have a worker up and running
     - conversionworker:conversionworker
@@ -52,7 +52,7 @@ webapp:
     # corresponds to `conversionservice`: SERVICE_USER_PASSWORD
     - DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=dev
 
-databasedev:
+database:
   extends:
     file: compose-common.yml
     service: databasebase

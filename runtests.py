@@ -36,8 +36,8 @@ class OsmaxxTestSuite:
     def run_tests(self):
         self.log_header('=== Development mode ===')
 
-        self.WEBAPP_CONTAINER = "webappdev"
-        self.DB_CONTAINER = "databasedev"
+        self.WEBAPP_CONTAINER = "webapp"
+        self.DB_CONTAINER = "database"
 
         if args.webapp_checks:
             self.setup()

@@ -46,13 +46,13 @@ docker-compose build
 Then initiate the project defaults by running the following command:
 
 ```shell
-docker-compose run webappdev /bin/bash -c './manage.py createsuperuser'
+docker-compose run webapp /bin/bash -c './manage.py createsuperuser'
 ```
 
 Alternative to this command, bootstrap the container and execute the commands inside the container by hand:
 
 ```shell
-docker-compose run webappdev /bin/bash
+docker-compose run webapp /bin/bash
 ```
 
 Inside the container:
