@@ -117,11 +117,11 @@ class OsmaxxTestSuite:
         except ImportError:
             print('Are you in a activated virtualenv and have installed the requirements?')
             print('virtualenv --python=/usr/bin/python3 tmp;source ./tmp/bin/activate;\
-                pip install -r osmaxx-py/requirements/local.txt')
+                pip install -r web_frontend/requirements/local.txt')
             return
         work_dir = os.getcwd()
         try:
-            osmaxx_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'osmaxx-py')
+            osmaxx_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'web_frontend')
             sys.path.append(osmaxx_path)
             os.chdir(osmaxx_path)
             os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.test'
