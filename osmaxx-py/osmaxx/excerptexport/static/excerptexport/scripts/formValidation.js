@@ -39,7 +39,7 @@
         this.validateExistingExcerptOrNew = function() {
             if(this.formModeSwitcher.value == "existing-excerpt") {
                 var selectValue = this.existingExcerptSelect.value;
-                this.validity['existingExcerptOrNew'] = selectValue && selectValue.length >= 1;
+                this.validity['existingExcerptOrNew'] = Boolean(selectValue && selectValue.length >= 1);
             } else if(this.formModeSwitcher.value == "new-excerpt") {
                 this.validity['existingExcerptOrNew'] = this.newExcerptName.value.length > 2;
             }
