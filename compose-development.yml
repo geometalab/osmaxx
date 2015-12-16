@@ -15,7 +15,7 @@ shareddatadev:
   net: "none"
 
 sourcedev:
-  build: docker/volume-mount
+  build: buildpack-deps:jessie
   volumes:
     - ./osmaxx-py:/home/osmaxx/source
 
