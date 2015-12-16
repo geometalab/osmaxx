@@ -3,7 +3,6 @@ from urllib.parse import urlparse
 
 import os
 import time
-import vcr
 
 from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve
@@ -12,6 +11,7 @@ from django.test.testcases import TestCase
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
 from osmaxx.excerptexport.services import ConversionApiClient
 from osmaxx.job_progress.views import tracker
+from test_helpers import vcr_explicit_path as vcr, absolute_cassette_lib_path
 
 
 class ConversionApiClientAuthTestCase(TestCase):
@@ -117,7 +117,10 @@ class ConversionApiClientTestCase(TestCase):
         self.assertEqual(host, self.host)
 
     def test_download_files(self):
-        cassette_file_location = 'fixtures/vcr/conversion_api-test_download_files.yml'
+        cassette_file_location = os.path.join(
+            absolute_cassette_lib_path,
+            'fixtures/vcr/conversion_api-test_download_files.yml'
+        )
         cassette_empty = not os.path.exists(cassette_file_location)
 
         with vcr.use_cassette(cassette_file_location):
@@ -148,7 +151,10 @@ class ConversionApiClientTestCase(TestCase):
             )
 
     def test_order_status_processing(self):
-        cassette_file_location = 'fixtures/vcr/conversion_api-test_order_status_processing.yml'
+        cassette_file_location = os.path.join(
+            absolute_cassette_lib_path,
+            'fixtures/vcr/conversion_api-test_order_status_processing.yml'
+        )
         cassette_empty = not os.path.exists(cassette_file_location)
         with vcr.use_cassette(cassette_file_location):
             self.api_client.login()
@@ -168,7 +174,10 @@ class ConversionApiClientTestCase(TestCase):
             self.assertEqual(self.extraction_order.output_files.count(), 0)
 
     def test_order_status_done(self):
-        cassette_file_location = 'fixtures/vcr/conversion_api-test_order_status_done.yml'
+        cassette_file_location = os.path.join(
+            absolute_cassette_lib_path,
+            'fixtures/vcr/conversion_api-test_order_status_done.yml'
+        )
         cassette_empty = not os.path.exists(cassette_file_location)
 
         with vcr.use_cassette(cassette_file_location):
