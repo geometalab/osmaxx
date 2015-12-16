@@ -39,17 +39,9 @@
         this.validateExistingExcerptOrNew = function() {
             if(this.formModeSwitcher.value == "existing-excerpt") {
                 var selectValue = this.existingExcerptSelect.value;
-                if (selectValue && selectValue.length >= 1) {
-                    this.validity['existingExcerptOrNew'] = true;
-                } else {
-                    this.validity['existingExcerptOrNew'] = false;
-                }
+                this.validity['existingExcerptOrNew'] = selectValue && selectValue.length >= 1;
             } else if(this.formModeSwitcher.value == "new-excerpt") {
-                if(this.newExcerptName.value.length > 2) {
-                    this.validity['existingExcerptOrNew'] = true;
-                } else {
-                    this.validity['existingExcerptOrNew'] = false;
-                }
+                this.validity['existingExcerptOrNew'] = this.newExcerptName.value.length > 2;
             }
             this.setSubmitButtonState();
         }.bind(this);
