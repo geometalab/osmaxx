@@ -34,7 +34,7 @@ class Garmin:
     def _split(self, workdir):
         _splitter_path = os.path.abspath(os.path.join(_path_to_commandline_utils, 'splitter', 'splitter.jar'))
         subprocess.check_call([
-            'java',  # '-Xms32m', '-Xmx4096m',
+            'java',
             '-jar', _splitter_path,
             '--output-dir={0}'.format(workdir),
             '--description={0}'.format(self.map_description),
