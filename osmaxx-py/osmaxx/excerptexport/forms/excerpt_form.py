@@ -2,12 +2,16 @@ from django.utils.translation import ugettext_lazy as _
 
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Div, Field, Submit
+from crispy_forms.layout import Layout, Fieldset, Div, Field, Submit, HTML
 
 from osmaxx.excerptexport.models import Excerpt
 
 
 class ExcerptForm(forms.ModelForm):
+    name = forms.CharField(
+        label=_('Name'),
+        required=True,
+    )
     north = forms.FloatField(
         label=_('North'),
         required=True,
@@ -28,14 +32,12 @@ class ExcerptForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ExcerptForm, self).__init__(*args, **kwargs)
 
-        # Crispy default layout with all its fields
         self.helper = FormHelper(self)
 
         self.helper.layout = Layout(
             Fieldset(
-                '',
-                'name', 'is_public', 'is_active',
-                'north'
+                _('Excerpt'),
+                Field('name'), 'is_public',
             ),
             Fieldset(
                 _('Bounding box'),
@@ -52,10 +54,13 @@ class ExcerptForm(forms.ModelForm):
                     Field('south', wrapper_class='column-stretch-4'),
                     css_class="box-column-container balanced",
                 ),
+                HTML(
+                    '<p id="bounding-box-error" class="error"></p>'
+                )
             ),
             Submit('submit', 'Submit'),
         )
 
     class Meta:
         model = Excerpt
-        fields = ['name', 'is_public', 'is_active']
+        fields = ['name', 'is_public']

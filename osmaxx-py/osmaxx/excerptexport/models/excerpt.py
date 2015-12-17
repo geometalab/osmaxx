@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Excerpt(models.Model):
-    name = models.CharField(max_length=128, verbose_name=_('name'))
+    name = models.CharField(max_length=128, verbose_name=_('name'), blank=False)
     is_public = models.BooleanField(default=False, verbose_name=_('is public'))
     is_active = models.BooleanField(default=True, verbose_name=_('is active'))
 
