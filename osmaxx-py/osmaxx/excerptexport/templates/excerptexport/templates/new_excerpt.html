@@ -1,0 +1,11 @@
+{% extends "excerptexport/layouts/base.html" %}
+{% load staticfiles i18n crispy_forms_tags %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'New excerpt export' %}</li>
+{% endblock %}
+
+{% block main %}
+    {% crispy form %}
+{% endblock %}

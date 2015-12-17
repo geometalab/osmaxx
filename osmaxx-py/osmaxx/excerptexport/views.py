@@ -21,6 +21,7 @@ from osmaxx.contrib.auth.frontend_permissions import (
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms.excerpt_export_form import ExcerptOrderForm
+from osmaxx.excerptexport.forms import ExcerptForm
 from osmaxx.excerptexport.forms.excerpt_order_form_helpers import get_existing_excerpt_choices_shortcut
 from osmaxx.utils import private_storage
 
@@ -64,6 +65,13 @@ class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
         )
 
 order_form_view = OrderFormView.as_view()
+
+
+class OrderNewExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
+    template_name = 'excerptexport/templates/new_excerpt.html'
+    form_class = ExcerptForm
+
+order_new_excerpt = OrderNewExcerptView.as_view()
 
 
 @login_required()
