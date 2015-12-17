@@ -1,4 +1,5 @@
 from converters import Options
+from .to_garmin import Garmin
 
 options = Options(
     output_formats=['garmin', ],
@@ -6,4 +7,5 @@ options = Options(
 
 __all__ = [
     'options',
+    'Garmin',
 ]
