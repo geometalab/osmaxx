@@ -31,6 +31,8 @@ def _clean_start_containers():
     docker_compose.pull()
     docker_compose.create_superuser_for_test(username=ADMIN_USER_FOR_TESTS, password=ADMIN_PASSWORD_FOR_TESTS)
     docker_compose.start()
+    # mitigate localhost not found by firefox: wait for web_frontend to be up
+    sleep(2)
 
 
 def _stop_and_remove_containers():

@@ -1,4 +1,4 @@
-shareddatadev:
+shareddata:
   image: buildpack-deps:jessie
   command: /bin/true
   volumes:
@@ -14,12 +14,12 @@ shareddatadev:
     - /tmp/osmaxx-development-emails:/dev-emails
   net: "none"
 
-sourcedev:
-  build: docker/volume-mount
+sources:
+  image: buildpack-deps:jessie
   volumes:
-    - ./osmaxx-py:/home/osmaxx/source
+    - ./web_frontend:/home/osmaxx/source
 
-webappdev:
+webapp:
   extends:
     file: compose-common.yml
     service: base
@@ -29,10 +29,10 @@ webappdev:
   expose:
     - "8000"
   volumes_from:
-    - sourcedev
-    - shareddatadev
+    - sources
+    - shareddata
   links:
-    - databasedev:database
+    - database:database
     - conversionservice:conversionservice
     # only needed to have a worker up and running
     - conversionworker:conversionworker
@@ -52,12 +52,12 @@ webappdev:
     # corresponds to `conversionservice`: SERVICE_USER_PASSWORD
     - DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=dev
 
-databasedev:
+database:
   extends:
     file: compose-common.yml
     service: databasebase
   volumes_from:
-    - shareddatadev
+    - shareddata
   environment:
     - PGDATA=/database/data
 
@@ -90,9 +90,9 @@ conversionservice:
     - conversionservicepostgres:database
   environment:
     - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
-    # needs to be the same as `DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME` in `webappdev`
+    # needs to be the same as `DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME` in `webapp`
     - SERVICE_USER_NAME=dev
-    # needs to be the same as `DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD` in `webappdev`
+    # needs to be the same as `DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD` in `webapp`
     - SERVICE_USER_PASSWORD=dev
 
 conversionservicedata:

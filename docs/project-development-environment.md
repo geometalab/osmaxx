@@ -39,7 +39,7 @@ Examples:
 
 Execute a shell in the webapp:
 ```shell
-docker-compose run osmaxxwebappdev /bin/bash
+docker-compose run webapp /bin/bash
 ```
 
 
@@ -82,7 +82,7 @@ echo $(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
 Add that to the docker-compose.yml:
 
 ```
-webappdev:
+webapp:
    ...
    environment:
    ...
@@ -116,7 +116,7 @@ Replace the step `docker-compose build` above with `docker-compose build --no-ca
 
 **NOTICE**: This might not be what you want; you rebuild single images using
 `docker-compose build --no-cache <imagename>`, so for example, rebuilding the webapp would be
-`docker-compose build --no-cache osmaxxwebappdev`.
+`docker-compose build --no-cache webapp`.
 
 
 ## Useful Docker commands

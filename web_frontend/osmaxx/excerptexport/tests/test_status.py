@@ -1,4 +1,3 @@
-import vcr
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -6,6 +5,7 @@ from django.contrib.auth.models import User
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, BBoxBoundingGeometry
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
 from osmaxx.excerptexport.tests.permission_test_helper import PermissionHelperMixin
+from test_helpers import vcr_explicit_path as vcr
 
 
 class StatusTestCase(TestCase, PermissionHelperMixin):
