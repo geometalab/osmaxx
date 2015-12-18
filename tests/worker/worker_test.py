@@ -122,7 +122,7 @@ class NotifierTest(TestCase):
         self.assertEqual(requests_send_mock.call_count, 0)
 
     @patch.object(requests.sessions.Session, 'send')
-    def test_notify_without_status_url_fails(self, requests_send_mock):
+    def test_notify_without_status_url_raises_value_error(self, requests_send_mock):
         notifier = Notifier(
             callback_url='http://osmaxx-ui.example.com/update_job_status/',
             status_url=None
