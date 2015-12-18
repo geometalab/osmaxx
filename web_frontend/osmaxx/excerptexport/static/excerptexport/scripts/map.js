@@ -95,10 +95,6 @@
                 if (that.country !== null) {
                     map.removeLayer(that.country);
                 }
-                // FIXME: dirty hack to hide the garmin export option
-                var garminCheckbox = jQuery('#id_formats_5');
-                garminCheckbox.checked = false;
-                garminCheckbox.parent().hide();
 
                 that.locationFilter.disable();
                 that.country = that.selectedExcerptGeoJson;
@@ -110,8 +106,6 @@
                 if (that.country !== null) {
                     map.removeLayer(that.country);
                 }
-                // FIXME: dirty hack to show the garmin export option
-                jQuery('#id_formats_5').parent().show();
 
                 that.locationFilter.enable();
                 that.locationFilter.setBounds(geometry.getBounds());
