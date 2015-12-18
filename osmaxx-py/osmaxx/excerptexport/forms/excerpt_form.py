@@ -14,7 +14,6 @@ class ExcerptForm(BBoxBoundingGeometryMixin, OrderOptionsMixin, forms.ModelForm)
     name = forms.CharField(
         label=_('Name'),
         required=True,
-        # TODO: replace
         widget=forms.TextInput(attrs={'required': 'required'}),
     )
 
@@ -22,7 +21,6 @@ class ExcerptForm(BBoxBoundingGeometryMixin, OrderOptionsMixin, forms.ModelForm)
         super(ExcerptForm, self).__init__(*args, **kwargs)
 
         self.helper = FormHelper(self)
-
         self.helper.layout = Layout(
             Fieldset(
                 _('Excerpt'),
