@@ -41,19 +41,9 @@ class Conversion(object):
     def _create_garmin_export(self, formats):
         assert len(formats) <= 1
         if len(formats) == 1:
-            garmin_format = formats[0]
-            path_to_mkgmap = os.path.abspath(
-                os.path.join(os.path.dirname(__file__), 'garmin_converter', 'command_line_utils', 'mkgmap', 'mkgmap.jar')
-            )
-            garmin_out_dir = os.path.join(self.output_dir, garmin_format)
-            os.makedirs(garmin_out_dir, exist_ok=True)
-            subprocess.check_call([
-                'java', '-Xms32m', '-Xmx4096m',
-                '-jar', path_to_mkgmap,
-                '--input-file={0}'.format(self.pbf_path),
-                '--output-dir={0}'.format(garmin_out_dir),
-            ])
-            subprocess.check_call(["zip", "-r", "--move", '.'.join([garmin_out_dir, 'zip']), garmin_out_dir])
+            # FIXME: pass the area name to get a better identification instead of just `Garmin`
+            garmin = garmin_converter.Garmin(self.output_dir, self.pbf_path, 'Garmin')
+            garmin.create_garmin_export()
 
     # Export files of the specified format (file_format) from existing database
     def _export_from_db_to_format(self, file_basename, file_format):
