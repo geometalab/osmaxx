@@ -1,22 +1,28 @@
 (function(){
-    var FormValidator = function(nameField, bboxFields, excerptBoundsErrorContainer, submitButton) {
+    var FormValidator = function(nameField, bboxFields, excerptBoundsErrorContainer, exportFormatCheckboxes, submitButton) {
         this.nameField = nameField;
         this.bboxFields = bboxFields;
         this.excerptBoundsErrorContainer = excerptBoundsErrorContainer;
+        this.exportFormatCheckboxes = exportFormatCheckboxes;
         this.submitButton = submitButton;
 
         this.validity = {
             excerptBounds: false,
-            excerptName: false
+            excerptName: false,
+            exportFormats: false
         };
 
-        this.checkNameField = function() {
-            this.validity['excerptName'] = this.nameField.value.length >= 2;
-            if(this.validity['excerptName']) {
-                this.nameField.setCustomValidity('');
-            } else {
-                this.nameField.setCustomValidity('Please enter a valid name!');
-            }
+        this.checkExportFormats = function() {
+            this.validity['exportFormats'] = Object.keys(this.exportFormatCheckboxes).some(function(checkboxKey){
+                return this.exportFormatCheckboxes[checkboxKey].checked;
+            }, this);
+            Object.keys(this.exportFormatCheckboxes).forEach(function(checkboxKey){
+                if (this.validity['exportFormats']) {
+                    this.exportFormatCheckboxes[checkboxKey].setCustomValidity('');
+                } else {
+                    this.exportFormatCheckboxes[checkboxKey].setCustomValidity('Please select at least one format!');
+                }
+            }, this);
         }.bind(this);
 
         this.checkExcerptBounds = function() {
@@ -66,8 +72,9 @@
         };
 
         this.validate = function() {
-            this.checkNameField();
+            this.validity['excerptName'] = this.nameField.checkValidity();
             this.checkExcerptBounds();
+            this.checkExportFormats();
             this.setSubmitButtonState();
         }.bind(this);
     };
@@ -83,8 +90,9 @@
             };
             var bboxErrorField = document.getElementById('bounding-box-error');
             var submitButton = document.getElementById('submit-id-submit');
+            var exportFormatCheckboxes = document.querySelectorAll('#div_id_formats input[type="checkbox"]');
 
-            var formValidator = new FormValidator(nameField, bboxFields, bboxErrorField, submitButton);
+            var formValidator = new FormValidator(nameField, bboxFields, bboxErrorField, exportFormatCheckboxes, submitButton);
 
             nameField.addEventListener('change', formValidator.validate);
             nameField.addEventListener('input', formValidator.validate);
@@ -94,6 +102,10 @@
                 bboxFields[index].addEventListener('valueUpdate', formValidator.validate);
                 bboxFields[index].addEventListener('input', formValidator.validate);
                 bboxFields[index].addEventListener('paste', formValidator.validate);
+            });
+
+            Object.keys(exportFormatCheckboxes).forEach(function(index){
+                exportFormatCheckboxes[index].addEventListener('change', formValidator.validate);
             });
 
             formValidator.validate();
