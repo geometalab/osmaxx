@@ -1,0 +1,38 @@
+{% extends "excerptexport/layouts/base.html" %}
+{% load staticfiles i18n crispy_forms_tags %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'New excerpt export' %}</li>
+{% endblock %}
+
+{% block main %}
+    <div class="container-row box-column-grid">
+        <div class="grid-column column-stretch-5 content">
+            <h2>Export new excerpt</h2>
+            <form action="{% url 'excerptexport:order_new_excerpt' %}" method="post" id="newExcerptForm">
+                {% crispy form %}
+            </form>
+        </div>
+        <div class="grid-column column-stretch-5">
+             <div class="outerMapWrapper">
+                <div id="map" ></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src='{% static "excerptexport/libraries/leaflet/leaflet.js" %}'></script>
+    <script>L.Path.CLIP_PADDING = 1.0;</script>
+
+    <!-- Leaflet plugins -->
+    <script src='{% static "excerptexport/libraries/leaflet-locationfilter/locationfilter.js" %}'></script>
+
+    <!-- map -->
+    <script src='{% static "excerptexport/scripts/maps/new_excerpt_map.js" %}'></script>
+
+    <!-- form -->
+    <script src='{% static "excerptexport/scripts/validation/new_excerpt_validation.js" %}'></script>
+{% endblock %}

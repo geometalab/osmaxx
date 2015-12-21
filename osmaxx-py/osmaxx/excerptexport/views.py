@@ -1,6 +1,5 @@
 import logging
 
-from django import forms
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.core.servers.basehttp import FileWrapper
@@ -21,8 +20,7 @@ from osmaxx.contrib.auth.frontend_permissions import (
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms.excerpt_export_form import ExcerptOrderForm
-from osmaxx.excerptexport.forms import ExcerptForm
-from osmaxx.excerptexport.forms.excerpt_order_form_helpers import get_existing_excerpt_choices_shortcut
+from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.utils import private_storage
 
 
@@ -38,16 +36,7 @@ class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
     form_class = ExcerptOrderForm
 
     def get_form_class(self):
-        klass = super().get_form_class()
-        klass.declared_fields['existing_excerpts'] = forms.ChoiceField(
-            label=_('Excerpt'),
-            required=True,
-            widget=forms.Select(
-                attrs={'size': 10},
-            ),
-            choices=get_existing_excerpt_choices_shortcut(self.request.user),
-        )
-        return klass
+        return super().get_form_class().get_class(self.request.user)
 
     def form_valid(self, form):
         extraction_order = form.save(self.request.user)
@@ -68,7 +57,7 @@ order_form_view = OrderFormView.as_view()
 
 
 class OrderNewExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
-    template_name = 'excerptexport/templates/new_excerpt.html'
+    template_name = 'excerptexport/templates/order_new_excerpt.html'
     form_class = ExcerptForm
 
     def form_valid(self, form):
@@ -87,6 +76,31 @@ class OrderNewExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormV
         )
 
 order_new_excerpt = OrderNewExcerptView.as_view()
+
+
+class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
+    template_name = 'excerptexport/templates/order_existing_excerpt.html'
+    form_class = ExistingForm
+
+    def get_form_class(self):
+        return super().get_form_class().get_dynamic_form_class(self.request.user)
+
+    def form_valid(self, form):
+        extraction_order = form.save(self.request.user)
+        # request_host = self.request.get_host()
+        # request_protocol = 'https' if self.request.is_secure() else 'http'
+        # execute_converters(extraction_order, callback_host=request_host, protocol=request_protocol)
+        messages.info(
+            self.request,
+            _('Queued extraction order {id}. The conversion process will start soon.').format(
+                id=extraction_order.id
+            )
+        )
+        return HttpResponseRedirect(
+            reverse('excerptexport:status', kwargs={'extraction_order_id': extraction_order.id})
+        )
+
+order_existing_excerpt = OrderExistingExcerptView.as_view()
 
 
 @login_required()
