@@ -87,9 +87,9 @@ class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, 
 
     def form_valid(self, form):
         extraction_order = form.save(self.request.user)
-        # request_host = self.request.get_host()
-        # request_protocol = 'https' if self.request.is_secure() else 'http'
-        # execute_converters(extraction_order, callback_host=request_host, protocol=request_protocol)
+        request_host = self.request.get_host()
+        request_protocol = 'https' if self.request.is_secure() else 'http'
+        execute_converters(extraction_order, callback_host=request_host, protocol=request_protocol)
         messages.info(
             self.request,
             _('Queued extraction order {id}. The conversion process will start soon.').format(
