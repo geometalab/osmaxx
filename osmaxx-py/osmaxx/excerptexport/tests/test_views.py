@@ -16,7 +16,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
         other_user = User.objects.create_user('other_user', 'o_u@example.com', 'o_pw')
         self.new_excerpt_post_data = {
-            'form_mode': 'new-excerpt',
             'name': 'A very interesting region',
             'is_public': 'True',
             'north': '1.0',
@@ -48,7 +47,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             bounding_geometry=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
         )
         self.existing_excerpt_post_data = {
-            'form_mode': 'existing-excerpt',
             'existing_excerpts': self.existing_own_excerpt.id,
             'formats': ['fgdb'],
         }
@@ -64,7 +62,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         """
         When not logged in, we get redirected.
         """
-        response = self.client.get(reverse('excerptexport:new'))
+        response = self.client.get(reverse('excerptexport:order_new_excerpt'))
         self.assertEqual(response.status_code, 302)
 
     @vcr.use_cassette('fixtures/vcr/views-test_test_new.yml')
@@ -74,15 +72,15 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         """
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
-        response = self.client.get(reverse('excerptexport:new'))
+        response = self.client.get(reverse('excerptexport:order_new_excerpt'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Create new excerpt')
+        self.assertContains(response, 'Order new excerpt')
 
     @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_existing_own_excerpt.yml')
     def test_new_offers_existing_own_excerpt(self):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
-        response = self.client.get(reverse('excerptexport:new'))
+        response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
         self.assertIn(
             ('Personal excerpts (user) [1]', ((1, 'Some old Excerpt'),)),
             response.context['form'].fields['existing_excerpts'].choices
@@ -93,7 +91,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
     def test_new_offers_existing_public_foreign_excerpt(self):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
-        response = self.client.get(reverse('excerptexport:new'))
+        response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
 
         self.assertIn(
             ('Other excerpts [1]', ((2, 'Public Excerpt by someone else'),)),
@@ -105,14 +103,14 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
     def test_new_doesnt_offer_existing_private_foreign_excerpt(self):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
-        response = self.client.get(reverse('excerptexport:new'))
+        response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
         self.assertNotContains(response, self.existing_private_foreign_excerpt.name)
 
     @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_country.yml')
     def test_new_offers_country(self):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
-        response = self.client.get(reverse('excerptexport:new'))
+        response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
         self.assertIn(
             ('Countries [1]', (('country-26', 'Monaco'),)),
             response.context['form'].fields['existing_excerpts'].choices
@@ -123,7 +121,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         """
         When not logged in, we get redirected.
         """
-        response = self.client.post(reverse('excerptexport:new'), self.new_excerpt_post_data)
+        response = self.client.post(reverse('excerptexport:order_new_excerpt'), self.new_excerpt_post_data)
         self.assertEqual(response.status_code, 302)
 
     @vcr.use_cassette('fixtures/vcr/views-test_create_with_new_excerpt.yml')
@@ -134,7 +132,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.post(
-            reverse('excerptexport:new'),
+            reverse('excerptexport:order_new_excerpt'),
             self.new_excerpt_post_data,
             HTTP_HOST='thehost.example.com'
         )
@@ -152,7 +150,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.client.login(username='user', password='pw')
         response = self.client.post(
-            reverse('excerptexport:new'),
+            reverse('excerptexport:order_existing_excerpt'),
             self.existing_excerpt_post_data,
             HTTP_HOST='thehost.example.com'
         )
@@ -169,7 +167,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
-        self.client.post(reverse('excerptexport:new'), self.new_excerpt_post_data, HTTP_HOST='thehost.example.com')
+        self.client.post(reverse('excerptexport:order_new_excerpt'),
+                         self.new_excerpt_post_data, HTTP_HOST='thehost.example.com')
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
@@ -188,7 +187,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
         self.client.post(
-            reverse('excerptexport:new'),
+            reverse('excerptexport:order_existing_excerpt'),
             self.existing_excerpt_post_data,
             HTTP_HOST='thehost.example.com'
         )
@@ -200,20 +199,3 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertDictEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'Some old Excerpt')
-
-    @vcr.use_cassette('fixtures/vcr/views-test_create_with_country_when_garmin_selected_is_invalid.yml')
-    def test_create_with_country_when_garmin_selected_is_invalid(self):
-        self.add_permissions_to_user()
-        self.client.login(username='user', password='pw')
-        country_id = 'country-237'  # country id from recorded test
-        country_post_data = {
-            'form_mode': 'existing-excerpt',
-            'existing_excerpts': country_id,
-            'formats': ['garmin'],
-        }
-        response = self.client.post(
-            reverse('excerptexport:new'),
-            country_post_data,
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'The Garmin export option is not available for countries.')
