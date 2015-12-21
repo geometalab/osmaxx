@@ -19,7 +19,6 @@ from osmaxx.contrib.auth.frontend_permissions import (
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
-from osmaxx.excerptexport.forms.excerpt_export_form import ExcerptOrderForm
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.utils import private_storage
 
@@ -29,31 +28,6 @@ logger = logging.getLogger(__name__)
 
 def execute_converters(extraction_order, callback_host, protocol):
     get_authenticated_api_client().create_job(extraction_order, callback_host=callback_host, protocol=protocol)
-
-
-class OrderFormView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
-    template_name = 'excerptexport/templates/excerpt_form.html'
-    form_class = ExcerptOrderForm
-
-    def get_form_class(self):
-        return super().get_form_class().get_class(self.request.user)
-
-    def form_valid(self, form):
-        extraction_order = form.save(self.request.user)
-        request_host = self.request.get_host()
-        request_protocol = 'https' if self.request.is_secure() else 'http'
-        execute_converters(extraction_order, callback_host=request_host, protocol=request_protocol)
-        messages.info(
-            self.request,
-            _('Queued extraction order {id}. The conversion process will start soon.').format(
-                id=extraction_order.id
-            )
-        )
-        return HttpResponseRedirect(
-            reverse('excerptexport:status', kwargs={'extraction_order_id': extraction_order.id})
-        )
-
-order_form_view = OrderFormView.as_view()
 
 
 class OrderNewExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
