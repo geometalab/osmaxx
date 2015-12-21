@@ -1,6 +1,5 @@
 import shutil
 import os
-import vcr
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -9,6 +8,7 @@ from django.test import TestCase
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models import BBoxBoundingGeometry
 from osmaxx.excerptexport.tests.permission_test_helper import PermissionHelperMixin
+from test_helpers import vcr_explicit_path as vcr
 
 
 class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
