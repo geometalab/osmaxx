@@ -48,9 +48,12 @@ class Notifier(object):
 
         :param callback_url:
         :return: nothing
+        :raises ValueError if status_url missing but callback_url is present
         """
         if self.callback_url:
-            data = {'status': self.status_url} if self.status_url is not None else {}
+            if self.status_url is None:
+                raise ValueError
+            data = {'status': self.status_url}
             try:
                 requests.get(self.callback_url, params=data)
             except:  # pragma: nocover
