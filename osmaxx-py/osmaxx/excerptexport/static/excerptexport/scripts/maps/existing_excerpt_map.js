@@ -24,6 +24,7 @@
             }
         });
 
+        // TODO: Replace this not understandable hack
         this._setLocationFilterFromExcerptID = function(ID) {
             var that = this;
 
@@ -43,9 +44,11 @@
                     map.removeLayer(that.country);
                 }
 
-                that.locationFilter.enable();
+                // If location filter is enabled, it will collide with fitBounds and you will get some strange behaviour
+                that.locationFilter.disable();
                 that.locationFilter.setBounds(geometry.getBounds());
-                map.fitBounds(that.locationFilter.getBounds());
+                map.fitBounds(geometry.getBounds());
+                that.locationFilter.enable();
             };
 
             this.selectedExcerptGeoJson = L.geoJson.ajax("/api/bounding_geometry_from_excerpt/"+ID+"/").on('data:loaded', function(){
