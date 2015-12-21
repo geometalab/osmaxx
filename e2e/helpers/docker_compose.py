@@ -14,7 +14,7 @@ def kill():
 def clean():
     stop()
     kill()
-    subprocess.check_call("docker-compose rm -vf".split(' '))
+    subprocess.check_call("docker-compose rm -vf webappdev databasedev shareddatadev".split(' '))
 
 
 def build():
