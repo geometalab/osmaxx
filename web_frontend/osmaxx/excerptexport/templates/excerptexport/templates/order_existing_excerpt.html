@@ -9,9 +9,12 @@
 {% block main %}
     <div class="container-row box-column-grid">
         <div class="grid-column column-stretch-5 content">
-            <form action="{% url 'excerptexport:new' %}" method="post" novalidate="novalidate" id="extractionOrderForm">
-                {% crispy form %}
-            </form>
+            <p>Excerpt not found in list?
+                <a href="{% url 'excerptexport:order_new_excerpt' %}">Order a new excerpt</a>
+            </p>
+
+            <h2>Export existing excerpt</h2>
+            {% crispy form %}
         </div>
         <div class="grid-column column-stretch-5">
              <div class="outerMapWrapper">
@@ -20,7 +23,6 @@
         </div>
     </div>
 {% endblock %}
-
 
 {% block scripts %}
     {{ block.super }}
@@ -34,25 +36,9 @@
     <script src='{% static "excerptexport/libraries/leaflet-ajax/leaflet.ajax.min.js" %}'></script>
 
     <!-- map -->
-    <script src='{% static "excerptexport/scripts/map.js" %}'></script>
+    <script src='{% static "excerptexport/scripts/maps/existing_excerpt_map.js" %}'></script>
 
     <!-- form -->
-    <script src='{% static "excerptexport/scripts/formModeSwitcher.js" %}'></script>
-    <script src='{% static "excerptexport/scripts/excerptFilter.js" %}'></script>
-    <script src='{% static "excerptexport/scripts/formValidation.js" %}'></script>
-
-    <!-- Bootstrap plugins -->
-    <script type="text/javascript">
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-    <!-- Bootstrap select -->
-    <script type="text/javascript"
-            src="{% static 'excerptexport/libraries/bootstrap/bootstrap-select.min.js' %}"></script>
-    <script type="text/javascript">
-        $(document).ready(function (e) {
-            $('.selectpicker').selectpicker({});
-        });
-    </script>
+    <script src='{% static "excerptexport/scripts/excerpt_filter.js" %}'></script>
+    <script src='{% static "excerptexport/scripts/validation/existing_excerpt_validation.js" %}'></script>
 {% endblock %}

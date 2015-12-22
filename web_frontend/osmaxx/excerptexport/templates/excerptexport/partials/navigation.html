@@ -7,11 +7,18 @@
                 <span class="menu_icon">&bigstar;</span>&nbsp;{% trans 'Home' %}
             </a>
         </li>
-        <li role="presentation" {% if view == 'new' %}class="active"{% endif %}>
-            <a href="{% url 'excerptexport:new' %}">
-                <span class="menu_icon">&#x270e;</span>&nbsp;{% trans 'New excerpt export' %}
+
+        <li role="presentation" {% if view == 'order_existing_excerpt' %}class="active"{% endif %}>
+            <a href="{% url 'excerptexport:order_existing_excerpt' %}">
+                <span class="menu_icon">&#x27bd;</span>&nbsp;{% trans 'Existing excerpt / country' %}
             </a>
         </li>
+        <li role="presentation" {% if view == 'order_new_excerpt' %}class="active"{% endif %}>
+            <a href="{% url 'excerptexport:order_new_excerpt' %}">
+                <span class="menu_icon">&#8983;</span>&nbsp;{% trans 'New excerpt' %}
+            </a>
+        </li>
+
         {% if user.is_authenticated %}
         <li role="presentation" {% if view == 'orders' %}class="active"{% endif %}>
             <a href="{% url 'excerptexport:orders' %}">

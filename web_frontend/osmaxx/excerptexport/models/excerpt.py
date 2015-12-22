@@ -21,3 +21,21 @@ class Excerpt(models.Model):
 
     def __str__(self):
         return self.name
+
+
+def _active_excerpts():
+    return Excerpt.objects.filter(is_active=True).filter(
+        bounding_geometry__bboxboundinggeometry__isnull=False
+    )
+
+
+def private_user_excerpts(user):
+    return _active_excerpts().filter(is_public=False, owner=user)
+
+
+def public_user_excerpts(user):
+    return _active_excerpts().filter(is_public=True, owner=user)
+
+
+def other_users_public_excerpts(user):
+    return _active_excerpts().filter(is_public=True).exclude(owner=user)

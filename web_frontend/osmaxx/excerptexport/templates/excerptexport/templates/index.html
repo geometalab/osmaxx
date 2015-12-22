@@ -20,8 +20,12 @@
         <nav>
             <ul>
                 <li>
-                    <span class="icon">&#x270e;</span>&nbsp;
-                    <a href="{% url 'excerptexport:new' %}">{% trans 'New excerpt export' %}</a>
+                    <span class="icon">&#x27bd;</span>&nbsp;
+                    <a href="{% url 'excerptexport:order_existing_excerpt' %}">{% trans 'Export existing excerpt or country' %}</a>
+                </li>
+                <li>
+                    <span class="icon">&#8983;</span>&nbsp;
+                    <a href="{% url 'excerptexport:order_new_excerpt' %}">{% trans 'Export new excerpt' %}</a>
                 </li>
                 {% if user.is_authenticated %}
                 <li>

@@ -99,7 +99,7 @@ class EndToEndTests(unittest.TestCase):
         self.browser.get(self._make_link('/logout/'))
 
     def _create_new_order(self):
-        self.browser.get(self._make_link('/orders/new/#new-excerpt'))
+        self.browser.get(self._make_link('/orders/new/new_excerpt/'))
         # wait for page to load
         WebDriverWait(self.browser, 20).until(
             expected_conditions.presence_of_element_located((By.ID, "id_name"))
@@ -110,6 +110,7 @@ class EndToEndTests(unittest.TestCase):
             element.send_keys(send_value)
         for html_id in self.excerpt_data['checkboxes_to_be_ticked']:
             self.browser.find_element_by_id(html_id).click()
+        sleep(10)  # Wait for bbox validation request to be finished (service call)
         self.browser.find_element_by_xpath("//input[@type='submit']").click()
 
     def _go_to_order(self):
@@ -158,7 +159,7 @@ class EndToEndTests(unittest.TestCase):
         return '✓' in status_element
 
     def _is_extraction_failed(self, status_element):
-        return '∅' in status_element
+        return '✖' in status_element
 
     def _reload_browser(self):
         self.browser.get(self.browser.current_url)
