@@ -10,7 +10,7 @@ def rq_enqueue_with_settings(function, *args, **kwargs):
         function,
         result_ttl=converter_settings.OSMAXX_CONVERSION_SERVICE['RESULT_TTL'],
         ttl=timedelta(days=1).seconds,  # max time in the queue, before it is considered lost
-        timeout=timedelta(hours=10).seconds,  # max time the worker may spend, before the job is cancelled
+        timeout=timedelta(days=1).seconds,  # max time the worker may spend, before the job is cancelled
         *args,
         **kwargs
     )
