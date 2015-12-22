@@ -14,7 +14,7 @@ def kill():
 def clean():
     stop()
     kill()
-    subprocess.check_call("docker-compose rm -vf webappdev databasedev shareddatadev".split(' '))
+    subprocess.check_call("docker-compose rm -vf webapp database shareddata".split(' '))
 
 
 def build():
@@ -37,11 +37,11 @@ def create_superuser_for_test(username, password, email=""):
 User.objects.create_superuser(username='{username}', password='{password}', email='{email}')
     """.format(email=email, username=username, password=password)
     # FIXME: this only works on development mode with mounted source volumes
-    filename = os.path.join(os.path.dirname(__file__), '..', '..', 'osmaxx-py', 'create_superuser.py')
+    filename = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'web_frontend', 'create_superuser.py')
     with open(filename, mode='w') as file:
         file.write(superuser_command)
 
-    subprocess_command = 'docker-compose run --rm webappdev /bin/bash -c "{}"'.format(
+    subprocess_command = 'docker-compose run --rm webapp /bin/bash -c "{}"'.format(
         './manage.py runscript --silent create_superuser.py',
     )
     subprocess.check_call(

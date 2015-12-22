@@ -15,13 +15,12 @@ sudo apt-get install python3 libpq-dev python3-dev
 
 virtualenv-3.{version} .venv
 source .venv/bin/activate
-pip3 install -r osmaxx-py/requirements/local.txt
+pip3 install -r web_frontend/requirements/local.txt
 ```
 
 Testrunner:
 ```shell
-cd 'osmaxx-py'
-DJANGO_SETTINGS_MODULE=config.settings.test ./manage.py test
+DJANGO_SETTINGS_MODULE=config.settings.test ./web_frontend/manage.py test
 ```
 
 ## Running the test-suite and integration tests
@@ -90,8 +89,8 @@ To simplify the steps needed, the `runtests.py` can be used to run all tests, as
 ## Generating the test coverage html
 
 ```shell
-docker-compose run webappdev bash -c "DJANGO_SETTINGS_MODULE=config.settings.test coverage run --source='.' manage.py test;coverage html"
+docker-compose run webapp bash -c "DJANGO_SETTINGS_MODULE=config.settings.test coverage run --source='.' manage.py test;coverage html"
 ``` 
 
-and then open the directory `osmaxx-py/htmlcov/index.html` in a browser.
+and then open the directory `web_frontend/htmlcov/index.html` in a browser.
 

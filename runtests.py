@@ -31,13 +31,13 @@ class OsmaxxTestSuite:
 
     def run_e2e_tests(self):
         with TmpVirtualEnv() as tmp_venv:
-            tmp_venv.run_python_script('e2e/e2e_tests.py')
+            tmp_venv.run_python_script('tests/e2e/e2e_tests.py')
 
     def run_tests(self):
         self.log_header('=== Development mode ===')
 
-        self.WEBAPP_CONTAINER = "webappdev"
-        self.DB_CONTAINER = "databasedev"
+        self.WEBAPP_CONTAINER = "webapp"
+        self.DB_CONTAINER = "database"
 
         if args.webapp_checks:
             self.setup()
@@ -117,11 +117,11 @@ class OsmaxxTestSuite:
         except ImportError:
             print('Are you in a activated virtualenv and have installed the requirements?')
             print('virtualenv --python=/usr/bin/python3 tmp;source ./tmp/bin/activate;\
-                pip install -r osmaxx-py/requirements/local.txt')
+                pip install -r web_frontend/requirements/local.txt')
             return
         work_dir = os.getcwd()
         try:
-            osmaxx_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'osmaxx-py')
+            osmaxx_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'web_frontend')
             sys.path.append(osmaxx_path)
             os.chdir(osmaxx_path)
             os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.test'
