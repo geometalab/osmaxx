@@ -1,6 +1,6 @@
 # Osmaxx
 
-[![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx)
+[![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx) ([branch `master`](https://github.com/geometalab/osmaxx/tree/master))
 
 Short project name for "<strong>O</strong>pen<strong>S</strong>treet<strong>M</strong>ap <strong>a</strong>rbitrary e<strong>x</strong>cerpt e<strong>x</strong>port".
 
@@ -10,6 +10,8 @@ Website: http://osmaxx.hsr.ch/
 
 
 ## Development
+
+[![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx) ([branch `develop`](https://github.com/geometalab/osmaxx/tree/develop))
 
 * [Project Repository (Git)](/docs/git-repository.md)
 * [Project Development Environment (Docker)](/docs/project-development-environment.md)
