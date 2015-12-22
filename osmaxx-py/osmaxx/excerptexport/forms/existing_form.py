@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 from django import forms
+from django.core.urlresolvers import reverse
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, HTML
@@ -44,6 +45,11 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
         super(ExistingForm, self).__init__(*args, **kwargs)
 
         self.helper = FormHelper(self)
+
+        self.helper.form_id = 'existingExcerptForm'
+        self.helper.form_method = 'post'
+        self.helper.form_action = reverse('excerptexport:order_existing_excerpt')
+
         self.helper.layout = Layout(
             Fieldset(
                 _('Existing excerpts'),
