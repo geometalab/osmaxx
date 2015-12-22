@@ -1,5 +1,7 @@
 # Osmaxx
 
+[![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx) ([branch `master`](https://github.com/geometalab/osmaxx/tree/master))
+
 Short project name for "<strong>O</strong>pen<strong>S</strong>treet<strong>M</strong>ap <strong>a</strong>rbitrary e<strong>x</strong>cerpt e<strong>x</strong>port".
 
 Cuts out OpenStreetMap data, processes it to geodata and converts it to typical GIS fileformats before being prepared for download.
@@ -9,6 +11,8 @@ Website: http://osmaxx.hsr.ch/
 
 ## Development
 
+[![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx) ([branch `develop`](https://github.com/geometalab/osmaxx/tree/develop))
+
 * [Project Repository (Git)](/docs/git-repository.md)
 * [Project Development Environment (Docker)](/docs/project-development-environment.md)
 * [Commonly used commands for development](/docs/useful-commands.md)
@@ -17,15 +21,11 @@ Website: http://osmaxx.hsr.ch/
 
 We do not recommend to run the application local on your machine but it's possible. We recommend to use the development docker containers.
 
-**NOTE**: to run it locally (no docker), you might want to copy the .env-dist
-to .env and adapt the lines there.
-
-
-## Run it locally on Linux
+## Run it locally on Linux (Development)
 
 ### Prerequisites
 
-To run this project locally, you need docker and docker-compose installed
+To run this project locally, you need **docker 1.9** and **docker-compose 1.5** installed
 (https://docs.docker.com/installation/ubuntulinux/ and https://docs.docker.com/compose/install/).
 
 
@@ -34,15 +34,12 @@ To run this project locally, you need docker and docker-compose installed
 ```shell
 # For development:
 ln -s compose-development.yml docker-compose.yml
-
-# For production:
-ln -s compose-production.yml docker-compose.yml
 ```
 
 ### Docker container bootstrapping
 
-Take a look at the scripts ```setup.development.sh``` and ```setup.production.sh``. 
-These scripts will setup the container forest, run migrations and create a superuser (interactive).
+Take a look at the script ```setup.development.sh```.
+These script will setup the container forest, run migrations and create a superuser (interactive).
 
 To setup all the containers and their dependencies by hand, run
 
@@ -53,31 +50,18 @@ docker-compose build
 Then initiate the project defaults by running the following command:
 
 ```shell
-# For development:
-docker-compose up -d databasedev;
-docker-compose run webappdev /bin/bash -c './manage.py migrate && ./manage.py createsuperuser'
-
-# For production:
-docker-compose up -d database;
-docker-compose run webapp /bin/bash -c './manage.py migrate && ./manage.py createsuperuser'
+docker-compose run webapp /bin/bash -c './manage.py createsuperuser'
 ```
 
 Alternative to this command, bootstrap the container and execute the commands inside the container by hand:
 
 ```shell
-# For development:
-docker-compose up -d databasedev
-docker-compose run webappdev /bin/bash
-
-# For production:
-docker-compose up -d database
 docker-compose run webapp /bin/bash
 ```
 
 Inside the container:
 
-1. Execute migrations: `$ ./manage.py migrate`
-2. (optional, recommended) setup a superuser: `$ ./manage.py createsuperuser`
+1. (optional, recommended) setup a superuser: `$ ./manage.py createsuperuser`
 
 
 ### Running the project
@@ -87,6 +71,12 @@ Start the containers using docker compose:
 ```shell
 docker-compose up
 ```
+
+Unsure which version is running?
+
+Go to `<your_ip>:8000/version/`.
+
+where `<your_ip>` is your public IP.
 
 ### Testing
 
@@ -99,11 +89,6 @@ See Wiki: https://github.com/geometalab/osmaxx/wiki
 
 
 ### Problems & Solutions
-
-#### Leaflet is missing
-
-You forgot to **pull the submodules**
-
 
 #### ProgrammingError at /login/
 

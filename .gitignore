@@ -69,7 +69,9 @@ source/test_db.sqlite3
 
 # ln -s docker-compose.yml compose-development.yml
 docker-compose.yml
-osmaxx-py/src/
+web_frontend/src/
 # ignore environment file for local production environment
 .env
+# ignore commonly used location of python virtualenv
+.venv/
 *.log
