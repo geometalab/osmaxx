@@ -1,12 +1,12 @@
 'use strict';
 
 (function(){
-    var ExcerptViewer = function(selectElementExistingExcerpts, excerptApiUrl) {
+    var ExcerptViewer = function(mapElementID, selectElementExistingExcerpts, excerptApiUrl) {
         this.excerptApiUrl = excerptApiUrl;
         this.selectElementExistingExcerpts = selectElementExistingExcerpts;
         this.currentCountryLayer = null;
 
-        this.map = L.map('map').setView([0, 0], 2);
+        this.map = L.map(mapElementID).setView([0, 0], 2);
         // add an OpenStreetMap tile layer
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -82,6 +82,7 @@
 
     window.addEventListener('load', function() {
         new ExcerptViewer(
+            'map',
             document.getElementById('id_existing_excerpts'),
             "/api/bounding_geometry_from_excerpt/{ID}/"
         );

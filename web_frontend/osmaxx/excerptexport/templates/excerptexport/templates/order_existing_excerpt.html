@@ -14,9 +14,7 @@
             </p>
 
             <h2>Export existing excerpt</h2>
-            <form action="{% url 'excerptexport:order_existing_excerpt' %}" method="post" id="existingExcerptForm">
-                {% crispy form %}
-            </form>
+            {% crispy form %}
         </div>
         <div class="grid-column column-stretch-5">
              <div class="outerMapWrapper">
