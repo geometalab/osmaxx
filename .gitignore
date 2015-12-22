@@ -10,7 +10,6 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-.venv/
 build/
 develop-eggs/
 dist/
@@ -73,4 +72,6 @@ docker-compose.yml
 web_frontend/src/
 # ignore environment file for local production environment
 .env
+# ignore commonly used location of python virtualenv
+.venv/
 *.log
