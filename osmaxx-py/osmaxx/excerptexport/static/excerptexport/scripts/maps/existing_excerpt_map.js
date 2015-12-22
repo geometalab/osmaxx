@@ -1,11 +1,21 @@
 'use strict';
 
 (function(){
-    var ExcerptViewer = function(locationFilter, selectElementExistingExcerpts) {
-        this.locationFilter = locationFilter;
+    var ExcerptViewer = function(selectElementExistingExcerpts, excerptApiUrl) {
+        this.excerptApiUrl = excerptApiUrl;
         this.selectElementExistingExcerpts = selectElementExistingExcerpts;
-        this.selectedExcerptGeoJson = null;
-        this.country = null;
+        this.currentCountryLayer = null;
+
+        this.map = L.map('map').setView([0, 0], 2);
+        // add an OpenStreetMap tile layer
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(this.map);
+
+        this.locationFilter = new L.LocationFilter({
+            enable: false,
+            enableButton: false
+        }).addTo(this.map);
 
 
         // update excerpt on map on selection of existing excerpt in list
@@ -24,70 +34,56 @@
             }
         });
 
-        // TODO: Replace this not understandable hack
+        this._handleCountry = function (country){
+            if (this.currentCountryLayer !== null) {
+                this.map.removeLayer(this.currentCountryLayer);
+            }
+
+            this.locationFilter.disable();
+            this.currentCountryLayer = country;
+            this.map.addLayer(country);
+            this.map.fitBounds(country.getBounds());
+        }.bind(this);
+
+        this._handleBBoxBoundingGeometry = function (geometry){
+            if (this.currentCountryLayer !== null) {
+                this.map.removeLayer(this.currentCountryLayer);
+            }
+
+            // If location filter is enabled, it will collide with fitBounds and you will get some strange behaviour
+            this.locationFilter.disable();
+            this.locationFilter.setBounds(geometry.getBounds());
+            this.map.fitBounds(geometry.getBounds());
+            this.locationFilter.enable();
+        }.bind(this);
+
         this._setLocationFilterFromExcerptID = function(ID) {
-            var that = this;
-
-            this._handleCountry = function (country){
-                if (that.country !== null) {
-                    map.removeLayer(that.country);
-                }
-
-                that.locationFilter.disable();
-                that.country = that.selectedExcerptGeoJson;
-                map.addLayer(that.country);
-                map.fitBounds(country.getBounds());
-            };
-
-            this._handleBBoxBoundingGeometry = function (geometry){
-                if (that.country !== null) {
-                    map.removeLayer(that.country);
-                }
-
-                // If location filter is enabled, it will collide with fitBounds and you will get some strange behaviour
-                that.locationFilter.disable();
-                that.locationFilter.setBounds(geometry.getBounds());
-                map.fitBounds(geometry.getBounds());
-                that.locationFilter.enable();
-            };
-
-            this.selectedExcerptGeoJson = L.geoJson.ajax("/api/bounding_geometry_from_excerpt/"+ID+"/").on('data:loaded', function(){
+            L.geoJson.ajax(this.excerptApiUrl.replace('{ID}', ID)).on('data:loaded', function(event) {
                 // We are certain that there is only one layer on this feature, because our API provides it so.
-                var feature_type = this.getLayers()[0].feature.properties.type_of_geometry;
+                var feature_type = event.target.getLayers()[0].feature.properties.type_of_geometry;
                 switch(feature_type) {
                     case 'BBoxBoundingGeometry':
-                        that._handleBBoxBoundingGeometry(this);
+                        this._handleBBoxBoundingGeometry(event.target);
                         break;
                     case 'Country':
-                        that._handleCountry(this);
+                        this._handleCountry(event.target);
                         break;
                     default:
                         break;
                 }
-            });
-            this.selectedExcerptGeoJson.on('data:loading', function(){
-                map.spin(true);
-            });
-
-            this.selectedExcerptGeoJson.on('data:loaded', function(){
-                map.spin(false);
-            });
+            }.bind(this)).on('data:loading', function(){
+                this.map.spin(true);
+            }.bind(this)).on('data:loaded', function(){
+                this.map.spin(false);
+            }.bind(this));
         }.bind(this);
     };
 
-    var map = L.map('map').setView([0, 0], 2);
-    // add an OpenStreetMap tile layer
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
 
-    var locationFilter = new L.LocationFilter({
-        enable: false,
-        enableButton: false
-    }).addTo(map);
-
-    var excerptManager = new ExcerptViewer(
-        locationFilter,
-        document.getElementById('id_existing_excerpts')
-    );
+    window.addEventListener('load', function() {
+        new ExcerptViewer(
+            document.getElementById('id_existing_excerpts'),
+            "/api/bounding_geometry_from_excerpt/{ID}/"
+        );
+    });
 })();
