@@ -1,0 +1,6 @@
+[run]
+omit = tests/*,conversion_service/config/*,conversion_service/manage.py,conversion_service/converters/converter_settings.py,conversion_service/rest_api/urls.py
+
+[report]
+show_missing = True
+skip_covered = True

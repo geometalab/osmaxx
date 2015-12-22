@@ -1,18 +1,70 @@
-bootstrap:
-  build: bootstrap/
-  links:
-    - database
-  environment:
-    - PGHOST=database
+data:
+  image: debian:jessie
+  command: echo true
   volumes:
-    - ./tmp/osmosis/:/tmp/osmosis/
-extract:
-  build: extract/
-  links:
-    - database
+    - /data/results
+    - /tmp/osm-planet:/var/data/osm-planet
+
+osmdata:
+  image: geometalab/osm-planet
   environment:
-    - PGHOST=database
+    - osm_planet_mirror=http://download.geofabrik.de/europe/
+    - osm_planet_path_relative_to_mirror=switzerland-latest.osm.pbf
+  volumes_from:
+    - data
+
+rqdashboard:
+  build: rq-dashboard
+  links:
+    - redis
+  ports:
+    - "9090:9181"
+  command: rq-dashboard -H redis
+
+redis:
+  image: redis
+
+postgres:
+  image: geometalab/postgis:9.4
+
+api:
+  extends:
+    file: common-services.yml
+    service: environmentvars
+  build: .
+  dockerfile: ./Dockerfile.rest_api
+  command: [honcho, -f, ./conversion_service/Procfile.dev, start]
+  ports:
+    - "8901:8901"
+  expose:
+    - "8901"
   volumes:
-    - ./results:/home/excerpt/data/
-database:
-  image: geometalab/postgis-with-translit
+    - ./conversion_service:/home/py/conversion_service
+  volumes_from:
+    - data
+  links:
+    - redis
+    - postgres:database
+  environment:
+    - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
+    - SERVICE_USER_NAME=dev
+    - SERVICE_USER_PASSWORD=dev
+
+worker:
+  extends:
+    file: common-services.yml
+    service: environmentvars
+  build: .
+  dockerfile: ./Dockerfile.worker
+  command: [honcho, -f, ./conversion_service/worker/Procfile, start]
+  volumes:
+    - ./conversion_service:/home/py/conversion_service
+  volumes_from:
+    - data
+  links:
+    - redis
+  environment:
+    - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.worker
+    - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
+    # only switzerland, as stated in `osmdata`
+    - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf
