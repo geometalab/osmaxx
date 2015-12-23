@@ -33,7 +33,6 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
             var feature_type = event.target.getLayers()[0].feature.properties.type_of_geometry;
             var layer = event.target;
             this._handleCountryOrBBox(layer);
-            console.log(layer);
             switch(feature_type) {
                 case 'BBoxBoundingGeometry':
                     layer.setStyle({
