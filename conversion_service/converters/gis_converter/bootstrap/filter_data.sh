@@ -10,7 +10,7 @@ if [ "$1" != "" ]; then
   STARTTIME=$(date +%s)
   $PSQL -f $DIR/src/drop_all.sql $DATABASE
   ENDTIME=$(date +%s)
-  echo "It takes $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
+  echo "It took $(($ENDTIME - $STARTTIME)) seconds to complete this task..."
 
   $PSQL -c "CREATE SCHEMA osmaxx;" $DATABASE
 
