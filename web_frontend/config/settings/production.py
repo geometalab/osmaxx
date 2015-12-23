@@ -55,7 +55,6 @@ if SENTRY_DSN:
             'sentry': {
                 'level': 'WARNING',
                 'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-                'tags': {'custom-tag': 'x'},
             },
             'console': {
                 'level': 'DEBUG',
