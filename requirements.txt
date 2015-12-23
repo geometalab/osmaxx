@@ -7,12 +7,12 @@ django-enumfield==1.2.1
 requests==2.8.1
 markdown
 django-filter
-django-rq==0.8.0
+django-rq==0.9.0
 django-environ==0.4.0
 django-extensions==1.5.9
 Werkzeug==0.10.4
 django-debug-toolbar==1.4
-whitenoise
+whitenoise>=2.0,<3.0
 psycopg2==2.6.1
 
 # Test requirements
