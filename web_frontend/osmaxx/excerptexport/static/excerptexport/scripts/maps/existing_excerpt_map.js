@@ -1,9 +1,8 @@
 'use strict';
 
 (function(){
-    var ExcerptViewer = function(mapElementID, selectElementExistingExcerpts, excerptApiUrl) {
+    var ExcerptViewer = function(mapElementID, excerptApiUrl) {
         this.excerptApiUrl = excerptApiUrl;
-        this.selectElementExistingExcerpts = selectElementExistingExcerpts;
         this.currentLayer = null;
 
         this.map = L.map(mapElementID).setView([0, 0], 2);
@@ -11,22 +10,6 @@
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
-
-        // update excerpt on map on selection of existing excerpt in list
-        var getExcerptOptionAndUpdateFilter = function() {
-            // we have single select, if it would happen to have two selected, ignore it.
-            var excerptOption = this.selectElementExistingExcerpts.querySelector('option:checked');
-            if(excerptOption) {
-                this._showExcerptOrCountryOnMap(excerptOption.value);
-            }
-        }.bind(this);
-        this.selectElementExistingExcerpts.addEventListener('click', getExcerptOptionAndUpdateFilter);
-        this.selectElementExistingExcerpts.addEventListener('keyup', function(event) {
-            // enter, arrow up or down
-            if (event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40) {
-                getExcerptOptionAndUpdateFilter();
-            }
-        });
 
         this._handleCountryOrBBox = function (layer){
             if (this.currentLayer !== null) {
@@ -47,7 +30,7 @@
             return bounds;
         };
 
-        this._showExcerptOrCountryOnMap = function(ID) {
+        this.showExcerptOrCountryOnMap = function(ID) {
             L.geoJson.ajax(this.excerptApiUrl.replace('{ID}', ID)).on('data:loaded', function(event) {
                 // We are certain that there is only one layer on this feature, because our API provides it so.
                 var feature_type = event.target.getLayers()[0].feature.properties.type_of_geometry;
@@ -82,10 +65,25 @@
 
 
     window.addEventListener('load', function() {
-        new ExcerptViewer(
+        var existingExcerptSelectBox = document.getElementById('id_existing_excerpts');
+        var excerptViewer = new ExcerptViewer(
             'map',
-            document.getElementById('id_existing_excerpts'),
             "/api/bounding_geometry_from_excerpt/{ID}/"
         );
+
+        var onExistingExcerptSelectBoxChange = function() {
+            var excerptOption = existingExcerptSelectBox.querySelector('option:checked');
+            if(excerptOption) {
+                excerptViewer.showExcerptOrCountryOnMap(excerptOption.value);
+            }
+        };
+
+        existingExcerptSelectBox.addEventListener('click', onExistingExcerptSelectBoxChange);
+        existingExcerptSelectBox.addEventListener('keyup', function(event) {
+            // enter, arrow up or down
+            if (event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40) {
+                onExistingExcerptSelectBoxChange();
+            }
+        });
     });
 })();
