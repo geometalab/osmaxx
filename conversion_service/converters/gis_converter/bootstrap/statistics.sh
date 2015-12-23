@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 FILE='./tmp/STATISTICS.csv'
 TEMPFILE='./TEMP.txt'
 DB_NAME=$1
