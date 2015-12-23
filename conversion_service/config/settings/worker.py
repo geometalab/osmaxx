@@ -35,7 +35,7 @@ if SENTRY_DSN:
         },
         'handlers': {
             'sentry': {
-                'level': 'ERROR',
+                'level': 'WARNING',
                 'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler'
             },
             'console': {
@@ -47,8 +47,12 @@ if SENTRY_DSN:
         'loggers': {
             'django.db.backends': {
                 'level': 'ERROR',
-                'handlers': ['console'],
+                'handlers': ['console', 'sentry'],
                 'propagate': False,
+            },
+            "rq.worker": {
+                "level": "WARNING",
+                "handlers": ["sentry"],
             },
             'raven': {
                 'level': 'DEBUG',
