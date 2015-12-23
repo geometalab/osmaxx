@@ -68,6 +68,6 @@ if SENTRY_DSN:
     }
 
     RAVEN_CONFIG = {
-        'dsn': SENTRY_DSN,
+        'dsn': "sync+" + SENTRY_DSN,
         'release': env.str('SENTRY_RELEASE', default=''),
     }
