@@ -193,7 +193,7 @@ class ConversionApiClient(RESTApiJWTClient):
             elif self._extraction_processing_overdue(progress, extraction_order):
                 logger.warning(
                     'Extraction order %s processing timeout overdue. Set status to FAILED.',
-                    extraction_order.id
+                    extraction_order.id,
                 )
                 extraction_order.state = ExtractionOrderState.FAILED
                 extraction_order.save()
