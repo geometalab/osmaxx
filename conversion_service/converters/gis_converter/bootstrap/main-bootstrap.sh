@@ -81,6 +81,12 @@ create_statistics(){
 
 
 STARTTIME=$(date +%s)
-setup_db && init_osmosis  && fill_initial_osm_data && createfunctions && cleandata && filterdata && create_statistics
+setup_db
+init_osmosis
+fill_initial_osm_data
+createfunctions
+cleandata
+filterdata
+create_statistics
 ENDTIME=$(date +%s)
 echo "It took $(($ENDTIME - $STARTTIME)) seconds to complete."
