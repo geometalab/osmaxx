@@ -3,7 +3,6 @@ import logging
 from collections import OrderedDict
 
 from django.conf import settings
-from django.core import serializers
 from django.core.files.base import ContentFile
 from django.db import transaction
 from django.utils import timezone
@@ -193,10 +192,8 @@ class ConversionApiClient(RESTApiJWTClient):
                 self._download_result_files(extraction_order, job_status)
             elif self._extraction_processing_overdue(progress, extraction_order):
                 logger.warning(
-                    'Extraction order %s processing timeout overdue. Set status to FAILED. %s, %s',
-                    extraction_order.id,
-                    serializers.serialize('json', extraction_order),
-                    extraction_order.process_due_time
+                    'Extraction order %s processing timeout overdue. Set status to FAILED.',
+                    extraction_order.id
                 )
                 extraction_order.state = ExtractionOrderState.FAILED
                 extraction_order.save()
