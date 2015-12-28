@@ -52,7 +52,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
 
         self.helper.layout = Layout(
             Fieldset(
-                _('Existing excerpts'),
+                _('Excerpt'),
                 HTML('''
                     <div class="form-group has-feedback">
                         <input id="excerptListFilterField" class="form-control" type="search" placeholder="Filter excerpts …" autocomplete="off"/>
@@ -69,7 +69,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
     @classmethod
     def get_dynamic_form_class(cls, user):
         cls.declared_fields['existing_excerpts'] = forms.ChoiceField(
-            label=_('Excerpts'),
+            label=_('Existing excerpts'),
             required=True,
             choices=get_existing_excerpt_choices(user),
             widget=forms.Select(
