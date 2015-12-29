@@ -31,6 +31,8 @@ DROP VIEW if exists view_osmaxx.water_p;
 DROP VIEW if exists view_osmaxx.water_a;
 DROP VIEW if exists view_osmaxx.water_l;
 
+DROP SCHEMA IF EXISTS view_osmaxx;
+
 -- DROP SCHEMA IF EXISTS osmaxx;
 
 DROP TABLE if exists osmaxx.address_p;
@@ -61,3 +63,9 @@ DROP TABLE if exists osmaxx.utility_l;
 DROP TABLE if exists osmaxx.water_p;
 DROP TABLE if exists osmaxx.water_a;
 DROP TABLE if exists osmaxx.water_l;
+
+DROP SCHEMA IF EXISTS osmaxx;
+
+-- CREATE SCHEMA
+CREATE SCHEMA osmaxx;
+CREATE SCHEMA view_osmaxx;
