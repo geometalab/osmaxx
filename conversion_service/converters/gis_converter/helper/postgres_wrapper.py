@@ -15,13 +15,14 @@ class Postgres:
         if host:
             self._connection_parameters['host'] = host
 
-    def execute_raw(self, sql, connection=None, autocommit=False):
+    def execute_raw(self, sql, connection=None, autocommit=False, fetch_result=True):
         if connection is None:
             connection = self._get_connection()
         if autocommit:
             connection.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
         cursor = connection.cursor()
-        return cursor.execute(sql)
+        cursor.execute(sql)
+        return cursor
 
     def execute_psql(self, sql=None, sql_file_path=None, extra_args=None):
         assert sql or sql_file_path is not None
