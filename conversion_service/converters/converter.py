@@ -52,8 +52,7 @@ class Conversion(object):
     def _export_from_db_to_format(self, file_basename, file_format):
         extract_base_dir = os.path.join(os.path.dirname(__file__), 'gis_converter', 'extract')
 
-        tmp_dir = tempfile.mkdtemp()
-        try:
+        with tempfile.TemporaryDirectory() as tmp_dir:
             data_work_dir = os.path.join(tmp_dir, 'data')
             os.mkdir(data_work_dir)
             extract_to(to_format=file_format, output_dir=data_work_dir, base_filename=file_basename)
@@ -61,8 +60,6 @@ class Conversion(object):
             zip_result_path = os.path.join(self.output_dir, file_basename + '.zip')
             extra_data_dir = os.path.join(extract_base_dir, 'static')
             zip_folders_relative([tmp_dir, extra_data_dir], zip_out_file_path=zip_result_path)
-        finally:
-            shutil.rmtree(tmp_dir)
 
     # Extract Statistics
     def _create_statistics(self):
