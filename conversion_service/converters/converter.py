@@ -1,15 +1,14 @@
-import tempfile
-
 import os
 import shutil
+import tempfile
 import time
 
 from converters import garmin_converter
 from converters import gis_converter
 from converters.gis_converter.bootstrap import bootstrap
 from converters.gis_converter.extract.db_to_format.extract import extract_to
-from converters.gis_converter.extract.db_to_format.zip import zip_folders_relative
 from converters.gis_converter.extract.statistics.statistics import gather_statistics
+from converters.gis_converter.helper.zip import zip_folders_relative
 from utils import changed_dir
 
 

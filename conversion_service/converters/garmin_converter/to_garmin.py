@@ -1,5 +1,7 @@
 import os
 import subprocess
+
+import shutil
 import tempfile
 
 import time
@@ -27,7 +29,7 @@ class Garmin:
             tmp_out_dir = os.path.join(tmp_dir, 'garmin')
             config_file_path = self._split(tmp_dir)
             self._produce_garmin(config_file_path, tmp_dir, tmp_out_dir)
-            resulting_zip_file_path = self._zip_and_move(tmp_out_dir)
+            resulting_zip_file_path = self._zip_and_remove(tmp_out_dir)
 
         return resulting_zip_file_path
 
@@ -57,9 +59,10 @@ class Garmin:
             config
         )
 
-    def _zip_and_move(self, workdir):
+    def _zip_and_remove(self, workdir):
         resulting_zip_file_path = os.path.join(
             self.output_directory, '.'.join([self.timestamped_outfile_base_name, 'zip'])
         )
-        subprocess.check_call(["zip", "-r", "--move", resulting_zip_file_path, workdir])
+        ([workdir], resulting_zip_file_path)
+        shutil.rmtree(workdir)
         return resulting_zip_file_path
