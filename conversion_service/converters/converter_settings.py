@@ -16,5 +16,5 @@ if hasattr(settings, 'OSMAXX_CONVERSION_SERVICE'):
 OSMAXX_CONVERSION_SERVICE.update({
     'GIS_CONVERSION_DB_NAME': 'osmaxx_db',
     'GIS_CONVERSION_DB_USER': 'postgres',
-    'GIS_CONVERSION_DB_PASSWORD': None,
+    'GIS_CONVERSION_DB_PASSWORD': 'postgres',
 })

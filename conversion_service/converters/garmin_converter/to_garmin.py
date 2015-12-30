@@ -6,6 +6,8 @@ import tempfile
 
 import time
 
+from converters.gis_converter.helper.zip import zip_folders_relative
+
 _path_to_commandline_utils = os.path.join(os.path.dirname(__file__), 'command_line_utils')
 
 
@@ -63,6 +65,6 @@ class Garmin:
         resulting_zip_file_path = os.path.join(
             self.output_directory, '.'.join([self.timestamped_outfile_base_name, 'zip'])
         )
-        ([workdir], resulting_zip_file_path)
+        zip_folders_relative([workdir], resulting_zip_file_path)
         shutil.rmtree(workdir)
         return resulting_zip_file_path
