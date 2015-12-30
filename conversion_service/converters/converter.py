@@ -1,11 +1,14 @@
+import tempfile
+
 import os
 import shutil
-import subprocess
 import time
 
 from converters import garmin_converter
 from converters import gis_converter
 from converters.gis_converter.bootstrap import bootstrap
+from converters.gis_converter.extract.db_to_format.extract import extract_to
+from converters.gis_converter.extract.db_to_format.zip import zip_folders_relative
 from converters.gis_converter.extract.statistics.statistics import gather_statistics
 from utils import changed_dir
 
@@ -49,12 +52,18 @@ class Conversion(object):
     # Export files of the specified format (file_format) from existing database
     def _export_from_db_to_format(self, file_basename, file_format):
         extract_base_dir = os.path.join(os.path.dirname(__file__), 'gis_converter', 'extract')
-        extract_format_file_path = os.path.join(extract_base_dir, 'extract', 'extract_format.sh')
-        extra_data_dir = os.path.join(extract_base_dir, 'static')
 
-        db_command = 'sh', extract_format_file_path, self.output_dir, file_basename, file_format, extra_data_dir
-        db_command = [str(arg) for arg in db_command]
-        subprocess.check_call(db_command)
+        tmp_dir = tempfile.mkdtemp()
+        try:
+            data_work_dir = os.path.join(tmp_dir, 'data')
+            os.mkdir(data_work_dir)
+            extract_to(to_format=file_format, output_dir=data_work_dir, base_filename=file_basename)
+
+            zip_result_path = os.path.join(self.output_dir, file_basename + '.zip')
+            extra_data_dir = os.path.join(extract_base_dir, 'static')
+            zip_folders_relative([tmp_dir, extra_data_dir], zip_out_file_path=zip_result_path)
+        finally:
+            shutil.rmtree(tmp_dir)
 
     # Extract Statistics
     def _create_statistics(self):
