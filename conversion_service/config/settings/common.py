@@ -251,21 +251,7 @@ RQ_QUEUES = {
         'PORT': env.str('REDIS_PORT_6379_TCP_PORT', default=6379),
         'DB': 0,
         'PASSWORD': '',
-        'DEFAULT_TIMEOUT': 3600,
-    },
-    'high': {
-        'HOST': env.str('REDIS_PORT_6379_TCP_ADDR', default='localhost'),
-        'PORT': env.str('REDIS_PORT_6379_TCP_PORT', default=6379),
-        'DB': 0,
-        'PASSWORD': '',
-        'DEFAULT_TIMEOUT': 3600,
-    },
-    'low': {
-        'HOST': env.str('REDIS_PORT_6379_TCP_ADDR', default='localhost'),
-        'PORT': env.str('REDIS_PORT_6379_TCP_PORT', default=6379),
-        'DB': 0,
-        'PASSWORD': '',
-        'DEFAULT_TIMEOUT': 3600,
+        'DEFAULT_TIMEOUT': int(timedelta(days=1).total_seconds()),
     },
 }
 
