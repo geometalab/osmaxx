@@ -61,9 +61,9 @@ class Garmin:
             config
         )
 
-    def _create_zip(self, workdir):
+    def _create_zip(self, data_dir):
         resulting_zip_file_path = os.path.join(
             self.output_directory, '.'.join([self.timestamped_outfile_base_name, 'zip'])
         )
-        zip_folders_relative([workdir], resulting_zip_file_path)
+        zip_folders_relative([data_dir], resulting_zip_file_path)
         return resulting_zip_file_path
