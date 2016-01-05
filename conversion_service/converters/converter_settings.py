@@ -12,7 +12,7 @@ OSMAXX_CONVERSION_SERVICE = {
 if hasattr(settings, 'OSMAXX_CONVERSION_SERVICE'):
     OSMAXX_CONVERSION_SERVICE.update(settings.OSMAXX_CONVERSION_SERVICE)
 
-# internal values, can't be overridden but are kept centralized
+# internal values, can't be overridden using the Djangos settings mechanism
 OSMAXX_CONVERSION_SERVICE.update({
     'GIS_CONVERSION_DB_NAME': 'osmaxx_db',
     'GIS_CONVERSION_DB_USER': 'postgres',
