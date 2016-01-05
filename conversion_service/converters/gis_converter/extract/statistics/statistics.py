@@ -1,12 +1,15 @@
+import csv
+
 from converters.gis_converter.extract.statistics.osm_groups import *  # noqa: ignore * import
 from converters.gis_converter.helper.default_postgres import get_default_postgres_wrapper
 
 
 def gather_statistics(outfile):
     with open(outfile, 'w') as out_file:
+        csv_writer = csv.writer(out_file, delimiter=';')
         all_stats = Statistics().gather_all()
         for stat in all_stats:
-            print(';'.join(stat), file=out_file)
+            csv_writer.writerow(stat)
 
 
 class Statistics:
