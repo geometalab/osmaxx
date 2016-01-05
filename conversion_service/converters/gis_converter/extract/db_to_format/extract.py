@@ -42,7 +42,7 @@ def extract_to(to_format, output_dir, base_filename):
     output_path = os.path.join(output_dir, base_filename + extension)
 
     ogr2ogr_command = [
-        'ogr2ogr', '-f', '{0}'.format(ogr_name), output_path,
+        'ogr2ogr', '-f', str(ogr_name), output_path,
         'PG:dbname={dbname} user={user} password={password} schemas=view_osmaxx'.format(
             dbname=db_name,
             user=db_user,
