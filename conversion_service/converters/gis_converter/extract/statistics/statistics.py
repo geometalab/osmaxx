@@ -3,11 +3,10 @@ from converters.gis_converter.helper.default_postgres import get_default_postgre
 
 
 def gather_statistics(outfile):
-    out_file = open(outfile, 'w')
-    all_stats = Statistics().gather_all()
-    for stat in all_stats:
-        print(';'.join(stat), file=out_file)
-    out_file.close()
+    with open(outfile, 'w') as out_file:
+        all_stats = Statistics().gather_all()
+        for stat in all_stats:
+            print(';'.join(stat), file=out_file)
 
 
 class Statistics:
