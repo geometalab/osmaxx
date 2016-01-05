@@ -64,12 +64,14 @@ class BootStrapper:
 
     def _setup_db_functions(self):
         create_function_sql_path = os.path.join(self._script_base_dir, 'sql', 'create_functions.sql')
-        sql = open(create_function_sql_path, "r").read()
+        with open(create_function_sql_path, "r") as sql_file:
+            sql = sql_file.read()
         self._postgres.execute_psql(sql)
 
     def _harmonize_database(self):
         cleanup_sql_path = os.path.join(self._script_base_dir, 'sql', 'sweeping_data.sql')
-        sql = open(cleanup_sql_path, "r").read()
+        with open(cleanup_sql_path, "r") as sql_file:
+            sql = sql_file.read()
         self._postgres.execute_psql(sql)
 
     def _filter_data(self):
