@@ -24,17 +24,17 @@ class Postgres:
         cursor.execute(sql)
         return cursor
 
-    def execute_psql(self, sql=None, sql_file_path=None, extra_args=None):
-        assert sql or sql_file_path is not None
-        call = ['psql', '-U', self.get_user(), 'ON_ERROR_STOP=1']
-        if sql:
-            call += ['-c', sql]
-        else:
-            call += ['-f', sql_file_path]
+    def execute_psql_script(self, psql_script_file_path, extra_args=None):
+        call_args = ['-f', psql_script_file_path]
         if extra_args:
-            call += extra_args
-        call += ['-d', self.get_db_name()]
-        subprocess.check_call(call)
+            call_args += extra_args
+        subprocess.check_call(self._assemble_psql_call(call_args))
+
+    def execute_psql_command(self, ql_string_or_single_psql_backslash_command, extra_args=None):
+        call_args = ['-c', ql_string_or_single_psql_backslash_command]
+        if extra_args:
+            call_args += extra_args
+        subprocess.check_call(self._assemble_psql_call(call_args))
 
     def create_db(self):
         create_db = "CREATE DATABASE {db_name} OWNER {user} ENCODING 'utf-8';".format(
@@ -80,3 +80,9 @@ class Postgres:
         connection_params = self._connection_parameters.copy()
         connection_params.pop('dbname')
         return connection_params
+
+    def _assemble_psql_call(self, call_args):
+        call_base = ['psql', '-U', self.get_user(), 'ON_ERROR_STOP=1']
+        call = call_base + call_args
+        call += ['-d', self.get_db_name()]
+        return call
