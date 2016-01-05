@@ -57,7 +57,8 @@ class BootStrapper:
         ]
 
         if self._limit_ram_usage:
-            osm_2_pgsql_command.insert(2, '--slim')
+            insert_pos = osm_2_pgsql_command.index('--extra-attributes')
+            osm_2_pgsql_command.insert(insert_pos, '--slim')
 
         subprocess.check_call(osm_2_pgsql_command)
 
