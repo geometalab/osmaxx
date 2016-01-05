@@ -244,7 +244,8 @@ class Statistics:
             )
         query_results = sorted(query_results, key=lambda t: t[1], reverse=True)
         if label:
-            [item.insert(0, label) for item in query_results]  # in place label addition
+            for item in query_results:
+                item.insert(0, label)
         self._stats.extend(query_results)
         self._stats.append([''])  # insert an empty row
 
