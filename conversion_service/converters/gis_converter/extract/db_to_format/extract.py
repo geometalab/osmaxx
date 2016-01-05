@@ -30,9 +30,9 @@ FORMATS = {
 
 def extract_to(to_format, output_dir, base_filename):
     conversion_service_settings = OSMAXX_CONVERSION_SERVICE
+    db_name = conversion_service_settings['GIS_CONVERSION_DB_NAME']
     db_user = conversion_service_settings['GIS_CONVERSION_DB_USER']
     db_pass = conversion_service_settings['GIS_CONVERSION_DB_PASSWORD']
-    db_name = conversion_service_settings['GIS_CONVERSION_DB_NAME']
 
     to_format_options = FORMATS[to_format]
     extraction_options = to_format_options['extraction_options']
