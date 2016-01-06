@@ -8,8 +8,7 @@ def gather_statistics(outfile):
     with open(outfile, 'w') as out_file:
         csv_writer = csv.writer(out_file, delimiter=';')
         all_stats = Statistics().gather_all()
-        for stat in all_stats:
-            csv_writer.writerow(stat)
+        csv_writer.writerows(all_stats)
 
 
 class Statistics:
