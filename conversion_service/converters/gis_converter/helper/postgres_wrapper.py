@@ -73,7 +73,6 @@ class Postgres:
     def _get_connection(self, connection_parameters=None):
         if connection_parameters is None:
             connection_parameters = self._connection_parameters
-            psycopg2.connect(**connection_parameters)
         return psycopg2.connect(**connection_parameters)
 
     def _db_less_connection_params(self):
