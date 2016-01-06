@@ -30,8 +30,8 @@ class Postgres:
             call_args += extra_args
         subprocess.check_call(self._assemble_psql_call(call_args))
 
-    def execute_psql_command(self, ql_string_or_single_psql_backslash_command, extra_args=None):
-        call_args = ['-c', ql_string_or_single_psql_backslash_command]
+    def execute_psql_command(self, sql_string_or_single_psql_backslash_command, extra_args=None):
+        call_args = ['-c', sql_string_or_single_psql_backslash_command]
         if extra_args:
             call_args += extra_args
         subprocess.check_call(self._assemble_psql_call(call_args))
