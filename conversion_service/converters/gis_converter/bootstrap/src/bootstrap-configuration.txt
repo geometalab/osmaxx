@@ -1,7 +1,0 @@
-# The URL of the directory containing change files.
-baseUrl=http://planet.osm.ch/replication/hour
-
-# Defines the maximum time interval in seconds to download in a single invocation.
-# Setting to 0 disables this feature.
-maxInterval = 3600
-

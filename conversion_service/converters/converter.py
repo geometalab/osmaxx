@@ -1,11 +1,14 @@
 import os
 import shutil
-import subprocess
+import tempfile
 import time
 
 from converters import garmin_converter
 from converters import gis_converter
 from converters.gis_converter.bootstrap import bootstrap
+from converters.gis_converter.extract.db_to_format.extract import extract_to
+from converters.gis_converter.extract.statistics.statistics import gather_statistics
+from converters.gis_converter.helper.zip import zip_folders_relative
 from utils import changed_dir
 
 
@@ -30,7 +33,7 @@ class Conversion(object):
             bootstrap.boostrap(self.pbf_path)
             with changed_dir(os.path.dirname(__file__)):
                 # only create statistics once and remove it when done with all formats
-                self._create_statistics(self.tmp_statistics_filename)
+                self._create_statistics()
                 for format in formats:
                     file_basename = '_'.join([self.filename_prefix, format])
                     self._copy_statistics_file_to_format_dir(file_basename)
@@ -48,21 +51,20 @@ class Conversion(object):
     # Export files of the specified format (file_format) from existing database
     def _export_from_db_to_format(self, file_basename, file_format):
         extract_base_dir = os.path.join(os.path.dirname(__file__), 'gis_converter', 'extract')
-        extract_format_file_path = os.path.join(extract_base_dir, 'extract', 'extract_format.sh')
-        extra_data_dir = os.path.join(extract_base_dir, 'static')
 
-        db_command = 'sh', extract_format_file_path, self.output_dir, file_basename, file_format, extra_data_dir
-        db_command = [str(arg) for arg in db_command]
-        subprocess.check_call(db_command)
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            data_work_dir = os.path.join(tmp_dir, 'data')
+            os.mkdir(data_work_dir)
+            extract_to(to_format=file_format, output_dir=data_work_dir, base_filename=file_basename)
+
+            zip_result_path = os.path.join(self.output_dir, file_basename + '.zip')
+            extra_data_dir = os.path.join(extract_base_dir, 'static')
+            zip_folders_relative([tmp_dir, extra_data_dir], zip_out_file_path=zip_result_path)
 
     # Extract Statistics
-    def _create_statistics(self, filename):
-        extract_statistics_file_path = os.path.join(
-            os.path.dirname(__file__), 'gis_converter', 'extract', 'extract', 'extract_statistics.sh'
-        )
-        statistic_command = 'bash', extract_statistics_file_path, self.output_dir, filename
-        statistic_command = [str(arg) for arg in statistic_command]
-        subprocess.check_call(statistic_command)
+    def _create_statistics(self):
+        os.makedirs(os.path.join(self.output_dir, 'tmp'), exist_ok=True)
+        gather_statistics(self._get_statistics_file_path())
 
     def _copy_statistics_file_to_format_dir(self, file_basename):  # pragma: nocover
         shutil.copyfile(

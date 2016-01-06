@@ -1,7 +1,5 @@
-CREATE SCHEMA view_osmaxx;
-
-CREATE OR REPLACE VIEW view_osmaxx.address_p AS SELECT 
-	osm_id, 
+CREATE OR REPLACE VIEW view_osmaxx.address_p AS SELECT
+	osm_id,
 	lastchange, 
 	geomtype,
 	geom, 

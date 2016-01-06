@@ -130,6 +130,7 @@ select
   addr_interpolate(line_id, addr_street, interpolation_type, first_housenr, last_housenr, line_geom)
 from addr_interpolated
 limit 1 \g ./tmp/FORCE_CONTINUE.txt;
+-- last line: limit 1 \g ./tmp/FORCE_CONTINUE.txt; -> what does that do?
 
 INSERT INTO osmaxx.address_p
  SELECT

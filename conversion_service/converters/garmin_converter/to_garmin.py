@@ -1,8 +1,11 @@
 import os
 import subprocess
+
 import tempfile
 
 import time
+
+from converters.gis_converter.helper.zip import zip_folders_relative
 
 _path_to_commandline_utils = os.path.join(os.path.dirname(__file__), 'command_line_utils')
 
@@ -27,7 +30,7 @@ class Garmin:
             tmp_out_dir = os.path.join(tmp_dir, 'garmin')
             config_file_path = self._split(tmp_dir)
             self._produce_garmin(config_file_path, tmp_dir, tmp_out_dir)
-            resulting_zip_file_path = self._zip_and_move(tmp_out_dir)
+            resulting_zip_file_path = self._create_zip(tmp_out_dir)
 
         return resulting_zip_file_path
 
@@ -44,6 +47,7 @@ class Garmin:
         return config_file_path
 
     def _produce_garmin(self, config_file_path, workdir, out_dir):
+        out_dir = os.path.join(out_dir, 'garmin')  # hack to get a subdirectory in the zipfile.
         os.makedirs(out_dir, exist_ok=True)
 
         _mkgmap_path = os.path.abspath(os.path.join(_path_to_commandline_utils, 'mkgmap', 'mkgmap.jar'))
@@ -57,9 +61,9 @@ class Garmin:
             config
         )
 
-    def _zip_and_move(self, workdir):
+    def _create_zip(self, data_dir):
         resulting_zip_file_path = os.path.join(
             self.output_directory, '.'.join([self.timestamped_outfile_base_name, 'zip'])
         )
-        subprocess.check_call(["zip", "-r", "--move", resulting_zip_file_path, workdir])
+        zip_folders_relative([data_dir], resulting_zip_file_path)
         return resulting_zip_file_path
