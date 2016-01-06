@@ -395,15 +395,6 @@ msgstr ""
 msgid "Sending of access request failed. Please contact an administrator."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:177
-#, python-brace-format
-msgid ""
-"Hi Admin!\n"
-"            {first_name} {last_name} ({email}) requests access for Osmaxx. "
-"Please activate the user {username}.\n"
-"            "
-msgstr ""
-
 #: osmaxx/excerptexport/views.py:192
 msgid ""
 "Your access request has been sent successfully. You will receive an email "

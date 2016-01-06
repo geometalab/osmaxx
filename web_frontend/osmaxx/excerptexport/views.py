@@ -173,7 +173,7 @@ def request_access(request):
             _('Sending of access request failed. Please contact an administrator.')
         )
     else:
-        email_message = _(
+        email_message = (  # Intentionally untranslated, as this goes to the administrator(s), not the user.
             '''Hi Admin!
             {first_name} {last_name} ({email}) requests access for Osmaxx. Please activate the user {username}.
             '''
