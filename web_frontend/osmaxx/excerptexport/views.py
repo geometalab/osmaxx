@@ -206,9 +206,9 @@ def request_access(request):
 
 def _social_identification_description(user):
     social_identities = list(user.social_auth.all())
-    social_identification_description = (
-        "identified " + " and ".join(
+    if social_identities:
+        return "identified " + " and ".join(
             "as '{}' by {}".format(soc_id.uid, soc_id.provider) for soc_id in social_identities
         )
-    ) if social_identities else "not identified by any social identity providers"
-    return social_identification_description
+    else:
+        return "not identified by any social identity providers"
