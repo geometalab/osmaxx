@@ -11,6 +11,8 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 from django.conf import settings
+
+from config.settings.common import OSMAXX_FRONTEND_USER_GROUP
 from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState
@@ -177,6 +179,7 @@ def request_access(request):
             '''Hi Admin!
             User '{username}' ({identification_description}) claims to be {first_name} {last_name} ({email})
             and requests access for Osmaxx.
+            If {username} shall be granted access, go to {admin_url} and add {username} to group '{frontend_group}'.
             '''
         ).format(
             username=request.user.username,
@@ -184,6 +187,8 @@ def request_access(request):
             last_name=request.user.last_name,
             email=request.user.email,
             identification_description=_social_identification_description(request.user),
+            admin_url=request.build_absolute_uri(reverse('admin:auth_user_change', args=(request.user.id,))),
+            frontend_group=OSMAXX_FRONTEND_USER_GROUP,
         )
 
         try:
