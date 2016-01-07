@@ -12,7 +12,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 from django.conf import settings
 
-from config.settings.common import OSMAXX_FRONTEND_USER_GROUP
 from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState
@@ -188,7 +187,7 @@ def request_access(request):
             email=request.user.email,
             identification_description=_social_identification_description(request.user),
             admin_url=request.build_absolute_uri(reverse('admin:auth_user_change', args=(request.user.id,))),
-            frontend_group=OSMAXX_FRONTEND_USER_GROUP,
+            frontend_group=settings.OSMAXX_FRONTEND_USER_GROUP,
         )
 
         try:
