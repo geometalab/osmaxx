@@ -173,12 +173,7 @@ def request_access(request):
             _('Sending of access request failed. Please contact an administrator.')
         )
     else:
-        social_identities = list(request.user.social_auth.all())
-        social_identification_description = (
-            "identified " + " and ".join(
-                "as '{}' by {}".format(soc_id.uid, soc_id.provider) for soc_id in social_identities
-            )
-        ) if social_identities else "not identified by any social identity providers"
+        social_identification_description = _social_identification_description(request.user)
         email_message = (  # Intentionally untranslated, as this goes to the administrator(s), not the user.
             '''Hi Admin!
             User '{username}' ({identification_description}) claims to be {first_name} {last_name} ({email})
@@ -208,3 +203,13 @@ def request_access(request):
             )
 
     return redirect(request.GET['next']+'?next='+request.GET['next'])
+
+
+def _social_identification_description(user):
+    social_identities = list(user.social_auth.all())
+    social_identification_description = (
+        "identified " + " and ".join(
+            "as '{}' by {}".format(soc_id.uid, soc_id.provider) for soc_id in social_identities
+        )
+    ) if social_identities else "not identified by any social identity providers"
+    return social_identification_description
