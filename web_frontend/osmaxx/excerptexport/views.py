@@ -173,15 +173,23 @@ def request_access(request):
             _('Sending of access request failed. Please contact an administrator.')
         )
     else:
+        social_identities = list(request.user.social_auth.all())
+        social_identification_description = (
+            "identified " + " and ".join(
+                "as '{}' by {}".format(soc_id.uid, soc_id.provider) for soc_id in social_identities
+            )
+        ) if social_identities else "not identified by any social identity providers"
         email_message = (  # Intentionally untranslated, as this goes to the administrator(s), not the user.
             '''Hi Admin!
-            {first_name} {last_name} ({email}) requests access for Osmaxx. Please activate the user {username}.
+            User '{username}' ({identification_description}) claims to be {first_name} {last_name} ({email})
+            and requests access for Osmaxx.
             '''
         ).format(
             username=request.user.username,
             first_name=request.user.first_name,
             last_name=request.user.last_name,
             email=request.user.email,
+            identification_description=social_identification_description,
         )
 
         try:
