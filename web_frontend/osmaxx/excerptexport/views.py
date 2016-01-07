@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 from django.conf import settings
+
 from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState
@@ -173,15 +174,20 @@ def request_access(request):
             _('Sending of access request failed. Please contact an administrator.')
         )
     else:
-        email_message = _(
+        email_message = (  # Intentionally untranslated, as this goes to the administrator(s), not the user.
             '''Hi Admin!
-            {first_name} {last_name} ({email}) requests access for Osmaxx. Please activate the user {username}.
+            User '{username}' ({identification_description}) claims to be {first_name} {last_name} ({email})
+            and requests access for Osmaxx.
+            If {username} shall be granted access, go to {admin_url} and add {username} to group '{frontend_group}'.
             '''
         ).format(
             username=request.user.username,
             first_name=request.user.first_name,
             last_name=request.user.last_name,
             email=request.user.email,
+            identification_description=_social_identification_description(request.user),
+            admin_url=request.build_absolute_uri(reverse('admin:auth_user_change', args=(request.user.id,))),
+            frontend_group=settings.OSMAXX_FRONTEND_USER_GROUP,
         )
 
         try:
@@ -200,3 +206,13 @@ def request_access(request):
             )
 
     return redirect(request.GET['next']+'?next='+request.GET['next'])
+
+
+def _social_identification_description(user):
+    social_identities = list(user.social_auth.all())
+    if social_identities:
+        return "identified " + " and ".join(
+            "as '{}' by {}".format(soc_id.uid, soc_id.provider) for soc_id in social_identities
+        )
+    else:
+        return "not identified by any social identity providers"
