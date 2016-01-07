@@ -173,7 +173,6 @@ def request_access(request):
             _('Sending of access request failed. Please contact an administrator.')
         )
     else:
-        social_identification_description = _social_identification_description(request.user)
         email_message = (  # Intentionally untranslated, as this goes to the administrator(s), not the user.
             '''Hi Admin!
             User '{username}' ({identification_description}) claims to be {first_name} {last_name} ({email})
@@ -184,7 +183,7 @@ def request_access(request):
             first_name=request.user.first_name,
             last_name=request.user.last_name,
             email=request.user.email,
-            identification_description=social_identification_description,
+            identification_description=(_social_identification_description(request.user)),
         )
 
         try:
