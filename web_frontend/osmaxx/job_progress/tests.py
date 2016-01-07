@@ -120,12 +120,11 @@ class CallbackHandlingTest(APITestCase):
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient._download_file')  # mock download
     @requests_mock.Mocker(kw='requests')
-    @patch('osmaxx.job_progress.views.Emissary.error')
-    @patch('osmaxx.job_progress.views.Emissary.warn')
-    @patch('osmaxx.job_progress.views.Emissary.success')
+    @patch('osmaxx.job_progress.views.Emissary')
     def test_calling_tracker_when_status_query_indicates_finished_informs_user(
-            self, emissary_success_mock, emissary_warn_mock, emissary_error_mock, *args, **mocks
+            self, emissary_class_mock, *args, **mocks
     ):
+        emissary_mock = emissary_class_mock()
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
@@ -157,19 +156,18 @@ class CallbackHandlingTest(APITestCase):
         views.tracker(request, order_id=str(self.extraction_order.id))
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
-        emissary_success_mock.assert_called_with('The extraction of the order "1" has been finished.')
-        emissary_warn_mock.assert_not_called()
-        emissary_error_mock.assert_not_called()
+        emissary_mock.success.assert_called_with('The extraction of the order "1" has been finished.')
+        emissary_mock.warn.assert_not_called()
+        emissary_mock.error.assert_not_called()
 
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
-    @patch('osmaxx.job_progress.views.Emissary.error')
-    @patch('osmaxx.job_progress.views.Emissary.warn')
-    @patch('osmaxx.job_progress.views.Emissary.success')
+    @patch('osmaxx.job_progress.views.Emissary')
     def test_calling_tracker_when_status_query_indicates_error_informs_user(
-            self, emissary_success_mock, emissary_warn_mock, emissary_error_mock, *args, **mocks
+            self, emissary_class_mock, *args, **mocks
     ):
+        emissary_mock = emissary_class_mock()
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
@@ -201,6 +199,6 @@ class CallbackHandlingTest(APITestCase):
         views.tracker(request, order_id=str(self.extraction_order.id))
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FAILED)
-        emissary_success_mock.assert_not_called()
-        emissary_warn_mock.assert_not_called()
-        emissary_error_mock.assert_called_with('The extraction order "1" has failed. Please try again later.')
+        emissary_mock.info.assert_not_called()
+        emissary_mock.warn.assert_not_called()
+        emissary_mock.error.assert_called_with('The extraction order "1" has failed. Please try again later.')
