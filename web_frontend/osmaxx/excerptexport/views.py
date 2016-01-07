@@ -183,7 +183,7 @@ def request_access(request):
             first_name=request.user.first_name,
             last_name=request.user.last_name,
             email=request.user.email,
-            identification_description=(_social_identification_description(request.user)),
+            identification_description=_social_identification_description(request.user),
         )
 
         try:
