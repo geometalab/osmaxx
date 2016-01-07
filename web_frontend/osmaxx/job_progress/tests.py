@@ -124,7 +124,7 @@ class CallbackHandlingTest(APITestCase):
     @patch('osmaxx.job_progress.views.Emissary.warn')
     @patch('osmaxx.job_progress.views.Emissary.success')
     def test_calling_tracker_when_status_query_indicates_finished_informs_user(
-            self, emissary_info_mock, emissary_warn_mock, emissary_error_mock, *args, **mocks
+            self, emissary_success_mock, emissary_warn_mock, emissary_error_mock, *args, **mocks
     ):
         requests_mock = mocks['requests']
         requests_mock.get(
@@ -157,7 +157,7 @@ class CallbackHandlingTest(APITestCase):
         views.tracker(request, order_id=str(self.extraction_order.id))
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
-        emissary_info_mock.assert_called_with('The extraction of the order "1" has been finished.')
+        emissary_success_mock.assert_called_with('The extraction of the order "1" has been finished.')
         emissary_warn_mock.assert_not_called()
         emissary_error_mock.assert_not_called()
 
@@ -168,7 +168,7 @@ class CallbackHandlingTest(APITestCase):
     @patch('osmaxx.job_progress.views.Emissary.warn')
     @patch('osmaxx.job_progress.views.Emissary.success')
     def test_calling_tracker_when_status_query_indicates_error_informs_user(
-            self, emissary_info_mock, emissary_warn_mock, emissary_error_mock, *args, **mocks
+            self, emissary_success_mock, emissary_warn_mock, emissary_error_mock, *args, **mocks
     ):
         requests_mock = mocks['requests']
         requests_mock.get(
@@ -201,6 +201,6 @@ class CallbackHandlingTest(APITestCase):
         views.tracker(request, order_id=str(self.extraction_order.id))
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FAILED)
-        emissary_info_mock.assert_not_called()
+        emissary_success_mock.assert_not_called()
         emissary_warn_mock.assert_not_called()
         emissary_error_mock.assert_called_with('The extraction order "1" has failed. Please try again later.')
