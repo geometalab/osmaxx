@@ -1,3 +1,4 @@
+from io import BytesIO
 from unittest.mock import patch
 
 import requests_mock
@@ -52,6 +53,23 @@ class CallbackHandlingTest(APITestCase):
                     "format": "spatialite",
                     "progress": "queued",
                     "result_url": None
+                }
+            ]
+        }
+        self.fgdb_and_spatialite_successful_response = {
+            "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
+            "status": "done",
+            "progress": "successful",
+            "gis_formats": [
+                {
+                    "format": "fgdb",
+                    "progress": "successful",
+                    "result_url": "http://localhost:8901/api/gis_format/27/download_result/"
+                },
+                {
+                    "format": "spatialite",
+                    "progress": "successful",
+                    "result_url": "http://localhost:8901/api/gis_format/28/download_result/"
                 }
             ]
         }
@@ -113,6 +131,47 @@ class CallbackHandlingTest(APITestCase):
             'Extraction order {order_id} is now PROCESSING.'.format(
                 order_id=self.extraction_order.id
             )
+        )
+
+    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
+    @requests_mock.Mocker(kw='requests')
+    @patch('osmaxx.job_progress.views.Emissary')
+    def test_calling_tracker_when_status_query_indicates_downloads_ready_advertises_downloads(
+            self, emissary_class_mock, *args, **mocks):
+        emissary_mock = emissary_class_mock()
+        requests_mock = mocks['requests']
+        requests_mock.get(
+            'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
+            json=self.fgdb_and_spatialite_successful_response
+        )
+        for available_download in self.fgdb_and_spatialite_successful_response["gis_formats"]:
+            requests_mock.get(
+                available_download['result_url'],
+                body=BytesIO(
+                    bytes("dummy {} file".format(available_download['format']), encoding='utf-8')
+                )
+            )
+
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(order_id=self.extraction_order.id)),
+            data=dict(status='http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/')
+        )
+
+        views.tracker(request, order_id=str(self.extraction_order.id))
+        emissary_mock.success.assert_called_with(
+            'The extraction of the order "{order_id}" has been finished.'.format(
+                order_id=self.extraction_order.id,
+            ),
+        )
+        emissary_mock.inform_mail.assert_called_with(
+            subject='Extraction Order "{order_id} finished'.format(
+                order_id=self.extraction_order.id,
+            ),
+            mail_body='The extraction order "{order_id}" has been finished and is ready for retrieval.'.format(
+                order_id=self.extraction_order.id,
+            ),
         )
 
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
