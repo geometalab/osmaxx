@@ -10,13 +10,14 @@
         this.updateInputElementsBoundingBox = function() {
             var locationFilterBounds = this.locationFilter.getBounds();
             this.inputElementsNewBoundingBox.inputElementNorth.value = locationFilterBounds._northEast.lat;
-            this.inputElementsNewBoundingBox.inputElementNorth.dispatchEvent(new Event('valueUpdate'));
+            var ev = new CustomEvent("valueUpdate");
+            this.inputElementsNewBoundingBox.inputElementNorth.dispatchEvent(ev);
             this.inputElementsNewBoundingBox.inputElementWest.value = locationFilterBounds._southWest.lng;
-            this.inputElementsNewBoundingBox.inputElementWest.dispatchEvent(new Event('valueUpdate'));
+            this.inputElementsNewBoundingBox.inputElementWest.dispatchEvent(ev);
             this.inputElementsNewBoundingBox.inputElementEast.value = locationFilterBounds._northEast.lng;
-            this.inputElementsNewBoundingBox.inputElementEast.dispatchEvent(new Event('valueUpdate'));
+            this.inputElementsNewBoundingBox.inputElementEast.dispatchEvent(ev);
             this.inputElementsNewBoundingBox.inputElementSouth.value = locationFilterBounds._southWest.lat;
-            this.inputElementsNewBoundingBox.inputElementSouth.dispatchEvent(new Event('valueUpdate'));
+            this.inputElementsNewBoundingBox.inputElementSouth.dispatchEvent(ev);
         };
 
         /**
