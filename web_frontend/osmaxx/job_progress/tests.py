@@ -95,8 +95,10 @@ class CallbackHandlingTest(APITestCase):
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
-    @patch('osmaxx.job_progress.views.Emissary.info')
-    def test_calling_tracker_when_status_query_indicates_started_informs_user(self, info_mock, *args, **mocks):
+    @patch('osmaxx.job_progress.views.Emissary')
+    def test_calling_tracker_when_status_query_indicates_started_informs_user(
+            self, emissary_class_mock, *args, **mocks):
+        emissary_mock = emissary_class_mock()
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
@@ -110,7 +112,7 @@ class CallbackHandlingTest(APITestCase):
         )
 
         views.tracker(request, order_id=str(self.extraction_order.id))
-        info_mock.assert_called_with(
+        emissary_mock.info.assert_called_with(
             'Extraction order {order_id} is now PROCESSING.'.format(
                 order_id=self.extraction_order.id
             )
