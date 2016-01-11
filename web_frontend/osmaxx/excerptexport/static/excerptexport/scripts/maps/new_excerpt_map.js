@@ -19,6 +19,12 @@
             this.inputElementsNewBoundingBox.inputElementSouth.value = locationFilterBounds._southWest.lat;
             this.inputElementsNewBoundingBox.inputElementSouth.dispatchEvent(ev);
         };
+        this.areAllBoxesSet = function(){
+            return this.inputElementsNewBoundingBox.inputElementNorth.value &&
+                this.inputElementsNewBoundingBox.inputElementWest.value &&
+                this.inputElementsNewBoundingBox.inputElementEast.value &&
+                this.inputElementsNewBoundingBox.inputElementSouth.value
+        }.bind(this);
 
         /**
          * Synchronize excerpt on map to coordinates in input fields
@@ -29,7 +35,9 @@
             locationFilterBounds._southWest.lng = this.inputElementsNewBoundingBox.inputElementWest.value;
             locationFilterBounds._northEast.lng = this.inputElementsNewBoundingBox.inputElementEast.value;
             locationFilterBounds._southWest.lat = this.inputElementsNewBoundingBox.inputElementSouth.value;
-            this.locationFilter.setBounds(locationFilterBounds);
+            if (this.areAllBoxesSet()) {
+                this.locationFilter.setBounds(locationFilterBounds);
+            }
         };
 
           // update coordinates input elements on change of excerpt on map
