@@ -165,11 +165,12 @@ class CallbackHandlingTest(APITestCase):
                 order_id=self.extraction_order.id,
             ),
         )
+        expected_body = 'The extraction order #{order_id} "Neverland" has been finished and is ready for retrieval.'
         emissary_mock.inform_mail.assert_called_with(
-            subject='Extraction Order "{order_id} finished'.format(
+            subject='Extraction Order #{order_id} "Neverland" finished'.format(
                 order_id=self.extraction_order.id,
             ),
-            mail_body='The extraction order "{order_id}" has been finished and is ready for retrieval.'.format(
+            mail_body=expected_body.format(
                 order_id=self.extraction_order.id,
             ),
         )

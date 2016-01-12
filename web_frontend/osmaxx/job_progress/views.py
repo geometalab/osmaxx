@@ -19,10 +19,16 @@ def tracker(request, order_id):
     if order.are_downloads_ready:
         message = _('The extraction of the order "{order_id}" has been finished.').format(order_id=order.id)
 
-        finished_email_subject = _('Extraction Order "{order_id} finished').format(order_id=order.id)
+        finished_email_subject = _('Extraction Order #{order_id} "{excerpt_name}" finished').format(
+            order_id=order.id,
+            excerpt_name=order.excerpt_name,
+        )
         finished_email_body = _(
-            'The extraction order "{order_id}" has been finished and is ready for retrieval.'
-        ).format(order_id=order.id)
+            'The extraction order #{order_id} "{excerpt_name}" has been finished and is ready for retrieval.'
+        ).format(
+            order_id=order.id,
+            excerpt_name=order.excerpt_name,
+        )
 
         emissary.success(message)
         emissary.inform_mail(subject=finished_email_subject, mail_body=finished_email_body)
