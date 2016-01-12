@@ -19,6 +19,7 @@ def tracker(request, order_id):
     substitutions = dict(
         order_id=order.id,
         excerpt_name=order.excerpt_name,
+        order_state=ExtractionOrderState.label(order.state),
     )
 
     if order.are_downloads_ready:
@@ -32,22 +33,17 @@ def tracker(request, order_id):
         emissary.success(message)
         emissary.inform_mail(subject=finished_email_subject, mail_body=finished_email_body)
     elif order.state == ExtractionOrderState.FAILED:
-        message = _('The extraction order "{order_id}" has failed. Please try again later.').format(
-            order_id=order.id,
-        )
+        message = _('The extraction order "{order_id}" has failed. Please try again later.').format(**substitutions)
 
-        finished_email_subject = _('Extraction Order "{order_id} failed').format(order_id=order.id)
+        finished_email_subject = _('Extraction Order "{order_id} failed').format(**substitutions)
         finished_email_body = _(
             'The extraction order "{order_id}" could not be completed, please try again later.'
-        ).format(order_id=order.id)
+        ).format(**substitutions)
 
         emissary.error(message)
         emissary.inform_mail(subject=finished_email_subject, mail_body=finished_email_body)
     else:
-        message = _("Extraction order {order} is now {order_state}.").format(
-            order=order.id,
-            order_state=ExtractionOrderState.label(order.state),
-        )
+        message = _("Extraction order {order_id} is now {order_state}.").format(**substitutions)
         emissary.info(message)
     response = HttpResponse('')
     response.status_code = 200
