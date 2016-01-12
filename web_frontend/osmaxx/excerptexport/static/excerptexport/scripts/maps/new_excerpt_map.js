@@ -18,11 +18,11 @@
             this.inputElementsNewBoundingBox.inputElementSouth.value = locationFilterBounds._southWest.lat;
             this.inputElementsNewBoundingBox.inputElementSouth.dispatchEvent(new CustomEvent("valueUpdate"));
         };
-        this.areAllBoxesSet = function(){
-            return this.inputElementsNewBoundingBox.inputElementNorth.value &&
-                this.inputElementsNewBoundingBox.inputElementWest.value &&
-                this.inputElementsNewBoundingBox.inputElementEast.value &&
-                this.inputElementsNewBoundingBox.inputElementSouth.value
+
+        this.areAllBoxesSet = function() {
+            Object.keys(this.inputElementsNewBoundingBox).every(function (inputElementKey) {
+                return this.inputElementsNewBoundingBox[inputElementKey].value;
+            }.bind(this));
         }.bind(this);
 
         /**
