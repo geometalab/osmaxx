@@ -262,7 +262,7 @@ class CallbackHandlingTest(APITestCase):
         emissary_mock.warn.assert_not_called()
         emissary_mock.error.assert_called_with('The extraction order "1" has failed. Please try again later.')
         emissary_mock.inform_mail.assert_called_with(
-            subject='Extraction Order "{order_id} failed'.format(
+            subject='Extraction Order "{order_id}" failed'.format(
                 order_id=self.extraction_order.id,
             ),
             mail_body='The extraction order "{order_id}" could not be completed, please try again later.'.format(
