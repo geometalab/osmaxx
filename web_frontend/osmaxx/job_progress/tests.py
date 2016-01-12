@@ -260,12 +260,17 @@ class CallbackHandlingTest(APITestCase):
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FAILED)
         emissary_mock.info.assert_not_called()
         emissary_mock.warn.assert_not_called()
-        emissary_mock.error.assert_called_with('The extraction order "1" has failed. Please try again later.')
+        emissary_mock.error.assert_called_with(
+            'The extraction order #{order_id} "Neverland" has failed. Please try again later.'.format(
+                order_id=self.extraction_order.id,
+            )
+        )
+        expected_body = 'The extraction order #{order_id} "Neverland" could not be completed, please try again later.'
         emissary_mock.inform_mail.assert_called_with(
-            subject='Extraction Order "{order_id}" failed'.format(
+            subject='Extraction Order #{order_id} "Neverland" failed'.format(
                 order_id=self.extraction_order.id,
             ),
-            mail_body='The extraction order "{order_id}" could not be completed, please try again later.'.format(
+            mail_body=expected_body.format(
                 order_id=self.extraction_order.id,
             ),
         )

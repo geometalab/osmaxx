@@ -33,11 +33,13 @@ def tracker(request, order_id):
         emissary.success(message)
         emissary.inform_mail(subject=finished_email_subject, mail_body=finished_email_body)
     elif order.state == ExtractionOrderState.FAILED:
-        message = _('The extraction order "{order_id}" has failed. Please try again later.').format(**substitutions)
+        message = _(
+            'The extraction order #{order_id} "{excerpt_name}" has failed. Please try again later.'
+        ).format(**substitutions)
 
-        finished_email_subject = _('Extraction Order "{order_id}" failed').format(**substitutions)
+        finished_email_subject = _('Extraction Order #{order_id} "{excerpt_name}" failed').format(**substitutions)
         finished_email_body = _(
-            'The extraction order "{order_id}" could not be completed, please try again later.'
+            'The extraction order #{order_id} "{excerpt_name}" could not be completed, please try again later.'
         ).format(**substitutions)
 
         emissary.error(message)
