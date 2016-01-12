@@ -19,7 +19,7 @@ def tracker(request, order_id):
     if order.are_downloads_ready:
         message = _('The extraction of the order "{order_id}" has been finished.').format(order_id=order.id)
 
-        finished_email_subject = _('Extraction Order "{order_id} finished'.format(order_id=order.id))
+        finished_email_subject = _('Extraction Order "{order_id} finished').format(order_id=order.id)
         finished_email_body = _(
             'The extraction order "{order_id}" has been finished and is ready for retrieval.'
         ).format(order_id=order.id)
@@ -31,7 +31,7 @@ def tracker(request, order_id):
             order_id=order.id,
         )
 
-        finished_email_subject = _('Extraction Order "{order_id} failed'.format(order_id=order.id))
+        finished_email_subject = _('Extraction Order "{order_id} failed').format(order_id=order.id)
         finished_email_body = _(
             'The extraction order "{order_id}" could not be completed, please try again later.'
         ).format(order_id=order.id)
