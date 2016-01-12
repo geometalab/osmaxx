@@ -22,19 +22,19 @@
         var excerptListFilterFieldClearer = jQuery('span#excerptListFilterFieldClearer');
         var excerptListFieldOptions = jQuery('select#id_existing_excerpts > optgroup > option');
 
-        var hideElements = function (filterWord) {
+        var hideElements = function(filterWord) {
             excerptListFilterFieldClearer.show();
             excerptListFieldOptions.hide().filter(':containsCI(' + filterWord + ')').show();
         };
-        var showAllElements = function () {
+        var showAllElements = function() {
             excerptListFieldOptions.show();
             excerptListFilterFieldClearer.hide();
         };
 
         // ################# IE patch... #################
         if (detectIE()) {
-            showAllElements = function () {
-                excerptListFieldOptions.each(function (index, val) {
+            showAllElements = function() {
+                excerptListFieldOptions.each(function(index, val) {
                     if (this.nodeName.toUpperCase() === 'OPTION') {
                         var span = $(this).parent();
                         var opt = this;
@@ -47,8 +47,8 @@
             };
 
             //hide elements
-            hideElements = function (filterWord) {
-                excerptListFieldOptions.each(function (index, val) {
+            hideElements = function(filterWord) {
+                excerptListFieldOptions.each(function(index, val) {
                     // wrap all
                     if ($(this).is('option') && (!$(this).parent().is('span'))) {
                         $(this).wrap('<span>');
@@ -76,11 +76,11 @@
         }
 
         if (excerptListFilterField && excerptListFilterFieldClearer) {
-            excerptListFilterField.bind('change paste keyup input', function () {
+            excerptListFilterField.bind('change paste keyup input', function() {
                 filterOptions(excerptListFilterField);
             });
             // clear field icon
-            excerptListFilterFieldClearer.bind('click', function () {
+            excerptListFilterFieldClearer.bind('click', function() {
                 excerptListFilterField.val('');
                 filterOptions(excerptListFilterField);
             });
