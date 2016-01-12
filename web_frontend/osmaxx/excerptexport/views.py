@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 from django.conf import settings
+from django.views.generic.edit import FormMixin
 
 from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from .models import ExtractionOrder, OutputFile
@@ -31,10 +32,7 @@ def execute_converters(extraction_order, callback_host, protocol):
     get_authenticated_api_client().create_job(extraction_order, callback_host=callback_host, protocol=protocol)
 
 
-class OrderNewExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
-    template_name = 'excerptexport/templates/order_new_excerpt.html'
-    form_class = ExcerptForm
-
+class OrderFormViewMixin(FormMixin):
     def form_valid(self, form):
         extraction_order = form.save(self.request.user)
         request_host = self.request.get_host()
@@ -50,30 +48,21 @@ class OrderNewExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormV
             reverse('excerptexport:status', kwargs={'extraction_order_id': extraction_order.id})
         )
 
+
+class OrderNewExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, OrderFormViewMixin, FormView):
+    template_name = 'excerptexport/templates/order_new_excerpt.html'
+    form_class = ExcerptForm
+
+
 order_new_excerpt = OrderNewExcerptView.as_view()
 
 
-class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, FormView):
+class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_existing_excerpt.html'
     form_class = ExistingForm
 
     def get_form_class(self):
         return super().get_form_class().get_dynamic_form_class(self.request.user)
-
-    def form_valid(self, form):
-        extraction_order = form.save(self.request.user)
-        request_host = self.request.get_host()
-        request_protocol = 'https' if self.request.is_secure() else 'http'
-        execute_converters(extraction_order, callback_host=request_host, protocol=request_protocol)
-        messages.info(
-            self.request,
-            _('Queued extraction order {id}. The conversion process will start soon.').format(
-                id=extraction_order.id
-            )
-        )
-        return HttpResponseRedirect(
-            reverse('excerptexport:status', kwargs={'extraction_order_id': extraction_order.id})
-        )
 
 order_existing_excerpt = OrderExistingExcerptView.as_view()
 
