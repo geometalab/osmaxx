@@ -32,6 +32,7 @@
         };
 
         // ################# IE patch... #################
+        // Inspired by: http://ajax911.com/hide-options-selecbox-jquery/
         if (detectIE()) {
             showAllElements = function() {
                 excerptListFieldOptions.each(function(index, val) {
