@@ -161,7 +161,7 @@ class CallbackHandlingTest(APITestCase):
 
         views.tracker(request, order_id=str(self.extraction_order.id))
         emissary_mock.success.assert_called_with(
-            'The extraction of the order "{order_id}" has been finished.'.format(
+            'The extraction of the order #{order_id} "Neverland" has been finished.'.format(
                 order_id=self.extraction_order.id,
             ),
         )
@@ -215,7 +215,7 @@ class CallbackHandlingTest(APITestCase):
         views.tracker(request, order_id=str(self.extraction_order.id))
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
-        emissary_mock.success.assert_called_with('The extraction of the order "1" has been finished.')
+        emissary_mock.success.assert_called_with('The extraction of the order #1 "Neverland" has been finished.')
         emissary_mock.warn.assert_not_called()
         emissary_mock.error.assert_not_called()
 

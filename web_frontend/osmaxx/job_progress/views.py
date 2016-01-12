@@ -23,7 +23,9 @@ def tracker(request, order_id):
     )
 
     if order.are_downloads_ready:
-        message = _('The extraction of the order "{order_id}" has been finished.').format(order_id=order.id)
+        message = _(
+            'The extraction of the order #{order_id} "{excerpt_name}" has been finished.'
+        ).format(**substitutions)
 
         finished_email_subject = _('Extraction Order #{order_id} "{excerpt_name}" finished').format(**substitutions)
         finished_email_body = _(
