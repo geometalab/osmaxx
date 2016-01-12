@@ -166,13 +166,12 @@ class CallbackHandlingTest(APITestCase):
             ),
         )
         expected_body = 'The extraction order #{order_id} "Neverland" has been finished and is ready for retrieval.'
+        expected_body = expected_body.format(order_id=self.extraction_order.id)
         emissary_mock.inform_mail.assert_called_with(
             subject='Extraction Order #{order_id} "Neverland" finished'.format(
                 order_id=self.extraction_order.id,
             ),
-            mail_body=expected_body.format(
-                order_id=self.extraction_order.id,
-            ),
+            mail_body=expected_body,
         )
 
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
@@ -266,11 +265,10 @@ class CallbackHandlingTest(APITestCase):
             )
         )
         expected_body = 'The extraction order #{order_id} "Neverland" could not be completed, please try again later.'
+        expected_body = expected_body.format(order_id=self.extraction_order.id)
         emissary_mock.inform_mail.assert_called_with(
             subject='Extraction Order #{order_id} "Neverland" failed'.format(
                 order_id=self.extraction_order.id,
             ),
-            mail_body=expected_body.format(
-                order_id=self.extraction_order.id,
-            ),
+            mail_body=expected_body,
         )
