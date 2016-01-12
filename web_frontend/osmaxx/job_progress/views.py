@@ -45,7 +45,7 @@ def tracker(request, order_id):
         emissary.error(message)
         emissary.inform_mail(subject=finished_email_subject, mail_body=finished_email_body)
     else:
-        message = _("Extraction order {order_id} is now {order_state}.").format(**substitutions)
+        message = _('Extraction order #{order_id} "{excerpt_name}" is now {order_state}.').format(**substitutions)
         emissary.info(message)
     response = HttpResponse('')
     response.status_code = 200

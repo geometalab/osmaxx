@@ -128,7 +128,7 @@ class CallbackHandlingTest(APITestCase):
 
         views.tracker(request, order_id=str(self.extraction_order.id))
         emissary_mock.info.assert_called_with(
-            'Extraction order {order_id} is now PROCESSING.'.format(
+            'Extraction order #{order_id} "Neverland" is now PROCESSING.'.format(
                 order_id=self.extraction_order.id
             )
         )
