@@ -10,20 +10,19 @@
         this.updateInputElementsBoundingBox = function() {
             var locationFilterBounds = this.locationFilter.getBounds();
             this.inputElementsNewBoundingBox.inputElementNorth.value = locationFilterBounds._northEast.lat;
-            var ev = new CustomEvent("valueUpdate");
-            this.inputElementsNewBoundingBox.inputElementNorth.dispatchEvent(ev);
+            this.inputElementsNewBoundingBox.inputElementNorth.dispatchEvent(new CustomEvent("valueUpdate"));
             this.inputElementsNewBoundingBox.inputElementWest.value = locationFilterBounds._southWest.lng;
-            this.inputElementsNewBoundingBox.inputElementWest.dispatchEvent(ev);
+            this.inputElementsNewBoundingBox.inputElementWest.dispatchEvent(new CustomEvent("valueUpdate"));
             this.inputElementsNewBoundingBox.inputElementEast.value = locationFilterBounds._northEast.lng;
-            this.inputElementsNewBoundingBox.inputElementEast.dispatchEvent(ev);
+            this.inputElementsNewBoundingBox.inputElementEast.dispatchEvent(new CustomEvent("valueUpdate"));
             this.inputElementsNewBoundingBox.inputElementSouth.value = locationFilterBounds._southWest.lat;
-            this.inputElementsNewBoundingBox.inputElementSouth.dispatchEvent(ev);
+            this.inputElementsNewBoundingBox.inputElementSouth.dispatchEvent(new CustomEvent("valueUpdate"));
         };
-        this.areAllBoxesSet = function(){
-            return this.inputElementsNewBoundingBox.inputElementNorth.value &&
-                this.inputElementsNewBoundingBox.inputElementWest.value &&
-                this.inputElementsNewBoundingBox.inputElementEast.value &&
-                this.inputElementsNewBoundingBox.inputElementSouth.value
+
+        this.areAllBoxesSet = function() {
+            Object.keys(this.inputElementsNewBoundingBox).every(function (inputElementKey) {
+                return this.inputElementsNewBoundingBox[inputElementKey].value;
+            }.bind(this));
         }.bind(this);
 
         /**

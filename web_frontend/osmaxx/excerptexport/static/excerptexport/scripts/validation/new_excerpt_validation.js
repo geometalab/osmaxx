@@ -8,21 +8,20 @@
         this.excerptBoundsErrorContainer = excerptBoundsErrorContainer;
         this.exportFormatCheckboxes = exportFormatCheckboxes;
 
-        this.validateFormatCheckboxes = function() {
-            var validity = window.objectToArray(this.exportFormatCheckboxes).some(function(checkbox){
+        this.validateFormatCheckboxes = function () {
+            var validity = window.objectToArray(this.exportFormatCheckboxes).some(function (checkbox) {
                 return checkbox.checked;
             });
-            window.objectToArray(this.exportFormatCheckboxes).forEach(function(checkbox){
+            window.objectToArray(this.exportFormatCheckboxes).forEach(function (checkbox) {
                 var validityMessage = validity ? '' : 'Please select at least one format!';
                 checkbox.setCustomValidity(validityMessage);
             }, this);
         }.bind(this);
 
-        this.areAllBoxesSet = function(){
-            return this.bboxFields.north.value &&
-                this.bboxFields.east.value &&
-                this.bboxFields.south.value &&
-                this.bboxFields.west.value
+        this.areAllBoxesSet = function () {
+            Object.keys(this.bboxFields).every(function (inputElementKey) {
+                return this.bboxFields[inputElementKey].value;
+            }.bind(this));
         }.bind(this);
 
         this.validateExcerptBoundInputFields = function() {
