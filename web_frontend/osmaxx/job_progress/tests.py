@@ -172,10 +172,10 @@ class CallbackHandlingTest(APITestCase):
             [
                 'The extraction order #{order_id} "Neverland" has been finished and is ready for retrieval.',
                 '',
-                'fgdb: http://testserver/a/download',
-                'spatialite: http://testserver/another/download',
+                'ESRI File Geodatabase (FileGDB): http://testserver/a/download',
+                'SQLite based SpatiaLite (spatialite): http://testserver/another/download',
                 '',
-                'View the complete order at http://testserver/orders/{order_id}'
+                'View the complete order at http://testserver/orders/{order_id}',
             ]
         )
         expected_body = expected_body.format(order_id=self.extraction_order.id)

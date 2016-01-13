@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 
+from osmaxx.excerptexport.forms.order_options_mixin import available_format_choices
 from osmaxx.excerptexport.models import extraction_order, ExtractionOrderState
 from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from osmaxx.utilities.shortcuts import Emissary
@@ -35,7 +36,7 @@ def tracker(request, order_id):
 
         finished_email_body += '\n\n' + '\n'.join(
             '{gis_format}: {download_url}'.format(
-                gis_format=file.content_type,
+                gis_format=dict(available_format_choices)[file.content_type],
                 download_url=request.build_absolute_uri(file.get_absolute_url()),
             ) for file in order.output_files.all()
         )
