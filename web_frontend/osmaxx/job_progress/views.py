@@ -49,10 +49,11 @@ def tracker(request, order_id):
         ).format(**substitutions)
 
         finished_email_subject = _('Extraction Order #{order_id} "{excerpt_name}" failed').format(**substitutions)
-        finished_email_body = _(
-            'The extraction order #{order_id} "{excerpt_name}" could not be completed, please try again later.'
-        ).format(**substitutions)
-        finished_email_body += _('\n\nView the order at {order_url}').format(**substitutions)
+        finished_email_body = _('\n'.join([
+            'The extraction order #{order_id} "{excerpt_name}" could not be completed, please try again later.',
+            '',
+            'View the order at {order_url}',
+        ])).format(**substitutions)
 
         emissary.error(message)
         emissary.inform_mail(subject=finished_email_subject, mail_body=finished_email_body)
