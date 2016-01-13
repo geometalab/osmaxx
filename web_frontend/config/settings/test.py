@@ -1,6 +1,10 @@
+import tempfile
+
 from .local import *  # noqa
 
 DEBUG = False
+
+PRIVATE_MEDIA_ROOT = tempfile.mkdtemp()
 
 OSMAXX_TEST_SETTINGS = {
     'download_file_name': '%(excerpt_name)s-%(content_type)s-%(id)s.%(file_extension)s',
