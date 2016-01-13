@@ -32,6 +32,10 @@ def tracker(request, order_id):
             'The extraction order #{order_id} "{excerpt_name}" has been finished and is ready for retrieval.'
         ).format(**substitutions)
 
+        finished_email_body += '\n\n' + '\n'.join(
+            file.content_type + ': ' + request.build_absolute_uri(file.get_absolute_url()) for file in order.output_files.all()  # noqa
+        )
+
         emissary.success(message)
         emissary.inform_mail(subject=finished_email_subject, mail_body=finished_email_body)
     elif order.state == ExtractionOrderState.FAILED:

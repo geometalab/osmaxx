@@ -5,9 +5,11 @@ import requests_mock
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
+
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
+from osmaxx.excerptexport.models.output_file import OutputFile
 from osmaxx.excerptexport.services.conversion_api_client import ConversionApiClient
 from osmaxx.job_progress import views
 from rest_framework.test import APITestCase, APIRequestFactory
@@ -136,6 +138,7 @@ class CallbackHandlingTest(APITestCase):
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
+    @patch.object(OutputFile, 'get_absolute_url', side_effect=['/a/download', '/another/download'])
     @patch('osmaxx.job_progress.views.Emissary')
     def test_calling_tracker_when_status_query_indicates_downloads_ready_advertises_downloads(
             self, emissary_class_mock, *args, **mocks):
@@ -165,7 +168,14 @@ class CallbackHandlingTest(APITestCase):
                 order_id=self.extraction_order.id,
             ),
         )
-        expected_body = 'The extraction order #{order_id} "Neverland" has been finished and is ready for retrieval.'
+        expected_body = '\n'.join(
+            [
+                'The extraction order #{order_id} "Neverland" has been finished and is ready for retrieval.',
+                '',
+                'fgdb: http://testserver/a/download',
+                'spatialite: http://testserver/another/download',
+            ]
+        )
         expected_body = expected_body.format(order_id=self.extraction_order.id)
         emissary_mock.inform_mail.assert_called_with(
             subject='Extraction Order #{order_id} "Neverland" finished'.format(
