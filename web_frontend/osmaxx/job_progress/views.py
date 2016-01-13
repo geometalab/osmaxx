@@ -33,7 +33,10 @@ def tracker(request, order_id):
         ).format(**substitutions)
 
         finished_email_body += '\n\n' + '\n'.join(
-            file.content_type + ': ' + request.build_absolute_uri(file.get_absolute_url()) for file in order.output_files.all()  # noqa
+            '{gis_format}: {download_url}'.format(
+                gis_format=file.content_type,
+                download_url=request.build_absolute_uri(file.get_absolute_url()),
+            ) for file in order.output_files.all()
         )
 
         emissary.success(message)
