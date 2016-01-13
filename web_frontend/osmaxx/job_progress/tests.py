@@ -1,7 +1,10 @@
+import os
+import shutil
 from io import BytesIO
 from unittest.mock import patch
 
 import requests_mock
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
@@ -260,3 +263,7 @@ class CallbackHandlingTest(APITestCase):
         emissary_mock.info.assert_not_called()
         emissary_mock.warn.assert_not_called()
         emissary_mock.error.assert_called_with('The extraction order "1" has failed. Please try again later.')
+
+    def tearDown(self):
+        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
+            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
