@@ -1,13 +1,15 @@
-import json
+from io import BytesIO
 from unittest.mock import patch
 
 import requests_mock
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
+
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
+from osmaxx.excerptexport.models.output_file import OutputFile
 from osmaxx.excerptexport.services.conversion_api_client import ConversionApiClient
 from osmaxx.job_progress import views
 from rest_framework.test import APITestCase, APIRequestFactory
@@ -39,25 +41,40 @@ class CallbackHandlingTest(APITestCase):
             ExtractionOrder.DoesNotExist,
             ExtractionOrder.objects.get, pk=self.nonexistant_extraction_order_id
         )
-        self.fgdb_started_and_spatialite_queued_response = json.dumps(
-            {
-                "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
-                "status": "started",
-                "progress": "started",
-                "gis_formats": [
-                    {
-                        "format": "fgdb",
-                        "progress": "started",
-                        "result_url": None
-                    },
-                    {
-                        "format": "spatialite",
-                        "progress": "queued",
-                        "result_url": None
-                    }
-                ]
-            }
-        )
+        self.fgdb_started_and_spatialite_queued_response = {
+            "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
+            "status": "started",
+            "progress": "started",
+            "gis_formats": [
+                {
+                    "format": "fgdb",
+                    "progress": "started",
+                    "result_url": None
+                },
+                {
+                    "format": "spatialite",
+                    "progress": "queued",
+                    "result_url": None
+                }
+            ]
+        }
+        self.fgdb_and_spatialite_successful_response = {
+            "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
+            "status": "done",
+            "progress": "successful",
+            "gis_formats": [
+                {
+                    "format": "fgdb",
+                    "progress": "successful",
+                    "result_url": "http://localhost:8901/api/gis_format/27/download_result/"
+                },
+                {
+                    "format": "spatialite",
+                    "progress": "successful",
+                    "result_url": "http://localhost:8901/api/gis_format/28/download_result/"
+                }
+            ]
+        }
 
     def test_calling_tracker_with_nonexistant_extraction_order_raises_404_not_found(self):
         factory = APIRequestFactory()
@@ -79,7 +96,7 @@ class CallbackHandlingTest(APITestCase):
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
-            text=self.fgdb_started_and_spatialite_queued_response
+            json=self.fgdb_started_and_spatialite_queued_response
         )
 
         factory = APIRequestFactory()
@@ -95,12 +112,14 @@ class CallbackHandlingTest(APITestCase):
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
-    @patch('osmaxx.job_progress.views.Emissary.info')
-    def test_calling_tracker_when_status_query_indicates_started_informs_user(self, info_mock, *args, **mocks):
+    @patch('osmaxx.job_progress.views.Emissary')
+    def test_calling_tracker_when_status_query_indicates_started_informs_user(
+            self, emissary_class_mock, *args, **mocks):
+        emissary_mock = emissary_class_mock()
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
-            text=self.fgdb_started_and_spatialite_queued_response
+            json=self.fgdb_started_and_spatialite_queued_response
         )
 
         factory = APIRequestFactory()
@@ -110,26 +129,76 @@ class CallbackHandlingTest(APITestCase):
         )
 
         views.tracker(request, order_id=str(self.extraction_order.id))
-        info_mock.assert_called_with(
-            'Extraction order {order_id} is now PROCESSING.'.format(
+        emissary_mock.info.assert_called_with(
+            'Extraction order #{order_id} "Neverland" is now PROCESSING.'.format(
                 order_id=self.extraction_order.id
             )
         )
 
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
-    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient._download_file')  # mock download
     @requests_mock.Mocker(kw='requests')
-    @patch('osmaxx.job_progress.views.Emissary.error')
-    @patch('osmaxx.job_progress.views.Emissary.warn')
-    @patch('osmaxx.job_progress.views.Emissary.success')
-    def test_calling_tracker_when_status_query_indicates_finished_informs_user(
-            self, emissary_info_mock, emissary_warn_mock, emissary_error_mock, *args, **mocks
-    ):
+    @patch.object(OutputFile, 'get_absolute_url', side_effect=['/a/download', '/another/download'])
+    @patch('osmaxx.job_progress.views.Emissary')
+    def test_calling_tracker_when_status_query_indicates_downloads_ready_advertises_downloads(
+            self, emissary_class_mock, *args, **mocks):
+        emissary_mock = emissary_class_mock()
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
-            text=json.dumps({
+            json=self.fgdb_and_spatialite_successful_response
+        )
+        for available_download in self.fgdb_and_spatialite_successful_response["gis_formats"]:
+            requests_mock.get(
+                available_download['result_url'],
+                body=BytesIO(
+                    bytes("dummy {} file".format(available_download['format']), encoding='utf-8')
+                )
+            )
+
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(order_id=self.extraction_order.id)),
+            data=dict(status='http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/')
+        )
+
+        views.tracker(request, order_id=str(self.extraction_order.id))
+        emissary_mock.success.assert_called_with(
+            'The extraction of the order #{order_id} "Neverland" has been finished.'.format(
+                order_id=self.extraction_order.id,
+            ),
+        )
+        expected_body = '\n'.join(
+            [
+                'The extraction order #{order_id} "Neverland" has been finished and is ready for retrieval.',
+                '',
+                'ESRI File Geodatabase (FileGDB): http://testserver/a/download',
+                'SQLite based SpatiaLite (spatialite): http://testserver/another/download',
+                '',
+                'View the complete order at http://testserver/orders/{order_id}',
+            ]
+        )
+        expected_body = expected_body.format(order_id=self.extraction_order.id)
+        emissary_mock.inform_mail.assert_called_with(
+            subject='Extraction Order #{order_id} "Neverland" finished'.format(
+                order_id=self.extraction_order.id,
+            ),
+            mail_body=expected_body,
+        )
+
+    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
+    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient._download_file')  # mock download
+    @requests_mock.Mocker(kw='requests')
+    @patch('osmaxx.job_progress.views.Emissary')
+    def test_calling_tracker_when_status_query_indicates_finished_informs_user(
+            self, emissary_class_mock, *args, **mocks
+    ):
+        emissary_mock = emissary_class_mock()
+        requests_mock = mocks['requests']
+        requests_mock.get(
+            'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
+            json={
                 "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
                 "status": "done",
                 "progress": "successful",
@@ -145,7 +214,7 @@ class CallbackHandlingTest(APITestCase):
                         "result_url": "http://status.example.com"
                     }
                 ]
-            })
+            }
         )
 
         factory = APIRequestFactory()
@@ -157,23 +226,22 @@ class CallbackHandlingTest(APITestCase):
         views.tracker(request, order_id=str(self.extraction_order.id))
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
-        emissary_info_mock.assert_called_with('The extraction of the order "1" has been finished.')
-        emissary_warn_mock.assert_not_called()
-        emissary_error_mock.assert_not_called()
+        emissary_mock.success.assert_called_with('The extraction of the order #1 "Neverland" has been finished.')
+        emissary_mock.warn.assert_not_called()
+        emissary_mock.error.assert_not_called()
 
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
-    @patch('osmaxx.job_progress.views.Emissary.error')
-    @patch('osmaxx.job_progress.views.Emissary.warn')
-    @patch('osmaxx.job_progress.views.Emissary.success')
+    @patch('osmaxx.job_progress.views.Emissary')
     def test_calling_tracker_when_status_query_indicates_error_informs_user(
-            self, emissary_info_mock, emissary_warn_mock, emissary_error_mock, *args, **mocks
+            self, emissary_class_mock, *args, **mocks
     ):
+        emissary_mock = emissary_class_mock()
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
-            text=json.dumps({
+            json={
                 "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
                 "status": "error",
                 "progress": "error",
@@ -189,7 +257,7 @@ class CallbackHandlingTest(APITestCase):
                         "result_url": None
                     }
                 ]
-            })
+            }
         )
 
         factory = APIRequestFactory()
@@ -201,6 +269,24 @@ class CallbackHandlingTest(APITestCase):
         views.tracker(request, order_id=str(self.extraction_order.id))
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FAILED)
-        emissary_info_mock.assert_not_called()
-        emissary_warn_mock.assert_not_called()
-        emissary_error_mock.assert_called_with('The extraction order "1" has failed. Please try again later.')
+        emissary_mock.info.assert_not_called()
+        emissary_mock.warn.assert_not_called()
+        emissary_mock.error.assert_called_with(
+            'The extraction order #{order_id} "Neverland" has failed. Please try again later.'.format(
+                order_id=self.extraction_order.id,
+            )
+        )
+        expected_body = '\n'.join(
+            [
+                'The extraction order #{order_id} "Neverland" could not be completed, please try again later.',
+                '',
+                'View the order at http://testserver/orders/{order_id}'
+            ]
+        )
+        expected_body = expected_body.format(order_id=self.extraction_order.id)
+        emissary_mock.inform_mail.assert_called_with(
+            subject='Extraction Order #{order_id} "Neverland" failed'.format(
+                order_id=self.extraction_order.id,
+            ),
+            mail_body=expected_body,
+        )
