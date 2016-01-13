@@ -15,7 +15,7 @@ ENV LANG en_US.utf8
 
 RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
 
-ENV PG_MAJOR 9.3
+ENV PG_MAJOR 9.4
 ENV POSTGIS_MAJOR 2.1
 
 # postgres sources
@@ -31,6 +31,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     cmake \
     g++ \
     git-core\
+    subversion\
     build-essential\
     libxml2-dev\
     libgeos-dev \
@@ -67,7 +68,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     python3-pip \
     ipython \
 \
-    postgresql-server-dev-9.3 \
+    postgresql-server-dev-9.4 \
     postgresql-common  \
     postgresql-${PG_MAJOR} \
     postgresql-contrib-${PG_MAJOR} \
@@ -99,12 +100,10 @@ RUN mkdir src &&\
 
 ENV CODE /code
 WORKDIR $CODE
-RUN git clone https://github.com/woodpeck/openstreetmap-carto-german.git
+RUN svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik-german/utf8translit/
 
-WORKDIR $CODE/openstreetmap-carto-german/utf8translit
-RUN sed --in-place 's/\$\(CXX\) $\(LIBS\) -shared -o \$@ \$</\$\(CXX\) -shared -o \$@ \$< $\(LIBS\)/' Makefile && \
-    sed --in-place 's/postgresql-9\.2/postgresql-9.3/' debian/control && \
-    dpkg-buildpackage -uc -us && \
+WORKDIR $CODE/utf8translit
+RUN dpkg-buildpackage -uc -us && \
     dpkg --install ../utf8translit_*.deb
 
 ENV HOME /home/py
@@ -124,7 +123,7 @@ RUN service postgresql start && \
 
 USER root
 
-RUN sed -i '1ilocal   all             all                                     trust' /etc/postgresql/9.3/main/pg_hba.conf
+RUN sed -i '1ilocal   all             all                                     trust' /etc/postgresql/9.4/main/pg_hba.conf
 
 RUN chmod a+rx $CODE
 
