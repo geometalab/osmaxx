@@ -174,6 +174,8 @@ class CallbackHandlingTest(APITestCase):
                 '',
                 'fgdb: http://testserver/a/download',
                 'spatialite: http://testserver/another/download',
+                '',
+                'View the complete order at http://testserver/orders/{order_id}'
             ]
         )
         expected_body = expected_body.format(order_id=self.extraction_order.id)
@@ -274,7 +276,13 @@ class CallbackHandlingTest(APITestCase):
                 order_id=self.extraction_order.id,
             )
         )
-        expected_body = 'The extraction order #{order_id} "Neverland" could not be completed, please try again later.'
+        expected_body = '\n'.join(
+            [
+                'The extraction order #{order_id} "Neverland" could not be completed, please try again later.',
+                '',
+                'View the order at http://testserver/orders/{order_id}'
+            ]
+        )
         expected_body = expected_body.format(order_id=self.extraction_order.id)
         emissary_mock.inform_mail.assert_called_with(
             subject='Extraction Order #{order_id} "Neverland" failed'.format(

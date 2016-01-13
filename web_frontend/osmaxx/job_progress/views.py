@@ -38,6 +38,9 @@ def tracker(request, order_id):
                 download_url=request.build_absolute_uri(file.get_absolute_url()),
             ) for file in order.output_files.all()
         )
+        finished_email_body += _('\n\nView the complete order at {order_url}').format(
+            order_url=request.build_absolute_uri(order.get_absolute_url()),
+        )
 
         emissary.success(message)
         emissary.inform_mail(subject=finished_email_subject, mail_body=finished_email_body)
@@ -50,6 +53,9 @@ def tracker(request, order_id):
         finished_email_body = _(
             'The extraction order #{order_id} "{excerpt_name}" could not be completed, please try again later.'
         ).format(**substitutions)
+        finished_email_body += _('\n\nView the order at {order_url}').format(
+            order_url=request.build_absolute_uri(order.get_absolute_url()),
+        )
 
         emissary.error(message)
         emissary.inform_mail(subject=finished_email_subject, mail_body=finished_email_body)

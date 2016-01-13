@@ -111,3 +111,7 @@ class ExtractionOrder(models.Model):
     def set_status_from_conversion_progress(self, job_overall_progress):
         if self.state not in [ExtractionOrderState.FINISHED, ExtractionOrderState.FAILED]:
             self.state = get_order_status_from_conversion_progress(job_overall_progress)
+
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('excerptexport:status', kwargs={'extraction_order_id': self.id})
