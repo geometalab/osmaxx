@@ -8,3 +8,9 @@ register = template.Library()
 @stringfilter
 def remove_all_whitespace(value):
     return ''.join(value.split())
+
+
+@register.filter
+@stringfilter
+def strip(value, *args, **kwargs):
+    return value.strip(*args, **kwargs)

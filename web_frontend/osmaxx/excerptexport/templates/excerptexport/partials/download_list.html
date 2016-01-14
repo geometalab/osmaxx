@@ -1,5 +1,5 @@
 {% load filter_filename i18n %}
-{% load remove_all_whitespace %}
+{% load whitespace_cleanup %}
 
 <ul class="download_files">
 {% for file in files.all %}
@@ -14,9 +14,9 @@
             {% filter urlencode %}Download map data of {{ file.extraction_order.excerpt_name }}{% endfilter %}
         &
         body=
-            {% filter urlencode %}{% spaceless %}
+            {% filter urlencode %}{% filter strip %}
                     {% include 'excerptexport/partials/content_file_type_description.html' with content_type=file.content_type %}
-                {% endspaceless %} ({{ file.content_type }}): {{ protocol }}://{{ host_domain }}{{ download_url }}{% endfilter %}
+                {% endfilter %} ({{ file.content_type }}): {{ protocol }}://{{ host_domain }}{{ download_url }}{% endfilter %}
         {% endfilter %}">
             <button>&#9993; {% trans 'Send link' %}</button>
         </a>
