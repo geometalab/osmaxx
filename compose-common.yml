@@ -19,7 +19,6 @@ base:
     - DJANGO_STATIC_ROOT=/data/static
     - DJANGO_MEDIA_ROOT=/data/media
     - DJANGO_PRIVATE_MEDIA_ROOT=/data/private_media
-    - DJANGO_RESULT_MEDIA_ROOT=/results
     - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
 
     # Logging

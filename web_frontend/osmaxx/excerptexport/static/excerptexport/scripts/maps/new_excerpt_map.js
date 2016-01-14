@@ -10,14 +10,20 @@
         this.updateInputElementsBoundingBox = function() {
             var locationFilterBounds = this.locationFilter.getBounds();
             this.inputElementsNewBoundingBox.inputElementNorth.value = locationFilterBounds._northEast.lat;
-            this.inputElementsNewBoundingBox.inputElementNorth.dispatchEvent(new Event('valueUpdate'));
+            this.inputElementsNewBoundingBox.inputElementNorth.dispatchEvent(new CustomEvent("valueUpdate"));
             this.inputElementsNewBoundingBox.inputElementWest.value = locationFilterBounds._southWest.lng;
-            this.inputElementsNewBoundingBox.inputElementWest.dispatchEvent(new Event('valueUpdate'));
+            this.inputElementsNewBoundingBox.inputElementWest.dispatchEvent(new CustomEvent("valueUpdate"));
             this.inputElementsNewBoundingBox.inputElementEast.value = locationFilterBounds._northEast.lng;
-            this.inputElementsNewBoundingBox.inputElementEast.dispatchEvent(new Event('valueUpdate'));
+            this.inputElementsNewBoundingBox.inputElementEast.dispatchEvent(new CustomEvent("valueUpdate"));
             this.inputElementsNewBoundingBox.inputElementSouth.value = locationFilterBounds._southWest.lat;
-            this.inputElementsNewBoundingBox.inputElementSouth.dispatchEvent(new Event('valueUpdate'));
+            this.inputElementsNewBoundingBox.inputElementSouth.dispatchEvent(new CustomEvent("valueUpdate"));
         };
+
+        this.areAllBoxesSet = function() {
+            Object.keys(this.inputElementsNewBoundingBox).every(function (inputElementKey) {
+                return this.inputElementsNewBoundingBox[inputElementKey].value;
+            }.bind(this));
+        }.bind(this);
 
         /**
          * Synchronize excerpt on map to coordinates in input fields
@@ -28,7 +34,9 @@
             locationFilterBounds._southWest.lng = this.inputElementsNewBoundingBox.inputElementWest.value;
             locationFilterBounds._northEast.lng = this.inputElementsNewBoundingBox.inputElementEast.value;
             locationFilterBounds._southWest.lat = this.inputElementsNewBoundingBox.inputElementSouth.value;
-            this.locationFilter.setBounds(locationFilterBounds);
+            if (this.areAllBoxesSet()) {
+                this.locationFilter.setBounds(locationFilterBounds);
+            }
         };
 
           // update coordinates input elements on change of excerpt on map

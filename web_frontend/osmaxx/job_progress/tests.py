@@ -8,9 +8,11 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
+
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
+from osmaxx.excerptexport.models.output_file import OutputFile
 from osmaxx.excerptexport.services.conversion_api_client import ConversionApiClient
 from osmaxx.job_progress import views
 from rest_framework.test import APITestCase, APIRequestFactory
@@ -131,7 +133,7 @@ class CallbackHandlingTest(APITestCase):
 
         views.tracker(request, order_id=str(self.extraction_order.id))
         emissary_mock.info.assert_called_with(
-            'Extraction order {order_id} is now PROCESSING.'.format(
+            'Extraction order #{order_id} "Neverland" is now PROCESSING.'.format(
                 order_id=self.extraction_order.id
             )
         )
@@ -139,6 +141,7 @@ class CallbackHandlingTest(APITestCase):
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
+    @patch.object(OutputFile, 'get_absolute_url', side_effect=['/a/download', '/another/download'])
     @patch('osmaxx.job_progress.views.Emissary')
     def test_calling_tracker_when_status_query_indicates_downloads_ready_advertises_downloads(
             self, emissary_class_mock, *args, **mocks):
@@ -164,17 +167,26 @@ class CallbackHandlingTest(APITestCase):
 
         views.tracker(request, order_id=str(self.extraction_order.id))
         emissary_mock.success.assert_called_with(
-            'The extraction of the order "{order_id}" has been finished.'.format(
+            'The extraction of the order #{order_id} "Neverland" has been finished.'.format(
                 order_id=self.extraction_order.id,
             ),
         )
+        expected_body = '\n'.join(
+            [
+                'The extraction order #{order_id} "Neverland" has been finished and is ready for retrieval.',
+                '',
+                'ESRI File Geodatabase (FileGDB): http://testserver/a/download',
+                'SQLite based SpatiaLite (spatialite): http://testserver/another/download',
+                '',
+                'View the complete order at http://testserver/orders/{order_id}',
+            ]
+        )
+        expected_body = expected_body.format(order_id=self.extraction_order.id)
         emissary_mock.inform_mail.assert_called_with(
-            subject='Extraction Order "{order_id} finished'.format(
+            subject='Extraction Order #{order_id} "Neverland" finished'.format(
                 order_id=self.extraction_order.id,
             ),
-            mail_body='The extraction order "{order_id}" has been finished and is ready for retrieval.'.format(
-                order_id=self.extraction_order.id,
-            ),
+            mail_body=expected_body,
         )
 
     @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
@@ -217,7 +229,7 @@ class CallbackHandlingTest(APITestCase):
         views.tracker(request, order_id=str(self.extraction_order.id))
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
-        emissary_mock.success.assert_called_with('The extraction of the order "1" has been finished.')
+        emissary_mock.success.assert_called_with('The extraction of the order #1 "Neverland" has been finished.')
         emissary_mock.warn.assert_not_called()
         emissary_mock.error.assert_not_called()
 
@@ -262,7 +274,25 @@ class CallbackHandlingTest(APITestCase):
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FAILED)
         emissary_mock.info.assert_not_called()
         emissary_mock.warn.assert_not_called()
-        emissary_mock.error.assert_called_with('The extraction order "1" has failed. Please try again later.')
+        emissary_mock.error.assert_called_with(
+            'The extraction order #{order_id} "Neverland" has failed. Please try again later.'.format(
+                order_id=self.extraction_order.id,
+            )
+        )
+        expected_body = '\n'.join(
+            [
+                'The extraction order #{order_id} "Neverland" could not be completed, please try again later.',
+                '',
+                'View the order at http://testserver/orders/{order_id}'
+            ]
+        )
+        expected_body = expected_body.format(order_id=self.extraction_order.id)
+        emissary_mock.inform_mail.assert_called_with(
+            subject='Extraction Order #{order_id} "Neverland" failed'.format(
+                order_id=self.extraction_order.id,
+            ),
+            mail_body=expected_body,
+        )
 
     def tearDown(self):
         if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):

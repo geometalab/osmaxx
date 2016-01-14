@@ -38,3 +38,7 @@ class OutputFile(models.Model):
             '[' + str(self.id) + '] ' \
             + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
             + 'identifier: ' + str(self.public_identifier)
+
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('excerptexport:download', kwargs=dict(uuid=self.public_identifier))

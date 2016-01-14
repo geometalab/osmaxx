@@ -8,22 +8,22 @@ class BBoxBoundingGeometryMixin(forms.Form):
     north = forms.FloatField(
         label=_('North'),
         required=True,
-        widget=forms.TextInput(attrs={'required': 'required'}),
+        widget=forms.NumberInput(attrs={'required': 'required'}),
     )
     west = forms.FloatField(
         label=_('West'),
         required=True,
-        widget=forms.TextInput(attrs={'required': 'required'}),
+        widget=forms.NumberInput(attrs={'required': 'required'}),
     )
     east = forms.FloatField(
         label=_('East'),
         required=True,
-        widget=forms.TextInput(attrs={'required': 'required'}),
+        widget=forms.NumberInput(attrs={'required': 'required'}),
     )
     south = forms.FloatField(
         label=_('South'),
         required=True,
-        widget=forms.TextInput(attrs={'required': 'required'}),
+        widget=forms.NumberInput(attrs={'required': 'required'}),
     )
 
     def form_layout(self):
