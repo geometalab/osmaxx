@@ -1,4 +1,5 @@
 {% load filter_filename i18n %}
+{% load remove_all_whitespace %}
 
 <ul class="download_files">
 {% for file in files.all %}
@@ -8,7 +9,15 @@
     {% else %}
     <li>{% include 'excerptexport/partials/download_content_file_label.html' with content_type=file.content_type %}:
         <a href="{{ download_url }}">{{ file.download_file_name }}</a>
-        <a href="mailto:?subject={% filter urlencode %}Download map data of {{ file.extraction_order.excerpt_name }}{% endfilter %}&body={% filter urlencode %}{% spaceless %}{% include 'excerptexport/partials/content_file_type_description.html' with content_type=file.content_type %}{% endspaceless %} ({{ file.content_type }}): {{ protocol }}://{{ host_domain }}{{ download_url }}{% endfilter %}">
+        <a href="mailto:?{% filter remove_all_whitespace %}
+        subject=
+            {% filter urlencode %}Download map data of {{ file.extraction_order.excerpt_name }}{% endfilter %}
+        &
+        body=
+            {% filter urlencode %}{% spaceless %}
+                    {% include 'excerptexport/partials/content_file_type_description.html' with content_type=file.content_type %}
+                {% endspaceless %} ({{ file.content_type }}): {{ protocol }}://{{ host_domain }}{{ download_url }}{% endfilter %}
+        {% endfilter %}">
             <button>&#9993; {% trans 'Send link' %}</button>
         </a>
         <div class="copy-link">

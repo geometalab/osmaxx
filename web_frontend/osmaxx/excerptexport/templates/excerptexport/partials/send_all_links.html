@@ -1,5 +1,18 @@
 {% load i18n %}
+{% load remove_all_whitespace %}
 
-<a href="mailto:?subject={% filter urlencode %}Download map data of {{ extraction_order.excerpt_name }}{% endfilter %}&body={% for file in extraction_order.output_files.all %}{% if not file.deleted_on_filesystem %}{% filter urlencode %}{% spaceless %}{% include 'excerptexport/partials/content_file_type_description.html' with content_type=file.content_type %}{% endspaceless %} ({{ file.content_type }}): http://{{ host_domain }}{% url 'excerptexport:download' uuid=file.public_identifier %}{% endfilter %}%0D%0A{% endif %}{% endfor %}">
+<a href="mailto:?{% filter remove_all_whitespace %}
+    subject=
+    {% filter urlencode %}Download map data of {{ extraction_order.excerpt_name }}{% endfilter %}
+    &
+    body=
+    {% for file in extraction_order.output_files.all %}
+        {% if not file.deleted_on_filesystem %}
+            {% filter urlencode %}{% spaceless %}
+                    {% include 'excerptexport/partials/content_file_type_description.html' with content_type=file.content_type %}
+                {% endspaceless %} ({{ file.content_type }}): http://{{ host_domain }}{% url 'excerptexport:download' uuid=file.public_identifier %}{% endfilter %}%0D%0A
+        {% endif %}
+    {% endfor %}
+{% endfilter %}">
     <button>&#9993; {% trans 'Send all links' %}</button>
 </a>
