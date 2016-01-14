@@ -49,6 +49,9 @@ coverage.xml
 # Django stuff:
 *.log
 
+# Files of locally running osmaxx frontend instance:
+private_media/
+
 # Sphinx documentation
 docs/_build/
 

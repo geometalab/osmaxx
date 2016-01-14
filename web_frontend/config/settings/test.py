@@ -1,6 +1,12 @@
+import tempfile
+
 from .local import *  # noqa
 
 DEBUG = False
+
+# Some of our tests erase PRIVATE_MEDIA_ROOT dir to clean up after themselves,
+# so DON'T set this to the location of anything valuable.
+PRIVATE_MEDIA_ROOT = tempfile.mkdtemp()
 
 OSMAXX_TEST_SETTINGS = {
     'download_file_name': '%(excerpt_name)s-%(content_type)s-%(id)s.%(file_extension)s',

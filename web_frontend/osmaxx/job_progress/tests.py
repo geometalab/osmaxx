@@ -1,7 +1,10 @@
+import os
+import shutil
 from io import BytesIO
 from unittest.mock import patch
 
 import requests_mock
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
@@ -290,3 +293,7 @@ class CallbackHandlingTest(APITestCase):
             ),
             mail_body=expected_body,
         )
+
+    def tearDown(self):
+        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
+            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
