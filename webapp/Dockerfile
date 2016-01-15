@@ -17,19 +17,23 @@ RUN ["apt-get", "-y", "install", "postgresql-server-dev-all"]
 RUN ["apt-get", "-y", "install", "binutils", "libproj-dev", "gdal-bin", "libgeoip1", "gdal-bin", "python-gdal"]
 
 # move into our working directory
-# ADD must be after chown see http://stackoverflow.com/a/26145444/1281947
-RUN ["groupadd", "python"]
-RUN ["useradd", "python", "-s", "/bin/bash", "-m", "-g", "python", "-G", "python"]
+RUN groupadd -r osmaxx && useradd -r -g osmaxx osmaxx
+#RUN ["groupadd", "osmaxx"]
+#RUN ["useradd", "osmaxx", "-s", "/bin/bash", "-m", "-g", "osmaxx", "-G", "osmaxx"]
 EXPOSE 8000
-ENV HOME /home/python
-WORKDIR /home/python/osmaxx
-RUN ["chown", "-R", "python:python", "/home/python"]
-ADD ./osmaxx /home/python/osmaxx
-
+ENV HOME /home/osmaxx
+WORKDIR /home/osmaxx
+RUN ["chown", "-R", "osmaxx:osmaxx", "/home/osmaxx"]
+# ADD must be after chown see http://stackoverflow.com/a/26145444/1281947
+ADD ./osmaxx/requirements /tmp/requirements/
 # manage requirements
 ENV REQUIREMENTS_REFRESHED_AT 2015-05-16
 # change to "requirements/production.txt" on production
-RUN ["pip3", "install", "-r", "requirements/local.txt"]
+RUN ["pip3", "install", "-r", "/tmp/requirements/local.txt"]
 ENV DATABASE_URL postgis://postgres@database/postgres
 # uncomment the line below to use container as a non-root user
-# USER python:python
+VOLUME ./osmaxx /home/osmaxx/osmaxx
+WORKDIR /home/osmaxx/osmaxx
+# until https://github.com/docker/docker/pull/12648 is resolved, we can't use
+# user namespaces currently
+# USER osmaxx
