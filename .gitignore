@@ -10,6 +10,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+.venv/
 build/
 develop-eggs/
 dist/
@@ -67,7 +68,9 @@ source/test_db.sqlite3
 # IDE trash
 .idea/*
 
-# docker generated folder contents
-docker_mounts/*
 # ln -s docker-compose.yml compose-development.yml
 docker-compose.yml
+osmaxx-py/src/
+# ignore environment file for local production environment
+.env
+*.log
