@@ -1,0 +1,30 @@
+# TODO: this file is only a placeholder for now!
+osmaxxwebapp:
+    command: gunicorn -b 0.0.0.0:8000 config.wsgi
+    extends:
+        file: compose-common.yml
+        service: osmaxxwebapp
+    volumes_from:
+        - source
+    links:
+        - osmaxxrabbitmq:rabbit
+        - osmaxxdatabase
+
+osmaxxrabbitmq:
+    extends:
+        file: compose-common.yml
+        service: osmaxxrabbitmq
+
+osmaxxcelery:
+    extends:
+        file: compose-common.yml
+        service: osmaxxcelery
+    links:
+        - osmaxxrabbitmq:rabbit
+        - osmaxxdatabase
+
+osmaxxdatabase:
+    extends:
+        file: compose-common.yml
+        service: osmaxxdatabase
+

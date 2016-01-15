@@ -1,4 +1,5 @@
 # Osmaxx
+
 Short project name for "<strong>O</strong>pen<strong>S</strong>treet<strong>M</strong>ap <strong>a</strong>rbitrary e<strong>x</strong>cerpt e<strong>x</strong>port".
 
 Cuts out OpenStreetMap data, processes it to geodata and converts it to typical GIS fileformats before being prepared for download. 
@@ -6,49 +7,41 @@ Cuts out OpenStreetMap data, processes it to geodata and converts it to typical 
 Website: http://osmaxx.hsr.ch/
 
 ## Development
-See https://github.com/geometalab/osmaxx-docs for documentations and `/docs/development.md` for instructions.
 
+See https://github.com/geometalab/osmaxx-docs for documentations and `/docs/development.md` for 
+more detailed instructions.
 
 ## Run it locally on Linux
 
-**Setup**
+### Prerequisites
 
 To run this project locally, you need docker and docker-compose installed 
 (https://docs.docker.com/installation/ubuntulinux/ and https://docs.docker.com/compose/install/).
 
-Then run 
+### Initialization/Docker container bootstrapping
 
-`./setup-containers.sh`
-
-**Running the project**
-
-From now on you can start the project using docker compose:
-
-`docker-compose up webapp`
-
-**running things inside the container**
-
-`docker-compose run webapp <command>`
-
-For example, to run tests, you can use:
-
-`docker-compose run webapp python3 manage.py test`
-
-
-### Useful Docker commands
-
-Save docker image to file:
 ```shell
-docker save osmaxx_database > /tmp/osmaxx-database-alpha1.docker-img.tar
-docker save osmaxx_webapp > /tmp/osmaxx-webapp-alpha1.docker-img.tar
+ln -s docker-compose.yml compose-development.yml
 ```
 
-Load docker image from file:
-```shell
-docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
-docker load < /tmp/osmaxx-database-alpha1.docker-img.tar
-```
+To setup all the containers and their dependencies, run
 
+`docker-compose build`
+
+Then initiate the project defaults:
+
+`docker-compose run webapp /bin/bash`
+
+Inside the container:
+
+1. Execute migrations: `$ python3 manage.py migrate`
+2. (optional, recommended) setup a superuser: `$ python3 manage.py createsuperuser`
+
+### Running the project
+
+Start the containers using docker compose:
+
+`docker-compose up`
 
 # Documentation
 
