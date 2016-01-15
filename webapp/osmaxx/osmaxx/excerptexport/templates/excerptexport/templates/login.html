@@ -1,0 +1,27 @@
+{% extends "excerptexport/layouts/base.html" %}
+
+{% load i18n %}
+
+{% block main %}
+
+{% if form.errors %}
+<p>{% trans "Your username and password didn't match. Please try again." %}</p>
+{% endif %}
+
+<form method="post" action="{% url 'excerptexport:login' %}">
+{% csrf_token %}
+<div>
+    <div>{{ form.username.label_tag }}</div>
+    <div>{{ form.username }}</div>
+</div>
+<div>
+    <div>{{ form.password.label_tag }}</div>
+    <div>{{ form.password }}</div>
+</div>
+
+<input type="submit" value="login" />
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+    <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">{% trans 'Login with google-oauth2' %}</a><br />
+{% endblock %}

@@ -5,5 +5,11 @@ Cuts out OpenStreetMap data, processes it to geodata and converts it to typical 
 
 Website: http://osmaxx.hsr.ch/
 
+
 ## Development
-See `developmentEnvironment/` for instructions.
+See https://github.com/geometalab/osmaxx-docs for documentations and `developmentEnvironment/` for instructions.
+
+
+# Documentation
+
+See Wiki: https://github.com/geometalab/osmaxx/wiki

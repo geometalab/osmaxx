@@ -35,6 +35,22 @@ For developers with write access to this repository:
 
 A vagrant box is provided as part of this project's repository.
 
+## Local prerequisites
+
+for commiting and using the pre-commit hook (which really should be used) flake8 needs to be installed on
+the local system/machine.
+
+For Ubuntu and Debian this is:
+
+`sudo apt-get install python3-flake8`
+
+Then the pre-commit hook can be linked to the hooks.
+
+```
+$ cd <osmaxx-repo-root>
+$ ln -s ../../hooks/pre-commit .git/hooks/pre-commit
+```
+
 ## Features
 
 * Ubuntu 14.04	http://www.ubuntu.com/download/server
@@ -57,11 +73,11 @@ A vagrant box is provided as part of this project's repository.
 5. Add 'localhost	osmaxx.dev' to your /etc/hosts file
 6. Use the configured Apache or start development server (live update after file change)
 	1. Live simulation with Apache
-		* Open http://osmax.dev:8080/excerptExport/ in your local browser
+		* Open http://osmaxx.dev:8080/excerptExport/ in your local browser
 	2. Development
 		* Log into vagrant machine: `vagrant ssh`
 		* Run development start script: `/var/www/eda/projects/runDevelopmentServer.sh`
-		* Open http://osmax.dev:8000/excerptExport/ in your local browser
+		* Open http://osmaxx.dev:8000/excerptExport/ in your local browser
 
 
 ### Reset the box
@@ -91,30 +107,30 @@ Add
     
 to your local /etc/hosts file.
 
-| Feature                       | URL 				            | Username 	| Password 					|
-| ---                           | ---				            | ---		| ---						|
-| Database osmaxx               |					            | osmaxx	| osmaxx                    |
-| App frontend                  | osmaxx.dev:8080/excerptExport	|			|							|
-| App frontend development      | osmaxx.dev:8000/exportExcerpt	|			|							|
-| App frontend development      | osmaxx.dev:8000/admin         | admin 	| osmaxx					|
+| Feature                       | URL 				                    | Username 	| Password 					|
+| ---                           | ---				                    | ---		| ---						|
+| Database osmaxx               |					                    | osmaxx	| osmaxx                    |
+| App frontend                  | http://osmaxx.dev:8080/excerptexport	|			|							|
+| App frontend development      | http://osmaxx.dev:8000/excerptexport	|			|							|
+| App backend development       | http://osmaxx.dev:8000/admin          | admin 	| osmaxx					|
 
 
 ## Development
 
-### Run application using Django built in server
+### Run application using Django built in server (see runDevelopmentServer.sh)
 
-You need to specify the ip. Otherwise you are not able to reach the application from outside of the vm.
+Specify IP `0.0.0.0` to listen on **all** interfaces. Default would be local interfaces only, so you would not be able
+to reach the application from outside of the VM.
 
 ```shell
-# get local ip
-LOCALIP=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'`
+#!/bin/bash
 
+CURRENTDIR=$(dirname $0)
+cd "$CURRENTDIR"
 # activate environment
-cd "/path/to/manage.py"
-source "../environment/bin/activate"
-
-# run server. Replace $localIP by the ip address of the vm if you run this manually
-python manage.py runserver "$LOCALIP:8000"
+source ../environment/bin/activate
+# start server listening on all interfaces
+python ./manage.py runserver 0.0.0.0:8000
 ```
 
 ### Clear Django cache
@@ -130,7 +146,7 @@ cache.clear()
 
 ### Update persistence
 
-#### Update migration information
+#### 1. Update migration information
 
 ```shell
 cd /path/to/projects/folder
@@ -138,13 +154,13 @@ source ../environment/bin/activate
 python manage.py makemigrations
 ```
 
-#### See domain specific migrations (e.g. sql)
+#### 2. See domain specific migrations (e.g. sql)
 
 ```shell
 python manage.py sqlmigrate excerptExport {number, e.g. 0001}
 ```
 
-#### Run migrations on database
+#### 3. Run migrations on database
 ```shell
 python manage.py migrate
 ```
@@ -158,6 +174,12 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
+### Update locales
+
+```shell
+python manage.py makemessages -a
+```
+
 
 ### Backup & restore the database
 ```shell
@@ -166,4 +188,14 @@ sudo -u postgres pg_dump osmaxx --data-only > /var/www/eda/data/{yymmdd}-osmaxx-
 
 # restore
 sudo -u postgres psql osmaxx < /var/www/eda/data/{yymmdd}-osmaxx-data.sql
+```
+
+
+### Deployment
+
+#### Package release
+
+```shell
+cd toDirectoryContainingOsmaxxRepo
+zip -r osmaxx-0.1.zip osmaxx -x *.git* -x *.od* -x *.gitignore* -x *.gitmodules* -x *developmentEnvironment/* -x *data/* -x *.idea* -x *test_db.sqlite* -x *__pycache__*
 ```

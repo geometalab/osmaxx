@@ -1,0 +1,20 @@
+database:
+    build: database
+webapp:
+    build: webapp
+    # on production, enable the following
+    # command: gunicorn -b 0.0.0.0:8000 wsgi:application
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+        - webapp/osmaxx:/home/python/osmaxx/
+    links:
+        - database
+    ports:
+        - "8000:8000"
+# webserver:
+#     build: webserver
+#     ports:
+#         - "80:80"
+#         - "443:443"
+#     links:
+#         - webapp

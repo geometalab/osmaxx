@@ -35,7 +35,7 @@ sudo apt-get -y autoremove
 
 echo ""
 echo "[setup] install python, tools and django ..."
-sudo apt-get -y install python3 python3-doc python3-setuptools python3-pip python-dev libpq-dev
+sudo apt-get -y install python3 python3-doc python3-setuptools python3-pip python-dev libpq-dev gettext
 sudo pip3 install virtualenv
 
 
@@ -48,9 +48,8 @@ sudo apt-get -y install python3-psycopg2
 
 echo""
 echo "[setup] install webserver ..."
-sudo apt-get -y install apache2 apache2-utils libapache2-mod-wsgi-py3 libapache2-mod-xsendfile
+sudo apt-get -y install apache2 apache2-utils libapache2-mod-wsgi-py3
 sudo a2enmod wsgi
-sudo a2enmod xsendfile
 sudo sh -c "echo 'ServerName localhost' >> /etc/apache2/apache2.conf"
 sudo service apache2 restart
 

@@ -1,0 +1,17 @@
+{% extends "excerptexport/layouts/base.html" %}
+
+{% load i18n %}
+
+{% block main %}
+    {% if user.is_authenticated %}
+        <h2>{% trans 'Please contact your Administrator' %}</h2>
+        <p>
+            {% blocktrans %}You do not appear to have the proper access rights. Please contact your
+            supervisor/administrator and ask for the needed access rights.{% endblocktrans %}
+        </p>
+    {% else %}
+        <h2>{% trans 'Please Login' %}</h2>
+        <p>{% trans 'This site has pages, which are protected. Please login and try again.' %}</p>
+        <a href="{% url 'excerptexport:login' %}?next={% url 'excerptexport:index' %}">{% trans 'Login' %}</a>
+    {% endif %}
+{% endblock %}
