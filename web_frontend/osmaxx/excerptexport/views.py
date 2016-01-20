@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 from django.conf import settings
 from django.views.generic.edit import FormMixin
+from django.views.generic.list import ListView
 
 from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from .models import ExtractionOrder, OutputFile
@@ -67,19 +68,27 @@ class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, 
 order_existing_excerpt = OrderExistingExcerptView.as_view()
 
 
-@login_required()
-@frontend_access_required()
-def list_downloads(request):
-    view_context = {
-        'protocol': request.scheme,
-        'host_domain': request.get_host(),
-        'extraction_orders': ExtractionOrder.objects.filter(
-            orderer=request.user,
+class DownloadListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
+    template_name = 'excerptexport/templates/list_downloads.html'
+    context_object_name = 'extraction_orders'
+
+    def get_queryset(self):
+        return ExtractionOrder.objects.filter(
+            orderer=self.request.user,
             state=ExtractionOrderState.FINISHED
         ).order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
-    }
-    return render_to_response('excerptexport/templates/list_downloads.html', context=view_context,
-                              context_instance=RequestContext(request))
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data.update(
+            {
+                'protocol': self.request.scheme,
+                'host_domain': self.request.get_host(),
+            }
+        )
+        return data
+
+list_downloads = DownloadListView.as_view()
 
 
 def download_file(request, uuid):
