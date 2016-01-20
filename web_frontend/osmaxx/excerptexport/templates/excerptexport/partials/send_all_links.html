@@ -10,7 +10,7 @@
         {% if not file.deleted_on_filesystem %}
             {% filter urlencode %}{% filter strip %}
                     {% include 'excerptexport/partials/content_file_type_description.html' with content_type=file.content_type %}
-                {% endfilter %} ({{ file.content_type }}): http://{{ host_domain }}{% url 'excerptexport:download' uuid=file.public_identifier %}{% endfilter %}%0D%0A
+                {% endfilter %} ({{ file.content_type }}): http://{{ host_domain }}{{ file.get_absolute_url }}{% endfilter %}%0D%0A
         {% endif %}
     {% endfor %}
 {% endfilter %}">
