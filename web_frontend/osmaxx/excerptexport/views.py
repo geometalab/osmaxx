@@ -76,7 +76,7 @@ class DownloadListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView
         return ExtractionOrder.objects.filter(
             orderer=self.request.user,
             state=ExtractionOrderState.FINISHED
-        ).order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
+        ).order_by('-id')
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -146,7 +146,7 @@ def list_orders(request):
     view_context = {
         'protocol': request.scheme,
         'host_domain': request.get_host(),
-        'extraction_orders': extraction_orders.order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
+        'extraction_orders': extraction_orders.order_by('-id')
     }
     return render_to_response('excerptexport/templates/list_orders.html', context=view_context,
                               context_instance=RequestContext(request))
