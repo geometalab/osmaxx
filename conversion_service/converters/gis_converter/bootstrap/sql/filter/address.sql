@@ -129,7 +129,7 @@ select
 -- Interpolation Function, turns address way into respective buildings and nodes --
   addr_interpolate(line_id, addr_street, interpolation_type, first_housenr, last_housenr, line_geom)
 from addr_interpolated
-limit 1 \g ./tmp/FORCE_CONTINUE.txt;
+limit 1;
 -- last line: limit 1 \g ./tmp/FORCE_CONTINUE.txt; -> what does that do?
 
 INSERT INTO osmaxx.address_p
