@@ -64,11 +64,13 @@ class BootStrapper:
 
     def _setup_db_functions(self):
         create_function_sql_path = os.path.join(self._script_base_dir, 'sql', 'create_functions.sql')
-        self._postgres.execute_psql_script(psql_script_file_path=create_function_sql_path)
+        # FIXME: replace the drop/create commands so autocommit is not needed anymore!
+        self._postgres.execute_psycopg_file(create_function_sql_path, autocommit=True)
 
     def _harmonize_database(self):
         cleanup_sql_path = os.path.join(self._script_base_dir, 'sql', 'sweeping_data.sql')
-        self._postgres.execute_psql_script(psql_script_file_path=cleanup_sql_path)
+        # FIXME: replace the drop/create commands so autocommit is not needed anymore!
+        self._postgres.execute_psycopg_file(cleanup_sql_path, autocommit=True)
 
     def _filter_data(self):
         filter_sql_scripts_ordered = [
@@ -96,4 +98,5 @@ class BootStrapper:
         base_dir = os.path.join(self._script_base_dir, 'sql', 'filter')
         for filter_script in filter_sql_scripts_ordered:
             filter_script_path = os.path.join(base_dir, filter_script)
-            self._postgres.execute_psql_script(psql_script_file_path=filter_script_path)
+            # FIXME: replace the drop/create commands so autocommit is not needed anymore!
+            self._postgres.execute_psycopg_file(filter_script_path, autocommit=True)
