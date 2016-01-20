@@ -2,7 +2,7 @@
 {% load whitespace_cleanup %}
 
 <ul class="download_files">
-{% for file in files.all %}
+{% for file in extraction_order.output_files.all %}
     {% url 'excerptexport:download' uuid=file.public_identifier as download_url %}
     {% if file.deleted_on_filesystem %}
         <li data-file-deleted title="{{ file.file|filter_filename }} is already deleted">{{ file.download_file_name }}</li>

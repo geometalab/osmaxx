@@ -38,7 +38,7 @@
                 -->{% else %}<!--
                     -->({{ extraction_order.output_files.count }} {% trans 'already converted &hellip;' %})<!--
                 -->{% endif %}</h3>
-            {% include 'excerptexport/partials/download_list.html' with files=extraction_order.output_files %}
+            {% include 'excerptexport/partials/download_list.html' %}
             {% include 'excerptexport/partials/send_all_links.html' %}
         {% endif %}
     </div>

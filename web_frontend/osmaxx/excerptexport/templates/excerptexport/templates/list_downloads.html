@@ -14,7 +14,7 @@
             <h3>{% trans 'Extraction order' %} <a href="{% url 'excerptexport:status' extraction_order.id %}">#{{ extraction_order.id }}</a>
                 ({% trans 'Excerpt' %} &quot;{{ extraction_order.excerpt_name }}&quot;)</h3>
 
-            {% include 'excerptexport/partials/download_list.html' with files=extraction_order.output_files %}
+            {% include 'excerptexport/partials/download_list.html' %}
             {% include 'excerptexport/partials/send_all_links.html' %}
 
         {% endfor %}
