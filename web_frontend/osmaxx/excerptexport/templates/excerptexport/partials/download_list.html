@@ -11,7 +11,7 @@
         <a href="{{ download_url }}">{{ file.download_file_name }}</a>
         <a href="mailto:?{% filter remove_all_whitespace %}
         subject=
-            {% filter urlencode %}Download map data of {{ file.extraction_order.excerpt_name }}{% endfilter %}
+            {% filter urlencode %}Download map data of {{ extraction_order.excerpt_name }}{% endfilter %}
         &
         body=
             {% filter urlencode %}{% filter strip %}

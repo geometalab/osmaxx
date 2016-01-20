@@ -17,7 +17,6 @@ class MailtoUriTestCase(TestCase):
                 deleted_on_filesystem=False,
                 content_type=format_choice[0],
                 public_identifier='some-long-id',
-                extraction_order=order,
             ) for format_choice in available_format_choices
         ]
         order.configure_mock(
