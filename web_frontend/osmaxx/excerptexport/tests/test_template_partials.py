@@ -9,9 +9,6 @@ from osmaxx.excerptexport.forms.order_options_mixin import available_format_choi
 
 class MailtoUriTestCase(TestCase):
     def setUp(self):
-        order = Mock(
-            excerpt_name="Neverland",
-        )
         files = [
             Mock(
                 deleted_on_filesystem=False,
@@ -19,7 +16,8 @@ class MailtoUriTestCase(TestCase):
                 public_identifier='some-long-id',
             ) for format_choice in available_format_choices
         ]
-        order.configure_mock(
+        order = Mock(
+            excerpt_name="Neverland",
             **{
                 'output_files.all': files,
             }
