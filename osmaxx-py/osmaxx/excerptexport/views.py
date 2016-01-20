@@ -136,7 +136,6 @@ def download_file(request, uuid):
     response = StreamingHttpResponse(
         FileWrapper(
             private_storage.open(output_file.file),
-            settings.OSMAXX['download_chunk_size']
         ),
         content_type=output_file.mime_type
     )
