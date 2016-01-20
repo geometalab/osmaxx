@@ -17,11 +17,6 @@ For developers have write access to this repository:
 	(This project uses git-flow's default branch names and branch name prefixes, which `-d` automatically accepts.)
 
 	You should now be on the `develop` branch. Otherwise checkout the development branch: `git checkout development`.
-3. Clone the third party repositories we use through [git submodules](http://www.git-scm.com/book/en/v2/Git-Tools-Submodules)
-
-	```shell
-	git submodule init && git submodule update
-	```
 
 
 ## Contribute
@@ -32,9 +27,9 @@ For developers have write access to this repository:
 	```
 
 2. Code and commit as usual
-3. Run flake8, checks and tests
+3. Run checks and tests
 	```shell
-	./test.sh
+	./runtests.py --webapp-checks --webapp-tests
 	```
 
 3. Once you're finished, push the feature branch back to this GitHub repo
@@ -76,7 +71,7 @@ git flow release start '1.4.0'
 * Update documentation
 	* Readme
 	* Wiki
-
+* Update version number under `web_frontend/osmaxx/__init__.py`
 
 ### Finish release
 

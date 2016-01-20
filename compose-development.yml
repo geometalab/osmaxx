@@ -1,4 +1,4 @@
-shareddatadev:
+shareddata:
   image: buildpack-deps:jessie
   command: /bin/true
   volumes:
@@ -10,15 +10,16 @@ shareddatadev:
     - /database/data
     # temporary results directory used as pipe between multiple docker forests
     - /tmp/osmaxx-results:/results
+    # emails file from email sending during development and testing
+    - /tmp/osmaxx-development-emails:/dev-emails
   net: "none"
 
-sourcedev:
-  build: docker/volume-mount
+sources:
+  image: buildpack-deps:jessie
   volumes:
-    - ./osmaxx-py:/home/osmaxx/source
-    - ~/.cache/pip:/home/osmaxx/.cache/pip
+    - ./web_frontend:/home/osmaxx/source
 
-webappdev:
+webapp:
   extends:
     file: compose-common.yml
     service: base
@@ -28,56 +29,89 @@ webappdev:
   expose:
     - "8000"
   volumes_from:
-    - sourcedev
-    - shareddatadev
+    - sources
+    - shareddata
   links:
-    - rabbitmqdev:rabbit
-    - databasedev
-    - emaildev
-    - celerydev
+    - database:database
+    - conversionservice:conversionservice
+    # only needed to have a worker up and running
+    - conversionworker:conversionworker
   environment:
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
+    - DJANGO_SETTINGS_MODULE=config.settings.local
     - DJANGO_DEBUG=true
-    - DJANGO_EMAIL_HOST=emaildev
+    - DJANGO_SERVER_EMAIL=osmaxx-srv@localhost
+    - DJANGO_DEFAULT_FROM_EMAIL=osmaxx@localhost
+    - OSMAXX_ACCOUNT_MANAGER_EMAIL=user-manager@localhost
+    - DJANGO_EMAIL_FILE_PATH=/dev-emails
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
+    - DJANGO_SECRET_KEY=my.secret.key.is.not.secret!
+    # should correspond to link defined under `links`
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_URL=http://conversionservice:8901/api/
+    # corresponds to `conversionservice`: SERVICE_USER_NAME
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=dev
+    # corresponds to `conversionservice`: SERVICE_USER_PASSWORD
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=dev
 
-
-rabbitmqdev:
-  extends:
-    file: compose-common.yml
-    service: rabbitmqbase
-
-celerydev:
-  extends:
-    file: compose-common.yml
-    service: base
-  command: honcho start -f Procfile.celery
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  volumes_from:
-    - sourcedev
-    - shareddatadev
-  links:
-    - rabbitmqdev:rabbit
-    - databasedev
-    - emaildev
-  environment:
-    - DJANGO_CELERY_BROKER_URL=amqp://guest@rabbit
-    - DJANGO_DATABASE_URL=postgis://postgres@databasedev/postgres
-    - DJANGO_DEBUG=true
-    - DJANGO_EMAIL_HOST=emaildev
-
-databasedev:
+database:
   extends:
     file: compose-common.yml
     service: databasebase
   volumes_from:
-    - shareddatadev
+    - shareddata
   environment:
     - PGDATA=/database/data
 
-emaildev:
-  image: python:3
+######## CONVERSION SERVICE ###########
+conversionworker:
+  extends:
+    file: compose-common.yml
+    service: conversionenvironment
+  image: geometalab/osmaxx-conversion-worker
+  command: [honcho, -f, ./conversion_service/worker/Procfile, start]
+  volumes_from:
+    - conversionservicedata
+  links:
+    - conversionserviceredis:redis
+
+conversionservice:
+  extends:
+    file: compose-common.yml
+    service: conversionenvironment
+  image: geometalab/osmaxx-conversion-service
+  command: [honcho, -f, ./conversion_service/Procfile.dev, start]
   ports:
-    - 1025:1025
-  command: python -m smtpd -n -c DebuggingServer 0.0.0.0:1025
+    - "8901:8901"
+  expose:
+    - "8901"
+  volumes_from:
+    - conversionservicedata
+  links:
+    - conversionserviceredis:redis
+    - conversionservicepostgres:database
+  environment:
+    - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
+    # needs to be the same as `DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME` in `webapp`
+    - SERVICE_USER_NAME=dev
+    # needs to be the same as `DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD` in `webapp`
+    - SERVICE_USER_PASSWORD=dev
+
+conversionservicedata:
+  image: debian:jessie
+  command: echo true
+  volumes:
+    - /data/results
+    - /tmp/osm-planet/:/var/data/osm-planet
+
+osmplanet:
+  image: geometalab/osm-planet
+  volumes_from:
+    - conversionservicedata
+  environment:
+    - osm_planet_mirror=http://download.geofabrik.de/europe/
+    - osm_planet_path_relative_to_mirror=switzerland-latest.osm.pbf
+
+conversionserviceredis:
+  image: redis
+
+conversionservicepostgres:
+  image: geometalab/postgis:9.4
