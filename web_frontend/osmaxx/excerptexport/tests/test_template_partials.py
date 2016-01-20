@@ -41,13 +41,13 @@ class MailtoUriTestCase(TestCase):
     def test_send_link_links_in_download_list_have_expected_URIs(self):
         context = dict(
             files=Mock(all=self.files),
-            host_domain='exampel.com',
+            host_domain='example.com',
             protocol='http'
         )
         actual_result_string = render_to_string('excerptexport/partials/download_list.html', context=context)
         self.assertInHTML(
             """
-            <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=ESRI%20File%20Geodatabase%20%28fgdb%29%3A%20http%3A//exampel.com/downloads/some-long-id/">
+            <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=ESRI%20File%20Geodatabase%20%28fgdb%29%3A%20http%3A//example.com/downloads/some-long-id/">
                <button>&#9993; Send link</button>
             </a>
             """,  # noqa
@@ -55,7 +55,7 @@ class MailtoUriTestCase(TestCase):
         )
         self.assertInHTML(
             """
-            <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=ESRI%20Shapefile%20%28shp%29%3A%20http%3A//exampel.com/downloads/some-long-id/">
+            <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=ESRI%20Shapefile%20%28shp%29%3A%20http%3A//example.com/downloads/some-long-id/">
                 <button>&#9993; Send link</button>
             </a>
             """,  # noqa
@@ -63,7 +63,7 @@ class MailtoUriTestCase(TestCase):
         )
         self.assertInHTML(
             """
-            <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=GeoPackage%20%28gpkg%29%3A%20http%3A//exampel.com/downloads/some-long-id/">
+            <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=GeoPackage%20%28gpkg%29%3A%20http%3A//example.com/downloads/some-long-id/">
                 <button>&#9993; Send link</button>
             </a>
             """,  # noqa
@@ -71,7 +71,7 @@ class MailtoUriTestCase(TestCase):
         )
         self.assertInHTML(
             """
-            <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=SQLite%20based%20SpatiaLite%20%28spatialite%29%3A%20http%3A//exampel.com/downloads/some-long-id/">
+            <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=SQLite%20based%20SpatiaLite%20%28spatialite%29%3A%20http%3A//example.com/downloads/some-long-id/">
                 <button>&#9993; Send link</button>
             </a>
             """,  # noqa
@@ -79,7 +79,7 @@ class MailtoUriTestCase(TestCase):
         )
         self.assertInHTML(
             """
-            <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=Garmin%20navigation%20%26%20map%20data%20%28garmin%29%3A%20http%3A//exampel.com/downloads/some-long-id/">
+            <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=Garmin%20navigation%20%26%20map%20data%20%28garmin%29%3A%20http%3A//example.com/downloads/some-long-id/">
                 <button>&#9993; Send link</button>
             </a>
             """,  # noqa
