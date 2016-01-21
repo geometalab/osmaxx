@@ -25,7 +25,7 @@
         }.bind(this);
 
         this.validateExcerptBoundInputFields = function() {
-            var allowedMaxSize = 250 * 1024 * 1024;
+            var allowedMaxSize = 500 * 1024 * 1024;
             if (this.areAllBoxesSet()) {
 
                 jQuery.getJSON(
