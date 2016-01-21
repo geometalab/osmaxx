@@ -21,10 +21,10 @@ class Postgres:
         try:
             with open(file_path, 'r') as psql_command_file:
                 return self.execute_psycopg_command(
-                        psql_command_file.read(),
-                        connection=connection,
-                        autocommit=autocommit,
-                        fetch_result=fetch_result
+                    psql_command_file.read(),
+                    connection=connection,
+                    autocommit=autocommit,
+                    fetch_result=fetch_result
                 )
         except:
             logger.error("exception caught while processing %s", file_path)
