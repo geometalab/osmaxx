@@ -254,4 +254,4 @@ class Statistics:
             table=table_name,
             where_clause=where_clause,
         )
-        return self._postgres.execute_raw(query_string).fetchone()[0]  # we know there is exactly one result!
+        return self._postgres.execute_psycopg_command(query_string).fetchone()[0]  # we know there is exactly one result!
