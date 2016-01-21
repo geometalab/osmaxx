@@ -1,13 +1,14 @@
 import os
 import shutil
 from io import BytesIO
-from unittest.mock import patch
+from unittest.mock import patch, ANY
 
 import requests_mock
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
+from django.test.testcases import TestCase
 
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
@@ -297,3 +298,10 @@ class CallbackHandlingTest(APITestCase):
     def tearDown(self):
         if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
             shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
+
+
+class SignalsTest(TestCase):
+    @patch('osmaxx.job_progress.signals.update_orders_of_request_user')
+    def test_signal_received_when_request_is_fired(self, receiver_mock):
+        self.client.get('/dummy/')
+        receiver_mock.assert_called_with(ANY)

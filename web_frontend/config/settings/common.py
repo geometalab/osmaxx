@@ -56,6 +56,7 @@ LOCAL_APPS = (
     'version',
 
     'osmaxx.excerptexport',
+    'osmaxx.job_progress',
     'osmaxx.social_auth',
 )
 
