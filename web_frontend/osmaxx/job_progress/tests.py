@@ -302,6 +302,6 @@ class CallbackHandlingTest(APITestCase):
 
 class SignalsTest(TestCase):
     @patch('osmaxx.job_progress.signals.update_orders_of_request_user')
-    def test_signal_when_request_comes_in_updates_orders_of_request_user(self, receiver_mock):
+    def test_signal_when_request_comes_in_updates_orders_of_request_user(self, update_orders_mock):
         self.client.get('/dummy/')
-        receiver_mock.assert_called_with(ANY)
+        update_orders_mock.assert_called_with(ANY)
