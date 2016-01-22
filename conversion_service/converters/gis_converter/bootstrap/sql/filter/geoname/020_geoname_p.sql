@@ -18,7 +18,7 @@ INSERT INTO osmaxx.geoname_p
 	int_name as name_int, 
 	transliterate(name) as label,
 	cast(tags as text) as tags,
-	cast(nullif(population,'') as int) as population,
+	cast_to_int_null_if_failed(population) as population,
 	wikipedia as wikipedia
   FROM osm_point
   WHERE place is not null or (area='yes' and name is not null)
@@ -46,7 +46,7 @@ UNION
 	int_name as name_int, 
 	transliterate(name) as label,
 	cast(tags as text) as tags,
-	cast(nullif(population,'') as int) as population,
+	cast_to_int_null_if_failed(population) as population,
 	wikipedia as wikipedia
   FROM osm_polygon
   WHERE place is not null or (area='yes' and name is not null);

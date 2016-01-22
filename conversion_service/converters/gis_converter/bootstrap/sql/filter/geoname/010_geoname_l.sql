@@ -23,7 +23,7 @@ INSERT INTO osmaxx.geoname_l
 	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
-	cast(nullif(population,'') as int) as population,
+	cast_to_int_null_if_failed(population) as population,
 	wikipedia as wikipedia
   FROM osm_line
   WHERE place is not null or (area='yes' and name is not null);
