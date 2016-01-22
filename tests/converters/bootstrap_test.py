@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import mock as mock
+from unittest import mock
 import os
 from django.conf import settings
 
