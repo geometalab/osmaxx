@@ -300,8 +300,26 @@ class CallbackHandlingTest(APITestCase):
             shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
 
 
-class SignalsTest(TestCase):
-    @patch('osmaxx.job_progress.signals.update_orders_of_request_user')
-    def test_signal_when_request_comes_in_updates_orders_of_request_user(self, update_orders_mock):
+class OrderUpdaterMiddlewareTest(TestCase):
+    @patch('osmaxx.job_progress.middleware.update_orders_of_request_user')
+    def test_request_middleware_updates_orders_of_request_user(self, update_orders_mock):
         self.client.get('/dummy/')
         update_orders_mock.assert_called_once_with(ANY)
+
+    @patch('osmaxx.job_progress.middleware.update_orders_of_request_user')
+    def test_request_middleware_passes_request_with_user(self, update_orders_mock):
+        self.client.get('/dummy/')
+        args, kwargs = update_orders_mock.call_args
+        request = args[0]
+        self.assertIsNotNone(request.build_absolute_uri.__call__, msg='not a usable request')
+        self.assertIsNotNone(request.user)
+
+    @patch('osmaxx.job_progress.middleware.update_orders_of_request_user')
+    def test_request_middleware_when_authenticated_passes_request_with_logged_in_user(self, update_orders_mock):
+        user = User.objects.create_user('user', 'user@example.com', 'pw')
+        self.client.login(username='user', password='pw')
+        self.client.get('/dummy/')
+        args, kwargs = update_orders_mock.call_args
+        request = args[0]
+        self.assertIsNotNone(request.build_absolute_uri.__call__, msg='not a usable request')
+        self.assertEqual(user, request.user)
