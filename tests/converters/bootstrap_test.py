@@ -1,7 +1,6 @@
-from unittest import TestCase
-
-from unittest import mock
 import os
+from unittest import TestCase, mock
+
 from django.conf import settings
 
 from converters.gis_converter.bootstrap import bootstrap
