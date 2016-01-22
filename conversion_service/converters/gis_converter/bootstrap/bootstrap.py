@@ -1,3 +1,4 @@
+import glob
 import subprocess
 
 import os
@@ -63,9 +64,8 @@ class BootStrapper:
         subprocess.check_call(osm_2_pgsql_command)
 
     def _setup_db_functions(self):
-        create_function_sql_path = os.path.join(self._script_base_dir, 'sql', 'create_functions.sql')
         # FIXME: replace the drop/create commands so autocommit is not needed anymore!
-        self._postgres.execute_psycopg_file(create_function_sql_path, autocommit=True)
+        self._execute_sql_scripts_in_folder(os.path.join(self._script_base_dir, 'sql', 'functions'), autocommit=True)
 
     def _harmonize_database(self):
         cleanup_sql_path = os.path.join(self._script_base_dir, 'sql', 'sweeping_data.sql')
@@ -73,30 +73,35 @@ class BootStrapper:
         self._postgres.execute_psycopg_file(cleanup_sql_path, autocommit=True)
 
     def _filter_data(self):
-        filter_sql_scripts_ordered = [
-            'drop_and_recreate.sql',
-            'address.sql',
-            'adminarea_boundary.sql',
-            'building.sql',
-            'landuse.sql',
-            'military.sql',
-            'natural.sql',
-            'nonop.sql',
-            'geoname.sql',
-            'pow.sql',
-            'poi.sql',
-            'misc.sql',
-            'transport.sql',
-            'railway.sql',
-            'road.sql',
-            'route.sql',
-            'traffic.sql',
-            'utility.sql',
-            'water.sql',
-            'create_view.sql',
+        filter_sql_script_folders = [
+            'drop_and_recreate',
+            'address',
+            'adminarea_boundary',
+            'building',
+            'landuse',
+            'military',
+            'natural',
+            'nonop',
+            'geoname',
+            'pow',
+            'poi',
+            'misc',
+            'transport',
+            'railway',
+            'road',
+            'route',
+            'traffic',
+            'utility',
+            'water',
+            'create_view',
         ]
         base_dir = os.path.join(self._script_base_dir, 'sql', 'filter')
-        for filter_script in filter_sql_scripts_ordered:
-            filter_script_path = os.path.join(base_dir, filter_script)
+        for script_folder in filter_sql_script_folders:
+            script_folder_path = os.path.join(base_dir, script_folder)
             # FIXME: replace the drop/create commands so autocommit is not needed anymore!
-            self._postgres.execute_psycopg_file(filter_script_path, autocommit=True)
+            self._execute_sql_scripts_in_folder(script_folder_path, autocommit=True)
+
+    def _execute_sql_scripts_in_folder(self, folder_path, autocommit=False):
+        sql_scripts_in_folder = glob.glob(os.path.join(folder_path, '*.sql'))
+        for script_path in sorted(sql_scripts_in_folder, key=os.path.basename):
+            self._postgres.execute_psycopg_file(script_path, autocommit=autocommit)

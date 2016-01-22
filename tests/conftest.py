@@ -60,20 +60,6 @@ def pytest_configure():
                 'PASSWORD': '',
                 'DEFAULT_TIMEOUT': 3600,
             },
-            'high': {
-                'HOST': 'localhost',
-                'PORT': 6379,
-                'DB': 0,
-                'PASSWORD': '',
-                'DEFAULT_TIMEOUT': 3600,
-            },
-            'low': {
-                'HOST': 'localhost',
-                'PORT': 6379,
-                'DB': 0,
-                'PASSWORD': '',
-                'DEFAULT_TIMEOUT': 3600,
-            },
         },
         JWT_AUTH={
             'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
