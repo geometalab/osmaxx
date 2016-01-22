@@ -8,7 +8,7 @@ from converters.gis_converter.bootstrap import bootstrap
 
 
 class BootStrapperTest(TestCase):
-    def test_scripts_are_execute_in_correct_order(self, *args, **kwargs):
+    def test_scripts_are_executed_in_correct_order(self, *args, **kwargs):
         bootstrapper = bootstrap.BootStrapper(pbf_file_path=settings.OSMAXX_CONVERSION_SERVICE['PBF_PLANET_FILE_PATH'])
         with mock.patch.object(bootstrapper, '_postgres') as postgres_mock:
             assert bootstrapper._postgres is postgres_mock
@@ -52,7 +52,7 @@ class BootStrapperTest(TestCase):
                 ]
             )
 
-    def test_function_scripts_are_execute_in_correct_order(self, *args, **kwargs):
+    def test_function_scripts_are_executed_in_correct_order(self, *args, **kwargs):
         bootstrapper = bootstrap.BootStrapper(pbf_file_path=settings.OSMAXX_CONVERSION_SERVICE['PBF_PLANET_FILE_PATH'])
         with mock.patch.object(bootstrapper, '_postgres') as postgres_mock:
             assert bootstrapper._postgres is postgres_mock
