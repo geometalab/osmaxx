@@ -1,3 +1,4 @@
+import glob
 import subprocess
 
 import os
@@ -73,30 +74,34 @@ class BootStrapper:
         self._postgres.execute_psycopg_file(cleanup_sql_path, autocommit=True)
 
     def _filter_data(self):
-        filter_sql_scripts_ordered = [
-            'drop_and_recreate.sql',
-            'address.sql',
-            'adminarea_boundary.sql',
-            'building.sql',
-            'landuse.sql',
-            'military.sql',
-            'natural.sql',
-            'nonop.sql',
-            'geoname.sql',
-            'pow.sql',
-            'poi.sql',
-            'misc.sql',
-            'transport.sql',
-            'railway.sql',
-            'road.sql',
-            'route.sql',
-            'traffic.sql',
-            'utility.sql',
-            'water.sql',
-            'create_view.sql',
+        filter_sql_script_folders = [
+            'drop_and_recreate',
+            'address',
+            'adminarea_boundary',
+            'building',
+            'landuse',
+            'military',
+            'natural',
+            'nonop',
+            'geoname',
+            'pow',
+            'poi',
+            'misc',
+            'transport',
+            'railway',
+            'road',
+            'route',
+            'traffic',
+            'utility',
+            'water',
+            'create_view',
         ]
         base_dir = os.path.join(self._script_base_dir, 'sql', 'filter')
-        for filter_script in filter_sql_scripts_ordered:
-            filter_script_path = os.path.join(base_dir, filter_script)
-            # FIXME: replace the drop/create commands so autocommit is not needed anymore!
-            self._postgres.execute_psycopg_file(filter_script_path, autocommit=True)
+        for script_folder in filter_sql_script_folders:
+            script_folder_path = os.path.join(base_dir, script_folder)
+            for filter_script_path in sorted(
+                glob.glob(script_folder_path + '/*.sql'),
+                key=lambda folder: folder.split('/')[-1]
+            ):
+                # FIXME: replace the drop/create commands so autocommit is not needed anymore!
+                self._postgres.execute_psycopg_file(filter_script_path, autocommit=True)
