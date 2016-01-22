@@ -64,9 +64,8 @@ class BootStrapper:
         subprocess.check_call(osm_2_pgsql_command)
 
     def _setup_db_functions(self):
-        create_function_sql_path = os.path.join(self._script_base_dir, 'sql', 'create_functions.sql')
         # FIXME: replace the drop/create commands so autocommit is not needed anymore!
-        self._postgres.execute_psycopg_file(create_function_sql_path, autocommit=True)
+        self._execute_sql_scripts_in_folder(os.path.join(self._script_base_dir, 'sql', 'functions'), autocommit=True)
 
     def _harmonize_database(self):
         cleanup_sql_path = os.path.join(self._script_base_dir, 'sql', 'sweeping_data.sql')
