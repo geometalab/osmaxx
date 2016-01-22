@@ -99,9 +99,9 @@ class BootStrapper:
         base_dir = os.path.join(self._script_base_dir, 'sql', 'filter')
         for script_folder in filter_sql_script_folders:
             script_folder_path = os.path.join(base_dir, script_folder)
-            for filter_script_path in sorted(
-                glob.glob(script_folder_path + '/*.sql'),
-                key=lambda folder: folder.split('/')[-1]
-            ):
-                # FIXME: replace the drop/create commands so autocommit is not needed anymore!
-                self._postgres.execute_psycopg_file(filter_script_path, autocommit=True)
+            # FIXME: replace the drop/create commands so autocommit is not needed anymore!
+            self._execute_sql_scripts_in_folder(script_folder_path, autocommit=True)
+
+    def _execute_sql_scripts_in_folder(self, folder_path, autocommit=False):
+        for script_path in sorted(glob.glob(folder_path + '/*.sql'), key=lambda folder: folder.split('/')[-1]):
+            self._postgres.execute_psycopg_file(script_path, autocommit=autocommit)
