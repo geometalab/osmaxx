@@ -54,7 +54,6 @@ class BootStrapperTest(TestCase):
     def test_function_scripts_are_execute_in_correct_order(self, *args, **kwargs):
         bootstrapper = bootstrap.BootStrapper(pbf_file_path=settings.OSMAXX_CONVERSION_SERVICE['PBF_PLANET_FILE_PATH'])
         with mock.patch.object(bootstrapper, '_postgres') as postgres_mock:
-            assert bootstrapper._postgres is postgres_mock
             bootstrapper._setup_db_functions()
 
             base_path_to_bootstrap = os.path.dirname(bootstrap.__file__)
