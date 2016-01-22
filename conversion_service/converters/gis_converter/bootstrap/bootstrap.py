@@ -103,5 +103,6 @@ class BootStrapper:
 
     def _execute_sql_scripts_in_folder(self, folder_path, autocommit=False):
         sql_scripts_glob_pattern = os.path.join(folder_path, '*.sql')
-        for script_path in sorted(glob.glob(sql_scripts_glob_pattern), key=lambda folder: os.path.basename(folder)):
+        sql_scripts_in_folder = glob.glob(sql_scripts_glob_pattern)
+        for script_path in sorted(sql_scripts_in_folder, key=lambda folder: os.path.basename(folder)):
             self._postgres.execute_psycopg_file(script_path, autocommit=autocommit)
