@@ -134,7 +134,6 @@ COPY ./docker_entrypoint/worker $HOME/entrypoint
 
 USER postgres
 RUN service postgresql start && sleep 10 &&\
-    $HOME/entrypoint/00_make_db_utf8.sh && \
     psql -f $HOME/entrypoint/01_activate_translit.sql
 
 USER root
