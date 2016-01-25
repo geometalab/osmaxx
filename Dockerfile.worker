@@ -1,29 +1,63 @@
 # this gdal image comes with support for FileGDB
-FROM geometalab/gdal-debian:2.0.1
+FROM geometalab/gdal-debian
 
 USER root
 
+# make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
+RUN apt-get update && apt-get install -y apt-utils locales && rm -rf /var/lib/apt/lists/* \
+	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+ENV LANG en_US.utf8
+ENV LOCALE en_US.UTF-8
+ENV LC_ALL en_US.utf8
+
+################## SETUP POSTGIS DATABASE with UTF8 support #############
 # explicitly set user/group IDs
 RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
 
-MAINTAINER HSR Geometalab <geometalab@hsr.ch>
+# grab gosu for easy step-down from root
+RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
+	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture)" \
+	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture).asc" \
+	&& gpg --verify /usr/local/bin/gosu.asc \
+	&& rm /usr/local/bin/gosu.asc \
+	&& chmod +x /usr/local/bin/gosu \
+	&& apt-get purge -y --auto-remove ca-certificates wget
 
-# make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
-RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
-    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-ENV LANG en_US.utf8
+RUN mkdir /docker-entrypoint-initdb.d
 
 RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
 
 ENV PG_MAJOR 9.4
 ENV POSTGIS_MAJOR 2.1
 
-# postgres sources
-RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
+RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
 
-# wheezy backports for translit
-# RUN ["echo", "deb http://http.debian.net/debian wheezy-backports main", ">", "/etc/apt/sources.list.d/wheezy-backports.list"]
+RUN apt-get update \
+	&& DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql-common \
+	&& sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf \
+	&& DEBIAN_FRONTEND=noninteractive apt-get install -y\
+		postgresql-${PG_MAJOR} \
+		postgresql-contrib-${PG_MAJOR} \
+        postgresql-${PG_MAJOR}-postgis-${POSTGIS_MAJOR} \
+        postgresql-${PG_MAJOR}-postgis-scripts \
+        postgresql-server-dev-${PG_MAJOR} \
+        postgresql-contrib-${PG_MAJOR} \
+	&& rm -rf /var/lib/apt/lists/*
 
+RUN mkdir -p /var/run/postgresql && chown -R 999:999 /var/run/postgresql
+
+ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
+ENV PGDATA /var/lib/postgresql/data
+
+RUN mkdir -p $PGDATA && chown -R 999:999 /var/lib/postgresql
+
+RUN pg_createcluster --locale=en_US.UTF-8 -d $PGDATA 9.4 main
+
+################## END SETUP POSTGIS DATABASE with UTF8 support #############
+
+USER root
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y\
 \
@@ -53,44 +87,26 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     liblua5.2-0 \
     liblua5.2-dev \
     liblua5.1-0 \
-    python \
-    postgresql-client \
     zip \
-    osmosis \
     osmctools \
     wget \
     binutils \
-    gdal-bin \
     libgeoip1 \
-    gdal-bin \
-    python-gdal \
+\
     python-pip \
     python3-pip \
     ipython \
-\
-    postgresql-server-dev-9.4 \
-    postgresql-common  \
-    postgresql-${PG_MAJOR} \
-    postgresql-contrib-${PG_MAJOR} \
-\
-    postgresql-${PG_MAJOR}-postgis-${POSTGIS_MAJOR} \
-    postgresql-${PG_MAJOR}-postgis-scripts \
-\
     libicu-dev \
     debhelper \
 \
     default-jre
-
-RUN mkdir -p /var/run/postgresql && chown -R postgres /var/run/postgresql
-
-ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
 
 WORKDIR /root/osm2pgsql
 
 # OSM2PGSQL
 RUN mkdir src &&\
   cd src &&\
-  git clone https://github.com/openstreetmap/osm2pgsql.git &&\
+  GIT_SSL_NO_VERIFY=true git clone https://github.com/openstreetmap/osm2pgsql.git &&\
   cd osm2pgsql &&\
   mkdir build &&\
   cd build &&\
@@ -117,7 +133,7 @@ RUN mkdir -p $HOME/conversion_service/worker $HOME/entrypoint
 COPY ./docker_entrypoint/worker $HOME/entrypoint
 
 USER postgres
-RUN service postgresql start && \
+RUN service postgresql start && sleep 10 &&\
     $HOME/entrypoint/00_make_db_utf8.sh && \
     psql -f $HOME/entrypoint/01_activate_translit.sql
 
