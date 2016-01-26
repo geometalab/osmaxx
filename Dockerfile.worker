@@ -7,10 +7,6 @@ USER root
 RUN apt-get update && apt-get install -y apt-utils locales && rm -rf /var/lib/apt/lists/* \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
-ENV LANG en_US.utf8
-ENV LOCALE en_US.UTF-8
-ENV LC_ALL en_US.utf8
-
 ################## SETUP POSTGIS DATABASE with UTF8 support #############
 # explicitly set user/group IDs
 RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
