@@ -110,11 +110,6 @@ def _update_progress(extraction_order):
 @frontend_access_required()
 def extraction_order_status(request, extraction_order_id):
     extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
-
-    # Order status will be updated by callback from API. This is just for a failure situation of the API.
-    if extraction_order.state < ExtractionOrderState.FINISHED:
-        _update_progress(extraction_order)
-
     view_context = {
         'protocol': request.scheme,
         'host_domain': request.get_host(),
@@ -128,11 +123,6 @@ def extraction_order_status(request, extraction_order_id):
 @frontend_access_required()
 def list_orders(request):
     extraction_orders = ExtractionOrder.objects.filter(orderer=request.user)
-
-    # Order status will be updated by callback from API. This is just for a failure situation of the API.
-    for extraction_order in extraction_orders.filter(state__lt=ExtractionOrderState.FINISHED):
-        _update_progress(extraction_order)
-
     view_context = {
         'protocol': request.scheme,
         'host_domain': request.get_host(),
