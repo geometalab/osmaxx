@@ -1,6 +1,6 @@
 from osmaxx.excerptexport.models import ExtractionOrder
 from osmaxx.excerptexport.models.extraction_order import FINAL_STATES
-from osmaxx.excerptexport.views import _update_progress as update_order
+from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 
 
 def update_orders_of_request_user(request):
@@ -20,3 +20,8 @@ class OrderUpdaterMiddleware(object):
             "'osmaxx.job_progress.middleware.OrderUpdaterMiddleware'."
         )
         update_orders_of_request_user(request)
+
+
+def update_order(extraction_order):
+    conversion_client = get_authenticated_api_client()
+    conversion_client.update_order_status(extraction_order)

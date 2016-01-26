@@ -1,28 +1,28 @@
 import logging
 
-from django.shortcuts import get_object_or_404, render_to_response, redirect
-from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
-from django.core.mail import send_mail
+from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
-from django.conf import settings
 from django.views.generic.edit import FormMixin
 
-from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
-from .models import ExtractionOrder, OutputFile
-from .models.extraction_order import ExtractionOrderState
 from osmaxx.contrib.auth.frontend_permissions import (
     frontend_access_required,
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
+from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from osmaxx.utils import private_storage
+from .models import ExtractionOrder, OutputFile
+from .models.extraction_order import ExtractionOrderState
 
 
 logger = logging.getLogger(__name__)
@@ -99,11 +99,6 @@ def download_file(request, uuid):
     response['Content-Length'] = private_storage.size(output_file.file)
     response['Content-Disposition'] = 'attachment; filename=%s' % download_file_name
     return response
-
-
-def _update_progress(extraction_order):
-    conversion_client = get_authenticated_api_client()
-    conversion_client.update_order_status(extraction_order)
 
 
 @login_required()
