@@ -330,18 +330,14 @@ class OrderUpdateTest(TestCase):
         other_user = User.objects.create_user('other', 'other@example.com', 'pw')
         self.own_unfinished_orders = [
             ExtractionOrder.objects.create(orderer=test_user) for i in range(2)]
-        own_successfully_finished_orders = [  # noqa "unused" (but needed)
-            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.FINISHED) for i in range(8)
-        ]
-        own_failed_orders = [  # noqa "unused" (but needed)
-            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.FAILED) for i in range(16)
-        ]
-        own_aborted_orders = [  # noqa "unused" (but needed)
-            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.CANCELED) for i in range(32)
-        ]
-        foreign_orders = [  # noqa "unused" (but needed)
-            ExtractionOrder.objects.create(orderer=other_user) for i in range(4)
-        ]
+        for i in range(8):
+            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.FINISHED)
+        for i in range(16):
+            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.FAILED)
+        for i in range(32):
+            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.CANCELED)
+        for i in range(4):
+            ExtractionOrder.objects.create(orderer=other_user)
         self.client.login(username='user', password='pw')
 
     @patch('osmaxx.job_progress.middleware.update_order')
