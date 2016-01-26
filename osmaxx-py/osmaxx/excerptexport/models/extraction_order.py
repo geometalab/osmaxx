@@ -61,17 +61,14 @@ class ExtractionOrder(models.Model):
     def __str__(self):
         return ', '.join(
             [
-                '[{order_id}] orderer: {orderer_name}',
-                'excerpt: {excerpt}',
-                'state: {state}',
-                'output files: {number_of_output_files}',
+                '[{order_id}] orderer: {orderer_name}'.format(
+                    order_id=self.id,
+                    orderer_name=self.orderer.get_username(),
+                ),
+                'excerpt: {}'.format(str(self.excerpt_name)),
+                'state: {}'.format(self.get_state_display()),
+                'output files: {}'.format(str(self.output_files.count())),
             ]
-        ).format(
-            order_id=self.id,
-            orderer_name=self.orderer.get_username(),
-            excerpt=str(self.excerpt_name),
-            state=self.get_state_display(),
-            number_of_output_files=str(self.output_files.count()),
         )
 
     @property
