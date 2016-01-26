@@ -326,12 +326,10 @@ class OrderUpdaterMiddlewareTest(TestCase):
 
 class OrderUpdateTest(TestCase):
     def setUp(self):
-        number_of_own_orders = 2
-        number_of_foreign_orders = 4
         test_user = User.objects.create_user('user', 'user@example.com', 'pw')
         other_user = User.objects.create_user('other', 'other@example.com', 'pw')
         self.own_unfinished_orders = [
-            ExtractionOrder.objects.create(orderer=test_user) for i in range(number_of_own_orders)]
+            ExtractionOrder.objects.create(orderer=test_user) for i in range(2)]
         own_successfully_finished_orders = [  # noqa "unused" (but needed)
             ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.FINISHED) for i in range(8)
         ]
@@ -342,7 +340,7 @@ class OrderUpdateTest(TestCase):
             ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.CANCELED) for i in range(32)
         ]
         foreign_orders = [  # noqa "unused" (but needed)
-            ExtractionOrder.objects.create(orderer=other_user) for i in range(number_of_foreign_orders)
+            ExtractionOrder.objects.create(orderer=other_user) for i in range(4)
         ]
         self.client.login(username='user', password='pw')
 
