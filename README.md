@@ -1,13 +1,14 @@
-# Osmaxx
+# osmaxx-frontend
 
-Short project name for "<strong>O</strong>pen<strong>S</strong>treet<strong>M</strong>ap <strong>a</strong>rbitrary e<strong>x</strong>cerpt e<strong>x</strong>port".
+[![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx) ([branch `master`](https://github.com/geometalab/osmaxx/tree/master))
 
-Cuts out OpenStreetMap data, processes it to geodata and converts it to typical GIS fileformats before being prepared for download.
+Django-based Web Frontend for **osmaxx**.
 
-Website: http://osmaxx.hsr.ch/
-
+For deploying a complete **osmaxx** setup, see https://github.com/geometalab/osmaxx
 
 ## Development
+
+[![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx) ([branch `develop`](https://github.com/geometalab/osmaxx/tree/develop))
 
 * [Project Repository (Git)](/docs/git-repository.md)
 * [Project Development Environment (Docker)](/docs/project-development-environment.md)
@@ -46,13 +47,13 @@ docker-compose build
 Then initiate the project defaults by running the following command:
 
 ```shell
-docker-compose run webappdev /bin/bash -c './manage.py createsuperuser'
+docker-compose run webapp /bin/bash -c './manage.py createsuperuser'
 ```
 
 Alternative to this command, bootstrap the container and execute the commands inside the container by hand:
 
 ```shell
-docker-compose run webappdev /bin/bash
+docker-compose run webapp /bin/bash
 ```
 
 Inside the container:
