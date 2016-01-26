@@ -1,4 +1,5 @@
 from osmaxx.excerptexport.models import ExtractionOrder
+from osmaxx.excerptexport.models.extraction_order import FINAL_STATES
 from osmaxx.excerptexport.views import _update_progress as update_order
 
 
@@ -6,7 +7,7 @@ def update_orders_of_request_user(request):
     current_user = request.user
     if current_user.is_anonymous():
         return
-    for order in ExtractionOrder.objects.filter(orderer=current_user):
+    for order in ExtractionOrder.objects.exclude(state__in=FINAL_STATES).filter(orderer=current_user):
         update_order(order)
 
 
