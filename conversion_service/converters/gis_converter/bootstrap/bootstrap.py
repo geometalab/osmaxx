@@ -70,7 +70,7 @@ class BootStrapper:
     def _harmonize_database(self):
         cleanup_sql_path = os.path.join(self._script_base_dir, 'sql', 'sweeping_data.sql')
         # FIXME: replace the drop/create commands so autocommit is not needed anymore!
-        self._postgres.execute_psycopg_file(cleanup_sql_path, autocommit=True)
+        self._postgres.execute_sql_file(cleanup_sql_path, autocommit=True)
 
     def _filter_data(self):
         filter_sql_script_folders = [
@@ -104,4 +104,4 @@ class BootStrapper:
     def _execute_sql_scripts_in_folder(self, folder_path, autocommit=False):
         sql_scripts_in_folder = glob.glob(os.path.join(folder_path, '*.sql'))
         for script_path in sorted(sql_scripts_in_folder, key=os.path.basename):
-            self._postgres.execute_psycopg_file(script_path, autocommit=autocommit)
+            self._postgres.execute_sql_file(script_path, autocommit=autocommit)

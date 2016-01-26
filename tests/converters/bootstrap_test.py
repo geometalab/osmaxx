@@ -42,7 +42,7 @@ class BootStrapperTest(TestCase):
                 'sql/filter/water/water.sql',
                 'sql/filter/create_view/create_view.sql',
             ]
-            postgres_mock.execute_psycopg_file.assert_has_calls(
+            postgres_mock.execute_sql_file.assert_has_calls(
                 [
                     mock.call(
                         os.path.join(
@@ -67,7 +67,7 @@ class BootStrapperTest(TestCase):
                 'sql/functions/0040_interpolate_addresses.sql',
                 'sql/functions/0050_cast_to_int.sql',
             ]
-            postgres_mock.execute_psycopg_file.assert_has_calls(
+            postgres_mock.execute_sql_file.assert_has_calls(
                 [
                     mock.call(
                         os.path.join(
