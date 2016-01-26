@@ -1,5 +1,10 @@
+from osmaxx.excerptexport.models import ExtractionOrder
+from osmaxx.excerptexport.views import _update_progress as update_order
+
+
 def update_orders_of_request_user(request):
-    pass
+    for order in ExtractionOrder.objects.all():
+        update_order(order)
 
 
 class OrderUpdaterMiddleware(object):

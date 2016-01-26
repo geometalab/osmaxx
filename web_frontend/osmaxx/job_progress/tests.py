@@ -1,8 +1,7 @@
 import os
 import shutil
 from io import BytesIO
-from unittest.mock import patch, ANY
-
+from unittest.mock import patch, ANY, call
 import requests_mock
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -323,3 +322,19 @@ class OrderUpdaterMiddlewareTest(TestCase):
         request = args[0]
         self.assertIsNotNone(request.build_absolute_uri.__call__, msg='not a usable request')
         self.assertEqual(user, request.user)
+
+
+class OrderUpdateTest(TestCase):
+    def setUp(self):
+        number_of_own_orders = 3
+        test_user = User.objects.create_user('user', 'user@example.com', 'pw')
+        self.own_orders = [ExtractionOrder.objects.create(orderer=test_user) for i in range(number_of_own_orders)]
+        self.client.login(username='user', password='pw')
+
+    @patch('osmaxx.job_progress.middleware.update_order')
+    def test_update_orders_of_request_user_updates_each_order_of_request_user(self, update_progress_mock):
+        self.client.get('/dummy/')
+        update_progress_mock.assert_has_calls(
+            [call(order) for order in self.own_orders],
+            any_order=True,
+        )

@@ -1,5 +1,6 @@
 import os
 import shutil
+from unittest.mock import patch
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
@@ -11,12 +12,13 @@ from osmaxx.excerptexport.models import OutputFile, Excerpt, ExtractionOrder
 from osmaxx.excerptexport.models import BBoxBoundingGeometry
 
 
+@patch('osmaxx.job_progress.middleware.update_order')
 class DownloadsTestCase(TestCase):
     def setUp(self):
         if not os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
             os.makedirs(settings.PRIVATE_MEDIA_ROOT)
 
-    def test_file_download(self):
+    def test_file_download(self, *args):
         user = User.objects.create_user('user', 'user@example.com', 'pw')
         bg = BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
         excerpt = Excerpt.objects.create(name='Neverland', is_active=True, is_public=True, owner=user,
