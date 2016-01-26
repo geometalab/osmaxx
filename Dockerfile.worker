@@ -131,7 +131,7 @@ RUN mkdir /etc/ssl/private-copy; mv /etc/ssl/private/* /etc/ssl/private-copy/; r
 RUN mkdir -p $HOME/conversion_service/worker $HOME/entrypoint
 COPY ./docker_entrypoint/worker $HOME/entrypoint
 
-RUN gosu postgres service postgresql start && sleep 10 &&\
+RUN service postgresql start && \
     gosu postgres psql -f $HOME/entrypoint/01_activate_translit.sql
 
 RUN sed -i '1ilocal   all             all                                     trust' /etc/postgresql/9.4/main/pg_hba.conf
