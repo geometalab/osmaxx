@@ -3,7 +3,10 @@ from osmaxx.excerptexport.views import _update_progress as update_order
 
 
 def update_orders_of_request_user(request):
-    for order in ExtractionOrder.objects.all():
+    current_user = request.user
+    if current_user.is_anonymous():
+        return
+    for order in ExtractionOrder.objects.filter(orderer=current_user):
         update_order(order)
 
 

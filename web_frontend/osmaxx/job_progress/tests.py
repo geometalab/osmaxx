@@ -327,8 +327,11 @@ class OrderUpdaterMiddlewareTest(TestCase):
 class OrderUpdateTest(TestCase):
     def setUp(self):
         number_of_own_orders = 3
+        number_of_foreign_orders = 5
         test_user = User.objects.create_user('user', 'user@example.com', 'pw')
+        other_user = User.objects.create_user('other', 'other@example.com', 'pw')
         self.own_orders = [ExtractionOrder.objects.create(orderer=test_user) for i in range(number_of_own_orders)]
+        foreign_orders = [ExtractionOrder.objects.create(orderer=other_user) for i in range(number_of_foreign_orders)]  # noqa "unused" (but needed)
         self.client.login(username='user', password='pw')
 
     @patch('osmaxx.job_progress.middleware.update_order')
@@ -338,3 +341,8 @@ class OrderUpdateTest(TestCase):
             [call(order) for order in self.own_orders],
             any_order=True,
         )
+
+    @patch('osmaxx.job_progress.middleware.update_order')
+    def test_update_orders_of_request_user_does_not_update_any_orders_of_other_users(self, update_progress_mock):
+        self.client.get('/dummy/')
+        self.assertEqual(update_progress_mock.call_count, len(self.own_orders))
