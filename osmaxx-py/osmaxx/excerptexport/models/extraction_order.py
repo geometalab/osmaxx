@@ -60,8 +60,8 @@ class ExtractionOrder(models.Model):
 
     def __str__(self):
         return (
-            '[{order_id}] orderer: {orderer_name}, excerpt: {excerpt}'
-            ', state: {state}, output files: {number_of_output_files}'
+            '[{order_id}] orderer: {orderer_name}, excerpt: {excerpt}, '
+            'state: {state}, output files: {number_of_output_files}'
         ).format(
             order_id=self.id,
             orderer_name=self.orderer.get_username(),
