@@ -18,6 +18,8 @@ class ExtractionOrderState(enum.Enum):
     CANCELED = 5
     FAILED = 6
 
+FINAL_STATES = {ExtractionOrderState.FINISHED, ExtractionOrderState.CANCELED, ExtractionOrderState.FAILED}
+
 
 CONVERSION_PROGRESS_TO_EXTRACTION_ORDER_STATE_MAPPING = {
     'new': ExtractionOrderState.INITIALIZED,

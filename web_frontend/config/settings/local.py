@@ -2,12 +2,6 @@ from .common import *  # noqa
 
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
 SECRET_KEY = env.str("DJANGO_SECRET_KEY", default='CHANGEME!!!')
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        'LOCATION': ''
-    }
-}
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # django-debug-toolbar
