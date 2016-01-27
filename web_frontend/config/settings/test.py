@@ -17,6 +17,13 @@ OSMAXX_TEST_SETTINGS = {
 
 OSMAXX.update(OSMAXX_TEST_SETTINGS)
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        'LOCATION': ''
+    }
+}
+
 INSTALLED_APPS += ('osmaxx.utilities.tests.test_models', )
 
 # only log errors for testing
