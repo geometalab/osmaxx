@@ -85,9 +85,9 @@ class Emissary:
         )
 
 
-def get_cached_or_set(cache_string, func, timeout=datetime.timedelta(minutes=15).seconds):
+def get_cached_or_set(cache_string, func, *args, timeout=datetime.timedelta(minutes=15).seconds, **kwargs):
     cached_value = cache.get(cache_string)
     if cached_value is None:
-        cached_value = func()
+        cached_value = func(*args, **kwargs)
         cache.set(cache_string, cached_value, timeout=timeout)
     return cached_value
