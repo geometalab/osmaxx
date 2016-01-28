@@ -48,8 +48,8 @@ class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
 class BBoxBoundingGeometry(BoundingGeometry):
     def __init__(self, *args, **kwargs):
         attribute_names = ['north', 'east', 'south', 'west']
-        if are_all_keys_in(kwargs, attribute_names) \
-                and not are_all_keys_in(kwargs, ['south_west', 'north_east']):
+        if are_all_keys_in(kwargs, keys=attribute_names) \
+                and not are_all_keys_in(kwargs, keys=['south_west', 'north_east']):
             kwargs['south_west'] = GEOSGeometry('POINT(%s %s)' % (kwargs.pop('west'), kwargs.pop('south')))
             kwargs['north_east'] = GEOSGeometry('POINT(%s %s)' % (kwargs.pop('east'), kwargs.pop('north')))
         super().__init__(*args, **kwargs)
