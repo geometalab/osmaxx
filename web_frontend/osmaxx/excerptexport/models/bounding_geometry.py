@@ -102,5 +102,8 @@ class BBoxBoundingGeometry(BoundingGeometry):
 
     def get_admin_url(self):
         from django.core.urlresolvers import reverse
-        viewname = 'admin:excerptexport_bboxboundinggeometry_change'
-        return reverse(viewname, args=(self.id,))
+        admin_view_name = 'admin:{app_label}_{model_name}_change'.format(
+            app_label=self._meta.app_label,
+            model_name=self._meta.model_name,
+        )
+        return reverse(admin_view_name, args=(self.id,))
