@@ -4,7 +4,6 @@ from django.contrib.gis.geos import GEOSGeometry, Polygon
 from model_utils.managers import InheritanceManager
 
 from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
-from osmaxx.utilities.dict_helpers import are_all_keys_in
 
 
 class BoundingGeometry(models.Model):
@@ -48,8 +47,8 @@ class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
 class BBoxBoundingGeometry(BoundingGeometry):
     def __init__(self, *args, **kwargs):
         attribute_names = ['north', 'east', 'south', 'west']
-        if are_all_keys_in(kwargs, attribute_names) \
-                and not are_all_keys_in(kwargs, ['south_west', 'north_east']):
+        if set(attribute_names).issubset(kwargs) \
+                and not set(['south_west', 'north_east']).issubset(kwargs):
             kwargs['south_west'] = GEOSGeometry('POINT(%s %s)' % (kwargs.pop('west'), kwargs.pop('south')))
             kwargs['north_east'] = GEOSGeometry('POINT(%s %s)' % (kwargs.pop('east'), kwargs.pop('north')))
         super().__init__(*args, **kwargs)
