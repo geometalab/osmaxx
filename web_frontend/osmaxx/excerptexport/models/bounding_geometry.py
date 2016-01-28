@@ -27,6 +27,13 @@ class BoundingGeometry(models.Model):
     def type_of_geometry(self):
         return str(self.subclass_instance.__class__.__name__)
 
+    def __str__(self):
+        subclass_instance = self.subclass_instance
+        parent = '{} {id}: '.format(super().__str__(), id=self.id)
+        if self == subclass_instance:
+            return parent
+        return '{parent}: {child}'.format(parent=parent, id=self.id, child=str(subclass_instance))
+
     @property
     def subclass_instance(self):
         # TODO: don't make an extra query for this
