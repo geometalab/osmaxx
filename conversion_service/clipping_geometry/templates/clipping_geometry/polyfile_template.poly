@@ -1,0 +1,5 @@
+{% if name %}{{ name }}{% else %}none{% endif %}{% for polygon_coords in multipolygon.coords %}
+{{ forloop.counter }}{% for polygon_coord in polygon_coords %}{% for x,y in polygon_coord %}
+  {{ x|stringformat:"E" }} {{ y|stringformat:"E" }}{% endfor %}{% endfor %}
+END{% endfor %}
+END

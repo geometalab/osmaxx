@@ -46,6 +46,7 @@ LOCAL_APPS = (
     # 'version',
     # 'api.converters.core',
     # 'api.converters.gis',
+    'clipping_geometry',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
