@@ -5,6 +5,7 @@ from model_utils.managers import InheritanceManager
 
 from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 from osmaxx.utilities.dict_helpers import are_all_keys_in
+from osmaxx.utilities.model_mixins import AdminUrlModelMixin
 
 
 class BoundingGeometry(models.Model):
@@ -45,7 +46,7 @@ class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
         return 'Polygon file: ' + self.polygon_file.name
 
 
-class BBoxBoundingGeometry(BoundingGeometry):
+class BBoxBoundingGeometry(AdminUrlModelMixin, BoundingGeometry):
     def __init__(self, *args, **kwargs):
         attribute_names = ['north', 'east', 'south', 'west']
         if are_all_keys_in(kwargs, attribute_names) \
@@ -99,11 +100,3 @@ class BBoxBoundingGeometry(BoundingGeometry):
         for coordinates in self.geometry[0]:
             points.append('(' + ', '.join([str(round(coordinate, 5)) for coordinate in coordinates]) + ')')
         return 'Bounding box' + ': ' + ', '.join(points)
-
-    def get_admin_url(self):
-        from django.core.urlresolvers import reverse
-        admin_view_name = 'admin:{app_label}_{model_name}_change'.format(
-            app_label=self._meta.app_label,
-            model_name=self._meta.model_name,
-        )
-        return reverse(admin_view_name, args=(self.id,))
