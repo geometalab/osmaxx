@@ -99,3 +99,7 @@ class BBoxBoundingGeometry(BoundingGeometry):
         for coordinates in self.geometry[0]:
             points.append('(' + ', '.join([str(round(coordinate, 5)) for coordinate in coordinates]) + ')')
         return 'Bounding box' + ': ' + ', '.join(points)
+
+    def get_admin_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('admin:excerptexport_bboxboundinggeometry_change', args=(self.id,))

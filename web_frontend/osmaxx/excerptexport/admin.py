@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
 from osmaxx.excerptexport.models import BBoxBoundingGeometry, OsmosisPolygonFilterBoundingGeometry
@@ -27,10 +26,7 @@ class ExcerptAdmin(admin.ModelAdmin):
     bbox.short_description = 'Bounding Box'
 
     def show_bbox_link(self, excerpt):
-        admin_link = reverse(
-            'admin:excerptexport_bboxboundinggeometry_change',
-            args=(excerpt.bounding_geometry.subclass_instance.id,)
-        )
+        admin_link = excerpt.bounding_geometry.subclass_instance.get_admin_url()
         return mark_safe('<a href="{}">{}</a>'.format(admin_link, str(excerpt.bounding_geometry.subclass_instance)))
     show_bbox_link.short_description = 'Bounding Box'
 admin.site.register(Excerpt, ExcerptAdmin)
