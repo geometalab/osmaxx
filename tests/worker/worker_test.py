@@ -14,7 +14,7 @@ from converters.boundaries import BBox
 from converters.converter import Conversion
 from converters import Options
 from converters import garmin_converter
-from manager.rq_helper import rq_enqueue_with_settings
+from job_dispatcher.rq_helper import rq_enqueue_with_settings
 from shared import ConversionProgress
 from worker import converter_job
 from tests.redis_test_helpers import perform_all_jobs_sync

@@ -113,7 +113,7 @@ class HostTest(APITestCase):
     rq_job_stub = namedtuple('RQJob', ['id'])(id='0' * 36)
 
     @override_settings(ALLOWED_HOSTS=[test_host])
-    @patch('manager.job_manager.ConversionJobManager.start_conversion', return_value=rq_job_stub)
+    @patch('job_dispatcher.dispatcher.ConversionJobDispatcher.start_conversion', return_value=rq_job_stub)
     def test_foo(self, start_conversion_mock):
         data = {
             "callback_url": "http://callback.example.com",
