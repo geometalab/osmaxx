@@ -1,6 +1,8 @@
 import subprocess
+import tempfile
 
 from converters.converter_settings import OSMAXX_CONVERSION_SERVICE
+from countries import utils
 
 
 class BBox:
@@ -59,7 +61,30 @@ class PolyfileForCountry:
         ]
 
 
+class PolyfileCutter:
+    def __init__(self, poly_string):
+        utils.parse_poly_string(poly_string)
+        self.poly_string = poly_string
+
+    def cut_pbf(self, output_filename):
+        self._cut_pbf(output_filename=output_filename)
+        return output_filename
+
+    def _cut_pbf(self, output_filename):
+        with tempfile.NamedTemporaryFile() as polyfile:
+            polyfile.write(self.poly_string)
+            polyfile.flush()
+            pbf_file_path = OSMAXX_CONVERSION_SERVICE.get('PBF_PLANET_FILE_PATH')
+            subprocess.check_call([
+                "osmconvert",
+                "--out-pbf",
+                "-o={0}".format(output_filename),
+                "-B={0}".format(polyfile.name),
+                "{0}".format(pbf_file_path),
+            ])
+
 __all__ = [
     'BBox',
     'PolyfileForCountry',
+    'PolyfileCutter',
 ]
