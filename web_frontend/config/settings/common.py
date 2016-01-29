@@ -309,6 +309,10 @@ LOGGING = {
             'handlers': ['console'],
             'level': env.str('DJANGO_LOG_LEVEL', default='INFO'),
         },
+        'osmaxx': {
+            'handlers': ['console'],
+            'level': env.str('DJANGO_LOG_LEVEL', default='INFO'),
+        },
     },
 }
 
