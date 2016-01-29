@@ -1,8 +1,10 @@
+import os
 from unittest import TestCase
 
 from django.contrib.gis.geos import MultiPolygon, Polygon, MultiLineString, LineString
 
 from clipping_geometry.to_polyfile import create_poly_file_string
+from countries import utils
 
 
 class CreatePolyfileStringTest(TestCase):
@@ -14,7 +16,7 @@ class CreatePolyfileStringTest(TestCase):
 
     def test_create_poly_file_string_when_valid_multipolygon_returns_correct_string(self):
         result = create_poly_file_string(self.multi_polygon_1)
-        expected = '\n'.join([
+        expected = os.linesep.join([
             'none',
             '1',
             '  0.000000E+00 0.000000E+00',
@@ -34,7 +36,7 @@ class CreatePolyfileStringTest(TestCase):
         self.assertMultiLineEqual(expected, result)
 
     def test_create_poly_file_string_when_valid_polygon_returns_correct_string(self):
-        expected = '\n'.join([
+        expected = os.linesep.join([
             'none',
             '1',
             '  0.000000E+00 0.000000E+00',
@@ -55,3 +57,10 @@ class CreatePolyfileStringTest(TestCase):
     def test_create_poly_file_string_when_invalid_geometry_raises_type_error(self):
         invalid_geometry = MultiLineString(LineString((0, 0), (0, 1), (1, 1)), LineString((1, 1), (1, 2), (2, 2)))
         self.assertRaises(TypeError, create_poly_file_string, invalid_geometry)
+
+    def test_create_poly_file_string_equals_the_multipolygon_it_was_constructed_from(self):
+        create_poly_file_string(self.multi_polygon_1)
+        self.assertEqual(
+            self.multi_polygon_1,
+            utils.parse_poly_string(create_poly_file_string(self.multi_polygon_1))
+        )
