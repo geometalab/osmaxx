@@ -39,7 +39,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': env.str('DJANGO_LOG_LEVEL', default='DEBUG'),
+            'level': env.str('DJANGO_LOG_LEVEL', default='INFO'),
         },
     },
 }
