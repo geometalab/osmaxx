@@ -77,16 +77,16 @@ class BoundaryCutter:
 
 
 class pbf_area:  # noqa: context managers are lowercase by convention
+    """
+    Context Manager that returns an pbf file path cutted along the string representation of a osmosis polygon file.
+
+    Args:
+        osmosis_polygon_file_content: string representation of the polygon file.
+
+    Returns:
+        the path to the pbf file usable during context
+    """
     def __init__(self, osmosis_polygon_file_content):
-        """
-        Context Manager that returns an pbf file path cutted along the string representation of a osmosis polygon file.
-
-        Args:
-            osmosis_polygon_file_content: string representation of the polygon file.
-
-        Returns:
-            the path to the pbf file usable during context
-        """
         # Parse the poly_string to cause an Exception if it is invalid.
         utils.parse_poly_string(osmosis_polygon_file_content)  # We're only interested in the side effect.
 
