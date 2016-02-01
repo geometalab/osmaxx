@@ -67,13 +67,10 @@ class BoundaryCutter:
         self.osmosis_polygon_file_path = osmosis_polygon_file_path
 
     def cut_pbf(self, input_pbf, *, output_pbf):
-        self._cut_pbf(input_pbf=input_pbf, output_filename=output_pbf)
-
-    def _cut_pbf(self, input_pbf, output_filename):
         subprocess.check_call([
             "osmconvert",
             "--out-pbf",
-            "-o={0}".format(output_filename),
+            "-o={0}".format(output_pbf),
             "-B={0}".format(self.osmosis_polygon_file_path),
             "{0}".format(input_pbf),
         ])
