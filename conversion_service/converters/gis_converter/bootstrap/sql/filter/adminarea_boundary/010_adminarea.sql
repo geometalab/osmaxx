@@ -1,5 +1,3 @@
-
-
 INSERT INTO osmaxx.adminarea_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
@@ -33,8 +31,3 @@ INSERT INTO osmaxx.adminarea_a
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE boundary='administrative' or boundary='national_park' or boundary='protected_area';
-
-
-
-
-

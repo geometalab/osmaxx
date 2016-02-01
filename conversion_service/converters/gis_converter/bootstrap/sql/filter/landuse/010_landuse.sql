@@ -1,5 +1,3 @@
-
-
 INSERT INTO osmaxx.landuse_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
@@ -32,6 +30,3 @@ INSERT INTO osmaxx.landuse_a
   FROM osm_polygon
   WHERE landuse not in ('scrub', 'cemetery')
 	 or leisure in ('park','recreation_ground', 'nature_reserve');
-
-
-

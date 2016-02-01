@@ -18,6 +18,3 @@ CREATE TABLE osmaxx.transport_a(
 	label text,
 	tags text
 );
-
-
-

@@ -1,4 +1,3 @@
-
 INSERT INTO osmaxx.traffic_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
@@ -119,6 +118,3 @@ UNION
 	or traffic_calming is not null 
 	or amenity in ('parking','fuel','bicycle_parking')
 	or railway='level_crossing';
-
-
-

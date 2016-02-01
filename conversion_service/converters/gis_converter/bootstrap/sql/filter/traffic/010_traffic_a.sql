@@ -1,4 +1,3 @@
-
 INSERT INTO osmaxx.traffic_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
@@ -33,8 +32,3 @@ INSERT INTO osmaxx.traffic_a
 	end as "access"
   FROM osm_polygon
   WHERE amenity in ('parking','fuel','bicycle_parking');
-
-
-
-
-

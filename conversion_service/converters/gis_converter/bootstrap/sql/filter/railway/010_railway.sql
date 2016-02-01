@@ -1,5 +1,3 @@
-
-
 /*key:railway*/
 INSERT INTO osmaxx.railway_l
   SELECT osm_id as osm_id,
@@ -36,10 +34,3 @@ INSERT INTO osmaxx.railway_l
 	frequency as frequency
  	FROM osm_line
  	WHERE railway not in ('abandon','construction','disused','planned');
-
-
-
-
-
-
-

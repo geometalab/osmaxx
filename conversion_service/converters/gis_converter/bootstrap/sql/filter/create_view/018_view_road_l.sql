@@ -14,6 +14,3 @@ CREATE OR REPLACE VIEW view_osmaxx.road_l AS SELECT
 	bridge,
 	tunnel
 FROM osmaxx.road_l;
-
-
-

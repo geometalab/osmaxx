@@ -100,6 +100,3 @@ UNION
 	or aeroway is not null 
 	or aerialway is not null 
 	or public_transport in ('stop_position', 'station','platform');
-
-
-

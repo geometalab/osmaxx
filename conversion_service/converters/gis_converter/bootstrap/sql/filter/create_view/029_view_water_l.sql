@@ -1,5 +1,3 @@
-
-
 CREATE OR REPLACE VIEW view_osmaxx.water_l AS SELECT
 	osm_id, 
 	lastchange, 
@@ -11,7 +9,3 @@ CREATE OR REPLACE VIEW view_osmaxx.water_l AS SELECT
 	tags,
 	width
 FROM osmaxx.water_l;
-
-
-
-

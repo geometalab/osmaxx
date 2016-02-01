@@ -1,4 +1,3 @@
-
 ---------------------------
 --       leisure         --
 ---------------------------
@@ -36,5 +35,3 @@ INSERT INTO osmaxx.poi_a
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE leisure not in ('nature_reserve','park','recreation_ground','slipway','marina');
-
-

@@ -1,4 +1,3 @@
-
 -----------------------------
 --          poi_a          --
 -----------------------------
@@ -28,5 +27,3 @@ CREATE TABLE osmaxx.poi_a(
 	brand text,
 	tower_type text
 );
-
-

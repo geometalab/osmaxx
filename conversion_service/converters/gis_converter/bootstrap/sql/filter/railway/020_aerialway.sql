@@ -35,8 +35,3 @@ INSERT INTO osmaxx.railway_l
 	frequency as frequency
  	FROM osm_line
  	WHERE aerialway is not null;
-
-
-
-
-

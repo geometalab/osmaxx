@@ -1,5 +1,3 @@
-
-
 INSERT INTO osmaxx.natural_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
@@ -25,6 +23,3 @@ INSERT INTO osmaxx.natural_a
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE "natural" not in ('water', 'spring','rock','peak','tree','volcano','saddle','cliff');
-
-
-

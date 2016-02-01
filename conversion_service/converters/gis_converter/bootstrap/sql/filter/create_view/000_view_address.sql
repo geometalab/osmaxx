@@ -13,21 +13,3 @@ CREATE OR REPLACE VIEW view_osmaxx.address_p AS SELECT
 	city,
 	country
 FROM osmaxx.address_p;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

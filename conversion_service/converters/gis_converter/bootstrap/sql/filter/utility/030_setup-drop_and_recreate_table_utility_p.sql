@@ -18,6 +18,3 @@ CREATE TABLE osmaxx.utility_p(
 	label text,
 	tags text
 );
-
-
-

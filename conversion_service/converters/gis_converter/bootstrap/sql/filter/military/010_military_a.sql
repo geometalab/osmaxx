@@ -1,5 +1,3 @@
-
-
 -- Areas --
 INSERT INTO osmaxx.military_a
 SELECT osm_id as osm_id,
@@ -26,8 +24,3 @@ SELECT osm_id as osm_id,
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE military is not null;
-
-
-
-
-

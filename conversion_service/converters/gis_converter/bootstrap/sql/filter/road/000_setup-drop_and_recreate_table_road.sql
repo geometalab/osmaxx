@@ -23,6 +23,3 @@ CREATE TABLE osmaxx.road_l(
 	bridge boolean,
 	tunnel boolean
 );
-
-
-

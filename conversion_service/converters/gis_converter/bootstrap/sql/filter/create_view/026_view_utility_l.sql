@@ -1,4 +1,3 @@
-
 CREATE OR REPLACE VIEW view_osmaxx.utility_l AS SELECT
 	osm_id, 
 	lastchange, 
@@ -12,6 +11,3 @@ CREATE OR REPLACE VIEW view_osmaxx.utility_l AS SELECT
 	voltage,
 	frequency
 FROM osmaxx.utility_l;
-
-
-

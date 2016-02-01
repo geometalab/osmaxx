@@ -1,4 +1,3 @@
-
 CREATE OR REPLACE VIEW view_osmaxx.military_p AS SELECT
 	osm_id, 
 	lastchange, 
@@ -9,6 +8,3 @@ CREATE OR REPLACE VIEW view_osmaxx.military_p AS SELECT
 	label,
 	tags
 FROM osmaxx.military_p;
-
-
-

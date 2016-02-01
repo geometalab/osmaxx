@@ -1,5 +1,3 @@
-
-
 ---------------------------
 --         shop          --
 ---------------------------
@@ -78,5 +76,3 @@ UNION
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE shop is not null;
-
-

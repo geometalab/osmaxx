@@ -18,11 +18,3 @@ CREATE TABLE osmaxx.building_a (
 	tags text,
 	height float
 );
-
-
-
-
-
-
-
-

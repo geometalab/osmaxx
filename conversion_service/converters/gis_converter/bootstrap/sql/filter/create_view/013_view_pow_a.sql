@@ -1,4 +1,3 @@
-
 CREATE OR REPLACE VIEW view_osmaxx.pow_a AS SELECT
 	osm_id, 
 	lastchange, 
@@ -16,6 +15,3 @@ CREATE OR REPLACE VIEW view_osmaxx.pow_a AS SELECT
 	opening_hours,
 	"access"
 FROM osmaxx.pow_a;
-
-
-

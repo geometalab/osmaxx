@@ -1,4 +1,3 @@
-
 INSERT INTO osmaxx.pow_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange, 
@@ -82,6 +81,3 @@ UNION
 	"access" as "access"
   FROM osm_polygon
   WHERE religion is not null or amenity='place_of_worship';
-
-
-

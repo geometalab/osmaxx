@@ -46,5 +46,3 @@ UNION
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE military is not null;
-
-

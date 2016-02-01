@@ -1,5 +1,3 @@
-
-
 -----------------
 --  utility_l  --
 -----------------
@@ -23,6 +21,3 @@ CREATE TABLE osmaxx.utility_l(
 	voltage text,
 	frequency text
 );
-
-
-

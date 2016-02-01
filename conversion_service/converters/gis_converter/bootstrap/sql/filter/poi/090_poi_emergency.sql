@@ -1,4 +1,3 @@
-
 ---------------------------
 --       emergency       --
 ---------------------------
@@ -38,5 +37,3 @@ INSERT INTO osmaxx.poi_a
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE emergency in ('phone','fire_hydrant');
-
-

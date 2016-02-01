@@ -17,6 +17,3 @@ CREATE TABLE osmaxx.landuse_a (
 	label text,
 	tags text
 );
-
-
-

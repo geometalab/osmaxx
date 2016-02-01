@@ -59,11 +59,3 @@ UNION
     "addr:country" as country
   FROM osm_polygon
 where building !='entrance' and entrance is null and ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='');
-
-
-
-
-
-
-
-

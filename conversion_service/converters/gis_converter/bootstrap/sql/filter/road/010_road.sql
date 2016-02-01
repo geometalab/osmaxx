@@ -112,9 +112,3 @@ UNION
 
  	FROM osm_polygon
  	WHERE highway not in ('abandon','construction','planned','disused') or junction not in ('roundabout');
-
-
-
-
-
-

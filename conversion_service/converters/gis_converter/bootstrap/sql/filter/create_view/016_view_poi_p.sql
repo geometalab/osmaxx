@@ -1,4 +1,3 @@
-
 CREATE OR REPLACE VIEW view_osmaxx.poi_p AS SELECT
 	osm_id, 
 	lastchange, 
@@ -19,6 +18,3 @@ CREATE OR REPLACE VIEW view_osmaxx.poi_p AS SELECT
 	brand,
 	tower_type
 FROM osmaxx.poi_p;
-
-
-

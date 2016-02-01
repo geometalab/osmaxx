@@ -1,5 +1,3 @@
-
-
 --power--
 INSERT INTO osmaxx.utility_l
   SELECT osm_id as osm_id,
@@ -29,6 +27,3 @@ INSERT INTO osmaxx.utility_l
 	frequency as frequency
  FROM osm_line
  WHERE "power" is not null;
-
-
-

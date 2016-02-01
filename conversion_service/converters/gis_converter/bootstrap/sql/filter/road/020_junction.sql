@@ -94,7 +94,3 @@ UNION
 	end as tunnel
  	FROM osm_polygon
  	WHERE junction='roundabout';
-
-
-
-

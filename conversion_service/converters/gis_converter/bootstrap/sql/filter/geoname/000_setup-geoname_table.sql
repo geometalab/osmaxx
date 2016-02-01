@@ -36,5 +36,3 @@ CREATE TABLE osmaxx.geoname_p (
 	population int,
 	wikipedia text
 );
-
-

@@ -1,5 +1,3 @@
-
-
 --man_made--
 INSERT INTO osmaxx.utility_l
   SELECT osm_id as osm_id,
@@ -21,6 +19,3 @@ INSERT INTO osmaxx.utility_l
 	null as frequency
  FROM osm_line
  WHERE man_made in ('pipeline');
-
-
-

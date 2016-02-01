@@ -1,4 +1,3 @@
-
 ---------------------------
 --         highway       --
 ---------------------------
@@ -68,5 +67,3 @@ UNION
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE highway='emergency_access_point';
-
-

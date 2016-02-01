@@ -22,6 +22,3 @@ CREATE TABLE osmaxx.address_p(
 	city text,
     country text
 );
-
-
-

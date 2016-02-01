@@ -1,4 +1,3 @@
-
 INSERT INTO osmaxx.utility_a
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
@@ -46,10 +45,3 @@ INSERT INTO osmaxx.utility_a
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE "power" is not null or power_source is not null;
-
-
-
-
-
-
-

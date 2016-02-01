@@ -17,6 +17,3 @@ CREATE TABLE osmaxx.natural_p (
 	label text,
 	tags text
 );
-
-
-

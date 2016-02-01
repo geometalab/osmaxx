@@ -23,6 +23,3 @@ CREATE TABLE osmaxx.railway_l(
 	voltage text,
 	frequency text
 );
-
-
-

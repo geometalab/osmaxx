@@ -1,4 +1,3 @@
-
 CREATE OR REPLACE VIEW view_osmaxx.misc_l AS SELECT
 	osm_id, 
 	lastchange, 
@@ -10,7 +9,3 @@ CREATE OR REPLACE VIEW view_osmaxx.misc_l AS SELECT
 	label,
 	tags
 FROM osmaxx.misc_l;
-
-
-
-

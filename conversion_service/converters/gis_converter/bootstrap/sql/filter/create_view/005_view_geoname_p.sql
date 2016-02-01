@@ -1,5 +1,3 @@
-
-
 CREATE OR REPLACE VIEW view_osmaxx.geoname_p AS SELECT
 	osm_id, 
 	lastchange, 
@@ -11,6 +9,3 @@ CREATE OR REPLACE VIEW view_osmaxx.geoname_p AS SELECT
 	tags,
 	population
 FROM osmaxx.geoname_p;
-
-
-

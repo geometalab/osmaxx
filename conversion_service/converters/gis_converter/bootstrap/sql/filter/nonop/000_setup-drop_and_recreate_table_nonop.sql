@@ -23,5 +23,3 @@ CREATE TABLE osmaxx.nonop_l (
 	z_order smallint,
 	status text
 );
-
-

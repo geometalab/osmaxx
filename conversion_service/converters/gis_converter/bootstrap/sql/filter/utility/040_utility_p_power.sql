@@ -1,5 +1,4 @@
--
--power--
+--power--
 INSERT INTO osmaxx.utility_p
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 

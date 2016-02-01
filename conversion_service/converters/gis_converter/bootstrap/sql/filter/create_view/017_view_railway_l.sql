@@ -1,5 +1,3 @@
-
-
 CREATE OR REPLACE VIEW view_osmaxx.railway_l AS SELECT
 	osm_id, 
 	lastchange, 
@@ -16,5 +14,3 @@ CREATE OR REPLACE VIEW view_osmaxx.railway_l AS SELECT
 	voltage,
 	frequency
 FROM osmaxx.railway_l;
-
-
