@@ -43,6 +43,7 @@ def pytest_configure():
             'tests',
             'conversion_job',
             'countries',
+            'clipping_geometry',
         ),
         PASSWORD_HASHERS=(
             'django.contrib.auth.hashers.SHA1PasswordHasher',

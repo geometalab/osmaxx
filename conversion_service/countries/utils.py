@@ -27,6 +27,10 @@ def polyfile_to_geos_geometry(relative_polygon_file, simplify_tolerance=None):
     return GEOSGeometry(poly)
 
 
+def parse_poly_string(poly_string):
+    return parse_poly(poly_string.split(os.linesep))
+
+
 def parse_poly(lines):
     """
     Parse an Osmosis polygon filter file.

@@ -1,6 +1,9 @@
+import os
 import subprocess
+import tempfile
 
 from converters.converter_settings import OSMAXX_CONVERSION_SERVICE
+from countries import utils
 
 
 class BBox:
@@ -59,7 +62,54 @@ class PolyfileForCountry:
         ]
 
 
+class BoundaryCutter:
+    def __init__(self, osmosis_polygon_file_path):
+        self.osmosis_polygon_file_path = osmosis_polygon_file_path
+
+    def cut_pbf(self, input_pbf, *, output_pbf):
+        subprocess.check_call([
+            "osmconvert",
+            "--out-pbf",
+            "-o={0}".format(output_pbf),
+            "-B={0}".format(self.osmosis_polygon_file_path),
+            "{0}".format(input_pbf),
+        ])
+
+
+class pbf_area:  # noqa: context managers are lowercase by convention
+    """
+    Context Manager that returns an pbf file path cutted along the string representation of a osmosis polygon file.
+
+    Args:
+        osmosis_polygon_file_content: string representation of the polygon file.
+
+    Returns:
+        the path to the pbf file usable during context
+    """
+    def __init__(self, osmosis_polygon_file_content):
+        # Parse the poly_string to cause an Exception if it is invalid.
+        utils.parse_poly_string(osmosis_polygon_file_content)  # We're only interested in the side effect.
+
+        self.osmosis_polygon_file = tempfile.NamedTemporaryFile(suffix='.poly', mode='w')
+        self.osmosis_polygon_file.write(osmosis_polygon_file_content)
+        self.osmosis_polygon_file.flush()
+        self.output_pbf = tempfile.NamedTemporaryFile(suffix='.pbf')
+
+    def __enter__(self):
+        boundary_cutter = BoundaryCutter(self.osmosis_polygon_file)
+        boundary_cutter.cut_pbf(
+            input_pbf=OSMAXX_CONVERSION_SERVICE.get('PBF_PLANET_FILE_PATH'), output_pbf=self.output_pbf
+        )
+        return self.output_pbf.name
+
+    def __exit__(self, *args, **kwargs):
+        os.unlink(self.output_pbf.name)
+        os.unlink(self.osmosis_polygon_file.name)
+
+
 __all__ = [
     'BBox',
     'PolyfileForCountry',
+    'BoundaryCutter',
+    'pbf_area',
 ]

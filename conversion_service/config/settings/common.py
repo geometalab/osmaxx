@@ -43,9 +43,8 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'conversion_job',
     'countries',
-    # 'version',
-    # 'api.converters.core',
-    # 'api.converters.gis',
+    # 'version',  # FIXME: solve import problems with toplevel __init__.py
+    'clipping_geometry',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
