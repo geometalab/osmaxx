@@ -119,3 +119,6 @@ UNION
 	or traffic_calming is not null 
 	or amenity in ('parking','fuel','bicycle_parking')
 	or railway='level_crossing';
+
+
+

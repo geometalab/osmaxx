@@ -29,3 +29,5 @@ CREATE TABLE osmaxx.poi_p(
 	brand text,
 	tower_type text
 );
+
+

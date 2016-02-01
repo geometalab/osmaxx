@@ -29,3 +29,6 @@ INSERT INTO osmaxx.utility_l
 	frequency as frequency
  FROM osm_line
  WHERE "power" is not null;
+
+
+

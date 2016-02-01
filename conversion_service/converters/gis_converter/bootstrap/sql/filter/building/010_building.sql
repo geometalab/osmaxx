@@ -19,3 +19,6 @@ INSERT INTO osmaxx.building_a
   FROM osm_polygon
   WHERE building is not null;
 
+
+
+

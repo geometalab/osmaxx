@@ -36,3 +36,7 @@ INSERT INTO osmaxx.railway_l
  	FROM osm_line
  	WHERE aerialway is not null;
 
+
+
+
+

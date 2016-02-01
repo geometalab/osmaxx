@@ -70,3 +70,6 @@ UNION
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE emergency in ('phone','fire_hydrant');
+
+
+

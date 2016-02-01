@@ -42,3 +42,5 @@ INSERT INTO osmaxx.poi_a
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE sport is not null;
+
+

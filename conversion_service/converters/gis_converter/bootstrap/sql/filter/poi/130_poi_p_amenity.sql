@@ -135,3 +135,5 @@ UNION
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE amenity not in ('bus_station', 'taxi', 'airport', 'ferry_terminal','fuel','parking','place_of_worship','fountain','bicycle_parking');
+
+

@@ -19,3 +19,6 @@ INSERT INTO osmaxx.utility_a
 	cast(tags as text) as tags
  FROM osm_polygon
  WHERE man_made in ('water_works','wastewater_plant','storage_tank');
+
+
+

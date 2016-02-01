@@ -27,3 +27,4 @@ INSERT INTO osmaxx.natural_a
   WHERE "natural" not in ('water', 'spring','rock','peak','tree','volcano','saddle','cliff');
 
 
+

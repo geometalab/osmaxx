@@ -84,3 +84,5 @@ UNION
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE amenity='fountain' or man_made='water_well';
+
+

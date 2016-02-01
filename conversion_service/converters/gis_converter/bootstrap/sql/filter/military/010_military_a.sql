@@ -28,3 +28,6 @@ SELECT osm_id as osm_id,
   WHERE military is not null;
 
 
+
+
+

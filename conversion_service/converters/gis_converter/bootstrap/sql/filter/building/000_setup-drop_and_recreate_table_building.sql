@@ -19,3 +19,10 @@ CREATE TABLE osmaxx.building_a (
 	height float
 );
 
+
+
+
+
+
+
+

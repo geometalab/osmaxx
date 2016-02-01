@@ -46,3 +46,5 @@ INSERT INTO osmaxx.poi_a
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE man_made not in ('water_well','water_works','wastewater_plant');
+
+

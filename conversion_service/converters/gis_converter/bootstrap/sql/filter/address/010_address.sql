@@ -63,3 +63,7 @@ where building !='entrance' and entrance is null and ("addr:street" !='' OR "add
 
 
 
+
+
+
+

@@ -33,3 +33,5 @@ INSERT INTO osmaxx.landuse_a
   WHERE landuse not in ('scrub', 'cemetery')
 	 or leisure in ('park','recreation_ground', 'nature_reserve');
 
+
+

@@ -48,3 +48,6 @@ UNION
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE "natural" not in ('water', 'spring','bare_rock','scree','cliff');
+
+
+

@@ -50,3 +50,5 @@ UNION
 	wikipedia as wikipedia
   FROM osm_polygon
   WHERE place is not null or (area='yes' and name is not null);
+
+

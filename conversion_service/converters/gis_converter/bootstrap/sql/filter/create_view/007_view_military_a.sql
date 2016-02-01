@@ -9,3 +9,7 @@ CREATE OR REPLACE VIEW view_osmaxx.military_a AS SELECT
 	label,
 	tags
 FROM osmaxx.military_a;
+
+
+
+

@@ -10,3 +10,6 @@ CREATE OR REPLACE VIEW view_osmaxx.geoname_l AS SELECT
 	tags,
 	population
 FROM osmaxx.geoname_l;
+
+
+

@@ -17,3 +17,6 @@ CREATE TABLE osmaxx.adminarea_a (
 	label text,
 	tags text
 );
+
+
+

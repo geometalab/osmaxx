@@ -10,3 +10,6 @@ CREATE OR REPLACE VIEW view_osmaxx.building_a AS SELECT
 	tags,
 	height
 FROM osmaxx.building_a;
+
+
+

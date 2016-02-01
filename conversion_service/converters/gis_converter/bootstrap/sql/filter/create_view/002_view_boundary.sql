@@ -9,3 +9,6 @@ CREATE OR REPLACE VIEW view_osmaxx.boundary_l AS SELECT
 	label,
 	tags
 FROM osmaxx.boundary_l;
+
+
+

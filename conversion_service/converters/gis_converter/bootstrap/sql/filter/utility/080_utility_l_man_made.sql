@@ -21,3 +21,6 @@ INSERT INTO osmaxx.utility_l
 	null as frequency
  FROM osm_line
  WHERE man_made in ('pipeline');
+
+
+

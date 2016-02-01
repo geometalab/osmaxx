@@ -27,3 +27,5 @@ INSERT INTO osmaxx.geoname_l
 	wikipedia as wikipedia
   FROM osm_line
   WHERE place is not null or (area='yes' and name is not null);
+
+

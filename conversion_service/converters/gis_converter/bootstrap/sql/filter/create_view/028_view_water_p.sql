@@ -12,3 +12,6 @@ CREATE OR REPLACE VIEW view_osmaxx.water_p AS SELECT
 	label,
 	tags
 FROM osmaxx.water_p;
+
+
+

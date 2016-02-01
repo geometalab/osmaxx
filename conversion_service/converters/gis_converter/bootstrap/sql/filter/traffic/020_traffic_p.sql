@@ -19,3 +19,7 @@ CREATE TABLE osmaxx.traffic_p(
 	tags text,
 	"access" text
 );
+
+
+
+

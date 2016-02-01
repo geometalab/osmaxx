@@ -11,3 +11,6 @@ CREATE OR REPLACE VIEW view_osmaxx.nonop_l AS SELECT
 	z_order,
 	status
 FROM osmaxx.nonop_l;
+
+
+

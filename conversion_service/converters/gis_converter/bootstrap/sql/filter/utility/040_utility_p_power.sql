@@ -93,3 +93,5 @@ UNION
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE "power" is not null or power_source is not null;
+
+

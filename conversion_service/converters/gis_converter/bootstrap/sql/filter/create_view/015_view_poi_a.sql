@@ -21,3 +21,6 @@ CREATE OR REPLACE VIEW view_osmaxx.poi_a AS SELECT
 	brand,
 	tower_type
 FROM osmaxx.poi_a;
+
+
+

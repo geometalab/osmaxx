@@ -78,3 +78,6 @@ UNION
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE sport is not null;
+
+
+

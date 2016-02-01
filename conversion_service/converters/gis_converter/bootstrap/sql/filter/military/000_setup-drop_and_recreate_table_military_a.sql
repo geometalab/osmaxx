@@ -17,3 +17,5 @@ CREATE TABLE osmaxx.military_a (
 	label text,
 	tags text
 );
+
+

@@ -31,3 +31,6 @@ INSERT INTO osmaxx.address_p
     "addr:country" as country
   FROM osm_point
   where ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='');
+
+
+

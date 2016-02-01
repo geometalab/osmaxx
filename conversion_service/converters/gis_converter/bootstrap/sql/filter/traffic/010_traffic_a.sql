@@ -34,3 +34,7 @@ INSERT INTO osmaxx.traffic_a
   FROM osm_polygon
   WHERE amenity in ('parking','fuel','bicycle_parking');
 
+
+
+
+

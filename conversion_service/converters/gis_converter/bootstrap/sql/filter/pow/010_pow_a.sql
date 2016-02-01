@@ -42,3 +42,5 @@ INSERT INTO osmaxx.pow_a
 	"access" as "access"
   FROM osm_polygon
   WHERE religion is not null or amenity='place_of_worship';
+
+

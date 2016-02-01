@@ -30,3 +30,6 @@
 	cast(tags as text) as tags
   FROM osm_line
   WHERE boundary='administrative' or boundary='national_park' or boundary='protected_area';
+
+
+

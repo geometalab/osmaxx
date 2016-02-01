@@ -73,3 +73,5 @@ UNION
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE historic is not null;
+
+

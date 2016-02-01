@@ -5,3 +5,5 @@ DROP SCHEMA IF EXISTS osmaxx;
 -- CREATE SCHEMAS
 CREATE SCHEMA osmaxx;
 CREATE SCHEMA view_osmaxx;
+
+

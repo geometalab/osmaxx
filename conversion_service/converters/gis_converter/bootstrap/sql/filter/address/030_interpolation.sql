@@ -36,3 +36,7 @@ INSERT INTO osmaxx.address_p
  INNER JOIN osm_line
  ON temp_tbl.line_id=osm_line.osm_id;
 DROP TABLE temp_tbl;
+
+
+
+

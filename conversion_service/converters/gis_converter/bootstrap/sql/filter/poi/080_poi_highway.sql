@@ -38,3 +38,5 @@ INSERT INTO osmaxx.poi_a
 	"tower:type" as tower_type
   FROM osm_polygon
   WHERE highway='emergency_access_point';
+
+

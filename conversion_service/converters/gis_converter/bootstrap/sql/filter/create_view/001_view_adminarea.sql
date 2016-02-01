@@ -9,3 +9,6 @@ CREATE OR REPLACE VIEW view_osmaxx.adminarea_a AS SELECT
 	label,
 	tags
 FROM osmaxx.adminarea_a;
+
+
+

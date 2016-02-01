@@ -10,3 +10,7 @@ CREATE OR REPLACE VIEW view_osmaxx.landuse_a AS SELECT
 	label,
 	tags
 FROM osmaxx.landuse_a;
+
+
+
+

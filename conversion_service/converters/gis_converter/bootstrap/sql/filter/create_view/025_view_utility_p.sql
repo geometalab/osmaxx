@@ -11,3 +11,6 @@ CREATE OR REPLACE VIEW view_osmaxx.utility_p AS SELECT
 	label,
 	tags
 FROM osmaxx.utility_p;
+
+
+

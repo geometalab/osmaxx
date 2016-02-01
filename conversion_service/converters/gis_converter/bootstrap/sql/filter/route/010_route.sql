@@ -21,3 +21,7 @@ INSERT INTO osmaxx.route_l
 	FROM osm_line
 	WHERE route is not null;
 
+
+
+
+

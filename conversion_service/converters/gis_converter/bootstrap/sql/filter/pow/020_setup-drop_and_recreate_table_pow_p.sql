@@ -25,3 +25,6 @@ CREATE TABLE osmaxx.pow_p (
 	opening_hours text,
 	"access" text
 );
+
+
+

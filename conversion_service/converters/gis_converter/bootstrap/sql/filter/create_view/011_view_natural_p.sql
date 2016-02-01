@@ -9,3 +9,6 @@ CREATE OR REPLACE VIEW view_osmaxx.natural_p AS SELECT
 	label,
 	tags
 FROM osmaxx.natural_p;
+
+
+

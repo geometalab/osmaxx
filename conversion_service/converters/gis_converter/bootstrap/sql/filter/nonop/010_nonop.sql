@@ -45,3 +45,6 @@ INSERT INTO osmaxx.nonop_l
  FROM osm_line
  WHERE highway='planned' or  highway='disused' or highway='construction' or highway='abandoned' or
 	railway='planned' or  railway='disused' or railway='construction' or railway='abandoned' ;
+
+
+
