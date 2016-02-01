@@ -4,7 +4,7 @@ from rest_framework.reverse import reverse
 
 from conversion_job.models import Extent, ConversionJob, GISFormat, GISOption
 from converters import Options
-from manager.job_manager import ConversionJobManager
+from job_dispatcher.dispatcher import ConversionJobDispatcher
 from rest_api.serializer_helpers import ModelSideValidationMixin
 from shared import JobStatus
 
@@ -78,7 +78,7 @@ class ConversionJobSerializer(serializers.ModelSerializer):
         return conversion_job
 
     def _enqueue_rq_job(self, geometry, format_options, callback_url, output_directory):
-        cm = ConversionJobManager(geometry=geometry, format_options=format_options)
+        cm = ConversionJobDispatcher(geometry=geometry, format_options=format_options)
         host = self.context.get('request').get_host()
         protocol = 'https' if self.context.get('request').is_secure() else 'http'
         return cm.start_conversion(callback_url, output_directory, protocol, host)
