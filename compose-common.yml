@@ -11,7 +11,6 @@ base:
     # hardened security compared to default settings.
     - DJANGO_SECURE_BROWSER_XSS_FILTER=true
     - DJANGO_SECURE_CONTENT_TYPE_NOSNIFF=true
-    - DJANGO_LOG_LEVEL=INFO
 
 # All the settings below this line shouldn't need a change in development
 ##########################################################################

@@ -85,9 +85,29 @@ class Emissary:
         )
 
 
-def get_cached_or_set(cache_string, func, *args, timeout=datetime.timedelta(minutes=15).seconds, **kwargs):
+def get_cached_or_set(
+        cache_string, func, *args, timeout=datetime.timedelta(minutes=15).seconds, on_cache_hit=None, **kwargs):
+    """Gets requested value from cache, else produces it with specified function and caches it.
+
+    Gets the value at key ``cache_string`` from the cache. If it can't be found in the Django cache,
+    calls ``func(*args, **kwargs)`` to obtain a new value, which is returned and stored in the cache
+    at key ``cache_string``.
+
+    Args:
+        cache_string: Key for looking up the cached value and for storing newly computed values in case of a cache miss
+        func: Called with ``*args`` and ``**kwargs`` in case of a cache miss to provide the value
+        *args: Passed to ``func`` or ``on_cache_hit``
+        timeout: How long (in seconds) to cache a newly obtained value. Defaults to 15 minutes.
+        on_cache_hit: Called with the cached_value, ``*args`` and ``**kwargs`` if there was a cache hit
+        **kwargs: Passed to ``func`` or ``on_cache_hit``
+
+    Returns:
+        The cached value or in case of a cache miss or the newly obtained (and now cached) value.
+    """
     cached_value = cache.get(cache_string)
     if cached_value is None:
         cached_value = func(*args, **kwargs)
         cache.set(cache_string, cached_value, timeout=timeout)
+    elif on_cache_hit:
+        on_cache_hit(cached_value, *args, **kwargs)
     return cached_value
