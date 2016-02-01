@@ -25,3 +25,4 @@ INSERT INTO osmaxx.water_a
 	cast(tags as text) as tags
  	FROM osm_polygon
  	WHERE waterway is not null or leisure in ('slipway','marina')  or man_made in ('reservoir_covered','pier') or "natural" in ('water','spring');
+
