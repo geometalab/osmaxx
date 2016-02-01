@@ -165,5 +165,3 @@ class BootStrapperTest(TestCase):
                 ) for relative_script_path in expected_script_order
             ]
             self.assertListEqual(expected_calls, postgres_mock.execute_sql_file.mock_calls)
-
-
