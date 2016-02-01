@@ -39,7 +39,12 @@ class BootStrapperTest(TestCase):
                 'sql/filter/route/route.sql',
                 'sql/filter/traffic/traffic.sql',
                 'sql/filter/utility/utility.sql',
-                'sql/filter/water/water.sql',
+                'sql/filter/water/000_water_a.sql',
+                'sql/filter/water/010_water_a.sql',
+                'sql/filter/water/020_water_b.sql',
+                'sql/filter/water/030_water_b.sql',
+                'sql/filter/water/040_water_l.sql',
+                'sql/filter/water/050_water_l.sql',
                 'sql/filter/create_view/create_view.sql',
             ]
             expected_calls = [
