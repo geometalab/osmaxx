@@ -14,8 +14,8 @@ class CreatePolyfileStringTest(TestCase):
         self.multi_polygon_1 = MultiPolygon(self.poly_1, self.poly_2)
         self.multi_polygon_2 = MultiPolygon([self.poly_1, self.poly_2])
 
-        self.holy_poly_3 = Polygon(((0, 0), (0, 1), (1, 1), (0, 0)), ((1, 1), (1, 2), (2, 2), (1, 1)))
-        self.multi_polygon_3 = MultiPolygon(self.holy_poly_3)
+        self.holey_poly_3 = Polygon(((0, 0), (0, 1), (1, 1), (0, 0)), ((1, 1), (1, 2), (2, 2), (1, 1)))
+        self.multi_polygon_3 = MultiPolygon(self.holey_poly_3)
 
     def test_create_poly_file_string_when_multipolygon_is_valid_returns_correct_string(self):
         result = create_poly_file_string(self.multi_polygon_1)
