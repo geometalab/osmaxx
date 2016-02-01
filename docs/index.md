@@ -122,15 +122,6 @@ if job_status and job_status['status'] == 'done' and job_status['progress'] == '
 
 Using the instruction below for testing, the flake8 tool is also run.
 
-For more comprehensive output, you can use prospector:
-
-```bash
-prospector --with-tool vulture --with-tool pyroma
-```
-
-Information about its options and usage can be found at the 
-[prospector documentation](http://prospector.readthedocs.org/en/master/usage.html)
-
 ## Testing
 
 For all tests, a redis-server instance is required.

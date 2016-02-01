@@ -1,8 +1,8 @@
-from manager.rq_helper import rq_enqueue_with_settings
+from job_dispatcher.rq_helper import rq_enqueue_with_settings
 from worker.converter_job import convert
 
 
-class ConversionJobManager:
+class ConversionJobDispatcher:
     def __init__(self, geometry, format_options):
         self.geometry = geometry
         self.format_options = format_options
