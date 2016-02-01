@@ -74,11 +74,11 @@ class CreatePolyfileStringTest(TestCase):
         result = create_poly_file_string(self.multi_polygon_3)
         self.assertMultiLineEqual(expected, result)
 
-    def test_create_poly_file_string_when_invalid_input_raises_type_error(self):
+    def test_create_poly_file_string_when_input_is_invalid_raises_type_error(self):
         no_multi_polygon_at_all = 'asda'
         self.assertRaises(TypeError, create_poly_file_string, no_multi_polygon_at_all)
 
-    def test_create_poly_file_string_when_invalid_geometry_raises_type_error(self):
+    def test_create_poly_file_string_when_geometry_is_invalid_raises_raises_type_error(self):
         invalid_geometry = MultiLineString(LineString((0, 0), (0, 1), (1, 1)), LineString((1, 1), (1, 2), (2, 2)))
         self.assertRaises(TypeError, create_poly_file_string, invalid_geometry)
 
