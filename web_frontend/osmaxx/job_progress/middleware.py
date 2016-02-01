@@ -41,15 +41,18 @@ def update_order(extraction_order):
     _log_cache_miss(extraction_order)
     conversion_client = get_authenticated_api_client()
     conversion_client.update_order_status(extraction_order)
-    message = "Fetched, updated and cached ExtractionOrder {extraction_order} progress: {progress}".format(
-        extraction_order=extraction_order.id,
-        progress=ExtractionOrderState.label(extraction_order.state),
-    )
-    logger.debug(message)
+    if logger.isEnabledFor(logging.DEBUG):
+        message = "Fetched, updated and cached ExtractionOrder {extraction_order} progress: {progress}".format(
+            extraction_order=extraction_order.id,
+            progress=ExtractionOrderState.label(extraction_order.state),
+        )
+        logger.debug(message)
     return extraction_order.state
 
 
 def _log_cache_miss(extraction_order):
+    if not logger.isEnabledFor(logging.INFO):
+        return
     message = "Cache miss - Re-fetching progress of pending ExtractionOrder {extraction_order}.".format(
         extraction_order=extraction_order.id,
     )
@@ -57,6 +60,8 @@ def _log_cache_miss(extraction_order):
 
 
 def _log_cache_hit(cached_value, extraction_order):
+    if not logger.isEnabledFor(logging.INFO):
+        return
     message = (
         "Cache hit - Not re-fetching progress of pending ExtractionOrder {extraction_order}, "
         "as it has already been fetched recently. Progress then was {progress}."
