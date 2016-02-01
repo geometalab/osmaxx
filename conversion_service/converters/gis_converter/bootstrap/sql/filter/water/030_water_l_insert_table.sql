@@ -37,5 +37,3 @@ INSERT INTO osmaxx.water_l
 
  	FROM osm_line
  	WHERE waterway is not null or man_made in ('pier');
- 	
- 	

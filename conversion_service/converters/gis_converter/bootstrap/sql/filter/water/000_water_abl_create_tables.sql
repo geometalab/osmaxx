@@ -61,4 +61,3 @@ CREATE TABLE osmaxx.water_l(
 	bridge boolean,
 	tunnel boolean
 );
-
