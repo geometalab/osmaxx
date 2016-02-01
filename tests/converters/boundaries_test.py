@@ -1,9 +1,10 @@
 import os
+from unittest import mock
 from unittest.mock import patch
 
 from django.test import TestCase
 
-from converters.boundaries import BBox, PolyfileForCountry, PolyfileCutter
+from converters.boundaries import BBox, PolyfileForCountry, BoundaryCutter, pbf_area
 from countries.models import Country
 from tests.osm_test_helpers import POLYFILE_TEST_FILE_PATH
 
@@ -73,7 +74,7 @@ class TestCountryPolyFile(TestCase):
 # TODO: What if path to planet file contains spaces?
 
 
-class TestPolyfileCutter(TestCase):
+class TestPBFArea(TestCase):
     def setUp(self):
         self.example_valid_poly_string = os.linesep.join([
             'australia_v',
@@ -115,35 +116,49 @@ class TestPolyfileCutter(TestCase):
         ])
 
     def test_init_when_parameters_are_missing_raises_type_error(self):
-        self.assertRaises(TypeError, PolyfileCutter)
+        self.assertRaises(TypeError, pbf_area)
 
     def test_init_when_invalid_poly_raises_error(self):
-        self.assertRaises(TypeError, PolyfileCutter, self.example_invalid_poly_string)
+        self.assertRaises(TypeError, pbf_area, self.example_invalid_poly_string)
 
     def test_initializing_when_all_given_parameters_are_set_works(self):
-        PolyfileCutter(poly_string=self.example_valid_poly_string)
+        pbf_area(osmosis_polygon_file_content=self.example_valid_poly_string)
         # shouldn't raise an error
 
     @patch.dict(
         'converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
         PBF_PLANET_FILE_PATH='/path/to/planet-latest.osm.pbf',
     )
-    @patch('converters.boundaries.tempfile.NamedTemporaryFile')
     @patch('subprocess.call', return_value=0)
-    def test_cut_pbf_calls_osmconvert_correctly(self, sp_call_mock, tmpfile_mock):
-        expected_tmp_file_name = '/tmp/test_tmp_file_name'
-        expected_output_file = 'outfile.pbf'
-        expected_pbf_path = '/path/to/planet-latest.osm.pbf'
-        tmpfile_mock.return_value.__enter__.return_value.name = expected_tmp_file_name
+    def test_cut_pbf_calls_osmconvert(self, sp_call_mock, *args):
+        with pbf_area(osmosis_polygon_file_content=self.example_valid_poly_string):
+            sp_call_mock.assert_called_once_with(mock.ANY)
 
-        polyfile = PolyfileCutter(poly_string=self.example_valid_poly_string)
-        polyfile.cut_pbf(expected_output_file)
-        sp_call_mock.assert_called_with(
-            [
-                "osmconvert",
-                "--out-pbf",
-                "-o={}".format(expected_output_file),
-                "-B={}".format(expected_tmp_file_name),
-                "{}".format(expected_pbf_path),
-            ]
-        )
+    @patch.dict(
+        'converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
+        PBF_PLANET_FILE_PATH='/path/to/planet-latest.osm.pbf',
+    )
+    @patch('subprocess.call', return_value=0)
+    def test_cut_pbf_cleans_up_temp_files(self, sp_call_mock, *args):
+        with pbf_area(osmosis_polygon_file_content=self.example_valid_poly_string) as pbf_file_path:
+            self.assertTrue(os.path.exists(pbf_file_path))
+            sp_call_mock.assert_called_once_with(mock.ANY)
+        self.assertFalse(os.path.exists(pbf_file_path))
+
+
+class TestBoundaryCutter(TestCase):
+    @patch('subprocess.check_call', return_value=0)
+    def test_cut_pbf_is_called_correctly(self, check_call_mock):
+        expected_osmosis_polygon_file_path = '/test/path/to_fake_polygon_file'
+        expected_input_pbf = '/fake/path/to/pbf/input'
+        expected_output_pbf = '/fake/path/to/pbf/output'
+
+        boundary_cutter = BoundaryCutter(expected_osmosis_polygon_file_path)
+        boundary_cutter.cut_pbf(input_pbf=expected_input_pbf, output_pbf=expected_output_pbf)
+        check_call_mock.assert_called_once_with([
+            "osmconvert",
+            "--out-pbf",
+            "-o={0}".format(expected_output_pbf),
+            "-B={0}".format(expected_osmosis_polygon_file_path),
+            "{0}".format(expected_input_pbf),
+        ])
