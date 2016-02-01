@@ -44,8 +44,6 @@ LOCAL_APPS = (
     'conversion_job',
     'countries',
     # 'version',
-    # 'api.converters.core',
-    # 'api.converters.gis',
     'clipping_geometry',
 )
 
