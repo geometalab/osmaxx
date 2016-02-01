@@ -139,10 +139,9 @@ class TestPBFArea(TestCase):
         PBF_PLANET_FILE_PATH='/path/to/planet-latest.osm.pbf',
     )
     @patch('subprocess.call', return_value=0)
-    def test_cut_pbf_cleans_up_temp_files(self, sp_call_mock, *args):
+    def test_cut_pbf_cleans_up_temp_files(self, *args):
         with pbf_area(osmosis_polygon_file_content=self.example_valid_poly_string) as pbf_file_path:
             self.assertTrue(os.path.exists(pbf_file_path))
-            sp_call_mock.assert_called_once_with(mock.ANY)
         self.assertFalse(os.path.exists(pbf_file_path))
 
 
