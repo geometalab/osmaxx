@@ -23,9 +23,14 @@ class BootStrapperTest(TestCase):
                 'sql/filter/adminarea_boundary/010_adminarea.sql',
                 'sql/filter/adminarea_boundary/020_setup-drop_and_recreate_table_boundary.sql',
                 'sql/filter/adminarea_boundary/030_boundary.sql',
-                'sql/filter/building/building.sql',
-                'sql/filter/landuse/landuse.sql',
-                'sql/filter/military/military.sql',
+                'sql/filter/building/000_setup-drop_and_recreate_table_building.sql',
+                'sql/filter/building/010_building.sql',
+                'sql/filter/landuse/000_setup-drop_and_recreate_table_landuse.sql',
+                'sql/filter/landuse/010_landuse.sql',
+                'sql/filter/military/000_setup-drop_and_recreate_table_military_a.sql',
+                'sql/filter/military/010_military_a.sql',
+                'sql/filter/military/020_setup-drop_and_recreate_table_military_p.sql',
+                'sql/filter/military/030_military_p.sql',
                 'sql/filter/natural/natural.sql',
                 'sql/filter/nonop/nonop.sql',
                 'sql/filter/geoname/000_setup-geoname_table.sql',
@@ -45,7 +50,7 @@ class BootStrapperTest(TestCase):
                 'sql/filter/traffic/traffic.sql',
                 'sql/filter/utility/utility.sql',
                 'sql/filter/water/water.sql',
-                'sql/filter/create_view/create_view.sql',
+                'sql/filter/create_view/000_create_view.sql',
             ]
             expected_calls = [
                 mock.call(
