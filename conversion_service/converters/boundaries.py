@@ -63,7 +63,8 @@ class PolyfileForCountry:
 
 class PolyfileCutter:
     def __init__(self, poly_string):
-        utils.parse_poly_string(poly_string)
+        # Parse the poly_string to cause an Exception if it is invalid.
+        utils.parse_poly_string(poly_string)  # We're only interested in the side effect.
         self.poly_string = poly_string
 
     def cut_pbf(self, output_filename):
