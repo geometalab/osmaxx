@@ -50,7 +50,7 @@ class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
     polygon_file = models.FileField(storage=get_private_upload_storage())
 
     def __str__(self):
-        return 'Polygon file: ' + self.polygon_file.name
+        return 'Polygon file {id}: {filename}'.format(self.id, self.polygon_file.name)
 
 
 class BBoxBoundingGeometry(AdminUrlModelMixin, BoundingGeometry):
@@ -103,7 +103,8 @@ class BBoxBoundingGeometry(AdminUrlModelMixin, BoundingGeometry):
     objects = models.GeoManager()
 
     def __str__(self):
-        return 'Bounding box: (north={n}, east={e}, south={s}, west={w})'.format(
+        return 'Bounding box {id}: (north={n}, east={e}, south={s}, west={w})'.format(
+            id=self.id,
             n=self.north,
             e=self.east,
             s=self.south,

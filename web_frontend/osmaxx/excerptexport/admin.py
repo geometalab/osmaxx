@@ -21,10 +21,11 @@ class ExcerptAdmin(admin.ModelAdmin):
         admin_link = excerpt.bounding_geometry.subclass_instance.get_admin_url()
         return mark_safe(
             '<a href="{}">'
-            '<img src="/static/admin/img/icon_changelink.gif" alt="Change" height="10" width="10"></img> Edit {}'
+            '<img src="/static/admin/img/icon_changelink.gif" alt="Change" height="10" width="10"></img> Edit {} {}'
             '</a>'.format(
                 admin_link,
                 type(excerpt.bounding_geometry.subclass_instance).__name__,
+                excerpt.bounding_geometry.subclass_instance.id,
             ),
         )
     bounding_geometry_subclass_instance_edit_link.short_description = 'Boundary'
