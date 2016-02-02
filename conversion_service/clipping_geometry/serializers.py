@@ -19,7 +19,7 @@ class ClippingAreaSerializer(serializers.ModelSerializer):
         # occurs for example when the geoJSON seems valid, but contains non-coordinate string(s).
         if clipping_multi_polygon.num_coords <= 0:
             raise serializers.ValidationError(
-                _("Invalid Coordinates, expecting at least one coordinate set, received none.")
+                _("Invalid Coordinates, expected at least one coordinate pair, received none.")
             )
         return clipping_multi_polygon
 
