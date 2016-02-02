@@ -15,6 +15,8 @@ class ClippingAreaSerializer(serializers.ModelSerializer):
                     )
                 )
             )
+        # prevent obscure IntegrityError in the database:
+        # occurs for example when the geoJSON seems valid, but contains non-coordinate string(s).
         if clipping_multi_polygon.num_coords <= 0:
             raise serializers.ValidationError(
                 _("Invalid Coordinates, expecting at least one coordinate set, received none.")
