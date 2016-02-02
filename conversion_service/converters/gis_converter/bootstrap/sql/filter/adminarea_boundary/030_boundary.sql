@@ -1,5 +1,4 @@
-
-  INSERT INTO osmaxx.boundary_l
+INSERT INTO osmaxx.boundary_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
 	CASE 

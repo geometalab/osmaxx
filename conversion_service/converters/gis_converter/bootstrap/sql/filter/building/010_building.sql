@@ -18,3 +18,4 @@ INSERT INTO osmaxx.building_a
 	cast(nullif(height,'') as float) as height
   FROM osm_polygon
   WHERE building is not null;
+  
