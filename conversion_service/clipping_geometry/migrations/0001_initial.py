@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('name', models.CharField(verbose_name='name', max_length=200)),
-                ('clipping_multi_polygon', django.contrib.gis.db.models.fields.MultiPolygonField(verbose_name='clipping multi-polygon', srid=4326)),
+                ('clipping_multi_polygon', django.contrib.gis.db.models.fields.MultiPolygonField(verbose_name='clipping MultiPolygon', srid=4326)),
             ],
         ),
     ]
