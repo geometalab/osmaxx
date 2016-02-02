@@ -28,6 +28,13 @@ class BoundingGeometry(models.Model):
     def type_of_geometry(self):
         return str(self.subclass_instance.__class__.__name__)
 
+    def __str__(self):
+        subclass_instance = self.subclass_instance
+        parent = '{} {id}'.format(super().__str__(), id=self.id)
+        if self == subclass_instance:
+            return parent
+        return '{parent}: {child}'.format(parent=parent, id=self.id, child=str(subclass_instance))
+
     @property
     def subclass_instance(self):
         # TODO: don't make an extra query for this
@@ -49,8 +56,8 @@ class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
 class BBoxBoundingGeometry(AdminUrlModelMixin, BoundingGeometry):
     def __init__(self, *args, **kwargs):
         attribute_names = ['north', 'east', 'south', 'west']
-        if are_all_keys_in(kwargs, attribute_names) \
-                and not are_all_keys_in(kwargs, ['south_west', 'north_east']):
+        if are_all_keys_in(kwargs, keys=attribute_names) \
+                and not are_all_keys_in(kwargs, keys=['south_west', 'north_east']):
             kwargs['south_west'] = GEOSGeometry('POINT(%s %s)' % (kwargs.pop('west'), kwargs.pop('south')))
             kwargs['north_east'] = GEOSGeometry('POINT(%s %s)' % (kwargs.pop('east'), kwargs.pop('north')))
         super().__init__(*args, **kwargs)
