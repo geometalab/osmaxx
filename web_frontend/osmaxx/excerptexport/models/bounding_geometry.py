@@ -103,7 +103,9 @@ class BBoxBoundingGeometry(AdminUrlModelMixin, BoundingGeometry):
     objects = models.GeoManager()
 
     def __str__(self):
-        points = []
-        for coordinates in self.geometry[0]:
-            points.append('(' + ', '.join([str(round(coordinate, 5)) for coordinate in coordinates]) + ')')
-        return 'Bounding box' + ': ' + ', '.join(points)
+        return 'Bounding box: (north={n}, east={e}, south={s}, west={w})'.format(
+            n=self.north,
+            e=self.east,
+            s=self.south,
+            w=self.west,
+        )

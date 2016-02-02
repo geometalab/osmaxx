@@ -6,13 +6,9 @@ from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, OutputFile
 
 
 class BBoxBoundingGeometryAdmin(admin.ModelAdmin):
-    list_display = ['north', 'east', 'south', 'west']
-    fields = ['bounding_box']
-    readonly_fields = ['bounding_box']
-
-    def bounding_box(self, obj):
-        return ', '.join([str(getattr(obj, attr)) for attr in self.list_display])
-    bounding_box.short_description = 'Bounding Box'
+    list_display = ('north', 'east', 'south', 'west')
+    fields = (list_display,)
+    readonly_fields = list_display
 admin.site.register(BBoxBoundingGeometry, BBoxBoundingGeometryAdmin)
 
 
