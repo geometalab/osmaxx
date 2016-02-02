@@ -1,4 +1,6 @@
-FROM python:3.4
+FROM geometalab/gdal-debian
+
+USER root
 
 MAINTAINER HSR Geometalab <geometalab@hsr.ch>
 
@@ -6,7 +8,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y\
 \
     libgeos-dev \
-    libgeos++-dev
+    libgeos++-dev \
+    python3-pip
 
 # Install required Python packages:
 ENV HOME /home/py
@@ -15,7 +18,7 @@ WORKDIR $HOME
 
 ADD requirements.txt $HOME/
 
-RUN pip install honcho
+RUN pip3 install honcho
 
 RUN pip3 install -r requirements.txt
 
@@ -29,4 +32,3 @@ RUN mkdir -p $HOME/docker_entrypoint/conversion_service $HOME/entrypoint
 COPY ./docker_entrypoint/conversion_service $HOME/entrypoint
 
 ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]
-
