@@ -24,6 +24,9 @@ See `docs/` and Wikis:
 - https://github.com/geometalab/osmaxx-postgis-conversion/wiki
 - https://github.com/geometalab/osmaxx/wiki.
 
+## Version checking
+
+To see which version is runing, `<deployed_site_url>/version/` can be consulted, eg. `http://localhost:8901/version/`.
 
 ## Usage
 
