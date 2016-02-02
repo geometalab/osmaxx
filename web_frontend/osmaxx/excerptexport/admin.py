@@ -17,18 +17,21 @@ admin.site.register(BBoxBoundingGeometry, BBoxBoundingGeometryAdmin)
 
 
 class ExcerptAdmin(admin.ModelAdmin):
-    list_display = ['name', 'is_public', 'is_active', 'owner', 'bbox']
-    fields = ('name', 'show_bbox_link')
-    readonly_fields = ('show_bbox_link',)
+    list_display = ['name', 'is_public', 'is_active', 'owner', 'bounding_geometry']
+    fields = ('name', ('bounding_geometry', 'bounding_geometry_subclass_instance_edit_link'))
+    readonly_fields = ('bounding_geometry_subclass_instance_edit_link',)
 
-    def bbox(self, excerpt):
-        return str(excerpt.bounding_geometry.subclass_instance)
-    bbox.short_description = 'Bounding Box'
-
-    def show_bbox_link(self, excerpt):
+    def bounding_geometry_subclass_instance_edit_link(self, excerpt):
         admin_link = excerpt.bounding_geometry.subclass_instance.get_admin_url()
-        return mark_safe('<a href="{}">{}</a>'.format(admin_link, str(excerpt.bounding_geometry.subclass_instance)))
-    show_bbox_link.short_description = 'Bounding Box'
+        return mark_safe(
+            '<a href="{}">'
+            '<img src="/static/admin/img/icon_changelink.gif" alt="Change" height="10" width="10"></img> Edit {}'
+            '</a>'.format(
+                admin_link,
+                type(excerpt.bounding_geometry.subclass_instance).__name__,
+            ),
+        )
+    bounding_geometry_subclass_instance_edit_link.short_description = 'Boundary'
 admin.site.register(Excerpt, ExcerptAdmin)
 
 
