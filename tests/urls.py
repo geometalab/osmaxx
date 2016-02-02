@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
 
 import conversion_job.views
+from clipping_geometry.viewsets import ClippingAreaViewSet
 from countries.views import CountryViewSet
 from file_size_estimation.views import SizeEstimationView
 
@@ -12,6 +13,7 @@ router.register(r'conversion_result', conversion_job.views.ConversionJobStatusVi
 router.register(r'gis_format', conversion_job.views.GISFormatStatusViewSet)
 router.register(r'estimate_size_in_bytes', SizeEstimationView, base_name='estimate_size_in_bytes')
 router.register(r'country', CountryViewSet)
+router.register(r'clipping_area', ClippingAreaViewSet, base_name='clipping_area')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
