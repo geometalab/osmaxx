@@ -98,7 +98,7 @@ class TestClippingGeometryViewSet(APITestCase):
         self.assertEqual(0, count())
         expected_error_message = {
             "clipping_multi_polygon": [
-                "Invalid Coordinates, expecting at least one coordinate set, received none."
+                "Invalid coordinates: Expecting at least one coordinate set, received none."
             ]
         }
         self.assertEqual(expected_error_message, response.data)
