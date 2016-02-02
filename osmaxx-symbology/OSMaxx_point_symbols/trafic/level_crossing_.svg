@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg4180" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:export-ydpi="90" inkscape:export-xdpi="90" inkscape:export-filename="C:\Users\Fabienne\Desktop\fehlende_symbole\einfach\png\sinkhole.png" sodipodi:docname="level_crossing.svg" inkscape:version="0.91 r13725"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px"
+	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+<sodipodi:namedview  units="px" showgrid="false" id="namedview4184" inkscape:cy="27.365262" inkscape:cx="24.717357" inkscape:zoom="8" borderopacity="1.0" bordercolor="#666666" pagecolor="#ffffff" inkscape:current-layer="layer1" inkscape:pageshadow="2" inkscape:pageopacity="0.0" inkscape:document-units="pt" inkscape:window-height="975" inkscape:window-y="3" inkscape:window-x="7" inkscape:window-width="1396" inkscape:window-maximized="0">
+	</sodipodi:namedview>
+<g id="layer1" transform="translate(0,-314.4)" inkscape:label="Layer 1" inkscape:groupmode="layer">
+	<path id="path4745" inkscape:connector-curvature="0" opacity="0.7" fill="#FFFFFF" d="M8.654,346.16
+		c-4.085-0.029-4.153-0.031-4.499-0.129c-0.912-0.256-1.708-0.725-2.38-1.4c-0.664-0.666-1.034-1.268-1.333-2.163l-0.16-0.479
+		l-0.043-1.605c-0.061-2.263-0.02-20.903,0.047-21.389c0.096-0.697,0.474-1.58,0.955-2.227c0.725-0.974,1.664-1.619,2.882-1.979
+		l0.383-0.114l2.705-0.033c3.517-0.042,14.274-0.043,17.65,0l2.637,0.033l0.406,0.124c1.859,0.566,3.23,1.979,3.705,3.817
+		c0.104,0.402,0.114,0.55,0.156,2.17c0.027,1.08,0.033,5.357,0.016,11.289l-0.028,9.55l-0.107,0.433
+		c-0.483,1.948-1.888,3.422-3.766,3.952l-0.427,0.119l-4.215,0.035C18.497,346.202,14.719,346.201,8.654,346.16L8.654,346.16
+		L8.654,346.16z"/>
+	<path id="crossing" inkscape:connector-curvature="0" fill="#FF2600" d="M2.647,317.737v2.953l10.331,10.336L2.647,341.365v2.952
+		h2.951l10.331-10.337l10.331,10.337h2.951v-2.952l-10.326-10.338l10.331-10.336v-2.953h-2.95l-10.336,10.337L5.598,317.737H2.647z"
+		/>
+</g>
+</svg>
