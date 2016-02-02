@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.contrib.gis import geos
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
@@ -41,13 +40,7 @@ class TestClippingGeometryViewSet(APITestCase):
                 ]
             ]
         }
-
-    def _force_authentication(self):
-        try:
-            user = User.objects.get(username='lauren')
-        except ObjectDoesNotExist:
-            user = User.objects.create_user(username='lauren', password='lauri', email=None)
-        self.client.force_authenticate(user=user)
+        self.user = User.objects.create_user(username='lauren', password='lauri', email=None)
 
     def test_create_view_with_multi_polygon_succeeds(self):
         url = reverse('clipping_area-list')
@@ -56,7 +49,7 @@ class TestClippingGeometryViewSet(APITestCase):
             'name': expected_name,
             'clipping_multi_polygon': self.multipolygon,
         }
-        self._force_authentication()
+        self.client.force_authenticate(user=self.user)
         self.assertEqual(0, ClippingArea.objects.count())
 
         response = self.client.post(url, data=data, format='json')
@@ -67,14 +60,13 @@ class TestClippingGeometryViewSet(APITestCase):
 
     def test_create_view_with_polygon_fails(self):
         url = reverse('clipping_area-list')
-        self._force_authentication()
         count = ClippingArea.objects.count
         self.assertEqual(0, count())
         data = {
             'name': "polygon fails",
             'clipping_multi_polygon': self.polygon,
         }
-        self._force_authentication()
+        self.client.force_authenticate(user=self.user)
         response = self.client.post(url, data=data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -99,7 +91,7 @@ class TestClippingGeometryViewSet(APITestCase):
             'clipping_multi_polygon': self.something_invalid_that_tries_to_be_a_multipolygon,
         }
 
-        self._force_authentication()
+        self.client.force_authenticate(user=self.user)
         response = self.client.post(url, data=data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -126,7 +118,7 @@ class TestClippingGeometryViewSet(APITestCase):
         )
         self.assertEqual(1, ClippingArea.objects.count())
         url = reverse('clipping_area-detail', args=[clipping_area.id])
-        self._force_authentication()
+        self.client.force_authenticate(user=self.user)
         response = self.client.delete(url, format='json')
 
         self.assertEqual(0, ClippingArea.objects.count())
@@ -156,7 +148,7 @@ class TestClippingGeometryViewSet(APITestCase):
             clipping_multi_polygon=multi_polygon,
         )
         url = reverse('clipping_area-detail', args=[clipping_area.id])
-        self._force_authentication()
+        self.client.force_authenticate(user=self.user)
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['name'], "test clipping area")
