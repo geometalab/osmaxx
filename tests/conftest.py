@@ -84,7 +84,6 @@ def pytest_configure():
         },
         OSMAXX_CONVERSION_SERVICE={
             'PBF_PLANET_FILE_PATH': os.path.join(test_data_dir, 'osm', 'monaco-latest.osm.pbf'),
-            'ESTIMATION_CSV_SOURCE_FILE': os.path.join(test_data_dir, 'estimation', 'planet-150202-stats.csv'),
             'COUNTRIES_POLYFILE_LOCATION': os.path.join(test_data_dir, 'polyfiles'),
         },
 

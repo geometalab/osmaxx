@@ -1,5 +1,4 @@
 from django.conf.urls import url, include
-from pbf_file_size_estimation.views import SizeEstimationView
 from rest_framework.routers import DefaultRouter
 
 import conversion_job.views
@@ -11,7 +10,6 @@ router.register(r'extents', conversion_job.views.ExtentViewSet)
 router.register(r'jobs', conversion_job.views.ConversionJobViewSet)
 router.register(r'conversion_result', conversion_job.views.ConversionJobStatusViewSet, base_name='conversion_job_result')
 router.register(r'gis_format', conversion_job.views.GISFormatStatusViewSet)
-router.register(r'estimate_size_in_bytes', SizeEstimationView, base_name='estimate_size_in_bytes')
 router.register(r'country', CountryViewSet)
 router.register(r'clipping_area', ClippingAreaViewSet, base_name='clipping_area')
 
