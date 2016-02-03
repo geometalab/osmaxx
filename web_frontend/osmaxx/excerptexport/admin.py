@@ -12,6 +12,7 @@ class BBoxBoundingGeometryAdmin(admin.ModelAdmin):
 admin.site.register(BBoxBoundingGeometry, BBoxBoundingGeometryAdmin)
 
 
+@admin.register(Excerpt)
 class ExcerptAdmin(admin.ModelAdmin):
     list_display = ['name', 'is_public', 'is_active', 'owner', 'bounding_geometry']
     fields = ('name', ('bounding_geometry', 'bounding_geometry_subclass_instance_edit_link'))
@@ -29,12 +30,11 @@ class ExcerptAdmin(admin.ModelAdmin):
             ),
         )
     bounding_geometry_subclass_instance_edit_link.short_description = 'Boundary'
-admin.site.register(Excerpt, ExcerptAdmin)
 
 
+@admin.register(ExtractionOrder)
 class ExtractionOrderAdmin(admin.ModelAdmin):
     readonly_fields = ('process_id', '_extraction_configuration', 'progress_url')
-admin.site.register(ExtractionOrder, ExtractionOrderAdmin)
 
 admin.site.register(OutputFile)
 admin.site.register(OsmosisPolygonFilterBoundingGeometry)
