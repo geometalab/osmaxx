@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-22 13:55+0100\n"
+"POT-Creation-Date: 2016-02-03 18:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,25 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: clipping_geometry/models.py:6 countries/models.py:8
+msgid "name"
+msgstr ""
+
+#: clipping_geometry/models.py:7
+msgid "clipping MultiPolygon"
+msgstr ""
+
+#: clipping_geometry/serializers.py:13
+#, python-brace-format
+msgid ""
+"The received geometry is not a MultiPolygon. Received type of {other_type}."
+msgstr ""
+
+#: clipping_geometry/serializers.py:22
+msgid ""
+"Invalid coordinates: expected at least one coordinate pair, received none."
+msgstr ""
 
 #: conversion_job/models.py:18
 msgid "west"
@@ -105,34 +124,10 @@ msgstr ""
 msgid "progress"
 msgstr ""
 
-#: countries/models.py:8
-msgid "name"
-msgstr ""
-
 #: countries/models.py:9
 msgid "polyfile"
 msgstr ""
 
 #: countries/models.py:10
 msgid "simplified area"
-msgstr ""
-
-#: file_size_estimation/estimate_size.py:14
-msgid "north must be greater than south"
-msgstr ""
-
-#: file_size_estimation/estimate_size.py:17
-msgid "west out of range"
-msgstr ""
-
-#: file_size_estimation/estimate_size.py:20
-msgid "south out of range"
-msgstr ""
-
-#: file_size_estimation/estimate_size.py:23
-msgid "east out of range"
-msgstr ""
-
-#: file_size_estimation/estimate_size.py:26
-msgid "north out of range"
 msgstr ""
