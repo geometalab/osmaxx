@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.test import TestCase
 
-from file_size_estimation.estimate_size import estimate_size_of_extent, OutOfBoundsError
+from pbf_file_size_estimation.estimate_size import estimate_size_of_extent, OutOfBoundsError
 
 
 class EstimateSizeTest(TestCase):

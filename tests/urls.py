@@ -1,10 +1,10 @@
 from django.conf.urls import url, include
+from pbf_file_size_estimation.views import SizeEstimationView
 from rest_framework.routers import DefaultRouter
 
 import conversion_job.views
 from clipping_geometry.viewsets import ClippingAreaViewSet
 from countries.views import CountryViewSet
-from file_size_estimation.views import SizeEstimationView
 
 router = DefaultRouter()
 router.register(r'extents', conversion_job.views.ExtentViewSet)

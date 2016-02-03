@@ -38,6 +38,7 @@ THIRD_PARTY_APPS = (
     # rest API Framework
     'rest_framework',
     'rest_framework_gis',
+    'pbf_file_size_estimation',
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
