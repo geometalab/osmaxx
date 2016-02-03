@@ -13,14 +13,6 @@ osmdata:
   volumes_from:
     - data
 
-rqdashboard:
-  build: rq-dashboard
-  links:
-    - redis
-  ports:
-    - "9090:9181"
-  command: rq-dashboard -H redis
-
 redis:
   image: redis
 
