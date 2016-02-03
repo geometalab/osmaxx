@@ -1,5 +1,3 @@
-import os
-
 from django.conf import settings
 
 OSMAXX_CONVERSION_SERVICE = {
