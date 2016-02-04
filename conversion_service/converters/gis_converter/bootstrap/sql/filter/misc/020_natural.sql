@@ -1,4 +1,3 @@
-
 -- natural --
 
 INSERT INTO osmaxx.misc_l
