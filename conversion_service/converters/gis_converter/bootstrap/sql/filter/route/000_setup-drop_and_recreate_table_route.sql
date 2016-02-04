@@ -17,6 +17,3 @@ CREATE TABLE osmaxx.route_l(
 	label text,
 	tags text
 );
-
-
-

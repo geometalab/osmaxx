@@ -1,4 +1,3 @@
-
 INSERT INTO osmaxx.route_l
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange , 
@@ -20,8 +19,3 @@ INSERT INTO osmaxx.route_l
 	cast(tags as text) as tags
 	FROM osm_line
 	WHERE route is not null;
-
-
-
-
-
