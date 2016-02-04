@@ -1,7 +1,7 @@
 -- junction --
 INSERT INTO osmaxx.road_l
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange , 
+	osm_timestamp as lastchange ,
 	'W' AS geomtype, 	-- Way
 	ST_Multi(way) AS geom,
 	'roundabout'as aggtype,
@@ -21,15 +21,15 @@ INSERT INTO osmaxx.road_l
 	end as type,
 
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	ref as ref,
-	case	
+	case
 	when oneway is not null then oneway
 	else 'no'
 	end as oneway,
@@ -49,7 +49,7 @@ INSERT INTO osmaxx.road_l
  	WHERE junction='roundabout'
 UNION
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange, 
+	osm_timestamp as lastchange,
 	'W' AS geomtype, 	-- Way
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 	'roundabout'as aggtype,
@@ -69,15 +69,15 @@ UNION
 	end as type,
 
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	ref as ref,
-	case	
+	case
 	when oneway is not null then oneway
 	else 'no'
 	end as oneway,
@@ -87,7 +87,7 @@ UNION
 	when bridge in ('split_log' , 'beam', 'culvert', 'low_water_crossing', 'yes', 'suspension', 'viaduct', 'aqueduct', 'covered') then TRUE
 	else FALSE
 	end as bridge,
--- Creating tags for groups of Tunnel Bridges--	
+-- Creating tags for groups of Tunnel Bridges--
 	case
 	when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector','teilweise', 'viaduct', 'tunnel', 'yes') then TRUE
 	else FALSE

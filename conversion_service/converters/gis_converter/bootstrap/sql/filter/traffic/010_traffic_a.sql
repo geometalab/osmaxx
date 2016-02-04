@@ -1,11 +1,11 @@
 INSERT INTO osmaxx.traffic_a
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange , 
-	CASE 
+	osm_timestamp as lastchange ,
+	CASE
 	 WHEN osm_id<0 THEN 'R' -- Relation
 	 ELSE 'W' 		-- Way
-	 END AS geomtype, 
-	ST_Multi(way) AS geom,  
+	 END AS geomtype,
+	ST_Multi(way) AS geom,
 	case
 	 when amenity='fuel' then 'fuel'
 	 when amenity in ('parking','bicycle_parking') then 'parking'
@@ -14,17 +14,17 @@ INSERT INTO osmaxx.traffic_a
 	 when amenity='fuel' then 'fuel'
 	 when amenity='parking' then
 		case
-		 when parking in ('site','multi-storey','underground','surface') then parking 
+		 when parking in ('site','multi-storey','underground','surface') then parking
 		 else 'parking'
 		end
 	 when amenity='bicycle_parking' then 'bicycle'
 	end as type,
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case

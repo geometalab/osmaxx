@@ -3,7 +3,7 @@
 ---------------------------
 INSERT INTO osmaxx.poi_p
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange, 
+	osm_timestamp as lastchange,
 	'N' AS geomtype, -- Node
 	way AS geom,
 -- Combining the different tags in Man-made POIs into different categories --
@@ -22,11 +22,11 @@ INSERT INTO osmaxx.poi_p
 	 else 'man_made'
 	end as type,
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	website as website,
@@ -42,11 +42,11 @@ INSERT INTO osmaxx.poi_p
   WHERE man_made not in ('water_well','water_works','wastewater_plant')
 UNION
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange, 
+	osm_timestamp as lastchange,
 	CASE
 	WHEN osm_id<0 THEN 'R'  -- Relation
 	 ELSE 'W' 		-- Way
-	 END AS geomtype,  
+	 END AS geomtype,
 	ST_Centroid(way) AS geom,
 -- Combining the different tags in Man-made POIs into different categories --
 	case
@@ -65,11 +65,11 @@ UNION
 	end as type,
 
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	website as website,

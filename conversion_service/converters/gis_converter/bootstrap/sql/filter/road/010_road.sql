@@ -1,7 +1,7 @@
 -- road --
 INSERT INTO osmaxx.road_l
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange , 
+	osm_timestamp as lastchange ,
 	'W' AS geomtype, 	-- Way
 	ST_Multi(way) AS geom,
 -- Creating tags for groups of roads --
@@ -29,15 +29,15 @@ INSERT INTO osmaxx.road_l
 	end as type,
 
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	ref as ref,
-	case	
+	case
 	when oneway is not null then oneway
 	else 'no'
 	end as oneway,
@@ -56,8 +56,8 @@ INSERT INTO osmaxx.road_l
  	WHERE highway not in ('abandon','construction','planned','disused') or junction not in ('roundabout')
 UNION
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange, 
-	'W' AS geomtype, 
+	osm_timestamp as lastchange,
+	'W' AS geomtype,
 	ST_Multi(ST_ExteriorRing (way)) AS geom,
 -- Creating tags for groups of roads --
 	case
@@ -84,15 +84,15 @@ UNION
 	end as type,
 
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	ref as ref,
-	case	
+	case
 	when oneway is not null then oneway
 	else 'no'
 	end as oneway,

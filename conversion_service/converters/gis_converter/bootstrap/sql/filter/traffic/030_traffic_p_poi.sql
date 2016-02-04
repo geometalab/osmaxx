@@ -1,6 +1,6 @@
 INSERT INTO osmaxx.traffic_p
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange , 
+	osm_timestamp as lastchange ,
 	'N' AS geomtype, 	-- Node
 	way AS geom,
 
@@ -28,13 +28,13 @@ INSERT INTO osmaxx.traffic_p
 	 when amenity='fuel' then 'fuel'
 	 when amenity='parking' then
 		case
-		 when parking in ('site','multi-storey','underground','surface') then parking 
+		 when parking in ('site','multi-storey','underground','surface') then parking
 		 else 'parking'
 		end
 	 when amenity='bicycle_parking' then 'bicycle'
 	 when highway is not null then
 		case
-		 when highway in ('traffic_signals', 'mini_roundabout','stop','crossing','speed_camera', 
+		 when highway in ('traffic_signals', 'mini_roundabout','stop','crossing','speed_camera',
 					'motorway_junction','turning_circle','ford','street_lamp','services') then highway
 		 else 'general_traffic'
 		end
@@ -42,30 +42,30 @@ INSERT INTO osmaxx.traffic_p
 	end as type,
 
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case
 	 when 'parking' is not null then "access"
 	end as "access"
   FROM osm_point
-  WHERE highway not in ('emergency_access_point','bus_stop') 
-	or barrier is not null 
-	or traffic_calming is not null 
+  WHERE highway not in ('emergency_access_point','bus_stop')
+	or barrier is not null
+	or traffic_calming is not null
 	or amenity in ('parking','fuel','bicycle_parking')
 	or railway='level_crossing'
 UNION
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange , 
-	CASE 
+	osm_timestamp as lastchange ,
+	CASE
 	 WHEN osm_id<0 THEN 'R' -- Relation
 	 ELSE 'W' 		-- Way
-	 END AS geomtype, 
-	ST_Centroid(way) AS geom,  
+	 END AS geomtype,
+	ST_Centroid(way) AS geom,
 	case
 	 when highway='services' then 'services'
 	 when highway is not null or railway is not null then 'general_traffic'
@@ -89,32 +89,32 @@ UNION
 	 when amenity='fuel' then 'fuel'
 	 when amenity='parking' then
 		case
-		 when parking in ('site','multi-storey','underground') then parking 
+		 when parking in ('site','multi-storey','underground') then parking
 		 else 'parking'
 		end
 	 when amenity='bicycle_parking' then 'bicycle'
 	 when highway is not null then
 		case
-		 when highway in ('traffic_signals', 'mini_roundabout','stop','crossing','speed_camera', 
+		 when highway in ('traffic_signals', 'mini_roundabout','stop','crossing','speed_camera',
 					'motorway_junction','turning_circle','ford','street_lamp','services') then highway
 		 else 'general_traffic'
 		end
 	 when railway is not null then railway
 	end as type,
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	case
 	 when 'parking' is not null then "access"
 	end as "access"
   FROM osm_polygon
-  WHERE highway not in ('emergency_access_point','bus_stop') 
-	or barrier is not null 
-	or traffic_calming is not null 
+  WHERE highway not in ('emergency_access_point','bus_stop')
+	or barrier is not null
+	or traffic_calming is not null
 	or amenity in ('parking','fuel','bicycle_parking')
 	or railway='level_crossing';

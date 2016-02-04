@@ -1,6 +1,6 @@
 INSERT INTO osmaxx.transport_p
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange, 
+	osm_timestamp as lastchange,
 	'N' AS geomtype, 	-- Node
 	way AS geom,
 -- Combining Tags for different kinds of Transport POIs --
@@ -34,28 +34,28 @@ INSERT INTO osmaxx.transport_p
 	end as type,
 
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_point
-  WHERE railway in ('station', 'halt','tram_stop') 
-	or highway='bus_stop' 
-	or amenity in ('bus_stop','taxi','airport','ferry_terminal') 
-	or aeroway is not null 
-	or aerialway is not null 
+  WHERE railway in ('station', 'halt','tram_stop')
+	or highway='bus_stop'
+	or amenity in ('bus_stop','taxi','airport','ferry_terminal')
+	or aeroway is not null
+	or aerialway is not null
 	or public_transport in ('stop_position', 'station','platform')
 UNION
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange, 
-	CASE 
-	 WHEN osm_id<0 THEN 'R' -- Relation	
+	osm_timestamp as lastchange,
+	CASE
+	 WHEN osm_id<0 THEN 'R' -- Relation
 	 ELSE 'W' 		-- Way
-	 END AS geomtype, 
-	ST_Centroid(way) AS geom,  
+	 END AS geomtype,
+	ST_Centroid(way) AS geom,
 -- Combining Tags for different kinds of Transport POIs --
 	case
 	 when railway='station'  or railway='halt' or (public_transport='stop_position' and train='yes') then 'railway'
@@ -86,17 +86,17 @@ UNION
 	 else 'others'
 	end as type,
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_polygon
-  WHERE railway in ('station', 'halt','tram_stop') 
-	or highway='bus_stop' 
-	or amenity in ('bus_stop','taxi','airport','ferry_terminal') 
-	or aeroway is not null 
-	or aerialway is not null 
+  WHERE railway in ('station', 'halt','tram_stop')
+	or highway='bus_stop'
+	or amenity in ('bus_stop','taxi','airport','ferry_terminal')
+	or aeroway is not null
+	or aerialway is not null
 	or public_transport in ('stop_position', 'station','platform');

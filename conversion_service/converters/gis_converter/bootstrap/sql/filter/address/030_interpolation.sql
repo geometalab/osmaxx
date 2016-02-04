@@ -19,11 +19,11 @@ INSERT INTO osmaxx.address_p
 	temp_tbl.point_geom AS geom,
 	'i' AS type,
 	osm_line.name as name,
-	osm_line."name:en" as name_en, 
-	osm_line."name:fr" as name_fr, 
-	osm_line."name:es" as name_es, 
-	osm_line."name:de" as name_de, 
-	osm_line.int_name as name_int, 
+	osm_line."name:en" as name_en,
+	osm_line."name:fr" as name_fr,
+	osm_line."name:es" as name_es,
+	osm_line."name:de" as name_de,
+	osm_line.int_name as name_int,
 	transliterate(osm_line.name) as label,
 	cast(osm_line.tags as text) as tags,
 	temp_tbl.addr_street as street,
@@ -31,7 +31,7 @@ INSERT INTO osmaxx.address_p
 	osm_line."addr:postcode" as postcode,
 	osm_line."addr:place" as city,
     osm_line."addr:country" as country
- FROM temp_tbl 
+ FROM temp_tbl
  INNER JOIN osm_line
  ON temp_tbl.line_id=osm_line.osm_id;
 DROP TABLE temp_tbl;

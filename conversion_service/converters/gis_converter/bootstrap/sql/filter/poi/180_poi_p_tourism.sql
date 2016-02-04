@@ -3,7 +3,7 @@
 ---------------------------
 INSERT INTO osmaxx.poi_p
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange, 
+	osm_timestamp as lastchange,
 	'N' AS geomtype,  -- Node
 	way AS geom,
 -- Combining the different tags in Tourism POIs into different categories --
@@ -21,15 +21,15 @@ INSERT INTO osmaxx.poi_p
 		  else 'information'
 		 end
 	 when tourism in ('hotel','motel','bed_and _breakfast','guest_house','hostel','chalet','camp_site','alpine_hut','caravan_site',
-				'attraction','museum','artwork','picnic_site','viewpoint','zoo','theme_park') then tourism 
+				'attraction','museum','artwork','picnic_site','viewpoint','zoo','theme_park') then tourism
 	 else 'tourism'
 	end as type,
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	website as website,
@@ -45,11 +45,11 @@ INSERT INTO osmaxx.poi_p
   WHERE tourism is not null
 UNION
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange, 
+	osm_timestamp as lastchange,
 	CASE
 	WHEN osm_id<0 THEN 'R'  -- Relation
 	 ELSE 'W' 		-- Way
-	 END AS geomtype,  
+	 END AS geomtype,
 	ST_Centroid(way) AS geom,
 -- Combining the different tags in Tourism POIs into different categories --
 	case
@@ -66,16 +66,16 @@ UNION
 		  else 'information'
 		 end
 	 when tourism in ('hotel','motel','bed_and _breakfast','guest_house','hostel','chalet','camp_site','alpine_hut','caravan_site',
-				'attraction','museum','artwork','picnic_site','viewpoint','zoo','theme_park') then tourism 
+				'attraction','museum','artwork','picnic_site','viewpoint','zoo','theme_park') then tourism
 	 else 'tourism'
 
 	end as type,
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	website as website,

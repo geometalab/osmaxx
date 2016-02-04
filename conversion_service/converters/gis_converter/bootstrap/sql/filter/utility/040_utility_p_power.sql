@@ -1,7 +1,7 @@
 --power--
 INSERT INTO osmaxx.utility_p
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange , 
+	osm_timestamp as lastchange ,
 	'N' AS geomtype, 	-- Node
 	way AS geom,
 -- Combining Tags for different kinds of Power POIs --
@@ -18,7 +18,7 @@ INSERT INTO osmaxx.utility_p
 	 when "power"='plant' then 'plant'
 	 when "power"='tower' then 'tower'
 	 when "power"='pole' then 'pole'
-	 when "power"='generator' then 
+	 when "power"='generator' then
 		case
 		 when "generator:source"='nuclear' then 'nuclear'
 		 when "generator:source"='solar' then 'solar'
@@ -35,23 +35,23 @@ INSERT INTO osmaxx.utility_p
 	 else 'power'
 	end as type,
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_point
   WHERE "power" is not null or power_source is not null
 UNION
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange , 
-	CASE 
+	osm_timestamp as lastchange ,
+	CASE
 	 WHEN osm_id<0 THEN 'R' -- Relation
 	 ELSE 'W' 		-- Way
-	 END AS geomtype, 
-	ST_Centroid(way) AS geom,  
+	 END AS geomtype,
+	ST_Centroid(way) AS geom,
 	case
 	 when "power"='plant' then 'plant'
 	 when "power"='tower' then 'tower'
@@ -65,7 +65,7 @@ UNION
 	 when "power"='plant' then 'plant'
 	 when "power"='tower' then 'tower'
 	 when "power"='pole' then 'pole'
-	 when "power"='generator' then 
+	 when "power"='generator' then
 		case
 		 when "generator:source"='nuclear' then 'nuclear'
 		 when "generator:source"='solar' then 'solar'
@@ -83,11 +83,11 @@ UNION
 	end as type,
 
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_polygon

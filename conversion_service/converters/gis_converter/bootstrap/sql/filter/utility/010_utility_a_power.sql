@@ -1,11 +1,11 @@
 INSERT INTO osmaxx.utility_a
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange , 
-	CASE 
+	osm_timestamp as lastchange ,
+	CASE
 	 WHEN osm_id<0 THEN 'R' -- Relation
 	 ELSE 'W' 		-- Way
-	 END AS geomtype, 
-	ST_Multi(way) AS geom,  
+	 END AS geomtype,
+	ST_Multi(way) AS geom,
 -- Combining Tags for different kinds of Utility POIs --
 	case
 	 when "power"='plant' then 'plant'
@@ -18,7 +18,7 @@ INSERT INTO osmaxx.utility_a
 	case
 	 when "power"='plant' then 'plant'
 	 when "power"='tower' then 'tower'
-	 when "power"='generator' then 
+	 when "power"='generator' then
 		case
 		 when "generator:source"='nuclear' then 'nuclear'
 		 when "generator:source"='solar' then 'solar'
@@ -36,11 +36,11 @@ INSERT INTO osmaxx.utility_a
 	end as type,
 
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_polygon

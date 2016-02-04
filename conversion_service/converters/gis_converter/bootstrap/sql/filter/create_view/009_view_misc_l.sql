@@ -1,11 +1,11 @@
 CREATE OR REPLACE VIEW view_osmaxx.misc_l AS SELECT
-	osm_id, 
-	lastchange, 
+	osm_id,
+	lastchange,
 	geomtype,
-	geom, 
+	geom,
 	aggtype,
-	type, 
-	name, 
+	type,
+	name,
 	label,
 	tags
 FROM osmaxx.misc_l;

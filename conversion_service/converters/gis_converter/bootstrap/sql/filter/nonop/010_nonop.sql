@@ -1,24 +1,24 @@
 INSERT INTO osmaxx.nonop_l
   SELECT osm_id as osm_id,
-	osm_timestamp as lastchange , 
--- R=Relation & W=Way --	
-	CASE 
+	osm_timestamp as lastchange ,
+-- R=Relation & W=Way --
+	CASE
 	 WHEN osm_id<0 THEN 'R' -- Relation
 	 ELSE 'W' 		-- Way
-	END AS geomtype, 
+	END AS geomtype,
 
-	ST_Multi(way) AS geom,  
+	ST_Multi(way) AS geom,
 -- Differentiating between Highway and Railway --
-	case	
+	case
 	when highway is not null then 'highway'
-	when railway is not null then 'railway' 
+	when railway is not null then 'railway'
 	end as type,
 	name as name,
-	"name:en" as name_en, 
-	"name:fr" as name_fr, 
-	"name:es" as name_es, 
-	"name:de" as name_de, 
-	int_name as name_int, 
+	"name:en" as name_en,
+	"name:fr" as name_fr,
+	"name:es" as name_es,
+	"name:de" as name_de,
+	int_name as name_int,
 	transliterate(name) as label,
 	cast(tags as text) as tags,
 	ref as ref,
@@ -35,10 +35,10 @@ INSERT INTO osmaxx.nonop_l
 
 	z_order as z_order,
 -- Differentiating the different types of transport --
-	case 
-	 when highway='planned' or railway='planned' then 'P' 
-	 when highway='disused'  or railway='disused' then 'D' 
-	 when highway='construction'  or railway='construction' then 'C' 
+	case
+	 when highway='planned' or railway='planned' then 'P'
+	 when highway='disused'  or railway='disused' then 'D'
+	 when highway='construction'  or railway='construction' then 'C'
 	 when highway='abandoned'  or railway='abandoned' then 'A'
 	 end as status
  FROM osm_line
