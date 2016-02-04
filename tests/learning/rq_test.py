@@ -3,7 +3,7 @@ from django_rq import get_connection
 from rq import get_current_job
 from rq.job import Job
 
-from conversion_service.job_dispatcher.rq_helper import rq_enqueue_with_settings
+from job_dispatcher.rq_helper import rq_enqueue_with_settings
 from tests.redis_test_helpers import perform_all_jobs_sync
 
 

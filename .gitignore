@@ -30,5 +30,5 @@ __pycache__/
 !.gitignore
 !.travis.yml
 !.coveragerc
-!conversion_service/converters/garmin_converter/command_line_utils/mkgmap/lib
-!conversion_service/converters/garmin_converter/command_line_utils/splitter/lib
+!osmaxx/converters/garmin_converter/command_line_utils/mkgmap/lib
+!osmaxx/converters/garmin_converter/command_line_utils/splitter/lib

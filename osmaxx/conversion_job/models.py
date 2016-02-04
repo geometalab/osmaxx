@@ -90,7 +90,7 @@ class ConversionJob(models.Model):
         Only available on saved model instances.
         """
         assert self.id is not None
-        # todo: ensure job is cleaned up after files have been requested -> in conversion_service
+        # todo: ensure job is cleaned up after files have been requested -> in osmaxx.conversion_service
         directory = os.path.join(converter_settings.OSMAXX_CONVERSION_SERVICE['RESULT_DIR'], str(self.id))
         if not os.path.exists(directory):
             os.makedirs(directory)

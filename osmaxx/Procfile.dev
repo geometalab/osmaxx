@@ -1,0 +1,1 @@
+api: python3 ./osmaxx/manage.py runserver_plus ${APP_HOST}:${APP_PORT}

@@ -1,5 +1,5 @@
 import sys, os
-sys.path.append('/home/py/conversion_service')
+sys.path.append('/home/py/osmaxx')
 os.environ['DJANGO_SETTINGS_MODULE'] = os.getenv('DJANGO_SETTINGS_MODULE')
 
 from django.contrib.auth.models import User

@@ -25,20 +25,20 @@ api:
     service: environmentvars
   build: .
   dockerfile: ./Dockerfile.rest_api
-  command: [honcho, -f, ./conversion_service/Procfile.dev, start]
+  command: [honcho, -f, ./osmaxx/Procfile.dev, start]
   ports:
     - "8901:8901"
   expose:
     - "8901"
   volumes:
-    - ./conversion_service:/home/py/conversion_service
+    - ./osmaxx:/home/py/osmaxx
   volumes_from:
     - data
   links:
     - redis
     - postgres:database
   environment:
-    - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
+    - DJANGO_SETTINGS_MODULE=osmaxx.config.settings.local
     - SERVICE_USER_NAME=dev
     - SERVICE_USER_PASSWORD=dev
 
@@ -48,15 +48,15 @@ worker:
     service: environmentvars
   build: .
   dockerfile: ./Dockerfile.worker
-  command: [honcho, -f, ./conversion_service/worker/Procfile, start]
+  command: [honcho, -f, ./osmaxx/worker/Procfile, start]
   volumes:
-    - ./conversion_service:/home/py/conversion_service
+    - ./osmaxx:/home/py/osmaxx
   volumes_from:
     - data
   links:
     - redis
   environment:
-    - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.worker
+    - DJANGO_SETTINGS_MODULE=osmaxx.config.settings.worker
     - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
     # only switzerland, as stated in `osmdata`
     - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf

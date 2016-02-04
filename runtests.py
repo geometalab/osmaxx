@@ -12,7 +12,7 @@ PYTEST_ARGS = {
     'fast': ['tests', '-q'],
 }
 
-MODULES_TO_LINT = ['conversion_service', 'tests', 'setup.py', 'runtests.py', ]
+MODULES_TO_LINT = ['osmaxx', 'tests', 'setup.py', 'runtests.py', ]
 FLAKE8_ARGS = MODULES_TO_LINT + ['--ignore=E501']
 
 sys.path.append(os.path.dirname(__file__))
@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
     if run_tests:
         if with_coverage:
-            pytest_args.extend(['--cov', 'conversion_service'])
+            pytest_args.extend(['--cov', 'osmaxx'])
         exit_on_failure(pytest.main(pytest_args))
     if run_lint:
         exit_on_failure(flake8_main(FLAKE8_ARGS))
