@@ -38,6 +38,7 @@ THIRD_PARTY_APPS = (
     # rest API Framework
     'rest_framework',
     'rest_framework_gis',
+    'pbf_file_size_estimation',
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
@@ -281,9 +282,6 @@ OSMAXX_CONVERSION_SERVICE = {
         default='~/tmp/osm-planet/planet-latest.osm.pbf'),
     'RESULT_DIR': env.str('OSMAXX_CONVERSION_SERVICE_RESULT_DIR', default='/tmp/osm/results'),
     'RESULT_TTL': env.str('OSMAXX_CONVERSION_SERVICE_RESULT_TTL', default=-1),  # never expire!
-    'ESTIMATION_CSV_SOURCE_FILE': env.str(
-        'OSMAXX_CONVERSION_SERVICE_ESTIMATION_CSV_SOURCE_FILE',
-        default=ROOT_DIR('file_size_estimation', 'planet-stats.csv')),
     # this is mainly for testing purposes, for easier overriding
     'COUNTRIES_POLYFILE_LOCATION': None,
 }
