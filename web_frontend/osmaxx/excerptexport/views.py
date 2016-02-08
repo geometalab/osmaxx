@@ -116,10 +116,11 @@ class ExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Detai
     context_object_name = 'extraction_order'
     model = ExtractionOrder
     pk_url_kwarg = 'extraction_order_id'
+    owner = 'orderer'
 
     def get_object(self, queryset=None):
         o = super().get_object(queryset)
-        if o.orderer != self.request.user:
+        if getattr(o, self.owner) != self.request.user:
             raise PermissionDenied
         return o
 
