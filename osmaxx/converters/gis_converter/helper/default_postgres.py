@@ -1,5 +1,5 @@
-from converters.converter_settings import OSMAXX_CONVERSION_SERVICE
-from converters.gis_converter.helper.postgres_wrapper import Postgres
+from osmaxx.converters.converter_settings import OSMAXX_CONVERSION_SERVICE
+from osmaxx.converters.gis_converter.helper.postgres_wrapper import Postgres
 
 
 def get_default_postgres_wrapper():

@@ -1,1 +1,1 @@
-default_app_config = 'countries.apps.CountryConfig'
+default_app_config = 'osmaxx.countries.apps.CountryConfig'

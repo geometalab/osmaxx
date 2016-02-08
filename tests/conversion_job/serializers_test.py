@@ -6,14 +6,14 @@ from collections import namedtuple
 from django.contrib.auth.models import User
 from django.http import HttpRequest
 from django.test import TestCase
-
-from conversion_job.models import Extent, ConversionJob, GISFormat
-from conversion_job.serializers import ConversionJobSerializer, GISFormatStatusSerializer
-from converters.options import CONVERTER_OPTIONS
 from django.test.utils import override_settings
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
-from shared import ConversionProgress
+
+from osmaxx.conversion_job.models import Extent, ConversionJob, GISFormat
+from osmaxx.conversion_job.serializers import ConversionJobSerializer, GISFormatStatusSerializer
+from osmaxx.converters.options import CONVERTER_OPTIONS
+from osmaxx.shared import ConversionProgress
 
 
 class RQJobMock:
@@ -33,7 +33,7 @@ class GISFormatListSerializerTest(TestCase):
             format=CONVERTER_OPTIONS.get_output_formats()[3]
         )
 
-    @patch('conversion_job.serializers.ConversionJobSerializer._enqueue_rq_job', return_value=RQJobMock)
+    @patch('osmaxx.conversion_job.serializers.ConversionJobSerializer._enqueue_rq_job', return_value=RQJobMock)
     def test_create_succeeds(self, mock):
         self.assertEqual(GISFormat.objects.count(), 2)
         self.assertEqual(Extent.objects.count(), 1)
@@ -113,7 +113,7 @@ class HostTest(APITestCase):
     rq_job_stub = namedtuple('RQJob', ['id'])(id='0' * 36)
 
     @override_settings(ALLOWED_HOSTS=[test_host])
-    @patch('job_dispatcher.dispatcher.ConversionJobDispatcher.start_conversion', return_value=rq_job_stub)
+    @patch('osmaxx.job_dispatcher.dispatcher.ConversionJobDispatcher.start_conversion', return_value=rq_job_stub)
     def test_foo(self, start_conversion_mock):
         data = {
             "callback_url": "http://callback.example.com",

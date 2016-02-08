@@ -3,5 +3,5 @@ from django.utils.translation import gettext_lazy as _
 
 
 class VersionConfig(AppConfig):
-    name = 'version'
+    name = 'osmaxx.version'
     verbose_name = _("Version")

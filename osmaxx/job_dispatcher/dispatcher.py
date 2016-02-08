@@ -1,5 +1,5 @@
-from job_dispatcher.rq_helper import rq_enqueue_with_settings
-from worker.converter_job import convert
+from osmaxx.job_dispatcher.rq_helper import rq_enqueue_with_settings
+from osmaxx.worker.converter_job import convert
 
 
 class ConversionJobDispatcher:

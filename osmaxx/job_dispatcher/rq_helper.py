@@ -1,6 +1,6 @@
 import django_rq
 
-from converters import converter_settings
+from osmaxx.converters import converter_settings
 
 
 def rq_enqueue_with_settings(function, *args, **kwargs):

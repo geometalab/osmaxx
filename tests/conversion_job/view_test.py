@@ -5,9 +5,9 @@ from django.test import TestCase
 from rest_framework import status
 from rest_framework.reverse import reverse
 
-from conversion_job.models import Extent, ConversionJob, GISFormat
-from converters.options import CONVERTER_OPTIONS
-from shared import ConversionProgress
+from osmaxx.conversion_job.models import Extent, ConversionJob, GISFormat
+from osmaxx.converters.options import CONVERTER_OPTIONS
+from osmaxx.shared import ConversionProgress
 from rq.job import JobStatus as RQJobStatus
 
 
@@ -46,7 +46,7 @@ class ConversionJobStatusViewSetTest(TestCase):
         )
 
     @patch('django_rq.get_queue', django_rq_get_queue_stub)
-    @patch('conversion_job.views.ConversionJobStatusViewSet.get_object', get_conversion_job)
+    @patch('osmaxx.conversion_job.views.ConversionJobStatusViewSet.get_object', get_conversion_job)
     def test_conversion_progress_when_created_is_new(self, *args, **kwargs):
         conversion_job = get_conversion_job()
         model_progress_list = list(conversion_job.gis_formats.values_list('progress', flat=True))
@@ -57,7 +57,7 @@ class ConversionJobStatusViewSetTest(TestCase):
         self.assertEqual(conversion_job.progress, ConversionProgress.NEW.technical_representation)
 
     @patch('django_rq.get_queue', django_rq_get_queue_stub)
-    @patch('conversion_job.views.ConversionJobStatusViewSet.get_object', get_conversion_job)
+    @patch('osmaxx.conversion_job.views.ConversionJobStatusViewSet.get_object', get_conversion_job)
     def test_delete_result_when_file_available_removes_file_successfully(self):
         output_formats = self.conversion_job.get_conversion_options().get_output_formats()
         file_paths = [os.path.join(self.conversion_job.output_directory, '{0}.zip'.format(file_format))
@@ -85,7 +85,7 @@ class ConversionJobStatusViewSetTest(TestCase):
                     pass
 
     @patch('django_rq.get_queue', django_rq_get_queue_stub)
-    @patch('conversion_job.views.ConversionJobStatusViewSet.get_object', get_conversion_job)
+    @patch('osmaxx.conversion_job.views.ConversionJobStatusViewSet.get_object', get_conversion_job)
     def test_delete_result_when_file_unavailable_fails_silently(self):
         url = reverse('gisformat-delete-result', kwargs=dict(pk=self.gis_format_1.id))
         response = self.client.delete(url)

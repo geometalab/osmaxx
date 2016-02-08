@@ -10,15 +10,15 @@ from django_rq import get_connection
 from rest_framework.reverse import reverse
 from rq.job import Job
 
-from converters.boundaries import BBox
-from converters.converter import Conversion
-from converters import Options
-from converters import garmin_converter
-from job_dispatcher.rq_helper import rq_enqueue_with_settings
-from shared import ConversionProgress
-from worker import converter_job
+from osmaxx.converters.boundaries import BBox
+from osmaxx.converters.converter import Conversion
+from osmaxx.converters import Options
+from osmaxx.converters import garmin_converter
+from osmaxx.job_dispatcher.rq_helper import rq_enqueue_with_settings
+from osmaxx.shared import ConversionProgress
+from osmaxx.worker import converter_job
+from osmaxx.worker.converter_job import Notifier
 from tests.redis_test_helpers import perform_all_jobs_sync
-from worker.converter_job import Notifier
 
 
 class WorkerTest(TestCase):
@@ -28,8 +28,8 @@ class WorkerTest(TestCase):
     @patch.object(Conversion, '_copy_statistics_file_to_format_dir', return_value=None)
     @patch.object(Conversion, '_create_statistics', return_value=None)
     @patch.object(Conversion, '_export_from_db_to_format', return_value=None)
-    @patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
-    @patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
+    @patch('osmaxx.converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
+    @patch('osmaxx.converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
     def test_convert_calls_cut_osm_extent_and_bootstrap(  # pylint: disable=W0613
             self,
             cut_osm_extent_mock, bootstrap_mock, _export_from_db_to_format_mock,
@@ -73,10 +73,10 @@ class ConversionTest(TestCase):
     @patch.object(Conversion, '_copy_statistics_file_to_format_dir', return_value=None)
     @patch.object(Conversion, '_create_statistics', return_value=None)
     @patch.object(Conversion, '_export_from_db_to_format', return_value=None)
-    @patch('converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
-    @patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
+    @patch('osmaxx.converters.gis_converter.bootstrap.bootstrap.boostrap', return_value=None)
+    @patch('osmaxx.converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
     @patch('rq.get_current_job', return_value=rq_job_stub)
-    @patch('worker.converter_job.Notifier')
+    @patch('osmaxx.worker.converter_job.Notifier')
     def test_convert_with_host_and_job_assembles_url_correctly(self, notifier_mock, rq_job_stub, *args, **kwargs):
         format_options = Options(output_formats=['fgdb', 'spatialite', 'shp', 'gpkg'])
         geometry, output_directory, callback_url = None, '/tmp/', None
@@ -87,7 +87,7 @@ class ConversionTest(TestCase):
         notifier_mock.assert_called_with(callback_url, expected_url)
 
     @patch('os.remove')
-    @patch('converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
+    @patch('osmaxx.converters.osm_cutter.cut_osm_extent', return_value=pbf_file_path)
     @patch.object(Conversion, '_create_garmin_export', return_value=None)
     def test_convert_with_garmin_gets_called_correctly(
             self, create_garmin_export_mock, *args, **kwargs):

@@ -2,7 +2,7 @@ import subprocess
 
 import os
 
-from converters.converter_settings import OSMAXX_CONVERSION_SERVICE
+from osmaxx.converters.converter_settings import OSMAXX_CONVERSION_SERVICE
 
 FORMATS = {
     'fgdb': {
