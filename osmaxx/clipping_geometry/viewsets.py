@@ -1,7 +1,7 @@
 from rest_framework import permissions, viewsets
 
-from clipping_geometry.models import ClippingArea
-from clipping_geometry.serializers import ClippingAreaSerializer
+from .models import ClippingArea
+from .serializers import ClippingAreaSerializer
 
 
 class ClippingAreaViewSet(viewsets.ModelViewSet):

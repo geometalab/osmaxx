@@ -2,7 +2,7 @@ import os
 
 from django.contrib.gis.geos import MultiPolygon, Polygon, GEOSGeometry
 
-from countries.storage import polyfile_location
+from .storage import polyfile_location
 
 POLYFILE_ENDING = '.poly'
 

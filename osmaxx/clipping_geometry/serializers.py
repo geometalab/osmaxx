@@ -2,7 +2,7 @@ from django.contrib.gis import geos
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
-from clipping_geometry.models import ClippingArea
+from .models import ClippingArea
 
 
 class ClippingAreaSerializer(serializers.ModelSerializer):

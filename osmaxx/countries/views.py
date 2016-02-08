@@ -1,8 +1,8 @@
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 
-from countries.models import Country
-from countries.serializers import CountrySerializer, CountryListSerializer
+from .models import Country
+from .serializers import CountrySerializer, CountryListSerializer
 
 
 class CountryViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.mixins.ListModelMixin, viewsets.GenericViewSet):

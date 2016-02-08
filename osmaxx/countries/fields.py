@@ -1,6 +1,6 @@
 from django.db import models
 
-from countries.storage import CountryInternalStorage
+from .storage import CountryInternalStorage
 
 
 class InternalCountryFileField(models.FileField):

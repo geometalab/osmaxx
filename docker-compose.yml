@@ -19,26 +19,27 @@ redis:
 postgres:
   image: geometalab/postgis:9.4
 
-api:
+mediator:
   extends:
     file: common-services.yml
     service: environmentvars
   build: .
-  dockerfile: ./Dockerfile.rest_api
-  command: [honcho, -f, ./osmaxx/Procfile.dev, start]
+  dockerfile: ./Dockerfile.mediator
+  command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.dev, start]
   ports:
     - "8901:8901"
   expose:
     - "8901"
   volumes:
     - ./osmaxx:/home/py/osmaxx
+    - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
   volumes_from:
     - data
   links:
     - redis
     - postgres:database
   environment:
-    - DJANGO_SETTINGS_MODULE=osmaxx.config.settings.local
+    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
     - SERVICE_USER_NAME=dev
     - SERVICE_USER_PASSWORD=dev
 
@@ -48,15 +49,16 @@ worker:
     service: environmentvars
   build: .
   dockerfile: ./Dockerfile.worker
-  command: [honcho, -f, ./osmaxx/worker/Procfile, start]
+  command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
   volumes:
     - ./osmaxx:/home/py/osmaxx
+    - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
   volumes_from:
     - data
   links:
     - redis
   environment:
-    - DJANGO_SETTINGS_MODULE=osmaxx.config.settings.worker
+    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
     - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
     # only switzerland, as stated in `osmdata`
     - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf

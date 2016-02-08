@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from countries.fields import InternalCountryFileField
+from .fields import InternalCountryFileField
 
 
 class Country(models.Model):

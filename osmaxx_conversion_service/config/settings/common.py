@@ -20,8 +20,6 @@ ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 
 env = environ.Env()
 
-TEMPLATE_DIRS = ()
-
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
 DJANGO_APPS = (
@@ -42,10 +40,10 @@ THIRD_PARTY_APPS = (
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'conversion_job',
-    'countries',
-    'version',
-    'clipping_geometry',
+    'osmaxx.conversion_job',
+    'osmaxx.countries',
+    'osmaxx.version',
+    'osmaxx.clipping_geometry',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

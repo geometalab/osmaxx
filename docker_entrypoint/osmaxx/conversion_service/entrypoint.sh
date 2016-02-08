@@ -13,7 +13,7 @@ while ! exec 6<>/dev/tcp/${DATABASE_PORT_5432_TCP_ADDR}/${DATABASE_PORT_5432_TCP
     sleep 1
 done
 
-python3 osmaxx/manage.py migrate && \
-python3 osmaxx/manage.py collectstatic --noinput && \
+python3 osmaxx_conversion_service/manage.py migrate && \
+python3 osmaxx_conversion_service/manage.py collectstatic --noinput && \
 python3 entrypoint/create_user_entrypoint.py && \
 exec "$@"

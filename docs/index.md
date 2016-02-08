@@ -36,7 +36,7 @@ docker-compose stop -t 0 &&\
  docker-compose run --rm -e osm_planet_mirror=http://download.geofabrik.de/europe/ -e osm_planet_path_relative_to_mirror=switzerland-latest.osm.pbf osmdata &&\
  docker-compose run --rm osmdata cp /var/data/osm-planet/switzerland-latest.osm.pbf /var/data/osm-planet/planet-latest.osm.pbf &&\
  docker-compose up -d worker &&\
- docker-compose run --rm api ./osmaxx/manage.py createsuperuser &&\
+ docker-compose run --rm api ./osmaxx_conversion_service/manage.py createsuperuser &&\
  docker-compose up api
 ```
 
@@ -52,7 +52,7 @@ docker-compose build &&\
 and to create an initial user:
 
 ```bash
-docker-compose run --rm api ./osmaxx/manage.py createsuperuser
+docker-compose run --rm api ./osmaxx_conversion_service/manage.py createsuperuser
 ```
 
 ## Example
