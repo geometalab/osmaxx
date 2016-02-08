@@ -1,13 +1,10 @@
-# Osmaxx
+# osmaxx-frontend
 
 [![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx) ([branch `master`](https://github.com/geometalab/osmaxx/tree/master))
 
-Short project name for "<strong>O</strong>pen<strong>S</strong>treet<strong>M</strong>ap <strong>a</strong>rbitrary e<strong>x</strong>cerpt e<strong>x</strong>port".
+Django-based Web Frontend for **osmaxx**.
 
-Cuts out OpenStreetMap data, processes it to geodata and converts it to typical GIS fileformats before being prepared for download.
-
-Website: http://osmaxx.hsr.ch/
-
+For deploying a complete **osmaxx** setup, see https://github.com/geometalab/osmaxx
 
 ## Development
 

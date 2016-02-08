@@ -1,20 +1,21 @@
 import os
 import shutil
 from io import BytesIO
-from unittest.mock import patch
-
+from unittest.mock import patch, ANY, call
 import requests_mock
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
+from django.test.testcases import TestCase
+from django.test.utils import override_settings
 
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
 from osmaxx.excerptexport.models.output_file import OutputFile
 from osmaxx.excerptexport.services.conversion_api_client import ConversionApiClient
-from osmaxx.job_progress import views
+from osmaxx.job_progress import views, middleware
 from rest_framework.test import APITestCase, APIRequestFactory
 
 
@@ -297,3 +298,91 @@ class CallbackHandlingTest(APITestCase):
     def tearDown(self):
         if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
             shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
+
+
+class OrderUpdaterMiddlewareTest(TestCase):
+    @patch('osmaxx.job_progress.middleware.update_orders_of_request_user')
+    def test_request_middleware_updates_orders_of_request_user(self, update_orders_mock):
+        self.client.get('/dummy/')
+        update_orders_mock.assert_called_once_with(ANY)
+
+    @patch('osmaxx.job_progress.middleware.update_orders_of_request_user')
+    def test_request_middleware_passes_request_with_user(self, update_orders_mock):
+        self.client.get('/dummy/')
+        args, kwargs = update_orders_mock.call_args
+        request = args[0]
+        self.assertIsNotNone(request.build_absolute_uri.__call__, msg='not a usable request')
+        self.assertIsNotNone(request.user)
+
+    @patch('osmaxx.job_progress.middleware.update_orders_of_request_user')
+    def test_request_middleware_when_authenticated_passes_request_with_logged_in_user(self, update_orders_mock):
+        user = User.objects.create_user('user', 'user@example.com', 'pw')
+        self.client.login(username='user', password='pw')
+        self.client.get('/dummy/')
+        args, kwargs = update_orders_mock.call_args
+        request = args[0]
+        self.assertIsNotNone(request.build_absolute_uri.__call__, msg='not a usable request')
+        self.assertEqual(user, request.user)
+
+
+_LOC_MEM_CACHE = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': __file__,
+    }
+}
+
+
+class OrderUpdateTest(TestCase):
+    def setUp(self):
+        test_user = User.objects.create_user('user', 'user@example.com', 'pw')
+        other_user = User.objects.create_user('other', 'other@example.com', 'pw')
+        self.own_unfinished_orders = [
+            ExtractionOrder.objects.create(orderer=test_user) for i in range(2)]
+        for i in range(4):
+            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.FINISHED)
+        for i in range(8):
+            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.FAILED)
+        for i in range(16):
+            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.CANCELED)
+        for i in range(32):
+            ExtractionOrder.objects.create(orderer=other_user)
+        self.client.login(username='user', password='pw')
+
+    @patch('osmaxx.job_progress.middleware.update_order_if_stale')
+    def test_update_orders_of_request_user_updates_each_unfinished_order_of_request_user(self, update_progress_mock):
+        self.client.get('/dummy/')
+        update_progress_mock.assert_has_calls(
+            [call(order) for order in self.own_unfinished_orders],
+            any_order=True,
+        )
+
+    @patch('osmaxx.job_progress.middleware.update_order_if_stale')
+    def test_update_orders_of_request_user_does_not_update_any_orders_of_other_users_nor_own_orders_in_a_final_state(
+            self, update_progress_mock
+    ):
+        self.client.get('/dummy/')
+        self.assertEqual(update_progress_mock.call_count, len(self.own_unfinished_orders))
+
+    @override_settings(CACHES=_LOC_MEM_CACHE)
+    @patch('osmaxx.job_progress.middleware.update_order', return_value="updated")
+    def test_update_order_if_stale_when_stale_updates_order(self, update_order_mock):
+        assert len(self.own_unfinished_orders) > 1,\
+            "Test requires more than one order to prove that orders don't shadow each other in the cache."
+        from django.core.cache import cache
+        cache.clear()
+        for order in self.own_unfinished_orders:
+            middleware.update_order_if_stale(order)
+        update_order_mock.assert_has_calls(
+            [call(order) for order in self.own_unfinished_orders],
+        )
+
+    @override_settings(CACHES=_LOC_MEM_CACHE)
+    @patch('osmaxx.job_progress.middleware.update_order', return_value="updated")
+    def test_update_order_if_stale_when_not_stale_does_not_update_order(self, update_order_mock):
+        from django.core.cache import cache
+        cache.clear()
+        the_order = self.own_unfinished_orders[0]
+        middleware.update_order_if_stale(the_order)
+        middleware.update_order_if_stale(the_order)
+        self.assertEqual(update_order_mock.call_count, 1)

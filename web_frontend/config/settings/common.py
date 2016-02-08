@@ -56,6 +56,7 @@ LOCAL_APPS = (
     'version',
 
     'osmaxx.excerptexport',
+    'osmaxx.job_progress',
     'osmaxx.social_auth',
 )
 
@@ -72,6 +73,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'osmaxx.job_progress.middleware.OrderUpdaterMiddleware',
 )
 
 # MIGRATIONS CONFIGURATION
@@ -305,7 +307,11 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': env.str('DJANGO_LOG_LEVEL', default='DEBUG'),
+            'level': env.str('DJANGO_LOG_LEVEL', default='INFO'),
+        },
+        'osmaxx': {
+            'handlers': ['console'],
+            'level': env.str('DJANGO_LOG_LEVEL', default='INFO'),
         },
     },
 }

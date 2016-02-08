@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -8,6 +10,7 @@ from osmaxx.excerptexport.tests.permission_test_helper import PermissionHelperMi
 from test_helpers import vcr_explicit_path as vcr
 
 
+@patch('osmaxx.job_progress.middleware.update_order')
 class StatusTestCase(TestCase, PermissionHelperMixin):
     extraction_order = None
 
@@ -31,7 +34,7 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
             orderer=user
         )
 
-    def test_permission_denied_if_lacking_permissions(self):
+    def test_permission_denied_if_lacking_permissions(self, *args):
         response = self.client.get(
             reverse(
                 'excerptexport:status',
@@ -42,7 +45,7 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
         self.assertEqual(response.status_code, 302)
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-StatusTestCase-test_extraction_order_status_initialized.yml')
-    def test_extraction_order_status_initialized(self):
+    def test_extraction_order_status_initialized(self, *args):
         self.add_permissions_to_user()
         response = self.client.get(reverse(
             'excerptexport:status',
@@ -54,7 +57,7 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
         self.assertContains(response, 'initialized')
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-StatusTestCase-test_extraction_order_status_finished.yml')
-    def test_extraction_order_status_finished(self):
+    def test_extraction_order_status_finished(self, *args):
         self.add_permissions_to_user()
         self.extraction_order.state = ExtractionOrderState.FINISHED
         self.extraction_order.save()
@@ -68,7 +71,7 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
         self.assertEqual(response.context['extraction_order'], self.extraction_order)
         self.assertContains(response, 'finished')
 
-    def test_extraction_order_id_not_existing(self):
+    def test_extraction_order_id_not_existing(self, *args):
         self.add_permissions_to_user()
         response = self.client.get(reverse(
             'excerptexport:status',

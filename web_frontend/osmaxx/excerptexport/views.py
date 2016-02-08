@@ -1,29 +1,29 @@
 import logging
 
-from django.shortcuts import get_object_or_404, render_to_response, redirect
-from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
-from django.core.mail import send_mail
+from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
-from django.conf import settings
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
-from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
-from .models import ExtractionOrder, OutputFile
-from .models.extraction_order import ExtractionOrderState
 from osmaxx.contrib.auth.frontend_permissions import (
     frontend_access_required,
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
+from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from osmaxx.utils import private_storage
+from .models import ExtractionOrder, OutputFile
+from .models.extraction_order import ExtractionOrderState
 
 
 logger = logging.getLogger(__name__)
@@ -110,20 +110,10 @@ def download_file(request, uuid):
     return response
 
 
-def _update_progress(extraction_order):
-    conversion_client = get_authenticated_api_client()
-    conversion_client.update_order_status(extraction_order)
-
-
 @login_required()
 @frontend_access_required()
 def extraction_order_status(request, extraction_order_id):
     extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
-
-    # Order status will be updated by callback from API. This is just for a failure situation of the API.
-    if extraction_order.state < ExtractionOrderState.FINISHED:
-        _update_progress(extraction_order)
-
     view_context = {
         'protocol': request.scheme,
         'host_domain': request.get_host(),
@@ -137,11 +127,6 @@ def extraction_order_status(request, extraction_order_id):
 @frontend_access_required()
 def list_orders(request):
     extraction_orders = ExtractionOrder.objects.filter(orderer=request.user)
-
-    # Order status will be updated by callback from API. This is just for a failure situation of the API.
-    for extraction_order in extraction_orders.filter(state__lt=ExtractionOrderState.FINISHED):
-        _update_progress(extraction_order)
-
     view_context = {
         'protocol': request.scheme,
         'host_domain': request.get_host(),

@@ -18,6 +18,8 @@ class ExtractionOrderState(enum.Enum):
     CANCELED = 5
     FAILED = 6
 
+FINAL_STATES = {ExtractionOrderState.FINISHED, ExtractionOrderState.CANCELED, ExtractionOrderState.FAILED}
+
 
 CONVERSION_PROGRESS_TO_EXTRACTION_ORDER_STATE_MAPPING = {
     'new': ExtractionOrderState.INITIALIZED,
@@ -60,14 +62,29 @@ class ExtractionOrder(models.Model):
     )
 
     def __str__(self):
-        return '[' + str(self.id) + '] orderer: ' + self.orderer.get_username() + ', excerpt: ' + self.excerpt_name +\
-               ', state: ' + self.get_state_display() + ', output files: ' + str(self.output_files.count())
+        return ', '.join(
+            [
+                '[{order_id}] orderer: {orderer_name}'.format(
+                    order_id=self.id,
+                    orderer_name=self.orderer.get_username(),
+                ),
+                'excerpt: {}'.format(str(self.excerpt_name)),
+                'state: {}'.format(self.get_state_display()),
+                'output files: {}'.format(str(self.output_files.count())),
+            ]
+        )
 
     @property
     def excerpt_name(self):
+        """
+        Returns:
+              user-given excerpt name for user-defined excerpts,
+              country name for countries,
+              None if order has no excerpt (neither country nor user-defined)
+        """
         if self.excerpt:
             return self.excerpt.name
-        else:
+        elif self.country_id:
             from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
             return get_authenticated_api_client().get_country_name(self.country_id)
 
