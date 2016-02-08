@@ -12,6 +12,7 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView, DetailView
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
@@ -111,18 +112,22 @@ def download_file(request, uuid):
     return response
 
 
-class ExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, DetailView):
-    template_name = 'excerptexport/templates/extraction_order_status.html'
-    context_object_name = 'extraction_order'
-    model = ExtractionOrder
-    pk_url_kwarg = 'extraction_order_id'
-    owner = 'orderer'
+class OwnershipRequiredMixin(SingleObjectMixin):
+    owner = 'owner'
 
     def get_object(self, queryset=None):
         o = super().get_object(queryset)
         if getattr(o, self.owner) != self.request.user:
             raise PermissionDenied
         return o
+
+
+class ExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, OwnershipRequiredMixin, DetailView):
+    template_name = 'excerptexport/templates/extraction_order_status.html'
+    context_object_name = 'extraction_order'
+    model = ExtractionOrder
+    pk_url_kwarg = 'extraction_order_id'
+    owner = 'orderer'
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
