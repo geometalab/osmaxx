@@ -5,6 +5,7 @@ from model_utils.managers import InheritanceManager
 
 from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 from osmaxx.utilities.dict_helpers import are_all_keys_in
+from osmaxx.utilities.model_mixins import AdminUrlModelMixin
 
 
 class BoundingGeometry(models.Model):
@@ -29,7 +30,7 @@ class BoundingGeometry(models.Model):
 
     def __str__(self):
         subclass_instance = self.subclass_instance
-        parent = '{} {id}: '.format(super().__str__(), id=self.id)
+        parent = '{} {id}'.format(super().__str__(), id=self.id)
         if self == subclass_instance:
             return parent
         return '{parent}: {child}'.format(parent=parent, id=self.id, child=str(subclass_instance))
@@ -49,10 +50,10 @@ class OsmosisPolygonFilterBoundingGeometry(BoundingGeometry):
     polygon_file = models.FileField(storage=get_private_upload_storage())
 
     def __str__(self):
-        return 'Polygon file: ' + self.polygon_file.name
+        return 'Polygon file {id}: {filename}'.format(self.id, self.polygon_file.name)
 
 
-class BBoxBoundingGeometry(BoundingGeometry):
+class BBoxBoundingGeometry(AdminUrlModelMixin, BoundingGeometry):
     def __init__(self, *args, **kwargs):
         attribute_names = ['north', 'east', 'south', 'west']
         if are_all_keys_in(kwargs, keys=attribute_names) \
@@ -102,7 +103,10 @@ class BBoxBoundingGeometry(BoundingGeometry):
     objects = models.GeoManager()
 
     def __str__(self):
-        points = []
-        for coordinates in self.geometry[0]:
-            points.append('(' + ', '.join([str(round(coordinate, 5)) for coordinate in coordinates]) + ')')
-        return 'Bounding box' + ': ' + ', '.join(points)
+        return 'Bounding box {id}: (north={n}, east={e}, south={s}, west={w})'.format(
+            id=self.id,
+            n=self.north,
+            e=self.east,
+            s=self.south,
+            w=self.west,
+        )
