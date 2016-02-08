@@ -1,7 +1,7 @@
 import csv
 
-from converters.gis_converter.extract.statistics.osm_groups import *  # noqa: ignore * import
-from converters.gis_converter.helper.default_postgres import get_default_postgres_wrapper
+from osmaxx.converters.gis_converter.extract.statistics.osm_groups import *  # noqa: ignore * import
+from osmaxx.converters.gis_converter.helper.default_postgres import get_default_postgres_wrapper
 
 
 def gather_statistics(outfile):

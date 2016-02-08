@@ -5,8 +5,8 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 
-from conversion_job.models import Extent, ConversionJob, GISFormat
-from conversion_job.serializers import ExtentSerializer, ConversionJobSerializer, ConversionJobStatusSerializer, \
+from osmaxx.conversion_job.models import Extent, ConversionJob, GISFormat
+from osmaxx.conversion_job.serializers import ExtentSerializer, ConversionJobSerializer, ConversionJobStatusSerializer, \
     GISFormatStatusSerializer
 
 

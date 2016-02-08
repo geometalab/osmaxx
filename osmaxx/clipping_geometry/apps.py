@@ -3,5 +3,5 @@ from django.utils.translation import gettext_lazy as _
 
 
 class ClippingGeometryConfig(AppConfig):
-    name = 'clipping_geometry'
+    name = 'osmaxx.clipping_geometry'
     verbose_name = _("Clipping Geometry")

@@ -1,1 +1,1 @@
-default_app_config = 'clipping_geometry.apps.ClippingGeometryConfig'
+default_app_config = 'osmaxx.clipping_geometry.apps.ClippingGeometryConfig'

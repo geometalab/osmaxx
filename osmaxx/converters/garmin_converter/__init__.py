@@ -1,4 +1,4 @@
-from converters import Options
+from osmaxx.converters import Options
 from .to_garmin import Garmin
 
 options = Options(

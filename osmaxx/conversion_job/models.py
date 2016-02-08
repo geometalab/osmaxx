@@ -6,12 +6,12 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
-from converters import converter_settings, Options
-from converters.options import CONVERTER_CHOICES
-from converters.boundaries import BBox, PolyfileForCountry
-from countries.models import Country
-from shared import JobStatus, ConversionProgress, rq_job_status_mapping
-from utils.directory_helper import get_file_only_path_list_in_directory
+from osmaxx.converters import converter_settings, Options
+from osmaxx.converters.options import CONVERTER_CHOICES
+from osmaxx.converters.boundaries import BBox, PolyfileForCountry
+from osmaxx.countries.models import Country
+from osmaxx.shared import JobStatus, ConversionProgress, rq_job_status_mapping
+from osmaxx.utils.directory_helper import get_file_only_path_list_in_directory
 
 
 class Extent(models.Model):

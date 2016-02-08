@@ -41,9 +41,10 @@ def pytest_configure():
             'rest_framework_gis',
             'rest_framework.authtoken',
             'tests',
-            'conversion_job',
-            'countries',
-            'clipping_geometry',
+
+            'osmaxx.conversion_job',
+            'osmaxx.countries',
+            'osmaxx.clipping_geometry',
         ),
         PASSWORD_HASHERS=(
             'django.contrib.auth.hashers.SHA1PasswordHasher',

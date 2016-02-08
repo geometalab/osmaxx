@@ -3,5 +3,5 @@ from django.utils.translation import gettext_lazy as _
 
 
 class ConversionJobConfig(AppConfig):
-    name = 'conversion_job'
+    name = 'osmaxx.conversion_job'
     verbose_name = _("Conversion Job")

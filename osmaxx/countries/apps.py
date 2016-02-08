@@ -3,5 +3,5 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CountryConfig(AppConfig):
-    name = 'countries'
+    name = 'osmaxx.countries'
     verbose_name = _("Countries")

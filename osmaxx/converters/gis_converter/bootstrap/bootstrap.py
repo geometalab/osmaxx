@@ -3,8 +3,8 @@ import subprocess
 
 import os
 
-from converters.gis_converter.helper.default_postgres import get_default_postgres_wrapper
-from utils import changed_dir
+from osmaxx.converters.gis_converter.helper.default_postgres import get_default_postgres_wrapper
+from osmaxx.utils import changed_dir
 
 
 def boostrap(pbf_file_path):

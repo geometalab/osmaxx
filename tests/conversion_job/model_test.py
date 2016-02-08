@@ -4,12 +4,12 @@ from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from conversion_job.models import Extent, ConversionJob, GISFormat
-from converters import converter_settings
-from converters.options import CONVERTER_OPTIONS
-from converters.boundaries import BBox, PolyfileForCountry
-from countries.models import Country
-from shared import ConversionProgress
+from osmaxx.conversion_job.models import Extent, ConversionJob, GISFormat
+from osmaxx.converters import converter_settings
+from osmaxx.converters.options import CONVERTER_OPTIONS
+from osmaxx.converters.boundaries import BBox, PolyfileForCountry
+from osmaxx.countries.models import Country
+from osmaxx.shared import ConversionProgress
 from tests.conversion_job.view_test import django_rq_get_queue_stub
 
 
@@ -68,7 +68,7 @@ class ExtentTest(TestCase):
         e = Extent(polyfile='present')
         self.assertRaises(NotImplementedError, e.get_geometry)
 
-    @patch('conversion_job.models.Extent.clean')
+    @patch('osmaxx.conversion_job.models.Extent.clean')
     def test_save_calls_clean_method(self, clean_mock):
         e = Extent(polyfile='present')
         e.save()

@@ -4,8 +4,8 @@ from unittest.mock import patch
 
 from django.test import TestCase
 
-from converters.boundaries import BBox, PolyfileForCountry, BoundaryCutter, pbf_area
-from countries.models import Country
+from osmaxx.converters.boundaries import BBox, PolyfileForCountry, BoundaryCutter, pbf_area
+from osmaxx.countries.models import Country
 from tests.osm_test_helpers import POLYFILE_TEST_FILE_PATH
 
 
@@ -25,7 +25,7 @@ class TestBBox(TestCase):
         BBox(west=0, south=0, east=0, north=0)
 
     @patch.dict(
-        'converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
+        'osmaxx.converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
         PBF_PLANET_FILE_PATH='/path/to/planet-latest.osm.pbf',
     )
     @patch('subprocess.call', return_value=0)
@@ -49,7 +49,7 @@ class TestCountryPolyFile(TestCase):
         PolyfileForCountry(country_polyfile_path=poly_file_path)
 
     @patch.dict(
-        'converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
+        'osmaxx.converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
         PBF_PLANET_FILE_PATH='/path/to/planet-latest.osm.pbf',
     )
     @patch('subprocess.call', return_value=0)
@@ -126,7 +126,7 @@ class TestPBFArea(TestCase):
         # shouldn't raise an error
 
     @patch.dict(
-        'converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
+        'osmaxx.converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
         PBF_PLANET_FILE_PATH='/path/to/planet-latest.osm.pbf',
     )
     @patch('subprocess.call', return_value=0)
@@ -135,7 +135,7 @@ class TestPBFArea(TestCase):
             sp_call_mock.assert_called_once_with(mock.ANY)
 
     @patch.dict(
-        'converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
+        'osmaxx.converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
         PBF_PLANET_FILE_PATH='/path/to/planet-latest.osm.pbf',
     )
     @patch('subprocess.call', return_value=0)

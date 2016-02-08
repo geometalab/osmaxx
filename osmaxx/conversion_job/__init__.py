@@ -1,1 +1,1 @@
-default_app_config = 'conversion_job.apps.ConversionJobConfig'
+default_app_config = 'osmaxx.conversion_job.apps.ConversionJobConfig'

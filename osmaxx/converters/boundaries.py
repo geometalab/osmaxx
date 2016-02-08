@@ -2,8 +2,8 @@ import os
 import subprocess
 import tempfile
 
-from converters.converter_settings import OSMAXX_CONVERSION_SERVICE
-from countries import utils
+from osmaxx.converters.converter_settings import OSMAXX_CONVERSION_SERVICE
+from osmaxx.countries import utils
 
 
 class BBox:

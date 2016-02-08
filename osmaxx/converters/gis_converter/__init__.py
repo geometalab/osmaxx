@@ -1,4 +1,4 @@
-from converters import Options
+from osmaxx.converters import Options
 
 options = Options(
     output_formats=['fgdb', 'shp', 'gpkg', 'spatialite'],

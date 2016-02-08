@@ -2,11 +2,11 @@ from django.db import transaction
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
-from conversion_job.models import Extent, ConversionJob, GISFormat, GISOption
-from converters import Options
-from job_dispatcher.dispatcher import ConversionJobDispatcher
-from rest_api.serializer_helpers import ModelSideValidationMixin
-from shared import JobStatus
+from osmaxx.conversion_job.models import Extent, ConversionJob, GISFormat, GISOption
+from osmaxx.converters import Options
+from osmaxx.job_dispatcher.dispatcher import ConversionJobDispatcher
+from osmaxx.rest_api.serializer_helpers import ModelSideValidationMixin
+from osmaxx.shared import JobStatus
 
 
 class StatusHyperlinkSerializer(serializers.HyperlinkedRelatedField):

@@ -1,1 +1,1 @@
-default_app_config = 'version.apps.VersionConfig'
+default_app_config = 'osmaxx.version.apps.VersionConfig'

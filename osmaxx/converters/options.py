@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 
-from converters import garmin_converter
-from converters import gis_converter
+from osmaxx.converters import garmin_converter
+from osmaxx.converters import gis_converter
 
 CONVERTER_OPTIONS = gis_converter.options + garmin_converter.options
 

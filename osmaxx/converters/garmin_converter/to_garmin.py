@@ -5,7 +5,7 @@ import tempfile
 
 import time
 
-from converters.gis_converter.helper.zip import zip_folders_relative
+from osmaxx.converters.gis_converter.helper.zip import zip_folders_relative
 
 _path_to_commandline_utils = os.path.join(os.path.dirname(__file__), 'command_line_utils')
 

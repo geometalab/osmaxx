@@ -7,12 +7,12 @@ from rest_framework.reverse import reverse
 import rq
 import requests
 
-from converters import osm_cutter
-from converters import Options
-from converters.boundaries import BBox
-from converters.converter import Conversion
-from converters.options import CONVERTER_OPTIONS
-from shared import ConversionProgress
+from osmaxx.converters import osm_cutter
+from osmaxx.converters import Options
+from osmaxx.converters.boundaries import BBox
+from osmaxx.converters.converter import Conversion
+from osmaxx.converters.options import CONVERTER_OPTIONS
+from osmaxx.shared import ConversionProgress
 
 logger = logging.getLogger(__name__)
 
