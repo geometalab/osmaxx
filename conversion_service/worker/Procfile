@@ -1,1 +1,0 @@
-worker: python3 ./conversion_service/manage.py rqworker default

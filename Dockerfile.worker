@@ -124,8 +124,8 @@ ENV HOME /home/py
 RUN mkdir /etc/ssl/private-copy; mv /etc/ssl/private/* /etc/ssl/private-copy/; rm -r /etc/ssl/private; mv /etc/ssl/private-copy /etc/ssl/private; chmod -R 0700 /etc/ssl/private; chown -R postgres /etc/ssl/private
 
 # activate translit
-RUN mkdir -p $HOME/conversion_service/worker $HOME/entrypoint
-COPY ./docker_entrypoint/worker $HOME/entrypoint
+RUN mkdir -p $HOME/osmaxx/worker $HOME/entrypoint
+COPY ./docker_entrypoint/osmaxx/worker $HOME/entrypoint
 
 RUN service postgresql start && \
     gosu postgres psql -f $HOME/entrypoint/01_activate_translit.sql
@@ -136,17 +136,19 @@ RUN chmod a+rx $CODE
 
 WORKDIR $HOME
 
-ADD requirements.txt $HOME/requirements.txt
+ADD osmaxx_conversion_service/requirements.txt $HOME/requirements.txt
 
 RUN pip install honcho
 
 RUN pip3 install -r requirements.txt
 
-ADD ./conversion_service $HOME/conversion_service
+# TODO: this is just a temporary solution, use pip for production as soon as geometalab.osmaxx is published there
+ADD ./osmaxx $HOME/osmaxx
+ADD ./osmaxx_conversion_service $HOME/osmaxx_conversion_service
 
 # expose modules
 ENV PYTHONPATH=PYTHONPATH:$HOME
-ENV DJANGO_SETTINGS_MODULE=conversion_service.config.settings.worker
+ENV DJANGO_SETTINGS_MODULE=osmaxx.config.settings.worker
 
 ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]
 

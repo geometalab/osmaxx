@@ -1,0 +1,1 @@
+mediator: python3 ./osmaxx_conversion_service/manage.py runserver_plus ${APP_HOST}:${APP_PORT}
