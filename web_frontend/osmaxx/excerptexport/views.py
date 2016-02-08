@@ -3,6 +3,7 @@ import logging
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
@@ -10,7 +11,7 @@ from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpRespons
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView
+from django.views.generic import FormView, DetailView
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
@@ -110,17 +111,29 @@ def download_file(request, uuid):
     return response
 
 
-@login_required()
-@frontend_access_required()
-def extraction_order_status(request, extraction_order_id):
-    extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
-    view_context = {
-        'protocol': request.scheme,
-        'host_domain': request.get_host(),
-        'extraction_order': extraction_order,
-    }
-    return render_to_response('excerptexport/templates/extraction_order_status.html', context=view_context,
-                              context_instance=RequestContext(request))
+class ExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, DetailView):
+    template_name = 'excerptexport/templates/extraction_order_status.html'
+    context_object_name = 'extraction_order'
+    model = ExtractionOrder
+    pk_url_kwarg = 'extraction_order_id'
+
+    def get_object(self, queryset=None):
+        o = super().get_object(queryset)
+        if o.orderer != self.request.user:
+            raise PermissionDenied
+        return o
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data.update(
+            {
+                'protocol': self.request.scheme,
+                'host_domain': self.request.get_host(),
+            }
+        )
+        return data
+
+extraction_order_status = ExtractionOrderView.as_view()
 
 
 @login_required()
