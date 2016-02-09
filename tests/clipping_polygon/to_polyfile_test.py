@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from django.contrib.gis.geos import MultiPolygon, Polygon, MultiLineString, LineString
 
-from osmaxx.clipping_geometry.to_polyfile import create_poly_file_string
+from osmaxx.clipping_area.to_polyfile import create_poly_file_string
 from osmaxx.countries import utils
 
 

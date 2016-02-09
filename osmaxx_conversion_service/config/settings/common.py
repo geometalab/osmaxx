@@ -43,7 +43,7 @@ LOCAL_APPS = (
     'osmaxx.conversion_job',
     'osmaxx.countries',
     'osmaxx.version',
-    'osmaxx.clipping_geometry',
+    'osmaxx.clipping_area',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

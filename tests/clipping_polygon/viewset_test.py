@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
-from osmaxx.clipping_geometry.models import ClippingArea
+from osmaxx.clipping_area.models import ClippingArea
 
 
 class TestClippingGeometryViewSet(APITestCase):
