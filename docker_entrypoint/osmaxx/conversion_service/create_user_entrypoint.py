@@ -1,8 +1,12 @@
 import sys, os
+import django
+from django.contrib.auth import get_user_model
+
 sys.path.append('/home/py/osmaxx')
 os.environ['DJANGO_SETTINGS_MODULE'] = os.getenv('DJANGO_SETTINGS_MODULE')
 
-from django.contrib.auth.models import User
+django.setup()
+User = get_user_model()
 
 username = os.getenv('SERVICE_USER_NAME', None)
 password = os.getenv('SERVICE_USER_PASSWORD', None)
