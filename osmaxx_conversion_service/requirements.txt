@@ -1,5 +1,5 @@
 # Minimum Django and REST framework version
-Django>=1.8,<1.9
+Django>=1.9,<1.10
 djangorestframework>=3.2,<3.4
 djangorestframework-gis>=0.10,<0.11
 djangorestframework-jwt==1.7.2
