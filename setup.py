@@ -8,7 +8,7 @@ from setuptools import setup
 name = 'osmaxx-web-frontend'
 package = 'web_frontend'
 description = 'Osmaxx Frontend'
-url = 'https://github.com/geometalab/osmaxx'
+url = 'https://github.com/geometalab/osmaxx-frontend'
 author = 'Raphael Das Gupta, Tobias Blaser, Nicola Jordan'
 author_email = 'dasg@hsr.ch, tblaser@hsr.ch, njordan.hsr@gmail.com'
 license = 'MIT'
