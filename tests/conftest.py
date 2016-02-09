@@ -44,7 +44,7 @@ def pytest_configure():
 
             'osmaxx.conversion_job',
             'osmaxx.countries',
-            'osmaxx.clipping_geometry',
+            'osmaxx.clipping_area',
         ),
         PASSWORD_HASHERS=(
             'django.contrib.auth.hashers.SHA1PasswordHasher',

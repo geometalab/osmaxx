@@ -17,4 +17,4 @@ def create_poly_file_string(geometry):
         geometry = MultiPolygon([geometry])
     if not isinstance(geometry, MultiPolygon):
         raise TypeError("The provided data is not a Polygon or MultiPolygon, but {}.".format(str(geometry.__class__)))
-    return render_to_string(template_name='clipping_geometry/polyfile_template.poly', context={'multipolygon': geometry})
+    return render_to_string(template_name='clipping_area/polyfile_template.poly', context={'multipolygon': geometry})

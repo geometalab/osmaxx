@@ -3,7 +3,7 @@ from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
 
 import osmaxx.conversion_job.views
-from osmaxx.clipping_geometry.viewsets import ClippingAreaViewSet
+from osmaxx.clipping_area.viewsets import ClippingAreaViewSet
 from osmaxx.countries.views import CountryViewSet
 from pbf_file_size_estimation.views import SizeEstimationView
 
