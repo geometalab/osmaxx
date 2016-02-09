@@ -7,9 +7,6 @@ import shutil
 import subprocess
 import sys
 
-# constants
-from django.core.management import ManagementUtility
-
 RED = "\033[31m"
 GREEN = "\033[32m"
 MAGENTA = "\033[95m"
@@ -125,8 +122,7 @@ class OsmaxxTestSuite:
             sys.path.append(osmaxx_path)
             os.chdir(osmaxx_path)
             os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.test'
-            utility = ManagementUtility(['manage.py', 'test'])
-            utility.execute()
+            subprocess.check_call(['py.test'])
         except subprocess.CalledProcessError as e:
             logger.info(e.output.decode())
             self.log_failure("Tests failed. Please have a look at the {logfile};!".format(logfile=LOGFILE))
