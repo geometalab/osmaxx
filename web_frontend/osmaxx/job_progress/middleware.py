@@ -33,7 +33,7 @@ def update_order_if_stale(extraction_order):
         'extraction_order_{}_progress'.format(extraction_order.id),
         update_order, extraction_order,
         on_cache_hit=_log_cache_hit,
-        timeout=timedelta(minutes=1).seconds,
+        timeout=timedelta(minutes=1).total_seconds(),
     )
 
 
