@@ -4,9 +4,7 @@ from unittest.mock import patch
 
 from django.test import TestCase
 
-from osmaxx.converters.boundaries import BBox, PolyfileForCountry, BoundaryCutter, pbf_area
-from osmaxx.countries.models import Country
-from tests.osm_test_helpers import POLYFILE_TEST_FILE_PATH
+from osmaxx.converters.boundaries import BBox, BoundaryCutter, pbf_area
 
 
 class TestBBox(TestCase):
@@ -36,37 +34,6 @@ class TestBBox(TestCase):
         bbox.cut_pbf(output_filename)
         sp_call_mock.assert_called_with(
             "osmconvert --out-pbf -o=outfile.pbf -b=1.23,-4.56,7.89,0.12 /path/to/planet-latest.osm.pbf".split(),
-        )
-
-
-class TestCountryPolyFile(TestCase):
-    def test_init_when_parameters_are_missing_raises_type_error(self):
-        self.assertRaises(TypeError, PolyfileForCountry)
-
-    def test_initializing_when_all_given_parameters_are_set_works(self):
-        poly_file_path = Country.objects.first().polyfile.path
-        # shouldn't raise an error
-        PolyfileForCountry(country_polyfile_path=poly_file_path)
-
-    @patch.dict(
-        'osmaxx.converters.converter_settings.OSMAXX_CONVERSION_SERVICE',
-        PBF_PLANET_FILE_PATH='/path/to/planet-latest.osm.pbf',
-    )
-    @patch('subprocess.call', return_value=0)
-    def test_cut_pbf_calls_osmconvert_correctly(self, sp_call_mock):
-        # tests are using sample data from monaco
-        poly_file_path = Country.objects.first().polyfile.path
-        polyfile = PolyfileForCountry(country_polyfile_path=poly_file_path)
-        output_filename = 'outfile.pbf'
-        polyfile.cut_pbf(output_filename)
-        sp_call_mock.assert_called_with(
-            [
-                "osmconvert",
-                "--out-pbf",
-                "-o=outfile.pbf",
-                "-B={0}".format(POLYFILE_TEST_FILE_PATH),
-                "/path/to/planet-latest.osm.pbf",
-            ]
         )
 
 

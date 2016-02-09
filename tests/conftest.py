@@ -42,8 +42,6 @@ def pytest_configure():
             'rest_framework.authtoken',
             'tests',
 
-            'osmaxx.conversion_job',
-            'osmaxx.countries',
             'osmaxx.clipping_area',
         ),
         PASSWORD_HASHERS=(

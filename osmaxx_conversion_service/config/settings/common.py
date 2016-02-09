@@ -40,8 +40,6 @@ THIRD_PARTY_APPS = (
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'osmaxx.conversion_job',
-    'osmaxx.countries',
     'osmaxx.version',
     'osmaxx.clipping_area',
 )

@@ -3,7 +3,7 @@ import subprocess
 import tempfile
 
 from osmaxx.converters.converter_settings import OSMAXX_CONVERSION_SERVICE
-from osmaxx.countries import utils
+from osmaxx.clipping_area import utils
 
 
 class BBox:
