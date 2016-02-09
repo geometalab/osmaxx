@@ -86,7 +86,8 @@ class Emissary:
 
 
 def get_cached_or_set(
-        cache_string, func, *args, timeout=datetime.timedelta(minutes=15).seconds, on_cache_hit=None, **kwargs):
+        cache_string, func, *args, timeout=datetime.timedelta(minutes=15).total_seconds(), on_cache_hit=None, **kwargs
+):
     """Gets requested value from cache, else produces it with specified function and caches it.
 
     Gets the value at key ``cache_string`` from the cache. If it can't be found in the Django cache,
