@@ -42,6 +42,7 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'osmaxx.version',
     'osmaxx.clipping_area',
+    'osmaxx.conversion',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -146,7 +147,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
-                'django.core.context_processors.request',
+                'django.template.context_processors.request',
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
@@ -276,10 +277,7 @@ OSMAXX_CONVERSION_SERVICE = {
     'PBF_PLANET_FILE_PATH': env.str(
         'OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH',
         default='~/tmp/osm-planet/planet-latest.osm.pbf'),
-    'RESULT_DIR': env.str('OSMAXX_CONVERSION_SERVICE_RESULT_DIR', default='/tmp/osm/results'),
     'RESULT_TTL': env.str('OSMAXX_CONVERSION_SERVICE_RESULT_TTL', default=-1),  # never expire!
-    # this is mainly for testing purposes, for easier overriding
-    'COUNTRIES_POLYFILE_LOCATION': None,
 }
 
 # Security - defaults taken from Django 1.8 (not secure enough for production)

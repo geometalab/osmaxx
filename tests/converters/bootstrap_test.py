@@ -3,7 +3,7 @@ from unittest import TestCase, mock
 
 from django.conf import settings
 
-from converters.gis_converter.bootstrap import bootstrap
+from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
 
 
 class BootStrapperTest(TestCase):

@@ -2,7 +2,7 @@ data:
   image: debian:jessie
   command: echo true
   volumes:
-    - /data/results
+    - /data/media
     - /tmp/osm-planet:/var/data/osm-planet
 
 osmdata:
@@ -40,6 +40,7 @@ mediator:
     - postgres:database
   environment:
     - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+    - DJANGO_INTERNAL_IPS=172.17.0.1
     - SERVICE_USER_NAME=dev
     - SERVICE_USER_PASSWORD=dev
 
@@ -59,6 +60,5 @@ worker:
     - redis
   environment:
     - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
-    - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
     # only switzerland, as stated in `osmdata`
     - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf

@@ -4,7 +4,7 @@ import shutil
 
 from django.test import TestCase
 
-from utils.directory_helper import get_file_only_path_list_in_directory
+from osmaxx.utils.directory_helper import get_file_only_path_list_in_directory
 
 
 class GetFileListInDirectoryTest(TestCase):
@@ -21,7 +21,6 @@ class GetFileListInDirectoryTest(TestCase):
         if file_names:
             for filename in file_names:
                 open(os.path.join(self.random_directory, filename), 'x').close()
-                print(filename)
 
     def _get_file_list_sorted_with_random_dir_prepended(self, file_names):
         result_list = [os.path.join(self.random_directory, file_name) for file_name in file_names]
