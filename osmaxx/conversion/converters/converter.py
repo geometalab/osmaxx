@@ -54,14 +54,8 @@ class Conversion(object):
 
 
 def convert(
-        *,
-        conversion_format,
-        area_name,
-        osmosis_polygon_file_string,
-        output_zip_file_path,
-        filename_prefix,
-        out_srs,
-        use_worker=False
+        *, conversion_format, area_name, osmosis_polygon_file_string, output_zip_file_path, filename_prefix,
+        out_srs, use_worker=False
 ):
     params = dict(
         conversion_format=conversion_format,

@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 import pytest
 
 import osmaxx.conversion.formats
@@ -10,13 +12,16 @@ format_list = osmaxx.conversion.formats.FORMAT_DEFINITIONS.keys()
 def conversion_format(request):
     return request.param
 
+
 @pytest.fixture
 def area_name():
     return 'area_name'
 
+
 @pytest.fixture()
 def output_zip_file_path():
     return '/some/test/path/to/a/zipfile.zip'
+
 
 @pytest.fixture()
 def filename_prefix():
@@ -41,3 +46,36 @@ def test_start_format_extraction(conversion_format, area_name, simple_osmosis_li
     )
     conversion.start_format_extraction()
     assert gis_converter_mock_create.call_count + garmin_converter_mock_create.call_count == 1
+
+
+def test_convert_returns_id_when_use_worker_is_true(conversion_format, area_name, simple_osmosis_line_string, output_zip_file_path, filename_prefix, out_srs, mocker, monkeypatch):
+    def rq_enqueue_with_settings_mock_return():
+        FakeRQ = namedtuple('FakeRQ', 'id')
+        return FakeRQ(id=42)
+    mocker.patch('osmaxx.conversion.converters.converter.rq_enqueue_with_settings', return_value=rq_enqueue_with_settings_mock_return())
+    # returns True if has been called
+    convert_return_value = convert(
+        conversion_format=conversion_format,
+        area_name=area_name,
+        osmosis_polygon_file_string=simple_osmosis_line_string,
+        output_zip_file_path=output_zip_file_path,
+        filename_prefix=filename_prefix,
+        out_srs=out_srs,
+        use_worker=True,
+    )
+    assert convert_return_value == 42
+
+
+def test_convert_starts_conversion(conversion_format, area_name, simple_osmosis_line_string, output_zip_file_path, filename_prefix, out_srs, mocker, monkeypatch):
+    conversion_start_start_format_extraction_mock = mocker.patch('osmaxx.conversion.converters.converter.Conversion')
+    convert_return_value = convert(
+        conversion_format=conversion_format,
+        area_name=area_name,
+        osmosis_polygon_file_string=simple_osmosis_line_string,
+        output_zip_file_path=output_zip_file_path,
+        filename_prefix=filename_prefix,
+        out_srs=out_srs,
+        use_worker=False,
+    )
+    assert convert_return_value is None
+    assert conversion_start_start_format_extraction_mock.call_count == 1
