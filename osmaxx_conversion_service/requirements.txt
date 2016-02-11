@@ -24,6 +24,7 @@ geometalab.osm-pbf-file-size-estimation-service>=0.0.6,<1.0.0
 # Test requirements
 pytest-django==2.9.1
 pytest-cov==2.2.0
+pytest-mock==0.10.1
 flake8==2.4.1
 
 # wheel for PyPI installs
