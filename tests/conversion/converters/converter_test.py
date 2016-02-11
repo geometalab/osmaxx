@@ -1,36 +1,6 @@
 from collections import namedtuple
 
-import pytest
-
-import osmaxx.conversion.formats
 from osmaxx.conversion.converters.converter import Conversion, convert
-
-format_list = osmaxx.conversion.formats.FORMAT_DEFINITIONS.keys()
-
-
-@pytest.fixture(params=format_list)
-def conversion_format(request):
-    return request.param
-
-
-@pytest.fixture
-def area_name():
-    return 'area_name'
-
-
-@pytest.fixture()
-def output_zip_file_path():
-    return '/some/test/path/to/a/zipfile.zip'
-
-
-@pytest.fixture()
-def filename_prefix():
-    return 'test_prefix_for_this_example'
-
-
-@pytest.fixture()
-def out_srs():
-    return 'EPSG:4326'
 
 
 def test_start_format_extraction(conversion_format, area_name, simple_osmosis_line_string, output_zip_file_path, filename_prefix, out_srs, mocker):
