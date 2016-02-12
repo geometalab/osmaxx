@@ -1,4 +1,6 @@
 import os
+import tempfile
+
 import pytest
 
 import osmaxx.conversion.formats
@@ -76,6 +78,24 @@ def server_url():
 
 
 @pytest.fixture
+def fake_rq_id():
+    return 42
+
+
+@pytest.fixture
+def empty_zip(request):
+    zip_file = tempfile.NamedTemporaryFile(suffix='.zip')
+
+    def remove_tmp_file():
+        try:
+            zip_file.close()
+        except FileNotFoundError:  # already removed by some test
+            pass
+    request.addfinalizer(remove_tmp_file)
+    return zip_file
+
+
+@pytest.fixture
 def conversion_job_data(conversion_parametrization):
     conversion_parametrization = conversion_parametrization.id
     return {'callback_url': 'http://callback.example.com', 'parametrization': conversion_parametrization}
@@ -85,3 +105,33 @@ def conversion_job_data(conversion_parametrization):
 def conversion_job(conversion_parametrization, server_url):
     from osmaxx.conversion.models import Job
     return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization)
+
+
+@pytest.fixture
+def conversion_job_started(conversion_parametrization, server_url, fake_rq_id):
+    from osmaxx.conversion.models import Job
+    return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=Job.STARTED)
+
+
+@pytest.fixture
+def conversion_job_failed(conversion_parametrization, server_url, fake_rq_id):
+    from osmaxx.conversion.models import Job
+    return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=Job.FAILED)
+
+
+@pytest.fixture
+def conversion_job_finished(request, conversion_parametrization, server_url, fake_rq_id, empty_zip):
+    from osmaxx.conversion.models import Job
+    conversion_job = Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=Job.FAILED)
+    conversion_job.status = conversion_job.FINISHED
+    from osmaxx.conversion.management.commands.result_harvester import add_file_to_job
+    empty_zip_path = add_file_to_job(conversion_job=conversion_job, result_zip_file=empty_zip.name)
+    conversion_job.save()
+
+    def remove_empty_zip_path():
+        try:
+            os.unlink(empty_zip_path)
+        except FileNotFoundError:  # already removed by some test
+            pass
+    request.addfinalizer(remove_empty_zip_path)
+    return conversion_job

@@ -4,6 +4,7 @@ import time
 import django_rq
 import os
 import requests
+import shutil
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
@@ -69,5 +70,5 @@ class Command(BaseCommand):
 def add_file_to_job(*, conversion_job, result_zip_file):
     conversion_job.resulting_file.name = conversion_job.zip_file_relative_path()
     new_path = os.path.join(settings.MEDIA_ROOT, conversion_job.resulting_file.name)
-    os.rename(result_zip_file, new_path)
+    shutil.move(result_zip_file, new_path)
     return new_path
