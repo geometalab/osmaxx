@@ -96,6 +96,19 @@ def pytest_configure():
 
 @pytest.fixture
 def authenticated_client(client):
+    """
+    Client fixture using an authenticated user.
+
+    Since this fixture creates a database object, you must
+    mark your test with @pytest.mark.django_db()
+
+
+    Args:
+        client: Default client fixture from pytest-django
+
+    Returns:
+        Authenticated Client
+    """
     from django.contrib.auth import get_user_model
     get_user_model().objects.create_user(username='lauren', password='lauri', email=None)
     client.login(username='lauren', password='lauri')
