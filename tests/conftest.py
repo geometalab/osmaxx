@@ -2,6 +2,8 @@
 import os
 from datetime import timedelta
 
+import pytest
+
 test_data_dir = os.path.join(os.path.dirname(__file__), 'test_data')
 
 
@@ -91,3 +93,10 @@ def pytest_configure():
 
 
 # if any global fixtures are needed, add them below
+
+@pytest.fixture
+def authenticated_client(client):
+    from django.contrib.auth import get_user_model
+    get_user_model().objects.create_user(username='lauren', password='lauri', email=None)
+    client.login(username='lauren', password='lauri')
+    return client
