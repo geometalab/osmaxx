@@ -170,17 +170,17 @@ class TestClippingGeometryViewSet(APITestCase):
 
 
 @pytest.mark.django_db()
-def test_clipping_area_creation_succeeds(api_client_authenticated, clipping_area_hsr):
-    response = api_client_authenticated.post(reverse('clipping_area-list'), clipping_area_hsr, format='json')
+def test_clipping_area_creation_succeeds(api_client_authenticated, clipping_area_hsr_data):
+    response = api_client_authenticated.post(reverse('clipping_area-list'), clipping_area_hsr_data, format='json')
     assert response.status_code == 201
-    expected_data = clipping_area_hsr.copy()
+    expected_data = clipping_area_hsr_data.copy()
     expected_data['id'] = 1
     assert response.json() == expected_data
 
 
 @pytest.mark.django_db()
-def test_clipping_area_creation_fails(api_client, clipping_area_hsr):
-    response = api_client.post(reverse('clipping_area-list'), clipping_area_hsr, format='json')
+def test_clipping_area_creation_fails(api_client, clipping_area_hsr_data):
+    response = api_client.post(reverse('clipping_area-list'), clipping_area_hsr_data, format='json')
     assert response.status_code == 403
 
 

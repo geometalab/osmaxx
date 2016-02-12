@@ -1,18 +1,8 @@
 import pytest
-from django.contrib.gis.geos import Polygon, MultiPolygon
 
 
 @pytest.fixture
-def valid_clipping_area():
-    from osmaxx.clipping_area.models import ClippingArea
-    poly_1 = Polygon(((0, 0), (0, 1), (1, 1), (0, 0)))
-    poly_2 = Polygon(((1, 1), (1, 2), (2, 2), (1, 1)))
-    multi_polygon = MultiPolygon(poly_1, poly_2)
-    return ClippingArea.objects.create(name='test', clipping_multi_polygon=multi_polygon)
-
-
-@pytest.fixture
-def clipping_area_hsr():
+def clipping_area_hsr_data():
     return {
         "name": "HSR Polygon",
         "clipping_multi_polygon": {

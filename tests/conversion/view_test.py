@@ -27,3 +27,15 @@ def test_access_for_authenticated_client_allowed(authenticated_client, access_ur
 def test_access_for_admin_user_allowed(admin_client, access_url):
     response = admin_client.get(access_url)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db()
+def test_conversion_parametrization_creation_success(api_client_authenticated, conversion_parametrization_data):
+    response = api_client_authenticated.post(reverse('conversion_parametrization-list'), conversion_parametrization_data, format='json')
+    assert response.status_code == 201
+
+
+@pytest.mark.django_db()
+def test_conversion_parametrization_creation_fails(api_client, conversion_parametrization_data):
+    response = api_client.post(reverse('conversion_parametrization-list'), conversion_parametrization_data, format='json')
+    assert response.status_code == 403

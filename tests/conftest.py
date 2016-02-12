@@ -137,3 +137,13 @@ def api_client_authenticated(api_client):
         Authenticated Client
     """
     return authenticated_client(api_client)
+
+
+@pytest.fixture
+def valid_clipping_area():
+    from django.contrib.gis.geos import Polygon, MultiPolygon
+    from osmaxx.clipping_area.models import ClippingArea
+    poly_1 = Polygon(((0, 0), (0, 1), (1, 1), (0, 0)))
+    poly_2 = Polygon(((1, 1), (1, 2), (2, 2), (1, 1)))
+    multi_polygon = MultiPolygon(poly_1, poly_2)
+    return ClippingArea.objects.create(name='test', clipping_multi_polygon=multi_polygon)
