@@ -49,7 +49,7 @@ class Command(BaseCommand):
             self._notify(conversion_job)
             from osmaxx.conversion.models import Job
             if job.status == Job.FINISHED:
-                self._add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
+                add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
             conversion_job.save()
         except ObjectDoesNotExist as e:
             logger.exception(e)
@@ -65,7 +65,9 @@ class Command(BaseCommand):
             logger.error('failed to send notification for job {}'.format(conversion_job.id))
             pass
 
-    def _add_file_to_job(self, *, conversion_job, result_zip_file):
-        conversion_job.resulting_file.name = conversion_job.zip_file_relative_path()
-        new_path = os.path.join(settings.MEDIA_ROOT, conversion_job.resulting_file.name)
-        os.rename(result_zip_file, new_path)
+
+def add_file_to_job(*, conversion_job, result_zip_file):
+    conversion_job.resulting_file.name = conversion_job.zip_file_relative_path()
+    new_path = os.path.join(settings.MEDIA_ROOT, conversion_job.resulting_file.name)
+    os.rename(result_zip_file, new_path)
+    return new_path
