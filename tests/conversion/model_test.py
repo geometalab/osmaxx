@@ -27,3 +27,13 @@ def test_job_removes_file_when_deleted(conversion_job_finished):
     assert os.path.exists(file_path)
     conversion_job_finished.delete()
     assert not os.path.exists(file_path)
+
+
+@pytest.mark.django_db()
+def test_job_get_download_url_removes_trailing_slashes_from_callback_url(conversion_job, server_url):
+    from rest_framework.reverse import reverse
+    url = server_url + reverse('conversion_job-detail', kwargs={'pk': conversion_job.id})
+    own_base_url = server_url + '/'
+    conversion_job.own_base_url = own_base_url
+    conversion_job.save()
+    assert conversion_job.get_absolute_url() == url
