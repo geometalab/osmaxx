@@ -56,3 +56,43 @@ def test_conversion_parametrization_detail_access_success(api_client_authenticat
 def test_conversion_parametrization_detail_access_fails(api_client, conversion_parametrization):
     response = api_client.get(reverse('conversion_parametrization-detail', kwargs={'pk': conversion_parametrization.id}))
     assert response.status_code == 403
+
+
+@pytest.mark.django_db()
+def test_conversion_job_creation_success(api_client_authenticated, conversion_job_data, mocker):
+    start_conversion_mock = mocker.patch('osmaxx.conversion.models.Job.start_conversion')
+    response = api_client_authenticated.post(reverse('conversion_job-list'), conversion_job_data, format='json')
+    data = response.json()
+    assert response.status_code == 201
+    assert data['callback_url'] == conversion_job_data['callback_url']
+    assert data['parametrization'] == conversion_job_data['parametrization']
+    assert start_conversion_mock.call_count == 1
+
+
+@pytest.mark.django_db()
+def test_conversion_job_creation_fails(api_client, conversion_job_data):
+    response = api_client.post(reverse('conversion_job-list'), conversion_job_data, format='json')
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db()
+def test_conversion_job_detail_access_success(api_client_authenticated, conversion_job, conversion_parametrization):
+    response = api_client_authenticated.get(reverse('conversion_job-detail', kwargs={'pk': conversion_job.id}))
+    assert response.status_code == 200
+    data = response.json()
+    assert data['id'] == conversion_job.id
+    assert data['callback_url'] == conversion_job.callback_url
+    assert data['parametrization'] == conversion_parametrization.id
+    assert data['status'] == conversion_job.RECEIVED
+
+
+@pytest.mark.django_db()
+def test_conversion_job_detail_access_fails(api_client, conversion_job):
+    response = api_client.get(reverse('conversion_job-detail', kwargs={'pk': conversion_job.id}))
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db()
+def test_conversion_job_absolute_url_resolves_correct(conversion_job, server_url):
+    url = server_url + reverse('conversion_job-detail', kwargs={'pk': conversion_job.id})
+    assert conversion_job.get_absolute_url() == url

@@ -68,3 +68,20 @@ def conversion_parametrization(request, valid_clipping_area):
     out_srs = 4326
     from osmaxx.conversion.models import Parametrization
     return Parametrization.objects.create(out_format=out_format, out_srs=out_srs, clipping_area=valid_clipping_area)
+
+
+@pytest.fixture
+def server_url():
+    return 'http://backends.own.url.example.com'
+
+
+@pytest.fixture
+def conversion_job_data(conversion_parametrization):
+    conversion_parametrization = conversion_parametrization.id
+    return {'callback_url': 'http://callback.example.com', 'parametrization': conversion_parametrization}
+
+
+@pytest.fixture
+def conversion_job(conversion_parametrization, server_url):
+    from osmaxx.conversion.models import Job
+    return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization)
