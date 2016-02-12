@@ -2,6 +2,8 @@ import tempfile
 
 import os
 
+import shutil
+
 from osmaxx.conversion.converters.boundaries import pbf_area
 from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
 from osmaxx.conversion.converters.converter_gis.extract.db_to_format.extract import extract_to
@@ -27,6 +29,7 @@ class GISConverter:
         self._polyfile_string = polyfile_string
         self._conversion_format = conversion_format
         self._out_srs = out_srs
+        self._static_directory = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static')
 
     def create_gis_export(self):
         with pbf_area(osmosis_polygon_file_content=self._polyfile_string) as pbf_path:
@@ -38,8 +41,7 @@ class GISConverter:
                 data_dir = os.path.join(tmp_dir, 'data')
                 static_dir = os.path.join(tmp_dir, 'static')
                 os.makedirs(data_dir)
-                os.makedirs(static_dir)
-
+                shutil.copytree(self._static_directory, static_dir)
                 gather_statistics(os.path.join(tmp_dir, self._base_file_name + '_STATISTICS.csv'))
                 extract_to(
                     to_format=self._conversion_format,
