@@ -1,3 +1,4 @@
+import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.gis import geos
 from rest_framework import status
@@ -166,3 +167,30 @@ class TestClippingGeometryViewSet(APITestCase):
         url = reverse('clipping_area-detail', args=[clipping_area.id])
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+@pytest.mark.django_db()
+def test_clipping_area_creation_succeeds(api_client_authenticated, clipping_area_hsr):
+    response = api_client_authenticated.post(reverse('clipping_area-list'), clipping_area_hsr, format='json')
+    assert response.status_code == 201
+    expected_data = clipping_area_hsr.copy()
+    expected_data['id'] = 1
+    assert response.json() == expected_data
+
+
+@pytest.mark.django_db()
+def test_clipping_area_creation_fails(api_client, clipping_area_hsr):
+    response = api_client.post(reverse('clipping_area-list'), clipping_area_hsr, format='json')
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db()
+def test_clipping_area_detail_access_succeeds(api_client_authenticated, valid_clipping_area):
+    response = api_client_authenticated.get(reverse('clipping_area-detail', args=[valid_clipping_area.id]))
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db()
+def test_clipping_area_detail_access_fails(api_client, valid_clipping_area):
+    response = api_client.get(reverse('clipping_area-detail', args=[valid_clipping_area.id]))
+    assert response.status_code == 403

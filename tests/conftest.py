@@ -113,3 +113,27 @@ def authenticated_client(client):
     get_user_model().objects.create_user(username='lauren', password='lauri', email=None)
     client.login(username='lauren', password='lauri')
     return client
+
+
+@pytest.fixture
+def api_client():
+    from rest_framework.test import APIClient
+    return APIClient()
+
+
+@pytest.fixture
+def api_client_authenticated(api_client):
+    """
+    API-Client fixture using an authenticated user.
+
+    Since this fixture creates a database object, you must
+    mark your test with @pytest.mark.django_db()
+
+
+    Args:
+        api_client: api-client fixture
+
+    Returns:
+        Authenticated Client
+    """
+    return authenticated_client(api_client)

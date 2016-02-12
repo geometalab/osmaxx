@@ -1,15 +1,4 @@
 import pytest
-from django.contrib.gis.geos import Polygon, MultiPolygon
-
-from osmaxx.clipping_area.models import ClippingArea
-
-
-@pytest.fixture
-def valid_clipping_area():
-    poly_1 = Polygon(((0, 0), (0, 1), (1, 1), (0, 0)))
-    poly_2 = Polygon(((1, 1), (1, 2), (2, 2), (1, 1)))
-    multi_polygon = MultiPolygon(poly_1, poly_2)
-    return ClippingArea.objects.create(name='test', clipping_multi_polygon=multi_polygon)
 
 
 @pytest.mark.django_db()
