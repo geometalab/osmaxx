@@ -4,7 +4,7 @@ For developers have write access to this repository:
 
 1. Clone this GitHub repository to your local machine and change into the local repo
 	```shell
-	git clone git@github.com:geometalab/osmaxx.git osmaxx && cd osmaxx
+	git clone git@github.com:geometalab/osmaxx-frontend.git osmaxx && cd osmaxx-frontend
 	```
 	You can specify the name of the remote origin by adding param -o. Example: `-o 'gitHub'`
 

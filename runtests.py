@@ -3,12 +3,8 @@
 import argparse
 import logging
 import os
-import shutil
 import subprocess
 import sys
-
-# constants
-from django.core.management import ManagementUtility
 
 RED = "\033[31m"
 GREEN = "\033[32m"
@@ -25,13 +21,6 @@ class OsmaxxTestSuite:
 
     def main(self):
         self.run_tests()
-        # FIXME: currently only works on development settings
-        if os.environ.get('RUN_E2E') == 'true' or args.end_to_end_tests:
-            self.run_e2e_tests()
-
-    def run_e2e_tests(self):
-        with TmpVirtualEnv() as tmp_venv:
-            tmp_venv.run_python_script('tests/e2e/e2e_tests.py')
 
     def run_tests(self):
         self.log_header('=== Development mode ===')
@@ -125,8 +114,7 @@ class OsmaxxTestSuite:
             sys.path.append(osmaxx_path)
             os.chdir(osmaxx_path)
             os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.test'
-            utility = ManagementUtility(['manage.py', 'test'])
-            utility.execute()
+            subprocess.check_call(['py.test'])
         except subprocess.CalledProcessError as e:
             logger.info(e.output.decode())
             self.log_failure("Tests failed. Please have a look at the {logfile};!".format(logfile=LOGFILE))
@@ -155,26 +143,6 @@ class OsmaxxTestSuite:
             self.log_success("Database migrations retained correctly.")
         else:
             self.log_failure("Database migrations not retained, data only container not working correctly!")
-
-
-class TmpVirtualEnv:
-    def __init__(self):
-        subprocess.check_call('virtualenv --python=/usr/bin/python3 tmp/e2e_tests'.split())
-        # install dependencies
-        subprocess.check_call('tmp/e2e_tests/bin/pip install requests selenium'.split())
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.delete()
-
-    def delete(self):
-        print("removing virtualenv in tmp/e2e_tests")
-        shutil.rmtree('tmp/e2e_tests')
-
-    def run_python_script(self, script):
-        subprocess.check_call(['tmp/e2e_tests/bin/python',  script])
 
 
 def command_line_arguments():
@@ -220,11 +188,6 @@ class TestType:
 
 
 TEST_TYPES = [
-    TestType(
-        'end_to_end_tests',
-        description='end-to-end smoke tests from the browser through the whole stack (in docker containers) to the '
-        'converters (in other docker containers) and back again',
-    ),
     TestType(
         'docker_composition_tests',
         description='test whether containers and volumes are set up correctly',
