@@ -59,13 +59,16 @@ def downloads(order):
     ]
 
 
+@pytest.fixture(params=['/downloads/', None], ids=['dowloads page', 'order details page'])
+def view_with_mailto_links(request, order):
+    if request.param is not None:
+        return request.param
+    return reverse('excerptexport:status', kwargs={'extraction_order_id': order.id})
+
+
 @patch('osmaxx.job_progress.middleware.update_order')
-@pytest.mark.parametrize('url_factory', [
-    (lambda _: '/downloads/'),
-    (lambda order: reverse('excerptexport:status', kwargs={'extraction_order_id': order.id}))
-])
-def test_mailto_links(_, authorized_client, db, downloads, url_factory, order):
-    response = authorized_client.get(url_factory(order), HTTP_HOST='example.com')
+def test_mailto_links(_, authorized_client, db, downloads, view_with_mailto_links):
+    response = authorized_client.get(view_with_mailto_links, HTTP_HOST='example.com')
     assert response.status_code == 200
 
     expected_send_all_links_link = """
