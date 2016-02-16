@@ -27,27 +27,39 @@ def authorized_client(authenticated_client):
     return authenticated_client
 
 
-@patch('osmaxx.job_progress.middleware.update_order')
-def test_mailto_links(_, authorized_client, db):
-    excerpt = Excerpt.objects.create(
+@pytest.fixture
+def excerpt(authenticated_client):
+    return Excerpt.objects.create(
         name='Neverland',
-        owner=authorized_client.user,
+        owner=authenticated_client.user,
         bounding_geometry=BBoxBoundingGeometry.objects.create(north=0, east=0, west=0, south=0),
     )
-    order = ExtractionOrder.objects.create(
-        orderer=authorized_client.user,
+
+
+@pytest.fixture
+def order(excerpt):
+    return ExtractionOrder.objects.create(
+        orderer=excerpt.owner,
         excerpt=excerpt,
         state=ExtractionOrderState.FINISHED,
         download_status=ExtractionOrder.DOWNLOAD_STATUS_AVAILABLE,
     )
-    for format_choice in available_format_choices:
+
+
+@pytest.fixture
+def downloads(order):
+    return [
         OutputFile.objects.create(
             deleted_on_filesystem=False,
             content_type=format_choice[0],
             public_identifier=UUID(int=0x0),  # Nil UUID, see http://tools.ietf.org/html/rfc4122#section-4.1.7
             extraction_order=order,
-        )
+        ) for format_choice in available_format_choices
+    ]
 
+
+@patch('osmaxx.job_progress.middleware.update_order')
+def test_mailto_links(_, authorized_client, db, downloads):
     response = authorized_client.get('/downloads/', HTTP_HOST='example.com')
     assert response.status_code == 200
 
