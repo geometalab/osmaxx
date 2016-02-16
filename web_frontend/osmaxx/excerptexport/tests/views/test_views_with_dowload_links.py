@@ -73,7 +73,7 @@ def test_mailto_links(_, authorized_client, db, downloads, url_factory, order):
         <button>&#9993; Send all links</button>
     </a>"""  # noqa
     actual_response_content = response.content.decode()
-    print(actual_response_content)
+
     dummy = SimpleTestCase()
     dummy.assertInHTML(expected_send_all_links_link, actual_response_content)
 
