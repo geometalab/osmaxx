@@ -67,7 +67,7 @@ def view_with_mailto_links(request, order):
 
 
 @patch('osmaxx.job_progress.middleware.update_order')
-def test_mailto_links(_, authorized_client, db, downloads, view_with_mailto_links):
+def test_send_all_links_mailto_link(_, authorized_client, db, downloads, view_with_mailto_links):
     response = authorized_client.get(view_with_mailto_links, HTTP_HOST='example.com')
     assert response.status_code == 200
 
@@ -79,6 +79,15 @@ def test_mailto_links(_, authorized_client, db, downloads, view_with_mailto_link
 
     dummy = SimpleTestCase()
     dummy.assertInHTML(expected_send_all_links_link, actual_response_content)
+
+
+@patch('osmaxx.job_progress.middleware.update_order')
+def test_send_link_mailto_links(_, authorized_client, db, downloads, view_with_mailto_links):
+    response = authorized_client.get(view_with_mailto_links, HTTP_HOST='example.com')
+    assert response.status_code == 200
+
+    actual_response_content = response.content.decode()
+    dummy = SimpleTestCase()
 
     dummy.assertInHTML(
         """
