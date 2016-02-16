@@ -3,7 +3,6 @@
 import argparse
 import logging
 import os
-import shutil
 import subprocess
 import sys
 
@@ -22,13 +21,6 @@ class OsmaxxTestSuite:
 
     def main(self):
         self.run_tests()
-        # FIXME: currently only works on development settings
-        if os.environ.get('RUN_E2E') == 'true' or args.end_to_end_tests:
-            self.run_e2e_tests()
-
-    def run_e2e_tests(self):
-        with TmpVirtualEnv() as tmp_venv:
-            tmp_venv.run_python_script('tests/e2e/e2e_tests.py')
 
     def run_tests(self):
         self.log_header('=== Development mode ===')
@@ -153,26 +145,6 @@ class OsmaxxTestSuite:
             self.log_failure("Database migrations not retained, data only container not working correctly!")
 
 
-class TmpVirtualEnv:
-    def __init__(self):
-        subprocess.check_call('virtualenv --python=/usr/bin/python3 tmp/e2e_tests'.split())
-        # install dependencies
-        subprocess.check_call('tmp/e2e_tests/bin/pip install requests selenium'.split())
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.delete()
-
-    def delete(self):
-        print("removing virtualenv in tmp/e2e_tests")
-        shutil.rmtree('tmp/e2e_tests')
-
-    def run_python_script(self, script):
-        subprocess.check_call(['tmp/e2e_tests/bin/python',  script])
-
-
 def command_line_arguments():
     parser = argparse.ArgumentParser()
     test_types_group = parser.add_argument_group(
@@ -216,11 +188,6 @@ class TestType:
 
 
 TEST_TYPES = [
-    TestType(
-        'end_to_end_tests',
-        description='end-to-end smoke tests from the browser through the whole stack (in docker containers) to the '
-        'converters (in other docker containers) and back again',
-    ),
     TestType(
         'docker_composition_tests',
         description='test whether containers and volumes are set up correctly',
