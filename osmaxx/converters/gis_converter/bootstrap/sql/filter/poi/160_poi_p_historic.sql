@@ -24,14 +24,14 @@ INSERT INTO osmaxx.poi_p
 	int_name as name_int,
 	case
 		when name is not null AND name = transliterate(name) then name
-		when name_en is not null then name_en
-		when name_fr is not null then name_fr
-		when name_es is not null then name_es
-		when name_de is not null then name_de
+		when "name_en" is not null then "name_en"
+		when "name_fr" is not null then "name_fr"
+		when "name_es" is not null then "name_es"
+		when "name_de" is not null then "name_de"
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	#transliterate(name) as label,
+	--transliterate(name) as label,
 	cast(tags as text) as tags,
 	website as website,
 	wikipedia as wikipedia,
@@ -70,14 +70,14 @@ UNION
 	int_name as name_int,
 	case
 		when name is not null AND name = transliterate(name) then name
-		when name_en is not null then name_en
-		when name_fr is not null then name_fr
-		when name_es is not null then name_es
-		when name_de is not null then name_de
+		when "name_en" is not null then "name_en"
+		when "name_fr" is not null then "name_fr"
+		when "name_es" is not null then "name_es"
+		when "name_de" is not null then "name_de"
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	#transliterate(name) as label,
+	--transliterate(name) as label,
 	cast(tags as text) as tags,
 	website as website,
 	wikipedia as wikipedia,
