@@ -80,16 +80,6 @@ class DownloadListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView
             state=ExtractionOrderState.FINISHED
         ).order_by('-id')
 
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data.update(
-            {
-                'protocol': self.request.scheme,
-                'host_domain': self.request.get_host(),
-            }
-        )
-        return data
-
 list_downloads = DownloadListView.as_view()
 
 
@@ -137,8 +127,6 @@ extraction_order_status = ExtractionOrderView.as_view()
 def list_orders(request):
     extraction_orders = ExtractionOrder.objects.filter(orderer=request.user)
     view_context = {
-        'protocol': request.scheme,
-        'host_domain': request.get_host(),
         'extraction_orders': extraction_orders.order_by('-id')
     }
     return render_to_response('excerptexport/templates/list_orders.html', context=view_context,
