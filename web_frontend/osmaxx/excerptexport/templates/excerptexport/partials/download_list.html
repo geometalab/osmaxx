@@ -1,7 +1,4 @@
-{% load filter_filename i18n %}
-{% load whitespace_cleanup %}
-{% load email_bodies %}
-{% load capture_as %}
+{% load filter_filename i18n whitespace_cleanup email_bodies capture_as %}
 
 <ul class="download_files">
 {% for file in extraction_order.output_files.all %}

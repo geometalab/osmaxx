@@ -1,7 +1,4 @@
-{% load i18n %}
-{% load whitespace_cleanup %}
-{% load email_bodies %}
-{% load capture_as %}
+{% load i18n whitespace_cleanup email_bodies capture_as %}
 
 {% capture_as subject %}Download map data of {{ extraction_order.excerpt_name }}{% end_capture_as %}
 {% capture_as body %}{% email_body_with_all_result_links extraction_order %}{% end_capture_as %}
