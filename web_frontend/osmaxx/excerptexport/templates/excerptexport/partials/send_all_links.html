@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load whitespace_cleanup %}
+{% load email_bodies %}
 
 <a href="mailto:?{% filter remove_all_whitespace %}
     subject=
@@ -8,9 +9,7 @@
     body=
     {% for file in extraction_order.output_files.all %}
         {% if not file.deleted_on_filesystem %}
-            {% filter urlencode %}{% filter strip %}
-                    {% include 'excerptexport/partials/content_file_type_description.html' with content_type=file.content_type %}
-                {% endfilter %} ({{ file.content_type }}): http://{{ host_domain }}{{ file.get_absolute_url }}{% endfilter %}%0D%0A
+            {% filter urlencode %}{% email_body_with_single_result_link file %}{% endfilter %}%0D%0A
         {% endif %}
     {% endfor %}
 {% endfilter %}">
