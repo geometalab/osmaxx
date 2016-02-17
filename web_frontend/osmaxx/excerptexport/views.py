@@ -129,16 +129,6 @@ class ExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Owner
     pk_url_kwarg = 'extraction_order_id'
     owner = 'orderer'
 
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data.update(
-            {
-                'protocol': self.request.scheme,
-                'host_domain': self.request.get_host(),
-            }
-        )
-        return data
-
 extraction_order_status = ExtractionOrderView.as_view()
 
 
