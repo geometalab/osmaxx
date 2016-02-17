@@ -1,43 +1,17 @@
 # coding: utf-8
 from geoalchemy2 import Geometry
-from sqlalchemy import BigInteger, Boolean, Column, DateTime, Float, Integer, SmallInteger, String, Table, Text
+from sqlalchemy import BigInteger, Column, DateTime, Float, Integer, SmallInteger, Table, Text, TEXT, BIGINT
 from sqlalchemy.dialects.postgresql.hstore import HSTORE
-from sqlalchemy.sql.sqltypes import TEXT, BOOLEAN
-from sqlalchemy.dialects.postgresql.base import ARRAY, DOUBLE_PRECISION
+from sqlalchemy.dialects.postgresql.base import ARRAY
 from sqlalchemy.ext.declarative import declarative_base
 
 
 Base = declarative_base()
 metadata = Base.metadata
 
-
-t_geography_columns = Table(
-    'geography_columns', metadata,
-    Column('f_table_catalog', String),
-    Column('f_table_schema', String),
-    Column('f_table_name', String),
-    Column('f_geography_column', String),
-    Column('coord_dimension', Integer),
-    Column('srid', Integer),
-    Column('type', Text)
-)
-
-
-t_geometry_columns = Table(
-    'geometry_columns', metadata,
-    Column('f_table_catalog', String(256)),
-    Column('f_table_schema', String),
-    Column('f_table_name', String),
-    Column('f_geometry_column', String),
-    Column('coord_dimension', Integer),
-    Column('srid', Integer),
-    Column('type', String(30))
-)
-
-
 t_osm_line = Table(
     'osm_line', metadata,
-    Column('osm_id', BigInteger),
+    Column('osm_id', BigInteger, index=True),
     Column('access', Text),
     Column('addr:city', Text),
     Column('addr:housenumber', Text),
@@ -131,9 +105,18 @@ t_osm_line = Table(
 )
 
 
+class OsmNode(Base):
+    __tablename__ = 'osm_nodes'
+
+    id = Column(BigInteger, primary_key=True)
+    lat = Column(Integer, nullable=False)
+    lon = Column(Integer, nullable=False)
+    tags = Column(ARRAY(TEXT()))
+
+
 t_osm_point = Table(
     'osm_point', metadata,
-    Column('osm_id', BigInteger),
+    Column('osm_id', BigInteger, index=True),
     Column('access', Text),
     Column('addr:city', Text),
     Column('addr:housenumber', Text),
@@ -228,7 +211,7 @@ t_osm_point = Table(
 
 t_osm_polygon = Table(
     'osm_polygon', metadata,
-    Column('osm_id', BigInteger),
+    Column('osm_id', BigInteger, index=True),
     Column('access', Text),
     Column('addr:city', Text),
     Column('addr:housenumber', Text),
@@ -322,9 +305,20 @@ t_osm_polygon = Table(
 )
 
 
+class OsmRel(Base):
+    __tablename__ = 'osm_rels'
+
+    id = Column(BigInteger, primary_key=True)
+    way_off = Column(SmallInteger)
+    rel_off = Column(SmallInteger)
+    parts = Column(ARRAY(BIGINT()), index=True)
+    members = Column(ARRAY(TEXT()))
+    tags = Column(ARRAY(TEXT()))
+
+
 t_osm_roads = Table(
     'osm_roads', metadata,
-    Column('osm_id', BigInteger),
+    Column('osm_id', BigInteger, index=True),
     Column('access', Text),
     Column('addr:city', Text),
     Column('addr:housenumber', Text),
@@ -418,47 +412,9 @@ t_osm_roads = Table(
 )
 
 
-t_raster_columns = Table(
-    'raster_columns', metadata,
-    Column('r_table_catalog', String),
-    Column('r_table_schema', String),
-    Column('r_table_name', String),
-    Column('r_raster_column', String),
-    Column('srid', Integer),
-    Column('scale_x', Float(53)),
-    Column('scale_y', Float(53)),
-    Column('blocksize_x', Integer),
-    Column('blocksize_y', Integer),
-    Column('same_alignment', Boolean),
-    Column('regular_blocking', Boolean),
-    Column('num_bands', Integer),
-    Column('pixel_types', ARRAY(TEXT())),
-    Column('nodata_values', ARRAY(DOUBLE_PRECISION(precision=53))),
-    Column('out_db', ARRAY(BOOLEAN())),
-    Column('extent', Geometry),
-    Column('spatial_index', Boolean)
-)
+class OsmWay(Base):
+    __tablename__ = 'osm_ways'
 
-
-t_raster_overviews = Table(
-    'raster_overviews', metadata,
-    Column('o_table_catalog', String),
-    Column('o_table_schema', String),
-    Column('o_table_name', String),
-    Column('o_raster_column', String),
-    Column('r_table_catalog', String),
-    Column('r_table_schema', String),
-    Column('r_table_name', String),
-    Column('r_raster_column', String),
-    Column('overview_factor', Integer)
-)
-
-
-class SpatialRefSy(Base):
-    __tablename__ = 'spatial_ref_sys'
-
-    srid = Column(Integer, primary_key=True)
-    auth_name = Column(String(256))
-    auth_srid = Column(Integer)
-    srtext = Column(String(2048))
-    proj4text = Column(String(2048))
+    id = Column(BigInteger, primary_key=True)
+    nodes = Column(ARRAY(BIGINT()), nullable=False, index=True)
+    tags = Column(ARRAY(TEXT()))
