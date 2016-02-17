@@ -4,14 +4,10 @@
 
 <a href="mailto:?{% filter remove_all_whitespace %}
     subject=
-    {% filter urlencode %}Download map data of {{ extraction_order.excerpt_name }}{% endfilter %}
+        {% filter urlencode %}Download map data of {{ extraction_order.excerpt_name }}{% endfilter %}
     &
     body=
-    {% for file in extraction_order.output_files.all %}
-        {% if not file.deleted_on_filesystem %}
-            {% filter urlencode %}{% email_body_with_single_result_link file %}{% endfilter %}%0D%0A
-        {% endif %}
-    {% endfor %}
+        {% filter urlencode %}{% email_body_with_all_result_links extraction_order %}{% endfilter %}
 {% endfilter %}">
     <button>&#9993; {% trans 'Send all links' %}</button>
 </a>

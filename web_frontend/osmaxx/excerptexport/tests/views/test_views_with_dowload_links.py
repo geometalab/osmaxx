@@ -72,7 +72,7 @@ def test_send_all_links_mailto_link(_, authorized_client, db, downloads, view_wi
     assert response.status_code == 200
 
     expected_send_all_links_link = """
-    <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=ESRI%20File%20Geodatabase%20%28fgdb%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AESRI%20Shapefile%20%28shp%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AGeoPackage%20%28gpkg%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0ASQLite%20based%20SpatiaLite%20%28spatialite%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AGarmin%20navigation%20%26%20map%20data%20%28garmin%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0A">
+    <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=ESRI%20File%20Geodatabase%20%28fgdb%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AESRI%20Shapefile%20%28shp%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AGeoPackage%20%28gpkg%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0ASQLite%20based%20SpatiaLite%20%28spatialite%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AGarmin%20navigation%20%26%20map%20data%20%28garmin%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/">
         <button>&#9993; Send all links</button>
     </a>"""  # noqa
     actual_response_content = response.content.decode()

@@ -15,3 +15,10 @@ def email_body_with_single_result_link(context, output_file):
         context=view_context,
         context_instance=RequestContext(context.request),
     ).strip()
+
+
+@register.simple_tag(takes_context=True)
+def email_body_with_all_result_links(context, extraction_order):
+    return '\r\n'.join(
+        email_body_with_single_result_link(context, file) for file in extraction_order.output_files.all()
+    )
