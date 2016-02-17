@@ -1,13 +1,16 @@
 {% load i18n %}
 {% load whitespace_cleanup %}
 {% load email_bodies %}
+{% load capture_as %}
 
+{% capture_as subject %}Download map data of {{ extraction_order.excerpt_name }}{% end_capture_as %}
+{% capture_as body %}{% email_body_with_all_result_links extraction_order %}{% end_capture_as %}
 <a href="mailto:?{% filter remove_all_whitespace %}
     subject=
-        {% filter urlencode %}Download map data of {{ extraction_order.excerpt_name }}{% endfilter %}
+        {% filter urlencode %}{{subject}}{% endfilter %}
     &
     body=
-        {% filter urlencode %}{% email_body_with_all_result_links extraction_order %}{% endfilter %}
+        {% filter urlencode %}{{ body }}{% endfilter %}
 {% endfilter %}">
     <button>&#9993; {% trans 'Send all links' %}</button>
 </a>
