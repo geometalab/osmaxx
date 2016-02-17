@@ -92,6 +92,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     python3-pip \
     ipython \
     libicu-dev \
+    ipython3 \
     debhelper \
 \
     default-jre
