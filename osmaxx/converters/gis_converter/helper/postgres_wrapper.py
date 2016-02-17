@@ -45,7 +45,7 @@ class Postgres:
         )
         return self.execute_sql_command(create_extension)
 
-    def drop_db(self, if_exists=True):
+    def drop_db(self):
         if sql_alchemy_utils.database_exists(self._engine.url):
             sql_alchemy_utils.drop_database(self._engine.url)
 
