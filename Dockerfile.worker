@@ -92,9 +92,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     python3-pip \
     ipython \
     libicu-dev \
+    ipython3 \
     debhelper \
 \
-    default-jre
+    default-jre \
+    libkakasi2-dev
 
 WORKDIR /root/osm2pgsql
 
@@ -111,11 +113,19 @@ RUN mkdir src &&\
 
 ENV CODE /code
 WORKDIR $CODE
-RUN svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik-german/utf8translit/
+RUN git clone https://github.com/giggls/mapnik-german-l10n.git mapnik-german-l10n
 
-WORKDIR $CODE/utf8translit
-RUN dpkg-buildpackage -uc -us && \
-    dpkg --install ../utf8translit_*.deb
+WORKDIR $CODE/mapnik-german-l10n/utf8translit
+RUN dpkg-buildpackage -uc -us -b
+
+WORKDIR $CODE/mapnik-german-l10n/kanjitranslit
+RUN dpkg-buildpackage -uc -us -b
+
+#RUN dpkg-buildpackage -uc -us && \
+
+WORKDIR $CODE/mapnik-german-l10n/
+RUN dpkg --install *utf8translit_*.deb
+RUN dpkg --install *kanjitranslit_*.deb
 
 ENV HOME /home/py
 

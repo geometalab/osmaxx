@@ -46,6 +46,7 @@ class BootStrapper:
             'osm2pgsql',
             '--create',
             '--extra-attributes',
+            '--slim',
             '--database', db_name,
             '--prefix', 'osm',
             '--style', self._terminal_style_path,
@@ -56,10 +57,6 @@ class BootStrapper:
             '--input-reader', 'pbf',
             self._pbf_file_path,
         ]
-
-        if self._limit_ram_usage:
-            insert_pos = osm_2_pgsql_command.index('--extra-attributes')
-            osm_2_pgsql_command.insert(insert_pos, '--slim')
 
         subprocess.check_call(osm_2_pgsql_command)
 

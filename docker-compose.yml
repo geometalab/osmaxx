@@ -62,3 +62,25 @@ worker:
     - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
     # only switzerland, as stated in `osmdata`
     - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf
+
+db-tests:
+  extends:
+    file: common-services.yml
+    service: environmentvars
+  build: .
+  dockerfile: ./Dockerfile.worker
+  command: bash -c "sleep 1;cd testing;python3 runtests.py tests/inside_worker_test"
+  volumes:
+    - ./:/home/py/testing
+    - /tmp/.cache:/home/py/testing/.cache
+  volumes_from:
+    - data
+  links:
+    - redis
+  environment:
+    - PYTHONDONTWRITEBYTECODE=don't
+    - TEST_INSIDE_WORKER=True
+    - DJANGO_SETTINGS_MODULE=
+    - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
+    # only switzerland, as stated in `osmdata`
+    - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf
