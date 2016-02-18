@@ -76,7 +76,7 @@ db-tests:
   volumes_from:
     - data
   links:
-    - redis
+    - redis:localhost
   environment:
     - PYTHONDONTWRITEBYTECODE=don't
     - TEST_INSIDE_WORKER=True
