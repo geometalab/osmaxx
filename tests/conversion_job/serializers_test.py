@@ -3,7 +3,7 @@ import shutil
 from unittest.mock import patch, ANY
 
 from collections import namedtuple
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpRequest
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -14,6 +14,8 @@ from osmaxx.conversion_job.models import Extent, ConversionJob, GISFormat
 from osmaxx.conversion_job.serializers import ConversionJobSerializer, GISFormatStatusSerializer
 from osmaxx.converters.options import CONVERTER_OPTIONS
 from osmaxx.shared import ConversionProgress
+
+User = get_user_model()
 
 
 class RQJobMock:
