@@ -38,7 +38,7 @@ def international_text(request):
 
 
 @worker_only_test
-def test_label_transliterated_correctly(osmaxx_schemas, international_text):
+def test_transliterated_label_correctly(osmaxx_schemas, international_text):
     no_row_operation = -1
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/address/000_setup-drop_and_recreate_table.sql'
@@ -88,7 +88,7 @@ def label_input(request):
 
 
 @worker_only_test
-def test_label(osmaxx_schemas, label_input):
+def test_label_address(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/address/000_setup-drop_and_recreate_table.sql'
     engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script_setup)).execution_options(autocommit=True))
