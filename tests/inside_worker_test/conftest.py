@@ -115,13 +115,6 @@ def osmaxx_schemas(osm_cleaned, request):
     return engine
 
 
-@pytest.fixture
-def osmaxx_tables(osmaxx_schemas, request):
-    engine = osmaxx_schemas
-    # TODO: Implement this
-    return engine
-
-
 def sql_from_bootstrap_relative_location(file_name):
     """
     SQL Statement from a script relative to the bootstrap folder.

@@ -2,10 +2,9 @@ import os
 
 import pytest
 import sqlalchemy
-from sqlalchemy import orm
 
-from osmaxx.converters.gis_converter.helper.postgres_wrapper import Postgres
 from tests.inside_worker_test.conftest import sql_from_bootstrap_relative_location
+from tests.inside_worker_test.declarative_schema import osm_models
 
 worker_only_test = pytest.mark.skipif(
     not os.environ.get("TEST_INSIDE_WORKER", False),
@@ -17,37 +16,44 @@ db_name = 'osmaxx_db'
 gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name)
 
 
-class DB:
-    def __init__(self):
-        pg = Postgres(**gis_db_connection_kwargs)
-        self.connection = pg._engine.connect()
+international_text_strings = [
+    ('ascii', 'some normal ascii', 'some normal ascii'),
+    ('umlaut', 'öäüüäüö', 'öäüüäüö'),
+    ('special_chars', "*+?'^'%ç#", "*+?'^'%ç#"),
+    ('japanese', "大洲南部広域農道", 'dà zhōu nán bù guǎng yù nóng dào'),
+    ('chinese russian', "二连浩特市 Эрээн хот", 'èr lián hào tè shì Éréén hot'),
+    ('arabic', "شارع المنيرة الرئيسي", 'sẖạrʿ ạlmnyrẗ ạlrỷysy'),
+    # transliteration doesn't work on eritrean characters!
+    ('eritrean', 'ጋሽ-ባርካ', 'ጋሽ-ባርካ'),
+]
 
-    def begin(self):
-        self.trans = self.connection.begin()
-        self.session = orm.Session(bind=self.connection)
 
-    def execute(self, sql):
-        return self.session.execute(sqlalchemy.text(sql))
-
-    def rollback(self):
-        self.session.commit()
-        self.session.close()
-        self.trans.rollback()
-        self.connection.close()
+@pytest.fixture(params=international_text_strings)
+def international_text(request):
+    return dict(
+        variant=request.param[0],
+        text=request.param[1],
+        expected=request.param[2],
+    )
 
 
 @worker_only_test
-def test_label_translated_correctly(osmaxx_schemas):
+def test_label_transliterated_correctly(osmaxx_schemas, international_text):
     no_row_operation = -1
-    no_row_affected = 0
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/address/000_setup-drop_and_recreate_table.sql'
     result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script_setup)).execution_options(autocommit=True))
     assert result.rowcount == no_row_operation
 
+    default_params = {'name': international_text['text'], 'addr:street': 'somevalue', 'building': 'some', 'entrance': None, }
+    engine.execute(osm_models.t_osm_point.insert().values(**default_params).execution_options(autocommit=True))
+
     address_script = 'sql/filter/address/010_address.sql'
     result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == no_row_affected
-    # for row in result:
-    #     assert row['label'] is not None
-    # db.rollback()
+    assert result.rowcount == 1
+
+    result = engine.execute(sqlalchemy.text("select label from osmaxx.address_p").execution_options(autocommit=True))
+    assert result.rowcount == 1
+    results = result.fetchall()
+    assert len(results) == 1
+    assert results[0]['label'] == international_text['expected']
