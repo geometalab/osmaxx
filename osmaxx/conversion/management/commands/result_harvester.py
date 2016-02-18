@@ -70,5 +70,7 @@ class Command(BaseCommand):
 def add_file_to_job(*, conversion_job, result_zip_file):
     conversion_job.resulting_file.name = conversion_job.zip_file_relative_path()
     new_path = os.path.join(settings.MEDIA_ROOT, conversion_job.resulting_file.name)
+    if not os.path.exists(os.path.dirname(new_path)):
+        os.makedirs(os.path.dirname(new_path), exist_ok=True)
     shutil.move(result_zip_file, new_path)
     return new_path

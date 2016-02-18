@@ -2,6 +2,7 @@ import os
 import tempfile
 
 import pytest
+from django.conf import settings
 
 import osmaxx.conversion.formats
 
@@ -126,7 +127,6 @@ def conversion_job_finished(request, conversion_parametrization, server_url, fak
     conversion_job.status = conversion_job.FINISHED
     from osmaxx.conversion.management.commands.result_harvester import add_file_to_job
     empty_zip_path = add_file_to_job(conversion_job=conversion_job, result_zip_file=empty_zip.name)
-    conversion_job.save()
 
     def remove_empty_zip_path():
         try:
@@ -134,4 +134,11 @@ def conversion_job_finished(request, conversion_parametrization, server_url, fak
         except FileNotFoundError:  # already removed by some test
             pass
     request.addfinalizer(remove_empty_zip_path)
+
+    def remove_result_path():
+        import shutil
+        shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'job_result_files'))
+    request.addfinalizer(remove_result_path)
+
+    conversion_job.save()
     return conversion_job
