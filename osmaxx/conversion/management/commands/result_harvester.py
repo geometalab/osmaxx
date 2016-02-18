@@ -62,7 +62,7 @@ class Command(BaseCommand):
         data = {'status': conversion_job.status, 'job': conversion_job.get_absolute_url()}
         try:
             requests.get(conversion_job.callback_url, params=data)
-        except:  # pragma: nocover
+        except:
             logger.error('failed to send notification for job {}'.format(conversion_job.id))
             pass
 
