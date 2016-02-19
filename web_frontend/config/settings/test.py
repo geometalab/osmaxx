@@ -49,3 +49,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'test_db.sqlite3'),
     }
 }
+
+
+_OSMAXX_POLYFILE_LOCATION = os.path.join(
+    os.path.dirname(__file__), '..', '..', 'osmaxx', 'tests', 'test_data', 'polyfiles'
+)

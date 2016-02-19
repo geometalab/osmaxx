@@ -55,6 +55,7 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'version',
 
+    'osmaxx.countries',
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
     'osmaxx.social_auth',
