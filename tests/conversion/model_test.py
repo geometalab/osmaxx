@@ -13,19 +13,19 @@ def test_job_get_download_url_returns_none_when_file_missing(started_conversion_
 
 
 @pytest.mark.django_db()
-def test_job_get_download_url_returns_path_when_file_done(conversion_job_finished):
-    assert conversion_job_finished.status == conversion_job_finished.FINISHED
-    assert conversion_job_finished.get_download_url() is not None
-    assert conversion_job_finished.get_download_url() == conversion_job_finished.get_absolute_url() + 'download-zip/'
+def test_job_get_download_url_returns_path_when_file_done(finished_conversion_job):
+    assert finished_conversion_job.status == finished_conversion_job.FINISHED
+    assert finished_conversion_job.get_download_url() is not None
+    assert finished_conversion_job.get_download_url() == finished_conversion_job.get_absolute_url() + 'download-zip/'
 
 
 @pytest.mark.django_db()
-def test_job_removes_file_when_deleted(conversion_job_finished):
-    assert conversion_job_finished.status == conversion_job_finished.FINISHED
-    file_path = conversion_job_finished.resulting_file.name
+def test_job_removes_file_when_deleted(finished_conversion_job):
+    assert finished_conversion_job.status == finished_conversion_job.FINISHED
+    file_path = finished_conversion_job.resulting_file.name
     assert file_path is not None
     assert os.path.exists(file_path)
-    conversion_job_finished.delete()
+    finished_conversion_job.delete()
     assert not os.path.exists(file_path)
 
 

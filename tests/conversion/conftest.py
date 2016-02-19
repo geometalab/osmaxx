@@ -121,7 +121,7 @@ def failed_conversion_job(conversion_parametrization, server_url, fake_rq_id):
 
 
 @pytest.fixture
-def conversion_job_finished(request, conversion_parametrization, server_url, fake_rq_id, empty_zip):
+def finished_conversion_job(request, conversion_parametrization, server_url, fake_rq_id, empty_zip):
     from osmaxx.conversion.models import Job
     conversion_job = Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=Job.FAILED)
     conversion_job.status = conversion_job.FINISHED
