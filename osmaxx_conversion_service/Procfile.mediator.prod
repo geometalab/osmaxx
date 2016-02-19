@@ -1,2 +1,2 @@
 mediator: gunicorn --workers ${NUM_WORKERS} --chdir=osmaxx_conversion_service config.wsgi --bind ${APP_HOST}:${APP_PORT}
-the_collector: python3 ./osmaxx_conversion_service/manage.py result_harvester
+harvester: python3 ./osmaxx_conversion_service/manage.py result_harvester
