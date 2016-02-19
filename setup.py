@@ -9,8 +9,8 @@ name = 'geometalab.osmaxx'
 package = 'osmaxx'
 description = 'conversion REST service API Frontend for Osmaxx'
 url = 'https://github.com/geometalab/osmaxx-conversion-service'
-author = 'Raphael Das Gupta, Nicola Jordan'
-author_email = 'dasg@hsr.ch, njordan.hsr@gmail.com'
+author = 'Raphael Das Gupta, Nicola Jordan, Dhruv Sharma, Tobias Blaser, Eugene Phua, Bhavya Chandra, Benedita Tanabi'
+author_email = 'geometalab@hsr.ch'
 license = 'MIT'
 
 

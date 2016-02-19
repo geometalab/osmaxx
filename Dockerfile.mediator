@@ -28,7 +28,7 @@ ADD ./osmaxx_conversion_service $HOME/osmaxx_conversion_service
 
 # Expose modules:
 ENV PYTHONPATH=PYTHONPATH:$HOME
-ENV DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+ENV DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.production
 
 RUN mkdir -p $HOME/docker_entrypoint/osmaxx/conversion_service $HOME/entrypoint
 COPY ./docker_entrypoint/osmaxx/conversion_service $HOME/entrypoint

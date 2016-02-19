@@ -1,20 +1,17 @@
-import sys, os
+import os
 import django
 from django.contrib.auth import get_user_model
 
-sys.path.append('/home/py/osmaxx')
 os.environ['DJANGO_SETTINGS_MODULE'] = os.getenv('DJANGO_SETTINGS_MODULE')
-
 django.setup()
-User = get_user_model()
 
 username = os.getenv('SERVICE_USER_NAME', None)
 password = os.getenv('SERVICE_USER_PASSWORD', None)
 
-print('user creation')
 
 def create_user(user_name, user_password):
     print('user creation')
+    User = get_user_model()
     try:
         user = User.objects.get(username=user_name)
         print('changing user_password for existing user %s' % user.username)
