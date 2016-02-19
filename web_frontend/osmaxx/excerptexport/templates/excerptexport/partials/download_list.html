@@ -1,4 +1,4 @@
-{% load filter_filename i18n whitespace_cleanup email_bodies capture_as %}
+{% load filter_filename i18n whitespace_cleanup email_bodies capture_as navigation %}
 
 <ul class="download_files">
 {% for file in extraction_order.output_files.all %}
@@ -15,7 +15,7 @@
         <div class="copy-link">
             {% spaceless %}
                 <label>{% trans 'Copy link:'%} </label>
-                <textarea class="form-control">{{ request.scheme }}://{{ request.get_host }}{{ file.get_absolute_url }}</textarea>
+                <textarea class="form-control">{{ file.get_absolute_url | siteabsoluteurl:request }}</textarea>
             {% endspaceless %}
         </div>
     </li>

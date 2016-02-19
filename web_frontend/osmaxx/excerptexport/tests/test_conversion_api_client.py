@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 from urllib.parse import urlparse
 
 import os
@@ -43,8 +43,8 @@ class ConversionApiClientAuthTestCase(TestCase):
 
 class ConversionApiClientTestCase(TestCase):
     def setUp(self):
-        self.host = 'the-host.example.com'
-        self.protocol = 'http'
+        self.request = Mock()
+        self.request.build_absolute_uri.return_value = 'http://the-host.example.com/job_progress/tracker/1/'
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
         self.bounding_box = BBoxBoundingGeometry.create_from_bounding_box_coordinates(
             40.77739734768811, 29.528980851173397, 40.77546776498174, 29.525547623634335
@@ -67,7 +67,7 @@ class ConversionApiClientTestCase(TestCase):
         self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
-        response = self.api_client.create_job(self.extraction_order, protocol=self.protocol, callback_host=self.host)
+        response = self.api_client.create_job(self.extraction_order, request=self.request)
 
         self.assertEqual(self.api_client.headers['Authorization'], 'JWT {token}'.format(token=self.api_client.token))
         self.assertIsNone(self.api_client.errors)
@@ -77,44 +77,48 @@ class ConversionApiClientTestCase(TestCase):
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.QUEUED)
         self.assertEqual(self.extraction_order.process_id, response.json().get('rq_job_id'))
         self.assertIsNotNone(self.extraction_order.process_id)
+        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_of_created_job_resolves_to_job_updater(self):
         self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
-        response = self.api_client.create_job(self.extraction_order, protocol=self.protocol, callback_host=self.host)
+        response = self.api_client.create_job(self.extraction_order, request=self.request)
 
         callback_url = response.json()['callback_url']
         scheme, host, callback_path, params, *_ = urlparse(callback_url)
 
         match = resolve(callback_path)
         self.assertEqual(match.func, tracker)
+        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_of_created_job_refers_to_correct_extraction_order(self):
         self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
-        response = self.api_client.create_job(self.extraction_order, protocol=self.protocol, callback_host=self.host)
+        response = self.api_client.create_job(self.extraction_order, request=self.request)
 
         callback_url = response.json()['callback_url']
         scheme, host, callback_path, params, *_ = urlparse(callback_url)
 
         match = resolve(callback_path)
         self.assertEqual(match.kwargs, {'order_id': str(self.extraction_order.id)})
+        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_would_reach_this_django_instance(self):
         self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
-        response = self.api_client.create_job(self.extraction_order, protocol=self.protocol, callback_host=self.host)
+        response = self.api_client.create_job(self.extraction_order, request=self.request)
 
         callback_url = response.json()['callback_url']
         scheme, host, callback_path, params, *_ = urlparse(callback_url)
         assert scheme.startswith('http')  # also matches https
-        self.assertEqual(host, self.host)
+        self.assertEqual(host, 'the-host.example.com')
+        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
 
     def test_download_files(self):
         cassette_file_location = os.path.join(
@@ -125,7 +129,7 @@ class ConversionApiClientTestCase(TestCase):
 
         with vcr.use_cassette(cassette_file_location):
             self.api_client.login()
-            self.api_client.create_job(self.extraction_order, protocol=self.protocol, callback_host=self.host)
+            self.api_client.create_job(self.extraction_order, request=self.request)
 
             if cassette_empty:
                 # wait for external service to complete request
@@ -149,6 +153,7 @@ class ConversionApiClientTestCase(TestCase):
                 368378,
                 delta=10000
             )
+        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
 
     def test_order_status_processing(self):
         cassette_file_location = os.path.join(
@@ -163,7 +168,7 @@ class ConversionApiClientTestCase(TestCase):
             self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.INITIALIZED)
 
-            self.api_client.create_job(self.extraction_order, protocol=self.protocol, callback_host=self.host)
+            self.api_client.create_job(self.extraction_order, request=self.request)
 
             if cassette_empty:
                 time.sleep(10)
@@ -172,6 +177,7 @@ class ConversionApiClientTestCase(TestCase):
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
             self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.INITIALIZED)
             self.assertEqual(self.extraction_order.output_files.count(), 0)
+        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
 
     def test_order_status_done(self):
         cassette_file_location = os.path.join(
@@ -182,7 +188,7 @@ class ConversionApiClientTestCase(TestCase):
 
         with vcr.use_cassette(cassette_file_location):
             self.api_client.login()
-            self.api_client.create_job(self.extraction_order, protocol=self.protocol, callback_host=self.host)
+            self.api_client.create_job(self.extraction_order, request=self.request)
             self.api_client.update_order_status(self.extraction_order)  # processing
             self.assertEqual(self.extraction_order.output_files.count(), 0)
             self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
@@ -193,6 +199,7 @@ class ConversionApiClientTestCase(TestCase):
 
             self.api_client.update_order_status(self.extraction_order)
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
+        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
 
     @patch.object(ConversionApiClient, 'login')
     @patch.object(ConversionApiClient, 'authorized_get')

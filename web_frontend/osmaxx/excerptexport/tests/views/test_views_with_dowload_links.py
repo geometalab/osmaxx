@@ -104,3 +104,17 @@ def test_send_link_mailto_links(_, authorized_client, db, downloads, view_with_m
         expected_html,
         actual_response_content
     )
+
+
+@patch('osmaxx.job_progress.middleware.update_order')
+def test_copy_link(_, authorized_client, db, downloads, view_with_mailto_links):
+    response = authorized_client.get(view_with_mailto_links, HTTP_HOST='example.com')
+    assert response.status_code == 200
+
+    actual_response_content = response.content.decode()
+    dummy = SimpleTestCase()
+
+    dummy.assertInHTML(
+        '<textarea class="form-control">http://example.com/downloads/00000000-0000-0000-0000-000000000000/</textarea>',
+        actual_response_content
+    )
