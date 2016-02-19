@@ -9,6 +9,7 @@ register = template.Library()
 def email_body_with_single_result_link(context, output_file):
     view_context = {
         'file': output_file,
+        'download_url': context.request.build_absolute_uri(output_file.get_absolute_url()),
     }
     return render_to_string(
         'excerptexport/email_bodies/download_single_result.txt',
