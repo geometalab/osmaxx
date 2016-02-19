@@ -1,5 +1,6 @@
 import os
 import tempfile
+from collections import namedtuple
 
 import pytest
 from django.conf import settings
@@ -142,3 +143,11 @@ def finished_conversion_job(request, conversion_parametrization, server_url, fak
 
     conversion_job.save()
     return conversion_job
+
+
+@pytest.fixture
+def rq_mock_return():
+    def rq_enqueue_with_settings_mock_return():
+        FakeRQ = namedtuple('FakeRQ', 'id')
+        return FakeRQ(id=42)
+    return rq_enqueue_with_settings_mock_return

@@ -1,5 +1,3 @@
-from collections import namedtuple
-
 import pytest
 from rest_framework.reverse import reverse
 
@@ -101,10 +99,7 @@ def test_conversion_job_absolute_url_resolves_correct(conversion_job, server_url
 
 
 @pytest.mark.django_db()
-def test_conversion_job_creation_enqueues(authenticated_api_client, conversion_job_data, mocker):
-    def rq_enqueue_with_settings_mock_return():
-        FakeRQ = namedtuple('FakeRQ', 'id')
-        return FakeRQ(id=42)
-    conversion_start_start_format_extraction_mock = mocker.patch('osmaxx.conversion.converters.converter.rq_enqueue_with_settings', return_value=rq_enqueue_with_settings_mock_return())
+def test_conversion_job_creation_enqueues(authenticated_api_client, conversion_job_data, rq_mock_return, mocker):
+    conversion_start_start_format_extraction_mock = mocker.patch('osmaxx.conversion.converters.converter.rq_enqueue_with_settings', return_value=rq_mock_return())
     authenticated_api_client.post(reverse('conversion_job-list'), conversion_job_data, format='json')
     assert conversion_start_start_format_extraction_mock.call_count == 1
