@@ -56,7 +56,7 @@ class ConversionApiClient(RESTApiJWTClient):
             return True
         return False
 
-    def create_job(self, extraction_order, callback_host, protocol):
+    def create_job(self, extraction_order, request):
         """
         Kickoff a conversion job
 
@@ -74,10 +74,8 @@ class ConversionApiClient(RESTApiJWTClient):
             bounding_geometry = None
 
         request_data = OrderedDict({
-            "callback_url": "{protocol}://{host}{path}".format(
-                protocol=protocol,
-                host=callback_host,
-                path=reverse('job_progress:tracker', kwargs=dict(order_id=extraction_order.id))
+            "callback_url": request.build_absolute_uri(
+                reverse('job_progress:tracker', kwargs=dict(order_id=extraction_order.id))
             ),
             "gis_formats": extraction_order.extraction_configuration['gis_formats'],
             "gis_options": extraction_order.extraction_configuration['gis_options'],
