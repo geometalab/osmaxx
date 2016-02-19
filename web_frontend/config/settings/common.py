@@ -380,7 +380,6 @@ MESSAGE_TAGS = {
 
 OSMAXX = {
     'download_file_name': '%(date)s-%(excerpt_name)s-%(id)s.%(content_type)s.%(file_extension)s',
-    'orders_history_number_of_items': 100,
     'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timezone.timedelta(
         hours=env.int('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=24)
     ),

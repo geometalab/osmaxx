@@ -3,6 +3,7 @@ import logging
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
@@ -10,8 +11,10 @@ from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpRespons
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView
+from django.views.generic import FormView, DetailView
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
+from django.views.generic.list import ListView
 
 from osmaxx.contrib.auth.frontend_permissions import (
     frontend_access_required,
@@ -67,19 +70,17 @@ class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, 
 order_existing_excerpt = OrderExistingExcerptView.as_view()
 
 
-@login_required()
-@frontend_access_required()
-def list_downloads(request):
-    view_context = {
-        'protocol': request.scheme,
-        'host_domain': request.get_host(),
-        'extraction_orders': ExtractionOrder.objects.filter(
-            orderer=request.user,
+class DownloadListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
+    template_name = 'excerptexport/templates/list_downloads.html'
+    context_object_name = 'extraction_orders'
+
+    def get_queryset(self):
+        return ExtractionOrder.objects.filter(
+            orderer=self.request.user,
             state=ExtractionOrderState.FINISHED
-        ).order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
-    }
-    return render_to_response('excerptexport/templates/list_downloads.html', context=view_context,
-                              context_instance=RequestContext(request))
+        ).order_by('-id')
+
+list_downloads = DownloadListView.as_view()
 
 
 def download_file(request, uuid):
@@ -101,17 +102,24 @@ def download_file(request, uuid):
     return response
 
 
-@login_required()
-@frontend_access_required()
-def extraction_order_status(request, extraction_order_id):
-    extraction_order = get_object_or_404(ExtractionOrder, id=extraction_order_id, orderer=request.user)
-    view_context = {
-        'protocol': request.scheme,
-        'host_domain': request.get_host(),
-        'extraction_order': extraction_order,
-    }
-    return render_to_response('excerptexport/templates/extraction_order_status.html', context=view_context,
-                              context_instance=RequestContext(request))
+class OwnershipRequiredMixin(SingleObjectMixin):
+    owner = 'owner'
+
+    def get_object(self, queryset=None):
+        o = super().get_object(queryset)
+        if getattr(o, self.owner) != self.request.user:
+            raise PermissionDenied
+        return o
+
+
+class ExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, OwnershipRequiredMixin, DetailView):
+    template_name = 'excerptexport/templates/extraction_order_status.html'
+    context_object_name = 'extraction_order'
+    model = ExtractionOrder
+    pk_url_kwarg = 'extraction_order_id'
+    owner = 'orderer'
+
+extraction_order_status = ExtractionOrderView.as_view()
 
 
 @login_required()
@@ -119,9 +127,7 @@ def extraction_order_status(request, extraction_order_id):
 def list_orders(request):
     extraction_orders = ExtractionOrder.objects.filter(orderer=request.user)
     view_context = {
-        'protocol': request.scheme,
-        'host_domain': request.get_host(),
-        'extraction_orders': extraction_orders.order_by('-id')[:settings.OSMAXX['orders_history_number_of_items']]
+        'extraction_orders': extraction_orders.order_by('-id')
     }
     return render_to_response('excerptexport/templates/list_orders.html', context=view_context,
                               context_instance=RequestContext(request))

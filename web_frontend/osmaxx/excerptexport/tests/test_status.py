@@ -34,6 +34,11 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
             orderer=user
         )
 
+        self.foreign_extraction_order = ExtractionOrder.objects.create(
+            excerpt=excerpt,
+            orderer=User.objects.create_user('another_user', 'someone_else@example.com', 'top secret')
+        )
+
     def test_permission_denied_if_lacking_permissions(self, *args):
         response = self.client.get(
             reverse(
@@ -80,3 +85,13 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
 
         self.assertEqual(response.status_code, 404)
         self.assertFalse('extraction_order' in response.context)
+
+    def test_foreign_extraction_order(self, *args):
+        self.add_permissions_to_user()
+        response = self.client.get(reverse(
+            'excerptexport:status',
+            kwargs={'extraction_order_id': self.foreign_extraction_order.id}
+        ), HTTP_HOST='thehost.example.com')
+
+        self.assertEqual(response.status_code, 403)
+        self.assertIsNone(response.context)

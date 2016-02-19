@@ -3,3 +3,4 @@ coverage
 flake8
 vcrpy
 requests-mock
+pytest-django

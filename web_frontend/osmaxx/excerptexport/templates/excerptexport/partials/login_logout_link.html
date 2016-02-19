@@ -1,5 +1,4 @@
-{% load i18n %}
-{% load staticfiles %}
+{% load i18n staticfiles %}
 
 {% if user.is_authenticated %}
 <a href="{% url 'excerptexport:logout' %}?next={% url 'excerptexport:index' %}">
