@@ -179,7 +179,7 @@ def test_clipping_area_creation_succeeds(api_client_authenticated, clipping_area
 
 
 @pytest.mark.django_db()
-def test_clipping_area_creation_fails(api_client, clipping_area_hsr_data):
+def test_clipping_area_creation_fails_with_anonymous_user(api_client, clipping_area_hsr_data):
     response = api_client.post(reverse('clipping_area-list'), clipping_area_hsr_data, format='json')
     assert response.status_code == 403
 
