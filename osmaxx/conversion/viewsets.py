@@ -25,6 +25,7 @@ class JobViewSet(viewsets.ModelViewSet):
             job = self.queryset.get(pk=pk)
         except ObjectDoesNotExist:
             return Response(status=404)
+        # resulting_file is never falsy, but name (path to the file) is falsy when file is missing on the file-field.
         if not job.resulting_file.name:
             return Response(status=404)
         return DownloadResponse(job.resulting_file, attachment=True)
