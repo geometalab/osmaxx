@@ -89,7 +89,7 @@ def test_conversion_job_detail_access_success(api_client_authenticated, conversi
 
 
 @pytest.mark.django_db()
-def test_conversion_job_detail_access_fails(api_client, conversion_job):
+def test_conversion_job_detail_access_fails_with_anonymous_user(api_client, conversion_job):
     response = api_client.get(reverse('conversion_job-detail', kwargs={'pk': conversion_job.id}))
     assert response.status_code == 403
 
