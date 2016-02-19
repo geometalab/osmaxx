@@ -1,4 +1,4 @@
-{% load whitespace_cleanup %}
+{% load whitespace_cleanup navigation %}
 {% filter strip %}
     {% include 'excerptexport/partials/content_file_type_description.html' with content_type=file.content_type %}
-{% endfilter %} ({{ file.content_type }}): {{ download_url }}
+{% endfilter %} ({{ file.content_type }}): {{ file.get_absolute_url | siteabsoluteurl:request }}
