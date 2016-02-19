@@ -2,7 +2,7 @@ from datetime import timedelta
 from django.conf import settings
 
 CONVERSION_SETTINGS = {
-    'result_harvest_interval': timedelta(minutes=1).total_seconds(),
+    'result_harvest_interval_seconds': timedelta(minutes=1).total_seconds(),
     'PBF_PLANET_FILE_PATH': '/var/data/osm-planet/planet-latest.osm.pbf',
     'RESULT_TTL': -1,  # never expire!
 }

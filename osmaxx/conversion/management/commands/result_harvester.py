@@ -25,7 +25,7 @@ class Command(BaseCommand):
             self._handle_running_jobs()
             logger.info('handling failed jobs')
             self._handle_failed_jobs()
-            time.sleep(CONVERSION_SETTINGS['result_harvest_interval'])
+            time.sleep(CONVERSION_SETTINGS['result_harvest_interval_seconds'])
 
     def _handle_failed_jobs(self):
         failed_queue = django_rq.get_failed_queue()
