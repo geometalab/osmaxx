@@ -109,7 +109,7 @@ def conversion_job(conversion_parametrization, server_url):
 
 
 @pytest.fixture
-def conversion_job_started(conversion_parametrization, server_url, fake_rq_id):
+def started_conversion_job(conversion_parametrization, server_url, fake_rq_id):
     from osmaxx.conversion.models import Job
     return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=Job.STARTED)
 

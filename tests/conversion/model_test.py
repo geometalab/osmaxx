@@ -4,11 +4,11 @@ import pytest
 
 
 @pytest.mark.django_db()
-def test_job_get_download_url_returns_none_when_file_missing(conversion_job_started, conversion_job_failed):
-    assert conversion_job_started.status == conversion_job_started.STARTED
-    assert conversion_job_started.get_download_url() is None
+def test_job_get_download_url_returns_none_when_file_missing(started_conversion_job, conversion_job_failed):
+    assert started_conversion_job.status == started_conversion_job.STARTED
+    assert started_conversion_job.get_download_url() is None
 
-    assert conversion_job_failed.status == conversion_job_started.FAILED
+    assert conversion_job_failed.status == started_conversion_job.FAILED
     assert conversion_job_failed.get_download_url() is None
 
 
