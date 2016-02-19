@@ -122,7 +122,7 @@ def api_client():
 
 
 @pytest.fixture
-def api_client_authenticated(api_client):
+def authenticated_api_client(api_client):
     """
     API-Client fixture using an authenticated user.
 

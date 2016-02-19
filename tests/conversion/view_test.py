@@ -32,8 +32,8 @@ def test_access_for_admin_user_allowed(admin_client, access_url):
 
 
 @pytest.mark.django_db()
-def test_conversion_parametrization_creation_success(api_client_authenticated, conversion_parametrization_data):
-    response = api_client_authenticated.post(reverse('conversion_parametrization-list'), conversion_parametrization_data, format='json')
+def test_conversion_parametrization_creation_success(authenticated_api_client, conversion_parametrization_data):
+    response = authenticated_api_client.post(reverse('conversion_parametrization-list'), conversion_parametrization_data, format='json')
     assert response.status_code == 201
 
 
@@ -44,8 +44,8 @@ def test_conversion_parametrization_creation_fails(api_client, conversion_parame
 
 
 @pytest.mark.django_db()
-def test_conversion_parametrization_detail_access_success(api_client_authenticated, conversion_parametrization, persisted_valid_clipping_area):
-    response = api_client_authenticated.get(reverse('conversion_parametrization-detail', kwargs={'pk': conversion_parametrization.id}))
+def test_conversion_parametrization_detail_access_success(authenticated_api_client, conversion_parametrization, persisted_valid_clipping_area):
+    response = authenticated_api_client.get(reverse('conversion_parametrization-detail', kwargs={'pk': conversion_parametrization.id}))
     assert response.status_code == 200
     data = response.json()
     assert data['id'] == conversion_parametrization.id
@@ -61,9 +61,9 @@ def test_conversion_parametrization_detail_access_fails(api_client, conversion_p
 
 
 @pytest.mark.django_db()
-def test_conversion_job_creation_success(api_client_authenticated, conversion_job_data, mocker):
+def test_conversion_job_creation_success(authenticated_api_client, conversion_job_data, mocker):
     start_conversion_mock = mocker.patch('osmaxx.conversion.models.Job.start_conversion')
-    response = api_client_authenticated.post(reverse('conversion_job-list'), conversion_job_data, format='json')
+    response = authenticated_api_client.post(reverse('conversion_job-list'), conversion_job_data, format='json')
     data = response.json()
     assert response.status_code == 201
     assert data['callback_url'] == conversion_job_data['callback_url']
@@ -78,8 +78,8 @@ def test_conversion_job_creation_fails(api_client, conversion_job_data):
 
 
 @pytest.mark.django_db()
-def test_conversion_job_detail_access_success(api_client_authenticated, conversion_job, conversion_parametrization):
-    response = api_client_authenticated.get(reverse('conversion_job-detail', kwargs={'pk': conversion_job.id}))
+def test_conversion_job_detail_access_success(authenticated_api_client, conversion_job, conversion_parametrization):
+    response = authenticated_api_client.get(reverse('conversion_job-detail', kwargs={'pk': conversion_job.id}))
     assert response.status_code == 200
     data = response.json()
     assert data['id'] == conversion_job.id
@@ -101,10 +101,10 @@ def test_conversion_job_absolute_url_resolves_correct(conversion_job, server_url
 
 
 @pytest.mark.django_db()
-def test_conversion_job_creation_enqueues(api_client_authenticated, conversion_job_data, mocker):
+def test_conversion_job_creation_enqueues(authenticated_api_client, conversion_job_data, mocker):
     def rq_enqueue_with_settings_mock_return():
         FakeRQ = namedtuple('FakeRQ', 'id')
         return FakeRQ(id=42)
     conversion_start_start_format_extraction_mock = mocker.patch('osmaxx.conversion.converters.converter.rq_enqueue_with_settings', return_value=rq_enqueue_with_settings_mock_return())
-    api_client_authenticated.post(reverse('conversion_job-list'), conversion_job_data, format='json')
+    authenticated_api_client.post(reverse('conversion_job-list'), conversion_job_data, format='json')
     assert conversion_start_start_format_extraction_mock.call_count == 1
