@@ -56,21 +56,21 @@ def simple_osmosis_line_string():
 
 
 @pytest.fixture(params=format_list)
-def conversion_parametrization_data(request, valid_clipping_area):
+def conversion_parametrization_data(request, persisted_valid_clipping_area):
     out_format = request.param
     # TODO: parametrize the srs to test with different srses as well.
     out_srs = 4326
-    clipping_area = valid_clipping_area.id
+    clipping_area = persisted_valid_clipping_area.id
     return {'out_format': out_format, 'out_srs': out_srs, 'clipping_area': clipping_area}
 
 
 @pytest.fixture(params=format_list)
-def conversion_parametrization(request, valid_clipping_area):
+def conversion_parametrization(request, persisted_valid_clipping_area):
     out_format = request.param
     # TODO: parametrize the srs to test with different srses as well.
     out_srs = 4326
     from osmaxx.conversion.models import Parametrization
-    return Parametrization.objects.create(out_format=out_format, out_srs=out_srs, clipping_area=valid_clipping_area)
+    return Parametrization.objects.create(out_format=out_format, out_srs=out_srs, clipping_area=persisted_valid_clipping_area)
 
 
 @pytest.fixture

@@ -140,13 +140,13 @@ def api_client_authenticated(api_client):
 
 
 @pytest.fixture
-def valid_clipping_area():
+def persisted_valid_clipping_area():
     from django.contrib.gis.geos import Polygon, MultiPolygon
     from osmaxx.clipping_area.models import ClippingArea
     poly_1 = Polygon(((0, 0), (0, 1), (1, 1), (0, 0)))
     poly_2 = Polygon(((1, 1), (1, 2), (2, 2), (1, 1)))
     multi_polygon = MultiPolygon(poly_1, poly_2)
-    valid_clipping_area = ClippingArea.objects.create(name='test', clipping_multi_polygon=multi_polygon)
-    assert valid_clipping_area.osmosis_polygon_file_string != ''
-    assert str(valid_clipping_area) == "test (1)"
-    return valid_clipping_area
+    persisted_valid_clipping_area = ClippingArea.objects.create(name='test', clipping_multi_polygon=multi_polygon)
+    assert persisted_valid_clipping_area.osmosis_polygon_file_string != ''
+    assert str(persisted_valid_clipping_area) == "test (1)"
+    return persisted_valid_clipping_area

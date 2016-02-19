@@ -185,12 +185,12 @@ def test_clipping_area_creation_fails_with_anonymous_user(api_client, clipping_a
 
 
 @pytest.mark.django_db()
-def test_clipping_area_detail_access_succeeds(api_client_authenticated, valid_clipping_area):
-    response = api_client_authenticated.get(reverse('clipping_area-detail', args=[valid_clipping_area.id]))
+def test_clipping_area_detail_access_succeeds(api_client_authenticated, persisted_valid_clipping_area):
+    response = api_client_authenticated.get(reverse('clipping_area-detail', args=[persisted_valid_clipping_area.id]))
     assert response.status_code == 200
 
 
 @pytest.mark.django_db()
-def test_clipping_area_detail_access_fails(api_client, valid_clipping_area):
-    response = api_client.get(reverse('clipping_area-detail', args=[valid_clipping_area.id]))
+def test_clipping_area_detail_access_fails(api_client, persisted_valid_clipping_area):
+    response = api_client.get(reverse('clipping_area-detail', args=[persisted_valid_clipping_area.id]))
     assert response.status_code == 403
