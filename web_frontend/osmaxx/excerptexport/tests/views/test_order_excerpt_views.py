@@ -106,17 +106,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
         self.assertNotContains(response, self.existing_private_foreign_excerpt.name)
 
-    @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_country.yml')
-    def test_new_offers_country(self):
-        self.add_permissions_to_user()
-        self.client.login(username='user', password='pw')
-        response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
-        self.assertIn(
-            ('Countries [1]', (('country-26', 'Monaco'),)),
-            response.context['form'].fields['existing_excerpts'].choices
-        )
-        self.assertIn('Monaco', response.context['form'].form_html)
-
     def test_create_when_not_logged_in(self):
         """
         When not logged in, we get redirected.

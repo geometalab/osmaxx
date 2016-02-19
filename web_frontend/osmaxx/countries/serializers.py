@@ -1,22 +1,15 @@
-from rest_framework import serializers
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 from .models import Country
 
 
-class CountrySerializer(serializers.ModelSerializer):
+class CountrySerializer(GeoFeatureModelSerializer):
     class Meta:
         model = Country
+        geo_field = 'simplified_polygon'
         fields = (
             'id',
             'name',
             'simplified_polygon',
-        )
-
-
-class CountryListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Country
-        fields = (
-            'id',
-            'name',
+            'type_of_geometry',
         )

@@ -9,5 +9,14 @@ class Country(models.Model):
     polyfile = InternalCountryFileField(verbose_name=_('polyfile'))
     simplified_polygon = models.MultiPolygonField(verbose_name=_('simplified area'))
 
+    @property
+    def type_of_geometry(self):
+        """
+        Only needed for easier differentiation on the javascript side, has no real value otherwise.
+
+        Returns: a string ("Country")
+        """
+        return 'Country'
+
     def __str__(self):
         return self.name
