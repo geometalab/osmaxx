@@ -147,8 +147,6 @@ def valid_clipping_area():
     poly_2 = Polygon(((1, 1), (1, 2), (2, 2), (1, 1)))
     multi_polygon = MultiPolygon(poly_1, poly_2)
     valid_clipping_area = ClippingArea.objects.create(name='test', clipping_multi_polygon=multi_polygon)
-    assert valid_clipping_area.osmosis_polygon_file_string is not None
     assert valid_clipping_area.osmosis_polygon_file_string != ''
-    assert str(valid_clipping_area) is not None
     assert str(valid_clipping_area) == "test (1)"
     return valid_clipping_area
