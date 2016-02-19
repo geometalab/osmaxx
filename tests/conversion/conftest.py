@@ -16,7 +16,7 @@ def conversion_format(request):
 
 @pytest.fixture
 def area_name():
-    return 'area_name'
+    return 'Middle Earth'
 
 
 @pytest.fixture()
