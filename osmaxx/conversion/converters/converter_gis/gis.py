@@ -18,7 +18,7 @@ class GISConverter:
 
         Args:
             out_zip_file_path: path to where the zipped result should be stored, directory must already exist
-            conversion_format: One of ['fgdb', 'shapefile', 'gpkg', 'spatialite']
+            conversion_format: One of 'fgdb', 'shapefile', 'gpkg', 'spatialite'
             base_file_name: base for created files inside the zip file
 
         Returns:
