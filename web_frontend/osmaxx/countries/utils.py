@@ -28,7 +28,7 @@ def polyfile_to_geos_geometry(relative_polygon_file, simplify_tolerance=None):
 
 
 def parse_poly_string(poly_string):
-    return parse_poly(poly_string.split(os.linesep))
+    return parse_poly(poly_string.splitlines())
 
 
 def parse_poly(lines):
