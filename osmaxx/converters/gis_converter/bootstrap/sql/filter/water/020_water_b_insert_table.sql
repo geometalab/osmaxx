@@ -17,12 +17,13 @@ INSERT INTO osmaxx.water_p
 	"name:fr" as name_fr,
 	"name:es" as name_es,
 	"name:de" as name_de,
+	int_name as name_int,
 	case
 		when name is not null AND name = transliterate(name) then name
-		when "name_en" is not null then "name_en"
-		when "name_fr" is not null then "name_fr"
-		when "name_es" is not null then "name_es"
-		when "name_de" is not null then "name_de"
+		when "name:en" is not null then "name:en"
+		when "name:fr" is not null then "name:fr"
+		when "name:es" is not null then "name:es"
+		when "name:de" is not null then "name:de"
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
@@ -55,10 +56,10 @@ UNION
 	int_name as name_int,
 	case
 		when name is not null AND name = transliterate(name) then name
-		when "name_en" is not null then "name_en"
-		when "name_fr" is not null then "name_fr"
-		when "name_es" is not null then "name_es"
-		when "name_de" is not null then "name_de"
+		when "name:en" is not null then "name:en"
+		when "name:fr" is not null then "name:fr"
+		when "name:es" is not null then "name:es"
+		when "name:de" is not null then "name:de"
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 

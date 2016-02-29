@@ -26,11 +26,11 @@ INSERT INTO osmaxx.address_p
 	osm_line.int_name as name_int,
 	case
 		when name is not null AND name = transliterate(name) then name
-		when "name_en" is not null then "name_en"
-		when "name_fr" is not null then "name_fr"
-		when "name_es" is not null then "name_es"
-		when "name_de" is not null then "name_de"
-		when name is not null then transliterate(name)
+		when osm_line."name:en" is not null then osm_line."name:en"
+		when osm_line."name:fr" is not null then osm_line."name:fr"
+		when osm_line."name:es" is not null then osm_line."name:es"
+		when osm_line."name:de" is not null then osm_line."name:de"
+		when osm_line.name is not null then transliterate(osm_line.name)
 		else NULL
 	end as label, 
 	--transliterate(osm_line.name) as label,
