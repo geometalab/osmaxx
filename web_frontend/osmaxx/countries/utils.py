@@ -8,12 +8,20 @@ POLYFILE_ENDING = '.poly'
 
 
 def get_polyfile_name_to_file_mapping():
-    polyfile_mapping = {}
-    for possible_polyfile in os.listdir(POLYFILE_LOCATION):
-        if possible_polyfile.endswith(POLYFILE_ENDING):
-            name, _ = possible_polyfile.split(POLYFILE_ENDING)
-            polyfile_mapping[name] = possible_polyfile
-    return polyfile_mapping
+    filenames = os.listdir(POLYFILE_LOCATION)
+    return {
+        _extract_country_name_from_polyfile_name(filename): filename
+        for filename in filenames if _is_polyfile(filename)
+    }
+
+
+def _is_polyfile(filename):
+    return filename.endswith(POLYFILE_ENDING)
+
+
+def _extract_country_name_from_polyfile_name(filename):
+    name, _ = filename.split(POLYFILE_ENDING)
+    return name
 
 
 def polyfile_to_geos_geometry(relative_polygon_file, simplify_tolerance=None):
