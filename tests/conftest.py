@@ -148,5 +148,6 @@ def persisted_valid_clipping_area():
     multi_polygon = MultiPolygon(poly_1, poly_2)
     persisted_valid_clipping_area = ClippingArea.objects.create(name='test', clipping_multi_polygon=multi_polygon)
     assert persisted_valid_clipping_area.osmosis_polygon_file_string != ''
+    assert persisted_valid_clipping_area.osmosis_polygon_file_string is not None
     assert str(persisted_valid_clipping_area) == "test (1)"
     return persisted_valid_clipping_area
