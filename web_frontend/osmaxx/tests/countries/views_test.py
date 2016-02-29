@@ -6,7 +6,7 @@ from osmaxx.countries.models import Country
 
 
 @pytest.mark.django_db
-def test_detail_country_contains_simplified_polygon(authenticated_client):
+def test_country_detail_contains_simplified_polygon(authenticated_client):
     # Only Monaco will be available in countries for testing.
     assert Country.objects.count() == 1
 
