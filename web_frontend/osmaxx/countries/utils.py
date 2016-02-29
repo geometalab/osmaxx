@@ -11,7 +11,7 @@ def get_polyfile_name_to_file_mapping():
     polyfile_mapping = {}
     for possible_polyfile in os.listdir(POLYFILE_LOCATION):
         if possible_polyfile.endswith(POLYFILE_ENDING):
-            name = possible_polyfile.split(POLYFILE_ENDING)[0]
+            name, _ = possible_polyfile.split(POLYFILE_ENDING)
             polyfile_mapping[name] = possible_polyfile
     return polyfile_mapping
 
