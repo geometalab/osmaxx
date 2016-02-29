@@ -27,11 +27,11 @@ def _extract_country_name_from_polyfile_name(filename):
 def polyfile_to_geos_geometry(relative_polygon_file, simplify_tolerance=None):
     with open(os.path.join(POLYFILE_LOCATION, relative_polygon_file)) as poly_file:
         poly = parse_poly(poly_file.readlines())
-        if simplify_tolerance:
-            poly = poly.simplify(tolerance=simplify_tolerance, preserve_topology=True)
-            # simplifying can lead to a polygon. Assure, it stays a multipolygon.
-            if poly and isinstance(poly, Polygon):
-                poly = MultiPolygon(poly)
+    if simplify_tolerance:
+        poly = poly.simplify(tolerance=simplify_tolerance, preserve_topology=True)
+        # simplifying can lead to a polygon. Assure, it stays a multipolygon.
+        if poly and isinstance(poly, Polygon):
+            poly = MultiPolygon(poly)
     return GEOSGeometry(poly)
 
 
