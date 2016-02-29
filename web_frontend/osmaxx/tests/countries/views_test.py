@@ -16,5 +16,5 @@ def test_country_detail_contains_simplified_polygon(authenticated_client):
     assert response.status_code == status.HTTP_200_OK
     data = response.data
     assert data.get('type') == "Feature"
-    assert data.get('id') is not None
+    assert data.get('id') == country.id
     assert data.get('geometry') is not None
