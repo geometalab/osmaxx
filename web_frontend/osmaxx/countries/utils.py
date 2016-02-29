@@ -29,7 +29,7 @@ def polyfile_to_geos_geometry(relative_polygon_file, simplify_tolerance=None):
         poly = parse_poly(poly_file.readlines())
     if simplify_tolerance:
         poly = poly.simplify(tolerance=simplify_tolerance, preserve_topology=True)
-        # simplifying can lead to a polygon. Assure, it stays a multipolygon.
+        # Simplifying can lead to a polygon. Ensure it stays a multipolygon:
         if poly and isinstance(poly, Polygon):
             poly = MultiPolygon(poly)
     return GEOSGeometry(poly)
