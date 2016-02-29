@@ -41,20 +41,27 @@ class Command(BaseCommand):
 
     def _update_job(self, job_id, queue):
         job = queue.fetch_job(job_id)
-        if job is None:  # already processed by someone else
-            return
-        logger.info('updating job %d', job_id)
+
         try:
             conversion_job = conversion_models.Job.objects.get(rq_job_id=job_id)
-            conversion_job.status = job.status
-            self._notify(conversion_job)
-            from osmaxx.conversion.models import Job
-            if job.status == Job.FINISHED:
-                add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
-            conversion_job.save()
         except ObjectDoesNotExist as e:
             logger.exception(e)
-            pass
+            return
+
+        if job is None:  # already processed by someone else
+            if conversion_job.status not in conversion_models.Job.STATUSES_FINAL:
+                logger.warning("job {} not found in queue but status is {} on database.".format(
+                    job_id, conversion_job.status
+                ))
+            return
+
+        logger.info('updating job %d', job_id)
+        conversion_job.status = job.status
+        self._notify(conversion_job)
+        from osmaxx.conversion.models import Job
+        if job.status == Job.FINISHED:
+            add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
+        conversion_job.save()
         if job.status in conversion_models.Job.STATUSES_FINAL:
             job.delete()
 
