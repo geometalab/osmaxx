@@ -12,7 +12,7 @@ class Country(models.Model):
     @property
     def type_of_geometry(self):
         """
-        Only needed for easier differentiation on the javascript side, has no real value otherwise.
+        Only needed for easier distinction on the javascript side, has no real value otherwise.
 
         Returns: a string ("Country")
         """
