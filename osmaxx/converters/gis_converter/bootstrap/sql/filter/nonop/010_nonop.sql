@@ -27,8 +27,7 @@ INSERT INTO osmaxx.nonop_l
 		when "name:de" is not null then "name:de"
 		when name is not null then transliterate(name)
 		else NULL
-	end as label, 
-	--transliterate(name) as label,
+	end as label,
 	cast(tags as text) as tags,
 	ref as ref,
 -- Checking for bridges with different tags associated to bridges --

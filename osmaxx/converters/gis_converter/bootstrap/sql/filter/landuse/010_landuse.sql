@@ -34,7 +34,6 @@ INSERT INTO osmaxx.landuse_a
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE landuse not in ('scrub', 'cemetery')

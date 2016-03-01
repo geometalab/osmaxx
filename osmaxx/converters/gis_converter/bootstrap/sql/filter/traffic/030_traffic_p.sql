@@ -56,7 +56,6 @@ INSERT INTO osmaxx.traffic_p
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags,
 	case
 	 when 'parking' is not null then "access"
@@ -125,7 +124,6 @@ UNION
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags,
 	case
 	 when 'parking' is not null then "access"

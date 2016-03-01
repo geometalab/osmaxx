@@ -24,7 +24,6 @@ INSERT INTO osmaxx.utility_p
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
  FROM osm_point
  WHERE man_made in ('water_works','wastewater_plant','storage_tank')
@@ -50,7 +49,6 @@ UNION
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
  FROM osm_polygon
  WHERE man_made in ('water_works','wastewater_plant','storage_tank');

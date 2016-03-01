@@ -36,7 +36,6 @@ INSERT INTO osmaxx.adminarea_a
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE boundary='administrative' or boundary='national_park' or boundary='protected_area';

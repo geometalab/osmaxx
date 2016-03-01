@@ -28,9 +28,7 @@ INSERT INTO osmaxx.misc_l
 		when "name:de" is not null then "name:de"
 		when name is not null then transliterate(name)
 		else NULL
-	end as label, 
-	--transliterate(name) as label,
-	
+	end as label,
 	cast(tags as text) as tags
   FROM osm_line
   WHERE barrier is not null
@@ -65,7 +63,6 @@ UNION
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE  barrier is not null;

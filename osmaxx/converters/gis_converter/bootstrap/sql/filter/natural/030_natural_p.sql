@@ -26,7 +26,6 @@ INSERT INTO osmaxx.natural_p
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_point
   WHERE "natural" not in ('water', 'spring','bare_rock','scree','cliff')
@@ -62,7 +61,6 @@ UNION
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE "natural" not in ('water', 'spring','bare_rock','scree','cliff');

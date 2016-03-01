@@ -28,7 +28,6 @@ INSERT INTO osmaxx.misc_l
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_line
   WHERE traffic_calming is not null
@@ -62,7 +61,6 @@ UNION
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE traffic_calming is not null;

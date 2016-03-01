@@ -43,7 +43,6 @@ INSERT INTO osmaxx.road_l
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags,
 	ref as ref,
 	case
@@ -107,7 +106,6 @@ UNION
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags,
 	ref as ref,
 	case

@@ -28,7 +28,6 @@ INSERT INTO osmaxx.poi_p
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags,
 	website as website,
 	wikipedia as wikipedia,
@@ -72,7 +71,6 @@ UNION
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags,
 	website as website,
 	wikipedia as wikipedia,

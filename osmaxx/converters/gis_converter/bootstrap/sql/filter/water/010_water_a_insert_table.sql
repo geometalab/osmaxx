@@ -30,7 +30,6 @@ INSERT INTO osmaxx.water_a
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
  	FROM osm_polygon
  	WHERE waterway is not null or leisure in ('slipway','marina')  or man_made in ('reservoir_covered','pier') or "natural" in ('water','spring');

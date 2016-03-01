@@ -33,7 +33,6 @@ INSERT INTO osmaxx.address_p
 		when osm_line.name is not null then transliterate(osm_line.name)
 		else NULL
 	end as label, 
-	--transliterate(osm_line.name) as label,
 	cast(osm_line.tags as text) as tags,
 	temp_tbl.addr_street as street,
 	temp_tbl.housenr as housenumber,

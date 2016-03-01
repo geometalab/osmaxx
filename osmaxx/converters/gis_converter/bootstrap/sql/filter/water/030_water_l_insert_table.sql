@@ -28,7 +28,6 @@ INSERT INTO osmaxx.water_l
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags,
 	case
 	 when width is not null then cast(nullif(width,'') as float)

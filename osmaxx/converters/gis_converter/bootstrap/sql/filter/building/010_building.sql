@@ -21,8 +21,7 @@ INSERT INTO osmaxx.building_a
 		when "name:de" is not null then "name:de"
 		when name is not null then transliterate(name)
 		else NULL
-	end as label, 
-	--transliterate(name) as label,
+	end as label,
 	cast(tags as text) as tags,
 	cast(nullif(height,'') as float) as height
   FROM osm_polygon

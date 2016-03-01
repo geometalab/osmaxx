@@ -49,7 +49,6 @@ INSERT INTO osmaxx.utility_p
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_point
   WHERE "power" is not null or power_source is not null
@@ -106,7 +105,6 @@ UNION
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_polygon
   WHERE "power" is not null or power_source is not null;

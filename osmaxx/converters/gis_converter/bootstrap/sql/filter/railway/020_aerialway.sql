@@ -27,7 +27,6 @@ INSERT INTO osmaxx.railway_l
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags,
 	z_order as z_order,
 -- Combining different tags for Rail Bridges --

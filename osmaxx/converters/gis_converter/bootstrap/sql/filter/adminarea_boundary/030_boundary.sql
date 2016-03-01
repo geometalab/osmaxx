@@ -34,7 +34,6 @@ INSERT INTO osmaxx.boundary_l
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags
   FROM osm_line
   WHERE boundary='administrative' or boundary='national_park' or boundary='protected_area';

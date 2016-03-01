@@ -30,7 +30,6 @@ INSERT INTO osmaxx.geoname_l
 		when name is not null then transliterate(name)
 		else NULL
 	end as label, 
-	--transliterate(name) as label,
 	cast(tags as text) as tags,
 	cast_to_int_null_if_failed(population) as population,
 	wikipedia as wikipedia
