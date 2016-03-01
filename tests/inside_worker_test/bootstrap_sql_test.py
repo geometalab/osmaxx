@@ -38,21 +38,10 @@ def international_text(request):
 
 
 @worker_only_test
-def test_label_transliterated_correctly(osmaxx_schemas, international_text):
-    no_row_operation = -1
-    engine = osmaxx_schemas
-    address_script_setup = 'sql/filter/address/000_setup-drop_and_recreate_table.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script_setup)).execution_options(autocommit=True))
-    assert result.rowcount == no_row_operation
-
-    default_params = {'name': international_text['text'], 'addr:street': 'somevalue', 'building': 'some', 'entrance': None, }
-    engine.execute(osm_models.t_osm_point.insert().values(**default_params).execution_options(autocommit=True))
-
-    address_script = 'sql/filter/address/010_address.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
-
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.address_p").execution_options(autocommit=True))
+def test_transliterate_works_as_expected(osmaxx_functions, international_text):
+    engine = osmaxx_functions
+    text_escaped = international_text['text']
+    result = engine.execute(sqlalchemy.text("select transliterate($${}$$) as label;".format(text_escaped)).execution_options(autocommit=True))
     assert result.rowcount == 1
     results = result.fetchall()
     assert len(results) == 1
