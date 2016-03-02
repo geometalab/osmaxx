@@ -26,19 +26,15 @@ INSERT INTO osmaxx.misc_l
   WHERE barrier is not null
 
 UNION
-
+(
   WITH osm_single_polygon AS (
-      SELECT osm_id, osm_timestamp, barrier, name, "name:en", "name:fr", "name:es", int_name, tags,
-          ST_Dump(way).geom AS way
-      FROM osm_polygon
-      WHERE ST_Geometrytype(way) = 'ST_MultiPolygon'
+      SELECT osm_id, osm_timestamp, barrier, name, "name:en", "name:fr", "name:es", "name:de", int_name, tags,
 
-    UNION
-
-      SELECT osm_id, osm_timestamp, barrier, name, "name:en", "name:fr", "name:es", int_name, tags,
-          way
+      CASE WHEN ST_Geometrytype(way) = 'ST_MultiPolygon'
+        THEN (ST_Dump(way)).geom
+        ELSE way
+      END AS way
       FROM osm_polygon
-      WHERE ST_Geometrytype(way) != 'ST_MultiPolygon'
   )
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
@@ -64,4 +60,5 @@ UNION
 	cast(tags as text) as tags
   FROM osm_single_polygon
   WHERE  barrier is not null
-  GROUP BY osm_id;
+  GROUP BY osm_id, osm_timestamp, barrier, name, "name:en", "name:fr", "name:es", "name:de", int_name, tags
+);
