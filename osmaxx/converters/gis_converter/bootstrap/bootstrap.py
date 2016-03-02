@@ -55,6 +55,7 @@ class BootStrapper:
             '--username', postgres_user,
             '--hstore-all',
             '--input-reader', 'pbf',
+            '--latlon',  # WGS-84 (Should be equivalent to '--proj', '4326'.)
             self._pbf_file_path,
         ]
 
