@@ -60,8 +60,8 @@ UNION
   WITH osm_single_polygon AS (
       SELECT osm_id, osm_timestamp, junction, highway, bridge, tunnel, tracktype, ref, oneway, z_order, name, "name:en", "name:fr", "name:es", "name:de", int_name, tags,
 
-      CASE WHEN ST_Geometrytype(way) = 'ST_MultiPolygon'
-        THEN (ST_Dump(way)).geom
+      CASE WHEN ST_GeometryType(way) = ANY(array['ST_MultiPolygon', 'ST_Polygon'])
+        THEN ST_Boundary(way)
         ELSE way
       END AS way
       FROM osm_polygon
@@ -69,7 +69,7 @@ UNION
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	'W' AS geomtype, 	-- Way
-	ST_Multi(ST_Collect(ST_ExteriorRing (way))) AS geom,
+	ST_Multi(way) AS geom,
 	'roundabout'as aggtype,
 -- Creating tags for groups of roads --
 	case
@@ -120,5 +120,4 @@ UNION
 	end as tunnel
  	FROM osm_single_polygon
  	WHERE junction='roundabout'
- 	GROUP BY osm_id, osm_timestamp, junction, highway, bridge, tunnel, tracktype, ref, oneway, z_order, name, "name:en", "name:fr", "name:es", "name:de", int_name, tags
 );

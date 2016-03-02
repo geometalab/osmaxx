@@ -36,8 +36,8 @@ UNION
   WITH osm_single_polygon AS (
       SELECT osm_id, osm_timestamp, traffic_calming, name, "name:en", "name:fr", "name:es", "name:de", int_name, tags,
 
-      CASE WHEN ST_Geometrytype(way) = 'ST_MultiPolygon'
-        THEN (ST_Dump(way)).geom
+      CASE WHEN ST_GeometryType(way) = ANY(array['ST_MultiPolygon', 'ST_Polygon'])
+        THEN ST_Boundary(way)
         ELSE way
       END AS way
       FROM osm_polygon
@@ -48,7 +48,7 @@ UNION
 	 WHEN osm_id<0 THEN 'R' -- R=Relation
 	 ELSE 'W' 		-- W=Way
 	 END AS geomtype,
-	ST_Multi(ST_Collect(ST_ExteriorRing (way))) AS geom,
+	ST_Multi(way) AS geom,
 	'traffic_calming' as aggtype,
 -- Combining different tags into traffic_calming tag --
 	case
@@ -74,5 +74,4 @@ UNION
 	cast(tags as text) as tags
   FROM osm_single_polygon
   WHERE traffic_calming is not null
-  GROUP BY osm_id, osm_timestamp, traffic_calming, name, "name:en", "name:fr", "name:es", "name:de", int_name, tags
 );
