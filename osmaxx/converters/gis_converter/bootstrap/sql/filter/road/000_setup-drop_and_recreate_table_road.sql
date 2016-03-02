@@ -6,7 +6,7 @@ CREATE TABLE osmaxx.road_l(
 	osm_id bigint,
 	lastchange timestamp without time zone,
 	geomtype char(1),
-	geom geometry(MULTILINESTRING,900913),
+	geom geometry(MULTILINESTRING, 4326),
 	aggtype text,
 	type text,
 	name text,
