@@ -6,7 +6,7 @@ CREATE TABLE osmaxx.natural_p (
 	osm_id bigint,
 	lastchange timestamp without time zone,
 	geomtype text,
-	geom geometry(POINT,900913),
+	geom geometry(POINT, 4326),
 	type text,
 	name text,
 	name_en text,

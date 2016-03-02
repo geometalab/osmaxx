@@ -6,7 +6,7 @@ CREATE TABLE osmaxx.adminarea_a (
 	osm_id bigint,
 	lastchange timestamp without time zone,
 	geomtype char(1),
-	geom geometry(MULTIPOLYGON,900913),
+	geom geometry(MULTIPOLYGON, 4326),
 	type text,
 	name text,
 	name_en text,

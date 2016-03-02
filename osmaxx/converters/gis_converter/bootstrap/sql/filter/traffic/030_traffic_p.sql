@@ -47,7 +47,15 @@ INSERT INTO osmaxx.traffic_p
 	"name:es" as name_es,
 	"name:de" as name_de,
 	int_name as name_int,
-	transliterate(name) as label,
+	case
+		when name is not null AND name = transliterate(name) then name
+		when "name:en" is not null then "name:en"
+		when "name:fr" is not null then "name:fr"
+		when "name:es" is not null then "name:es"
+		when "name:de" is not null then "name:de"
+		when name is not null then transliterate(name)
+		else NULL
+	end as label, 
 	cast(tags as text) as tags,
 	case
 	 when 'parking' is not null then "access"
@@ -107,7 +115,15 @@ UNION
 	"name:es" as name_es,
 	"name:de" as name_de,
 	int_name as name_int,
-	transliterate(name) as label,
+	case
+		when name is not null AND name = transliterate(name) then name
+		when "name:en" is not null then "name:en"
+		when "name:fr" is not null then "name:fr"
+		when "name:es" is not null then "name:es"
+		when "name:de" is not null then "name:de"
+		when name is not null then transliterate(name)
+		else NULL
+	end as label, 
 	cast(tags as text) as tags,
 	case
 	 when 'parking' is not null then "access"
