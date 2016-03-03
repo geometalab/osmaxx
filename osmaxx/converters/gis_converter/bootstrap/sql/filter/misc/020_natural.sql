@@ -29,13 +29,23 @@ INSERT INTO osmaxx.misc_l
   FROM osm_line
   WHERE "natural"='cliff'
 UNION
+(
+  WITH osm_single_polygon AS (
+      SELECT osm_id, osm_timestamp, "natural", name, "name:en", "name:fr", "name:es", "name:de", int_name, tags,
+
+      CASE WHEN ST_GeometryType(way) = ANY(array['ST_MultiPolygon', 'ST_Polygon'])
+        THEN ST_Boundary(way)
+        ELSE way
+      END AS way
+      FROM osm_polygon
+  )
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	CASE
 	 WHEN osm_id<0 THEN 'R' -- R=Relation
 	 ELSE 'W' 		-- W=Way
 	 END AS geomtype,
-	ST_Multi(ST_ExteriorRing (way)) AS geom,
+	ST_Multi(way) AS geom,
 	'natural' as aggtype,
 	"natural" AS type,
 	name as name,
@@ -54,5 +64,6 @@ UNION
 		else NULL
 	end as label, 
 	cast(tags as text) as tags
-  FROM osm_polygon
-  WHERE  "natural"='cliff';
+  FROM osm_single_polygon
+  WHERE  "natural"='cliff'
+);
