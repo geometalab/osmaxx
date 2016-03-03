@@ -34,7 +34,15 @@ INSERT INTO osmaxx.road_l
 	"name:es" as name_es,
 	"name:de" as name_de,
 	int_name as name_int,
-	transliterate(name) as label,
+	case
+		when name is not null AND name = transliterate(name) then name
+		when "name:en" is not null then "name:en"
+		when "name:fr" is not null then "name:fr"
+		when "name:es" is not null then "name:es"
+		when "name:de" is not null then "name:de"
+		when name is not null then transliterate(name)
+		else NULL
+	end as label, 
 	cast(tags as text) as tags,
 	ref as ref,
 	case
@@ -55,10 +63,20 @@ INSERT INTO osmaxx.road_l
  	FROM osm_line
  	WHERE highway not in ('abandon','construction','planned','disused') or junction not in ('roundabout')
 UNION
+(
+  WITH osm_single_polygon AS (
+      SELECT osm_id, osm_timestamp, highway, junction, tunnel, tracktype, bridge, oneway, ref, z_order, name, "name:en", "name:fr", "name:es", "name:de", int_name, tags,
+
+      CASE WHEN ST_GeometryType(way) = ANY(array['ST_MultiPolygon', 'ST_Polygon'])
+        THEN ST_Boundary(way)
+        ELSE way
+      END AS way
+      FROM osm_polygon
+  )
   SELECT osm_id as osm_id,
 	osm_timestamp as lastchange,
 	'W' AS geomtype,
-	ST_Multi(ST_ExteriorRing (way)) AS geom,
+	ST_Multi(way) AS geom,
 -- Creating tags for groups of roads --
 	case
 	 when highway in ('motorway','trunk','primary','secondary','tertiary') then 'major_road'
@@ -89,7 +107,15 @@ UNION
 	"name:es" as name_es,
 	"name:de" as name_de,
 	int_name as name_int,
-	transliterate(name) as label,
+	case
+		when name is not null AND name = transliterate(name) then name
+		when "name:en" is not null then "name:en"
+		when "name:fr" is not null then "name:fr"
+		when "name:es" is not null then "name:es"
+		when "name:de" is not null then "name:de"
+		when name is not null then transliterate(name)
+		else NULL
+	end as label, 
 	cast(tags as text) as tags,
 	ref as ref,
 	case
@@ -110,5 +136,6 @@ UNION
 	else FALSE
 	end as tunnel
 
- 	FROM osm_polygon
- 	WHERE highway not in ('abandon','construction','planned','disused') or junction not in ('roundabout');
+ 	FROM osm_single_polygon
+ 	WHERE highway not in ('abandon','construction','planned','disused') or junction not in ('roundabout')
+);

@@ -6,7 +6,7 @@ CREATE TABLE osmaxx.address_p(
 	osm_id bigint,
 	lastchange timestamp without time zone,
 	geomtype char(1),
-	geom geometry(POINT,900913),
+	geom geometry(POINT, 4326),
 	type char(1),
 	name text,
 	name_en text,
