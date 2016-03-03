@@ -20,7 +20,7 @@ before_install:
   - docker pull redis
   - docker run -d -p "127.0.0.1:6379:6379" --name redis-local redis
   - docker pull geometalab/postgis-with-translit
-  - docker run -d -p "127.0.0.1:5432:5432" -e POSTGRES_DB='osmaxx_db' --name pg_translit geometalab/postgis-with-translit
+  - docker run -d -p "127.0.0.1:65432:5432" -e POSTGRES_DB='osmaxx_db' --name pg_translit geometalab/postgis-with-translit
   - docker ps -a
 
 install:

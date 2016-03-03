@@ -4,6 +4,8 @@ from datetime import timedelta
 
 test_data_dir = os.path.join(os.path.dirname(__file__), 'test_data')
 
+postgres_container_userland_port = 65432  # required for travis, so using it everywhere
+
 
 def pytest_configure():
     from django.conf import settings

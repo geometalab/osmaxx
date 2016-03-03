@@ -5,6 +5,7 @@ import sqlalchemy
 from sqlalchemy.engine.url import URL as DBURL
 from sqlalchemy_utils import functions as sql_alchemy_utils
 
+from tests.conftest import postgres_container_userland_port
 from tests.inside_worker_test.declarative_schema import osm_models
 
 worker_only_test = pytest.mark.skipif(
@@ -14,7 +15,7 @@ worker_only_test = pytest.mark.skipif(
 
 db_name = 'osmaxx_db'
 
-gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name, host='127.0.0.1')
+gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name, host='127.0.0.1', port=postgres_container_userland_port)
 
 
 @pytest.fixture(scope='session')
