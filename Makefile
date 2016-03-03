@@ -1,4 +1,13 @@
-.PHONY: list _list_targets_on_separate_lines tests runtests-quick runtests-slow tox up-redis down-redis up-pg_translit down-pg_translit clean
+.PHONY: help list _list_targets_on_separate_lines tests runtests-quick runtests-slow tox up-redis down-redis up-pg_translit down-pg_translit clean
+
+help:
+	@echo frequently used:
+	@echo "\t"make tests"           "- run all tests
+	@echo "\t"make runtests-quick"  "- run only quick tests
+	@echo "\t"make runtests slow"   "- run only slow tests
+	@echo
+	@echo available targets:
+	@$(MAKE) --no-print-directory _list_targets_on_separate_lines | sed -e 's/^/\t/'
 
 list:
 	@$(MAKE) --no-print-directory _list_targets_on_separate_lines | xargs
