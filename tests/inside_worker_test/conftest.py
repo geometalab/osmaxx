@@ -14,7 +14,7 @@ worker_only_test = pytest.mark.skipif(
 
 db_name = 'osmaxx_db'
 
-gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name)
+gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name, host='127.0.0.1')
 
 
 @pytest.fixture

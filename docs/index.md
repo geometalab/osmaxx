@@ -126,29 +126,39 @@ Using the instruction below for testing, the flake8 tool is also run.
 
 For all tests, a redis-server instance is required.
 
-The most simple way is to run an instance using docker (in a separate bash terminal):
-
-```bash
-docker run -p 6379:6379 --rm --name redis-local redis
-```
-
 Install testing requirements.
 
 ```bash
 $ pip install -r requirements.txt
 ```
 
-Run with runtests.
+Run with runtests, excluding the very slow (>30 minutes) tests:
 
 ```bash
-$ ./runtests.py
+$ make runtests-quick
 ```
 
 You can also use the excellent [tox](http://tox.readthedocs.org/en/latest/) testing tool to run the tests against all supported versions of Python and Django. Install tox globally, and then simply run:
 
 ```bash
-$ tox
+$ make tox
 ```
+
+Both runtest-quick and tox only run the fast test-suit, if you want to run the slower (mostly sql related tests), it isn't much harder:
+
+```bash
+$ make tests
+# or alternatively
+$ make runtests-slow
+```
+
+To clean up all after the tests, you can use
+
+```bash
+$ make clean
+```
+
+Which cleans up `__pycache__`, `*.pyc` and docker-containers produced.
 
 ## Documentation
 

@@ -1,20 +1,27 @@
 language: python
 
-sudo: false
+sudo: true
 
 env:
     - TOX_ENV=py34-flake8
-    - TOX_ENV=py34-docs
     - TOX_ENV=py34-django1.8-drf3.2
     - TOX_ENV=py34-django1.9-drf3.2
     - TOX_ENV=py34-django1.8-drf3.3
     - TOX_ENV=py34-django1.9-drf3.3
+    - TOX_ENV=slow-tests
 
 matrix:
   fast_finish: true
 
 services:
-  - redis-server
+  - docker
+
+before_install:
+  - docker pull redis
+  - docker run -d -p "127.0.0.1:6379:6379" --name redis-local redis
+  - docker pull geometalab/postgis-with-translit
+  - docker run -d -p "127.0.0.1:5432:5432" -e POSTGRES_DB='osmaxx_db' --name pg_translit geometalab/postgis-with-translit
+  - docker ps -a
 
 install:
   - pip install tox
