@@ -109,6 +109,7 @@ def clean_osm_tables(osm_tables):
 
 @pytest.fixture
 def osmaxx_schemas(osmaxx_functions, clean_osm_tables, request):
+    assert osmaxx_functions == clean_osm_tables  # same db-connection
     engine = osmaxx_functions
     osmaxx_schemas = [
         'view_osmaxx',
