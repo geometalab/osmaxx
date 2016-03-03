@@ -124,7 +124,7 @@ def sql_from_bootstrap_relative_location(file_name):
 
     Returns: a sql statement as string
     """
-    from osmaxx.converters.gis_converter import bootstrap
+    from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
     script_path = os.path.join(os.path.abspath(os.path.dirname(bootstrap.__file__)), file_name)
     content = open(script_path, 'r').read()
     return content
