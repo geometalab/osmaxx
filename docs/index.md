@@ -1,9 +1,5 @@
 [![Build Status](https://travis-ci.org/geometalab/osmaxx-conversion-service.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx-conversion-service)
-<div class="badges">
-    <a href="https://pypi.python.org/pypi/osmaxx-conversion-service">
-        <img src="https://img.shields.io/pypi/v/osmaxx-conversion-service.svg">
-    </a>
-</div>
+[![Latest Version](https://img.shields.io/pypi/v/osmaxx-conversion-service.svg)](https://pypi.python.org/pypi/osmaxx-conversion-service)
 
 ---
 
