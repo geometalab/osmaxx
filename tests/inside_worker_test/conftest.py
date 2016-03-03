@@ -17,12 +17,12 @@ db_name = 'osmaxx_db'
 gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name, host='127.0.0.1')
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def test_file_dir():
     return os.path.abspath(os.path.dirname(__file__))
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def initialize_db(request):
     engine = sqlalchemy.create_engine(DBURL('postgres', **gis_db_connection_kwargs))
 
@@ -37,7 +37,7 @@ def initialize_db(request):
     return engine
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def extensions(initialize_db, request):
     engine = initialize_db
     extensions = ['postgis', 'hstore']
@@ -53,7 +53,7 @@ def extensions(initialize_db, request):
     return engine
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def osm_tables(extensions, request):
     engine = extensions
     tables = [
@@ -75,7 +75,7 @@ def osm_tables(extensions, request):
     return engine
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def osmaxx_functions(osm_tables):
     function_scripts = [
         'sql/functions/0010_cast_to_positive_integer.sql',
@@ -91,16 +91,25 @@ def osmaxx_functions(osm_tables):
 
 
 @pytest.fixture
-def osm_cleaned(osmaxx_functions):
-    engine = osmaxx_functions
-    address_script_setup = 'sql/sweeping_data.sql'
-    engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script_setup)))
+def clean_osm_tables(osm_tables):
+    engine = osm_tables
+    tables = [
+        osm_models.t_osm_line,
+        osm_models.t_osm_point,
+        osm_models.t_osm_polygon,
+        osm_models.t_osm_roads,
+        osm_models.OsmNode.__table__,
+        osm_models.OsmRel.__table__,
+        osm_models.OsmWay.__table__,
+    ]
+    for table in tables:
+        engine.execute(table.delete())
     return engine
 
 
 @pytest.fixture
-def osmaxx_schemas(osm_cleaned, request):
-    engine = osm_cleaned
+def osmaxx_schemas(osmaxx_functions, clean_osm_tables, request):
+    engine = osmaxx_functions
     osmaxx_schemas = [
         'view_osmaxx',
         'osmaxx',
