@@ -40,8 +40,8 @@ mediator:
     - postgres:database
   environment:
     - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
-    - SERVICE_USER_NAME=dev
-    - SERVICE_USER_PASSWORD=dev
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=dev
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=dev
 
 worker:
   extends:
