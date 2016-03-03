@@ -1,4 +1,6 @@
-.PHONY: help list _list_targets_on_separate_lines tests runtests-quick runtests-slow tox up-redis down-redis up-pg_translit down-pg_translit clean
+.PHONY: all help list _list_targets_on_separate_lines tests runtests-quick runtests-slow tox up-redis down-redis up-pg_translit down-pg_translit clean
+
+all: help
 
 help:
 	@echo frequently used:
