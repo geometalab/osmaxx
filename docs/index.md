@@ -1,6 +1,6 @@
 <div class="badges">
-    <a href="http://travis-ci.org/geometalab/osmaxx-conversion-service">
-        <img src="https://travis-ci.org/geometalab/osmaxx-conversion-service-api.svg?branch=master">
+    <a href="https://travis-ci.org/geometalab/osmaxx-conversion-service">
+        <img src="https://travis-ci.org/geometalab/osmaxx-conversion-service.svg?branch=master">
     </a>
     <a href="https://pypi.python.org/pypi/osmaxx-conversion-service">
         <img src="https://img.shields.io/pypi/v/osmaxx-conversion-service-rest-api.svg">
