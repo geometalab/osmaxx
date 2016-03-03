@@ -1,4 +1,4 @@
-.PHONY: tests runtests-quick runtests-slow up-redis tox up-pg_translit down-redis down-pg_translit clean
+.PHONY: tests runtests-quick runtests-slow tox up-redis down-redis up-pg_translit down-pg_translit clean
 
 tests: runtests-slow
 
