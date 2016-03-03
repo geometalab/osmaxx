@@ -1,4 +1,8 @@
-.PHONY: tests runtests-quick runtests-slow tox up-redis down-redis up-pg_translit down-pg_translit clean
+.PHONY: list tests runtests-quick runtests-slow tox up-redis down-redis up-pg_translit down-pg_translit clean
+
+list:
+    # Adopted from http://stackoverflow.com/a/26339924/674064
+	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$' | xargs
 
 tests: runtests-slow
 
