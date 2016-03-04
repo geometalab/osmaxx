@@ -1,6 +1,7 @@
 import pytest
 import sqlalchemy
 
+from osmaxx.converters.gis_converter.bootstrap.bootstrap import BootStrapper
 from tests.inside_worker_test.conftest import sql_from_bootstrap_relative_location
 from tests.inside_worker_test.declarative_schema import osm_models
 
@@ -1206,3 +1207,24 @@ def test_label_water_l(osmaxx_schemas, label_input):
 
     result = engine.execute(sqlalchemy.text("select label from osmaxx.water_l").execution_options(autocommit=True))
     assert result.fetchone()['label'] == expected_label
+
+
+@slow
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(
+        osmaxx_functions, clean_osm_tables, monkeypatch):
+    assert osmaxx_functions == clean_osm_tables  # same db-connection
+    engine = osmaxx_functions
+    engine.execute(
+        osm_models.t_osm_polygon.insert().values(
+            amenity='grave_yard',
+            religion='any value will do, as long as one is present',
+        ).execution_options(autocommit=True)
+    )
+    monkeypatch.setattr(
+        'osmaxx.converters.gis_converter.helper.postgres_wrapper.create_engine', lambda *_, **__: engine)
+    bootstrapper = BootStrapper(pbf_file_path=None)
+    bootstrapper._harmonize_database()
+    bootstrapper._filter_data()
+    t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
+    result = engine.execute(sqlalchemy.select([t_pow_a]))
+    assert result.rowcount == 1
