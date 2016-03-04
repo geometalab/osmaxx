@@ -11,11 +11,13 @@ class Migration(migrations.Migration):
         tolerance = 0.01  # in degrees
         Country = apps.get_model("countries", "Country")  # noqa
         for name, polyfile_path in get_polyfile_name_to_file_mapping().items():
-            geometry = polyfile_to_geos_geometry(polyfile_path, simplify_tolerance=tolerance)
+            geometry = polyfile_to_geos_geometry(polyfile_path)
+            simplified_geometry = polyfile_to_geos_geometry(polyfile_path, simplify_tolerance=tolerance)
             Country.objects.create(
                 name=name,
                 polyfile=polyfile_path,
-                simplified_polygon=geometry,
+                polygon=geometry,
+                simplified_polygon=simplified_geometry,
             )
 
     def remove_countries(apps, schema_editor):  # noqa
