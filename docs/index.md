@@ -150,6 +150,19 @@ Both runtest-quick and tox only run the fast test-suit, if you want to run the s
 make tests-all
 ```
 
+### Pass arguments to underlying test runner
+To pass arguments to `./runtests.py` (which will forward most of them to `pytest`), set `PYTEST_ARGS` for any of the `tests-*` targets:
+```bash
+make tests-all PYTEST_ARGS="-k test_label_water_l"  #  Only run tests with names that match the
+                                                    #  string expression "test_label_water_l".
+
+make tests-all PYTEST_ARGS=test_label_water_l       #  Same as above (magic of ./runtests.py)
+
+make test-quick PYTEST_ARGS=--pdb                   #  Drop to debugger upon each test failure.
+```
+For command line options of `pytest`, see http://pytest.org/latest/usage.html.
+
+### Cleanup
 To clean up all after the tests, you can use
 
 ```bash
