@@ -16,7 +16,8 @@ from .order_options_mixin import OrderOptionsMixin, get_export_options
 
 def get_country_choices():
     return tuple(
-        (COUNTRY_ID_PREFIX + str(country.id), country.name) for country in Country.objects.all().order_by('name')
+        (COUNTRY_ID_PREFIX + str(country[0]), country[1])
+        for country in Country.objects.all().order_by('name').values_list('id', 'name')
     )
 
 
