@@ -129,33 +129,33 @@ For all tests, a redis-server instance is required.
 Install testing requirements.
 
 ```bash
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 Run with runtests, excluding the slow (&sum; > 1 minute) tests:
 
 ```bash
-$ make runtests-quick
+make runtests-quick
 ```
 
 You can also use the excellent [tox](http://tox.readthedocs.org/en/latest/) testing tool to run the tests against all supported versions of Python and Django. Install tox globally, and then simply run:
 
 ```bash
-$ make tox
+make tox
 ```
 
 Both runtest-quick and tox only run the fast test-suit, if you want to run the slower (mostly sql related tests), it isn't much harder:
 
 ```bash
-$ make tests
+make tests
 # or alternatively
-$ make runtests-slow
+make runtests-slow
 ```
 
 To clean up all after the tests, you can use
 
 ```bash
-$ make clean
+make clean
 ```
 
 Which cleans up `__pycache__`, `*.pyc` and docker-containers produced.
@@ -165,18 +165,18 @@ Which cleans up `__pycache__`, `*.pyc` and docker-containers produced.
 To build the documentation, you'll need to install `mkdocs`.
 
 ```bash
-$ pip install mkdocs
+pip install mkdocs
 ```
 
 To preview the documentation:
 
 ```bash
-$ mkdocs serve
+mkdocs serve
 Running at: http://127.0.0.1:8000/
 ```
 
 To build the documentation:
 
 ```bash
-$ mkdocs build
+mkdocs build
 ```
