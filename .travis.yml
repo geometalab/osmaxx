@@ -2,6 +2,8 @@ language: python
 
 cache: pip
 
+sudo: required
+
 env:
     - TOX_ENV=py34-flake8
     - TOX_ENV=py34-django1.8-drf3.2
