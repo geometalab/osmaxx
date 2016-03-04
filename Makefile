@@ -6,7 +6,7 @@ help:
 	@echo frequently used:
 	@echo "\t"make tests-all"                                  "- run all test
 	@echo "\t"make tests-quick"                                "- run only quick tests
-	@echo Pass options to ./runtests.py or pytest[1] by setting PYTEST_ARGS:
+	@echo Pass options to ./runtests.py or pytest by setting PYTEST_ARGS:
 	@echo "\t"make tests-all PYTEST_ARGS=-ktest_label_water_l" "- run only a specific test
 	@echo
 	@echo available targets:
