@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/geometalab/osmaxx-postgis-conversion.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx-postgis-conversion)
+[![Build Status](https://travis-ci.org/geometalab/osmaxx-conversion-service.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx-conversion-service)
 
 # Osmaxx postgis conversion
 
