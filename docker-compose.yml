@@ -1,0 +1,86 @@
+data:
+  image: debian:jessie
+  command: echo true
+  volumes:
+    - /data/media
+    - /tmp/osm-planet:/var/data/osm-planet
+
+osmdata:
+  image: geometalab/osm-planet
+  environment:
+    - osm_planet_mirror=http://download.geofabrik.de/europe/
+    - osm_planet_path_relative_to_mirror=switzerland-latest.osm.pbf
+  volumes_from:
+    - data
+
+redis:
+  image: redis
+
+postgres:
+  image: geometalab/postgis:9.4
+
+mediator:
+  extends:
+    file: common-services.yml
+    service: environmentvars
+  build: .
+  dockerfile: ./Dockerfile.mediator
+  command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.dev, start]
+  ports:
+    - "8901:8901"
+  expose:
+    - "8901"
+  volumes:
+    - ./osmaxx:/home/py/osmaxx
+    - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+  volumes_from:
+    - data
+  links:
+    - redis
+    - postgres:database
+  environment:
+    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+    - DJANGO_INTERNAL_IPS=172.17.0.1
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=dev
+    - DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=dev
+
+worker:
+  extends:
+    file: common-services.yml
+    service: environmentvars
+  build: .
+  dockerfile: ./Dockerfile.worker
+  command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
+  volumes:
+    - ./osmaxx:/home/py/osmaxx
+    - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+  volumes_from:
+    - data
+  links:
+    - redis
+  environment:
+    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
+    # only switzerland, as stated in `osmdata`
+    - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf
+
+db-tests:
+  extends:
+    file: common-services.yml
+    service: environmentvars
+  build: .
+  dockerfile: ./Dockerfile.worker
+  command: bash -c "sleep 1;cd testing;python3 runtests.py tests/inside_worker_test"
+  volumes:
+    - ./:/home/py/testing
+    - /tmp/.cache:/home/py/testing/.cache
+  volumes_from:
+    - data
+  links:
+    - redis:localhost
+  environment:
+    - PYTHONDONTWRITEBYTECODE=don't
+    - TEST_INSIDE_WORKER=True
+    - DJANGO_SETTINGS_MODULE=
+    - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
+    # only switzerland, as stated in `osmdata`
+    - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf
