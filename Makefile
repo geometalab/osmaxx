@@ -4,8 +4,10 @@ all: help
 .PHONY: help
 help:
 	@echo frequently used:
-	@echo "\t"make tests-all"    "- run all test
-	@echo "\t"make tests-quick"  "- run only quick tests
+	@echo "\t"make tests-all"                                  "- run all test
+	@echo "\t"make tests-quick"                                "- run only quick tests
+	@echo Pass options to ./runtests.py or pytest[1] by setting PYTEST_ARGS:
+	@echo "\t"make tests-all PYTEST_ARGS=-ktest_label_water_l" "- run only a specific test
 	@echo
 	@echo available targets:
 	@$(MAKE) --no-print-directory _list_targets_on_separate_lines | sed -e 's/^/\t/'
@@ -24,11 +26,11 @@ _list_targets_on_separate_lines:
 
 .PHONY: tests-quick
 tests-quick: up-redis up-pg
-	./runtests.py
+	./runtests.py $(PYTEST_ARGS)
 
 .PHONY: tests-all
 tests-all: up-redis up-pg up-pg_translit
-	./runtests.py --runslow
+	./runtests.py $(PYTEST_ARGS) --runslow
 
 .PHONY: tox
 tox: up-redis up-pg up-pg_translit
