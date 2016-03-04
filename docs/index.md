@@ -120,47 +120,68 @@ Using the instruction below for testing, the flake8 tool is also run.
 
 For all tests, a redis-server instance is required.
 
-The most simple way is to run an instance using docker (in a separate bash terminal):
-
-```bash
-docker run -p 6379:6379 --rm --name redis-local redis
-```
-
 Install testing requirements.
 
 ```bash
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-Run with runtests.
+Run the tests (using the makefile, which uses the underlying runtests.py), excluding the slow (&sum; > 1 minute) tests:
 
 ```bash
-$ ./runtests.py
+make tests-quick
 ```
 
 You can also use the excellent [tox](http://tox.readthedocs.org/en/latest/) testing tool to run the tests against all supported versions of Python and Django. Install tox globally, and then simply run:
 
 ```bash
-$ tox
+make tox
 ```
+
+Both runtest-quick and tox only run the fast test-suit, if you want to run the slower (mostly sql related tests), it isn't much harder:
+
+```bash
+make tests-all
+```
+
+### Pass arguments to underlying test runner
+To pass arguments to `./runtests.py` (which will forward most of them to `pytest`), set `PYTEST_ARGS` for any of the `tests-*` targets:
+```bash
+make tests-all PYTEST_ARGS="-k test_label_water_l"  #  Only run tests with names that match the
+                                                    #  string expression "test_label_water_l".
+
+make tests-all PYTEST_ARGS=test_label_water_l       #  Same as above (magic of ./runtests.py)
+
+make test-quick PYTEST_ARGS=--pdb                   #  Drop to debugger upon each test failure.
+```
+For command line options of `pytest`, see http://pytest.org/latest/usage.html.
+
+### Cleanup
+To clean up all after the tests, you can use
+
+```bash
+make clean
+```
+
+Which cleans up `__pycache__`, `*.pyc` and docker-containers produced.
 
 ## Documentation
 
 To build the documentation, you'll need to install `mkdocs`.
 
 ```bash
-$ pip install mkdocs
+pip install mkdocs
 ```
 
 To preview the documentation:
 
 ```bash
-$ mkdocs serve
+mkdocs serve
 Running at: http://127.0.0.1:8000/
 ```
 
 To build the documentation:
 
 ```bash
-$ mkdocs build
+mkdocs build
 ```
