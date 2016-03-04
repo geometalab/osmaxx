@@ -132,7 +132,7 @@ Install testing requirements.
 pip install -r requirements.txt
 ```
 
-Run with runtests, excluding the slow (&sum; > 1 minute) tests:
+Run the tests (using the make-file, which uses the underlying runtests.py), excluding the slow (&sum; > 1 minute) tests:
 
 ```bash
 make runtests-quick
