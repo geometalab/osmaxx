@@ -12,8 +12,16 @@ def pytest_configure():
 
     settings.configure(
         DEBUG_PROPAGATE_EXCEPTIONS=True,
-        DATABASES={'default': {'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-                               'NAME': ':memory:'}},
+        DATABASES={
+            'default': {
+                'ENGINE': 'django.contrib.gis.db.backends.postgis',
+                'NAME': 'postgres',
+                'USER': 'postgres',
+                'PASSWORD': 'postgres',
+                'PORT': '54321',
+                'HOST': '127.0.0.1',
+            }
+        },
         SITE_ID=1,
         SECRET_KEY='not very secret in tests',
         USE_I18N=True,
