@@ -133,7 +133,7 @@ _osmaxx_schemas = [
 
 def cleanup_osmaxx_schemas(engine):
     for schema in _osmaxx_schemas:
-        engine.execute(sqlalchemy.text("DROP SCHEMA {} CASCADE;".format(schema)))
+        engine.execute(sqlalchemy.text("DROP SCHEMA IF EXISTS {} CASCADE;".format(schema)))
 
 
 def sql_from_bootstrap_relative_location(file_name):
