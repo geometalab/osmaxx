@@ -19,11 +19,15 @@ def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into
     monkeypatch.setattr(
         'osmaxx.converters.gis_converter.helper.postgres_wrapper.create_engine', lambda *_, **__: engine)
     bootstrapper = BootStrapper(pbf_file_path=None)
-    bootstrapper._harmonize_database()
-    bootstrapper._filter_data()
-    t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
-    result = engine.execute(sqlalchemy.select([t_pow_a]))
-    assert result.rowcount == 1
-
-    del result  # The (unfetched) result would block the dropping of SCHEMA "osmaxx" in the following cleanup.
-    cleanup_osmaxx_schemas(engine)
+    try:
+        bootstrapper._harmonize_database()
+        bootstrapper._filter_data()
+        t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
+        result = engine.execute(sqlalchemy.select([t_pow_a]))
+        assert result.rowcount == 1
+    finally:
+        try:
+            del result  # The (unfetched) result would block the dropping of SCHEMA "osmaxx" in the following cleanup.
+        except NameError:
+            pass
+        cleanup_osmaxx_schemas(engine)
