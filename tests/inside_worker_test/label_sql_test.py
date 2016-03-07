@@ -1,46 +1,8 @@
 import pytest
 import sqlalchemy
 
-from osmaxx.converters.gis_converter.bootstrap.bootstrap import BootStrapper
-from tests.inside_worker_test.conftest import sql_from_bootstrap_relative_location, cleanup_osmaxx_schemas
+from tests.inside_worker_test.conftest import sql_from_bootstrap_relative_location, slow
 from tests.inside_worker_test.declarative_schema import osm_models
-
-slow = pytest.mark.skipif(
-    not pytest.config.getoption("--runslow"),
-    reason="need --runslow option to run"
-)
-
-international_text_strings = [
-    ('ascii', 'some normal ascii', 'some normal ascii'),
-    ('umlaut', 'öäüüäüö', 'öäüüäüö'),
-    ('special_chars', "*+?'^'%ç#", "*+?'^'%ç#"),
-    ('japanese', "大洲南部広域農道", 'dà zhōu nán bù guǎng yù nóng dào'),
-    ('chinese russian', "二连浩特市 Эрээн хот", 'èr lián hào tè shì Éréén hot'),
-    ('arabic', "شارع المنيرة الرئيسي", 'sẖạrʿ ạlmnyrẗ ạlrỷysy'),
-    # transliteration doesn't work on eritrean characters!
-    ('eritrean', 'ጋሽ-ባርካ', 'ጋሽ-ባርካ'),
-]
-
-
-@pytest.fixture(params=international_text_strings)
-def international_text(request):
-    return dict(
-        variant=request.param[0],
-        text=request.param[1],
-        expected=request.param[2],
-    )
-
-
-@slow
-def test_transliterate_works_as_expected(osmaxx_functions, international_text):
-    engine = osmaxx_functions
-    text_escaped = international_text['text']
-    result = engine.execute(sqlalchemy.text("select transliterate($${}$$) as label;".format(text_escaped)).execution_options(autocommit=True))
-    assert result.rowcount == 1
-    results = result.fetchall()
-    assert len(results) == 1
-    assert results[0]['label'] == international_text['expected']
-
 
 xeno = "大洲南部広域農道"
 xeno_transliterated = 'dà zhōu nán bù guǎng yù nóng dào'
@@ -1207,27 +1169,3 @@ def test_label_water_l(osmaxx_schemas, label_input):
 
     result = engine.execute(sqlalchemy.text("select label from osmaxx.water_l").execution_options(autocommit=True))
     assert result.fetchone()['label'] == expected_label
-
-
-@slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(
-        osmaxx_functions, clean_osm_tables, monkeypatch):
-    assert osmaxx_functions == clean_osm_tables  # same db-connection
-    engine = osmaxx_functions
-    engine.execute(
-        osm_models.t_osm_polygon.insert().values(
-            amenity='grave_yard',
-            religion='any value will do, as long as one is present',
-        ).execution_options(autocommit=True)
-    )
-    monkeypatch.setattr(
-        'osmaxx.converters.gis_converter.helper.postgres_wrapper.create_engine', lambda *_, **__: engine)
-    bootstrapper = BootStrapper(pbf_file_path=None)
-    bootstrapper._harmonize_database()
-    bootstrapper._filter_data()
-    t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
-    result = engine.execute(sqlalchemy.select([t_pow_a]))
-    assert result.rowcount == 1
-
-    del result  # The (unfetched) result would block the dropping of SCHEMA "osmaxx" in the following cleanup.
-    cleanup_osmaxx_schemas(engine)

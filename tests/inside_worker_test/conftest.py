@@ -13,6 +13,11 @@ worker_only_test = pytest.mark.skipif(
     reason="This tests only runs in special enviroment"
 )
 
+slow = pytest.mark.skipif(
+    not pytest.config.getoption("--runslow"),
+    reason="need --runslow option to run"
+)
+
 db_name = 'osmaxx_db'
 
 gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name, host='127.0.0.1', port=postgres_container_userland_port)
