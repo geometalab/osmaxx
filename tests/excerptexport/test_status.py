@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, BBoxBoundingGeometry
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-from osmaxx.excerptexport.tests.permission_test_helper import PermissionHelperMixin
-from test_helpers import vcr_explicit_path as vcr
+from .permission_test_helper import PermissionHelperMixin
+from tests.test_helpers import vcr_explicit_path as vcr
 
 
 @patch('osmaxx.job_progress.middleware.update_order')

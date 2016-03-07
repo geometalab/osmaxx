@@ -1,9 +1,5 @@
 environmentvars:
   environment:
-    # port and host application listens
-    - APP_PORT=8901
-    - APP_HOST=0.0.0.0
-
     # hardened security compared to default settings.
     - DJANGO_SECURE_BROWSER_XSS_FILTER=true
     - DJANGO_SECURE_CONTENT_TYPE_NOSNIFF=true

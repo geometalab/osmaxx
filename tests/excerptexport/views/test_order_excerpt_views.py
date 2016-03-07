@@ -1,5 +1,6 @@
 import shutil
 import os
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -7,8 +8,8 @@ from django.test import TestCase
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models import BBoxBoundingGeometry
-from osmaxx.excerptexport.tests.permission_test_helper import PermissionHelperMixin
-from test_helpers import vcr_explicit_path as vcr
+from tests.excerptexport.permission_test_helper import PermissionHelperMixin
+from tests.test_helpers import vcr_explicit_path as vcr
 
 
 class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
@@ -82,7 +83,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
         self.assertIn(
-            ('Personal excerpts (user) [1]', ((1, 'Some old Excerpt'),)),
+            ('Personal excerpts (user) [1]', ((self.existing_own_excerpt.id, 'Some old Excerpt'),)),
             response.context['form'].fields['existing_excerpts'].choices
         )
         self.assertIn(self.existing_own_excerpt.name, response.context['form'].form_html)
@@ -94,7 +95,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
 
         self.assertIn(
-            ('Other excerpts [1]', ((2, 'Public Excerpt by someone else'),)),
+            ('Other excerpts [1]', ((self.existing_public_foreign_excerpt.id, 'Public Excerpt by someone else'),)),
             response.context['form'].fields['existing_excerpts'].choices
         )
         self.assertIn(self.existing_public_foreign_excerpt.name, response.context['form'].form_html)

@@ -7,11 +7,12 @@ import time
 from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve
 from django.test.testcases import TestCase
+from hamcrest import matches_regexp, match_equality
 
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
 from osmaxx.excerptexport.services import ConversionApiClient
 from osmaxx.job_progress.views import tracker
-from test_helpers import vcr_explicit_path as vcr, absolute_cassette_lib_path
+from tests.test_helpers import vcr_explicit_path as vcr, absolute_cassette_lib_path
 
 
 class ConversionApiClientAuthTestCase(TestCase):
@@ -77,7 +78,7 @@ class ConversionApiClientTestCase(TestCase):
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.QUEUED)
         self.assertEqual(self.extraction_order.process_id, response.json().get('rq_job_id'))
         self.assertIsNotNone(self.extraction_order.process_id)
-        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
+        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_of_created_job_resolves_to_job_updater(self):
@@ -91,7 +92,7 @@ class ConversionApiClientTestCase(TestCase):
 
         match = resolve(callback_path)
         self.assertEqual(match.func, tracker)
-        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
+        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_of_created_job_refers_to_correct_extraction_order(self):
@@ -105,7 +106,7 @@ class ConversionApiClientTestCase(TestCase):
 
         match = resolve(callback_path)
         self.assertEqual(match.kwargs, {'order_id': str(self.extraction_order.id)})
-        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
+        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_would_reach_this_django_instance(self):
@@ -118,7 +119,7 @@ class ConversionApiClientTestCase(TestCase):
         scheme, host, callback_path, params, *_ = urlparse(callback_url)
         assert scheme.startswith('http')  # also matches https
         self.assertEqual(host, 'the-host.example.com')
-        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
+        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
 
     def test_download_files(self):
         cassette_file_location = os.path.join(
@@ -153,7 +154,7 @@ class ConversionApiClientTestCase(TestCase):
                 368378,
                 delta=10000
             )
-        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
+        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
 
     def test_order_status_processing(self):
         cassette_file_location = os.path.join(
@@ -177,7 +178,7 @@ class ConversionApiClientTestCase(TestCase):
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
             self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.INITIALIZED)
             self.assertEqual(self.extraction_order.output_files.count(), 0)
-        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
+        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
 
     def test_order_status_done(self):
         cassette_file_location = os.path.join(
@@ -199,4 +200,4 @@ class ConversionApiClientTestCase(TestCase):
 
             self.api_client.update_order_status(self.extraction_order)
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
-        self.request.build_absolute_uri.assert_called_with('/job_progress/tracker/1/')
+        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))

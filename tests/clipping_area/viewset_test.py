@@ -174,7 +174,7 @@ def test_clipping_area_creation_succeeds(authenticated_api_client, clipping_area
     response = authenticated_api_client.post(reverse('clipping_area-list'), clipping_area_hsr_data, format='json')
     assert response.status_code == 201
     expected_data = clipping_area_hsr_data.copy()
-    expected_data['id'] = 1
+    expected_data['id'] = ClippingArea.objects.last().id
     assert response.json() == expected_data
 
 

@@ -16,4 +16,5 @@ class PrivateSystemStorage(FileSystemStorage):
             os.makedirs(self.location)
 
 
-private_storage = PrivateSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)
+def get_default_private_storage():
+    return PrivateSystemStorage(location=settings.PRIVATE_MEDIA_ROOT)

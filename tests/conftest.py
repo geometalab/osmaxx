@@ -1,6 +1,7 @@
 # pylint: disable=C0111
 import os
-from datetime import timedelta
+import tempfile
+from datetime import timedelta, timezone
 
 import pytest
 
@@ -34,6 +35,26 @@ def pytest_configure():
             'django.template.loaders.filesystem.Loader',
             'django.template.loaders.app_directories.Loader',
         ),
+        TEMPLATES = [
+            {
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                'OPTIONS': {
+                    'context_processors': [
+                        'django.contrib.auth.context_processors.auth',
+                        'django.template.context_processors.debug',
+                        'django.template.context_processors.i18n',
+                        'django.template.context_processors.media',
+                        'django.template.context_processors.static',
+                        'django.template.context_processors.tz',
+                        'django.template.context_processors.request',
+                    ],
+                    'loaders': [
+                        'django.template.loaders.filesystem.Loader',
+                        'django.template.loaders.app_directories.Loader',
+                    ]
+                },
+            },
+        ],
         MIDDLEWARE_CLASSES=(
             'django.middleware.common.CommonMiddleware',
             'django.contrib.sessions.middleware.SessionMiddleware',
@@ -52,10 +73,22 @@ def pytest_configure():
             'rest_framework',
             'rest_framework_gis',
             'rest_framework.authtoken',
+            'crispy_forms',
+
             'tests',
 
+            # conversion service apps
             'osmaxx.clipping_area',
             'osmaxx.conversion',
+
+            # web_frontend apps
+            'osmaxx.countries',
+            'osmaxx.excerptexport',
+            'osmaxx.job_progress',
+            'osmaxx.social_auth',
+
+            # special model for testing only
+            'tests.utilities.test_models',
         ),
         PASSWORD_HASHERS=(
             'django.contrib.auth.hashers.SHA1PasswordHasher',
@@ -96,9 +129,41 @@ def pytest_configure():
         },
         OSMAXX_CONVERSION_SERVICE={
             'PBF_PLANET_FILE_PATH': os.path.join(test_data_dir, 'osm', 'monaco-latest.osm.pbf'),
-            'COUNTRIES_POLYFILE_LOCATION': os.path.join(test_data_dir, 'polyfiles'),
         },
+        _OSMAXX_POLYFILE_LOCATION=os.path.join(test_data_dir, 'polyfiles'),
 
+        # Some of our tests erase PRIVATE_MEDIA_ROOT dir to clean up after themselves,
+        # so DON'T set this to the location of anything valuable.
+        PRIVATE_MEDIA_ROOT=tempfile.mkdtemp(),
+
+        OSMAXX_TEST_SETTINGS={
+            'download_file_name': '%(excerpt_name)s-%(content_type)s-%(id)s.%(file_extension)s',
+            'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
+            'CONVERSION_SERVICE_USERNAME': 'dev',
+            'CONVERSION_SERVICE_PASSWORD': 'dev',
+        },
+        OSMAXX={
+            'download_file_name': '%(date)s-%(excerpt_name)s-%(id)s.%(content_type)s.%(file_extension)s',
+            'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timedelta(hours=24),
+            # The email adress of this user will be used to generate the mailto link for users
+            # to request access to osmaxx (access_denied page)
+            'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
+            'CONVERSION_SERVICE_USERNAME': 'dev',
+            'CONVERSION_SERVICE_PASSWORD': 'dev',
+        },
+        OSMAXX_FRONTEND_USER_GROUP='osmaxx_frontend_users',
+
+        CACHES={
+            'default': {
+                'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+                'LOCATION': ''
+            }
+        },
+        MIGRATION_MODULES = {
+            'sites': 'osmaxx.contrib.sites.migrations',
+            'auth': 'osmaxx.contrib.auth.migrations',
+            'stored_messages': 'osmaxx.third_party_apps.stored_messages.migrations',
+        }
     )
 
 
@@ -120,8 +185,9 @@ def authenticated_client(client):
         Authenticated Client
     """
     from django.contrib.auth import get_user_model
-    get_user_model().objects.create_user(username='lauren', password='lauri', email=None)
+    user = get_user_model().objects.create_user(username='lauren', password='lauri', email=None)
     client.login(username='lauren', password='lauri')
+    client.user = user
     return client
 
 
@@ -159,5 +225,13 @@ def persisted_valid_clipping_area():
     persisted_valid_clipping_area = ClippingArea.objects.create(name='test', clipping_multi_polygon=multi_polygon)
     assert persisted_valid_clipping_area.osmosis_polygon_file_string != ''
     assert persisted_valid_clipping_area.osmosis_polygon_file_string is not None
-    assert str(persisted_valid_clipping_area) == "test (1)"
+    assert str(persisted_valid_clipping_area) == "test ({})".format(persisted_valid_clipping_area.id)
     return persisted_valid_clipping_area
+
+
+@pytest.fixture
+def authorized_client(authenticated_client):
+    from django.contrib.auth.models import Group
+    from osmaxx.contrib.auth.frontend_permissions import FRONTEND_USER_GROUP
+    authenticated_client.user.groups.add(Group.objects.get(name=FRONTEND_USER_GROUP))
+    return authenticated_client

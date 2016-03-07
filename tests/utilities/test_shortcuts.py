@@ -1,11 +1,11 @@
 from django.test import TestCase
 from osmaxx.utilities.shortcuts import get_object_or_none, get_list_or_none
-from osmaxx.utilities.tests.test_models.models import Article, Author
+from .test_models.models import Article, Author
 
 
 class GetObjectOrNoneTests(TestCase):
     available_apps = [
-        'osmaxx.utilities.tests.test_models',
+        'tests.utilities.test_models',
     ]
 
     def test_get_object_or_none(self):

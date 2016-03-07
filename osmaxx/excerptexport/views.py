@@ -5,9 +5,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
-from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
-from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect, FileResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
@@ -23,7 +22,7 @@ from osmaxx.contrib.auth.frontend_permissions import (
 )
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
-from osmaxx.utils import private_storage
+from osmaxx.utils import get_default_private_storage
 from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState
 
@@ -87,12 +86,11 @@ def download_file(request, uuid):
         return HttpResponseNotFound('<p>No output file attached to output file record.</p>')
 
     download_file_name = output_file.download_file_name
+    private_storage = get_default_private_storage()
 
     # stream file in chunks
-    response = StreamingHttpResponse(
-        FileWrapper(
-            private_storage.open(output_file.file),
-        ),
+    response = FileResponse(
+        private_storage.open(output_file.file),
         content_type=output_file.mime_type
     )
     response['Content-Length'] = private_storage.size(output_file.file)
