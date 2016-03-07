@@ -112,18 +112,23 @@ def clean_osm_tables(osm_tables):
 def osmaxx_schemas(osmaxx_functions, clean_osm_tables, request):
     assert osmaxx_functions == clean_osm_tables  # same db-connection
     engine = osmaxx_functions
-    osmaxx_schemas = [
-        'view_osmaxx',
-        'osmaxx',
-    ]
-    for schema in osmaxx_schemas:
+    for schema in _osmaxx_schemas:
         engine.execute(sqlalchemy.text("CREATE SCHEMA {};".format(schema)))
 
-    def cleanup_osmaxx_schemas():
-        for schema in osmaxx_schemas:
-            engine.execute(sqlalchemy.text("DROP SCHEMA {} CASCADE;".format(schema)))
-    request.addfinalizer(cleanup_osmaxx_schemas)
+    def _cleanup():
+        cleanup_osmaxx_schemas(engine)
+    request.addfinalizer(_cleanup)
     return engine
+
+_osmaxx_schemas = [
+    'view_osmaxx',
+    'osmaxx',
+]
+
+
+def cleanup_osmaxx_schemas(engine):
+    for schema in _osmaxx_schemas:
+        engine.execute(sqlalchemy.text("DROP SCHEMA {} CASCADE;".format(schema)))
 
 
 def sql_from_bootstrap_relative_location(file_name):

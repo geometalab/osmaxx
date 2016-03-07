@@ -2,7 +2,7 @@ import pytest
 import sqlalchemy
 
 from osmaxx.converters.gis_converter.bootstrap.bootstrap import BootStrapper
-from tests.inside_worker_test.conftest import sql_from_bootstrap_relative_location
+from tests.inside_worker_test.conftest import sql_from_bootstrap_relative_location, cleanup_osmaxx_schemas
 from tests.inside_worker_test.declarative_schema import osm_models
 
 slow = pytest.mark.skipif(
@@ -1228,3 +1228,6 @@ def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into
     t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
     result = engine.execute(sqlalchemy.select([t_pow_a]))
     assert result.rowcount == 1
+
+    del result  # The (unfetched) result would block the dropping of SCHEMA "osmaxx" in the following cleanup.
+    cleanup_osmaxx_schemas(engine)
