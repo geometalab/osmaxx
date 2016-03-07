@@ -1,4 +1,4 @@
-# osmaxx-frontend
+[![Build Status](https://travis-ci.org/geometalab/osmaxx-conversion-service.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx-conversion-service)
 
 [![Build Status](https://travis-ci.org/geometalab/osmaxx-frontend.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx-frontend) ([branch `master`](https://github.com/geometalab/osmaxx-frontend/tree/master))
 

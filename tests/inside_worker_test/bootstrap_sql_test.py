@@ -1,20 +1,13 @@
-import os
-
 import pytest
 import sqlalchemy
 
 from tests.inside_worker_test.conftest import sql_from_bootstrap_relative_location
 from tests.inside_worker_test.declarative_schema import osm_models
 
-worker_only_test = pytest.mark.skipif(
-    not os.environ.get("TEST_INSIDE_WORKER", False),
-    reason="This tests only runs in special enviroment"
+slow = pytest.mark.skipif(
+    not pytest.config.getoption("--runslow"),
+    reason="need --runslow option to run"
 )
-
-db_name = 'osmaxx_db'
-
-gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name)
-
 
 international_text_strings = [
     ('ascii', 'some normal ascii', 'some normal ascii'),
@@ -37,7 +30,7 @@ def international_text(request):
     )
 
 
-@worker_only_test
+@slow
 def test_transliterate_works_as_expected(osmaxx_functions, international_text):
     engine = osmaxx_functions
     text_escaped = international_text['text']
@@ -75,7 +68,7 @@ def label_input(request):
     return request.param.copy()
 
 
-@worker_only_test
+@slow
 def test_label_addresses(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/address/000_setup-drop_and_recreate_table.sql'
@@ -93,7 +86,7 @@ def test_label_addresses(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_entrance(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/address/000_setup-drop_and_recreate_table.sql'
@@ -112,7 +105,7 @@ def test_label_entrance(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 @pytest.mark.skipif(True, reason='would need too much input data (houses along a line) which we have not so far')
 def test_label_interpolation(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
@@ -132,7 +125,7 @@ def test_label_interpolation(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_adminarea(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/adminarea_boundary/000_setup-drop_and_recreate_table_adminarea.sql'
@@ -151,7 +144,7 @@ def test_label_adminarea(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_boundary(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/adminarea_boundary/020_setup-drop_and_recreate_table_boundary.sql'
@@ -170,7 +163,7 @@ def test_label_boundary(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_building(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/building/000_setup-drop_and_recreate_table_building.sql'
@@ -189,7 +182,7 @@ def test_label_building(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_geoname_l(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/geoname/000_setup-geoname_table.sql'
@@ -208,7 +201,7 @@ def test_label_geoname_l(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_geoname_p(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/geoname/000_setup-geoname_table.sql'
@@ -227,7 +220,7 @@ def test_label_geoname_p(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_landuse(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/landuse/000_setup-drop_and_recreate_table_landuse.sql'
@@ -246,7 +239,7 @@ def test_label_landuse(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_military_a(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/military/000_setup-drop_and_recreate_table_military_a.sql'
@@ -265,7 +258,7 @@ def test_label_military_a(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_military_p(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/military/020_setup-drop_and_recreate_table_military_p.sql'
@@ -284,7 +277,7 @@ def test_label_military_p(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_barrier(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/misc/000_setup_misc_table.sql'
@@ -303,7 +296,7 @@ def test_label_barrier(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_misc_natural(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/misc/000_setup_misc_table.sql'
@@ -322,7 +315,7 @@ def test_label_misc_natural(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_traffic_calming(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/misc/000_setup_misc_table.sql'
@@ -341,7 +334,7 @@ def test_label_traffic_calming(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_air_traffic(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/misc/000_setup_misc_table.sql'
@@ -360,7 +353,7 @@ def test_label_air_traffic(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_natural_a(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/natural/000_setup-drop_and_recreate_table_natural_a.sql'
@@ -379,7 +372,7 @@ def test_label_natural_a(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_natural_p(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/natural/020_setup-drop_and_recreate_table_natural_p.sql'
@@ -398,7 +391,7 @@ def test_label_natural_p(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_nonop(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/nonop/000_setup-drop_and_recreate_table_nonop.sql'
@@ -417,7 +410,7 @@ def test_label_nonop(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_amenity(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/000_setup-drop_and_recreate_table_poi_a.sql'
@@ -436,7 +429,7 @@ def test_label_poi_amenity(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_leisure(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/000_setup-drop_and_recreate_table_poi_a.sql'
@@ -455,7 +448,7 @@ def test_label_poi_leisure(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_man_made(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/000_setup-drop_and_recreate_table_poi_a.sql'
@@ -474,7 +467,7 @@ def test_label_poi_man_made(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_historic(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/000_setup-drop_and_recreate_table_poi_a.sql'
@@ -493,7 +486,7 @@ def test_label_poi_historic(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_shop(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/000_setup-drop_and_recreate_table_poi_a.sql'
@@ -512,7 +505,7 @@ def test_label_poi_shop(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_tourism(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/000_setup-drop_and_recreate_table_poi_a.sql'
@@ -531,7 +524,7 @@ def test_label_poi_tourism(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_sport(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/000_setup-drop_and_recreate_table_poi_a.sql'
@@ -550,7 +543,7 @@ def test_label_poi_sport(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_highway(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/000_setup-drop_and_recreate_table_poi_a.sql'
@@ -569,7 +562,7 @@ def test_label_poi_highway(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_emergency(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/000_setup-drop_and_recreate_table_poi_a.sql'
@@ -588,7 +581,7 @@ def test_label_poi_emergency(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_drinking_water(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/000_setup-drop_and_recreate_table_poi_a.sql'
@@ -607,7 +600,7 @@ def test_label_poi_drinking_water(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_office(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/000_setup-drop_and_recreate_table_poi_a.sql'
@@ -626,7 +619,7 @@ def test_label_poi_office(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_p_amenity(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/120_setup-drop_and_recreate_table_poi_p.sql'
@@ -645,7 +638,7 @@ def test_label_poi_p_amenity(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_p_leisure(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/120_setup-drop_and_recreate_table_poi_p.sql'
@@ -664,7 +657,7 @@ def test_label_poi_p_leisure(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_p_man_made(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/120_setup-drop_and_recreate_table_poi_p.sql'
@@ -683,7 +676,7 @@ def test_label_poi_p_man_made(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_p_historic(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/120_setup-drop_and_recreate_table_poi_p.sql'
@@ -702,7 +695,7 @@ def test_label_poi_p_historic(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_p_shop(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/120_setup-drop_and_recreate_table_poi_p.sql'
@@ -721,7 +714,7 @@ def test_label_poi_p_shop(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_p_tourism(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/120_setup-drop_and_recreate_table_poi_p.sql'
@@ -740,7 +733,7 @@ def test_label_poi_p_tourism(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_p_sport(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/120_setup-drop_and_recreate_table_poi_p.sql'
@@ -759,7 +752,7 @@ def test_label_poi_p_sport(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_p_highway(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/120_setup-drop_and_recreate_table_poi_p.sql'
@@ -778,7 +771,7 @@ def test_label_poi_p_highway(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_p_emergency(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/120_setup-drop_and_recreate_table_poi_p.sql'
@@ -797,7 +790,7 @@ def test_label_poi_p_emergency(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_p_drinking_water(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/120_setup-drop_and_recreate_table_poi_p.sql'
@@ -816,7 +809,7 @@ def test_label_poi_p_drinking_water(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_poi_p_office(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/poi/120_setup-drop_and_recreate_table_poi_p.sql'
@@ -835,7 +828,7 @@ def test_label_poi_p_office(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_pow_a(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/pow/000_setup-drop_and_recreate_table_pow_a.sql'
@@ -854,7 +847,7 @@ def test_label_pow_a(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_pow_p(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/pow/020_setup-drop_and_recreate_table_pow_p.sql'
@@ -873,7 +866,7 @@ def test_label_pow_p(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_railway(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/railway/000_setup-drop_and_recreate_table_railway.sql'
@@ -892,7 +885,7 @@ def test_label_railway(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_aerialway(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/railway/000_setup-drop_and_recreate_table_railway.sql'
@@ -911,7 +904,7 @@ def test_label_aerialway(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_road(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/road/000_setup-drop_and_recreate_table_road.sql'
@@ -930,7 +923,7 @@ def test_label_road(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_junction(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/road/000_setup-drop_and_recreate_table_road.sql'
@@ -949,7 +942,7 @@ def test_label_junction(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_route(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/route/000_setup-drop_and_recreate_table_route.sql'
@@ -968,7 +961,7 @@ def test_label_route(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_traffic_a(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/traffic/000_setup-drop_and_recreate_table_traffic.sql'
@@ -987,7 +980,7 @@ def test_label_traffic_a(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_traffic_p(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/traffic/020_setup-drop_and_recreate_table_traffic_p.sql'
@@ -1006,7 +999,7 @@ def test_label_traffic_p(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_transport_a(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/transport/000_setup-drop_and_recreate_table_transport_a.sql'
@@ -1025,7 +1018,7 @@ def test_label_transport_a(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_transport_p(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/transport/020_setup-drop_and_recreate_table_transport_p.sql'
@@ -1044,7 +1037,7 @@ def test_label_transport_p(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_a_power(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/utility/000_setup-drop_and_recreate_table_utility_a.sql'
@@ -1063,7 +1056,7 @@ def test_label_a_power(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_a_man_made(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/utility/000_setup-drop_and_recreate_table_utility_a.sql'
@@ -1082,7 +1075,7 @@ def test_label_a_man_made(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_p_power(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/utility/030_setup-drop_and_recreate_table_utility_p.sql'
@@ -1101,7 +1094,7 @@ def test_label_p_power(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_p_man_made(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/utility/030_setup-drop_and_recreate_table_utility_p.sql'
@@ -1120,7 +1113,7 @@ def test_label_p_man_made(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_l_power(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/utility/060_setup-drop_and_recreate_table_utility_l.sql'
@@ -1139,7 +1132,7 @@ def test_label_l_power(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_l_man_made(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/utility/060_setup-drop_and_recreate_table_utility_l.sql'
@@ -1158,7 +1151,7 @@ def test_label_l_man_made(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_water_a(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/water/000_water_abl_create_tables.sql'
@@ -1177,7 +1170,7 @@ def test_label_water_a(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_water_b(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/water/000_water_abl_create_tables.sql'
@@ -1196,7 +1189,7 @@ def test_label_water_b(osmaxx_schemas, label_input):
     assert result.fetchone()['label'] == expected_label
 
 
-@worker_only_test
+@slow
 def test_label_water_l(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/water/000_water_abl_create_tables.sql'
