@@ -34,18 +34,15 @@ def data_import(osmaxx_functions, clean_osm_tables, monkeypatch):
         bootstrapper = _BootStrapperWithoutPbfFile(data)
         try:
             bootstrapper.bootstrap()
-            yield
+            yield engine
         finally:
             cleanup_osmaxx_schemas(bootstrapper._postgres._engine)
-    import_data.engine = engine
     return import_data
 
 
 @slow
 def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(data_import):
-    engine = data_import.engine
-
-    with data_import(amenity='grave_yard', religion='any value will do, as long as one is present'):
+    with data_import(amenity='grave_yard', religion='any value will do, as long as one is present') as engine:
         try:
             t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
             result = engine.execute(sqlalchemy.select([t_pow_a]))
