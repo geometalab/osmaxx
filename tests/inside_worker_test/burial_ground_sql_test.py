@@ -8,6 +8,22 @@ from tests.inside_worker_test.conftest import slow, cleanup_osmaxx_schemas
 from tests.inside_worker_test.declarative_schema import osm_models
 
 
+@slow
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(data_import):
+    with data_import(amenity='grave_yard', religion='any value will do, as long as one is present') as engine:
+        try:
+            t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
+            result = engine.execute(sqlalchemy.select([t_pow_a]))
+            assert result.rowcount == 1
+        finally:
+            try:
+                # Remove the result, as it would otherwise block the dropping of SCHEMA "osmaxx"
+                # during the cleanup in the finalizer of the `data_import` fixture.
+                del result
+            except NameError:
+                pass
+
+
 @pytest.fixture()
 def data_import(osmaxx_functions, clean_osm_tables, monkeypatch):
     assert osmaxx_functions == clean_osm_tables  # same db-connection
@@ -38,19 +54,3 @@ def data_import(osmaxx_functions, clean_osm_tables, monkeypatch):
         finally:
             cleanup_osmaxx_schemas(bootstrapper._postgres._engine)
     return import_data
-
-
-@slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(data_import):
-    with data_import(amenity='grave_yard', religion='any value will do, as long as one is present') as engine:
-        try:
-            t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
-            result = engine.execute(sqlalchemy.select([t_pow_a]))
-            assert result.rowcount == 1
-        finally:
-            try:
-                # Remove the result, as it would otherwise block the dropping of SCHEMA "osmaxx"
-                # during the cleanup in the finalizer of the `data_import` fixture.
-                del result
-            except NameError:
-                pass
