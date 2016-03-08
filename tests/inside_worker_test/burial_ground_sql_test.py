@@ -9,7 +9,7 @@ from tests.inside_worker_test.declarative_schema import osm_models
 
 
 @pytest.fixture()
-def BootStrapperWithoutPbfFile(osmaxx_functions, clean_osm_tables, monkeypatch):  # noqa
+def data_import(osmaxx_functions, clean_osm_tables, monkeypatch):
     assert osmaxx_functions == clean_osm_tables  # same db-connection
     engine = osmaxx_functions
     monkeypatch.setattr(
@@ -29,21 +29,16 @@ def BootStrapperWithoutPbfFile(osmaxx_functions, clean_osm_tables, monkeypatch):
 
         def _setup_db_functions(self):
             pass  # Already taken care of by osmaxx_functions fixture.
-    _BootStrapperWithoutPbfFile.engine = engine
-    return _BootStrapperWithoutPbfFile
 
-
-@pytest.fixture()
-def data_import(BootStrapperWithoutPbfFile):  # noqa
     @contextmanager
     def import_data(**data):
-        bootstrapper = BootStrapperWithoutPbfFile(data)
+        bootstrapper = _BootStrapperWithoutPbfFile(data)
         try:
             bootstrapper.bootstrap()
             yield
         finally:
             cleanup_osmaxx_schemas(bootstrapper._postgres._engine)
-    import_data.engine = BootStrapperWithoutPbfFile.engine
+    import_data.engine = engine
     return import_data
 
 
