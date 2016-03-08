@@ -3,8 +3,7 @@ from contextlib import contextmanager
 import pytest
 import sqlalchemy
 
-from osmaxx.converters.gis_converter.bootstrap.bootstrap import BootStrapper
-from tests.inside_worker_test.conftest import slow, cleanup_osmaxx_schemas
+from tests.inside_worker_test.conftest import slow
 from tests.inside_worker_test.declarative_schema import osm_models
 
 
@@ -26,6 +25,9 @@ def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into
 
 @pytest.fixture()
 def data_import(osmaxx_functions, clean_osm_tables, monkeypatch):
+    from osmaxx.converters.gis_converter.bootstrap.bootstrap import BootStrapper
+    from tests.inside_worker_test.conftest import cleanup_osmaxx_schemas
+
     assert osmaxx_functions == clean_osm_tables  # same db-connection
     engine = osmaxx_functions
     monkeypatch.setattr(
