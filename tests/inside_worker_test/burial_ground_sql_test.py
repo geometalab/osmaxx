@@ -2,6 +2,7 @@ from contextlib import contextmanager
 
 import pytest
 import sqlalchemy
+from sqlalchemy.sql.schema import Table as DbTable
 
 from tests.inside_worker_test.conftest import slow
 from tests.inside_worker_test.declarative_schema import osm_models
@@ -11,7 +12,7 @@ from tests.inside_worker_test.declarative_schema import osm_models
 def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(data_import):
     with data_import(amenity='grave_yard', religion='any value will do, as long as one is present') as engine:
         try:
-            t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
+            t_pow_a = DbTable('pow_a', osm_models.metadata, schema='osmaxx')
             result = engine.execute(sqlalchemy.select([t_pow_a]))
             assert result.rowcount == 1
         finally:
