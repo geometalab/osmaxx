@@ -7,10 +7,10 @@ from django.conf import settings
 
 def update_site_forward(apps, schema_editor):
     """Add group osmaxx."""
-    Group = apps.get_model("auth", "Group")
-    Permission = apps.get_model("auth", "Permission")
-    ContentType = apps.get_model("contenttypes", "ContentType")
-    ExtractionOrder = apps.get_model("excerptexport", "ExtractionOrder")
+    Group = apps.get_model("auth", "Group")  # noqa
+    Permission = apps.get_model("auth", "Permission")  # noqa
+    ContentType = apps.get_model("contenttypes", "ContentType")  # noqa
+    ExtractionOrder = apps.get_model("excerptexport", "ExtractionOrder")  # noqa
     group = Group.objects.create(name=settings.OSMAXX_FRONTEND_USER_GROUP)
     content_type = ContentType.objects.get_for_model(ExtractionOrder)
     permission, created = Permission.objects.get_or_create(codename='add_extractionorder', content_type=content_type)
@@ -19,7 +19,7 @@ def update_site_forward(apps, schema_editor):
 
 def update_site_backward(apps, schema_editor):
     """Revert add group osmaxx."""
-    Group = apps.get_model("auth", "Group")
+    Group = apps.get_model("auth", "Group")  # noqa
     Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP).delete()
 
 

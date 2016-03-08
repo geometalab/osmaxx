@@ -4,7 +4,6 @@ from osmaxx.utils.private_system_storage import PrivateSystemStorage, get_defaul
 from osmaxx.utils.directory_changer_helper import changed_dir
 
 
-
 __all__ = [
     'changed_dir',
     'PrivateSystemStorage',

@@ -1,7 +1,7 @@
 # pylint: disable=C0111
 import os
 import tempfile
-from datetime import timedelta, timezone
+from datetime import timedelta
 
 import pytest
 
@@ -35,7 +35,7 @@ def pytest_configure():
             'django.template.loaders.filesystem.Loader',
             'django.template.loaders.app_directories.Loader',
         ),
-        TEMPLATES = [
+        TEMPLATES=[
             {
                 'BACKEND': 'django.template.backends.django.DjangoTemplates',
                 'OPTIONS': {
@@ -159,7 +159,7 @@ def pytest_configure():
                 'LOCATION': ''
             }
         },
-        MIGRATION_MODULES = {
+        MIGRATION_MODULES={
             'sites': 'osmaxx.contrib.sites.migrations',
             'auth': 'osmaxx.contrib.auth.migrations',
             'stored_messages': 'osmaxx.third_party_apps.stored_messages.migrations',

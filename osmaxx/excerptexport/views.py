@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
-from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect, FileResponse
+from django.http import HttpResponseNotFound, HttpResponseRedirect, FileResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
@@ -180,7 +180,7 @@ def request_access(request):
                 _('Sending of access request failed. Please contact an administrator.')
             )
 
-    return redirect(request.GET['next']+'?next='+request.GET['next'])
+    return redirect(request.GET['next'] + '?next=' + request.GET['next'])
 
 
 def _social_identification_description(user):
