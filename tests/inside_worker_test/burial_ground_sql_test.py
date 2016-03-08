@@ -1,3 +1,4 @@
+import pytest
 import sqlalchemy
 
 from osmaxx.converters.gis_converter.bootstrap.bootstrap import BootStrapper
@@ -5,11 +6,21 @@ from tests.inside_worker_test.conftest import slow, cleanup_osmaxx_schemas
 from tests.inside_worker_test.declarative_schema import osm_models
 
 
-@slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(
-        osmaxx_functions, clean_osm_tables, monkeypatch):
+@pytest.fixture()
+def bootstrapper(osmaxx_functions, clean_osm_tables, monkeypatch):
     assert osmaxx_functions == clean_osm_tables  # same db-connection
     engine = osmaxx_functions
+    monkeypatch.setattr(
+        'osmaxx.converters.gis_converter.helper.postgres_wrapper.create_engine', lambda *_, **__: engine)
+    monkeypatch.setattr(BootStrapper, '_reset_database', lambda _self: None)  # Already taken care of by fixtures.
+    monkeypatch.setattr(BootStrapper, '_convert_osm_pbf_to_postgres', lambda _self: None)  # Override this in your test!
+    monkeypatch.setattr(BootStrapper, '_setup_db_functions', lambda _self: None)  # Already taken care of by fixtures.
+    return BootStrapper(pbf_file_path=None)
+
+
+@slow
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(bootstrapper, monkeypatch):
+    engine = bootstrapper._postgres._engine
 
     def create_osm_data():
         engine.execute(
@@ -18,12 +29,7 @@ def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into
                 religion='any value will do, as long as one is present',
             ).execution_options(autocommit=True)
         )
-    monkeypatch.setattr(
-        'osmaxx.converters.gis_converter.helper.postgres_wrapper.create_engine', lambda *_, **__: engine)
-    monkeypatch.setattr(BootStrapper, '_reset_database', lambda _self: None)  # Already taken care of by fixtures.
     monkeypatch.setattr(BootStrapper, '_convert_osm_pbf_to_postgres', lambda _self: create_osm_data())
-    monkeypatch.setattr(BootStrapper, '_setup_db_functions', lambda _self: None)  # Already taken care of by fixtures.
-    bootstrapper = BootStrapper(pbf_file_path=None)
     try:
         bootstrapper.bootstrap()
         t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
