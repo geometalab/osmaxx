@@ -22,8 +22,6 @@ APPS_DIR = ROOT_DIR.path('osmaxx')
 
 env = environ.Env()
 
-TEMPLATE_DIRS = ()
-
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
 DJANGO_APPS = (

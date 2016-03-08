@@ -13,6 +13,6 @@ while ! exec 6<>/dev/tcp/${DATABASE_PORT_5432_TCP_ADDR}/${DATABASE_PORT_5432_TCP
     sleep 1
 done
 
-python3 manage.py migrate && \
-python3 manage.py collectstatic --noinput && \
+python3 web_frontend/manage.py migrate && \
+python3 web_frontend/manage.py collectstatic --noinput && \
 exec "$@"

@@ -2,6 +2,7 @@
 *.db
 *~
 .*
+*.env
 
 # Documentation builds
 /html/

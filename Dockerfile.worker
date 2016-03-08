@@ -144,7 +144,7 @@ RUN chmod a+rx $CODE
 
 WORKDIR $HOME
 
-ADD osmaxx_conversion_service/requirements.txt $HOME/requirements.txt
+ADD ./requirements.txt $HOME/requirements.txt
 
 RUN pip install honcho
 
