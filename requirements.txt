@@ -40,6 +40,7 @@ pyroma==1.8.2
 vulture==0.8.1
 
 coverage
+pyhamcrest==1.9.0
 vcrpy
 requests-mock
 
