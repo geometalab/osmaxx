@@ -16,9 +16,8 @@ def data_import(osmaxx_functions, clean_osm_tables, monkeypatch):
         'osmaxx.converters.gis_converter.helper.postgres_wrapper.create_engine', lambda *_, **__: engine)
 
     class _BootStrapperWithoutPbfFile(BootStrapper):
-        def __init__(self, data, pbf_file_path=None, *args, **kwargs):
-            assert pbf_file_path is None
-            super().__init__(pbf_file_path=pbf_file_path, *args, **kwargs)
+        def __init__(self, data):
+            super().__init__(pbf_file_path=None)
             self.data = data
 
         def _reset_database(self):
