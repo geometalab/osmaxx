@@ -1,3 +1,5 @@
+from contextlib import contextmanager
+
 import pytest
 import sqlalchemy
 
@@ -12,32 +14,50 @@ def bootstrapper(osmaxx_functions, clean_osm_tables, monkeypatch):
     engine = osmaxx_functions
     monkeypatch.setattr(
         'osmaxx.converters.gis_converter.helper.postgres_wrapper.create_engine', lambda *_, **__: engine)
-    monkeypatch.setattr(BootStrapper, '_reset_database', lambda _self: None)  # Already taken care of by fixtures.
-    monkeypatch.setattr(BootStrapper, '_convert_osm_pbf_to_postgres', lambda _self: None)  # Override this in your test!
-    monkeypatch.setattr(BootStrapper, '_setup_db_functions', lambda _self: None)  # Already taken care of by fixtures.
-    return BootStrapper(pbf_file_path=None)
+
+    class _BootStrapperWithoutPbfFile(BootStrapper):
+        def __init__(self, pbf_file_path=None, *args, **kwargs):
+            assert pbf_file_path is None
+            super().__init__(pbf_file_path=pbf_file_path, *args, **kwargs)
+
+        def _reset_database(self):
+            pass  # Already taken care of by clean_osm_tables fixture.
+
+        def _convert_osm_pbf_to_postgres(self):
+            engine.execute(osm_models.t_osm_polygon.insert().values(**self.data).execution_options(autocommit=True))
+
+        def _setup_db_functions(self):
+            pass  # Already taken care of by osmaxx_functions fixture.
+    return _BootStrapperWithoutPbfFile()
+
+
+@pytest.fixture()
+def data_import(bootstrapper):
+    @contextmanager
+    def import_data(**data):
+        bootstrapper.data = data
+        try:
+            bootstrapper.bootstrap()
+            yield
+        finally:
+            cleanup_osmaxx_schemas(bootstrapper._postgres._engine)
+    import_data.engine = bootstrapper._postgres._engine
+    return import_data
 
 
 @slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(bootstrapper, monkeypatch):
-    engine = bootstrapper._postgres._engine
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(data_import):
+    engine = data_import.engine
 
-    def create_osm_data():
-        engine.execute(
-            osm_models.t_osm_polygon.insert().values(
-                amenity='grave_yard',
-                religion='any value will do, as long as one is present',
-            ).execution_options(autocommit=True)
-        )
-    monkeypatch.setattr(BootStrapper, '_convert_osm_pbf_to_postgres', lambda _self: create_osm_data())
-    try:
-        bootstrapper.bootstrap()
-        t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
-        result = engine.execute(sqlalchemy.select([t_pow_a]))
-        assert result.rowcount == 1
-    finally:
+    with data_import(amenity='grave_yard', religion='any value will do, as long as one is present'):
         try:
-            del result  # The result would block the dropping of SCHEMA "osmaxx" in the following cleanup.
-        except NameError:
-            pass
-        cleanup_osmaxx_schemas(engine)
+            t_pow_a = sqlalchemy.sql.schema.Table('pow_a', osm_models.metadata, schema='osmaxx')
+            result = engine.execute(sqlalchemy.select([t_pow_a]))
+            assert result.rowcount == 1
+        finally:
+            try:
+                # Remove the result, as it would otherwise block the dropping of SCHEMA "osmaxx"
+                # during the cleanup in the finalizer of the `data_import` fixture.
+                del result
+            except NameError:
+                pass
