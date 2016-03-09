@@ -27,7 +27,7 @@ def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into
         assert result.rowcount == 1
     finally:
         try:
-            del result  # The (unfetched) result would block the dropping of SCHEMA "osmaxx" in the following cleanup.
+            result.close()  # Release row and table locks.
         except NameError:
             pass
         cleanup_osmaxx_schemas(engine)
