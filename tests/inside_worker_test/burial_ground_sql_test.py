@@ -17,9 +17,7 @@ def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into
             assert result.rowcount == 1
         finally:
             try:
-                # Remove the result, as it would otherwise block the dropping of SCHEMA "osmaxx"
-                # during the cleanup in the finalizer of the `data_import` fixture.
-                del result
+                result.close()  # Release row and table locks.
             except NameError:
                 pass
 
