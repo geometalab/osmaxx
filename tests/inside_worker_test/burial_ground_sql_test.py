@@ -10,7 +10,7 @@ from tests.inside_worker_test.declarative_schema import osm_models
 
 @slow
 def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(data_import):
-    with data_import(amenity='grave_yard', religion='any value will do, as long as one is present') as engine:
+    with data_import(dict(amenity='grave_yard', religion='any value will do, as long as one is present')) as engine:
         t_pow_a = DbTable('pow_a', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select([t_pow_a]))) as result:
             assert result.rowcount == 1
@@ -41,7 +41,7 @@ def data_import(osmaxx_functions, clean_osm_tables, monkeypatch):
             pass  # Already taken care of by osmaxx_functions fixture.
 
     @contextmanager
-    def import_data(**data):
+    def import_data(data):
         bootstrapper = _BootStrapperWithoutPbfFile(data)
         try:
             bootstrapper.bootstrap()
