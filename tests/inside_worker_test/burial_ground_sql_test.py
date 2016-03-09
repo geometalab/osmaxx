@@ -10,10 +10,12 @@ from tests.inside_worker_test.declarative_schema import osm_models
 
 @slow
 def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(data_import):
-    data = dict(
-        amenity='grave_yard',
-        religion='any value will do, as long as one is present',
-    )
+    data = {
+        osm_models.t_osm_polygon: dict(
+            amenity='grave_yard',
+            religion='any value will do, as long as one is present',
+        ),
+    }
     with data_import(data) as engine:
         t_pow_a = DbTable('pow_a', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select([t_pow_a]))) as result:
@@ -39,7 +41,8 @@ def data_import(osmaxx_functions, clean_osm_tables, monkeypatch):
             pass  # Already taken care of by clean_osm_tables fixture.
 
         def _convert_osm_pbf_to_postgres(self):
-            engine.execute(osm_models.t_osm_polygon.insert().values(self.data).execution_options(autocommit=True))
+            for table, values in self.data.items():
+                engine.execute(table.insert().values(values).execution_options(autocommit=True))
 
         def _setup_db_functions(self):
             pass  # Already taken care of by osmaxx_functions fixture.
