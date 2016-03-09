@@ -42,7 +42,7 @@ def data_import(osmaxx_functions, clean_osm_tables, monkeypatch):
 
         def _convert_osm_pbf_to_postgres(self):
             for table, values in self.data.items():
-                engine.execute(table.insert().values(values).execution_options(autocommit=True))
+                engine.execute(table.insert().execution_options(autocommit=True), values)
 
         def _setup_db_functions(self):
             pass  # Already taken care of by osmaxx_functions fixture.
