@@ -8,11 +8,6 @@ from sqlalchemy_utils import functions as sql_alchemy_utils
 from tests.conftest import postgres_container_userland_port
 from tests.inside_worker_test.declarative_schema import osm_models
 
-worker_only_test = pytest.mark.skipif(
-    not os.environ.get("TEST_INSIDE_WORKER", False),
-    reason="This tests only runs in special enviroment"
-)
-
 slow = pytest.mark.skipif(
     not pytest.config.getoption("--runslow"),
     reason="need --runslow option to run"
