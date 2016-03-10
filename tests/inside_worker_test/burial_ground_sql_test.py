@@ -24,13 +24,13 @@ def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into
 
 @pytest.fixture()
 def data_import(osmaxx_functions, clean_osm_tables, monkeypatch):
-    from osmaxx.converters.gis_converter.bootstrap.bootstrap import BootStrapper
     from tests.inside_worker_test.conftest import cleanup_osmaxx_schemas
+    from osmaxx.conversion.converters.converter_gis.bootstrap.bootstrap import BootStrapper
 
     assert osmaxx_functions == clean_osm_tables  # same db-connection
     engine = osmaxx_functions
     monkeypatch.setattr(
-        'osmaxx.converters.gis_converter.helper.postgres_wrapper.create_engine', lambda *_, **__: engine)
+        'osmaxx.conversion.converters.converter_gis.helper.postgres_wrapper.create_engine', lambda *_, **__: engine)
 
     class _BootStrapperWithoutPbfFile(BootStrapper):
         def __init__(self, data):
