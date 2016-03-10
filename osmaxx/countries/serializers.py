@@ -6,10 +6,10 @@ from .models import Country
 class CountrySerializer(GeoFeatureModelSerializer):
     class Meta:
         model = Country
-        geo_field = 'simplified_polygon'
+        geo_field = 'simplified_border'
         fields = (
             'id',
             'name',
-            'simplified_polygon',
+            'simplified_border',
             'type_of_geometry',
         )
