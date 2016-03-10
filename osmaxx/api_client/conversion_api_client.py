@@ -8,8 +8,10 @@ from django.utils import timezone
 from rest_framework.reverse import reverse
 
 from osmaxx.api_client.API_client import RESTApiJWTClient
+from osmaxx.countries.models import Country
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import get_default_private_storage
+from osmaxx.utils.to_multipolygon import to_geojson, to_python
 
 logger = logging.getLogger(__name__)
 
@@ -54,28 +56,20 @@ class ConversionApiClient(RESTApiJWTClient):
         return False
 
     def create_job(self, extraction_order, request):
-        """
-        Kickoff a conversion job
-
-        Args:
-            extraction_order: an ExtractionOrder object
-                extraction_order.extraction_configuration is directly used for the api
-                -> must be in a compatible format
-
-        Returns:
-            response of the call
-        """
         if hasattr(extraction_order.excerpt, 'bounding_geometry'):
             bounding_geometry = extraction_order.excerpt.bounding_geometry.subclass_instance
         else:
             bounding_geometry = None
+        # TODO: Refactor and use the direct attribute from extraction order when changed
+        name = extraction_order.excerpt_name
+        # TODO: refactor this and put the "business" logic-code into the view
+        callback_url = request.build_absolute_uri(
+            reverse('job_progress:tracker', kwargs=dict(order_id=extraction_order.id))
+        )
+        gis_formats = extraction_order.extraction_configuration['gis_formats']
+        gis_options = extraction_order.extraction_configuration['gis_options']
 
         request_data = OrderedDict({
-            "callback_url": request.build_absolute_uri(
-                reverse('job_progress:tracker', kwargs=dict(order_id=extraction_order.id))
-            ),
-            "gis_formats": extraction_order.extraction_configuration['gis_formats'],
-            "gis_options": extraction_order.extraction_configuration['gis_options'],
             "extent": {
                 "west": bounding_geometry.west if bounding_geometry else None,
                 "south": bounding_geometry.south if bounding_geometry else None,
@@ -99,6 +93,27 @@ class ConversionApiClient(RESTApiJWTClient):
             else:
                 logging.error('Could not retrieve api job id from response.', response)
         return response
+
+    def _create_boundary(self, name, multipolygon):
+        url = '/clipping_area/'
+        # we need to convert it to a python dict but with geojson keys/values
+        geojson_dict = to_geojson(to_python(multipolygon))
+        payload = dict(name=name, clipping_area=geojson_dict)
+        return self.authorized_post(url=url, json_data=payload)
+
+    def _create_parametrization(self, clipping_area_id, out_format, out_srs):
+        url = '/conversion_parametrization/'
+        payload = dict(
+            clipping_area=clipping_area_id,
+            out_format=out_format,
+            out_srs=out_srs
+        )
+        return self.authorized_post(url=url, json_data=payload)
+
+    def _create_job(self, callback_url, parametrization_id):
+        url = '/conversion_job/'
+        payload = dict(callback_url=callback_url, parametrization=parametrization_id)
+        return self.authorized_post(url=url, json_data=payload)
 
     def _download_result_files(self, extraction_order, job_status):
         """
