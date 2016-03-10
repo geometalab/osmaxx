@@ -26,6 +26,8 @@ frontend:
   build: .
   volumes_from:
     - sources
+  ports:
+    - "8000:8000"
   command: [honcho, -f, ./web_frontend/Procfile.django.dev, start]
   environment:
     - DJANGO_SECRET_KEY=insecure!1
@@ -34,6 +36,8 @@ frontend:
 mediator:
   dockerfile: Dockerfile.mediator
   build: .
+  ports:
+    - "8901:8901"
   volumes_from:
     - sources
   command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.dev, start]
