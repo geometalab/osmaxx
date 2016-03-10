@@ -26,7 +26,6 @@ class ConversionApiClient(RESTApiJWTClient):
     conversion_job_url = '/jobs/'
     conversion_job_status_url = '/conversion_result/{job_uuid}/'
     estimated_file_size_url = '/estimate_size_in_bytes/'
-    country_base_url = '/country/'
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
