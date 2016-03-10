@@ -1,5 +1,5 @@
 docker
-docker-compose
+docker-compose=1.6
 python3
 python3-dev
 postgresql-server-dev-all
