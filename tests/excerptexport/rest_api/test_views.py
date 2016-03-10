@@ -8,7 +8,7 @@ from rest_framework.test import APIRequestFactory
 
 class EstimatedFileSizeViewTests(TestCase):
     def setUp(self):
-        api_client_class_mock = self._patch('osmaxx.excerptexport.services.shortcuts.ConversionApiClient')
+        api_client_class_mock = self._patch('osmaxx.api_client.shortcuts.ConversionApiClient')
         self._set_up_api_client_mock(api_client_class_mock)
 
         self.bbox_edges = {bound: "{0}_value".format(bound) for bound in ['west', 'south', 'east', 'north']}

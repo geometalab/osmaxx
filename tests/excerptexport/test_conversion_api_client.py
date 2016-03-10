@@ -1,16 +1,15 @@
+import time
 from unittest.mock import Mock
 from urllib.parse import urlparse
 
 import os
-import time
-
 from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve
 from django.test.testcases import TestCase
 from hamcrest import matches_regexp, match_equality
 
+from osmaxx.api_client import ConversionApiClient
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
-from osmaxx.excerptexport.services import ConversionApiClient
 from osmaxx.job_progress.views import tracker
 from tests.test_helpers import vcr_explicit_path as vcr, absolute_cassette_lib_path
 

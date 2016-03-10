@@ -1,9 +1,8 @@
 import json
 
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
 from django_enumfield import enum
 
 from .excerpt import Excerpt
@@ -85,7 +84,7 @@ class ExtractionOrder(models.Model):
         if self.excerpt:
             return self.excerpt.name
         elif self.country_id:
-            from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
+            from osmaxx.api_client.shortcuts import get_authenticated_api_client
             return get_authenticated_api_client().get_country_name(self.country_id)
 
     @property

@@ -1,4 +1,4 @@
-from osmaxx.excerptexport.services import ConversionApiClient
+from osmaxx.api_client import ConversionApiClient
 
 
 def get_authenticated_api_client():

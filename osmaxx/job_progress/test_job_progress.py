@@ -1,22 +1,23 @@
-import os
-import shutil
-from io import BytesIO
 from unittest.mock import patch, ANY, call
+
+import os
 import requests_mock
+import shutil
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
+from io import BytesIO
+from rest_framework.test import APITestCase, APIRequestFactory
 
+from osmaxx.api_client.conversion_api_client import ConversionApiClient
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
 from osmaxx.excerptexport.models.output_file import OutputFile
-from osmaxx.excerptexport.services.conversion_api_client import ConversionApiClient
 from osmaxx.job_progress import views, middleware
-from rest_framework.test import APITestCase, APIRequestFactory
 
 
 class CallbackHandlingTest(APITestCase):
@@ -93,7 +94,7 @@ class CallbackHandlingTest(APITestCase):
         )
         request.resolver_match
 
-    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
     def test_calling_tracker_when_status_query_indicates_started_updates_extraction_order_state(self, *args, **mocks):
@@ -113,7 +114,7 @@ class CallbackHandlingTest(APITestCase):
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
 
-    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
     @patch('osmaxx.job_progress.views.Emissary')
@@ -139,7 +140,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
     @patch.object(OutputFile, 'get_absolute_url', side_effect=['/a/download', '/another/download'])
@@ -190,9 +191,9 @@ class CallbackHandlingTest(APITestCase):
             mail_body=expected_body,
         )
 
-    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
-    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient._download_file')  # mock download
+    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._download_file')  # mock download
     @requests_mock.Mocker(kw='requests')
     @patch('osmaxx.job_progress.views.Emissary')
     def test_calling_tracker_when_status_query_indicates_finished_informs_user(
@@ -234,7 +235,7 @@ class CallbackHandlingTest(APITestCase):
         emissary_mock.warn.assert_not_called()
         emissary_mock.error.assert_not_called()
 
-    @patch('osmaxx.excerptexport.services.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient.login', return_value=True)
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
     @patch('osmaxx.job_progress.views.Emissary')

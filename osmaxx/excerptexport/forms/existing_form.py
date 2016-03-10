@@ -1,16 +1,14 @@
-from django.utils.translation import ugettext_lazy as _
-from django import forms
-from django.core.urlresolvers import reverse
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, HTML
+from django import forms
+from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.countries.models import Country
-from osmaxx.excerptexport.services import COUNTRY_ID_PREFIX
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_user_excerpts, \
     other_users_public_excerpts
-
+from osmaxx.api_client import COUNTRY_ID_PREFIX
 from .order_options_mixin import OrderOptionsMixin, get_export_options
 
 
@@ -83,7 +81,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
 
         existing_key = self.cleaned_data['existing_excerpts']
         if self._is_country(existing_key):
-            from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
+            from osmaxx.api_client.shortcuts import get_authenticated_api_client
             country_id = int(existing_key.strip(COUNTRY_ID_PREFIX))
             extraction_order.country_id = country_id
             extraction_order.name = get_authenticated_api_client().get_country_name(country_id)

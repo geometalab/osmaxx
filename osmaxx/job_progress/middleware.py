@@ -1,9 +1,9 @@
 import logging
 from datetime import timedelta
 
+from osmaxx.api_client.shortcuts import get_authenticated_api_client
 from osmaxx.excerptexport.models import ExtractionOrder
 from osmaxx.excerptexport.models.extraction_order import FINAL_STATES, ExtractionOrderState
-from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from osmaxx.utilities.shortcuts import get_cached_or_set
 
 logger = logging.getLogger(__name__)

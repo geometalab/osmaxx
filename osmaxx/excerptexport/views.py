@@ -15,13 +15,13 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
+from osmaxx.api_client.shortcuts import get_authenticated_api_client
 from osmaxx.contrib.auth.frontend_permissions import (
     frontend_access_required,
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
-from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from osmaxx.utils import get_default_private_storage
 from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState

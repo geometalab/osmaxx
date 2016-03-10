@@ -1,14 +1,15 @@
 import json
+
 from django.db import models
-from rest_framework import generics
 from django.http import HttpResponse
+from rest_framework import generics
+
+from osmaxx.api_client.shortcuts import get_authenticated_api_client
 from osmaxx.contrib.auth.frontend_permissions import AuthenticatedAndAccessPermission, HasBBoxAccessPermission, \
     HasExcerptAccessPermission
-
 from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.models.bounding_geometry import BoundingGeometry
 from osmaxx.excerptexport.rest_api.serializers import BoundingGeometrySerializer, BoundingGeometryFromExcerptSerializer
-from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 
 
 class BoundingGeometryMixin:

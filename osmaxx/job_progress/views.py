@@ -2,9 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 
+from osmaxx.api_client.shortcuts import get_authenticated_api_client
 from osmaxx.excerptexport.forms.order_options_mixin import available_format_choices
 from osmaxx.excerptexport.models import extraction_order, ExtractionOrderState
-from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from osmaxx.utilities.shortcuts import Emissary
 
 
