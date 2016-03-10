@@ -1,4 +1,5 @@
 import uuid
+from collections import OrderedDict
 
 from django.utils.translation import gettext as _
 
@@ -39,42 +40,42 @@ class OutputFormat:
         return self._is_white_box
 
 
-FORMAT_DEFINITIONS = {
-    FGDB: OutputFormat(
+FORMAT_DEFINITIONS = OrderedDict([
+    (FGDB, OutputFormat(
         long_identifier='ESRI File Geodatabase',
         verbose_name=_('ESRI File Geodatabase'),
         archive_file_name_identifier='FileGDB',
         abbreviations=['FileGDB', 'FGDB'],
         is_white_box=True,
-    ),
-    SHAPEFILE: OutputFormat(
+    )),
+    (SHAPEFILE, OutputFormat(
         long_identifier='ESRI Shapefile',
         verbose_name=_('ESRI Shapefile'),
         archive_file_name_identifier='Shapefile',
         abbreviations=[],
         is_white_box=True,
-    ),
-    GPKG: OutputFormat(
+    )),
+    (GPKG, OutputFormat(
         long_identifier='GeoPackage',
         verbose_name=_('GeoPackage'),
         archive_file_name_identifier='GeoPackage',
         abbreviations=['GPKG'],
         is_white_box=True,
-    ),
-    SPATIALITE: OutputFormat(
+    )),
+    (SPATIALITE, OutputFormat(
         long_identifier='SpatiaLite',
         verbose_name=_('SpatiaLite'),
         archive_file_name_identifier='SpatiaLite',
         abbreviations=[],
         is_white_box=True,
-    ),
-    GARMIN: OutputFormat(
+    )),
+    (GARMIN, OutputFormat(
         long_identifier='Garmin navigation & map data',
         verbose_name=_('Garmin navigation & map data'),
         archive_file_name_identifier='Garmin',
         abbreviations=[],
         is_white_box=False,
-    ),
-}
+    )),
+])
 
 FORMAT_CHOICES = ((key, definition.verbose_name) for key, definition in FORMAT_DEFINITIONS.items())
