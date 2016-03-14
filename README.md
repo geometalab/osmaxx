@@ -22,8 +22,7 @@ We do not recommend to run the application local on your machine but it's possib
 
 ### Prerequisites
 
-To run this project locally, you need **docker 1.9** and **docker-compose 1.6** installed
-(https://docs.docker.com/installation/ubuntulinux/ and https://docs.docker.com/compose/install/).
+To run this project locally, you need [sufficiently recent versions](/docs/project-development-environment.md#local-prerequisites) of [docker](/docs/project-development-environment.md#dependency_docker) and [docker-compose](/docs/project-development-environment.md#dependency_docker-compose) installed.
 
 
 ### Initialization
