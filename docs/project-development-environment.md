@@ -6,6 +6,7 @@
 | ---------- | ------------------ | ---------------------------------------------|
 | <a name='dependency_docker'>docker</a> | 1.10 (1.9 may still work, too) | Follow [the official Docker installation instructions for Linux](https://docs.docker.com/linux/step_one/) |
 | <a name='dependency_docker-compose'>docker-compose</a> | 1.6 or better | Install system-wide via <a href='#dependency_pip'>`pip`</a> (**not** via `pip3`!): <pre class="highlight highlight-source-shell">sudo pip install docker-compose</pre> |
+| <a name='dependency_pg_config'>pg_config</a> (required by psycopg2) |  | <pre class="highlight highlight-source-shell">sudo apt install libpq-dev</pre> |
 | <a name='dependency_pip'>pip</a> (Python 2) |  | <pre class="highlight highlight-source-shell">sudo apt install python-pip</pre> |
 
 For committing and using the pre-commit hook (which really should be used) flake8 needs to be installed on
