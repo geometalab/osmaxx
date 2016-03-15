@@ -81,7 +81,7 @@ class TestClippingGeometryViewSet(APITestCase):
             ]
         }
 
-        self.assertEqual(expected_error_message, response.data)
+        self.assertDictEqual(expected_error_message, response.data)
 
     def test_create_view_with_invalid_data_fails(self):
         url = reverse('clipping_area-list')
@@ -104,7 +104,7 @@ class TestClippingGeometryViewSet(APITestCase):
                 "Invalid coordinates: expected at least one coordinate pair, received none."
             ]
         }
-        self.assertEqual(expected_error_message, response.data)
+        self.assertDictEqual(expected_error_message, response.data)
 
     def test_list_view_without_login_fails(self):
         url = reverse('clipping_area-list')
