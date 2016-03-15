@@ -235,3 +235,17 @@ def authorized_client(authenticated_client):
     from osmaxx.contrib.auth.frontend_permissions import FRONTEND_USER_GROUP
     authenticated_client.user.groups.add(Group.objects.get(name=FRONTEND_USER_GROUP))
     return authenticated_client
+
+
+@pytest.fixture
+def geos_geometry_can_be_created_from_geojson_string():
+    """
+    Just a sanity check asserting that GEOSGeometry instances can be created from GeoJSON strings.
+
+    If you get an error here, check your libraries, especially GDAL. (libgdal.so.1)
+    """
+    from django.contrib.gis.geos import GEOSGeometry
+    import json
+    geojson_point = dict(type="Point", coordinates=[100.0, 0.0])
+    geojson_point_string = json.dumps(geojson_point)
+    GEOSGeometry(geojson_point_string)
