@@ -1,3 +1,0 @@
-#include </docs/project-development-environment.md#local-prerequisites>
-python3
-python3-dev
