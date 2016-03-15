@@ -1,6 +1,6 @@
 #include </docs/project-development-environment.md#local-prerequisites>
 python3
 python3-dev
-libgeos-dev
+libgeos-c1
 libproj-dev
 python3-gdal
