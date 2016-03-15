@@ -8,6 +8,7 @@
 | <a name='dependency_docker-compose'>docker-compose</a> | 1.6 or better | Install system-wide via <a href='#dependency_pip'>`pip`</a> (**not** via `pip3`!): <pre class="highlight highlight-source-shell">sudo pip install docker-compose</pre> |
 | <a name='dependency_pg_config'>pg_config</a> (required by psycopg2) |  | <pre class="highlight highlight-source-shell">sudo apt install libpq-dev</pre> |
 | <a name='dependency_geos_c'>GEOS C library</a> | whatever [GeoDjango supports](https://docs.djangoproject.com/en/1.9/ref/contrib/gis/install/geolibs/#installing-geospatial-libraries) | <pre class="highlight highlight-source-shell">sudo apt install python3-gdal</pre> will pull this and other required libraries in. `python3-gdal` itself is not required. Thus, if you prefer a more minimal installation, only install `libgeos-c1`. |
+| <a name='dependency_gdal'>GDAL library</a> | whatever [GeoDjango supports](https://docs.djangoproject.com/en/1.9/ref/contrib/gis/install/geolibs/#installing-geospatial-libraries) | <pre class="highlight highlight-source-shell">sudo apt install python3-gdal</pre> will pull this and other required libraries in. `python3-gdal` itself is not required. Thus, if you prefer a more minimal installation, only install `libgdal1h`. |
 | <a name='dependency_pip'>pip</a> (Python 2) |  | <pre class="highlight highlight-source-shell">sudo apt install python-pip</pre> |
 
 For committing and using the pre-commit hook (which really should be used) flake8 needs to be installed on
