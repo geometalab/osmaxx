@@ -24,6 +24,26 @@ _list_targets_on_separate_lines:
 	    sort | \
 	    egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
+.PHONY: local_dev_env
+local_dev_env: compose-env/common.env compose-env/frontend.env compose-env/mediator.env compose-env/worker.env
+
+compose-env/common.env: compose-env-dist/common.env
+	@mkdir -p $(@D)
+	sed -e 's/^\(DJANGO_OSMAXX_CONVERSION_SERVICE_\(USERNAME\|PASSWORD\)=\)/\1dev/' < $< > $@
+
+PUBLIC_LOCALHOST_IP := $(shell ip route get 1 | awk '{print $$NF;exit}')
+
+compose-env/frontend.env: compose-env-dist/frontend.env
+	@mkdir -p $(@D)
+	sed -e 's/^\(DJANGO_EMAIL_\)/# \1/' \
+	    -e 's/^\(DJANGO_ALLOWED_HOSTS=\)/\1$(PUBLIC_LOCALHOST_IP)/' \
+	    < $< \
+	    > $@
+
+compose-env/%.env: compose-env-dist/%.env
+	@mkdir -p $(@D)
+	cp $< $@
+
 .PHONY: tests-quick
 tests-quick: up-redis up-pg
 	./runtests.py $(PYTEST_ARGS)
@@ -75,3 +95,4 @@ down-pg_translit:
 clean: down-redis down-pg_translit down-pg
 	find . -name __pycache__ -exec rm -rf {} +
 	find . -name "*.pyc" -exec rm -rf {} +
+	rm compose-env/*.env
