@@ -18,7 +18,7 @@ list:
 
 .PHONY: _list_targets_on_separate_lines
 _list_targets_on_separate_lines:
-    # Adopted from http://stackoverflow.com/a/26339924/674064
+	# Adopted from http://stackoverflow.com/a/26339924/674064
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | \
 	    awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | \
 	    sort | \
