@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   id="svg3347"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   viewBox="0 0 32 32"
+   sodipodi:docname="shelter_.svg">
+  <defs
+     id="defs3349" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="20"
+     inkscape:cx="8.5263671"
+     inkscape:cy="16"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3352">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       style="fill:#004150;stroke:#014354;stroke-width:2;fill-opacity:1"
+       id="path28911"
+       inkscape:connector-curvature="0"
+       d="m 5.9136808,20.207409 c 0,-3.092 -0.019,-5.623 -0.041,-5.623 -0.022,0 -0.63,0.208 -1.351,0.461 -0.72,0.253 -1.346,0.46 -1.391,0.46 -0.045,0 -0.069,-0.442 -0.055,-0.981 l 0.026,-0.982 11.9339992,-4.18 c 6.563,-2.299 12.028,-4.205 12.145,-4.235 l 0.212,-0.055 -0.027,0.993 -0.024,0.994 -9.746,3.41 -9.744999,3.41 0,5.007 0,5.007 9.719999,0 9.724,0 0,0.969 0,0.967 -10.69,0 -10.6909992,0 0,-5.622 0,0 z" />
+  </g>
+</svg>

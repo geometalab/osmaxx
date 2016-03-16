@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   id="svg7729"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   viewBox="0 0 32 32"
+   sodipodi:docname="transport_ferry_station.svg">
+  <defs
+     id="defs7731" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="20"
+     inkscape:cx="12.215724"
+     inkscape:cy="15.575"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7734">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#003cff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;enable-background:accumulate"
+       d="m 14.366008,3.20765 c -1.908992,0 -1.908992,1.8060451 -1.908992,1.8060451 l -2.863512,0 -0.95452,7.2242139 7.636016,-3.6121066 7.636016,3.6121066 -0.95452,-7.2242139 -2.863476,0 c 0,0 0,-1.8060451 -1.909028,-1.8060451 l -3.817984,0 z M 16.275,10.431848 4.821,15.85 l 3.817984,3.612107 0,1.806045 c 0.851252,0 2.853766,1.806046 3.818032,1.806046 0.96252,0 2.911959,-1.806046 3.817984,-1.806046 0.907759,0 2.855501,1.806046 3.81802,1.806046 0.905989,0 2.904925,-1.806046 3.817996,-1.806046 l 0,-1.806045 L 27.729,15.85 16.275,10.431848 Z M 8.638984,23.977229 c -1.0191852,0 -2.8487966,1.806044 -3.817984,1.806044 l 0,2.709077 c 1.0254988,0 2.9120076,-1.806063 3.817984,-1.806063 0.962531,0 2.798811,1.806063 3.818032,1.806063 0.907711,0 2.848797,-1.806063 3.817984,-1.806063 0.962532,0 2.904949,1.806063 3.81802,1.806063 0.962495,0 2.911971,-1.806063 3.817996,-1.806063 0.906025,0 2.855489,1.806063 3.817984,1.806063 l 0,-2.709077 c -0.792779,0 -2.798762,-1.859503 -3.817984,-1.806044 -0.913071,0 -2.79726,1.806044 -3.817996,1.806044 -0.849322,0 -2.855488,-1.806044 -3.81802,-1.806044 -0.962495,0 -2.966768,1.806044 -3.817984,1.806044 -0.907722,0 -2.798811,-1.806044 -3.818032,-1.806044 z"
+       id="ferry" />
+  </g>
+</svg>

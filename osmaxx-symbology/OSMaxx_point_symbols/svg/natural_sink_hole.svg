@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   id="svg9981"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   viewBox="0 0 32 32"
+   sodipodi:docname="natural_sink_hole.svg">
+  <defs
+     id="defs9983" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="20"
+     inkscape:cx="11.871489"
+     inkscape:cy="16"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata9986">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:Sans;-inkscape-font-specification:Sans;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#6e3200;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.05437371;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.68181817;marker:none;enable-background:accumulate"
+       d="M 17.787634,7.4906 C 16.907743,7.4886 15.999081,7.5598 15.073873,7.71074 8.4946459,8.78386 3.5654195,13.47573 4.0625881,18.19182 4.5597951,22.90784 10.29508,25.86245 16.874268,24.78932 23.453482,23.7162 28.38463,19.02274 27.887423,14.30668 27.530141,10.91703 24.466261,8.43837 20.328137,7.71055 19.518516,7.56814 18.667538,7.49268 17.787634,7.4906 Z m -0.529503,1.86681 c 0.743234,-0.006 1.461362,0.0533 2.142491,0.1731 0.620868,0.1092 1.210772,0.26863 1.761255,0.47335 l -2.345649,2.38633 c 0.41275,0.11351 0.795472,0.26339 1.138901,0.44585 l 2.296103,-2.33907 c 1.5197,0.823 2.600673,2.05065 2.977885,3.54889 l -3.578555,0.49359 c 0.178436,0.36634 0.274645,0.76114 0.278426,1.17612 l 3.447127,-0.47598 c 0.501206,1.82479 -1.411239,4.06626 -2.772932,5.12448 L 20.23285,18.55883 c -0.297868,0.25907 -0.630006,0.50024 -0.992889,0.71837 l 2.379894,1.81224 c -1.386569,0.90659 -3.077965,1.57689 -4.936609,1.88003 -0.204901,0.0334 -0.408687,0.0614 -0.611409,0.085 l 0.180602,-2.68238 c -0.08728,0.0152 -0.174874,0.0304 -0.26324,0.0431 -0.270365,0.039 -0.536577,0.0632 -0.798612,0.0774 l -0.183691,2.64285 c -1.620677,0.0553 -3.13133,-0.20338 -4.413538,-0.71425 L 12.706206,20.2337 C 12.296788,20.11562 11.918372,19.96102 11.57939,19.77432 L 9.499428,21.89237 C 7.9913257,21.01769 6.9511716,19.72862 6.6572382,18.16904 L 9.930351,17.78219 C 9.8358975,17.47054 9.7957837,17.1424 9.8196213,16.8037 c 0.00513,-0.0748 0.014098,-0.1481 0.025247,-0.22207 L 6.5811115,16.97572 C 6.6865866,15.12277 7.8126587,13.32585 9.5843848,11.94204 L 11.88728,13.6768 c 0.333035,-0.2363 0.697264,-0.45283 1.088201,-0.64328 l -2.36568,-1.80131 c 1.332113,-0.81673 2.921494,-1.42026 4.656951,-1.70334 0.198558,-0.0324 0.396051,-0.0597 0.592455,-0.0828 l -0.143705,2.7704 c 0.360102,-0.0477 0.713079,-0.0732 1.056943,-0.0771 l 0.165736,-2.77519 c 0.107141,-0.004 0.213859,-0.006 0.320027,-0.007 z"
+       id="path3777-6" />
+  </g>
+</svg>

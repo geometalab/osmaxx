@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   id="svg3348"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   viewBox="0 0 32 32"
+   sodipodi:docname="embassy_.svg">
+  <defs
+     id="defs3350" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="20"
+     inkscape:cx="11.331756"
+     inkscape:cy="16"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3353">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       id="path11390"
+       style="fill:#c84614;fill-opacity:1"
+       d="m 6.0090139,27.319225 c -0.24,-0.305 -0.241,-0.354 -0.241,-11.104 0,-11.6329998 -0.014,-11.3589998 0.585,-11.5489998 0.354,-0.117 0.78,0.22 0.919,0.723 0.131,0.473 0.178,20.5529998 0.049,21.3299998 -0.141,0.861 -0.851,1.185 -1.312,0.6 z m 6.3160001,-8.063 c -0.915,-0.139 -1.707,-0.438 -2.4790001,-0.938 l -0.705,-0.455 0,-5.934 0,-5.9299998 0.61,0.388 c 1.2010001,0.764 1.8410001,0.937 3.4590001,0.937 1.346,0 1.524,-0.027 2.403,-0.362 0.522,-0.199 1.516,-0.704 2.209,-1.122 2.139,-1.29 3.953,-1.71 5.65,-1.31 0.918,0.216 1.913,0.662 2.408,1.079 l 0.352,0.291 0,5.9119998 0,5.915 -0.58,-0.394 c -1.209,-0.813 -2.824,-1.195 -4.23,-0.998 -1.383,0.19 -2.324,0.58 -4.252,1.741 -1.583,0.964 -3.388,1.403 -4.845,1.18 z" />
+  </g>
+</svg>

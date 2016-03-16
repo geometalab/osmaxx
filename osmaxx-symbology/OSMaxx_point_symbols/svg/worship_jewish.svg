@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   id="svg6609"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   viewBox="0 0 32 32"
+   sodipodi:docname="worship_jewish.svg">
+  <defs
+     id="defs6611" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="20"
+     inkscape:cx="11.871489"
+     inkscape:cy="16"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata6614">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       d="m 16.084845,2.7008 -4.149039,6.639845 -8.171316,0 4.0857195,6.699663 -4.0857195,6.6996 8.171316,0 4.149039,6.759292 4.085596,-6.759292 8.108049,0 -4.022364,-6.6996 4.022364,-6.699663 -8.108049,0 L 16.084845,2.7008 Z m 0,4.6657895 1.213455,1.9740555 -2.42691,0 1.213455,-1.9740555 z m -7.9793474,4.1872735 2.4902654,0 -1.27681,2.033795 -1.2134554,-2.033795 z m 5.4258144,0 5.107031,0 2.682234,4.486445 -2.682234,4.486192 -5.107031,0 -2.68026,-4.486192 2.68026,-4.486445 z m 7.97926,0 2.553585,0 -1.276775,2.093693 -1.27681,-2.093693 z m 1.27681,6.879135 1.276775,2.093502 -2.553585,0 1.27681,-2.093502 z m -13.468429,0.05931 1.27681,2.03381 -2.4902654,0 1.2134554,-2.03381 z m 5.552437,4.247155 2.42691,0 -1.213455,1.973913 -1.213455,-1.973913 z"
+       id="jewish"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

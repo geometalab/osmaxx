@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   id="svg3346"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   viewBox="0 0 32 32"
+   sodipodi:docname="fire_station_.svg">
+  <defs
+     id="defs3348" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="20"
+     inkscape:cx="11.331756"
+     inkscape:cy="16"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3351">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       style="fill:#c84614;stroke:#c84614;stroke-miterlimit:10;fill-opacity:1;stroke-opacity:1"
+       id="path12510"
+       inkscape:connector-curvature="0"
+       stroke-miterlimit="10"
+       enable-background="new    "
+       d="m 12.68184,28.784387 c -2.798,-1.427 -4.917,-4.119 -5.8169999,-7.393 -0.396,-1.438 -0.429,-5.521 -0.059,-7.208 C 7.95984,8.9223869 10.77184,5.0343869 14.75284,3.1953869 c 0.521,-0.241 0.973,-0.438 1.002,-0.438 0.029,0 -0.05,0.307 -0.176,0.682 -0.737,2.188 -0.539,4.755 0.528,6.8460001 0.279,0.546 1.497,1.951 1.69,1.951 0.053,0 0.135,-0.297 0.182,-0.66 0.261,-1.9500001 1.52,-3.8420001 3.177,-4.7700001 l 0.537,-0.3 0,0.663 c 0,0.813 0.315,2.391 0.675,3.3670001 0.146,0.399 0.675,1.574 1.173,2.609 1.493,3.107 1.923,4.616 1.912,6.733 -0.012,2.881 -0.933,5.295 -2.772,7.262 -0.709,0.761 -2.52,2.181 -2.633,2.063 -0.021,-0.022 0.24,-0.651 0.59,-1.396 0.951,-2.033 1.121,-2.617 1.117,-3.885 -0.002,-0.963 -0.054,-1.211 -0.402,-1.947 -0.221,-0.465 -0.654,-1.158 -0.967,-1.547 l -0.563,-0.701 -0.158,0.623 c -0.22,0.859 -0.855,2.117 -1.381,2.725 l -0.438,0.504 -0.342,-0.445 c -0.537,-0.707 -1.11,-2.039 -1.473,-3.438 -0.384,-1.479 -0.482,-3.976 -0.197,-4.97 0.089,-0.311 0.135,-0.592 0.103,-0.625 -0.033,-0.033 -0.517,0.309 -1.075,0.76 -4.034,3.257 -4.615,7.601 -1.746,13.049 0.361,0.687 0.656,1.269 0.656,1.293 -10e-4,0.104 -0.244,0.013 -1.09,-0.419 z" />
+  </g>
+</svg>

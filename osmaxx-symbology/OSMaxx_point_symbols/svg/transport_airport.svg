@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   id="svg3351"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   viewBox="0 0 32 32"
+   sodipodi:docname="airport_.svg">
+  <defs
+     id="defs3353" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="20"
+     inkscape:cx="11.331756"
+     inkscape:cy="16"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3356">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       style="fill:none"
+       id="path4142"
+       inkscape:connector-curvature="0"
+       d="m 27.188135,1.941 -22.3320002,0 c -1.574,0 -2.848,1.274 -2.848,2.848 l 0,22.333 c 0,1.574 1.274,2.771 2.848,2.771 l 22.3320002,0 c 1.574,0 2.848,-1.197 2.848,-2.771 l 0,-22.333 c 0,-1.573 -1.274,-2.848 -2.848,-2.848 l 0,0 z" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff"
+       id="path1972"
+       d="m 25.809135,5.114 c 1.531,-1.166 3.295,1.141 1.721,2.343 l -6.426,4.907 1.467,13.124 -2.373,1.813 -3.892,-11.202 -4.803,3.668 -0.035,3.307 -1.8770002,1.439 -1.446,-3.953 -3.432,-2.437 1.877,-1.437 3.186,0.814 4.8000002,-3.667 -9.7840002,-6.701 2.374,-1.813 12.1760002,4.735 6.467,-4.94 z" />
+  </g>
+</svg>

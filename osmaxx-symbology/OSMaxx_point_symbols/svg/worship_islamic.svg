@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   id="svg6046"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   viewBox="0 0 32 32"
+   sodipodi:docname="worship_islamic.svg">
+  <defs
+     id="defs6048" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="20"
+     inkscape:cx="11.871489"
+     inkscape:cy="16"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata6051">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000100;stroke-width:0.3869639;fill-opacity:1"
+       d="m 16.607915,3.3063215 c -6.7208144,0 -12.1688362,5.6271231 -12.1688362,12.5684445 0,6.941333 5.4480218,12.568912 12.1688362,12.568912 2.92421,0 5.606255,-1.067092 7.703907,-2.842958 -1.127113,0.372503 -2.33268,0.58507 -3.593344,0.58507 -6.048774,0 -10.9513605,-4.660582 -10.9513605,-10.409949 0,-5.7494 4.9025865,-10.4094917 10.9513605,-10.4094917 1.096811,0 2.15302,0.1577515 3.152781,0.4425932 -2.029823,-1.5644347 -4.538458,-2.502621 -7.263344,-2.502621 z m 9.52602,6.8162705 -2.743805,3.186136 -3.62807,-1.985726 2.038593,3.724335 -2.920094,3.008642 4.003672,-0.884707 1.823475,3.845029 0.43605,-4.270576 4.046937,-0.63241 -3.734459,-1.755165 0.677701,-4.235558 z"
+       id="path3-9" />
+  </g>
+</svg>
