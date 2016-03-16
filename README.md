@@ -28,10 +28,11 @@ To run this project locally, you need **docker 1.9** and **docker-compose 1.5** 
 
 ### Initialization
 
-Copy the environment folder `compose-env-dist` to `compose-env` and adapt it's contents.
+Copy the environment folder `compose-env-dist` to `compose-env` and adapt the latter's content.
 
 ```shell
 cp -r compose-env-dist compose-env
+# Then, edit compose-env/*.env
 ```
 
 ### Docker container bootstrapping
