@@ -35,6 +35,7 @@ PUBLIC_LOCALHOST_IP := $(shell ip route get 1 | awk '{print $$NF;exit}')
 
 compose-env/frontend.env: compose-env-dist/frontend.env
 	@mkdir -p $(@D)
+# We don't have to set DJANGO_SECRET_KEY here, as docker-compose-dev.yml sets it for local use.
 	sed -e 's/^\(DJANGO_EMAIL_\)/# \1/' \
 	    -e 's/^\(DJANGO_ALLOWED_HOSTS=\)/\1$(PUBLIC_LOCALHOST_IP)/' \
 	    < $< \
@@ -42,6 +43,7 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 
 compose-env/%.env: compose-env-dist/%.env
 	@mkdir -p $(@D)
+# We don't have to set DJANGO_SECRET_KEY here, as docker-compose-dev.yml sets it for local use.
 	cp $< $@
 
 .PHONY: tests-quick
