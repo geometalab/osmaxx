@@ -26,6 +26,8 @@ _list_targets_on_separate_lines:
 
 .PHONY: local_dev_env
 local_dev_env: compose-env/common.env compose-env/frontend.env compose-env/mediator.env compose-env/worker.env
+	@echo
+	@echo "\tIf you haven't already, you might want to "'`source activate_local_development`', now.
 
 compose-env/common.env: compose-env-dist/common.env
 	@mkdir -p $(@D)
