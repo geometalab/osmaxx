@@ -28,6 +28,18 @@ To run this project locally, you need **docker 1.9** and **docker-compose 1.5** 
 
 ### Initialization
 
+#### Development
+
+Simply run
+
+```shell
+make local_dev_env
+```
+
+to set up `*.env` files suitable for local use of our docker-compose files. **Do not use this for production!** It will make use of insecure and hard coded passwords.
+
+#### Production
+
 Copy the environment folder `compose-env-dist` to `compose-env` and adapt the latter's content.
 
 ```shell
