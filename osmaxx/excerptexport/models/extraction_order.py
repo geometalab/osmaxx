@@ -61,7 +61,7 @@ class ExtractionOrder(models.Model):
     )
 
     def forward_to_conversion_service(self):
-        pass
+        self.excerpt.bounding_geometry.send_to_conversion_service()
 
     def __str__(self):
         return ', '.join(

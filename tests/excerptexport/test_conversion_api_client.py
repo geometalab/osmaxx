@@ -1,4 +1,5 @@
 import time
+from unittest import mock
 from unittest.mock import Mock
 from urllib.parse import urlparse
 
@@ -65,8 +66,10 @@ class ConversionApiClientTestCase(TestCase):
     #
     # Unit tests:
 
-    def test_create_jobs(self):
+    @mock.patch.object(ConversionApiClient, 'create_boundary', create=True)  # TODO: remove 'create' once implemented
+    def test_create_jobs(self, create_boundary_mock):
         self.extraction_order.forward_to_conversion_service()
+        create_boundary_mock.assert_called_once_with(self.bounding_box.geometry)
 
     #
     # Integration tests:
