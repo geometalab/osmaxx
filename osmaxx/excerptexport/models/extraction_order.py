@@ -60,6 +60,9 @@ class ExtractionOrder(models.Model):
         default=DOWNLOAD_STATUS_NOT_DOWNLOADED
     )
 
+    def forward_to_conversion_service(self):
+        pass
+
     def __str__(self):
         return ', '.join(
             [

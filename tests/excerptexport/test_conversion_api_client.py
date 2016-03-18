@@ -62,6 +62,17 @@ class ConversionApiClientTestCase(TestCase):
         }
         self.api_client = ConversionApiClient()
 
+    #
+    # Unit tests:
+
+    def test_create_jobs(self):
+        self.extraction_order.forward_to_conversion_service()
+
+    #
+    # Integration tests:
+
+    # TODO: re-record VCR (service API has changed)
+
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
     def test_create_job(self):
         self.api_client.login()
