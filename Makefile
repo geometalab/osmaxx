@@ -99,4 +99,3 @@ down-pg_translit:
 clean: down-redis down-pg_translit down-pg
 	find . -name __pycache__ -exec rm -rf {} +
 	find . -name "*.pyc" -exec rm -rf {} +
-	rm compose-env/*.env
