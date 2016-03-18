@@ -12,7 +12,7 @@ class BoundingGeometry(models.Model):
     def send_to_conversion_service(self):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
         api_client = ConversionApiClient()
-        api_client.create_boundary(self.geometry)
+        return api_client.create_boundary(self.geometry)
 
     @property
     def type(self):

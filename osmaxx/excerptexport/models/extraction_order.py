@@ -61,7 +61,12 @@ class ExtractionOrder(models.Model):
     )
 
     def forward_to_conversion_service(self):
-        self.excerpt.bounding_geometry.send_to_conversion_service()
+        from osmaxx.api_client.conversion_api_client import ConversionApiClient
+        clipping_area_json = self.excerpt.bounding_geometry.send_to_conversion_service()
+        gis_options = self.extraction_configuration['gis_options']
+        api_client = ConversionApiClient()
+        for extraction_format in self.extraction_formats:
+            api_client.create_parametrization(clipping_area_json, extraction_format, gis_options)
 
     def __str__(self):
         return ', '.join(
@@ -120,7 +125,7 @@ class ExtractionOrder(models.Model):
 
     @property
     def extraction_formats(self):
-        return json.loads(self.extraction_configuration).get('gis_formats', None)
+        return self.extraction_configuration.get('gis_formats', None)
 
     @property
     def process_due_time(self):

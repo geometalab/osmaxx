@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve
 from django.test.testcases import TestCase
 from hamcrest import matches_regexp, match_equality
+from hamcrest.core.assert_that import assert_that
+from hamcrest.library.collection.issequence_containinginanyorder import contains_inanyorder
 
 from osmaxx.api_client import ConversionApiClient
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
@@ -66,10 +68,19 @@ class ConversionApiClientTestCase(TestCase):
     #
     # Unit tests:
 
+    @mock.patch.object(ConversionApiClient, 'create_parametrization', create=True)  # TODO: remove 'create' once implemented
     @mock.patch.object(ConversionApiClient, 'create_boundary', create=True)  # TODO: remove 'create' once implemented
-    def test_create_jobs(self, create_boundary_mock):
+    def test_create_jobs(self, create_boundary_mock, create_parametrization_mock):
         self.extraction_order.forward_to_conversion_service()
+
         create_boundary_mock.assert_called_once_with(self.bounding_box.geometry)
+        gis_conversion_options = self.extraction_order.extraction_configuration['gis_options']
+        assert_that(
+            create_parametrization_mock.mock_calls, contains_inanyorder(
+                mock.call(create_boundary_mock.return_value, 'fgdb', gis_conversion_options),
+                mock.call(create_boundary_mock.return_value, 'spatialite', gis_conversion_options),
+            )
+        )
 
     #
     # Integration tests:
