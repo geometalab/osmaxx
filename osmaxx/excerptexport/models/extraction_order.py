@@ -60,13 +60,14 @@ class ExtractionOrder(models.Model):
         default=DOWNLOAD_STATUS_NOT_DOWNLOADED
     )
 
-    def forward_to_conversion_service(self):
+    def forward_to_conversion_service(self, *, incoming_request):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
         clipping_area_json = self.excerpt.bounding_geometry.send_to_conversion_service()
         gis_options = self.extraction_configuration['gis_options']
         api_client = ConversionApiClient()
         for extraction_format in self.extraction_formats:
-            api_client.create_parametrization(clipping_area_json, extraction_format, gis_options)
+            parametrization_json = api_client.create_parametrization(clipping_area_json, extraction_format, gis_options)
+            api_client.create_job(parametrization_json, incoming_request)
 
     def __str__(self):
         return ', '.join(

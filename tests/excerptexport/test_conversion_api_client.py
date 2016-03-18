@@ -68,10 +68,12 @@ class ConversionApiClientTestCase(TestCase):
     #
     # Unit tests:
 
+    @mock.patch.object(ConversionApiClient, 'create_job')
     @mock.patch.object(ConversionApiClient, 'create_parametrization', create=True)  # TODO: remove 'create' once implemented
     @mock.patch.object(ConversionApiClient, 'create_boundary', create=True)  # TODO: remove 'create' once implemented
-    def test_create_jobs(self, create_boundary_mock, create_parametrization_mock):
-        self.extraction_order.forward_to_conversion_service()
+    def test_extraction_order_forward_to_conversion_service(
+            self, create_boundary_mock, create_parametrization_mock, create_job_mock):
+        self.extraction_order.forward_to_conversion_service(incoming_request=self.request)
 
         create_boundary_mock.assert_called_once_with(self.bounding_box.geometry)
         gis_conversion_options = self.extraction_order.extraction_configuration['gis_options']
@@ -79,6 +81,12 @@ class ConversionApiClientTestCase(TestCase):
             create_parametrization_mock.mock_calls, contains_inanyorder(
                 mock.call(create_boundary_mock.return_value, 'fgdb', gis_conversion_options),
                 mock.call(create_boundary_mock.return_value, 'spatialite', gis_conversion_options),
+            )
+        )
+        assert_that(
+            create_job_mock.mock_calls, contains_inanyorder(
+                mock.call(create_parametrization_mock.return_value, self.request),
+                mock.call(create_parametrization_mock.return_value, self.request),
             )
         )
 
