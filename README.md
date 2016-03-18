@@ -27,10 +27,23 @@ To run this project locally, you need [sufficiently recent versions](/docs/proje
 
 ### Initialization
 
-Copy the environment folder `compose-env-dist` to `compose-env` and adapt it's contents.
+#### Development
+
+Simply run
+
+```shell
+make local_dev_env
+```
+
+to set up `*.env` files suitable for local use of our docker-compose files. **Do not use this for production!** It will make use of insecure and hard coded passwords.
+
+#### Production
+
+Copy the environment folder `compose-env-dist` to `compose-env` and adapt the latter's content.
 
 ```shell
 cp -r compose-env-dist compose-env
+# Then, edit compose-env/*.env
 ```
 
 ### Docker container bootstrapping
