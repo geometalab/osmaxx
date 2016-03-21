@@ -1,6 +1,6 @@
 import time
 from unittest import mock
-from unittest.mock import Mock
+from unittest.mock import Mock, sentinel
 from urllib.parse import urlparse
 
 import os
@@ -69,7 +69,11 @@ class ConversionApiClientTestCase(TestCase):
     # Unit tests:
 
     @mock.patch.object(ConversionApiClient, 'create_job')
-    @mock.patch.object(ConversionApiClient, 'create_parametrization', create=True)  # TODO: remove 'create' once implemented
+    @mock.patch.object(
+        ConversionApiClient, 'create_parametrization',
+        create=True,  # TODO: remove 'create' once implemented
+        side_effect=[sentinel.parametrization_1, sentinel.parametrization_2],
+    )
     @mock.patch.object(ConversionApiClient, 'create_boundary', create=True)  # TODO: remove 'create' once implemented
     def test_extraction_order_forward_to_conversion_service(
             self, create_boundary_mock, create_parametrization_mock, create_job_mock):
@@ -85,8 +89,8 @@ class ConversionApiClientTestCase(TestCase):
         )
         assert_that(
             create_job_mock.mock_calls, contains_inanyorder(
-                mock.call(create_parametrization_mock.return_value, self.request),
-                mock.call(create_parametrization_mock.return_value, self.request),
+                mock.call(sentinel.parametrization_1, self.request),
+                mock.call(sentinel.parametrization_2, self.request),
             )
         )
 
