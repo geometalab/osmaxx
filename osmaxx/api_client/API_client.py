@@ -35,19 +35,19 @@ class RESTApiJWTClient:
 
     def get(self, url, params=None, **kwargs):
         response = requests.get(self._to_fully_qualified_url(url), params=params, **self._data_dict(**kwargs))
-        self.errors = self._get_error(response)
+        self.errors = get_error(response)
         return response
 
     def post(self, url, json_data=None, **kwargs):
         response = requests.post(self._to_fully_qualified_url(url), json=json_data, **self._data_dict(**kwargs))
-        self.errors = self._get_error(response)
+        self.errors = get_error(response)
         return response
 
     def options(self, url, **kwargs):
-        response = self._get_error(
+        response = get_error(
             requests.options(self._to_fully_qualified_url(url), **self._data_dict(**kwargs))
         )
-        self.errors = self._get_error(response)
+        self.errors = get_error(response)
         return response
 
     def auth(self, username, password):
@@ -78,18 +78,6 @@ class RESTApiJWTClient:
             logger.error('service {service_url} is down'.format(service_url=self.service_base), e)
             is_available = False
         return is_available
-
-    def _get_error(self, response):
-        try:
-            response.raise_for_status()
-            error = None
-        except requests.HTTPError as e:
-            try:
-                error = e.response.json()
-            except:
-                error = {'unknown': 'Unknown error happened. Please try again.'}
-            logger.error("Received an %s error code with: %s", e.response.status_code, error, exc_info=1)
-        return error
 
     def _data_dict(self, **kwargs):
         headers = self.headers.copy()
@@ -129,3 +117,16 @@ class RESTApiJWTClient:
                 logging.error('API job creation failed because of an JSON decoding Issue.', str(response.__dict__))
                 return None
         return None
+
+
+def get_error(response):
+    try:
+        response.raise_for_status()
+        error = None
+    except requests.HTTPError as e:
+        try:
+            error = e.response.json()
+        except:
+            error = {'unknown': 'Unknown error happened. Please try again.'}
+        logger.error("Received an %s error code with: %s", e.response.status_code, error, exc_info=1)
+    return error
