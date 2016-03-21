@@ -7,9 +7,7 @@ import os
 from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve
 from django.test.testcases import TestCase
-from hamcrest import matches_regexp, match_equality
-from hamcrest.core.assert_that import assert_that
-from hamcrest.library.collection.issequence_containinginanyorder import contains_inanyorder
+from hamcrest import assert_that, contains_inanyorder, matches_regexp, match_equality
 
 from osmaxx.api_client import ConversionApiClient
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
