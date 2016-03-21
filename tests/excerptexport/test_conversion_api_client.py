@@ -66,7 +66,7 @@ class ConversionApiClientTestCase(TestCase):
     #
     # Unit tests:
 
-    @mock.patch.object(ConversionApiClient, 'create_job')
+    @mock.patch.object(ConversionApiClient, 'create_job', side_effect=[sentinel.job_1, sentinel.job_2])
     @mock.patch.object(
         ConversionApiClient, 'create_parametrization',
         create=True,  # TODO: remove 'create' once implemented
@@ -75,7 +75,7 @@ class ConversionApiClientTestCase(TestCase):
     @mock.patch.object(ConversionApiClient, 'create_boundary', create=True)  # TODO: remove 'create' once implemented
     def test_extraction_order_forward_to_conversion_service(
             self, create_boundary_mock, create_parametrization_mock, create_job_mock):
-        self.extraction_order.forward_to_conversion_service(incoming_request=self.request)
+        result = self.extraction_order.forward_to_conversion_service(incoming_request=self.request)
 
         create_boundary_mock.assert_called_once_with(self.bounding_box.geometry)
         gis_conversion_options = self.extraction_order.extraction_configuration['gis_options']
@@ -89,6 +89,12 @@ class ConversionApiClientTestCase(TestCase):
             create_job_mock.mock_calls, contains_inanyorder(
                 mock.call(sentinel.parametrization_1, self.request),
                 mock.call(sentinel.parametrization_2, self.request),
+            )
+        )
+        assert_that(
+            result, contains_inanyorder(
+                sentinel.job_1,
+                sentinel.job_2,
             )
         )
 
