@@ -11,11 +11,8 @@ class RESTApiJWTClient:
 
     Can be either extended through inheritance or created using the params `service_base` and `login_url`
 
-    returns the response object and errors dictionary: if errors are None, all is fine.
-
     :param service_base: the base url
     :param login_url: the relative path to the login url
-    :returns response object
     """
 
     service_base = 'http://localhost/api/'
