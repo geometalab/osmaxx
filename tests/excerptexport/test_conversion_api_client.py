@@ -35,11 +35,11 @@ class ConversionApiClientAuthTestCase(TestCase):
         self.assertIsNone(api_client.token)
 
         expected_msg = \
-            "Received an 400 error code with: {'non_field_errors': ['Unable to login with provided credentials.']}"
+            "400 Client Error: BAD REQUEST for url: http://localhost:8901/api/token-auth/"
         with self.assertRaisesRegex(API_client.HTTPError, "^{}$".format(re.escape(expected_msg))) as cm:
             api_client.login()
 
-        self.assertEqual({'non_field_errors': ['Unable to login with provided credentials.']}, cm.exception.error)
+        self.assertEqual({'non_field_errors': ['Unable to login with provided credentials.']}, API_client.errors(cm.exception))
         self.assertIsNone(api_client.token)
 
 

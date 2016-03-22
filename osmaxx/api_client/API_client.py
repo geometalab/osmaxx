@@ -4,6 +4,8 @@ import requests
 
 logger = logging.getLogger(__name__)
 
+HTTPError = requests.HTTPError
+
 
 class RESTApiJWTClient:
     """
@@ -77,22 +79,8 @@ class RESTApiJWTClient:
 
 
 def raise_for_status(response):
-    try:
-        response.raise_for_status()
-    except requests.HTTPError as e:
-        try:
-            error = e.response.json()
-        except:
-            error = {'unknown': 'Unknown error happened. Please try again.'}
-        msg = "Received an {} error code with: {}".format(e.response.status_code, error)
-        raise HTTPError(msg) from e
+    response.raise_for_status()
 
 
-class HTTPError(RuntimeError):
-    @property
-    def error(self):
-        return self.response.json()
-
-    @property
-    def response(self):
-        return self.__cause__.response
+def errors(http_error):
+    return http_error.response.json()

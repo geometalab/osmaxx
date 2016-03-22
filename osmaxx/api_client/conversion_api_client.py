@@ -7,7 +7,7 @@ from django.db import transaction
 from django.utils import timezone
 from rest_framework.reverse import reverse
 
-from osmaxx.api_client.API_client import RESTApiJWTClient, HTTPError
+from osmaxx.api_client.API_client import RESTApiJWTClient, HTTPError, errors
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import get_default_private_storage
 
@@ -195,5 +195,5 @@ class ConversionApiClient(RESTApiJWTClient):
         try:
             response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
         except HTTPError as e:
-            return e.error
+            return errors(e)
         return response.json()
