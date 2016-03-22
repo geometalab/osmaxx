@@ -7,7 +7,7 @@ from django.db import transaction
 from django.utils import timezone
 from rest_framework.reverse import reverse
 
-from osmaxx.api_client.API_client import RESTApiJWTClient
+from osmaxx.api_client.API_client import RESTApiJWTClient, HTTPError
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import get_default_private_storage
 
@@ -26,6 +26,10 @@ class ConversionApiClient(RESTApiJWTClient):
     conversion_job_url = '/jobs/'
     conversion_job_status_url = '/conversion_result/{job_uuid}/'
     estimated_file_size_url = '/estimate_size_in_bytes/'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.errors = None
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
@@ -47,11 +51,13 @@ class ConversionApiClient(RESTApiJWTClient):
             # already logged in
             return True
 
-        self.auth(self.username, self.password)
-
-        if not self.errors:
-            return True
-        return False
+        try:
+            self.auth(self.username, self.password)
+        except HTTPError as e:
+            self.errors = e.error
+            return False
+        self.errors = None
+        return True
 
     def create_job(self, extraction_order, request):
         """
@@ -85,9 +91,11 @@ class ConversionApiClient(RESTApiJWTClient):
             }
         })
         self.login()
-        response = self.authorized_post(self.conversion_job_url, json_data=request_data)
-        if self.errors:
-            logging.error('API job creation failed.', response)
+        try:
+            response = self.authorized_post(self.conversion_job_url, json_data=request_data)
+        except HTTPError as e:
+            logging.error('API job creation failed.', e.response)
+            response = e.response
         else:
             rq_job_id = response.json().get('rq_job_id', None)
             if rq_job_id:
@@ -163,11 +171,10 @@ class ConversionApiClient(RESTApiJWTClient):
         self.login()
         if not extraction_order.progress_url:  # None or empty
             return None
-        response = self.authorized_get(url=extraction_order.progress_url)
-
-        if self.errors:
+        try:
+            response = self.authorized_get(url=extraction_order.progress_url)
+        except HTTPError:
             return None
-
         return response.json()
 
     def update_order_status(self, extraction_order):
@@ -200,10 +207,9 @@ class ConversionApiClient(RESTApiJWTClient):
             "east": east,
             "north": north
         }
-
         self.login()
-
-        response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
-        if self.errors:
-            return self.errors
+        try:
+            response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
+        except HTTPError as e:
+            return e.error
         return response.json()

@@ -31,31 +31,29 @@ class RESTApiJWTClient:
         }
         self.client = requests.session()
         self.token = None
-        self.errors = None
 
     def get(self, url, params=None, **kwargs):
         response = requests.get(self._to_fully_qualified_url(url), params=params, **self._data_dict(**kwargs))
-        self.errors = get_error(response)
+        raise_for_status(response)
         return response
 
     def post(self, url, json_data=None, **kwargs):
         response = requests.post(self._to_fully_qualified_url(url), json=json_data, **self._data_dict(**kwargs))
-        self.errors = get_error(response)
+        raise_for_status(response)
         return response
 
     def options(self, url, **kwargs):
-        response = get_error(
+        response = raise_for_status(
             requests.options(self._to_fully_qualified_url(url), **self._data_dict(**kwargs))
         )
-        self.errors = get_error(response)
+        raise_for_status(response)
         return response
 
     def auth(self, username, password):
         login_url = self._to_fully_qualified_url(self.login_url)
         login_data = dict(username=username, password=password, next=self.service_base)
         response = self.post(login_url, json_data=login_data, headers=dict(Referer=login_url))
-        if not self.errors:
-            self.token = response.json().get('token')
+        self.token = response.json().get('token')
         return response
 
     def authorized_get(self, url, params=None, **kwargs):
@@ -119,14 +117,23 @@ class RESTApiJWTClient:
         return None
 
 
-def get_error(response):
+def raise_for_status(response):
     try:
         response.raise_for_status()
-        error = None
     except requests.HTTPError as e:
         try:
             error = e.response.json()
         except:
             error = {'unknown': 'Unknown error happened. Please try again.'}
-        logger.error("Received an %s error code with: %s", e.response.status_code, error, exc_info=1)
-    return error
+        msg = "Received an {} error code with: {}".format(e.response.status_code, error)
+        raise HTTPError(msg) from e
+
+
+class HTTPError(RuntimeError):
+    @property
+    def error(self):
+        return self.response.json()
+
+    @property
+    def response(self):
+        return self.__cause__.response
