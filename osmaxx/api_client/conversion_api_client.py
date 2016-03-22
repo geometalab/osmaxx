@@ -27,10 +27,6 @@ class ConversionApiClient(RESTApiJWTClient):
     conversion_job_status_url = '/conversion_result/{job_uuid}/'
     estimated_file_size_url = '/estimate_size_in_bytes/'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.errors = None
-
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
         if extraction_order.process_start_time is None:
@@ -42,22 +38,11 @@ class ConversionApiClient(RESTApiJWTClient):
     def login(self):
         """
         Logs in the api client by requesting an API token
-
-        Returns:
-            the response
-            errors: None if successfull, dictionary with error list on failed login
         """
         if self.token:
             # already logged in
-            return True
-
-        try:
-            self.auth(self.username, self.password)
-        except HTTPError as e:
-            self.errors = e.error
-            return False
-        self.errors = None
-        return True
+            return
+        self.auth(self.username, self.password)
 
     def create_job(self, extraction_order, request):
         """
