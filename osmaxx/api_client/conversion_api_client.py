@@ -95,17 +95,16 @@ class ConversionApiClient(RESTApiJWTClient):
             response = self.authorized_post(self.conversion_job_url, json_data=request_data)
         except HTTPError as e:
             logging.error('API job creation failed.', e.response)
-            response = e.response
+            return e.response
+        rq_job_id = response.json().get('rq_job_id', None)
+        if rq_job_id:
+            extraction_order.process_id = rq_job_id
+            extraction_order.process_start_time = timezone.now()
+            extraction_order.progress_url = response.json()['status']
+            extraction_order.state = ExtractionOrderState.QUEUED
+            extraction_order.save()
         else:
-            rq_job_id = response.json().get('rq_job_id', None)
-            if rq_job_id:
-                extraction_order.process_id = rq_job_id
-                extraction_order.process_start_time = timezone.now()
-                extraction_order.progress_url = response.json()['status']
-                extraction_order.state = ExtractionOrderState.QUEUED
-                extraction_order.save()
-            else:
-                logging.error('Could not retrieve api job id from response.', response)
+            logging.error('Could not retrieve api job id from response.', response)
         return response
 
     def _download_result_files(self, extraction_order, job_status):
