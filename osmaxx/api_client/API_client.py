@@ -42,13 +42,6 @@ class RESTApiJWTClient:
         raise_for_status(response)
         return response
 
-    def options(self, url, **kwargs):
-        response = raise_for_status(
-            requests.options(self._to_fully_qualified_url(url), **self._data_dict(**kwargs))
-        )
-        raise_for_status(response)
-        return response
-
     def auth(self, username, password):
         login_url = self._to_fully_qualified_url(self.login_url)
         login_data = dict(username=username, password=password, next=self.service_base)
@@ -63,19 +56,6 @@ class RESTApiJWTClient:
     def authorized_post(self, url, json_data=None, **kwargs):
         self._make_request_authorized()
         return self.post(url, json_data, **kwargs)
-
-    def authorized_options(self, url, **kwargs):
-        self._make_request_authorized()
-        return self.options(self._to_fully_qualified_url(url), **kwargs)
-
-    def service_is_available(self):
-        try:
-            requests.get(self.service_base)
-            is_available = True
-        except ConnectionError as e:
-            logger.error('service {service_url} is down'.format(service_url=self.service_base), e)
-            is_available = False
-        return is_available
 
     def _data_dict(self, **kwargs):
         headers = self.headers.copy()
@@ -97,24 +77,6 @@ class RESTApiJWTClient:
             raise Exception('Unauthorized request. Assure you call `auth()` before making a request.')
         # TODO: comply to jwt and check if key is valid, if it needs reinitialization etc
         self.headers['Authorization'] = 'JWT {token}'.format(token=self.token)
-
-    def _request_successful(self, response):
-        try:
-            response.raise_for_status()
-        except requests.HTTPError as e:
-            logging.error('API job creation failed.', str(e) + " response: " + str(response.__dict__))
-            return False
-        return True
-
-    def _extract_key_from_json_or_none(self, response, key):
-        if self._request_successful(response):
-            try:
-                json_response = response.json()
-                return json_response.get(key, None)
-            except ValueError:
-                logging.error('API job creation failed because of an JSON decoding Issue.', str(response.__dict__))
-                return None
-        return None
 
 
 def raise_for_status(response):
