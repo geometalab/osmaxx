@@ -39,7 +39,10 @@ class ConversionApiClientAuthTestCase(TestCase):
         with self.assertRaisesRegex(API_client.HTTPError, "^{}$".format(re.escape(expected_msg))) as cm:
             api_client.login()
 
-        self.assertEqual({'non_field_errors': ['Unable to login with provided credentials.']}, API_client.errors(cm.exception))
+        self.assertEqual(
+            API_client.errors(cm.exception),
+            {'non_field_errors': ['Unable to login with provided credentials.']}
+        )
         self.assertIsNone(api_client.token)
 
 
