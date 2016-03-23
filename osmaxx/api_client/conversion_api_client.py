@@ -5,9 +5,10 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db import transaction
 from django.utils import timezone
+from requests import HTTPError
 from rest_framework.reverse import reverse
 
-from osmaxx.api_client.API_client import RESTApiJWTClient
+from osmaxx.api_client.API_client import RESTApiJWTClient, reasons_for
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import get_default_private_storage
 
@@ -38,20 +39,11 @@ class ConversionApiClient(RESTApiJWTClient):
     def login(self):
         """
         Logs in the api client by requesting an API token
-
-        Returns:
-            the response
-            errors: None if successfull, dictionary with error list on failed login
         """
         if self.token:
             # already logged in
-            return True
-
+            return
         self.auth(self.username, self.password)
-
-        if not self.errors:
-            return True
-        return False
 
     def create_job(self, extraction_order, request):
         """
@@ -85,19 +77,20 @@ class ConversionApiClient(RESTApiJWTClient):
             }
         })
         self.login()
-        response = self.authorized_post(self.conversion_job_url, json_data=request_data)
-        if self.errors:
-            logging.error('API job creation failed.', response)
+        try:
+            response = self.authorized_post(self.conversion_job_url, json_data=request_data)
+        except HTTPError as e:
+            logging.error('API job creation failed.', e.response)
+            return e.response
+        rq_job_id = response.json().get('rq_job_id', None)
+        if rq_job_id:
+            extraction_order.process_id = rq_job_id
+            extraction_order.process_start_time = timezone.now()
+            extraction_order.progress_url = response.json()['status']
+            extraction_order.state = ExtractionOrderState.QUEUED
+            extraction_order.save()
         else:
-            rq_job_id = response.json().get('rq_job_id', None)
-            if rq_job_id:
-                extraction_order.process_id = rq_job_id
-                extraction_order.process_start_time = timezone.now()
-                extraction_order.progress_url = response.json()['status']
-                extraction_order.state = ExtractionOrderState.QUEUED
-                extraction_order.save()
-            else:
-                logging.error('Could not retrieve api job id from response.', response)
+            logging.error('Could not retrieve api job id from response.', response)
         return response
 
     def _download_result_files(self, extraction_order, job_status):
@@ -163,11 +156,10 @@ class ConversionApiClient(RESTApiJWTClient):
         self.login()
         if not extraction_order.progress_url:  # None or empty
             return None
-        response = self.authorized_get(url=extraction_order.progress_url)
-
-        if self.errors:
+        try:
+            response = self.authorized_get(url=extraction_order.progress_url)
+        except HTTPError:
             return None
-
         return response.json()
 
     def update_order_status(self, extraction_order):
@@ -200,10 +192,9 @@ class ConversionApiClient(RESTApiJWTClient):
             "east": east,
             "north": north
         }
-
         self.login()
-
-        response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
-        if self.errors:
-            return self.errors
+        try:
+            response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
+        except HTTPError as e:
+            return reasons_for(e)
         return response.json()
