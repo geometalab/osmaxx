@@ -33,12 +33,12 @@ class RESTApiJWTClient:
 
     def get(self, url, params=None, **kwargs):
         response = requests.get(self._to_fully_qualified_url(url), params=params, **self._data_dict(**kwargs))
-        raise_for_status(response)
+        response.raise_for_status()
         return response
 
     def post(self, url, json_data=None, **kwargs):
         response = requests.post(self._to_fully_qualified_url(url), json=json_data, **self._data_dict(**kwargs))
-        raise_for_status(response)
+        response.raise_for_status()
         return response
 
     def auth(self, username, password):
@@ -76,10 +76,6 @@ class RESTApiJWTClient:
             raise Exception('Unauthorized request. Assure you call `auth()` before making a request.')
         # TODO: comply to jwt and check if key is valid, if it needs reinitialization etc
         self.headers['Authorization'] = 'JWT {token}'.format(token=self.token)
-
-
-def raise_for_status(response):
-    response.raise_for_status()
 
 
 def errors(http_error):
