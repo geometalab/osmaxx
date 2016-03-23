@@ -78,5 +78,5 @@ class RESTApiJWTClient:
         self.headers['Authorization'] = 'JWT {token}'.format(token=self.token)
 
 
-def errors(http_error):
+def reasons_for(http_error):
     return http_error.response.json()

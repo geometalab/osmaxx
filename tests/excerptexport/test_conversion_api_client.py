@@ -40,7 +40,7 @@ class ConversionApiClientAuthTestCase(TestCase):
             api_client.login()
 
         self.assertEqual(
-            API_client.errors(cm.exception),
+            API_client.reasons_for(cm.exception),
             {'non_field_errors': ['Unable to login with provided credentials.']}
         )
         self.assertIsNone(api_client.token)
