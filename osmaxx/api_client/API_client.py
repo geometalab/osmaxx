@@ -4,8 +4,6 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-HTTPError = requests.HTTPError
-
 
 class RESTApiJWTClient:
     """

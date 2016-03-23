@@ -5,9 +5,10 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db import transaction
 from django.utils import timezone
+from requests import HTTPError
 from rest_framework.reverse import reverse
 
-from osmaxx.api_client.API_client import RESTApiJWTClient, HTTPError, reasons_for
+from osmaxx.api_client.API_client import RESTApiJWTClient, reasons_for
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import get_default_private_storage
 

@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve
 from django.test.testcases import TestCase
 from hamcrest import matches_regexp, match_equality
+from requests import HTTPError
 
 from osmaxx.api_client import ConversionApiClient, API_client
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
@@ -36,7 +37,7 @@ class ConversionApiClientAuthTestCase(TestCase):
 
         expected_msg = \
             "400 Client Error: BAD REQUEST for url: http://localhost:8901/api/token-auth/"
-        with self.assertRaisesRegex(API_client.HTTPError, "^{}$".format(re.escape(expected_msg))) as cm:
+        with self.assertRaisesRegex(HTTPError, "^{}$".format(re.escape(expected_msg))) as cm:
             api_client.login()
 
         self.assertEqual(
