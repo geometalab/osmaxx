@@ -76,6 +76,7 @@ class JWTClient(RESTApiClient):
         if self.token:
             # already logged in
             return
+            # TODO: comply to JWT and check whether key is (still) valid, whether it needs reinitialization etc.
         login_url = self._to_fully_qualified_url(self.login_url)
         login_data = dict(username=self.username, password=self.password, next=self.service_base)
         response = self.post(login_url, json_data=login_data, headers=dict(Referer=login_url))
@@ -84,7 +85,6 @@ class JWTClient(RESTApiClient):
 
     def _make_request_authorized(self):
         self._login()
-        # TODO: comply to jwt and check if key is valid, if it needs reinitialization etc
         self.headers['Authorization'] = 'JWT {token}'.format(token=self.token)
 
 
