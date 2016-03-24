@@ -16,7 +16,6 @@ class RESTApiClient:
     """
 
     service_base = 'http://localhost/api/'
-    login_url = '/jwt-auth/'
 
     def __init__(self, service_base=None, login_url=None):
         if service_base:
@@ -55,6 +54,8 @@ class RESTApiClient:
 
 
 class JWTClient(RESTApiClient):
+    login_url = '/jwt-auth/'
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.token = None
