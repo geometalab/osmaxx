@@ -29,7 +29,7 @@ class ConversionApiClient(JWTClient):
     estimated_file_size_url = '/estimate_size_in_bytes/'
 
     def __init__(self):
-        super().__init__(username=self.username, password=self.password)
+        super().__init__(username=self.username, password=self.password, login_url=self.login_url)
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):

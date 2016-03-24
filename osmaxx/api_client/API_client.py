@@ -54,12 +54,11 @@ class RESTApiClient:
 
 
 class JWTClient(RESTApiClient):
-    login_url = '/jwt-auth/'
-
-    def __init__(self, *args, username, password, **kwargs):
+    def __init__(self, *args, username, password, login_url='/jwt-auth/', **kwargs):
         super().__init__(*args, **kwargs)
         self.username = username
         self.password = password
+        self.login_url = login_url
         self.token = None
 
     def _login(self):
