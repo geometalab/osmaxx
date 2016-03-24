@@ -62,16 +62,13 @@ class JWTClient(RESTApiClient):
         self.password = password
         self.token = None
 
-    def _login(self, *args, **kwargs):
+    def _login(self, username=None, password=None):
         """
         Logs in the api client by requesting an API token
         """
         if self.token:
             # already logged in
             return
-        self.auth(*args, **kwargs)
-
-    def auth(self, username=None, password=None):
         if username is None:
             username = self.username
         if password is None:
