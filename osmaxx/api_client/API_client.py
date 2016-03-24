@@ -91,8 +91,7 @@ class JWTClient(RESTApiClient):
         return self.post(url, json_data, **kwargs)
 
     def _make_request_authorized(self):
-        if not self.token:
-            self._login()
+        self._login()
         # TODO: comply to jwt and check if key is valid, if it needs reinitialization etc
         self.headers['Authorization'] = 'JWT {token}'.format(token=self.token)
 
