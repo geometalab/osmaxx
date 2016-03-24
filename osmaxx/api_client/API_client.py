@@ -7,21 +7,16 @@ logger = logging.getLogger(__name__)
 
 class RESTApiClient:
     """
-    REST Client Base Class With JWT enabled authentication
-
-    Can be either extended through inheritance or created using the params `service_base` and `login_url`
+    REST Client Base Class
 
     :param service_base: the base url
-    :param login_url: the relative path to the login url
     """
 
     service_base = 'http://localhost/api/'
 
-    def __init__(self, service_base=None, login_url=None):
+    def __init__(self, service_base=None):
         if service_base:
             self.service_base = service_base
-        if login_url:
-            self.login_url = login_url
         self.headers = {
             'Content-Type': 'application/json; charset=UTF-8',
         }
@@ -54,6 +49,11 @@ class RESTApiClient:
 
 
 class JWTClient(RESTApiClient):
+    """REST client with JWT authentication
+
+    :param login_url: the relative path to the login url
+    """
+
     def __init__(self, *args, username, password, login_url='/jwt-auth/', **kwargs):
         super().__init__(*args, **kwargs)
         self.username = username
