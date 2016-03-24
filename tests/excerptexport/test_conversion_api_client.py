@@ -23,7 +23,7 @@ class ConversionApiClientAuthTestCase(TestCase):
 
         self.assertIsNone(api_client.token)
 
-        api_client.login()
+        api_client._login()
 
         self.assertIsNotNone(api_client.token)
 
@@ -38,7 +38,7 @@ class ConversionApiClientAuthTestCase(TestCase):
         expected_msg = \
             "400 Client Error: BAD REQUEST for url: http://localhost:8901/api/token-auth/"
         with self.assertRaisesRegex(HTTPError, "^{}$".format(re.escape(expected_msg))) as cm:
-            api_client.login()
+            api_client._login()
 
         self.assertEqual(
             API_client.reasons_for(cm.exception),
