@@ -15,25 +15,24 @@ from osmaxx.utils import get_default_private_storage
 logger = logging.getLogger(__name__)
 
 COUNTRY_ID_PREFIX = 'country-'
+SERVICE_BASE_URL = settings.OSMAXX.get('CONVERSION_SERVICE_URL')
+LOGIN_URL = '/token-auth/'
+
+USERNAME = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
+PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
+
+CONVERSION_JOB_URL = '/jobs/'
+CONVERSION_JOB_STATUS_URL = '/conversion_result/{job_uuid}/'
+ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
 
 
 class ConversionApiClient(JWTClient):
-    service_base = settings.OSMAXX.get('CONVERSION_SERVICE_URL')
-    login_url = '/token-auth/'
-
-    username = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
-    password = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
-
-    conversion_job_url = '/jobs/'
-    conversion_job_status_url = '/conversion_result/{job_uuid}/'
-    estimated_file_size_url = '/estimate_size_in_bytes/'
-
     def __init__(self):
         super().__init__(
-            service_base=self.service_base,
-            login_url=self.login_url,
-            username=self.username,
-            password=self.password,
+            service_base=SERVICE_BASE_URL,
+            login_url=LOGIN_URL,
+            username=USERNAME,
+            password=PASSWORD,
         )
 
     @staticmethod
@@ -76,7 +75,7 @@ class ConversionApiClient(JWTClient):
             }
         })
         try:
-            response = self.authorized_post(self.conversion_job_url, json_data=request_data)
+            response = self.authorized_post(CONVERSION_JOB_URL, json_data=request_data)
         except HTTPError as e:
             logging.error('API job creation failed.', e.response)
             return e.response
@@ -190,7 +189,7 @@ class ConversionApiClient(JWTClient):
             "north": north
         }
         try:
-            response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
+            response = self.authorized_post(ESTIMATED_FILE_SIZE_URL, json_data=request_data)
         except HTTPError as e:
             return reasons_for(e)
         return response.json()
