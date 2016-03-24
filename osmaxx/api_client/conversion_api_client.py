@@ -46,7 +46,7 @@ class ConversionApiClient(JWTClient):
         if self.token:
             # already logged in
             return
-        self.auth(self.username, self.password)
+        self.auth()
 
     def create_job(self, extraction_order, request):
         """
