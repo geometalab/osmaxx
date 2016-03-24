@@ -22,7 +22,6 @@ USERNAME = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
 PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
 
 CONVERSION_JOB_URL = '/jobs/'
-CONVERSION_JOB_STATUS_URL = '/conversion_result/{job_uuid}/'
 ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
 
 
