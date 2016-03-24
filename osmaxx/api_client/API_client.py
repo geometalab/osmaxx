@@ -83,7 +83,9 @@ class JWTClient(RESTApiClient):
 
     def _authorization_headers(self):
         self._login()
-        return {'Authorization': 'JWT {token}'.format(token=self.token)}
+        return {
+            'Authorization': 'JWT {token}'.format(token=self.token),
+        }
 
 
 def reasons_for(http_error):
