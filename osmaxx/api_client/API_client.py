@@ -12,11 +12,8 @@ class RESTApiClient:
     :param service_base: the base url
     """
 
-    service_base = 'http://localhost/api/'
-
-    def __init__(self, service_base=None):
-        if service_base:
-            self.service_base = service_base
+    def __init__(self, service_base):
+        self.service_base = service_base
         self.headers = {
             'Content-Type': 'application/json; charset=UTF-8',
         }
