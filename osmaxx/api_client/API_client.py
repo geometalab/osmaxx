@@ -62,19 +62,15 @@ class JWTClient(RESTApiClient):
         self.password = password
         self.token = None
 
-    def _login(self, username=None, password=None):
+    def _login(self):
         """
         Logs in the api client by requesting an API token
         """
         if self.token:
             # already logged in
             return
-        if username is None:
-            username = self.username
-        if password is None:
-            password = self.password
         login_url = self._to_fully_qualified_url(self.login_url)
-        login_data = dict(username=username, password=password, next=self.service_base)
+        login_data = dict(username=self.username, password=self.password, next=self.service_base)
         response = self.post(login_url, json_data=login_data, headers=dict(Referer=login_url))
         self.token = response.json().get('token')
         return response
