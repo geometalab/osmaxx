@@ -54,7 +54,7 @@ class JWTClient(RESTApiClient):
     :param login_url: the relative path to the login url
     """
 
-    def __init__(self, *args, username, password, login_url='/jwt-auth/', **kwargs):
+    def __init__(self, *args, username, password, login_url, **kwargs):
         super().__init__(*args, **kwargs)
         self.username = username
         self.password = password
