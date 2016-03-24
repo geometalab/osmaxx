@@ -1,0 +1,91 @@
+# if you change the names of the containers, please remember
+# that you need to adapt REAMDE.md
+
+##### frontend START ########
+frontend:
+  image: geometalab/osmaxx-frontend:1.0.4
+  extends:
+    file: compose-common.yml
+    service: frontendbase
+  ports:
+    - "8000:8000"
+  volumes:
+    - osmaxx-frontend-data_data:/data
+    - osmaxx-frontend-data_results:/results
+  links:
+    - frontenddatabase:database
+    - mediator:conversion-service
+  env_file:
+    - ./common.env
+    - ./frontend.env
+  environment:
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+    - DJANGO_SETTINGS_MODULE=config.settings.local
+
+frontenddatabase:
+  image: geometalab/postgis:9.4
+  volumes:
+    - osmaxx-frontend-database_database_data:/database/data
+  environment:
+    - PGDATA=/database/data
+##### frontend END ########
+
+##### CONVERSION SERVICE START ########
+mediator:
+  extends:
+    file: compose-common.yml
+    service: conversionbase
+  image: geometalab/osmaxx-mediator:1.0.4
+  command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.prod, start]
+  expose:
+    - "8901"
+  volumes:
+    - osmaxx-worker_data_results:/data/results
+  links:
+    - conversionserviceredis:redis
+    - mediatordatabase:database
+  env_file:
+    - ./common.env
+    - ./mediator.env
+  environment:
+    # comma separated list, no brackets, e.g. localhost,dev.myhost.com
+    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+    - NUM_WORKERS=2
+
+worker:
+  extends:
+    file: compose-common.yml
+    service: conversionbase
+  image: geometalab/osmaxx-worker:1.0.4
+  command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
+  volumes:
+    - osmaxx-osmplanet-data_var_data_osm-planet:/var/data/osm-planet
+    - osmaxx-worker_data_results:/data/results
+  links:
+    - conversionserviceredis:redis
+  env_file:
+    - ./common.env
+    - ./worker.env
+  environment:
+    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
+    - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/monaco-latest.osm.pbf
+
+osmplanet:
+  image: geometalab/osm-planet
+  volumes:
+    - osmaxx-osmplanet-data_var_data_osm-planet:/var/data/osm-planet
+  environment:
+    - osm_planet_mirror=http://download.geofabrik.de/europe/
+    - osm_planet_path_relative_to_mirror=monaco-latest.osm.pbf
+
+conversionserviceredis:
+  image: redis
+
+mediatordatabase:
+  image: geometalab/postgis:9.4
+  volumes:
+    - osmaxx-mediator-database_database_data:/database/data
+  environment:
+    - PGDATA=/database/data
+##### CONVERSION SERVICE END ########
