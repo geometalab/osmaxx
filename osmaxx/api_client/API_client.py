@@ -14,9 +14,6 @@ class RESTApiClient:
 
     def __init__(self, service_base):
         self.service_base = service_base
-        self.headers = {
-            'Content-Type': 'application/json; charset=UTF-8',
-        }
         self.client = requests.session()
 
     def get(self, url, params=None, **kwargs):
@@ -30,10 +27,15 @@ class RESTApiClient:
         return response
 
     def _data_dict(self, **kwargs):
-        headers = self.headers.copy()
+        headers = self._default_headers()
         if 'headers' in kwargs:
             headers.update(kwargs.pop('headers'))
         return dict(headers=headers, **kwargs)
+
+    def _default_headers(self):
+        return {
+            'Content-Type': 'application/json; charset=UTF-8',
+        }
 
     def _is_colliding_slashes(self, url):
         return self.service_base.endswith('/') and url.startswith('/')
