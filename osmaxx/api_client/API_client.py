@@ -62,12 +62,10 @@ class JWTClient(RESTApiClient):
         self.token = None
 
     def authorized_get(self, url, params=None, **kwargs):
-        self._make_request_authorized()
-        return self.get(url, params, **kwargs)
+        return self.get(url, params, headers=self._authorization_headers(), **kwargs)
 
     def authorized_post(self, url, json_data=None, **kwargs):
-        self._make_request_authorized()
-        return self.post(url, json_data, **kwargs)
+        return self.post(url, json_data, headers=self._authorization_headers(), **kwargs)
 
     def _login(self):
         """
@@ -83,9 +81,9 @@ class JWTClient(RESTApiClient):
         self.token = response.json().get('token')
         return response
 
-    def _make_request_authorized(self):
+    def _authorization_headers(self):
         self._login()
-        self.headers['Authorization'] = 'JWT {token}'.format(token=self.token)
+        return {'Authorization': 'JWT {token}'.format(token=self.token)}
 
 
 def reasons_for(http_error):

@@ -74,7 +74,7 @@ class ConversionApiClientTestCase(TestCase):
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
 
-        self.assertEqual(self.api_client.headers['Authorization'], 'JWT {token}'.format(token=self.api_client.token))
+        self.assertEqual(response.request.headers['Authorization'], 'JWT {token}'.format(token=self.api_client.token))
         expected_keys_in_response = ["rq_job_id", "callback_url", "status", "gis_formats", "gis_options", "extent"]
         actual_keys_in_response = list(response.json().keys())
         self.assertCountEqual(expected_keys_in_response, actual_keys_in_response)
