@@ -92,7 +92,7 @@ class JWTClient(RESTApiClient):
 
     def _make_request_authorized(self):
         if not self.token:
-            raise Exception('Unauthorized request. Assure you call `auth()` before making a request.')
+            self.login()
         # TODO: comply to jwt and check if key is valid, if it needs reinitialization etc
         self.headers['Authorization'] = 'JWT {token}'.format(token=self.token)
 
