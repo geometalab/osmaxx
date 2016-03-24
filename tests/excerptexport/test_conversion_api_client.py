@@ -70,7 +70,6 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
     def test_create_job(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
@@ -86,7 +85,6 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_of_created_job_resolves_to_job_updater(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
@@ -100,7 +98,6 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_of_created_job_refers_to_correct_extraction_order(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
@@ -114,7 +111,6 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_would_reach_this_django_instance(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
@@ -133,7 +129,6 @@ class ConversionApiClientTestCase(TestCase):
         cassette_empty = not os.path.exists(cassette_file_location)
 
         with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
             self.api_client.create_job(self.extraction_order, request=self.request)
 
             if cassette_empty:
@@ -166,8 +161,6 @@ class ConversionApiClientTestCase(TestCase):
         )
         cassette_empty = not os.path.exists(cassette_file_location)
         with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
-
             self.assertEqual(self.extraction_order.output_files.count(), 0)
             self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.INITIALIZED)
@@ -191,7 +184,6 @@ class ConversionApiClientTestCase(TestCase):
         cassette_empty = not os.path.exists(cassette_file_location)
 
         with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
             self.api_client.create_job(self.extraction_order, request=self.request)
             self.api_client.update_order_status(self.extraction_order)  # processing
             self.assertEqual(self.extraction_order.output_files.count(), 0)

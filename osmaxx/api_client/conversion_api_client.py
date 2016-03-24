@@ -70,7 +70,6 @@ class ConversionApiClient(JWTClient):
                 "country": extraction_order.country_id,
             }
         })
-        self.login()
         try:
             response = self.authorized_post(self.conversion_job_url, json_data=request_data)
         except HTTPError as e:
@@ -147,7 +146,6 @@ class ConversionApiClient(JWTClient):
                 }
             False on error
         """
-        self.login()
         if not extraction_order.progress_url:  # None or empty
             return None
         try:
@@ -186,7 +184,6 @@ class ConversionApiClient(JWTClient):
             "east": east,
             "north": north
         }
-        self.login()
         try:
             response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
         except HTTPError as e:
