@@ -61,6 +61,14 @@ class JWTClient(RESTApiClient):
         self.login_url = login_url
         self.token = None
 
+    def authorized_get(self, url, params=None, **kwargs):
+        self._make_request_authorized()
+        return self.get(url, params, **kwargs)
+
+    def authorized_post(self, url, json_data=None, **kwargs):
+        self._make_request_authorized()
+        return self.post(url, json_data, **kwargs)
+
     def _login(self):
         """
         Logs in the api client by requesting an API token
@@ -73,14 +81,6 @@ class JWTClient(RESTApiClient):
         response = self.post(login_url, json_data=login_data, headers=dict(Referer=login_url))
         self.token = response.json().get('token')
         return response
-
-    def authorized_get(self, url, params=None, **kwargs):
-        self._make_request_authorized()
-        return self.get(url, params, **kwargs)
-
-    def authorized_post(self, url, json_data=None, **kwargs):
-        self._make_request_authorized()
-        return self.post(url, json_data, **kwargs)
 
     def _make_request_authorized(self):
         self._login()
