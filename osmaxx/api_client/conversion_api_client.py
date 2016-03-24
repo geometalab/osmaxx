@@ -39,14 +39,14 @@ class ConversionApiClient(JWTClient):
         timeout_reached = timezone.now() > extraction_order.process_due_time
         return process_unfinished and timeout_reached
 
-    def login(self):
+    def login(self, *args, **kwargs):
         """
         Logs in the api client by requesting an API token
         """
         if self.token:
             # already logged in
             return
-        self.auth()
+        self.auth(*args, **kwargs)
 
     def create_job(self, extraction_order, request):
         """
