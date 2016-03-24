@@ -28,6 +28,9 @@ class ConversionApiClient(JWTClient):
     conversion_job_status_url = '/conversion_result/{job_uuid}/'
     estimated_file_size_url = '/estimate_size_in_bytes/'
 
+    def __init__(self):
+        super().__init__(username=self.username, password=self.password)
+
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
         if extraction_order.process_start_time is None:
