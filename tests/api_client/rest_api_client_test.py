@@ -19,6 +19,6 @@ def test_get_performs_request(requests_mock):
 
 @pytest.yield_fixture
 def requests_mock():
-    import requests_mock as requests_mock_package
-    with requests_mock_package.mock() as m:
+    import requests_mock
+    with requests_mock.mock() as m:
         yield m
