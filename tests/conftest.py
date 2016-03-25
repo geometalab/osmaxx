@@ -169,6 +169,13 @@ def pytest_configure():
 
 # if any global fixtures are needed, add them below
 
+@pytest.yield_fixture
+def requests_mock():
+    import requests_mock
+    with requests_mock.mock() as m:
+        yield m
+
+
 @pytest.fixture
 def authenticated_client(client):
     """

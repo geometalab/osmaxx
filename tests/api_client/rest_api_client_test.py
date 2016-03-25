@@ -1,5 +1,3 @@
-import pytest
-
 from osmaxx.api_client.API_client import RESTApiJWTClient
 
 
@@ -15,10 +13,3 @@ def test_get_performs_request(requests_mock):
     c = RESTApiJWTClient('http://example.com/service/uri_base/')
     response = c.get('get/example')
     assert response.json() == {'some response': 'you got it'}
-
-
-@pytest.yield_fixture
-def requests_mock():
-    import requests_mock
-    with requests_mock.mock() as m:
-        yield m
