@@ -1,5 +1,4 @@
 import pytest
-import requests_mock as requests_mock_package
 
 from osmaxx.api_client.API_client import RESTApiJWTClient
 
@@ -20,5 +19,6 @@ def test_get_performs_request(requests_mock):
 
 @pytest.yield_fixture
 def requests_mock():
+    import requests_mock as requests_mock_package
     with requests_mock_package.mock() as m:
         yield m
