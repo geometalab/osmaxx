@@ -3,13 +3,7 @@ from requests_mock import ANY
 
 
 def test_get_performs_request(requests_mock):
-    requests_mock.get(
-        # Expected request:
-        ANY,
-
-        # Response if request matched:
-        json={'some response': 'you got it'}
-    )
+    requests_mock.get(ANY, json={'some response': 'you got it'})
     c = RESTApiJWTClient('http://example.com/service/uri_base/')
     response = c.get('get/example')
     assert response.request.url == 'http://example.com/service/uri_base/get/example'
@@ -18,13 +12,7 @@ def test_get_performs_request(requests_mock):
 
 
 def test_post_performs_request(requests_mock):
-    requests_mock.post(
-        # Expected request:
-        ANY,
-
-        # Response if request matched:
-        json={'some response': 'you posted it'}
-    )
+    requests_mock.post(ANY, json={'some response': 'you posted it'})
     c = RESTApiJWTClient('http://example.com/service/uri_base/')
     response = c.post('post/example', json_data={'pay': 'load'})
     assert response.request.url == 'http://example.com/service/uri_base/post/example'
