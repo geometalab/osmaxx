@@ -1,10 +1,10 @@
-import requests_mock
+import requests_mock as requests_mock_package
 
 from osmaxx.api_client.API_client import RESTApiJWTClient
 
 
 def test_get_performs_request():
-    with requests_mock.mock() as r_mock:
+    with requests_mock_package.mock() as r_mock:
         r_mock.get(
             # Expected request:
             'http://example.com/service/uri_base/get/example',
