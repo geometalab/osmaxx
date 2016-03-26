@@ -34,11 +34,34 @@ def test_get_returns_received_response(requests_mock):
     assert response.json() == {'some response': 'you got it'}
 
 
-def test_post_performs_request(requests_mock):
-    requests_mock.post(ANY, json={'some response': 'you posted it'})
+def test_post_requests_combined_url(requests_mock):
+    """
+    The requested URL is the concatenation of
+    the service_base of the RESTApiJWTClient instance and
+    the relative URL passed to RESTApiJWTClient.get().
+    """
+    requests_mock.post(ANY)
     c = RESTApiJWTClient('http://example.com/service/uri_base/')
     response = c.post('post/example', json_data={'pay': 'load'})
     assert response.request.url == 'http://example.com/service/uri_base/post/example'
+
+
+def test_post_specifies_body_content_type(requests_mock):
+    requests_mock.post(ANY)
+    c = RESTApiJWTClient('http://example.com/service/uri_base/')
+    response = c.post('post/example', json_data={'pay': 'load'})
     assert response.request.headers['Content-Type'] == 'application/json; charset=UTF-8'
+
+
+def test_post_sends_payload_as_json_body(requests_mock):
+    requests_mock.post(ANY)
+    c = RESTApiJWTClient('http://example.com/service/uri_base/')
+    response = c.post('post/example', json_data={'pay': 'load'})
     assert response.request.json() == {'pay': 'load'}
+
+
+def test_post_returns_received_response(requests_mock):
+    requests_mock.post(ANY, json={'some response': 'you posted it'})
+    c = RESTApiJWTClient('http://example.com/service/uri_base/')
+    response = c.post('post/example', json_data={'pay': 'load'})
     assert response.json() == {'some response': 'you posted it'}
