@@ -8,25 +8,31 @@ from django.utils import timezone
 from requests import HTTPError
 from rest_framework.reverse import reverse
 
-from osmaxx.api_client.API_client import RESTApiJWTClient, reasons_for
+from osmaxx.api_client.API_client import JWTClient, reasons_for
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import get_default_private_storage
 
 logger = logging.getLogger(__name__)
 
 COUNTRY_ID_PREFIX = 'country-'
+SERVICE_BASE_URL = settings.OSMAXX.get('CONVERSION_SERVICE_URL')
+LOGIN_URL = '/token-auth/'
+
+USERNAME = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
+PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
+
+CONVERSION_JOB_URL = '/jobs/'
+ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
 
 
-class ConversionApiClient(RESTApiJWTClient):
-    service_base = settings.OSMAXX.get('CONVERSION_SERVICE_URL')
-    login_url = '/token-auth/'
-
-    username = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
-    password = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
-
-    conversion_job_url = '/jobs/'
-    conversion_job_status_url = '/conversion_result/{job_uuid}/'
-    estimated_file_size_url = '/estimate_size_in_bytes/'
+class ConversionApiClient(JWTClient):
+    def __init__(self):
+        super().__init__(
+            service_base=SERVICE_BASE_URL,
+            login_url=LOGIN_URL,
+            username=USERNAME,
+            password=PASSWORD,
+        )
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
@@ -35,15 +41,6 @@ class ConversionApiClient(RESTApiJWTClient):
         process_unfinished = progress in ['new', 'received', 'started']
         timeout_reached = timezone.now() > extraction_order.process_due_time
         return process_unfinished and timeout_reached
-
-    def login(self):
-        """
-        Logs in the api client by requesting an API token
-        """
-        if self.token:
-            # already logged in
-            return
-        self.auth(self.username, self.password)
 
     def create_job(self, extraction_order, request):
         """
@@ -76,9 +73,8 @@ class ConversionApiClient(RESTApiJWTClient):
                 "country": extraction_order.country_id,
             }
         })
-        self.login()
         try:
-            response = self.authorized_post(self.conversion_job_url, json_data=request_data)
+            response = self.authorized_post(CONVERSION_JOB_URL, json_data=request_data)
         except HTTPError as e:
             logging.error('API job creation failed.', e.response)
             return e.response
@@ -153,7 +149,6 @@ class ConversionApiClient(RESTApiJWTClient):
                 }
             False on error
         """
-        self.login()
         if not extraction_order.progress_url:  # None or empty
             return None
         try:
@@ -192,9 +187,8 @@ class ConversionApiClient(RESTApiJWTClient):
             "east": east,
             "north": north
         }
-        self.login()
         try:
-            response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
+            response = self.authorized_post(ESTIMATED_FILE_SIZE_URL, json_data=request_data)
         except HTTPError as e:
             return reasons_for(e)
         return response.json()

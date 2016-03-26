@@ -23,7 +23,7 @@ class ConversionApiClientAuthTestCase(TestCase):
 
         self.assertIsNone(api_client.token)
 
-        api_client.login()
+        api_client._login()
 
         self.assertIsNotNone(api_client.token)
 
@@ -38,7 +38,7 @@ class ConversionApiClientAuthTestCase(TestCase):
         expected_msg = \
             "400 Client Error: BAD REQUEST for url: http://localhost:8901/api/token-auth/"
         with self.assertRaisesRegex(HTTPError, "^{}$".format(re.escape(expected_msg))) as cm:
-            api_client.login()
+            api_client._login()
 
         self.assertEqual(
             API_client.reasons_for(cm.exception),
@@ -70,12 +70,11 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
     def test_create_job(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
 
-        self.assertEqual(self.api_client.headers['Authorization'], 'JWT {token}'.format(token=self.api_client.token))
+        self.assertEqual(response.request.headers['Authorization'], 'JWT {token}'.format(token=self.api_client.token))
         expected_keys_in_response = ["rq_job_id", "callback_url", "status", "gis_formats", "gis_options", "extent"]
         actual_keys_in_response = list(response.json().keys())
         self.assertCountEqual(expected_keys_in_response, actual_keys_in_response)
@@ -86,7 +85,6 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_of_created_job_resolves_to_job_updater(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
@@ -100,7 +98,6 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_of_created_job_refers_to_correct_extraction_order(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
@@ -114,7 +111,6 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_would_reach_this_django_instance(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
@@ -133,7 +129,6 @@ class ConversionApiClientTestCase(TestCase):
         cassette_empty = not os.path.exists(cassette_file_location)
 
         with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
             self.api_client.create_job(self.extraction_order, request=self.request)
 
             if cassette_empty:
@@ -166,8 +161,6 @@ class ConversionApiClientTestCase(TestCase):
         )
         cassette_empty = not os.path.exists(cassette_file_location)
         with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
-
             self.assertEqual(self.extraction_order.output_files.count(), 0)
             self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.INITIALIZED)
@@ -191,7 +184,6 @@ class ConversionApiClientTestCase(TestCase):
         cassette_empty = not os.path.exists(cassette_file_location)
 
         with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
             self.api_client.create_job(self.extraction_order, request=self.request)
             self.api_client.update_order_status(self.extraction_order)  # processing
             self.assertEqual(self.extraction_order.output_files.count(), 0)
