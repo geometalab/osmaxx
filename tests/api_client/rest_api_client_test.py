@@ -8,7 +8,7 @@ def test_get_requests_combined_url(requests_mock):
     the service_base of the RESTApiJWTClient instance and
     the relative URL passed to RESTApiJWTClient.get().
     """
-    requests_mock.get(ANY, json={'some response': 'you got it'})
+    requests_mock.get(ANY)
     c = RESTApiJWTClient('http://example.com/service/uri_base/')
     response = c.get('get/example')
     assert response.request.url == 'http://example.com/service/uri_base/get/example'
@@ -21,7 +21,7 @@ def test_get_specifies_body_content_type(requests_mock):
     # While GET requests can have a body (which the server should ignore if present),
     # we don't send a body in the request. Specifying an absent body's content type
     # seems rather nonsensical.
-    requests_mock.get(ANY, json={'some response': 'you got it'})
+    requests_mock.get(ANY)
     c = RESTApiJWTClient('http://example.com/service/uri_base/')
     response = c.get('get/example')
     assert response.request.headers['Content-Type'] == 'application/json; charset=UTF-8'
