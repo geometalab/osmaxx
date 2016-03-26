@@ -27,6 +27,13 @@ def test_get_specifies_body_content_type(requests_mock):
     assert response.request.headers['Content-Type'] == 'application/json; charset=UTF-8'
 
 
+def test_get_sends_payload_in_query_string(requests_mock):
+    requests_mock.get(ANY)
+    c = RESTApiJWTClient('http://example.com/service/uri_base/')
+    response = c.get('get/example', params={'some_key': b'a value'})
+    assert response.request.url == 'http://example.com/service/uri_base/get/example?some_key=a+value'
+
+
 def test_get_returns_received_response(requests_mock):
     requests_mock.get(ANY, json={'some response': 'you got it'})
     c = RESTApiJWTClient('http://example.com/service/uri_base/')
