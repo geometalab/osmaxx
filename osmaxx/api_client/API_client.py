@@ -30,12 +30,15 @@ class RESTApiJWTClient:
         self.token = None
 
     def get(self, url, params=None, **kwargs):
-        response = requests.get(self._to_fully_qualified_url(url), params=params, **self._data_dict(**kwargs))
-        response.raise_for_status()
-        return response
+        return self._request(requests.get, url, dict(params=params), kwargs)
 
     def post(self, url, json_data=None, **kwargs):
-        response = requests.post(self._to_fully_qualified_url(url), json=json_data, **self._data_dict(**kwargs))
+        return self._request(requests.post, url, dict(json=json_data), kwargs)
+
+    def _request(self, method, url, payload, kwargs):
+        kwargs = self._data_dict(**kwargs)
+        kwargs.update(payload)
+        response = method(self._to_fully_qualified_url(url), **kwargs)
         response.raise_for_status()
         return response
 
