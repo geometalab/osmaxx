@@ -8,7 +8,7 @@ from django.utils import timezone
 from requests import HTTPError
 from rest_framework.reverse import reverse
 
-from osmaxx.api_client.API_client import RESTApiJWTClient, reasons_for
+from osmaxx.api_client.API_client import JWTClient, reasons_for
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import get_default_private_storage
 
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 COUNTRY_ID_PREFIX = 'country-'
 
 
-class ConversionApiClient(RESTApiJWTClient):
+class ConversionApiClient(JWTClient):
     service_base = settings.OSMAXX.get('CONVERSION_SERVICE_URL')
     login_url = '/token-auth/'
 

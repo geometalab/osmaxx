@@ -5,7 +5,7 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-class RESTApiJWTClient:
+class RESTApiClient:
     """
     REST Client Base Class With JWT enabled authentication
 
@@ -27,7 +27,6 @@ class RESTApiJWTClient:
             'Content-Type': 'application/json; charset=UTF-8',
         }
         self.client = requests.session()
-        self.token = None
 
     def get(self, url, params=None, **kwargs):
         return self._request(requests.get, url, dict(params=params), kwargs)
@@ -41,21 +40,6 @@ class RESTApiJWTClient:
         response = method(self._to_fully_qualified_url(url), **kwargs)
         response.raise_for_status()
         return response
-
-    def auth(self, username, password):
-        login_url = self._to_fully_qualified_url(self.login_url)
-        login_data = dict(username=username, password=password, next=self.service_base)
-        response = self.post(login_url, json_data=login_data, headers=dict(Referer=login_url))
-        self.token = response.json().get('token')
-        return response
-
-    def authorized_get(self, url, params=None, **kwargs):
-        self._make_request_authorized()
-        return self.get(url, params, **kwargs)
-
-    def authorized_post(self, url, json_data=None, **kwargs):
-        self._make_request_authorized()
-        return self.post(url, json_data, **kwargs)
 
     def _data_dict(self, **kwargs):
         headers = self.headers.copy()
@@ -71,6 +55,27 @@ class RESTApiJWTClient:
             return url
         base_url = self.service_base[:-1] if (self._is_colliding_slashes(url)) else self.service_base
         return base_url + url
+
+
+class JWTClient(RESTApiClient):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.token = None
+
+    def auth(self, username, password):
+        login_url = self._to_fully_qualified_url(self.login_url)
+        login_data = dict(username=username, password=password, next=self.service_base)
+        response = self.post(login_url, json_data=login_data, headers=dict(Referer=login_url))
+        self.token = response.json().get('token')
+        return response
+
+    def authorized_get(self, url, params=None, **kwargs):
+        self._make_request_authorized()
+        return self.get(url, params, **kwargs)
+
+    def authorized_post(self, url, json_data=None, **kwargs):
+        self._make_request_authorized()
+        return self.post(url, json_data, **kwargs)
 
     def _make_request_authorized(self):
         if not self.token:
