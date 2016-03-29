@@ -88,13 +88,7 @@ class BBoxBoundingGeometry(AdminUrlModelMixin, BoundingGeometry):
 
     @property
     def geometry(self):
-        polygon = Polygon([
-            self.south_west,
-            GEOSGeometry('POINT(%s %s)' % (self.west, self.north)),
-            self.north_east,
-            GEOSGeometry('POINT(%s %s)' % (self.east, self.south)),
-            self.south_west
-        ])
+        polygon = Polygon.from_bbox((self.west, self.south, self.east, self.north))
         return MultiPolygon(polygon)
 
     @staticmethod
