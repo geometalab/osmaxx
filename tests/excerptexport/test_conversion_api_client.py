@@ -1,3 +1,4 @@
+import re
 import time
 from unittest import mock
 from unittest.mock import Mock, sentinel
@@ -8,8 +9,9 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve
 from django.test.testcases import TestCase
 from hamcrest import assert_that, contains_inanyorder, matches_regexp, match_equality
+from requests import HTTPError
 
-from osmaxx.api_client import ConversionApiClient
+from osmaxx.api_client import ConversionApiClient, API_client
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
 from osmaxx.job_progress.views import tracker
 from tests.test_helpers import vcr_explicit_path as vcr, absolute_cassette_lib_path
@@ -22,9 +24,8 @@ class ConversionApiClientAuthTestCase(TestCase):
 
         self.assertIsNone(api_client.token)
 
-        success = api_client.login()
+        api_client._login()
 
-        self.assertTrue(success)
         self.assertIsNotNone(api_client.token)
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_failed_login.yml')
@@ -35,11 +36,16 @@ class ConversionApiClientAuthTestCase(TestCase):
         self.assertEqual(api_client.password, 'invalid')
         self.assertIsNone(api_client.token)
 
-        success = api_client.login()
+        expected_msg = \
+            "400 Client Error: BAD REQUEST for url: http://localhost:8901/api/token-auth/"
+        with self.assertRaisesRegex(HTTPError, "^{}$".format(re.escape(expected_msg))) as cm:
+            api_client._login()
 
-        self.assertEqual({'non_field_errors': ['Unable to login with provided credentials.']}, api_client.errors)
+        self.assertEqual(
+            API_client.reasons_for(cm.exception),
+            {'non_field_errors': ['Unable to login with provided credentials.']}
+        )
         self.assertIsNone(api_client.token)
-        self.assertFalse(success)
 
 
 class ConversionApiClientTestCase(TestCase):
@@ -105,13 +111,11 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
     def test_create_job(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
 
-        self.assertEqual(self.api_client.headers['Authorization'], 'JWT {token}'.format(token=self.api_client.token))
-        self.assertIsNone(self.api_client.errors)
+        self.assertEqual(response.request.headers['Authorization'], 'JWT {token}'.format(token=self.api_client.token))
         expected_keys_in_response = ["rq_job_id", "callback_url", "status", "gis_formats", "gis_options", "extent"]
         actual_keys_in_response = list(response.json().keys())
         self.assertCountEqual(expected_keys_in_response, actual_keys_in_response)
@@ -122,7 +126,6 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_of_created_job_resolves_to_job_updater(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
@@ -136,7 +139,6 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_of_created_job_refers_to_correct_extraction_order(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
@@ -150,7 +152,6 @@ class ConversionApiClientTestCase(TestCase):
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
     def test_callback_url_would_reach_this_django_instance(self):
-        self.api_client.login()
         self.assertIsNone(self.extraction_order.process_id)
 
         response = self.api_client.create_job(self.extraction_order, request=self.request)
@@ -169,7 +170,6 @@ class ConversionApiClientTestCase(TestCase):
         cassette_empty = not os.path.exists(cassette_file_location)
 
         with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
             self.api_client.create_job(self.extraction_order, request=self.request)
 
             if cassette_empty:
@@ -180,7 +180,6 @@ class ConversionApiClientTestCase(TestCase):
                 self.extraction_order,
                 job_status=self.api_client.job_status(self.extraction_order)
             )
-            self.assertIsNone(self.api_client.errors)
             content_types_of_output_files = (f.content_type for f in self.extraction_order.output_files.all())
             ordered_formats = self.extraction_order.extraction_configuration['gis_formats']
             self.assertCountEqual(content_types_of_output_files, ordered_formats)
@@ -203,8 +202,6 @@ class ConversionApiClientTestCase(TestCase):
         )
         cassette_empty = not os.path.exists(cassette_file_location)
         with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
-
             self.assertEqual(self.extraction_order.output_files.count(), 0)
             self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
             self.assertEqual(self.extraction_order.state, ExtractionOrderState.INITIALIZED)
@@ -228,7 +225,6 @@ class ConversionApiClientTestCase(TestCase):
         cassette_empty = not os.path.exists(cassette_file_location)
 
         with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
             self.api_client.create_job(self.extraction_order, request=self.request)
             self.api_client.update_order_status(self.extraction_order)  # processing
             self.assertEqual(self.extraction_order.output_files.count(), 0)
