@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from django.contrib.gis.geos import GEOSGeometry, Polygon
+from django.contrib.gis.geos import GEOSGeometry, MultiPolygon, Polygon
 
 from model_utils.managers import InheritanceManager
 
@@ -95,7 +95,8 @@ class BBoxBoundingGeometry(AdminUrlModelMixin, BoundingGeometry):
             GEOSGeometry('POINT(%s %s)' % (self.east, self.south)),
             self.south_west
         ])
-        return GEOSGeometry(polygon)
+        multipolygon = MultiPolygon(polygon)
+        return GEOSGeometry(multipolygon)
 
     @staticmethod
     def create_from_bounding_box_coordinates(north, east, south, west):
