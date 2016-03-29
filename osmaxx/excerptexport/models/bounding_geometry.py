@@ -95,8 +95,7 @@ class BBoxBoundingGeometry(AdminUrlModelMixin, BoundingGeometry):
             GEOSGeometry('POINT(%s %s)' % (self.east, self.south)),
             self.south_west
         ])
-        multipolygon = MultiPolygon(polygon)
-        return multipolygon
+        return MultiPolygon(polygon)
 
     @staticmethod
     def create_from_bounding_box_coordinates(north, east, south, west):
