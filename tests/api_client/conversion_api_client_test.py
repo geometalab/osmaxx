@@ -1,5 +1,5 @@
 import json
-from unittest.mock import ANY
+from unittest.mock import ANY, sentinel
 
 import pytest
 from django.contrib.gis.gdal.geometries import MultiPolygon
@@ -10,14 +10,14 @@ from osmaxx.api_client.conversion_api_client import ConversionApiClient
 def test_create_boundary_makes_authorized_post_with_json_payload(mocker, geos_multipolygon):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
-    c.create_boundary(geos_multipolygon, name='')
+    c.create_boundary(geos_multipolygon, name=sentinel.NAME)
     c.authorized_post.assert_called_once_with(url=ANY, json_data=ANY)
 
 
 def test_create_boundary_posts_to_clipping_area_resource(mocker, geos_multipolygon):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
-    c.create_boundary(geos_multipolygon, name='')
+    c.create_boundary(geos_multipolygon, name=sentinel.NAME)
     args, kwargs = c.authorized_post.call_args
     assert kwargs['url'] == 'clipping_area/'
 
@@ -25,10 +25,10 @@ def test_create_boundary_posts_to_clipping_area_resource(mocker, geos_multipolyg
 def test_create_boundary_posts_geojson(mocker, geos_multipolygon):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
-    c.create_boundary(geos_multipolygon, name='')
+    c.create_boundary(geos_multipolygon, name=sentinel.NAME)
     args, kwargs = c.authorized_post.call_args
     assert kwargs['json_data'] == {
-        "name": "HSR Testcut",
+        "name": sentinel.NAME,
         "clipping_multi_polygon": {
             "type": "MultiPolygon",
             "coordinates": nested_list(geos_multipolygon.coords)
