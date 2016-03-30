@@ -34,6 +34,9 @@ class ConversionApiClient(JWTClient):
             password=PASSWORD,
         )
 
+    def create_boundary(self, _):
+        self.authorized_post(url='clipping_area/', json_data='')
+
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
         if extraction_order.process_start_time is None:
