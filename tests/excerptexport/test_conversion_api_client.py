@@ -83,7 +83,7 @@ class ConversionApiClientTestCase(TestCase):
             self, create_boundary_mock, create_parametrization_mock, create_job_mock):
         result = self.extraction_order.forward_to_conversion_service(incoming_request=self.request)
 
-        create_boundary_mock.assert_called_once_with(self.bounding_box.geometry)
+        create_boundary_mock.assert_called_once_with(self.bounding_box.geometry, name=self.excerpt.name)
         gis_conversion_options = self.extraction_order.extraction_configuration['gis_options']
         assert_that(
             create_parametrization_mock.mock_calls, contains_inanyorder(

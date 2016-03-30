@@ -35,7 +35,7 @@ class ConversionApiClient(JWTClient):
             password=PASSWORD,
         )
 
-    def create_boundary(self, multipolygon):
+    def create_boundary(self, multipolygon, *, name):
         geo_json = json.loads(multipolygon.json)
         json_payload = dict(name='HSR Testcut', clipping_multi_polygon=geo_json)
         self.authorized_post(url='clipping_area/', json_data=json_payload)
