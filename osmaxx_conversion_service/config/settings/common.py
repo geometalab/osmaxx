@@ -244,8 +244,8 @@ REST_FRAMEWORK = {
 # RQ settings
 RQ_QUEUES = {
     'default': {
-        'HOST': env.str('REDIS_PORT_6379_TCP_ADDR', default='localhost'),
-        'PORT': env.str('REDIS_PORT_6379_TCP_PORT', default=6379),
+        'HOST': env.str('REDIS_HOST', default='localhost'),
+        'PORT': env.str('REDIS_PORT', default=6379),
         'DB': 0,
         'PASSWORD': '',
         'DEFAULT_TIMEOUT': int(timedelta(days=1).total_seconds()),

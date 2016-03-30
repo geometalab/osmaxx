@@ -1,85 +1,103 @@
-# if you change the names of the containers, please remember
-# that you need to adapt REAMDE.md
-
-##### frontend START ########
-frontend:
-  image: geometalab/osmaxx-frontend:${DEPLOY_VERSION}
-  extends:
-    file: docker-compose-common.yml
-    service: frontendbase
-  volumes:
-    - osmaxx-frontend-data_data:/data
-    - osmaxx-frontend-data_results:/results
-  links:
-    - frontenddatabase:database
-    - mediator:conversion-service
-  env_file:
-    - ./compose-env/common.env
-    - ./compose-env/frontend.env
-  environment:
-    - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-    - NUM_WORKERS=5
-
-frontenddatabase:
-  image: geometalab/postgis:9.4
-  volumes:
-    - osmaxx-frontend-database_database_data:/database/data
-  environment:
-    - PGDATA=/database/data
-##### frontend END ########
-
-##### CONVERSION SERVICE START ########
-mediator:
-  image: geometalab/osmaxx-mediator:${DEPLOY_VERSION}
-  extends:
-    file: docker-compose-common.yml
-    service: conversionbase
-  command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.prod, start]
-  expose:
-    - "8901"
-  volumes:
-    - osmaxx-worker_data_results:/data/results
-  links:
-    - conversionserviceredis:redis
-    - mediatordatabase:database
-  env_file:
-    - ./compose-env/common.env
-    - ./compose-env/mediator.env
-  environment:
-    # comma separated list, no brackets, e.g. localhost,dev.myhost.com
-    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.production
-    - NUM_WORKERS=5
-
-worker:
-  image: geometalab/osmaxx-worker:${DEPLOY_VERSION}
-  extends:
-    file: docker-compose-common.yml
-    service: conversionbase
-  command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
-  volumes:
-    - osmaxx-osmplanet-data_var_data_osm-planet:/var/data/osm-planet
-    - osmaxx-worker_data_results:/data/results
-  links:
-    - conversionserviceredis:redis
-  env_file:
-    - ./compose-env/worker.env
-  environment:
-    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
-
-osmplanet:
-  image: geometalab/osm-planet
-  volumes:
-    - osmaxx-osmplanet-data_var_data_osm-planet:/var/data/osm-planet
-  environment:
-    - osm_planet_path_relative_to_mirror=pbf/planet-latest.osm.pbf
-
-conversionserviceredis:
-  image: redis
-
-mediatordatabase:
-  image: geometalab/postgis:9.4
-  volumes:
-    - osmaxx-mediator-database_database_data:/database/data
-  environment:
-    - PGDATA=/database/data
-##### CONVERSION SERVICE END ########
+version: '2'
+services:
+  # if you change the names of the containers, please remember
+  # that you need to adapt REAMDE.md
+  ##### frontend START ########
+  frontend:
+    image: geometalab/osmaxx-frontend:${DEPLOY_VERSION}
+    extends:
+      file: docker-compose-common.yml
+      service: frontendbase
+    volumes:
+      - frontend-data:/data
+      - frontend-results:/results
+    links:
+      - frontenddatabase:database
+      - mediator:conversion-service
+    env_file:
+      - ./compose-env/common.env
+      - ./compose-env/frontend.env
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_PORT=5432
+      - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+      - NUM_WORKERS=5
+    depends_on:
+      - frontenddatabase
+      - mediator
+  frontenddatabase:
+    image: geometalab/postgis:9.4
+    volumes:
+      - frontend-database-data:/database/data
+    environment:
+      - PGDATA=/database/data
+  ##### frontend END ########
+  ##### CONVERSION SERVICE START ########
+  mediator:
+    image: geometalab/osmaxx-mediator:${DEPLOY_VERSION}
+    extends:
+      file: docker-compose-common.yml
+      service: conversionbase
+    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.prod, start]
+    expose:
+      - "8901"
+    volumes:
+      - worker-data:/data/results
+    links:
+      - conversionserviceredis:redis
+      - mediatordatabase:database
+    env_file:
+      - ./compose-env/common.env
+      - ./compose-env/mediator.env
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      # comma separated list, no brackets, e.g. localhost,dev.myhost.com
+      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.production
+      - NUM_WORKERS=5
+    depends_on:
+      - conversionserviceredis
+      - mediatordatabase
+  worker:
+    image: geometalab/osmaxx-worker:${DEPLOY_VERSION}
+    extends:
+      file: docker-compose-common.yml
+      service: conversionbase
+    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
+    volumes:
+      - osmplanet-data:/var/data/osm-planet
+      - worker-data:/data/results
+    links:
+      - conversionserviceredis:redis
+    env_file:
+      - ./compose-env/worker.env
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
+    depends_on:
+      - conversionserviceredis
+  osmplanet:
+    image: geometalab/osm-planet
+    volumes:
+      - osmplanet-data:/var/data/osm-planet
+    environment:
+      - osm_planet_path_relative_to_mirror=pbf/planet-latest.osm.pbf
+  conversionserviceredis:
+    image: redis
+  mediatordatabase:
+    image: geometalab/postgis:9.4
+    volumes:
+      - mediator-database-data:/database/data
+    environment:
+      - PGDATA=/database/data
+  ##### CONVERSION SERVICE END ########
+volumes:
+  frontend-database-data: {}
+  frontend-data: {}
+  frontend-results: {}
+  mediator-database-data: {}
+  worker-data: {}
+  osmplanet-data: {}
