@@ -1,3 +1,4 @@
+import json
 from unittest.mock import ANY
 
 import pytest
@@ -30,15 +31,7 @@ def test_create_boundary_posts_geojson(mocker, geos_multipolygon):
         "name": "HSR Testcut",
         "clipping_multi_polygon": {
             "type": "MultiPolygon",
-            "coordinates": [
-                [
-                    [[5, 0], [5, 1], [6, 1], [5, 0]],
-                ],
-                [
-                    [[1, 1], [4, 0], [-3, -3], [0, 4], [1, 1]],
-                    [[0, 0], [3, 0], [-2, -2], [0, 3], [0, 0]],
-                ],
-            ],
+            "coordinates": json.loads(json.dumps(geos_multipolygon.coords))
         }
     }
 
