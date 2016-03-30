@@ -62,7 +62,7 @@ class ExtractionOrder(models.Model):
 
     def forward_to_conversion_service(self, *, incoming_request):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
-        clipping_area_json = self.excerpt.bounding_geometry.send_to_conversion_service()
+        clipping_area_json = self.excerpt.send_to_conversion_service()
         gis_options = self.extraction_configuration['gis_options']
         api_client = ConversionApiClient()
         jobs_json = []
