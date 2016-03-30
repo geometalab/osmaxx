@@ -40,7 +40,11 @@ services:
       - DJANGO_SECRET_KEY=insecure!3
       - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
       - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf
-  osmplanet:
+  world-database:
+    command: postgres -B 2GB -F -N 512 -S 2GB --max_wal_size=2GB
+  osm_importer:
     environment:
-      - osm_planet_mirror=http://download.geofabrik.de/europe/
-      - osm_planet_path_relative_to_mirror=switzerland-latest.osm.pbf
+      - num_processes=8
+      - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/switzerland-updates/
+      - osm_planet_mirror=http://download.geofabrik.de/
+      - osm_planet_path_relative_to_mirror=europe/switzerland-latest.osm.pbf

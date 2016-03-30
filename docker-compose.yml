@@ -25,12 +25,16 @@ services:
     depends_on:
       - frontenddatabase
       - mediator
+    networks:
+      - osmaxx-internal
   frontenddatabase:
     image: geometalab/postgis:9.4
     volumes:
       - frontend-database-data:/database/data
     environment:
       - PGDATA=/database/data
+    networks:
+      - osmaxx-internal
   ##### frontend END ########
   ##### CONVERSION SERVICE START ########
   mediator:
@@ -60,6 +64,8 @@ services:
     depends_on:
       - conversionserviceredis
       - mediatordatabase
+    networks:
+      - osmaxx-internal
   worker:
     image: geometalab/osmaxx-worker:${DEPLOY_VERSION}
     extends:
@@ -79,25 +85,79 @@ services:
       - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
     depends_on:
       - conversionserviceredis
-  osmplanet:
-    image: geometalab/osm-planet
-    volumes:
-      - osmplanet-data:/var/data/osm-planet
-    environment:
-      - osm_planet_path_relative_to_mirror=pbf/planet-latest.osm.pbf
+    networks:
+      - osm-world
+      - osmaxx-internal
   conversionserviceredis:
     image: redis
+    networks:
+      - osmaxx-internal
   mediatordatabase:
     image: geometalab/postgis:9.4
     volumes:
       - mediator-database-data:/database/data
     environment:
       - PGDATA=/database/data
+    networks:
+      - osmaxx-internal
   ##### CONVERSION SERVICE END ########
+  ##### WORLD-DB START ########
+  world-database:
+    # to limit scaling to exactly 1, we need to specify the container name
+    container_name: osmworlddb_postgis
+    image: geometalab/postgis:9.5
+    volumes:
+      - database-postgis-data:/var/lib/postgresql
+    command: postgres -B 12GB -F -N 512 -S 20GB --max_wal_size=5GB
+    environment:
+      - POSTGRES_DB=gis
+      - POSTGRES_USER=gis
+      - POSTGRES_PASSWORD=gis
+    networks:
+      - osm-world-internal
+      - osm-world
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50k
+  osm_importer:
+    # to limit scaling to exactly 1, we need to specify the container name
+    container_name: osmworlddb_osm_importer
+    image: geometalab/osm2pgsql:latest
+    entrypoint: /root/wait-for-it.sh database:5432 --
+    command: /root/run.sh
+    links:
+      - world-database:database
+    depends_on:
+      - world-database
+    volumes:
+      - osm_data:/var/data/osm-planet
+      - osm_cache:/var/cache/osm-cache
+    environment:
+      - num_processes=16
+    networks:
+      - osm-world-internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50k
+  ##### WORLD-DB END ########
 volumes:
+  # osmaxx
   frontend-database-data: {}
   frontend-data: {}
   frontend-results: {}
   mediator-database-data: {}
   worker-data: {}
   osmplanet-data: {}
+  # osm-world-db
+  osm_data: {}
+  osm_cache: {}
+  database-postgis-data: {}
+networks:
+  osmaxx-internal:
+    driver: bridge
+  osm-world:
+    driver: bridge
+  osm-world-internal:
+    driver: bridge
