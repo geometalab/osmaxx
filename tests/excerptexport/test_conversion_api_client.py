@@ -78,7 +78,7 @@ class ConversionApiClientTestCase(TestCase):
         create=True,  # TODO: remove 'create' once implemented
         side_effect=[sentinel.parametrization_1, sentinel.parametrization_2],
     )
-    @mock.patch.object(ConversionApiClient, 'create_boundary', create=True)  # TODO: remove 'create' once implemented
+    @mock.patch.object(ConversionApiClient, 'create_boundary')
     def test_extraction_order_forward_to_conversion_service(
             self, create_boundary_mock, create_parametrization_mock, create_job_mock):
         result = self.extraction_order.forward_to_conversion_service(incoming_request=self.request)
