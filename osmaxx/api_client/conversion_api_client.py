@@ -1,3 +1,4 @@
+import json
 import logging
 from collections import OrderedDict
 
@@ -34,8 +35,10 @@ class ConversionApiClient(JWTClient):
             password=PASSWORD,
         )
 
-    def create_boundary(self, _):
-        self.authorized_post(url='clipping_area/', json_data='')
+    def create_boundary(self, multipolygon):
+        geo_json = json.loads(multipolygon.json)
+        json_payload = dict(name='HSR Testcut', clipping_multi_polygon=geo_json)
+        self.authorized_post(url='clipping_area/', json_data=json_payload)
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
