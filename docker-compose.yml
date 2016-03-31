@@ -105,7 +105,7 @@ services:
   world-database:
     # to limit scaling to exactly 1, we need to specify the container name
     container_name: osmworlddb_postgis
-    image: geometalab/postgis:9.5
+    image: geometalab/osm_world_postgis
     volumes:
       - database-postgis-data:/var/lib/postgresql
     command: postgres -B 12GB -F -N 512 -S 20GB --max_wal_size=5GB
