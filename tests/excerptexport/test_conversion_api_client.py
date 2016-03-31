@@ -1,13 +1,14 @@
 import re
 import time
-from unittest.mock import Mock
+from unittest import mock
+from unittest.mock import Mock, sentinel
 from urllib.parse import urlparse
 
 import os
 from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve
 from django.test.testcases import TestCase
-from hamcrest import matches_regexp, match_equality
+from hamcrest import assert_that, contains_inanyorder, matches_regexp, match_equality
 from requests import HTTPError
 
 from osmaxx.api_client import ConversionApiClient, API_client
@@ -67,6 +68,46 @@ class ConversionApiClientTestCase(TestCase):
             }
         }
         self.api_client = ConversionApiClient()
+
+    #
+    # Unit tests:
+
+    @mock.patch.object(ConversionApiClient, 'create_job', side_effect=[sentinel.job_1, sentinel.job_2])
+    @mock.patch.object(
+        ConversionApiClient, 'create_parametrization',
+        create=True,  # TODO: remove 'create' once implemented
+        side_effect=[sentinel.parametrization_1, sentinel.parametrization_2],
+    )
+    @mock.patch.object(ConversionApiClient, 'create_boundary')
+    def test_extraction_order_forward_to_conversion_service(
+            self, create_boundary_mock, create_parametrization_mock, create_job_mock):
+        result = self.extraction_order.forward_to_conversion_service(incoming_request=self.request)
+
+        create_boundary_mock.assert_called_once_with(self.bounding_box.geometry, name=self.excerpt.name)
+        gis_conversion_options = self.extraction_order.extraction_configuration['gis_options']
+        assert_that(
+            create_parametrization_mock.mock_calls, contains_inanyorder(
+                mock.call(create_boundary_mock.return_value, 'fgdb', gis_conversion_options),
+                mock.call(create_boundary_mock.return_value, 'spatialite', gis_conversion_options),
+            )
+        )
+        assert_that(
+            create_job_mock.mock_calls, contains_inanyorder(
+                mock.call(sentinel.parametrization_1, self.request),
+                mock.call(sentinel.parametrization_2, self.request),
+            )
+        )
+        assert_that(
+            result, contains_inanyorder(
+                sentinel.job_1,
+                sentinel.job_2,
+            )
+        )
+
+    #
+    # Integration tests:
+
+    # TODO: re-record VCR (service API has changed)
 
     @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
     def test_create_job(self):
