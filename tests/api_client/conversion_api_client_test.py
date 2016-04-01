@@ -74,6 +74,15 @@ def test_create_parametrization_posts_to_conversion_parametrization_resource(moc
     assert kwargs['url'] == 'conversion_parametrization/'
 
 
+def test_create_parametrization_posts_payload_with_structure_expected_by_conversion_service_api(mocker):
+    c = ConversionApiClient()
+    mocker.patch.object(c, 'authorized_post', autospec=True)
+    post_boundary_reply = dict(id=sentinel.CLIPPING_AREA_ID)
+    c.create_parametrization(boundary=post_boundary_reply, out_format=sentinel.OUT_FORMAT, out_srs=sentinel.OUT_SRS)
+    args, kwargs = c.authorized_post.call_args
+    assert_that(kwargs['json_data'].keys(), contains_inanyorder('out_format', 'out_srs', 'clipping_area'))
+
+
 @pytest.fixture
 def geos_multipolygon():
     return MultiPolygon(
