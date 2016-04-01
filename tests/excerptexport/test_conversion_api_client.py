@@ -75,7 +75,6 @@ class ConversionApiClientTestCase(TestCase):
     @mock.patch.object(ConversionApiClient, 'create_job', side_effect=[sentinel.job_1, sentinel.job_2])
     @mock.patch.object(
         ConversionApiClient, 'create_parametrization',
-        create=True,  # TODO: remove 'create' once implemented
         side_effect=[sentinel.parametrization_1, sentinel.parametrization_2],
     )
     @mock.patch.object(ConversionApiClient, 'create_boundary')
