@@ -65,6 +65,15 @@ def test_create_parametrization_makes_authorized_post_with_json_payload(mocker):
     c.authorized_post.assert_called_once_with(url=ANY, json_data=ANY)
 
 
+def test_create_parametrization_posts_to_conversion_parametrization_resource(mocker):
+    c = ConversionApiClient()
+    mocker.patch.object(c, 'authorized_post', autospec=True)
+    post_boundary_reply = dict(id=sentinel.CLIPPING_AREA_ID)
+    c.create_parametrization(boundary=post_boundary_reply, out_format=sentinel.OUT_FORMAT, out_srs=sentinel.OUT_SRS)
+    args, kwargs = c.authorized_post.call_args
+    assert kwargs['url'] == 'conversion_parametrization/'
+
+
 @pytest.fixture
 def geos_multipolygon():
     return MultiPolygon(

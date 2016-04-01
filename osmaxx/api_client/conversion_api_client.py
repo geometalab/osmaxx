@@ -41,7 +41,7 @@ class ConversionApiClient(JWTClient):
         return self.authorized_post(url='clipping_area/', json_data=json_payload)
 
     def create_parametrization(self, *, boundary, out_format, out_srs):
-        self.authorized_post(url=None, json_data=None)
+        self.authorized_post(url='conversion_parametrization/', json_data=None)
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
