@@ -10,14 +10,14 @@ from osmaxx.api_client.conversion_api_client import ConversionApiClient
 
 def test_create_boundary_makes_authorized_post_with_json_payload(mocker, geos_multipolygon):
     c = ConversionApiClient()
-    mocker.patch.object(c, 'authorized_post', autospec=True)
+    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_BOUNDARY_REPLY)
     c.create_boundary(geos_multipolygon, name=sentinel.NAME)
     c.authorized_post.assert_called_once_with(url=ANY, json_data=ANY)
 
 
 def test_create_boundary_posts_to_clipping_area_resource(mocker, geos_multipolygon):
     c = ConversionApiClient()
-    mocker.patch.object(c, 'authorized_post', autospec=True)
+    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_BOUNDARY_REPLY)
     c.create_boundary(geos_multipolygon, name=sentinel.NAME)
     args, kwargs = c.authorized_post.call_args
     assert kwargs['url'] == 'clipping_area/'
@@ -25,7 +25,7 @@ def test_create_boundary_posts_to_clipping_area_resource(mocker, geos_multipolyg
 
 def test_create_boundary_posts_payload_with_structure_expected_by_conversion_service_api(mocker, geos_multipolygon):
     c = ConversionApiClient()
-    mocker.patch.object(c, 'authorized_post', autospec=True)
+    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_BOUNDARY_REPLY)
     c.create_boundary(geos_multipolygon, name=sentinel.NAME)
     args, kwargs = c.authorized_post.call_args
     assert_that(kwargs['json_data'].keys(), contains_inanyorder('name', 'clipping_multi_polygon'))
@@ -33,7 +33,7 @@ def test_create_boundary_posts_payload_with_structure_expected_by_conversion_ser
 
 def test_create_boundary_posts_name(mocker, geos_multipolygon):
     c = ConversionApiClient()
-    mocker.patch.object(c, 'authorized_post', autospec=True)
+    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_BOUNDARY_REPLY)
     c.create_boundary(geos_multipolygon, name=sentinel.NAME)
     args, kwargs = c.authorized_post.call_args
     assert kwargs['json_data']['name'] == sentinel.NAME
@@ -41,13 +41,20 @@ def test_create_boundary_posts_name(mocker, geos_multipolygon):
 
 def test_create_boundary_posts_geojson(mocker, geos_multipolygon):
     c = ConversionApiClient()
-    mocker.patch.object(c, 'authorized_post', autospec=True)
+    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_BOUNDARY_REPLY)
     c.create_boundary(geos_multipolygon, name=sentinel.NAME)
     args, kwargs = c.authorized_post.call_args
     assert kwargs['json_data']['clipping_multi_polygon'] == {
         "type": "MultiPolygon",
         "coordinates": nested_list(geos_multipolygon.coords)
     }
+
+
+def test_create_boundary_returns_posts_request_reply(mocker, geos_multipolygon):
+    c = ConversionApiClient()
+    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_BOUNDARY_REPLY)
+    result = c.create_boundary(geos_multipolygon, name=sentinel.NAME)
+    assert result == sentinel.POST_BOUNDARY_REPLY
 
 
 @pytest.fixture

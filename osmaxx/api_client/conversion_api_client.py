@@ -38,7 +38,7 @@ class ConversionApiClient(JWTClient):
     def create_boundary(self, multipolygon, *, name):
         geo_json = json.loads(multipolygon.json)
         json_payload = dict(name=name, clipping_multi_polygon=geo_json)
-        self.authorized_post(url='clipping_area/', json_data=json_payload)
+        return self.authorized_post(url='clipping_area/', json_data=json_payload)
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
