@@ -101,6 +101,15 @@ def test_create_parametrization_posts_out_format(mocker):
     assert kwargs['json_data']['out_format'] == sentinel.OUT_FORMAT
 
 
+def test_create_parametrization_posts_out_srs(mocker):
+    c = ConversionApiClient()
+    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_PARAMETRIZATION_REPLY)
+    post_boundary_reply = dict(id=sentinel.CLIPPING_AREA_ID)
+    c.create_parametrization(boundary=post_boundary_reply, out_format=sentinel.OUT_FORMAT, out_srs=sentinel.OUT_SRS)
+    args, kwargs = c.authorized_post.call_args
+    assert kwargs['json_data']['out_srs'] == sentinel.OUT_SRS
+
+
 def test_create_parametrization_returns_posts_request_reply(mocker):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_PARAMETRIZATION_REPLY)
