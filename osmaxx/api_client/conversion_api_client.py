@@ -45,13 +45,13 @@ class ConversionApiClient(JWTClient):
 
         Args:
             boundary: A dictionary as returned by create_boundary
-            out_format:
+            out_format: A string identifying the output format
             out_srs:
 
         Returns:
 
         """
-        json_payload = dict(clipping_area=boundary['id'], out_format=None, out_srs=None)
+        json_payload = dict(clipping_area=boundary['id'], out_format=out_format, out_srs=None)
         return self.authorized_post(url='conversion_parametrization/', json_data=json_payload)
 
     @staticmethod
