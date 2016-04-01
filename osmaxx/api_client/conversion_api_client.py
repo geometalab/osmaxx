@@ -40,6 +40,9 @@ class ConversionApiClient(JWTClient):
         json_payload = dict(name=name, clipping_multi_polygon=geo_json)
         return self.authorized_post(url='clipping_area/', json_data=json_payload)
 
+    def create_parametrization(self, *, boundary, out_format, out_srs):
+        self.authorized_post(url=None, json_data=None)
+
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
         if extraction_order.process_start_time is None:

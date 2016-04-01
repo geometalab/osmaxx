@@ -57,6 +57,14 @@ def test_create_boundary_returns_posts_request_reply(mocker, geos_multipolygon):
     assert result == sentinel.POST_BOUNDARY_REPLY
 
 
+def test_create_parametrization_makes_authorized_post_with_json_payload(mocker):
+    c = ConversionApiClient()
+    mocker.patch.object(c, 'authorized_post', autospec=True)
+    post_boundary_reply = dict(id=sentinel.CLIPPING_AREA_ID)
+    c.create_parametrization(boundary=post_boundary_reply, out_format=sentinel.OUT_FORMAT, out_srs=sentinel.OUT_SRS)
+    c.authorized_post.assert_called_once_with(url=ANY, json_data=ANY)
+
+
 @pytest.fixture
 def geos_multipolygon():
     return MultiPolygon(
