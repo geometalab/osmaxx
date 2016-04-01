@@ -83,6 +83,15 @@ def test_create_parametrization_posts_payload_with_structure_expected_by_convers
     assert_that(kwargs['json_data'].keys(), contains_inanyorder('out_format', 'out_srs', 'clipping_area'))
 
 
+def test_create_parametrization_posts_clipping_area_id(mocker):
+    c = ConversionApiClient()
+    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_PARAMETRIZATION_REPLY)
+    post_boundary_reply = dict(id=sentinel.CLIPPING_AREA_ID)
+    c.create_parametrization(boundary=post_boundary_reply, out_format=sentinel.OUT_FORMAT, out_srs=sentinel.OUT_SRS)
+    args, kwargs = c.authorized_post.call_args
+    assert kwargs['json_data']['clipping_area'] == sentinel.CLIPPING_AREA_ID
+
+
 def test_create_parametrization_returns_posts_request_reply(mocker):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_PARAMETRIZATION_REPLY)
