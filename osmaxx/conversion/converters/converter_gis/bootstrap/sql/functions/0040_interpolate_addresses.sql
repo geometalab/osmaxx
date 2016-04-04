@@ -7,7 +7,7 @@ drop table if exists addr_interpolated;
 create table addr_interpolated as
 -- BEGIN
 with addr_interpolation_line as (
-  select osm_id,
+    select osm_id,
     hstore(tags)->'addr:interpolation' as interpolation_type,
     hstore(tags)->'addr:street' as addr_street,
     way
