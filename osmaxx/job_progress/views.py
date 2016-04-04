@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 
-from osmaxx.api_client.shortcuts import get_authenticated_api_client
+from osmaxx.api_client import ConversionApiClient
 from osmaxx.excerptexport.forms.order_options_mixin import available_format_choices
 from osmaxx.excerptexport.models import extraction_order, ExtractionOrderState
 from osmaxx.utilities.shortcuts import Emissary
@@ -12,7 +12,7 @@ def tracker(request, order_id):
     order = get_object_or_404(extraction_order.ExtractionOrder, pk=order_id)
     order.progress_url = request.GET['status']
     order.save()
-    client = get_authenticated_api_client()
+    client = ConversionApiClient()
     client.update_order_status(order)
 
     emissary = Emissary(recipient=order.orderer)

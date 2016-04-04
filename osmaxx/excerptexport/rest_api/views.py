@@ -4,7 +4,7 @@ from django.db import models
 from django.http import HttpResponse
 from rest_framework import generics
 
-from osmaxx.api_client.shortcuts import get_authenticated_api_client
+from osmaxx.api_client import ConversionApiClient
 from osmaxx.contrib.auth.frontend_permissions import AuthenticatedAndAccessPermission, HasBBoxAccessPermission, \
     HasExcerptAccessPermission
 from osmaxx.excerptexport.models import Excerpt
@@ -44,13 +44,13 @@ class BoundingGeometryFromExcerptDetail(BoundingGeometryFromExcerptMixin, generi
 
 def estimated_file_size(request):
     bbox = {bound: request.GET[bound] for bound in ['north', 'east', 'west', 'south']}
-    client = get_authenticated_api_client()
+    client = ConversionApiClient()
     response_content = json.dumps(client.estimated_file_size(**bbox))
     return HttpResponse(response_content, content_type="application/json")
 
 
 def country_geojson(request, pk):
-    client = get_authenticated_api_client()
+    client = ConversionApiClient()
     country_json_from_conversion_service = client.get_country_geojson(pk)
 
     return HttpResponse(
