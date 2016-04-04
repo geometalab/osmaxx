@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
+   width="1000"
+   height="1000"
    id="svg3347"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 32 32"
+   viewBox="0 0 1000 1000"
    sodipodi:docname="health_hospital.svg">
   <defs
      id="defs3349" />
@@ -25,16 +25,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20"
-     inkscape:cx="11.028768"
-     inkscape:cy="16"
+     inkscape:zoom="0.5"
+     inkscape:cx="-140.73308"
+     inkscape:cy="416"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1018"
-     inkscape:window-x="-8"
+     inkscape:window-width="1280"
+     inkscape:window-height="1002"
+     inkscape:window-x="1912"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
@@ -52,10 +52,11 @@
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(0,968)">
     <path
        style="fill:#ffffff;fill-opacity:1"
-       d="m 11.732031,5.5066406 0,8.3320314 7.998047,0 0,-8.3320314 4.875,0 0,21.5820314 -4.878906,-0.02148 0,-9.03125 -7.994141,0.01172 -0.0059,9.035156 -4.8144532,0 L 6.8980058,5.5203185 11.73199,5.5066465 Z"
+       d="m 341.39017,-851.5424 0,302.53122 314.44999,0 0,-302.53122 191.66492,0 0,783.63107 -191.81856,-0.779258 0,-327.919272 -314.29635,0.42444 -0.21994,328.061538 -189.28456,0 -0.53728,-782.922108 190.05246,-0.4974 z"
        id="path4745"
        inkscape:connector-curvature="0" />
   </g>

@@ -9,15 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
-   id="svg14494"
+   width="1000"
+   height="1000"
+   id="svg7735"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 32 32"
-   sodipodi:docname="_backgroud_doctor.svg">
+   viewBox="0 0 1000 1000"
+   sodipodi:docname="special_deciduous.svg">
   <defs
-     id="defs14496" />
+     id="defs7737" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20"
-     inkscape:cx="11.871489"
-     inkscape:cy="16"
+     inkscape:zoom="0.5"
+     inkscape:cx="9.7405635"
+     inkscape:cy="416"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -38,7 +38,7 @@
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
-     id="metadata14499">
+     id="metadata7740">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -52,11 +52,11 @@
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(0,968)">
     <path
-       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:29.39274979;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 7.29959,7.1285 0,16.693 17.0938,0 0,-16.693 -17.0938,0 z"
-       id="rect5152"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       d="m 496.70772,-862.48937 0,8.25884 -253.5083,379.17917 80.15938,-16.07978 -113.28839,129.7568 95.5817,-16.07901 -136.02602,139.11478 267.70437,-27.81368 0,197.39175 63.55532,0 0,-2.011157 59.37722,0 0,-197.391753 267.70389,27.81369 -136.0255,-139.11479 95.58118,16.07899 -113.28788,-129.75578 80.16502,16.07878 -253.51393,-379.17918 0,-4.23833 -1.4147,2.1189 -2.76304,-4.12838 z"
+       id="polygon37" />
   </g>
 </svg>

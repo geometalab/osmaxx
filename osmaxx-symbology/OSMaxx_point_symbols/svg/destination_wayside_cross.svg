@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
+   width="1000"
+   height="1000"
    id="svg3347"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 32 32"
-   sodipodi:docname="wayside_cross_.svg">
+   viewBox="0 0 1000 1000"
+   sodipodi:docname="destination_wayside_cross.svg">
   <defs
      id="defs3349" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20"
-     inkscape:cx="8.4303881"
-     inkscape:cy="16"
+     inkscape:zoom="0.5"
+     inkscape:cx="6.2994626"
+     inkscape:cy="496"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -45,18 +45,19 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(0,968)">
     <path
        style="fill:#c84614;fill-opacity:1"
        id="path8464"
        inkscape:connector-curvature="0"
-       d="m 7.0321197,24.2075 0,-3.752 3.6850003,0 3.684,0 0,-4.823 0,-4.823 -2.277,0 -2.2780003,0 0,-1.005 0,-1.005 2.2780003,0 2.277,0 0,-2.479 0,-2.479 1.005,0 1.004,0 0,2.479 0,2.479 2.144,0 2.146,0 0,1.005 0,1.005 -2.146,0 -2.144,0 0,4.823 0,4.823 3.816,0 3.816,0 0,3.752 0,3.751 -8.506,0 -8.5040003,0 0,-3.751 z" />
+       d="m 205.03212,-177.77458 0,-129.76768 133.2341,0 133.19793,0 0,-166.80956 0,-166.80957 -82.32673,0 -82.36291,0 0,-34.7592 0,-34.7592 82.36291,0 82.32673,0 0,-85.73936 0,-85.73935 36.33657,0 36.30042,0 0,85.73935 0,85.73936 77.51801,0 77.59032,0 0,34.7592 0,34.7592 -77.59032,0 -77.51801,0 0,166.80957 0,166.80956 137.97048,0 137.9705,0 0,129.76768 0,129.73308 -307.54115,0 -307.46885,0 0,-129.73308 z" />
   </g>
 </svg>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1000"
+   height="1000"
+   viewBox="0 0 1000 1000"
+   id="svg8896"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="tourism_information.svg">
+  <defs
+     id="defs8898" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="-5.2370203"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata8901">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-52.362161)">
+    <path
+       style="fill:#1e32a0;fill-opacity:1;stroke:none;stroke-width:37.73622131;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 496 106.73828 A 399.26245 399.26245 0 0 0 96.738281 506 A 399.26245 399.26245 0 0 0 496 905.26172 A 399.26245 399.26245 0 0 0 895.26172 506 A 399.26245 399.26245 0 0 0 496 106.73828 z M 530.65039 231.31641 C 556.20339 231.31641 567.81836 252.99581 567.81836 269.25781 C 567.81836 289.38981 548.4593 309.52344 526.7793 309.52344 C 504.3243 309.52344 487.28906 290.93664 487.28906 270.80664 C 487.28906 252.99664 503.54839 231.31641 530.65039 231.31641 z M 519.81055 380.75781 C 524.45655 380.75781 536.84775 393.14919 540.71875 400.11719 C 522.91075 476.00119 483.41895 639.3797 474.12695 678.0957 C 473.35295 681.1937 474.12761 683.51562 477.22461 683.51562 C 487.29061 683.51563 509.74588 678.09695 535.29688 671.12695 C 538.39588 681.96895 539.94419 692.03539 541.49219 703.65039 C 509.74419 713.71639 474.12712 720.68359 444.70312 720.68359 C 440.05812 720.68359 422.24752 707.52069 417.60352 696.67969 C 434.63752 620.02269 459.41583 516.26502 479.54883 429.54102 L 413.72852 433.41211 C 412.95452 421.79811 412.18164 410.95523 412.18164 400.11523 C 472.57864 391.59723 513.61755 380.75781 519.81055 380.75781 z "
+       transform="translate(0,52.362161)"
+       id="path6262" />
+  </g>
+</svg>

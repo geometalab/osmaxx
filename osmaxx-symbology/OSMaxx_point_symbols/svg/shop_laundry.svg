@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
+   width="1000"
+   height="1000"
    id="svg13579"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 32 32"
+   viewBox="0 0 1000 1000"
    sodipodi:docname="shop_laundry.svg">
   <defs
      id="defs13581" />
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20"
-     inkscape:cx="11.871489"
-     inkscape:cy="16"
+     inkscape:zoom="0.5"
+     inkscape:cx="9.7405635"
+     inkscape:cy="336"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -52,10 +52,11 @@
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(0,968)">
     <path
        inkscape:connector-curvature="0"
-       d="m 5.53449,2.9394 0,13.2606 0,13.2606 10.361382,0 10.362618,0 0,-13.2606 0,-13.2606 -10.362618,0 -10.361382,0 z m 0.6162865,5.2955112 9.7328145,0.013028 9.730399,0.013028 0.01178,10.2945608 0.01178,10.289537 -9.743843,0 -9.7451393,0 0,-10.304983 0,-10.3048381 z m 9.8813605,4.0405268 a 5.0084554,5.3825823 0 0 0 -5.008791,5.383118 5.0084554,5.3825823 0 0 0 5.008791,5.383104 5.0084554,5.3825823 0 0 0 5.006391,-5.383104 5.0084554,5.3825823 0 0 0 -5.006391,-5.383118 z"
+       d="m 103.53449,-891.0606 0,421.2606 0,421.2606 392.3386,0 392.3854,0 0,-421.2606 0,-421.2606 -392.3854,0 -392.3386,0 z m 23.33598,168.22694 368.53759,0.41388 368.44613,0.41387 0.44606,327.03594 0.44606,326.876353 -368.9552,0 -369.00428,0 0,-327.367033 0,-327.36244 z m 374.16236,128.35881 A 189.64752,170.99301 0 0 0 311.3726,-423.46483 189.64752,170.99301 0 0 0 501.03283,-252.45525 189.64752,170.99301 0 0 0 690.60218,-423.46483 189.64752,170.99301 0 0 0 501.03283,-594.47485 Z"
        id="path5958"
        style="fill:#a01914;fill-opacity:1" />
   </g>

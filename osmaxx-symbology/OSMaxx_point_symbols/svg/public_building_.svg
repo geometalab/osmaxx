@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
+   width="1000"
+   height="1000"
    id="svg3351"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 32 32"
+   viewBox="0 0 1000 1000"
    sodipodi:docname="public_building_.svg">
   <defs
      id="defs3353" />
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20"
-     inkscape:cx="13.643268"
-     inkscape:cy="16"
+     inkscape:zoom="0.5"
+     inkscape:cx="11.512342"
+     inkscape:cy="496"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -45,16 +45,17 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(0,968)">
     <g
-       transform="translate(-0.152,-0.567)"
+       transform="matrix(40.791032,0,0,37.002408,-155.85675,-1094.0189)"
        id="g7"
        style="fill:#c84614;fill-opacity:1">
       <path

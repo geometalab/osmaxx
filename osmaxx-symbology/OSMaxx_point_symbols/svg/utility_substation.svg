@@ -9,15 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
-   id="svg16183"
+   width="1000"
+   height="1000"
+   id="svg11107"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 32 32"
-   sodipodi:docname="_background_post_office.svg">
+   viewBox="0 0 1000 1000"
+   sodipodi:docname="utility_power_plant_and_station.svg">
   <defs
-     id="defs16185" />
+     id="defs11109" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20"
-     inkscape:cx="11.871489"
-     inkscape:cy="16"
+     inkscape:zoom="0.5"
+     inkscape:cx="9.7405635"
+     inkscape:cy="496"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -38,7 +38,7 @@
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
-     id="metadata16188">
+     id="metadata11112">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -52,11 +52,12 @@
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(0,968)">
     <path
-       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1"
-       d="m 2.61899,8.18645 0,16.8771 26.555,0 0,-16.8771 -26.555,0 z"
-       id="rect5468"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;enable-background:accumulate"
+       d="m 487.00207,-885.67395 -228.55907,440.67188 231.02434,0 -193.91266,406.42602 441.61388,-534.81807 -249.58017,0 196.96062,-312.27983 -197.54694,0 z"
+       id="rect3011"
        inkscape:connector-curvature="0" />
   </g>
 </svg>

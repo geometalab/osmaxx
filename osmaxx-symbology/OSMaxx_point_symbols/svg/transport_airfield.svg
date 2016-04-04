@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
+   width="1000"
+   height="1000"
    id="svg3349"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 32 32"
-   sodipodi:docname="airfield_.svg">
+   viewBox="0 0 1000 1000"
+   sodipodi:docname="transport_airfield.svg">
   <defs
      id="defs3351" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20"
-     inkscape:cx="13.643017"
-     inkscape:cy="15.999705"
+     inkscape:zoom="0.5"
+     inkscape:cx="-366.594"
+     inkscape:cy="495.9997"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -45,18 +45,24 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(0,968)">
     <path
        inkscape:connector-curvature="0"
        style="fill:#003cff;fill-opacity:1"
        id="path1972"
-       d="m 25.379736,5.0664664 c 1.531,-1.166 3.295,1.141 1.721,2.343 l -6.426,4.9069996 1.467,13.124 -2.373,1.813 -3.892,-11.201 -4.803,3.668 -0.035,3.307 -1.877,1.439 -1.446,-3.953 -3.432,-2.436 1.877,-1.436 3.186,0.814 4.8,-3.667 -9.784,-6.7009996 2.374,-1.813 12.177,4.7349996 6.466,-4.9429996 z" />
+       d="m 835.98701,-832.1871 c 52.95675,-40.33153 113.97289,39.46679 59.52878,81.04355 l -222.27309,169.7314 50.74302,453.95458 -82.08124,62.711036 -134.62292,-387.438676 -166.1341,126.87484 -1.21063,114.38797 -64.92478,49.77451 -50.01663,-136.73289 -118.71168,-84.26039 64.92477,-49.67074 110.20263,28.15598 166.03032,-126.84025 -338.42514,-231.78523 82.11583,-62.71104 421.19817,163.78198 223.65669,-170.97663 z" />
+    <path
+       d="m 835.98701,-832.1871 c 52.95675,-40.33153 113.97289,39.46679 59.52878,81.04355 l -222.27309,169.7314 50.74302,453.95458 -82.08124,62.711036 -134.62292,-387.438676 -166.1341,126.87484 -1.21063,114.38797 -64.92478,49.77451 -50.01663,-136.73289 -118.71168,-84.26039 64.92477,-49.67074 110.20263,28.15598 166.03032,-126.84025 -338.42514,-231.78523 82.11583,-62.71104 421.19817,163.78198 223.65669,-170.97663 z"
+       id="path4134"
+       style="fill:#003cff;fill-opacity:1"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
+   width="1000"
+   height="1000"
    id="svg10544"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 32 32"
+   viewBox="0 0 1000 1000"
    sodipodi:docname="natural_rock.svg">
   <defs
      id="defs10546" />
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20"
-     inkscape:cx="11.871489"
-     inkscape:cy="16"
+     inkscape:zoom="0.5"
+     inkscape:cx="9.7405635"
+     inkscape:cy="336"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -52,10 +52,11 @@
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(0,968)">
     <path
        style="opacity:1;fill:#6e3200;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:65.80000305;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.68181817"
-       d="M 29.00166,19.167584 28.991625,12.834441 26.678321,10.475465 20.540435,8.9057189 19.792625,12.153501 18.184188,8.6424261 17.537845,8.0272 6.4743391,8.9021756 3.3419709,17.301198 c 0,0 -0.5201506,3.964889 2.0177413,5.43425 3.939813,2.281042 16.0939458,0.952976 16.0939458,0.952976 l 2.977678,-1.436985 -0.119355,-1.266552 0.737074,-3.787265 0.384834,3.510799 0.393457,0.370469 z m -8.524571,0.994849 -4.553092,-0.924973 -3.44706,0.684788 -7.4462219,-1.720671 4.037153,-0.44686 3.4552969,1.080879 3.715237,-0.238899 z"
+       d="m 925.00166,-352.29631 -0.34501,-204.47075 -79.53247,-76.16148 -211.02338,-50.68055 -25.71006,104.85732 -55.29881,-113.35795 -22.22157,-19.86308 -380.3685,28.24931 -107.692274,271.16937 c 0,0 -17.88302,128.00971 69.370884,175.44924 135.45261,73.64533 553.31736,30.76762 553.31736,30.76762 l 102.37396,-46.39424 -4.10348,-40.89168 25.34095,-122.27498 13.23077,113.34905 13.52723,11.96089 z m -293.07873,32.11952 -156.53742,-29.86351 -118.51153,22.10894 -256.00458,-55.55328 138.7992,-14.42725 118.79472,34.89707 127.73158,-7.71305 z"
        id="path4355"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccccsccccccccccccccc" />
