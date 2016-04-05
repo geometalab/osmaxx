@@ -5,7 +5,6 @@ from django.contrib.gis.geos import MultiPolygon, Polygon, MultiLineString, Line
 
 import osmaxx.utils.polyfile_helpers
 from osmaxx.clipping_area.to_polyfile import create_poly_file_string
-from osmaxx.clipping_area import utils
 
 
 class CreatePolyfileStringTest(TestCase):

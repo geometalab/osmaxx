@@ -256,3 +256,16 @@ def geos_geometry_can_be_created_from_geojson_string():
     geojson_point = dict(type="Point", coordinates=[100.0, 0.0])
     geojson_point_string = json.dumps(geojson_point)
     GEOSGeometry(geojson_point_string)
+
+
+@pytest.fixture
+def area_polyfile_string():
+    return ''''none
+polygon-1
+    7.495679855346679 43.75782881091782
+    7.38581657409668 43.75782881091782
+    7.38581657409668 43.70833803832912
+    7.495679855346679 43.75782881091782
+END
+END
+'''
