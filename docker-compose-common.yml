@@ -41,8 +41,5 @@ services:
       - DJANGO_STATIC_ROOT=/data/static
       - DJANGO_MEDIA_ROOT=/data/media
       - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
-
-      # shared result dir
-      - OSMAXX_CONVERSION_SERVICE_RESULT_DIR=/data/results
       # shared pbf planet file
-      - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/planet-latest.osm.pbf
+      - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/pbf/planet-latest.osm.pbf

@@ -32,6 +32,10 @@ services:
     extends:
       file: docker-compose-common.yml
       service: conversionbase
+    volumes:
+      - ./osmaxx:/home/py/osmaxx
+      - ./web_frontend:/home/py/web_frontend
+      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
     build:
       context: .
       dockerfile: Dockerfile.worker
@@ -39,12 +43,13 @@ services:
     environment:
       - DJANGO_SECRET_KEY=insecure!3
       - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
-      - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf
   world-database:
     command: postgres -B 2GB -F -N 512 -S 2GB --max_wal_size=2GB
+    ports:
+      - "5433:5432"
   osm_importer:
     environment:
       - num_processes=8
-      - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/switzerland-updates/
+      - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/monaco-updates/
       - osm_planet_mirror=http://download.geofabrik.de/
-      - osm_planet_path_relative_to_mirror=europe/switzerland-latest.osm.pbf
+      - osm_planet_path_relative_to_mirror=europe/monaco-latest.osm.pbf

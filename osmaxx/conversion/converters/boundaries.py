@@ -2,7 +2,7 @@ import subprocess
 import tempfile
 
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
-from osmaxx.clipping_area import utils
+from osmaxx.utils import polyfile_helpers
 
 
 class BoundaryCutter:
@@ -31,7 +31,7 @@ class pbf_area:  # noqa: context managers are lowercase by convention
             the path to the pbf file usable during context
         """
         # Parse the poly_string to cause an Exception if it is invalid.
-        utils.parse_poly_string(osmosis_polygon_file_content)  # We're only interested in the side effect.
+        polyfile_helpers.parse_poly_string(osmosis_polygon_file_content)  # We're only interested in the side effect.
 
         self._osmosis_polygon_file = tempfile.NamedTemporaryFile(suffix='.poly', mode='w')
         self._osmosis_polygon_file.write(osmosis_polygon_file_content)

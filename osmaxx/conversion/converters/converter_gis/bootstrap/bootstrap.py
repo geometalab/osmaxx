@@ -1,30 +1,28 @@
 import glob
-import subprocess
-
 import os
 
 from osmaxx.conversion.converters.converter_gis.helper.default_postgres import get_default_postgres_wrapper
-from osmaxx.utils import changed_dir
+from osmaxx.conversion.converters.converter_gis.helper.osm_importer import OSMImporter
+from osmaxx.utils import changed_dir, polyfile_helpers
 
 
-def boostrap(pbf_file_path):
+def boostrap(area_polyfile_string):
     with changed_dir(os.path.dirname(__file__)):
-        bootstrapper = BootStrapper(pbf_file_path=pbf_file_path)
+        bootstrapper = BootStrapper(area_polyfile_string)
         bootstrapper.bootstrap()
 
 
 class BootStrapper:
-    def __init__(self, pbf_file_path, limit_ram_usage=True):
-        self._pbf_file_path = pbf_file_path
+    def __init__(self, area_polyfile_string):
         self._postgres = get_default_postgres_wrapper()
-        self._limit_ram_usage = limit_ram_usage
         self._script_base_dir = os.path.abspath(os.path.dirname(__file__))
         self._terminal_style_path = os.path.join(self._script_base_dir, 'styles', 'terminal.style')
         self._style_path = os.path.join(self._script_base_dir, 'styles', 'style.lua')
+        self._extent = polyfile_helpers.parse_poly_string(area_polyfile_string)
 
     def bootstrap(self):
         self._reset_database()
-        self._convert_osm_pbf_to_postgres()
+        self._import_from_world_db()
         self._setup_db_functions()
         self._harmonize_database()
         self._filter_data()
@@ -38,28 +36,9 @@ class BootStrapper:
         self._postgres.create_extension("hstore")
         self._postgres.create_extension("postgis")
 
-    def _convert_osm_pbf_to_postgres(self):
-        db_name = self._postgres.get_db_name()
-        postgres_user = self._postgres.get_user()
-
-        osm_2_pgsql_command = [
-            'osm2pgsql',
-            '--create',
-            '--extra-attributes',
-            '--slim',
-            '--database', db_name,
-            '--prefix', 'osm',
-            '--style', self._terminal_style_path,
-            '--tag-transform-script', self._style_path,
-            '--number-processes', '8',
-            '--username', postgres_user,
-            '--hstore-all',
-            '--input-reader', 'pbf',
-            '--latlon',  # WGS-84 (Should be equivalent to '--proj', '4326'.)
-            self._pbf_file_path,
-        ]
-
-        subprocess.check_call(osm_2_pgsql_command)
+    def _import_from_world_db(self):
+        osm_importer = OSMImporter()
+        osm_importer.load_area_specific_data(extent=self._extent)
 
     def _setup_db_functions(self):
         self._execute_sql_scripts_in_folder(os.path.join(self._script_base_dir, 'sql', 'functions'))

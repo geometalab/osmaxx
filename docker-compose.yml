@@ -46,7 +46,7 @@ services:
     expose:
       - "8901"
     volumes:
-      - worker-data:/data/results
+      - worker-data:/data/media/job_result_files
     links:
       - conversionserviceredis:redis
       - mediatordatabase:database
@@ -73,8 +73,8 @@ services:
       service: conversionbase
     command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
     volumes:
-      - osmplanet-data:/var/data/osm-planet
-      - worker-data:/data/results
+      - osm_data:/var/data/osm-planet
+      - worker-data:/data/media/job_result_files
     links:
       - conversionserviceredis:redis
     env_file:

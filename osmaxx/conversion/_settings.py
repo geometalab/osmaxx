@@ -3,7 +3,7 @@ from django.conf import settings
 
 CONVERSION_SETTINGS = {
     'result_harvest_interval_seconds': timedelta(minutes=1).total_seconds(),
-    'PBF_PLANET_FILE_PATH': '/var/data/osm-planet/planet-latest.osm.pbf',
+    'PBF_PLANET_FILE_PATH': '/var/data/osm-planet/pbf/planet-latest.osm.pbf',
     'RESULT_TTL': -1,  # never expire!
 }
 

@@ -1,6 +1,24 @@
 import os
+from django.contrib.gis.geos import Polygon, MultiPolygon, GEOSGeometry
 
-from django.contrib.gis.geos import MultiPolygon, Polygon
+from osmaxx.countries._settings import POLYFILE_LOCATION
+
+POLYFILE_ENDING = '.poly'
+
+
+def _is_polyfile(filename):
+    return filename.endswith(POLYFILE_ENDING)
+
+
+def polyfile_to_geos_geometry(relative_polygon_file, simplify_tolerance=None):
+    with open(os.path.join(POLYFILE_LOCATION, relative_polygon_file)) as poly_file:
+        poly = parse_poly(poly_file.readlines())
+    if simplify_tolerance:
+        poly = poly.simplify(tolerance=simplify_tolerance, preserve_topology=True)
+        # Simplifying can lead to a polygon. Ensure it stays a multipolygon:
+        if poly and isinstance(poly, Polygon):
+            poly = MultiPolygon(poly)
+    return GEOSGeometry(poly)
 
 
 def parse_poly_string(poly_string):
@@ -48,4 +66,4 @@ def parse_poly(lines):
             ring = coords[-1][0]  # noqa: it is in fact used in the next iteration.
             in_ring = True
 
-    return MultiPolygon(*(Polygon(*polycoords) for polycoords in coords))
+    return MultiPolygon(*(Polygon(*polycoords) for polycoords in coords), srid=4326)
