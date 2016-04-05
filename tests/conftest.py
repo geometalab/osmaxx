@@ -177,7 +177,31 @@ def requests_mock():
 
 
 @pytest.fixture
-def authenticated_client(client):
+def user(db, django_user_model, django_username_field):
+    """A Django user.
+
+    This uses an existing user with username "user", or creates a new one with
+    password "password".
+    """
+    # Adapted from pytest_django.fixtures.admin_user
+    UserModel = django_user_model  # noqa
+    username_field = django_username_field
+    username = 'user'
+    password = 'password'
+
+    try:
+        user = UserModel._default_manager.get(**{username_field: 'user'})
+    except UserModel.DoesNotExist:
+        extra_fields = {}
+        if username_field != 'username':
+            extra_fields[username_field] = username
+        user = UserModel._default_manager.create_user(
+            username, '{}@example.com'.format(username), password, **extra_fields)
+    return user
+
+
+@pytest.fixture
+def authenticated_client(client, user):
     """
     Client fixture using an authenticated user.
 
@@ -191,9 +215,7 @@ def authenticated_client(client):
     Returns:
         Authenticated Client
     """
-    from django.contrib.auth import get_user_model
-    user = get_user_model().objects.create_user(username='lauren', password='lauri', email=None)
-    client.login(username='lauren', password='lauri')
+    client.login(username='user', password='password')
     client.user = user
     return client
 
@@ -205,7 +227,7 @@ def api_client():
 
 
 @pytest.fixture
-def authenticated_api_client(api_client):
+def authenticated_api_client(api_client, user):
     """
     API-Client fixture using an authenticated user.
 
@@ -219,7 +241,7 @@ def authenticated_api_client(api_client):
     Returns:
         Authenticated Client
     """
-    return authenticated_client(api_client)
+    return authenticated_client(api_client, user)
 
 
 @pytest.fixture
