@@ -9,7 +9,7 @@ def get_polyfile_name_to_file_mapping():
     return {
         _extract_country_name_from_polyfile_name(filename): filename
         for filename in filenames if _is_polyfile(filename)
-        }
+    }
 
 
 def _extract_country_name_from_polyfile_name(filename):

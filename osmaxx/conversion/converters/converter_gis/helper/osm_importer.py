@@ -92,4 +92,3 @@ class OSMImporter:
                     insert(table_meta, values=result)
                 )
         return row_count
-
