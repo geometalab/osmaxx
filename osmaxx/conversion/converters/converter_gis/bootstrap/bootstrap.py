@@ -3,13 +3,12 @@ import os
 
 from osmaxx.conversion.converters.converter_gis.helper.default_postgres import get_default_postgres_wrapper
 from osmaxx.conversion.converters.converter_gis.helper.osm_importer import OSMImporter
-from osmaxx.utils import changed_dir, polyfile_helpers
+from osmaxx.utils import polyfile_helpers
 
 
 def boostrap(area_polyfile_string):
-    with changed_dir(os.path.dirname(__file__)):
-        bootstrapper = BootStrapper(area_polyfile_string)
-        bootstrapper.bootstrap()
+    bootstrapper = BootStrapper(area_polyfile_string)
+    bootstrapper.bootstrap()
 
 
 class BootStrapper:
