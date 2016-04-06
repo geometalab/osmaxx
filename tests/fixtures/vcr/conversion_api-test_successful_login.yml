@@ -1,8 +1,8 @@
 interactions:
 - request:
     body: !!binary |
-      eyJ1c2VybmFtZSI6ICJkZXYiLCAibmV4dCI6ICJodHRwOi8vbG9jYWxob3N0Ojg5MDEvYXBpLyIs
-      ICJwYXNzd29yZCI6ICJkZXYifQ==
+      eyJuZXh0IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODkwMS9hcGkvIiwgInBhc3N3b3JkIjogImRldiIs
+      ICJ1c2VybmFtZSI6ICJkZXYifQ==
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
@@ -10,17 +10,17 @@ interactions:
       Content-Length: ['76']
       Content-Type: [application/json; charset=UTF-8]
       Referer: ['http://localhost:8901/api/token-auth/']
-      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.16.0-38-generic]
+      User-Agent: [python-requests/2.8.1]
     method: POST
     uri: http://localhost:8901/api/token-auth/
   response:
-    body: {string: '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDg2NDUyMDIsImVtYWlsIjoiIiwidXNlcm5hbWUiOiJkZXYiLCJ1c2VyX2lkIjoxfQ.vPmWNBEJPCqMyaFX7YB-Ixk6VSSLN0eYqej--MLWzsA"}'}
+    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTk4NjI3NzgsImVtYWlsIjoiIiwidXNlcm5hbWUiOiJkZXYiLCJ1c2VyX2lkIjoxfQ.H-jH1dsRoPV5YRLAFXSdeyPQtS4_OmwTeuOPBWFPcj8"}'}
     headers:
       Allow: ['POST, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Fri, 27 Nov 2015 17:21:42 GMT']
-      Server: [Werkzeug/0.10.4 Python/3.4.3]
+      Date: ['Tue, 05 Apr 2016 13:21:18 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
       Vary: [Accept]
       X-Frame-Options: [SAMEORIGIN]
     status: {code: 200, message: OK}
