@@ -1,7 +1,7 @@
 import os
 
 from osmaxx.countries._settings import POLYFILE_LOCATION
-from osmaxx.utils.polyfile_helpers import POLYFILE_ENDING, _is_polyfile
+from osmaxx.utils.polyfile_helpers import POLYFILE_FILENAME_EXTENSION, _is_polyfile
 
 
 def get_polyfile_name_to_file_mapping():
@@ -13,5 +13,5 @@ def get_polyfile_name_to_file_mapping():
 
 
 def _extract_country_name_from_polyfile_name(filename):
-    name, _ = filename.split(POLYFILE_ENDING)
+    name, _ = filename.split(POLYFILE_FILENAME_EXTENSION)
     return name

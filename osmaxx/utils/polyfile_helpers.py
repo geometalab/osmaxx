@@ -3,11 +3,11 @@ from django.contrib.gis.geos import Polygon, MultiPolygon, GEOSGeometry
 
 from osmaxx.countries._settings import POLYFILE_LOCATION
 
-POLYFILE_ENDING = '.poly'
+POLYFILE_FILENAME_EXTENSION = '.poly'
 
 
 def _is_polyfile(filename):
-    return filename.endswith(POLYFILE_ENDING)
+    return filename.endswith(POLYFILE_FILENAME_EXTENSION)
 
 
 def polyfile_to_geos_geometry(relative_polygon_file, simplify_tolerance=None):
