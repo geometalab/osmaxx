@@ -2,8 +2,7 @@ from itertools import chain
 from sqlalchemy import MetaData, Table, create_engine, func
 from sqlalchemy.engine.url import URL
 from sqlalchemy.sql import select, insert
-# import needed for reflection to work correctly with spatial types
-from geoalchemy2 import Geometry, Geography  # noqa
+from geoalchemy2 import Geometry, Geography
 
 
 class OSMImporter:
@@ -32,6 +31,7 @@ class OSMImporter:
         self._local_db_engine = create_engine(local_db_connection, use_native_hstore=True)
         self._table_metas = {}
 
+        assert Geometry, Geography  # assert classes needed for GIS-reflection are available
         for to_be_created_table in self._osm_derived_tables + self._osm_base_tables:
             self._table_metas[to_be_created_table] = Table(
                 to_be_created_table,
