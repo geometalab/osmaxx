@@ -54,31 +54,32 @@ class OSMImporter:
             self._execute_and_insert_into_local_db(query, table_meta)
 
     def _load_base_tables(self):
-        osm_line = self._table_metas['osm_line']
-        osm_ways = self._table_metas['osm_ways']
-        osm_nodes = self._table_metas['osm_nodes']
+        line_osm_ids = self._get_local_osm_ids()
+        if len(line_osm_ids) == 0:
+            return
+        local_ways = self._insert_corresponding_ways(line_osm_ids)
+        if local_ways.rowcount == 0:
+            return
+        self._insert_corresponding_osm_nodes(local_ways)
 
+    def _get_local_osm_ids(self):
+        osm_line = self._table_metas['osm_line']
         local_line_osm_ids_results = self._local_db_engine.execute(
             select([osm_line.c.osm_id])
         )
+        return [q.osm_id for q in local_line_osm_ids_results.fetchall()]
 
-        if local_line_osm_ids_results.rowcount == 0:
-            return
-        line_osm_ids = [q.osm_id for q in local_line_osm_ids_results.fetchall()]
+    def _insert_corresponding_ways(self, line_osm_ids):
+        osm_ways = self._table_metas['osm_ways']
         osm_ways_query = select([osm_ways]).where(
             osm_ways.c.id.in_(line_osm_ids)
         )
-        rows_altered = self._execute_and_insert_into_local_db(osm_ways_query, osm_ways)
+        self._execute_and_insert_into_local_db(osm_ways_query, osm_ways)
+        return self._local_db_engine.execute(select([osm_ways.c.nodes]))
 
-        if rows_altered == 0:
-            return
-        local_osm_ways_query = self._local_db_engine.execute(
-            select([osm_ways.c.nodes])
-        )
-
-        if local_osm_ways_query.rowcount == 0:
-            return
-        array_rows = chain.from_iterable(local_osm_ways_query.fetchall())
+    def _insert_corresponding_osm_nodes(self, ways):
+        osm_nodes = self._table_metas['osm_nodes']
+        array_rows = chain.from_iterable(ways.fetchall())
         node_ids = chain.from_iterable(array_rows)
         osm_nodes_query = select([osm_nodes]).where(
             osm_nodes.c.id.in_(node_ids)
@@ -87,11 +88,9 @@ class OSMImporter:
 
     def _execute_and_insert_into_local_db(self, query, table_meta):
         query_result = self._world_db_engine.execute(query)
-        row_count = query_result.rowcount
-        if row_count > 0:
+        if query_result.rowcount > 0:
             results = query_result.fetchall()
             for result in results:
                 self._local_db_engine.execute(
                     insert(table_meta, values=result)
                 )
-        return row_count
