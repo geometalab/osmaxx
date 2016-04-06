@@ -18,7 +18,7 @@ class OSMImporter:
             host='world-database',
         )
         world_db_connection = URL('postgresql', **_world_db_connection_parameters)
-        self._world_db_engine = create_engine(world_db_connection, use_native_hstore=True)
+        self._world_db_engine = create_engine(world_db_connection)
         self._world_db_meta_data = MetaData()
 
         _local_db_connection_parameters = dict(
@@ -28,7 +28,7 @@ class OSMImporter:
             database='osmaxx_db',
         )
         local_db_connection = URL('postgresql', **_local_db_connection_parameters)
-        self._local_db_engine = create_engine(local_db_connection, use_native_hstore=True)
+        self._local_db_engine = create_engine(local_db_connection)
         self._table_metas = {}
 
         assert Geometry, Geography  # assert classes needed for GIS-reflection are available
@@ -37,8 +37,7 @@ class OSMImporter:
                 to_be_created_table,
                 self._world_db_meta_data,
                 autoload=True,
-                autoload_with=self._world_db_engine,
-                postgresql_with_oids=True
+                autoload_with=self._world_db_engine
             )
 
     def load_area_specific_data(self, *, extent):
