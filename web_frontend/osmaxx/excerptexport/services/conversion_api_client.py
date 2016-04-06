@@ -1,4 +1,3 @@
-import json
 import logging
 from collections import OrderedDict
 
@@ -10,7 +9,6 @@ from rest_framework.reverse import reverse
 
 from osmaxx.api_client.API_client import RESTApiJWTClient
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
-from osmaxx.utilities.shortcuts import get_cached_or_set
 from osmaxx.utils import private_storage
 
 logger = logging.getLogger(__name__)
@@ -196,27 +194,6 @@ class ConversionApiClient(RESTApiJWTClient):
                 extraction_order.state = ExtractionOrderState.FAILED
                 extraction_order.save()
 
-    def get_country_list(self):
-        return get_cached_or_set('osmaxx_conversion_service_countries_list', self._fetch_countries)
-
-    def get_prefixed_countries(self):
-        return [
-            {'id': COUNTRY_ID_PREFIX + str(country['id']), 'name': country['name']}
-            for country in self.get_country_list()
-        ]
-
-    def get_country(self, country_id):
-        self.login()
-        country_url = self.country_base_url + str(country_id) + '/'
-        response = self.authorized_get(country_url)
-        if self.errors:
-            logger.error('could not fetch country list: ', self.errors)
-            return self.errors
-        return response.json()
-
-    def get_country_name(self, country_id):
-        return self.get_country(country_id)['name']
-
     def estimated_file_size(self, north, west, south, east):
         request_data = {
             "west": west,
@@ -231,32 +208,3 @@ class ConversionApiClient(RESTApiJWTClient):
         if self.errors:
             return self.errors
         return response.json()
-
-    def get_country_list_json(self):
-        return json.dumps(self.get_prefixed_countries())
-
-    def get_country_json(self, country_id):
-        return json.dumps(self.get_country(country_id.strip(COUNTRY_ID_PREFIX)))
-
-    def get_country_geojson(self, country_id):
-        geometry = self.get_country(country_id)['simplified_polygon']
-        properties = {'type_of_geometry': "Country"}  # add the type for better distinction in JavaScript
-        return json.dumps(self._to_geo_json_feature(geometry, properties))
-
-    def _to_geo_json_feature(self, geometry, properties=None):
-        feature = OrderedDict()
-        feature["type"] = "Feature"
-        feature["geometry"] = geometry
-        feature['properties'] = properties
-        return feature
-
-    def _fetch_countries(self):
-        self.login()
-        response = self.authorized_get(self.country_base_url)
-        if self.errors:
-            logger.error('could not fetch country list: ', self.errors)
-            return self.errors
-        countries = [
-            {'id': country['id'], 'name': country['name']} for country in response.json()
-        ]
-        return sorted(countries, key=lambda k: k['name'])

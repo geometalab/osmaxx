@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, HTML
 
-from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
+from osmaxx.countries.models import Country
 from osmaxx.excerptexport.services import COUNTRY_ID_PREFIX
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_user_excerpts, \
@@ -14,12 +14,11 @@ from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_us
 from .order_options_mixin import OrderOptionsMixin, get_export_options
 
 
-def get_prefixed_countries():
-    return get_authenticated_api_client().get_prefixed_countries()
-
-
 def get_country_choices():
-    return tuple((country['id'], country['name']) for country in get_prefixed_countries())
+    return tuple(
+        (COUNTRY_ID_PREFIX + str(country[0]), country[1])
+        for country in Country.objects.all().order_by('name').values_list('id', 'name')
+    )
 
 
 def get_existing_excerpt_choices(user):
