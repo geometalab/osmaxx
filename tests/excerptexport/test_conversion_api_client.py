@@ -38,7 +38,7 @@ def test_failed_login():
     assert api_client.token is None
 
     expected_msg = \
-        "400 Client Error: BAD REQUEST for url: http://localhost:8901/api/token-auth/"
+        "400 Client Error: Bad Request for url: http://localhost:8901/api/token-auth/"
     with pytest.raises(HTTPError) as excinfo:
         api_client._login()
 
@@ -206,11 +206,11 @@ def test_download_files(api_client, extraction_order, job_progress_request):
         assert_that(content_types_of_output_files, contains_inanyorder(*ordered_formats))
         assert_that(
             len(extraction_order.output_files.order_by('id')[0].file.read()),
-            is_close_to(446005, delta=10000)
+            is_close_to(893924, delta=10000)
         )
         assert_that(
             len(extraction_order.output_files.order_by('id')[1].file.read()),
-            is_close_to(368378, delta=10000)
+            is_close_to(5053321, delta=10000)
         )
     job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 

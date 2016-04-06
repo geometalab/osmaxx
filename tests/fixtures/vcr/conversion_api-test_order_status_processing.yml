@@ -10,68 +10,68 @@ interactions:
       Content-Length: ['76']
       Content-Type: [application/json; charset=UTF-8]
       Referer: ['http://localhost:8901/api/token-auth/']
-      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.16.0-38-generic]
+      User-Agent: [python-requests/2.8.1]
     method: POST
     uri: http://localhost:8901/api/token-auth/
   response:
-    body: {string: '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDk1MDEwODIsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIifQ.9A2IJZ6W5AFjaMW5-vfjzI2wjaf5tLMVU1_hoo4u3Rg"}'}
+    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTk4NjI5MjUsImVtYWlsIjoiIiwidXNlcm5hbWUiOiJkZXYiLCJ1c2VyX2lkIjoxfQ.ynMfwGriQpJ3b8C2G0_v2CpDh1qdzVwo9OtOR1doM_c"}'}
     headers:
       Allow: ['POST, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Mon, 07 Dec 2015 15:06:22 GMT']
-      Server: [Werkzeug/0.10.4 Python/3.4.3]
+      Date: ['Tue, 05 Apr 2016 13:23:45 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
       Vary: [Accept]
       X-Frame-Options: [SAMEORIGIN]
     status: {code: 200, message: OK}
 - request:
     body: !!binary |
-      eyJnaXNfb3B0aW9ucyI6IHsiY29vcmRpbmF0ZV9yZWZlcmVuY2Vfc3lzdGVtIjogIldHU184NCIs
-      ICJkZXRhaWxfbGV2ZWwiOiAxfSwgImV4dGVudCI6IHsic291dGgiOiA0MC43NzU0NjgsICJub3J0
-      aCI6IDQwLjc3NzM5NywgImVhc3QiOiAyOS41Mjg5ODEsICJwb2x5ZmlsZSI6IG51bGwsICJ3ZXN0
-      IjogMjkuNTI1NTQ4fSwgImNhbGxiYWNrX3VybCI6ICJodHRwOi8vdGhlLWhvc3QuZXhhbXBsZS5j
-      b20vam9iX3Byb2dyZXNzL3RyYWNrZXIvMS8iLCAiZ2lzX2Zvcm1hdHMiOiBbImZnZGIiLCAic3Bh
-      dGlhbGl0ZSJdfQ==
+      eyJleHRlbnQiOiB7Indlc3QiOiAyOS41MjU1NDc2MjM2MzQzMzUsICJzb3V0aCI6IDQwLjc3NTQ2
+      Nzc2NDk4MTc0LCAibm9ydGgiOiA0MC43NzczOTczNDc2ODgxMSwgImVhc3QiOiAyOS41Mjg5ODA4
+      NTExNzMzOTcsICJjb3VudHJ5IjogbnVsbH0sICJjYWxsYmFja191cmwiOiAiaHR0cDovL3RoZS1o
+      b3N0LmV4YW1wbGUuY29tL2pvYl9wcm9ncmVzcy90cmFja2VyLzIzLyIsICJnaXNfb3B0aW9ucyI6
+      IHsiY29vcmRpbmF0ZV9yZWZlcmVuY2Vfc3lzdGVtIjogIldHU184NCIsICJkZXRhaWxfbGV2ZWwi
+      OiAxfSwgImdpc19mb3JtYXRzIjogWyJmZ2RiIiwgInNwYXRpYWxpdGUiXX0=
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDk1MDEwODIsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIifQ.9A2IJZ6W5AFjaMW5-vfjzI2wjaf5tLMVU1_hoo4u3Rg]
+      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTk4NjI5MjUsImVtYWlsIjoiIiwidXNlcm5hbWUiOiJkZXYiLCJ1c2VyX2lkIjoxfQ.ynMfwGriQpJ3b8C2G0_v2CpDh1qdzVwo9OtOR1doM_c]
       Connection: [keep-alive]
-      Content-Length: ['295']
+      Content-Length: ['329']
       Content-Type: [application/json; charset=UTF-8]
-      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.16.0-38-generic]
+      User-Agent: [python-requests/2.8.1]
     method: POST
     uri: http://localhost:8901/api/jobs/
   response:
-    body: {string: '{"rq_job_id":"39ae1c1b-6ed3-4519-a33b-8923eba6d82a","callback_url":"http://the-host.example.com/job_progress/tracker/1/","status":"http://localhost:8901/api/conversion_result/39ae1c1b-6ed3-4519-a33b-8923eba6d82a/","gis_formats":["fgdb","spatialite"],"gis_options":{"coordinate_reference_system":"WGS_84","detail_level":1},"extent":{"west":29.525548,"south":40.775468,"east":29.528981,"north":40.777397,"polyfile":null}}'}
+    body: {string: '{"rq_job_id":"2359f66e-10bb-43e9-b43d-096434ea6e3e","callback_url":"http://the-host.example.com/job_progress/tracker/23/","status":"http://localhost:8901/api/conversion_result/2359f66e-10bb-43e9-b43d-096434ea6e3e/","gis_formats":["fgdb","spatialite"],"gis_options":{"coordinate_reference_system":"WGS_84","detail_level":1},"extent":{"west":29.5255476236343,"south":40.7754677649817,"east":29.5289808511734,"north":40.7773973476881,"polyfile":null,"country":null}}'}
     headers:
       Allow: ['GET, POST, HEAD, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Mon, 07 Dec 2015 15:06:22 GMT']
-      Server: [Werkzeug/0.10.4 Python/3.4.3]
+      Date: ['Tue, 05 Apr 2016 13:23:45 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
       Vary: ['Accept, Cookie']
       X-Frame-Options: [SAMEORIGIN]
-    status: {code: 201, message: CREATED}
+    status: {code: 201, message: Created}
 - request:
     body: null
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NDk1MDEwODIsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIifQ.9A2IJZ6W5AFjaMW5-vfjzI2wjaf5tLMVU1_hoo4u3Rg]
+      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTk4NjI5MjUsImVtYWlsIjoiIiwidXNlcm5hbWUiOiJkZXYiLCJ1c2VyX2lkIjoxfQ.ynMfwGriQpJ3b8C2G0_v2CpDh1qdzVwo9OtOR1doM_c]
       Connection: [keep-alive]
       Content-Type: [application/json; charset=UTF-8]
-      User-Agent: [python-requests/2.6.2 CPython/3.4.3 Linux/3.16.0-38-generic]
+      User-Agent: [python-requests/2.8.1]
     method: GET
-    uri: http://localhost:8901/api/conversion_result/39ae1c1b-6ed3-4519-a33b-8923eba6d82a/
+    uri: http://localhost:8901/api/conversion_result/2359f66e-10bb-43e9-b43d-096434ea6e3e/
   response:
-    body: {string: '{"rq_job_id":"39ae1c1b-6ed3-4519-a33b-8923eba6d82a","status":"started","progress":"started","gis_formats":[{"format":"fgdb","progress":"started","result_url":null},{"format":"spatialite","progress":"started","result_url":null}]}'}
+    body: {string: '{"rq_job_id":"2359f66e-10bb-43e9-b43d-096434ea6e3e","status":"started","progress":"started","gis_formats":[{"format":"fgdb","progress":"started","result_url":null},{"format":"spatialite","progress":"started","result_url":null}]}'}
     headers:
       Allow: ['GET, HEAD, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Mon, 07 Dec 2015 15:06:32 GMT']
-      Server: [Werkzeug/0.10.4 Python/3.4.3]
+      Date: ['Tue, 05 Apr 2016 13:23:55 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
       Vary: ['Accept, Cookie']
       X-Frame-Options: [SAMEORIGIN]
     status: {code: 200, message: OK}
