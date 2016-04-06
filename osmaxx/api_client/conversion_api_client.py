@@ -62,7 +62,8 @@ class ConversionApiClient(JWTClient):
         timeout_reached = timezone.now() > extraction_order.process_due_time
         return process_unfinished and timeout_reached
 
-    def create_job(self, extraction_order, request):
+    # TODO: replace this by a call to extraction_order.forward_to_conversion_service(request)
+    def _create_job_TODO_replace_me(self, extraction_order, request):  # noqa
         """
         Kickoff a conversion job
 

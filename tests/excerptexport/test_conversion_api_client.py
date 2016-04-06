@@ -85,7 +85,7 @@ def extraction_order(excerpt, user, db):
 # ConversionApiClient unit tests:
 
 def test_extraction_order_forward_to_conversion_service(mocker, excerpt, extraction_order, job_progress_request, bounding_box):
-    mocker.patch.object(ConversionApiClient, 'create_job', side_effect=[sentinel.job_1, sentinel.job_2])
+    mocker.patch.object(ConversionApiClient, 'create_job', side_effect=[sentinel.job_1, sentinel.job_2], create=True)
     mocker.patch.object(
         ConversionApiClient, 'create_parametrization',
         side_effect=[sentinel.parametrization_1, sentinel.parametrization_2],
@@ -130,7 +130,7 @@ def api_client():
 def test_create_job(api_client, extraction_order, job_progress_request):
     assert extraction_order.process_id is None
 
-    response = api_client.create_job(extraction_order, request=job_progress_request)
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
     assert response.request.headers['Authorization'] == 'JWT {token}'.format(token=api_client.token)
     expected_keys_in_response = ["rq_job_id", "callback_url", "status", "gis_formats", "gis_options", "extent"]
@@ -146,7 +146,7 @@ def test_create_job(api_client, extraction_order, job_progress_request):
 def test_callback_url_of_created_job_resolves_to_job_updater(api_client, extraction_order, job_progress_request):
     assert extraction_order.process_id is None
 
-    response = api_client.create_job(extraction_order, request=job_progress_request)
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
     callback_url = response.json()['callback_url']
     scheme, host, callback_path, params, *_ = urlparse(callback_url)
@@ -160,7 +160,7 @@ def test_callback_url_of_created_job_resolves_to_job_updater(api_client, extract
 def test_callback_url_of_created_job_refers_to_correct_extraction_order(api_client, extraction_order, job_progress_request):
     assert extraction_order.process_id is None
 
-    response = api_client.create_job(extraction_order, request=job_progress_request)
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
     callback_url = response.json()['callback_url']
     scheme, host, callback_path, params, *_ = urlparse(callback_url)
@@ -174,7 +174,7 @@ def test_callback_url_of_created_job_refers_to_correct_extraction_order(api_clie
 def test_callback_url_would_reach_this_django_instance(api_client, extraction_order, job_progress_request):
     assert extraction_order.process_id is None
 
-    response = api_client.create_job(extraction_order, request=job_progress_request)
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
     callback_url = response.json()['callback_url']
     scheme, host, callback_path, params, *_ = urlparse(callback_url)
@@ -191,7 +191,7 @@ def test_download_files(api_client, extraction_order, job_progress_request):
     cassette_empty = not os.path.exists(cassette_file_location)
 
     with vcr.use_cassette(cassette_file_location):
-        api_client.create_job(extraction_order, request=job_progress_request)
+        api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
         if cassette_empty:
             # wait for external service to complete request
@@ -226,7 +226,7 @@ def test_order_status_processing(api_client, extraction_order, job_progress_requ
         assert extraction_order.state != ExtractionOrderState.PROCESSING
         assert extraction_order.state == ExtractionOrderState.INITIALIZED
 
-        api_client.create_job(extraction_order, request=job_progress_request)
+        api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
         if cassette_empty:
             time.sleep(10)
@@ -246,7 +246,7 @@ def test_order_status_done(api_client, extraction_order, job_progress_request):
     cassette_empty = not os.path.exists(cassette_file_location)
 
     with vcr.use_cassette(cassette_file_location):
-        api_client.create_job(extraction_order, request=job_progress_request)
+        api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
         api_client.update_order_status(extraction_order)  # processing
         assert extraction_order.output_files.count() == 0
         assert extraction_order.state != ExtractionOrderState.FINISHED
