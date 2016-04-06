@@ -10,23 +10,23 @@ class OSMImporter:
         self._osm_derived_tables = ['osm_point', 'osm_line', 'osm_polygon', 'osm_roads']
         self._osm_base_tables = ['osm_ways', 'osm_nodes']
 
-        _world_db_connection_parameters = {
-            'username': 'gis',
-            'password': 'gis',
-            'port': 5432,
-            'database': 'gis',
-            'host': 'world-database',
-        }
+        _world_db_connection_parameters = dict(
+            username='gis',
+            password='gis',
+            port=5432,
+            database='gis',
+            host='world-database',
+        )
         world_db_connection = URL('postgresql', **_world_db_connection_parameters)
         self._world_db_engine = create_engine(world_db_connection, use_native_hstore=True)
         self._world_db_meta_data = MetaData()
 
-        _local_db_connection_parameters = {
-            'username': 'postgres',
-            'password': 'postgres',
-            'port': 5432,
-            'database': 'osmaxx_db',
-        }
+        _local_db_connection_parameters = dict(
+            username='postgres',
+            password='postgres',
+            port=5432,
+            database='osmaxx_db',
+        )
         local_db_connection = URL('postgresql', **_local_db_connection_parameters)
         self._local_db_engine = create_engine(local_db_connection, use_native_hstore=True)
         self._table_metas = {}
