@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import migrations
 
-from osmaxx.countries.utils import get_polyfile_name_to_file_mapping, polyfile_to_geos_geometry
+from osmaxx.countries.utils import get_polyfile_name_to_file_mapping
+from osmaxx.utils.polyfile_helpers import polyfile_to_geos_geometry
 
 
 class Migration(migrations.Migration):
