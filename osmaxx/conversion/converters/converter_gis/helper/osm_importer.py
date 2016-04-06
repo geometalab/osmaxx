@@ -29,16 +29,14 @@ class OSMImporter:
         )
         local_db_connection = URL('postgresql', **_local_db_connection_parameters)
         self._local_db_engine = create_engine(local_db_connection)
-        self._table_metas = {}
 
         assert Geometry, Geography  # assert classes needed for GIS-reflection are available
-        for to_be_created_table in self._osm_derived_tables + self._osm_base_tables:
-            self._table_metas[to_be_created_table] = Table(
-                to_be_created_table,
-                self._world_db_meta_data,
-                autoload=True,
-                autoload_with=self._world_db_engine
+        self._table_metas = {
+            to_be_created_table: Table(
+                to_be_created_table, self._world_db_meta_data, autoload=True, autoload_with=self._world_db_engine
             )
+            for to_be_created_table in self._osm_derived_tables + self._osm_base_tables
+        }
 
     def load_area_specific_data(self, *, extent):
         self._create_tables_on_local_db()
