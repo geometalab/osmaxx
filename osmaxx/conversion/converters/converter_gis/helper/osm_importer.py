@@ -58,26 +58,32 @@ class OSMImporter:
         osm_ways = self._table_metas['osm_ways']
         osm_nodes = self._table_metas['osm_nodes']
 
-        local_line_osm_ids_query = self._local_db_engine.execute(
+        local_line_osm_ids_results = self._local_db_engine.execute(
             select([osm_line.c.osm_id])
         )
-        if local_line_osm_ids_query.rowcount > 0:
-            line_osm_ids = [q.osm_id for q in local_line_osm_ids_query.fetchall()]
-            osm_ways_query = select([osm_ways]).where(
-                osm_ways.c.id.in_(line_osm_ids)
-            )
-            rows_altered = self._execute_and_insert_into_local_db(osm_ways_query, osm_ways)
-            if rows_altered > 0:
-                local_osm_ways_query = self._local_db_engine.execute(
-                    select([osm_ways.c.nodes])
-                )
-                if local_osm_ways_query.rowcount > 0:
-                    array_rows = chain.from_iterable(local_osm_ways_query.fetchall())
-                    node_ids = chain.from_iterable(array_rows)
-                    osm_nodes_query = select([osm_nodes]).where(
-                        osm_nodes.c.id.in_(node_ids)
-                    )
-                    self._execute_and_insert_into_local_db(osm_nodes_query, osm_nodes)
+
+        if local_line_osm_ids_results.rowcount == 0:
+            return
+        line_osm_ids = [q.osm_id for q in local_line_osm_ids_results.fetchall()]
+        osm_ways_query = select([osm_ways]).where(
+            osm_ways.c.id.in_(line_osm_ids)
+        )
+        rows_altered = self._execute_and_insert_into_local_db(osm_ways_query, osm_ways)
+
+        if rows_altered == 0:
+            return
+        local_osm_ways_query = self._local_db_engine.execute(
+            select([osm_ways.c.nodes])
+        )
+
+        if local_osm_ways_query.rowcount == 0:
+            return
+        array_rows = chain.from_iterable(local_osm_ways_query.fetchall())
+        node_ids = chain.from_iterable(array_rows)
+        osm_nodes_query = select([osm_nodes]).where(
+            osm_nodes.c.id.in_(node_ids)
+        )
+        self._execute_and_insert_into_local_db(osm_nodes_query, osm_nodes)
 
     def _execute_and_insert_into_local_db(self, query, table_meta):
         query_result = self._world_db_engine.execute(query)
