@@ -3,8 +3,8 @@ from unittest import TestCase
 
 from django.contrib.gis.geos import MultiPolygon, Polygon, MultiLineString, LineString
 
-import osmaxx.utils.polyfile_helpers
 from osmaxx.clipping_area.to_polyfile import create_poly_file_string
+from osmaxx.utils.polyfile_helpers import parse_poly_string
 
 
 class CreatePolyfileStringTest(TestCase):
@@ -91,9 +91,9 @@ class CreatePolyfileStringTest(TestCase):
         create_poly_file_string(self.multi_polygon_1)
         self.assertEqual(
             self.multi_polygon_1,
-            osmaxx.utils.polyfile_helpers.parse_poly_string(create_poly_file_string(self.multi_polygon_1))
+            parse_poly_string(create_poly_file_string(self.multi_polygon_1))
         )
         self.assertEqual(
             complex_multi_polygon,
-            osmaxx.utils.polyfile_helpers.parse_poly_string(create_poly_file_string(complex_multi_polygon))
+            parse_poly_string(create_poly_file_string(complex_multi_polygon))
         )
