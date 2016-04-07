@@ -58,10 +58,9 @@ def test_user_excerpt(base_url, file_name, file_format, selenium):
     move_mouse.perform()
     create.click()
     
-    btn_reload = selenium.find_element_by_link_text('↻ Reload')
-
     # wait until download link appears
     link = None
+    btn_reload = selenium.find_element_by_link_text('↻ Reload')
     while not link:
         try:
             link = selenium.find_element_by_class_name("form-control")
@@ -72,8 +71,7 @@ def test_user_excerpt(base_url, file_name, file_format, selenium):
         else:
             raise e
 
-    url = link.text
-
     # check if the download link is a valid link
+    url = link.text
     r = requests.get(url)
     assert r.status_code == requests.codes.ok
