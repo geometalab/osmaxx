@@ -38,7 +38,8 @@ class ConversionApiClient(JWTClient):
     def create_boundary(self, multipolygon, *, name):
         geo_json = json.loads(multipolygon.json)
         json_payload = dict(name=name, clipping_multi_polygon=geo_json)
-        return self.authorized_post(url='clipping_area/', json_data=json_payload)
+        response = self.authorized_post(url='clipping_area/', json_data=json_payload)
+        return response.json()
 
     def create_parametrization(self, *, boundary, out_format, out_srs):
         """
@@ -52,7 +53,22 @@ class ConversionApiClient(JWTClient):
             A dictionary representing the payload of the service's response
         """
         json_payload = dict(clipping_area=boundary['id'], out_format=out_format, out_srs=out_srs)
-        return self.authorized_post(url='conversion_parametrization/', json_data=json_payload)
+        response = self.authorized_post(url='conversion_parametrization/', json_data=json_payload)
+        return response.json()
+
+    def create_job(self, parametrization, callback_url):
+        """
+
+        Args:
+            parametrization: A dictionary as returned by create_parametrization
+            incoming_request: The request towards the front-end triggering this job creation
+
+        Returns:
+            A dictionary representing the payload of the service's response
+        """
+        json_payload = dict(parametrization=parametrization['id'], callback_url=callback_url)
+        response = self.authorized_post(url='conversion_job/', json_data=json_payload)
+        return response.json()
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
@@ -62,7 +78,8 @@ class ConversionApiClient(JWTClient):
         timeout_reached = timezone.now() > extraction_order.process_due_time
         return process_unfinished and timeout_reached
 
-    def create_job(self, extraction_order, request):
+    # TODO: replace this by a call to extraction_order.forward_to_conversion_service(request)
+    def _create_job_TODO_replace_me(self, extraction_order, request):  # noqa
         """
         Kickoff a conversion job
 
