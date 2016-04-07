@@ -58,7 +58,6 @@ def test_user_excerpt(base_url, file_name, file_format, selenium):
     move_mouse.perform()
     create.click()
     
-  
     btn_reload = selenium.find_element_by_link_text('↻ Reload')
 
     # wait until download link appears
