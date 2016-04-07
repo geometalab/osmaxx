@@ -54,3 +54,7 @@ services:
       - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/monaco-updates/
       - osm_planet_mirror=http://download.geofabrik.de/
       - osm_planet_path_relative_to_mirror=europe/monaco-latest.osm.pbf
+  osmboundaries-database:
+    command: postgres -B 1GB -F -S 1GB
+    ports:
+      - "5442:5432"
