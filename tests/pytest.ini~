@@ -1,4 +1,0 @@
-[pytest]
-
-base_url = 'localhost:8000/admin/login/'
-
