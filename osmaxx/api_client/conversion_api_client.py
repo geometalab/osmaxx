@@ -38,7 +38,7 @@ class ConversionApiClient(JWTClient):
     def create_boundary(self, multipolygon, *, name):
         geo_json = json.loads(multipolygon.json)
         json_payload = dict(name=name, clipping_multi_polygon=geo_json)
-        return self.authorized_post(url='clipping_area/', json_data=json_payload)
+        return self.authorized_post(url='clipping_area/', json_data=json_payload).json()
 
     def create_parametrization(self, *, boundary, out_format, out_srs):
         """
