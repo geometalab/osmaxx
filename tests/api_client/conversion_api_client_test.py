@@ -1,5 +1,5 @@
 import json
-from unittest.mock import ANY, sentinel
+from unittest.mock import ANY, sentinel, Mock
 
 import pytest
 from django.contrib.gis.gdal.geometries import MultiPolygon
@@ -119,8 +119,13 @@ def test_create_parametrization_returns_post_request_response_json_payload_as_di
     assert result == c.authorized_post.return_value.json.return_value
 
 
-def test_create_job_makes_authorized_post_with_json_payload():
-    pass  # TODO
+def test_create_job_makes_authorized_post_with_json_payload(mocker):
+    c = ConversionApiClient()
+    mocker.patch.object(c, 'authorized_post', autospec=True)
+    post_parametrization_reply = dict()
+    incoming_request = Mock()
+    c.create_job(parametrization=post_parametrization_reply, incoming_request=incoming_request)
+    c.authorized_post.assert_called_once_with(url=ANY, json_data=ANY)
 
 
 def test_create_job_posts_to_conversion_job_resource():

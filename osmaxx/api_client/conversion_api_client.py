@@ -66,7 +66,7 @@ class ConversionApiClient(JWTClient):
         Returns:
             A dictionary representing the payload of the service's response
         """
-        pass
+        self.authorized_post(url=None, json_data=None)
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
