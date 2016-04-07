@@ -2,7 +2,6 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-@pytest.mark.nondestructive
 def test_admin_login(base_url, selenium):
     selenium.get('{0}'.format(base_url))
     selenium.maximize_window()

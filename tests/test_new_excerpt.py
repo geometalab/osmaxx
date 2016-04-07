@@ -5,7 +5,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
-@pytest.mark.nondestructive
 @pytest.mark.parametrize("file_name, file_format", [("gdb",'id_formats_1'), ("shp",'id_formats_2'), ("gpkg",'id_formats_3'), ("spatialite",'id_formats_4'), ("img_tdb",'id_formats_5')])
 def test_user_excerpt(base_url, file_name, file_format, selenium):
     selenium.get('{0}'.format(base_url))
