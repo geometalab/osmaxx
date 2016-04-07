@@ -1,7 +1,7 @@
 import logging
 from datetime import timedelta
 
-from osmaxx.api_client.shortcuts import get_authenticated_api_client
+from osmaxx.api_client import ConversionApiClient
 from osmaxx.excerptexport.models import ExtractionOrder
 from osmaxx.excerptexport.models.extraction_order import FINAL_STATES, ExtractionOrderState
 from osmaxx.utilities.shortcuts import get_cached_or_set
@@ -39,7 +39,7 @@ def update_order_if_stale(extraction_order):
 
 def update_order(extraction_order):
     _log_cache_miss(extraction_order)
-    conversion_client = get_authenticated_api_client()
+    conversion_client = ConversionApiClient()
     conversion_client.update_order_status(extraction_order)
     if logger.isEnabledFor(logging.DEBUG):
         message = "Fetched, updated and cached ExtractionOrder {extraction_order} progress: {progress}".format(
