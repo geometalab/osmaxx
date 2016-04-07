@@ -128,8 +128,14 @@ def test_create_job_makes_authorized_post_with_json_payload(mocker):
     c.authorized_post.assert_called_once_with(url=ANY, json_data=ANY)
 
 
-def test_create_job_posts_to_conversion_job_resource():
-    pass  # TODO
+def test_create_job_posts_to_conversion_job_resource(mocker):
+    c = ConversionApiClient()
+    mocker.patch.object(c, 'authorized_post', autospec=True)
+    post_parametrization_reply = dict()
+    incoming_request = Mock()
+    c.create_job(parametrization=post_parametrization_reply, incoming_request=incoming_request)
+    args, kwargs = c.authorized_post.call_args
+    assert kwargs['url'] == 'conversion_job/'
 
 
 def test_create_job_posts_payload_with_structure_expected_by_conversion_servic_api():
