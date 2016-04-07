@@ -67,7 +67,7 @@ def test_create_parametrization_makes_authorized_post_with_json_payload(mocker):
 
 def test_create_parametrization_posts_to_conversion_parametrization_resource(mocker):
     c = ConversionApiClient()
-    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_PARAMETRIZATION_REPLY)
+    mocker.patch.object(c, 'authorized_post', autospec=True)
     post_boundary_reply = dict(id=sentinel.CLIPPING_AREA_ID)
     c.create_parametrization(boundary=post_boundary_reply, out_format=sentinel.OUT_FORMAT, out_srs=sentinel.OUT_SRS)
     args, kwargs = c.authorized_post.call_args
@@ -76,7 +76,7 @@ def test_create_parametrization_posts_to_conversion_parametrization_resource(moc
 
 def test_create_parametrization_posts_payload_with_structure_expected_by_conversion_service_api(mocker):
     c = ConversionApiClient()
-    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_PARAMETRIZATION_REPLY)
+    mocker.patch.object(c, 'authorized_post', autospec=True)
     post_boundary_reply = dict(id=sentinel.CLIPPING_AREA_ID)
     c.create_parametrization(boundary=post_boundary_reply, out_format=sentinel.OUT_FORMAT, out_srs=sentinel.OUT_SRS)
     args, kwargs = c.authorized_post.call_args
@@ -85,7 +85,7 @@ def test_create_parametrization_posts_payload_with_structure_expected_by_convers
 
 def test_create_parametrization_posts_clipping_area_id(mocker):
     c = ConversionApiClient()
-    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_PARAMETRIZATION_REPLY)
+    mocker.patch.object(c, 'authorized_post', autospec=True)
     post_boundary_reply = dict(id=sentinel.CLIPPING_AREA_ID)
     c.create_parametrization(boundary=post_boundary_reply, out_format=sentinel.OUT_FORMAT, out_srs=sentinel.OUT_SRS)
     args, kwargs = c.authorized_post.call_args
@@ -94,7 +94,7 @@ def test_create_parametrization_posts_clipping_area_id(mocker):
 
 def test_create_parametrization_posts_out_format(mocker):
     c = ConversionApiClient()
-    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_PARAMETRIZATION_REPLY)
+    mocker.patch.object(c, 'authorized_post', autospec=True)
     post_boundary_reply = dict(id=sentinel.CLIPPING_AREA_ID)
     c.create_parametrization(boundary=post_boundary_reply, out_format=sentinel.OUT_FORMAT, out_srs=sentinel.OUT_SRS)
     args, kwargs = c.authorized_post.call_args
@@ -103,20 +103,20 @@ def test_create_parametrization_posts_out_format(mocker):
 
 def test_create_parametrization_posts_out_srs(mocker):
     c = ConversionApiClient()
-    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_PARAMETRIZATION_REPLY)
+    mocker.patch.object(c, 'authorized_post', autospec=True)
     post_boundary_reply = dict(id=sentinel.CLIPPING_AREA_ID)
     c.create_parametrization(boundary=post_boundary_reply, out_format=sentinel.OUT_FORMAT, out_srs=sentinel.OUT_SRS)
     args, kwargs = c.authorized_post.call_args
     assert kwargs['json_data']['out_srs'] == sentinel.OUT_SRS
 
 
-def test_create_parametrization_returns_post_request_reply(mocker):
+def test_create_parametrization_returns_post_request_response_json_payload_as_dict(mocker):
     c = ConversionApiClient()
-    mocker.patch.object(c, 'authorized_post', autospec=True, return_value=sentinel.POST_PARAMETRIZATION_REPLY)
+    mocker.patch.object(c, 'authorized_post', autospec=True)
     post_boundary_reply = dict(id=sentinel.CLIPPING_AREA_ID)
     result = \
         c.create_parametrization(boundary=post_boundary_reply, out_format=sentinel.OUT_FORMAT, out_srs=sentinel.OUT_SRS)
-    assert result == sentinel.POST_PARAMETRIZATION_REPLY
+    assert result == c.authorized_post.return_value.json.return_value
 
 
 @pytest.fixture
