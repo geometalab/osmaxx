@@ -4,30 +4,24 @@ import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support.ui import WebDriverWait
-
-
 
 @pytest.mark.nondestructive
 @pytest.mark.parametrize("file_name, file_format", [("gdb",'id_formats_1'), ("shp",'id_formats_2'), ("gpkg",'id_formats_3'), ("spatialite",'id_formats_4'), ("img_tdb",'id_formats_5')])
 def test_user_excerpt(base_url, file_name, file_format, selenium):
     selenium.get('{0}'.format(base_url))
     selenium.maximize_window()
-    # go to login page
-    login = selenium.find_element_by_link_text('Login')
+
+    # login as admin
+    username = selenium.find_element_by_id('id_username')
+    password = selenium.find_element_by_id('id_password')
+    login = selenium.find_element_by_class_name('submit-row')
+    username.send_keys("admin")
+    password.send_keys("admin")
     login.click()
 
-    # insert username
-    username = selenium.find_element_by_id('clavid_com_openid_user')
-    username.send_keys("beneditatan")
-    submit = selenium.find_element_by_xpath("//form[@id='clavidcom-login-form']/div[@class='form-group']/div[2]/input[@class='btn btn-default']")
-    submit.click()
-
-    # insert password and login
-    password =selenium.find_element_by_name('password')
-    password.send_keys("13enedita")
-    login = selenium.find_element_by_name('login')
-    login.click()
+    # view site
+    site = selenium.find_element_by_link_text('View site')
+    site.click()
 
     # go to new excerpt menu
     new_excerpt = selenium.find_element_by_link_text('⌗ New excerpt')
@@ -85,9 +79,3 @@ def test_user_excerpt(base_url, file_name, file_format, selenium):
     # check if the download link is a valid link
     r = requests.get(url)
     assert r.status_code == requests.codes.ok
-
-
-
-   
-
-
