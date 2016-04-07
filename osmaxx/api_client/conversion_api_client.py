@@ -66,7 +66,7 @@ class ConversionApiClient(JWTClient):
         Returns:
             A dictionary representing the payload of the service's response
         """
-        json_payload = dict(parametrization=None, callback_url=None)
+        json_payload = dict(parametrization=parametrization['id'], callback_url=None)
         response = self.authorized_post(url='conversion_job/', json_data=json_payload)
         return response.json()
 

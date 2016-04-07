@@ -122,7 +122,7 @@ def test_create_parametrization_returns_post_request_response_json_payload_as_di
 def test_create_job_makes_authorized_post_with_json_payload(mocker):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
-    post_parametrization_reply = dict()
+    post_parametrization_reply = dict(id=sentinel.PARAMETRIZATION_ID)
     incoming_request = Mock()
     c.create_job(parametrization=post_parametrization_reply, incoming_request=incoming_request)
     c.authorized_post.assert_called_once_with(url=ANY, json_data=ANY)
@@ -131,7 +131,7 @@ def test_create_job_makes_authorized_post_with_json_payload(mocker):
 def test_create_job_posts_to_conversion_job_resource(mocker):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
-    post_parametrization_reply = dict()
+    post_parametrization_reply = dict(id=sentinel.PARAMETRIZATION_ID)
     incoming_request = Mock()
     c.create_job(parametrization=post_parametrization_reply, incoming_request=incoming_request)
     args, kwargs = c.authorized_post.call_args
@@ -141,7 +141,7 @@ def test_create_job_posts_to_conversion_job_resource(mocker):
 def test_create_job_posts_payload_with_structure_expected_by_conversion_servic_api(mocker):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
-    post_parametrization_reply = dict()
+    post_parametrization_reply = dict(id=sentinel.PARAMETRIZATION_ID)
     incoming_request = Mock()
     c.create_job(parametrization=post_parametrization_reply, incoming_request=incoming_request)
     args, kwargs = c.authorized_post.call_args
@@ -152,14 +152,20 @@ def test_create_job_posts_callback_url():
     pass  # TODO
 
 
-def test_create_job_posts_parametrization_id():
-    pass  # TODO
+def test_create_job_posts_parametrization_id(mocker):
+    c = ConversionApiClient()
+    mocker.patch.object(c, 'authorized_post', autospec=True)
+    post_parametrization_reply = dict(id=sentinel.PARAMETRIZATION_ID)
+    incoming_request = Mock()
+    c.create_job(parametrization=post_parametrization_reply, incoming_request=incoming_request)
+    args, kwargs = c.authorized_post.call_args
+    assert kwargs['json_data']['parametrization'] == sentinel.PARAMETRIZATION_ID
 
 
 def test_create_job_returns_post_request_response_json_payload_as_dict(mocker):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
-    post_parametrization_reply = dict()
+    post_parametrization_reply = dict(id=sentinel.PARAMETRIZATION_ID)
     incoming_request = Mock()
     result = c.create_job(parametrization=post_parametrization_reply, incoming_request=incoming_request)
     assert result == c.authorized_post.return_value.json.return_value
