@@ -56,7 +56,7 @@ class ConversionApiClient(JWTClient):
         response = self.authorized_post(url='conversion_parametrization/', json_data=json_payload)
         return response.json()
 
-    def create_job(self, parametrization, incoming_request):
+    def create_job(self, parametrization, callback_url):
         """
 
         Args:
@@ -66,7 +66,7 @@ class ConversionApiClient(JWTClient):
         Returns:
             A dictionary representing the payload of the service's response
         """
-        json_payload = dict(parametrization=parametrization['id'], callback_url=None)
+        json_payload = dict(parametrization=parametrization['id'], callback_url=callback_url)
         response = self.authorized_post(url='conversion_job/', json_data=json_payload)
         return response.json()
 
