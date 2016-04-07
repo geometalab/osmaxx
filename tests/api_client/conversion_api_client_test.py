@@ -138,7 +138,21 @@ def test_create_job_posts_to_conversion_job_resource(mocker):
     assert kwargs['url'] == 'conversion_job/'
 
 
-def test_create_job_posts_payload_with_structure_expected_by_conversion_servic_api():
+def test_create_job_posts_payload_with_structure_expected_by_conversion_servic_api(mocker):
+    c = ConversionApiClient()
+    mocker.patch.object(c, 'authorized_post', autospec=True)
+    post_parametrization_reply = dict()
+    incoming_request = Mock()
+    c.create_job(parametrization=post_parametrization_reply, incoming_request=incoming_request)
+    args, kwargs = c.authorized_post.call_args
+    assert_that(kwargs['json_data'].keys(), contains_inanyorder('callback_url', 'parametrization'))
+
+
+def test_create_job_posts_callback_url():
+    pass  # TODO
+
+
+def test_create_job_posts_parametrization_id():
     pass  # TODO
 
 
