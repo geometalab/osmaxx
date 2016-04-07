@@ -1,4 +1,3 @@
 {
-  "tests/test_new_excerpt.py::test_user_excerpt[gdb-id_formats_1]": true,
-  "tests/test_new_excerpt.py::test_user_excerpt[shp-id_formats_2]": true
+  "tests/test_select_country.py::test_select_country[id_formats_2]": true
 }
