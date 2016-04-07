@@ -22,7 +22,7 @@ def test_select_country(base_url, file_format, selenium):
     site = selenium.find_element_by_link_text('View site')
     site.click()
 
-    # go to new excerpt menu
+    # go to country menu
     country_page = selenium.find_element_by_link_text('➽ Existing excerpt / country')
     country_page.click()
 
