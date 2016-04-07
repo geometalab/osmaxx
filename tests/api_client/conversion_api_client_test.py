@@ -136,8 +136,13 @@ def test_create_job_posts_payload_with_structure_expected_by_conversion_servic_a
     pass  # TODO
 
 
-def test_create_job_returns_post_request_response_json_payload_as_dict():
-    pass  # TODO
+def test_create_job_returns_post_request_response_json_payload_as_dict(mocker):
+    c = ConversionApiClient()
+    mocker.patch.object(c, 'authorized_post', autospec=True)
+    post_parametrization_reply = dict()
+    incoming_request = Mock()
+    result = c.create_job(parametrization=post_parametrization_reply, incoming_request=incoming_request)
+    assert result == c.authorized_post.return_value.json.return_value
 
 
 @pytest.fixture
