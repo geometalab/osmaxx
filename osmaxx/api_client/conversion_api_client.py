@@ -56,6 +56,18 @@ class ConversionApiClient(JWTClient):
         response = self.authorized_post(url='conversion_parametrization/', json_data=json_payload)
         return response.json()
 
+    def create_job(self, parametrization, incoming_request):
+        """
+
+        Args:
+            parametrization: A dictionary as returned by create_parametrization
+            incoming_request: The request towards the front-end triggering this job creation
+
+        Returns:
+            A dictionary representing the payload of the service's response
+        """
+        pass
+
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
         if extraction_order.process_start_time is None:

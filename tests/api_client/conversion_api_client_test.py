@@ -119,6 +119,22 @@ def test_create_parametrization_returns_post_request_response_json_payload_as_di
     assert result == c.authorized_post.return_value.json.return_value
 
 
+def test_create_job_makes_authorized_post_with_json_payload():
+    pass  # TODO
+
+
+def test_create_job_posts_to_conversion_job_resource():
+    pass  # TODO
+
+
+def test_create_job_posts_payload_with_structure_expected_by_conversion_servic_api():
+    pass  # TODO
+
+
+def test_create_job_returns_post_request_response_json_payload_as_dict():
+    pass  # TODO
+
+
 @pytest.fixture
 def geos_multipolygon():
     return MultiPolygon(

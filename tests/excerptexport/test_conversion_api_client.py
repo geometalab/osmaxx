@@ -85,7 +85,7 @@ def extraction_order(excerpt, user, db):
 # ConversionApiClient unit tests:
 
 def test_extraction_order_forward_to_conversion_service(mocker, excerpt, extraction_order, job_progress_request, bounding_box):
-    mocker.patch.object(ConversionApiClient, 'create_job', side_effect=[sentinel.job_1, sentinel.job_2], create=True)
+    mocker.patch.object(ConversionApiClient, 'create_job', side_effect=[sentinel.job_1, sentinel.job_2])
     mocker.patch.object(
         ConversionApiClient, 'create_parametrization',
         side_effect=[sentinel.parametrization_1, sentinel.parametrization_2],
