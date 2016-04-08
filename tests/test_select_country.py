@@ -27,7 +27,7 @@ def test_select_country(base_url, file_format, selenium):
     country_page.click()
 
     # select monaco = country-163
-    country = selenium.find_element_by_xpath("//optgroup[@label='Countries [206]']/option[@value='country-163']")
+    country = selenium.find_element_by_xpath("//option[@value='country-163']")
     country.click()
 
     # choose the file format
