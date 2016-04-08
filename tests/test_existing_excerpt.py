@@ -3,11 +3,12 @@ import time
 import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.keys import Keys
 
 @pytest.fixture
-def login(base_url, selenium):
+def prerequisite(base_url, selenium):
+    # create new excerpt only for this testing
     selenium.get('{0}/admin/login/'.format(base_url))
     selenium.maximize_window()
 
@@ -19,12 +20,6 @@ def login(base_url, selenium):
     password.send_keys("admin")
     login.click()
 
-    return login
-
-@pytest.mark.parametrize("file_name, file_format", [("gdb",'id_formats_1'), ("shp",'id_formats_2'), 
-                                                    ("gpkg",'id_formats_3'), ("spatialite",'id_formats_4'), 
-                                                    ("img_tdb",'id_formats_5')])
-def test_new_excerpt(base_url, login, file_name, file_format, selenium):
     selenium.get('{0}/'.format(base_url))
 
     # go to new excerpt menu
@@ -33,7 +28,7 @@ def test_new_excerpt(base_url, login, file_name, file_format, selenium):
 
     # insert excerpt name
     excerpt_name = selenium.find_element_by_id('id_name')
-    excerpt_name.send_keys(file_name)
+    excerpt_name.send_keys('existing_excerpt')
 
     # choose an area in monaco (North = 43.734716500825 | East = 7.42564201354981 | South = 43.7289719167851 | West = 7.41568565368652)
     north = selenium.find_element_by_id('id_north')
@@ -48,6 +43,31 @@ def test_new_excerpt(base_url, login, file_name, file_format, selenium):
     west = selenium.find_element_by_id('id_west')
     west.clear()
     west.send_keys("7.41568565368652")
+
+    # choose the file format
+    formats = selenium.find_element_by_id('id_formats_3')
+    formats.click()
+
+    # submit
+    create = selenium.find_element_by_name('submit')
+    create.send_keys(Keys.RETURN)
+    time.sleep(60)
+
+    return prerequisite
+
+@pytest.mark.parametrize("file_format", ['id_formats_1', 'id_formats_2', 
+                                         'id_formats_3', 'id_formats_4', 
+                                         'id_formats_5'])
+def test_existing_excerpt(base_url, prerequisite, file_format, selenium):
+    selenium.get('{0}/'.format(base_url))
+
+    # go to existing excerpt menu
+    menu = selenium.find_element_by_link_text('➽ Existing excerpt / country')
+    menu.click()
+
+    # select existing excerpt 
+    excerpt = selenium.find_element_by_xpath("//option[contains(.,'existing_excerpt')]")
+    excerpt.click()
 
     # choose the file format
     formats = selenium.find_element_by_id(file_format)
