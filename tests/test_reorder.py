@@ -7,7 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 @pytest.mark.parametrize("file_format", ['id_formats_1', 'id_formats_2', 'id_formats_3', 'id_formats_4', 'id_formats_5'])
 def test_reorder(base_url, file_format, selenium):
-    selenium.get('{0}'.format(base_url))
+    selenium.get('{0}/admin/login/'.format(base_url))
     selenium.maximize_window()
 
     # login as admin
