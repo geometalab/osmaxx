@@ -5,9 +5,9 @@ from collections import namedtuple
 import pytest
 from django.conf import settings
 
-import osmaxx.conversion.formats
+import osmaxx.conversion_api.formats
 
-format_list = osmaxx.conversion.formats.FORMAT_DEFINITIONS.keys()
+format_list = osmaxx.conversion_api.formats.FORMAT_DEFINITIONS.keys()
 
 
 @pytest.fixture(params=format_list)

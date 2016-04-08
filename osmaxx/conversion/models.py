@@ -1,6 +1,6 @@
+import os
 import time
 
-import os
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
@@ -10,7 +10,7 @@ from rq.job import JobStatus
 
 from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
-from .formats import FORMAT_CHOICES
+from osmaxx.conversion_api.formats import FORMAT_CHOICES
 
 
 def job_directory_path(instance, filename):
