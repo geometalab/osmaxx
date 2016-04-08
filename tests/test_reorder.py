@@ -6,8 +6,8 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
 @pytest.mark.parametrize("file_format", ['id_formats_1', 'id_formats_2', 'id_formats_3', 'id_formats_4', 'id_formats_5'])
-def test_select_country(base_url, file_format, selenium):
-    selenium.get('{0}/admin/login/'.format(base_url))
+def test_reorder(base_url, file_format, selenium):
+    selenium.get('{0}'.format(base_url))
     selenium.maximize_window()
 
     # login as admin
@@ -19,15 +19,16 @@ def test_select_country(base_url, file_format, selenium):
     login.click()
 
     # view site
-    selenium.get('{0}/'.format(base_url))
+    site = selenium.find_element_by_link_text('View site')
+    site.click()
 
-    # go to country menu
-    country_page = selenium.find_element_by_link_text('➽ Existing excerpt / country')
-    country_page.click()
+    # go to existing excerpt menu
+    menu = selenium.find_element_by_link_text('➽ Existing excerpt / country')
+    menu.click()
 
-    # select monaco = country-163
-    country = selenium.find_element_by_xpath("//option[@value='country-163']")
-    country.click()
+    # select existing excerpt (value = 38 or 39)
+    excerpt = selenium.find_element_by_xpath("//option[@value='39']")
+    excerpt.click()
 
     # choose the file format
     formats = selenium.find_element_by_id(file_format)
