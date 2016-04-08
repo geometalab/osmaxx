@@ -7,7 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 @pytest.mark.parametrize("file_name, file_format", [("gdb",'id_formats_1'), ("shp",'id_formats_2'), ("gpkg",'id_formats_3'), ("spatialite",'id_formats_4'), ("img_tdb",'id_formats_5')])
 def test_user_excerpt(base_url, file_name, file_format, selenium):
-    selenium.get('{0}'.format(base_url))
+    selenium.get('{0}/admin/login/'.format(base_url))
     selenium.maximize_window()
 
     # login as admin
@@ -19,8 +19,7 @@ def test_user_excerpt(base_url, file_name, file_format, selenium):
     login.click()
 
     # view site
-    site = selenium.find_element_by_link_text('View site')
-    site.click()
+    selenium.get('{0}/'.format(base_url))
 
     # go to new excerpt menu
     new_excerpt = selenium.find_element_by_link_text('⌗ New excerpt')
