@@ -19,8 +19,7 @@ def test_user_excerpt(base_url, file_name, file_format, selenium):
     login.click()
 
     # view site
-    site = selenium.find_element_by_link_text('View site')
-    site.click()
+    selenium.get('{0}/'.format(base_url))
 
     # go to new excerpt menu
     new_excerpt = selenium.find_element_by_link_text('⌗ New excerpt')
