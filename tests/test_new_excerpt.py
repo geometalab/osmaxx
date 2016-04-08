@@ -49,7 +49,7 @@ def test_user_excerpt(base_url, file_name, file_format, selenium):
     formats.click()
 
     # scroll down
-    selenium.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    # selenium.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
     # submit
     create = selenium.find_element_by_name('submit')
