@@ -17,7 +17,7 @@ def login(base_url, selenium):
     login = selenium.find_element_by_class_name('submit-row')
     username.send_keys("admin")
     password.send_keys("admin")
-    login.click()
+    login.send_keys(Keys.RETURN)
 
     return login
 
@@ -29,7 +29,7 @@ def test_new_excerpt(base_url, login, file_name, file_format, selenium):
 
     # go to new excerpt menu
     new_excerpt = selenium.find_element_by_link_text('⌗ New excerpt')
-    new_excerpt.click()
+    new_excerpt.send_keys(Keys.RETURN)
 
     # insert excerpt name
     excerpt_name = selenium.find_element_by_id('id_name')
@@ -51,7 +51,7 @@ def test_new_excerpt(base_url, login, file_name, file_format, selenium):
 
     # choose the file format
     formats = selenium.find_element_by_id(file_format)
-    formats.click()
+    formats.send_keys(Keys.RETURN)
 
     # submit
     create = selenium.find_element_by_name('submit')
@@ -65,7 +65,7 @@ def test_new_excerpt(base_url, login, file_name, file_format, selenium):
             break
         except NoSuchElementException as e:
             time.sleep(60)
-            btn_reload.click()
+            btn_reload.send_keys(Keys.RETURN)
 
     # check if the download link is a valid link
     url = link.text

@@ -17,7 +17,7 @@ def login(base_url, selenium):
     login = selenium.find_element_by_class_name('submit-row')
     username.send_keys("admin")
     password.send_keys("admin")
-    login.click()
+    login.send_keys(Keys.RETURN)
 
     return login
 
@@ -29,15 +29,15 @@ def test_select_country(base_url, login, file_format, selenium):
 
     # go to country menu
     country_page = selenium.find_element_by_link_text('➽ Existing excerpt / country')
-    country_page.click()
+    country_page.send_keys(Keys.RETURN)
 
     # select monaco 
     country = selenium.find_element_by_xpath("//option[contains(.,'Monaco')]")
-    country.click()
+    country.send_keys(Keys.RETURN)
 
     # choose the file format
     formats = selenium.find_element_by_id(file_format)
-    formats.click()
+    formats.send_keys(Keys.RETURN)
 
     # submit
     create = selenium.find_element_by_name('submit')
@@ -51,7 +51,7 @@ def test_select_country(base_url, login, file_format, selenium):
             break
         except NoSuchElementException as e:
             time.sleep(60)
-            btn_reload.click()
+            btn_reload.send_keys(Keys.RETURN)
 
     # check if the download link is a valid link
     url = link.text
