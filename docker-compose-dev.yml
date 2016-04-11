@@ -44,7 +44,7 @@ services:
       - DJANGO_SECRET_KEY=insecure!3
       - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
   world-database:
-    command: postgres -B 2GB -F -N 512 -S 2GB --max_wal_size=2GB
+    command: postgres -B 1GB -F -N 512 -S 1GB --max_wal_size=1GB
     ports:
       - "5433:5432"
   osm_importer:
