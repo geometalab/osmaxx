@@ -77,6 +77,8 @@ services:
       - worker-data:/data/media/job_result_files
     links:
       - conversionserviceredis:redis
+      - world-database
+      - osmboundaries-database
     env_file:
       - ./compose-env/worker.env
     environment:
@@ -85,6 +87,8 @@ services:
       - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
     depends_on:
       - conversionserviceredis
+      - world-database
+      - osmboundaries-database
     networks:
       - osm-world
       - osmboundaries
