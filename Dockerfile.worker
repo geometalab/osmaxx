@@ -146,7 +146,7 @@ WORKDIR $HOME
 
 ADD ./requirements.txt $HOME/requirements.txt
 
-RUN pip install honcho
+RUN pip3 install honcho
 
 RUN pip3 install -r requirements.txt
 
