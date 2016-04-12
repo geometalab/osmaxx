@@ -5,7 +5,7 @@ This excludes osm_id, osm_timestamp, all names, ele, voltage, frequency, height,
 
 /*lower osm_line*/
 UPDATE
-	osm_line    
+	osm_line
 SET
 	"access"=lower("access"),
 	"addr:city"=lower("addr:city"),
@@ -78,7 +78,7 @@ SET
 
 /*lower osm_point*/
 UPDATE
-	osm_point    
+	osm_point
 SET
 	"access"=lower("access"),
 	"addr:city"=lower("addr:city"),
@@ -150,7 +150,7 @@ SET
 
 /*lower osm_polygon*/
 UPDATE
-	osm_polygon  
+	osm_polygon
 SET
 	"access"=lower("access"),
 	"addr:city"=lower("addr:city"),
@@ -230,7 +230,7 @@ This excludes osm_id, osm_timestamp, all names, ele, voltage, frequency, height,
 
 /*trim osm_line*/
 UPDATE
-	osm_line  
+	osm_line
 SET
 	"access"=trim("access"),
 	"addr:city"=trim("addr:city"),
@@ -303,7 +303,7 @@ SET
 
 /*trim osm_point*/
 UPDATE
-	osm_point  
+	osm_point
 SET
 	"access"=trim("access"),
 	"addr:city"=trim("addr:city"),
@@ -375,7 +375,7 @@ SET
 
 /*trim osm_polygon*/
 UPDATE
-	osm_polygon  
+	osm_polygon
 SET
 	"access"=trim("access"),
 	"addr:city"=trim("addr:city"),
