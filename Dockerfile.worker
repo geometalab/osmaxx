@@ -134,6 +134,7 @@ RUN mkdir /etc/ssl/private-copy; mv /etc/ssl/private/* /etc/ssl/private-copy/; r
 # activate translit
 RUN mkdir -p $HOME/osmaxx/worker $HOME/entrypoint
 COPY ./docker_entrypoint/osmaxx/worker $HOME/entrypoint
+COPY ./docker_entrypoint/wait-for-it/wait-for-it.sh $HOME/entrypoint/wait-for-it.sh
 
 RUN service postgresql start && \
     gosu postgres psql -f $HOME/entrypoint/01_activate_translit.sql
