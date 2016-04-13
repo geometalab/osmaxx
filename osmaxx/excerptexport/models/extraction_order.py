@@ -2,6 +2,8 @@ import json
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch.dispatcher import receiver
 from django.utils.translation import ugettext_lazy as _
 from django_enumfield import enum
 
@@ -106,26 +108,24 @@ class ExtractionOrder(models.Model):
     @property
     def extraction_configuration(self):
         if self._extraction_configuration and not self._extraction_configuration == '':
-            return json.loads(self._extraction_configuration)
+            return dict(
+                gis_formats=list(self.exports.values_list('file_format', flat=True)),  # TODO: make this lazy
+                **json.loads(self._extraction_configuration)
+            )
         else:
             return None
 
     @extraction_configuration.setter
     def extraction_configuration(self, value):
-        """
-        :return example:
-            {
-                'gis_formats': ['txt', 'file_gdb'],
-                'gis_options': {
-                    'coordinate_reference_system': 'wgs72',
-                    'detail_level': 'verbatim'
-                },
-                'routing': { ... }
-            }
-        """
         if not value:
             value = {}
+        new_formats = frozenset(value.pop('gis_formats', []))
+        previous_formats = self.exports.values_list('file_format', flat=True)
+        assert new_formats.issuperset(previous_formats)
         self._extraction_configuration = json.dumps(value)
+        self._new_formats = new_formats  # Will be collected and cleaned up by attach_new_formats.
+        if self.id is not None:
+            attach_new_formats(self.__class__, instance=self)
 
     @property
     def extraction_formats(self):
@@ -143,3 +143,11 @@ class ExtractionOrder(models.Model):
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('excerptexport:status', kwargs={'extraction_order_id': self.id})
+
+
+@receiver(post_save, sender=ExtractionOrder)
+def attach_new_formats(sender, instance, **kwargs):
+    if hasattr(instance, '_new_formats'):
+        for format in instance._new_formats:
+            instance.exports.get_or_create(file_format=format)
+        del instance._new_formats

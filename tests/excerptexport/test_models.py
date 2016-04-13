@@ -1,5 +1,3 @@
-import json
-
 from django.contrib.gis.geos import Polygon
 from django.test.testcases import TestCase
 from django.contrib.auth.models import User
@@ -73,7 +71,7 @@ class ExtractionOrderTestCase(TestCase):
             }
         }
 
-    def test_create_and_restore_extraction_configuration(self):
+    def test_create_extraction_order_with_extraction_configuration_and_retrieve_extraction_configuration(self):
         extraction_order_id = models.ExtractionOrder.objects.create(
             excerpt=self.excerpt,
             orderer=self.user,
@@ -82,11 +80,23 @@ class ExtractionOrderTestCase(TestCase):
         extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
         self.assertEqual(extraction_order.extraction_configuration, self.extraction_configuration)
 
-    def test_persistence_representation_is_json(self):
-        extraction_order_id = models.ExtractionOrder.objects.create(
+    def test_create_and_retrieve_extraction_configuration_on_exising_extraction_configuration(self):
+        extraction_order = models.ExtractionOrder.objects.create(
             excerpt=self.excerpt,
             orderer=self.user,
-            extraction_configuration={'gis_formats': ['txt'], 'gis_options': {'detail_level': 'standard'}}
-        ).id
+        )
+        extraction_order.extraction_configuration = \
+            {'gis_formats': ['txt'], 'gis_options': {'detail_level': 'standard'}}
+        self.assertEqual(extraction_order.extraction_configuration, self.extraction_configuration)
+
+    def test_retrieve_extraction_configuration_on_saved_extraction_configuration(self):
+        extraction_order = models.ExtractionOrder.objects.create(
+            excerpt=self.excerpt,
+            orderer=self.user,
+        )
+        extraction_order.extraction_configuration = \
+            {'gis_formats': ['txt'], 'gis_options': {'detail_level': 'standard'}}
+        extraction_order.save()
+        extraction_order_id = extraction_order.id
         extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
-        self.assertEqual(extraction_order._extraction_configuration, json.dumps(self.extraction_configuration))
+        self.assertEqual(extraction_order.extraction_configuration, self.extraction_configuration)
