@@ -119,6 +119,8 @@ class ExtractionOrder(models.Model):
     def extraction_configuration(self, value):
         if not value:
             value = {}
+        else:
+            value = dict(value)
         new_formats = frozenset(value.pop('gis_formats', []))
         previous_formats = self.exports.values_list('file_format', flat=True)
         assert new_formats.issuperset(previous_formats)

@@ -1,7 +1,10 @@
+from types import MappingProxyType
+
 from django.contrib.gis.geos import Polygon
 from django.test.testcases import TestCase
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
+from hamcrest import assert_that, has_entries
 
 from osmaxx.excerptexport.models.bounding_geometry import BoundingGeometry, BBoxBoundingGeometry
 from osmaxx.excerptexport import models
@@ -64,39 +67,38 @@ class ExtractionOrderTestCase(TestCase):
                 polygon_file=SimpleUploadedFile('in_memory_file.poly', b'the file content (not a real .poly file)')
             )
         )
-        self.extraction_configuration = {
+        self.extraction_configuration = MappingProxyType({
             'gis_formats': ['txt'],
             'gis_options': {
                 'detail_level': 'standard'
             }
-        }
+        })
 
     def test_create_extraction_order_with_extraction_configuration_and_retrieve_extraction_configuration(self):
         extraction_order_id = models.ExtractionOrder.objects.create(
             excerpt=self.excerpt,
             orderer=self.user,
-            extraction_configuration={'gis_formats': ['txt'], 'gis_options': {'detail_level': 'standard'}}
+            extraction_configuration=self.extraction_configuration
         ).id
         extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
-        self.assertEqual(extraction_order.extraction_configuration, self.extraction_configuration)
+        assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration))
+        assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration))
 
     def test_create_and_retrieve_extraction_configuration_on_exising_extraction_configuration(self):
         extraction_order = models.ExtractionOrder.objects.create(
             excerpt=self.excerpt,
             orderer=self.user,
         )
-        extraction_order.extraction_configuration = \
-            {'gis_formats': ['txt'], 'gis_options': {'detail_level': 'standard'}}
-        self.assertEqual(extraction_order.extraction_configuration, self.extraction_configuration)
+        extraction_order.extraction_configuration = self.extraction_configuration
+        assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration))
 
     def test_retrieve_extraction_configuration_on_saved_extraction_configuration(self):
         extraction_order = models.ExtractionOrder.objects.create(
             excerpt=self.excerpt,
             orderer=self.user,
         )
-        extraction_order.extraction_configuration = \
-            {'gis_formats': ['txt'], 'gis_options': {'detail_level': 'standard'}}
+        extraction_order.extraction_configuration = self.extraction_configuration
         extraction_order.save()
         extraction_order_id = extraction_order.id
         extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
-        self.assertEqual(extraction_order.extraction_configuration, self.extraction_configuration)
+        assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration))
