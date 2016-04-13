@@ -4,10 +4,13 @@ import pytest
 from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
 
-@pytest.mark.django_db
-def test_0019_forward(migrate, user):
-    extraction_configuration_with_formats = {'gis_formats': ['txt', 'foobar'], 'gis_options': {'detail_level': 'standard'}}
+@pytest.fixture
+def extraction_configuration_with_formats():
+    return {'gis_formats': ['txt', 'foobar'], 'gis_options': {'detail_level': 'standard'}}
 
+
+@pytest.mark.django_db
+def test_0019_forward(migrate, user, extraction_configuration_with_formats):
     old_apps = migrate('excerptexport', '0017_auto_20160310_1102')
     ExtractionOrder = old_apps.get_model('excerptexport', 'ExtractionOrder')  # noqa
     extraction_order = ExtractionOrder.objects.create(orderer_id=user.id)
@@ -27,9 +30,7 @@ def test_0019_forward(migrate, user):
 
 
 @pytest.mark.django_db
-def test_0019_backward(migrate, user):
-    extraction_configuration_with_formats = {'gis_formats': ['txt', 'foobar'], 'gis_options': {'detail_level': 'standard'}}
-
+def test_0019_backward(migrate, user, extraction_configuration_with_formats):
     old_apps = migrate('excerptexport', '0019_one_export_per_file_format')
     ExtractionOrder = old_apps.get_model('excerptexport', 'ExtractionOrder')  # noqa
     extraction_order = ExtractionOrder.objects.create(orderer_id=user.id)
