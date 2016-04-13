@@ -49,13 +49,13 @@ def test_0019_backward(migrate, user):
 
 
 @pytest.yield_fixture
-def migrate(executor, transactional_db):
+def migrate(_executor, transactional_db):
     def _migrate(app_name, migration_name):
         migration = [(app_name, migration_name)]
         # For whatever reason, `executor.migrate(migration)` doesn't work in this context.
         # So we use the manage.py command instead:
         call_command('migrate', app_name, migration_name)
-        apps_at_state = executor.loader.project_state(migration).apps
+        apps_at_state = _executor.loader.project_state(migration).apps
         return apps_at_state
 
     yield _migrate
@@ -65,5 +65,5 @@ def migrate(executor, transactional_db):
 
 
 @pytest.fixture
-def executor():
+def _executor():
     return MigrationExecutor(connection)
