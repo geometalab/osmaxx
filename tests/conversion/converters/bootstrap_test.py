@@ -14,7 +14,6 @@ class BootStrapperTest(TestCase):
 
             base_path_to_bootstrap = os.path.dirname(bootstrap.__file__)
             expected_script_order = [
-                'sql/filter/drop_and_recreate/drop_and_recreate.sql',
                 'sql/filter/address/000_setup-drop_and_recreate_table.sql',
                 'sql/filter/address/010_address.sql',
                 'sql/filter/address/020_entrance.sql',
