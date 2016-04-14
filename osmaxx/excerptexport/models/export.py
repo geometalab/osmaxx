@@ -18,7 +18,7 @@ class Export(models.Model):
     """
     extraction_order = models.ForeignKey('ExtractionOrder', related_name='exports',
                                          verbose_name=_('extraction order'))
-    file_format = models.TextField(choices=FORMAT_CHOICES)
+    file_format = models.TextField(choices=FORMAT_CHOICES, verbose_name=_('file format / data format'))
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
 
     def send_to_conversion_service(self, clipping_area_json, incoming_request):
