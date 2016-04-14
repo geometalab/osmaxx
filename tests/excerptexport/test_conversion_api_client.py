@@ -71,8 +71,8 @@ def excerpt(user, bounding_box, db):
 @pytest.fixture
 def extraction_order(excerpt, user, db):
     extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user, id=23)
+    extraction_order.extraction_formats = ['fgdb', 'spatialite']
     extraction_order.extraction_configuration = {
-        'gis_formats': ['fgdb', 'spatialite'],
         'gis_options': {
             'coordinate_reference_system': 'WGS_84',
             'detail_level': 1

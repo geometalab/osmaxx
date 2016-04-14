@@ -118,7 +118,7 @@ class ExtractionOrder(models.Model):
             value = {}
         else:
             value = dict(value)
-        self.extraction_formats = value.pop('gis_formats', [])
+        assert 'gis_formats' not in value
         self._extraction_configuration = json.dumps(value)
 
     @property
