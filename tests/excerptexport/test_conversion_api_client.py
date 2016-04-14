@@ -85,7 +85,7 @@ def extraction_order(excerpt, user, db):
 # ConversionApiClient unit tests:
 
 def test_extraction_order_forward_to_conversion_service(mocker, excerpt, extraction_order, job_progress_request, bounding_box):
-    mocker.patch.object(ConversionApiClient, 'create_job', side_effect=[sentinel.job_1, sentinel.job_2])
+    mocker.patch.object(ConversionApiClient, 'create_job', side_effect=[{'id': 5}, {'id': 23}])
     mocker.patch.object(
         ConversionApiClient, 'create_parametrization',
         side_effect=[sentinel.parametrization_1, sentinel.parametrization_2],
@@ -111,14 +111,20 @@ def test_extraction_order_forward_to_conversion_service(mocker, excerpt, extract
     )
     assert_that(
         result, contains_inanyorder(
-            sentinel.job_1,
-            sentinel.job_2,
+            {'id': 5},
+            {'id': 23},
         )
     )
     assert_that(
         extraction_order.exports.values_list('file_format', flat=True), contains_inanyorder(
             'fgdb',
             'spatialite',
+        )
+    )
+    assert_that(
+        extraction_order.exports.values_list('conversion_service_job_id', flat=True), contains_inanyorder(
+            5,
+            23,
         )
     )
 
