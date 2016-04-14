@@ -1,5 +1,3 @@
-from types import MappingProxyType
-
 from django.contrib.gis.geos import Polygon
 from django.test.testcases import TestCase
 from django.contrib.auth.models import User
@@ -8,6 +6,7 @@ from hamcrest import assert_that, has_entries
 
 from osmaxx.excerptexport.models.bounding_geometry import BoundingGeometry, BBoxBoundingGeometry
 from osmaxx.excerptexport import models
+from osmaxx.utils import frozendict
 
 
 class BBoxBoundingGeometryTestCase(TestCase):
@@ -67,7 +66,7 @@ class ExtractionOrderTestCase(TestCase):
                 polygon_file=SimpleUploadedFile('in_memory_file.poly', b'the file content (not a real .poly file)')
             )
         )
-        self.extraction_configuration = MappingProxyType({
+        self.extraction_configuration = frozendict({
             'gis_formats': ['txt'],
             'gis_options': {
                 'detail_level': 'standard'
