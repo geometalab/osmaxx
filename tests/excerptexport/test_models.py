@@ -66,12 +66,12 @@ class ExtractionOrderTestCase(TestCase):
                 polygon_file=SimpleUploadedFile('in_memory_file.poly', b'the file content (not a real .poly file)')
             )
         )
-        self.extraction_configuration = frozendict({
-            'gis_formats': ['txt'],
-            'gis_options': {
-                'detail_level': 'standard'
-            }
-        })
+        self.extraction_configuration = frozendict(
+            gis_formats=['txt'],
+            gis_options={
+                'detail_level': 'standard',
+            },
+        )
 
     def test_create_extraction_order_with_extraction_configuration_and_retrieve_extraction_configuration(self):
         extraction_order_id = models.ExtractionOrder.objects.create(
