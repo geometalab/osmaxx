@@ -108,9 +108,7 @@ class ExtractionOrder(models.Model):
     @property
     def extraction_configuration(self):
         if self._extraction_configuration and not self._extraction_configuration == '':
-            return dict(
-                **json.loads(self._extraction_configuration)
-            )
+            return json.loads(self._extraction_configuration)
         else:
             return None
 
