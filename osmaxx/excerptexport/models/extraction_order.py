@@ -131,7 +131,7 @@ class ExtractionOrder(models.Model):
 
     @property
     def extraction_formats(self):
-        return self.extraction_configuration.get('gis_formats', None)
+        return list(self.exports.values_list('file_format', flat=True))  # TODO: make this lazy
 
     @property
     def process_due_time(self):
