@@ -64,10 +64,10 @@ class ExtractionOrder(models.Model):
 
     def forward_to_conversion_service(self, *, incoming_request):
         clipping_area_json = self.excerpt.send_to_conversion_service()
-        jobs_json = []
-        for export in self.exports.all():
-            job_json = self._send_export_to_conversion_service(export, clipping_area_json, incoming_request)
-            jobs_json.append(job_json)
+        jobs_json = [
+            self._send_export_to_conversion_service(export, clipping_area_json, incoming_request)
+            for export in self.exports.all()
+        ]
         return jobs_json
 
     def _send_export_to_conversion_service(self, export, clipping_area_json, incoming_request):
