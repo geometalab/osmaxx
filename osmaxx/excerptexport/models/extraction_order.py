@@ -118,17 +118,21 @@ class ExtractionOrder(models.Model):
             value = {}
         else:
             value = dict(value)
-        new_formats = frozenset(value.pop('gis_formats', []))
-        previous_formats = self.exports.values_list('file_format', flat=True)
-        assert new_formats.issuperset(previous_formats)
+        self.extraction_formats = value.pop('gis_formats', [])
         self._extraction_configuration = json.dumps(value)
-        self._new_formats = new_formats  # Will be collected and cleaned up by attach_new_formats.
-        if self.id is not None:
-            attach_new_formats(self.__class__, instance=self)
 
     @property
     def extraction_formats(self):
         return list(self.exports.values_list('file_format', flat=True))  # TODO: make this lazy
+
+    @extraction_formats.setter
+    def extraction_formats(self, value):
+        new_formats = frozenset(value)
+        previous_formats = self.exports.values_list('file_format', flat=True)
+        assert new_formats.issuperset(previous_formats)
+        self._new_formats = new_formats  # Will be collected and cleaned up by attach_new_formats.
+        if self.id is not None:
+            attach_new_formats(self.__class__, instance=self)
 
     @property
     def process_due_time(self):
