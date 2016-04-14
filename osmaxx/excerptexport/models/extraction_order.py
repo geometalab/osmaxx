@@ -68,7 +68,8 @@ class ExtractionOrder(models.Model):
         gis_options = self.extraction_configuration['gis_options']
         api_client = ConversionApiClient()
         jobs_json = []
-        for extraction_format in self.extraction_formats:
+        for export in self.exports.all():
+            extraction_format = export.file_format
             parametrization_json = api_client.create_parametrization(clipping_area_json, extraction_format, gis_options)
             job_json = api_client.create_job(parametrization_json, incoming_request)
             jobs_json.append(job_json)
