@@ -119,7 +119,7 @@ class ExtractionOrder(models.Model):
 
     @property
     def extraction_formats(self):
-        return list(self.exports.values_list('file_format', flat=True))  # TODO: make this lazy
+        return self.exports.values_list('file_format', flat=True)
 
     @extraction_formats.setter
     def extraction_formats(self, value):
