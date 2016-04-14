@@ -81,7 +81,6 @@ class ExtractionOrderTestCase(TestCase):
         ).id
         extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
         assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration))
-        assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration))
 
     def test_create_and_retrieve_extraction_configuration_on_exising_extraction_configuration(self):
         extraction_order = models.ExtractionOrder.objects.create(
