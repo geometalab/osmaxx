@@ -115,6 +115,12 @@ def test_extraction_order_forward_to_conversion_service(mocker, excerpt, extract
             sentinel.job_2,
         )
     )
+    assert_that(
+        extraction_order.exports.values_list('file_format', flat=True), contains_inanyorder(
+            'fgdb',
+            'spatialite',
+        )
+    )
 
 
 @pytest.fixture
