@@ -109,7 +109,6 @@ class ExtractionOrder(models.Model):
     def extraction_configuration(self):
         if self._extraction_configuration and not self._extraction_configuration == '':
             return dict(
-                gis_formats=self.extraction_formats,
                 **json.loads(self._extraction_configuration)
             )
         else:

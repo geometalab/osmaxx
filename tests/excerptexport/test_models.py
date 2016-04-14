@@ -2,7 +2,7 @@ from django.contrib.gis.geos import Polygon
 from django.test.testcases import TestCase
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
-from hamcrest import assert_that, has_entries
+from hamcrest import assert_that, has_entries, contains_inanyorder as contains_in_any_order
 
 from osmaxx.excerptexport.models.bounding_geometry import BoundingGeometry, BBoxBoundingGeometry
 from osmaxx.excerptexport import models
@@ -66,37 +66,47 @@ class ExtractionOrderTestCase(TestCase):
                 polygon_file=SimpleUploadedFile('in_memory_file.poly', b'the file content (not a real .poly file)')
             )
         )
-        self.extraction_configuration = frozendict(
+        self.extraction_configuration_in = frozendict(
             gis_formats=['txt'],
-            gis_options={
-                'detail_level': 'standard',
-            },
+            gis_options={'detail_level': 'standard'},
+        )
+        self.extraction_configuration_out = frozendict(
+            gis_options={'detail_level': 'standard'},
         )
 
     def test_create_extraction_order_with_extraction_configuration_and_retrieve_extraction_configuration(self):
         extraction_order_id = models.ExtractionOrder.objects.create(
             excerpt=self.excerpt,
             orderer=self.user,
-            extraction_configuration=self.extraction_configuration
+            extraction_configuration=self.extraction_configuration_in
         ).id
         extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
-        assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration))
+        assert_that(extraction_order.extraction_configuration.keys(),
+                    contains_in_any_order(*self.extraction_configuration_out.keys()))
+        assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration_out))
+        assert_that(extraction_order.extraction_formats, contains_in_any_order('txt'))
 
     def test_create_and_retrieve_extraction_configuration_on_exising_extraction_configuration(self):
         extraction_order = models.ExtractionOrder.objects.create(
             excerpt=self.excerpt,
             orderer=self.user,
         )
-        extraction_order.extraction_configuration = self.extraction_configuration
-        assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration))
+        extraction_order.extraction_configuration = self.extraction_configuration_in
+        assert_that(extraction_order.extraction_configuration.keys(),
+                    contains_in_any_order(*self.extraction_configuration_out.keys()))
+        assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration_out))
+        assert_that(extraction_order.extraction_formats, contains_in_any_order('txt'))
 
     def test_retrieve_extraction_configuration_on_saved_extraction_configuration(self):
         extraction_order = models.ExtractionOrder.objects.create(
             excerpt=self.excerpt,
             orderer=self.user,
         )
-        extraction_order.extraction_configuration = self.extraction_configuration
+        extraction_order.extraction_configuration = self.extraction_configuration_in
         extraction_order.save()
         extraction_order_id = extraction_order.id
         extraction_order = models.ExtractionOrder.objects.get(pk=extraction_order_id)
-        assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration))
+        assert_that(extraction_order.extraction_configuration.keys(),
+                    contains_in_any_order(*self.extraction_configuration_out.keys()))
+        assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration_out))
+        assert_that(extraction_order.extraction_formats, contains_in_any_order('txt'))

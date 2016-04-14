@@ -100,7 +100,7 @@ class ConversionApiClient(JWTClient):
             "callback_url": request.build_absolute_uri(
                 reverse('job_progress:tracker', kwargs=dict(order_id=extraction_order.id))
             ),
-            "gis_formats": extraction_order.extraction_configuration['gis_formats'],
+            "gis_formats": extraction_order.extraction_formats,
             "gis_options": extraction_order.extraction_configuration['gis_options'],
             "extent": {
                 "west": bounding_geometry.west if bounding_geometry else None,

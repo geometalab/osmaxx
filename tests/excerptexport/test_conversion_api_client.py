@@ -203,7 +203,7 @@ def test_download_files(api_client, extraction_order, job_progress_request):
             job_status=api_client.job_status(extraction_order)
         )
         content_types_of_output_files = (f.content_type for f in extraction_order.output_files.all())
-        ordered_formats = extraction_order.extraction_configuration['gis_formats']
+        ordered_formats = extraction_order.extraction_formats
         assert_that(content_types_of_output_files, contains_inanyorder(*ordered_formats))
         assert_that(
             len(extraction_order.output_files.order_by('id')[0].file.read()),
