@@ -9,15 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1000"
-   height="1000"
-   viewBox="0 0 999.99999 999.99999"
-   id="svg4844"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg4030"
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="amenity_burial_ground.svg">
   <defs
-     id="defs4846" />
+     id="defs4032" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,18 +27,17 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
      inkscape:cx="80"
-     inkscape:cy="680"
+     inkscape:cy="520"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     units="px"
      inkscape:window-width="1920"
      inkscape:window-height="1018"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
-     id="metadata4849">
+     id="metadata4035">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -53,19 +52,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-52.362271)">
-    <g
-       id="g5465">
-      <path
-         style="fill:#ffffff;fill-opacity:1"
-         d="m 503.99707,113.32927 c -181.83689,0 -329.27507,147.44074 -329.27507,329.27507 0,74.06657 24.44014,142.34436 65.71167,197.38586 L 504.00091,991.3953 767.56943,639.9902 c 41.27537,-55.0415 65.71039,-123.32057 65.71039,-197.38586 0,-181.83433 -147.4433,-329.27507 -329.28275,-329.27507 l 0,0 z"
-         inkscape:connector-curvature="0"
-         id="path6864" />
-      <path
-         style="fill:#8c6e3c;fill-opacity:1"
-         d="m 506.3115,187.43377 c -78.287,0 -141.752,67.65 -141.752,151.092 0,2.137 0.061,4.256 0.15,6.371 l -17.361,308.637 315.068,0 -14.494,-309.041 c 0.061,-1.977 0.143,-3.963 0.143,-5.971 0,-83.44 -63.466,-151.088 -141.754,-151.088 z m -199.805,470.806 0,31.051 402.987,0 0,-31.051 -402.987,0 z"
-         inkscape:connector-curvature="0"
-         id="path8034" />
-    </g>
+     transform="translate(0,197.64569)">
+    <path
+       id="path8034"
+       inkscape:connector-curvature="0"
+       d="m 623.31545,176.42982 c -78.287,0 -141.752,67.65 -141.752,151.092 0,2.137 0.061,4.256 0.15,6.371 l -17.361,308.637 315.068,0 -14.494,-309.041 c 0.061,-1.977 0.143,-3.963 0.143,-5.971 0,-83.44 -63.466,-151.088 -141.754,-151.088 z m -199.805,470.806 0,31.051 402.987,0 0,-31.051 -402.987,0 z"
+       style="fill:#8c6e3c;fill-opacity:1" />
   </g>
 </svg>

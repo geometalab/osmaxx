@@ -9,15 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1000"
-   height="1000"
-   id="svg3347"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg11978"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 1000 1000"
    sodipodi:docname="traffic_parking.svg">
   <defs
-     id="defs3349" />
+     id="defs11980" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -26,19 +26,19 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="10.248101"
-     inkscape:cy="336"
-     inkscape:current-layer="text6"
-     showgrid="true"
-     inkscape:grid-bbox="true"
+     inkscape:cx="80"
+     inkscape:cy="520"
      inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:showpageshadow="true"
      inkscape:window-width="1920"
      inkscape:window-height="1018"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
-     id="metadata3352">
+     id="metadata11983">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -50,18 +50,14 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     transform="translate(0,968)">
-    <g
-       style="font-size:28px;font-family:Arial-BoldMT;fill:#0000ff"
-       id="text6">
-      <path
-         d="m 791.13503,-638.30709 q 0,58.93173 -20.83448,109.52973 -20.23916,50.00268 -57.14594,86.90947 -45.8358,45.8358 -108.33918,69.05133 -62.50338,22.62026 -157.74663,22.62026 l -117.8635,0 0,330.375011 -117.8635,0 0,-886.357421 240.48917,0 q 79.76624,0 135.12636,13.69121 55.36012,13.09595 98.21958,41.66892 50.598,33.93041 77.98042,84.52838 27.9777,50.59797 27.9777,127.98311 z m -122.62567,2.97638 q 0,-45.83579 -16.07231,-79.7662 -16.07227,-33.93045 -48.81217,-55.36018 -28.57298,-18.45338 -65.47972,-26.19189 -36.31147,-8.33379 -92.26686,-8.33379 l -116.673,0 0,354.18579 99.41013,0 q 71.43243,0 116.07772,-12.50066 44.64524,-13.09593 72.62298,-41.07363 27.9777,-28.57297 39.28781,-60.12233 11.90542,-31.5493 11.90542,-70.83715 z"
-         style="font-size:28px;font-family:Arial-BoldMT;fill:#3c73b4;fill-opacity:1"
-         id="path4137"
-         inkscape:connector-curvature="0" />
-    </g>
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       style="font-style:normal;font-weight:normal;font-size:143.53205872px;font-family:'Bitstream Vera Sans';fill:#3c73b4;fill-opacity:1;stroke:#3c73b4;stroke-width:27.54166794;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 445.98545,150.81287 0,553.09089 62.071,0 0,-224.8567 120.307,0 c 66.339,2e-4 112.201,-16.286 137.585,-48.8579 25.383,-32.5715 38.073,-72.3752 38.074,-119.4095 0,-27.4152 -4.745,-52.5671 -14.238,-75.45589 -9.492,-22.8877 -22.024,-40.6819 -37.595,-53.3841 -15.571,-12.7011 -34.877,-21.316 -57.914,-25.8438 -16.426,-3.5208 -40.209,-5.2825 -71.351,-5.283 l -176.939,0 z m 62.071,65.271 119.986,0 c 28.156,6e-4 47.462,1.6352 57.914,4.9046 16.212,5.2824 29.277,16.15879 39.196,32.63279 9.919,16.475 14.878,36.2821 14.878,59.4215 0,31.9434 -8.424,56.7198 -25.276,74.3258 -16.851,17.6066 -45.327,26.4079 -85.43,26.4075 l -121.268,0 0,-197.69219 z"
+       id="text2419"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

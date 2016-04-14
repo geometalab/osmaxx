@@ -9,15 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1000"
-   height="1000"
-   id="svg6046"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg7765"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 1000 1000"
    sodipodi:docname="worship_islamic.svg">
   <defs
-     id="defs6048" />
+     id="defs7767" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -26,19 +26,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="9.7405635"
-     inkscape:cy="416"
-     inkscape:current-layer="layer1"
-     showgrid="true"
-     inkscape:grid-bbox="true"
+     inkscape:cx="80"
+     inkscape:cy="520"
      inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1018"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
-     id="metadata6051">
+     id="metadata7770">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -50,14 +49,14 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     transform="translate(0,968)">
+     id="layer1"
+     transform="translate(0,197.64569)">
     <path
        inkscape:connector-curvature="0"
-       style="fill:#000000;fill-opacity:1;stroke:#000100;stroke-width:12.48511887"
-       d="m 487.10713,-860.6446 c -216.84237,0 -392.618973,181.55518 -392.618973,405.51206 0,223.95725 175.776603,405.52714 392.618973,405.52714 94.34759,0 180.88189,-34.428976 248.56117,-91.72605 -36.36551,12.01855 -75.26229,18.87688 -115.93673,18.87688 -195.15946,0 -353.33798,-150.37042 -353.33798,-335.86972 0,-185.50036 158.17852,-335.85496 353.33798,-335.85496 35.38784,0 69.46568,5.08974 101.72227,14.27996 -65.49082,-50.47539 -146.43017,-80.74531 -234.34671,-80.74531 z m 307.35037,219.92219 -88.52695,102.79845 -117.05714,-64.06806 65.77378,120.16306 -94.21479,97.07173 129.17567,-28.54445 58.83315,124.05716 14.06884,-137.78714 130.57159,-20.40427 -120.4897,-56.62917 21.86555,-136.65731 z"
+       style="fill:#000000;stroke:#000100;stroke-width:9.73365784;fill-opacity:1"
+       d="m 613.51032,118.79072 c -173.21,0 -313.617,138.1487 -313.617,308.5619 0,170.4132 140.407,308.5733 313.617,308.5733 75.363,0 144.485,-26.1977 198.546,-69.7962 -29.048,9.1452 -60.118,14.3638 -92.608,14.3638 -155.89,0 -282.24,-114.4197 -282.24,-255.5697 0,-141.1506 126.35,-255.5584 282.24,-255.5584 28.267,0 55.488,3.8729 81.254,10.8659 -52.313,-38.4077 -116.966,-61.4406 -187.192,-61.4406 z m 245.506,167.3429 -70.714,78.2213 -93.503,-48.7505 52.539,91.4344 -75.257,73.8636 103.183,-21.7199 46.995,94.3975 11.238,-104.845 104.298,-15.5259 -96.245,-43.0903 17.466,-103.9852 z"
        id="path3-9" />
   </g>
 </svg>
