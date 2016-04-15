@@ -14,8 +14,8 @@ frontend:
     - frontenddatabase:database
     - mediator:conversion-service
   env_file:
-    - ./common.env
-    - ./frontend.env
+    - ./compose-env/common.env
+    - ./compose-env/frontend.env
   environment:
     - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
     - NUM_WORKERS=5
@@ -43,8 +43,8 @@ mediator:
     - conversionserviceredis:redis
     - mediatordatabase:database
   env_file:
-    - ./common.env
-    - ./mediator.env
+    - ./compose-env/common.env
+    - ./compose-env/mediator.env
   environment:
     # comma separated list, no brackets, e.g. localhost,dev.myhost.com
     - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.production
@@ -62,7 +62,7 @@ worker:
   links:
     - conversionserviceredis:redis
   env_file:
-    - ./worker.env
+    - ./compose-env/worker.env
   environment:
     - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
 

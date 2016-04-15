@@ -2,7 +2,7 @@
 *.db
 *~
 .*
-*.env
+compose-env/
 
 # Documentation builds
 /html/

@@ -8,5 +8,4 @@ def get_authenticated_api_client():
     :return:
     """
     conversion_api_client = ConversionApiClient()
-    conversion_api_client.login()
     return conversion_api_client

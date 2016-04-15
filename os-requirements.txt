@@ -1,8 +1,0 @@
-docker
-docker-compose
-python3
-python3-dev
-postgresql-server-dev-all
-libgeos-dev
-libproj-dev
-python3-gdal

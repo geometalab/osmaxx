@@ -45,6 +45,7 @@ class TestClippingGeometryViewSet(APITestCase):
         }
         self.user = User.objects.create_user(username='lauren', password='lauri', email=None)
 
+    @pytest.mark.usefixtures('geos_geometry_can_be_created_from_geojson_string')
     def test_create_view_with_multi_polygon_succeeds(self):
         url = reverse('clipping_area-list')
         expected_name = 'Create new clipping area'
@@ -61,6 +62,7 @@ class TestClippingGeometryViewSet(APITestCase):
         self.assertEqual(1, ClippingArea.objects.count())
         self.assertEqual(expected_name, ClippingArea.objects.first().name)
 
+    @pytest.mark.usefixtures('geos_geometry_can_be_created_from_geojson_string')
     def test_create_view_with_polygon_fails(self):
         url = reverse('clipping_area-list')
         count = ClippingArea.objects.count
@@ -81,8 +83,9 @@ class TestClippingGeometryViewSet(APITestCase):
             ]
         }
 
-        self.assertEqual(expected_error_message, response.data)
+        self.assertDictEqual(expected_error_message, response.data)
 
+    @pytest.mark.usefixtures('geos_geometry_can_be_created_from_geojson_string')
     def test_create_view_with_invalid_data_fails(self):
         url = reverse('clipping_area-list')
 
@@ -104,7 +107,7 @@ class TestClippingGeometryViewSet(APITestCase):
                 "Invalid coordinates: expected at least one coordinate pair, received none."
             ]
         }
-        self.assertEqual(expected_error_message, response.data)
+        self.assertDictEqual(expected_error_message, response.data)
 
     def test_list_view_without_login_fails(self):
         url = reverse('clipping_area-list')
@@ -170,7 +173,8 @@ class TestClippingGeometryViewSet(APITestCase):
 
 
 @pytest.mark.django_db()
-def test_clipping_area_creation_succeeds(authenticated_api_client, clipping_area_hsr_data):
+def test_clipping_area_creation_succeeds(geos_geometry_can_be_created_from_geojson_string,
+                                         authenticated_api_client, clipping_area_hsr_data):
     response = authenticated_api_client.post(reverse('clipping_area-list'), clipping_area_hsr_data, format='json')
     assert response.status_code == 201
     expected_data = clipping_area_hsr_data.copy()
