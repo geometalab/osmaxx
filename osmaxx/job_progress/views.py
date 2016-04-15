@@ -38,7 +38,7 @@ def tracker(request, order_id):
             '{gis_format}: {download_url}'.format(
                 gis_format=dict(available_format_choices)[file.content_type],
                 download_url=request.build_absolute_uri(file.get_absolute_url()),
-            ) for file in order.output_files.all()
+            ) for file in order.output_files.order_by('content_type').all()
         )
         finished_email_body += _('\n\nView the complete order at {order_url}').format(**substitutions)
 
