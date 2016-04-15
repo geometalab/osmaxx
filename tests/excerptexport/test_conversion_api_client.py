@@ -169,6 +169,7 @@ def test_callback_url_of_created_job_resolves_to_job_updater(api_client, extract
     job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 
 
+@pytest.mark.xfail(reason="Callback URLs will refer to individual exports, not orders")
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
 def test_callback_url_of_created_job_refers_to_correct_extraction_order(api_client, extraction_order, job_progress_request):
     assert extraction_order.process_id is None
