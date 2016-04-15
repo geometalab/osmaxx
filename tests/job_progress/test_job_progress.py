@@ -35,7 +35,7 @@ class CallbackHandlingTest(APITestCase):
             process_id='53880847-faa9-43eb-ae84-dd92f3803a28',
         )
         self.extraction_order.extraction_configuration = {
-            'gis_formats': ['fgdb', 'spatialite'],
+            'extraction_formats': ['fgdb', 'spatialite'],
             'gis_options': {
                 'coordinate_reference_system': 'WGS_84',
                 'detail_level': 1

@@ -2,6 +2,8 @@ import json
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch.dispatcher import receiver
 from django.utils.translation import ugettext_lazy as _
 from django_enumfield import enum
 
@@ -60,6 +62,18 @@ class ExtractionOrder(models.Model):
         default=DOWNLOAD_STATUS_NOT_DOWNLOADED
     )
 
+    def forward_to_conversion_service(self, *, incoming_request):
+        from osmaxx.api_client.conversion_api_client import ConversionApiClient
+        clipping_area_json = self.excerpt.send_to_conversion_service()
+        gis_options = self.extraction_configuration['gis_options']
+        api_client = ConversionApiClient()
+        jobs_json = []
+        for extraction_format in self.extraction_formats:
+            parametrization_json = api_client.create_parametrization(clipping_area_json, extraction_format, gis_options)
+            job_json = api_client.create_job(parametrization_json, incoming_request)
+            jobs_json.append(job_json)
+        return jobs_json
+
     def __str__(self):
         return ', '.join(
             [
@@ -84,8 +98,8 @@ class ExtractionOrder(models.Model):
         if self.excerpt:
             return self.excerpt.name
         elif self.country_id:
-            from osmaxx.api_client.shortcuts import get_authenticated_api_client
-            return get_authenticated_api_client().get_country_name(self.country_id)
+            from osmaxx.api_client import ConversionApiClient
+            return ConversionApiClient().get_country_name(self.country_id)
 
     @property
     def are_downloads_ready(self):
@@ -100,24 +114,25 @@ class ExtractionOrder(models.Model):
 
     @extraction_configuration.setter
     def extraction_configuration(self, value):
-        """
-        :return example:
-            {
-                'gis_formats': ['txt', 'file_gdb'],
-                'gis_options': {
-                    'coordinate_reference_system': 'wgs72',
-                    'detail_level': 'verbatim'
-                },
-                'routing': { ... }
-            }
-        """
         if not value:
             value = {}
+        else:
+            value = dict(value)
+        assert 'gis_formats' not in value
         self._extraction_configuration = json.dumps(value)
 
     @property
     def extraction_formats(self):
-        return json.loads(self.extraction_configuration).get('gis_formats', None)
+        return list(self.exports.values_list('file_format', flat=True))  # TODO: make this lazy
+
+    @extraction_formats.setter
+    def extraction_formats(self, value):
+        new_formats = frozenset(value)
+        previous_formats = self.exports.values_list('file_format', flat=True)
+        assert new_formats.issuperset(previous_formats)
+        self._new_formats = new_formats  # Will be collected and cleaned up by attach_new_formats.
+        if self.id is not None:
+            attach_new_formats(self.__class__, instance=self)
 
     @property
     def process_due_time(self):
@@ -131,3 +146,11 @@ class ExtractionOrder(models.Model):
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('excerptexport:status', kwargs={'extraction_order_id': self.id})
+
+
+@receiver(post_save, sender=ExtractionOrder)
+def attach_new_formats(sender, instance, **kwargs):
+    if hasattr(instance, '_new_formats'):
+        for format in instance._new_formats:
+            instance.exports.get_or_create(file_format=format)
+        del instance._new_formats

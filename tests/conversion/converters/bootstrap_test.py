@@ -1,14 +1,14 @@
 import os
 from unittest import TestCase, mock
 
-from django.conf import settings
+from tests.conftest import area_polyfile_string
 
 from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
 
 
 class BootStrapperTest(TestCase):
     def test_scripts_are_executed_in_correct_order(self, *args, **kwargs):
-        bootstrapper = bootstrap.BootStrapper(pbf_file_path=settings.OSMAXX_CONVERSION_SERVICE['PBF_PLANET_FILE_PATH'])
+        bootstrapper = bootstrap.BootStrapper(area_polyfile_string=area_polyfile_string())
         with mock.patch.object(bootstrapper, '_postgres') as postgres_mock:
             bootstrapper._filter_data()
 
@@ -144,7 +144,7 @@ class BootStrapperTest(TestCase):
             self.assertListEqual(expected_calls, postgres_mock.execute_sql_file.mock_calls)
 
     def test_function_scripts_are_executed_in_correct_order(self, *args, **kwargs):
-        bootstrapper = bootstrap.BootStrapper(pbf_file_path=settings.OSMAXX_CONVERSION_SERVICE['PBF_PLANET_FILE_PATH'])
+        bootstrapper = bootstrap.BootStrapper(area_polyfile_string=area_polyfile_string())
         with mock.patch.object(bootstrapper, '_postgres') as postgres_mock:
             bootstrapper._setup_db_functions()
 

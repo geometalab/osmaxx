@@ -1,3 +1,4 @@
+import json
 import logging
 from collections import OrderedDict
 
@@ -15,21 +16,59 @@ from osmaxx.utils import get_default_private_storage
 logger = logging.getLogger(__name__)
 
 COUNTRY_ID_PREFIX = 'country-'
+SERVICE_BASE_URL = settings.OSMAXX.get('CONVERSION_SERVICE_URL')
+LOGIN_URL = '/token-auth/'
+
+USERNAME = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
+PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
+
+CONVERSION_JOB_URL = '/jobs/'
+ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
 
 
 class ConversionApiClient(JWTClient):
-    service_base = settings.OSMAXX.get('CONVERSION_SERVICE_URL')
-    login_url = '/token-auth/'
-
-    username = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
-    password = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
-
-    conversion_job_url = '/jobs/'
-    conversion_job_status_url = '/conversion_result/{job_uuid}/'
-    estimated_file_size_url = '/estimate_size_in_bytes/'
-
     def __init__(self):
-        super().__init__(username=self.username, password=self.password)
+        super().__init__(
+            service_base=SERVICE_BASE_URL,
+            login_url=LOGIN_URL,
+            username=USERNAME,
+            password=PASSWORD,
+        )
+
+    def create_boundary(self, multipolygon, *, name):
+        geo_json = json.loads(multipolygon.json)
+        json_payload = dict(name=name, clipping_multi_polygon=geo_json)
+        response = self.authorized_post(url='clipping_area/', json_data=json_payload)
+        return response.json()
+
+    def create_parametrization(self, *, boundary, out_format, out_srs):
+        """
+
+        Args:
+            boundary: A dictionary as returned by create_boundary
+            out_format: A string identifying the output format
+            out_srs: A string identifying the spatial reference system of the output
+
+        Returns:
+            A dictionary representing the payload of the service's response
+        """
+        json_payload = dict(clipping_area=boundary['id'], out_format=out_format, out_srs=out_srs)
+        response = self.authorized_post(url='conversion_parametrization/', json_data=json_payload)
+        return response.json()
+
+    def create_job(self, parametrization, callback_url):
+        """
+
+        Args:
+            parametrization: A dictionary as returned by create_parametrization
+            incoming_request: The request towards the front-end triggering this job creation
+
+        Returns:
+            A dictionary representing the payload of the service's response
+        """
+        json_payload = dict(parametrization=parametrization['id'], callback_url=callback_url)
+        response = self.authorized_post(url='conversion_job/', json_data=json_payload)
+        return response.json()
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
@@ -39,7 +78,8 @@ class ConversionApiClient(JWTClient):
         timeout_reached = timezone.now() > extraction_order.process_due_time
         return process_unfinished and timeout_reached
 
-    def create_job(self, extraction_order, request):
+    # TODO: replace this by a call to extraction_order.forward_to_conversion_service(request)
+    def _create_job_TODO_replace_me(self, extraction_order, request):  # noqa
         """
         Kickoff a conversion job
 
@@ -60,7 +100,7 @@ class ConversionApiClient(JWTClient):
             "callback_url": request.build_absolute_uri(
                 reverse('job_progress:tracker', kwargs=dict(order_id=extraction_order.id))
             ),
-            "gis_formats": extraction_order.extraction_configuration['gis_formats'],
+            "gis_formats": extraction_order.extraction_formats,
             "gis_options": extraction_order.extraction_configuration['gis_options'],
             "extent": {
                 "west": bounding_geometry.west if bounding_geometry else None,
@@ -71,7 +111,7 @@ class ConversionApiClient(JWTClient):
             }
         })
         try:
-            response = self.authorized_post(self.conversion_job_url, json_data=request_data)
+            response = self.authorized_post(CONVERSION_JOB_URL, json_data=request_data)
         except HTTPError as e:
             logging.error('API job creation failed.', e.response)
             return e.response
@@ -185,7 +225,7 @@ class ConversionApiClient(JWTClient):
             "north": north
         }
         try:
-            response = self.authorized_post(self.estimated_file_size_url, json_data=request_data)
+            response = self.authorized_post(ESTIMATED_FILE_SIZE_URL, json_data=request_data)
         except HTTPError as e:
             return reasons_for(e)
         return response.json()

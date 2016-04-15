@@ -81,10 +81,10 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
 
         existing_key = self.cleaned_data['existing_excerpts']
         if self._is_country(existing_key):
-            from osmaxx.api_client.shortcuts import get_authenticated_api_client
+            from osmaxx.api_client import ConversionApiClient
             country_id = int(existing_key.strip(COUNTRY_ID_PREFIX))
             extraction_order.country_id = country_id
-            extraction_order.name = get_authenticated_api_client().get_country_name(country_id)
+            extraction_order.name = ConversionApiClient().get_country_name(country_id)
         else:
             existing_excerpt = Excerpt.objects.get(pk=int(existing_key))
             extraction_order.excerpt = existing_excerpt

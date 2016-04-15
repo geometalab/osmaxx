@@ -11,6 +11,11 @@ class Excerpt(models.Model):
     owner = models.ForeignKey(User, related_name='excerpts', verbose_name=_('owner'))
     bounding_geometry = models.OneToOneField('BoundingGeometry', verbose_name=_('bounding geometry'))
 
+    def send_to_conversion_service(self):
+        from osmaxx.api_client.conversion_api_client import ConversionApiClient
+        api_client = ConversionApiClient()
+        return api_client.create_boundary(self.bounding_geometry.geometry, name=self.name)
+
     @property
     def type_of_geometry(self):
         return self.bounding_geometry.type_of_geometry
