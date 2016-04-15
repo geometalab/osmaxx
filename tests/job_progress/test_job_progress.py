@@ -35,7 +35,7 @@ class CallbackHandlingTest(APITestCase):
             process_id='53880847-faa9-43eb-ae84-dd92f3803a28',
         )
         self.extraction_order.extraction_configuration = {
-            'gis_formats': ['fgdb', 'spatialite'],
+            'extraction_formats': ['fgdb', 'spatialite'],
             'gis_options': {
                 'coordinate_reference_system': 'WGS_84',
                 'detail_level': 1
@@ -94,7 +94,7 @@ class CallbackHandlingTest(APITestCase):
         )
         request.resolver_match
 
-    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
     def test_calling_tracker_when_status_query_indicates_started_updates_extraction_order_state(self, *args, **mocks):
@@ -114,7 +114,7 @@ class CallbackHandlingTest(APITestCase):
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
 
-    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
     @patch('osmaxx.job_progress.views.Emissary')
@@ -140,7 +140,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
     @patch.object(OutputFile, 'get_absolute_url', side_effect=['/a/download', '/another/download'])
@@ -191,7 +191,7 @@ class CallbackHandlingTest(APITestCase):
             mail_body=expected_body,
         )
 
-    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._download_file')  # mock download
     @requests_mock.Mocker(kw='requests')
@@ -231,11 +231,12 @@ class CallbackHandlingTest(APITestCase):
         views.tracker(request, order_id=str(self.extraction_order.id))
         self.extraction_order.refresh_from_db()
         self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
-        emissary_mock.success.assert_called_with('The extraction of the order #1 "Neverland" has been finished.')
+        emissary_mock.success.assert_called_with(
+            'The extraction of the order #{} "Neverland" has been finished.'.format(self.extraction_order.id))
         emissary_mock.warn.assert_not_called()
         emissary_mock.error.assert_not_called()
 
-    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient.login', return_value=True)
+    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
     @patch('osmaxx.job_progress.views.Emissary')
