@@ -1,6 +1,6 @@
 import time
 from unittest import mock
-from unittest.mock import Mock, sentinel
+from unittest.mock import Mock, sentinel, ANY
 from urllib.parse import urlparse
 
 import os
@@ -9,6 +9,7 @@ import pytest
 from django.core.urlresolvers import resolve
 from hamcrest import assert_that, contains_inanyorder, close_to as is_close_to
 from requests import HTTPError
+from rest_framework.reverse import reverse
 
 from osmaxx.api_client import ConversionApiClient, API_client
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
@@ -104,9 +105,16 @@ def test_extraction_order_forward_to_conversion_service(mocker, excerpt, extract
     )
     assert_that(
         ConversionApiClient.create_job.mock_calls, contains_inanyorder(
-            # FIXME: Must be called with callback url, not with request.
-            mock.call(sentinel.parametrization_1, job_progress_request),
-            mock.call(sentinel.parametrization_2, job_progress_request),
+            mock.call(sentinel.parametrization_1, ANY),
+            mock.call(sentinel.parametrization_2, ANY),
+        )
+    )
+    fgdb_export = extraction_order.exports.get(file_format='fgdb')
+    spatialite_export = extraction_order.exports.get(file_format='spatialite')
+    assert_that(
+        ConversionApiClient.create_job.mock_calls, contains_inanyorder(
+            mock.call(ANY, reverse('job_progress:tracker', kwargs=dict(export_id=fgdb_export.id))),
+            mock.call(ANY, reverse('job_progress:tracker', kwargs=dict(export_id=spatialite_export.id))),
         )
     )
     assert_that(

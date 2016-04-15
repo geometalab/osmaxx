@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from rest_framework.reverse import reverse
 
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
 
@@ -27,7 +28,14 @@ class Export(models.Model):
         extraction_format = self.file_format
         gis_options = self.extraction_order.extraction_configuration['gis_options']
         parametrization_json = api_client.create_parametrization(clipping_area_json, extraction_format, gis_options)
-        job_json = api_client.create_job(parametrization_json, incoming_request)
+        job_json = api_client.create_job(parametrization_json, self.status_update_url)
         self.conversion_service_job_id = job_json['id']
         self.save()
         return job_json
+
+    def get_full_status_update_uri(self, request):
+        return request.build_absolute_uri(self.status_update_url)
+
+    @property
+    def status_update_url(self):
+        return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
