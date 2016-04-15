@@ -9,15 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1000"
-   height="1000"
-   id="svg4929"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg19864"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 1000 1000"
    sodipodi:docname="traffic_level_crossing.svg">
   <defs
-     id="defs4931" />
+     id="defs19866" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -26,19 +26,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="12.194029"
-     inkscape:cy="416"
-     inkscape:current-layer="layer1"
-     showgrid="true"
-     inkscape:grid-bbox="true"
+     inkscape:cx="80"
+     inkscape:cy="520"
      inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1018"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
-     id="metadata4934">
+     id="metadata19869">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -50,13 +49,13 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     transform="translate(0,968)">
+     id="layer1"
+     transform="translate(0,197.64569)">
     <path
        inkscape:connector-curvature="0"
-       d="m 33.55973,-934.8112 0,104.29027 366.56559,365.33534 -366.56559,365.336202 0,104.360588 104.69735,0 366.5656,-365.33534 366.49512,365.33534 104.69558,0 0,-104.360588 -366.35153,-365.336202 366.56648,-365.26504 0,-104.36057 -104.69913,0 -366.70652,365.33188 -366.5656,-365.33188 -104.69735,0 z"
+       d="m 287.21965,89.447119 0,75.034601 262.701,262.8512 -262.701,262.8513 0,75.0853 75.0317,0 262.7013,-262.851 262.6506,262.851 75.031,0 0,-75.0853 -262.548,-262.8513 262.702,-262.8004 0,-75.085401 -75.033,0 -262.8026,262.848701 -262.7013,-262.848701 -75.0317,0 z"
        id="crossing"
        style="fill:#b40a0a;fill-opacity:1" />
   </g>

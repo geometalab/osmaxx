@@ -9,15 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1000"
-   height="1000"
-   viewBox="0 0 1000 1000"
-   id="svg5478"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg4853"
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="default_OSMaxx_marker.svg">
   <defs
-     id="defs5480" />
+     id="defs4855" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -31,14 +31,13 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     units="px"
      inkscape:window-width="1920"
      inkscape:window-height="1018"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
-     id="metadata5483">
+     id="metadata4858">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -53,11 +52,16 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-52.362161)">
+     transform="translate(0,197.64569)">
+    <path
+       id="path6864"
+       inkscape:connector-curvature="0"
+       d="m 625.00095,84.325319 c -142.076,0 -257.275,115.201001 -257.275,257.275001 0,57.871 19.096,111.219 51.343,154.225 l 205.935,274.566 205.936,-274.566 c 32.25,-43.006 51.342,-96.355 51.342,-154.225 0,-142.074 -115.203,-257.275001 -257.281,-257.275001 l 0,0 z"
+       style="fill:#ffffff;fill-opacity:1" />
     <path
        style="fill:#000000;fill-opacity:1"
        id="path6293"
        inkscape:connector-curvature="0"
-       d="m 500,214.30816 c -142.496,0 -258.039,115.541 -258.039,258.039 0,19.861 2.244,39.188 6.49,57.752 l 503.101,0 c 4.245,-18.564 6.487,-37.891 6.487,-57.752 0,-142.498 -115.541,-258.039 -258.039,-258.039 z m -246.407,334.832 c 8.834,28.367 22.424,54.637 39.859,77.889 l 206.549,275.387 206.545,-275.387 c 17.436,-23.252 31.029,-49.521 39.861,-77.889 l -492.814,0 0,0 z" />
+       d="m 625.00395,83.304279 c -142.49602,0 -258.03903,115.541011 -258.03903,258.039031 0,19.861 2.244,39.188 6.49,57.75201 l 503.10106,0 c 4.245,-18.56401 6.487,-37.89101 6.487,-57.75201 0,-142.49802 -115.54101,-258.039031 -258.03903,-258.039031 z M 378.59692,418.13632 c 8.834,28.367 22.424,54.63701 39.85901,77.88901 L 625.00495,771.41236 831.54997,496.02533 c 17.43601,-23.252 31.02901,-49.52101 39.86101,-77.88901 l -492.81406,0 0,0 z" />
   </g>
 </svg>

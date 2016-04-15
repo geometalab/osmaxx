@@ -9,15 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1000"
-   height="1000"
-   id="svg3349"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg30489"
    version="1.1"
    inkscape:version="0.91 r13725"
-   viewBox="0 0 1000 1000"
    sodipodi:docname="transport_airfield.svg">
   <defs
-     id="defs3351" />
+     id="defs30491" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -26,19 +26,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="-366.594"
-     inkscape:cy="495.9997"
-     inkscape:current-layer="layer1"
-     showgrid="true"
-     inkscape:grid-bbox="true"
+     inkscape:cx="80"
+     inkscape:cy="520"
      inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1018"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
-     id="metadata3354">
+     id="metadata30494">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -50,19 +49,14 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     transform="translate(0,968)">
+     id="layer1"
+     transform="translate(0,197.64569)">
     <path
        inkscape:connector-curvature="0"
        style="fill:#003cff;fill-opacity:1"
-       id="path1972"
-       d="m 835.98701,-832.1871 c 52.95675,-40.33153 113.97289,39.46679 59.52878,81.04355 l -222.27309,169.7314 50.74302,453.95458 -82.08124,62.711036 -134.62292,-387.438676 -166.1341,126.87484 -1.21063,114.38797 -64.92478,49.77451 -50.01663,-136.73289 -118.71168,-84.26039 64.92477,-49.67074 110.20263,28.15598 166.03032,-126.84025 -338.42514,-231.78523 82.11583,-62.71104 421.19817,163.78198 223.65669,-170.97663 z" />
-    <path
-       d="m 835.98701,-832.1871 c 52.95675,-40.33153 113.97289,39.46679 59.52878,81.04355 l -222.27309,169.7314 50.74302,453.95458 -82.08124,62.711036 -134.62292,-387.438676 -166.1341,126.87484 -1.21063,114.38797 -64.92478,49.77451 -50.01663,-136.73289 -118.71168,-84.26039 64.92477,-49.67074 110.20263,28.15598 166.03032,-126.84025 -338.42514,-231.78523 82.11583,-62.71104 421.19817,163.78198 223.65669,-170.97663 z"
-       id="path4134"
-       style="fill:#003cff;fill-opacity:1"
-       inkscape:connector-curvature="0" />
+       d="m 941.71375,79.333712 c -8.6559,0.3093 -17.7603,3.1451 -26.6358,9.9053 L 715.09195,241.99321 338.55454,95.581712 l -73.4472,56.051598 302.60831,207.2349 -148.465,113.43 -98.51531,-25.1854 -58.043,44.4547 106.12221,75.3179 44.6961,122.2499 58.046,-44.5135 1.083,-102.2568 148.523,-113.4331 120.3795,346.4564 73.3851,-56.1105 -45.3609,-405.8323 198.7182,-151.7244 c 39.54995,-30.2045 10.935,-83.005898 -26.5739,-82.387398 z"
+       id="path1972" />
   </g>
 </svg>
