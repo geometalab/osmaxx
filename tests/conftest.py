@@ -14,5 +14,3 @@ def login(base_url, selenium):
     username.send_keys("admin")
     password.send_keys("admin")
     login.click()
-
-    return login
