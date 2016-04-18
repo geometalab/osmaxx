@@ -10,7 +10,7 @@ from rest_framework.reverse import reverse
 from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
-from osmaxx.conversion_api.statuses import STATUS_CHOICES
+from osmaxx.conversion_api.statuses import STATUS_CHOICES, RECEIVED
 
 
 def job_directory_path(instance, filename):
@@ -31,9 +31,6 @@ class Parametrization(models.Model):
 
 
 class Job(models.Model):
-    from osmaxx.conversion_api.statuses import (  # noqa - Part of public interface
-        RECEIVED, QUEUED, FINISHED, FAILED, STARTED, DEFERRED, STATUSES_FINAL)
-
     callback_url = models.URLField(_('callback url'), max_length=250)
     parametrization = models.ForeignKey(verbose_name=_('parametrization'), to=Parametrization)
     rq_job_id = models.CharField(_('rq job id'), max_length=250, null=True)
