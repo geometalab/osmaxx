@@ -5,9 +5,7 @@ from new_excerpt import new_excerpt
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.expected_conditions import presence_of_element_located
 
 @pytest.fixture
 def prerequisite(login, base_url, selenium):
@@ -29,7 +27,7 @@ def prerequisite(login, base_url, selenium):
 @pytest.mark.parametrize("file_format", ['id_formats_1', 'id_formats_2', 
                                          'id_formats_3', 'id_formats_4', 
                                          'id_formats_5'])
-def test_existing_excerpt(base_url, prerequisite, file_format, selenium):
+def test_existing_excerpt(base_url, prerequisite, file_format, selenium, reload_until_condition):
     selenium.get('{0}/'.format(base_url))
 
     # go to existing excerpt menu
@@ -48,21 +46,11 @@ def test_existing_excerpt(base_url, prerequisite, file_format, selenium):
     create = selenium.find_element_by_name('submit')
     create.send_keys(Keys.RETURN)
 
-   	element = WebDriverWait(selenium, 60).until(click_and_check(btn_reload, presence_of_element_located, (By.CLASS_NAME, "symbol finished")))
-
-    link = selenium.find_element_by_class_name("form-control")
-
-    '''
-    # try to use andWait instead
-    for i in range(0,10):
-        try:
-            link = selenium.find_element_by_class_name("form-control")
-            break
-        except NoSuchElementException as e:
-            time.sleep(60)
-            btn_reload.click()
-    '''
+    # wait until the download link appears
+    btn_reload = selenium.find_element_by_link_text('↻ Reload')
+    element = reload_until_condition(selenium.find_element_by_class_name, "form-control")
+    
     # check if the download link is a valid link
-    url = link.text
+    url = element.text
     r = requests.head(url)
     assert r.status_code == requests.codes.ok

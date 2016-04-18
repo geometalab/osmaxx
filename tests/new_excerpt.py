@@ -1,4 +1,5 @@
 import pytest
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -24,7 +25,3 @@ def new_excerpt(driver, base_url):
 	west = driver.find_element_by_id('id_west')
 	west.clear()
 	west.send_keys("7.41568565368652")
-
-def click_and_check(reload_button, check, *args, **kwargs):
-    reload_button.click()
-    return check(*args, **kwargs)
