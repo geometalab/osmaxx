@@ -6,11 +6,11 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from rest_framework.reverse import reverse
-from rq.job import JobStatus
 
 from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
+from osmaxx.conversion_api.statuses import STATUS_CHOICES
 
 
 def job_directory_path(instance, filename):
@@ -31,23 +31,8 @@ class Parametrization(models.Model):
 
 
 class Job(models.Model):
-    RECEIVED = 'received'
-    QUEUED = JobStatus.QUEUED
-    FINISHED = JobStatus.FINISHED
-    FAILED = JobStatus.FAILED
-    STARTED = JobStatus.STARTED
-    DEFERRED = JobStatus.DEFERRED
-
-    STATUS_CHOICES = (
-        (RECEIVED, _('received')),
-        # these are identical to the job-statuses of rq
-        (JobStatus.QUEUED, _('queued')),
-        (JobStatus.FINISHED, _('finished')),
-        (JobStatus.FAILED, _('failed')),
-        (JobStatus.STARTED, _('started')),
-        (JobStatus.DEFERRED, _('deferred')),
-    )
-    STATUSES_FINAL = [FINISHED, FAILED]
+    from osmaxx.conversion_api.statuses import (  # noqa - Part of public interface
+        RECEIVED, QUEUED, FINISHED, FAILED, STARTED, DEFERRED, STATUSES_FINAL)
 
     callback_url = models.URLField(_('callback url'), max_length=250)
     parametrization = models.ForeignKey(verbose_name=_('parametrization'), to=Parametrization)
