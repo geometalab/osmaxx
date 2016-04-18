@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.expected_conditions import presence_of_element_located
 
 @pytest.mark.parametrize("file_format", ['id_formats_1', 'id_formats_2', 
                                          'id_formats_3', 'id_formats_4', 
@@ -28,7 +29,7 @@ def test_select_country(base_url, login, file_format, selenium):
     create = selenium.find_element_by_name('submit')
     create.send_keys(Keys.RETURN)
     
-    element = WebDriverWait(selenium, 60).until(click_and_check(btn_reload, EC.presence_of_element_located, (By.CLASS_NAME, "symbol finished")))
+    element = WebDriverWait(selenium, 60).until(click_and_check(btn_reload, presence_of_element_located, (By.CLASS_NAME, "symbol finished")))
 
     link = selenium.find_element_by_class_name("form-control")
 

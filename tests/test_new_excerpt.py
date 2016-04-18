@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.expected_conditions import presence_of_element_located
 
 @pytest.mark.parametrize("file_name, file_format", [("gdb",'id_formats_1'), ("shp",'id_formats_2'), 
                                                     ("gpkg",'id_formats_3'), ("spatialite",'id_formats_4'), 
@@ -31,7 +31,7 @@ def test_new_excerpt(base_url, login, file_name, file_format, selenium):
     btn_reload = selenium.find_element_by_link_text('↻ Reload')
 
 
-    element = WebDriverWait(selenium, 60).until(click_and_check(btn_reload, EC.presence_of_element_located, (By.CLASS_NAME, "symbol finished")))
+    element = WebDriverWait(selenium, 60).until(click_and_check(btn_reload, presence_of_element_located, (By.CLASS_NAME, "symbol finished")))
 
     link = selenium.find_element_by_class_name("form-control")
 

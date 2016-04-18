@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.expected_conditions import presence_of_element_located
 
 @pytest.fixture
 def prerequisite(login, base_url, selenium):
@@ -47,7 +48,7 @@ def test_existing_excerpt(base_url, prerequisite, file_format, selenium):
     create = selenium.find_element_by_name('submit')
     create.send_keys(Keys.RETURN)
 
-   	element = WebDriverWait(selenium, 60).until(click_and_check(btn_reload, EC.presence_of_element_located, (By.CLASS_NAME, "symbol finished")))
+   	element = WebDriverWait(selenium, 60).until(click_and_check(btn_reload, presence_of_element_located, (By.CLASS_NAME, "symbol finished")))
 
     link = selenium.find_element_by_class_name("form-control")
 

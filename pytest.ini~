@@ -1,3 +1,0 @@
-[pytest]
-base_url = http://localhost:8000
-sensitive_url = osmaxx.hsr.ch
