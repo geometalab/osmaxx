@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from django.test import TestCase
 
@@ -16,13 +17,14 @@ class PrivateSystemStorageTestCase(TestCase):
         self.assertTrue(os.path.exists(directory_path))
         os.rmdir(directory_path)
 
-    def xtest_raises_when_missing_permissions(self):
-        # FIXME: this isn't testable as it stands, because we are root on the docker instance
-        #        and it will overwrite the access rights to create a directory.
+    def test_raises_when_missing_permissions(self):
         read_only_directory = os.path.join('/tmp/', 'read_only_dir')
-        os.mkdir(read_only_directory, mode=0o000)
-        directory_path = os.path.join(read_only_directory, self.directory_name)
-        self.assertFalse(os.path.exists(directory_path))
-        with self.assertRaises(OSError):
-            PrivateSystemStorage(location=directory_path)
-        self.assertFalse(os.path.exists(directory_path))
+        os.mkdir(read_only_directory, mode=0o0444)
+        try:
+            directory_path = os.path.join(read_only_directory, self.directory_name)
+            self.assertFalse(os.path.exists(directory_path))
+            with self.assertRaises(OSError):
+                PrivateSystemStorage(location=directory_path)
+            self.assertFalse(os.path.exists(directory_path))
+        finally:
+            shutil.rmtree(read_only_directory)

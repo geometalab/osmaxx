@@ -1,7 +1,7 @@
 from osmaxx.conversion.converters.converter_garmin.garmin import Garmin
 from osmaxx.conversion.converters.converter_gis.gis import GISConverter
-from osmaxx.conversion.formats import FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN
 from osmaxx.conversion.job_dispatcher.rq_dispatcher import rq_enqueue_with_settings
+from osmaxx.conversion_api.formats import FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN
 
 
 class Conversion(object):

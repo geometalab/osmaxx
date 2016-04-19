@@ -43,7 +43,8 @@ class ExcerptForm(BBoxBoundingGeometryMixin, OrderOptionsMixin, forms.ModelForm)
 
     def save(self, user):
         extraction_order = ExtractionOrder(orderer=user)
-        extraction_order.extraction_configuration = get_export_options(self.cleaned_data['formats'])
+        extraction_order.extraction_configuration = get_export_options()
+        extraction_order.extraction_formats = self.cleaned_data['formats']
 
         bbox_kwargs = select_keys(self.cleaned_data, ['north', 'east', 'south', 'west'])
         bounding_geometry = BBoxBoundingGeometry(**bbox_kwargs)

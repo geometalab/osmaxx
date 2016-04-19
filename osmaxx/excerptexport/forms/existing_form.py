@@ -77,7 +77,8 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
 
     def save(self, user):
         extraction_order = ExtractionOrder(orderer=user)
-        extraction_order.extraction_configuration = get_export_options(self.cleaned_data['formats'])
+        extraction_order.extraction_configuration = get_export_options()
+        extraction_order.extraction_formats = self.cleaned_data['formats']
 
         existing_key = self.cleaned_data['existing_excerpts']
         if self._is_country(existing_key):

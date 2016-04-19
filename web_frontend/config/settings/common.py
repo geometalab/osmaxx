@@ -54,6 +54,7 @@ LOCAL_APPS = (
     'osmaxx.version',
 
     'osmaxx.countries',
+    'osmaxx.conversion_api',
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
     'osmaxx.social_auth',

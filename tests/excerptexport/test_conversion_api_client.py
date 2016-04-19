@@ -1,6 +1,6 @@
 import time
 from unittest import mock
-from unittest.mock import Mock, sentinel
+from unittest.mock import Mock, sentinel, ANY
 from urllib.parse import urlparse
 
 import os
@@ -9,6 +9,7 @@ import pytest
 from django.core.urlresolvers import resolve
 from hamcrest import assert_that, contains_inanyorder, close_to as is_close_to
 from requests import HTTPError
+from rest_framework.reverse import reverse
 
 from osmaxx.api_client import ConversionApiClient, API_client
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
@@ -71,8 +72,8 @@ def excerpt(user, bounding_box, db):
 @pytest.fixture
 def extraction_order(excerpt, user, db):
     extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user, id=23)
+    extraction_order.extraction_formats = ['fgdb', 'spatialite']
     extraction_order.extraction_configuration = {
-        'gis_formats': ['fgdb', 'spatialite'],
         'gis_options': {
             'coordinate_reference_system': 'WGS_84',
             'detail_level': 1
@@ -85,7 +86,7 @@ def extraction_order(excerpt, user, db):
 # ConversionApiClient unit tests:
 
 def test_extraction_order_forward_to_conversion_service(mocker, excerpt, extraction_order, job_progress_request, bounding_box):
-    mocker.patch.object(ConversionApiClient, 'create_job', side_effect=[sentinel.job_1, sentinel.job_2])
+    mocker.patch.object(ConversionApiClient, 'create_job', side_effect=[{'id': 5}, {'id': 23}])
     mocker.patch.object(
         ConversionApiClient, 'create_parametrization',
         side_effect=[sentinel.parametrization_1, sentinel.parametrization_2],
@@ -104,15 +105,34 @@ def test_extraction_order_forward_to_conversion_service(mocker, excerpt, extract
     )
     assert_that(
         ConversionApiClient.create_job.mock_calls, contains_inanyorder(
-            # FIXME: Must be called with callback url, not with request.
-            mock.call(sentinel.parametrization_1, job_progress_request),
-            mock.call(sentinel.parametrization_2, job_progress_request),
+            mock.call(sentinel.parametrization_1, ANY),
+            mock.call(sentinel.parametrization_2, ANY),
+        )
+    )
+    fgdb_export = extraction_order.exports.get(file_format='fgdb')
+    spatialite_export = extraction_order.exports.get(file_format='spatialite')
+    assert_that(
+        ConversionApiClient.create_job.mock_calls, contains_inanyorder(
+            mock.call(ANY, reverse('job_progress:tracker', kwargs=dict(export_id=fgdb_export.id))),
+            mock.call(ANY, reverse('job_progress:tracker', kwargs=dict(export_id=spatialite_export.id))),
         )
     )
     assert_that(
         result, contains_inanyorder(
-            sentinel.job_1,
-            sentinel.job_2,
+            {'id': 5},
+            {'id': 23},
+        )
+    )
+    assert_that(
+        extraction_order.exports.values_list('file_format', flat=True), contains_inanyorder(
+            'fgdb',
+            'spatialite',
+        )
+    )
+    assert_that(
+        extraction_order.exports.values_list('conversion_service_job_id', flat=True), contains_inanyorder(
+            5,
+            23,
         )
     )
 
@@ -157,6 +177,7 @@ def test_callback_url_of_created_job_resolves_to_job_updater(api_client, extract
     job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 
 
+@pytest.mark.xfail(reason="Callback URLs will refer to individual exports, not orders")
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
 def test_callback_url_of_created_job_refers_to_correct_extraction_order(api_client, extraction_order, job_progress_request):
     assert extraction_order.process_id is None
@@ -203,7 +224,7 @@ def test_download_files(api_client, extraction_order, job_progress_request):
             job_status=api_client.job_status(extraction_order)
         )
         content_types_of_output_files = (f.content_type for f in extraction_order.output_files.all())
-        ordered_formats = extraction_order.extraction_configuration['gis_formats']
+        ordered_formats = extraction_order.extraction_formats
         assert_that(content_types_of_output_files, contains_inanyorder(*ordered_formats))
         assert_that(
             len(extraction_order.output_files.order_by('id')[0].file.read()),

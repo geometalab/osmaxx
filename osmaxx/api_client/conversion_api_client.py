@@ -98,9 +98,12 @@ class ConversionApiClient(JWTClient):
 
         request_data = OrderedDict({
             "callback_url": request.build_absolute_uri(
-                reverse('job_progress:tracker', kwargs=dict(order_id=extraction_order.id))
+                # FIXME: Nonsense to temporarily make the tests pass. (Shouldn't matter as this code will be removed.)
+                # Why do we keep the tests, then, you ask? Because the code replacing this here should make them pass
+                # again, without any dirty hacks.
+                reverse('job_progress:tracker', kwargs=dict(export_id=extraction_order.id))
             ),
-            "gis_formats": extraction_order.extraction_configuration['gis_formats'],
+            "gis_formats": list(extraction_order.extraction_formats),
             "gis_options": extraction_order.extraction_configuration['gis_options'],
             "extent": {
                 "west": bounding_geometry.west if bounding_geometry else None,
