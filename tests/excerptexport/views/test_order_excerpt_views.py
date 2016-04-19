@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.test import TestCase
+from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models import BBoxBoundingGeometry
@@ -52,7 +53,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             'formats': ['fgdb'],
         }
         self.existing_excerpt_extraction_options = {
-            'gis_formats': ['fgdb'], 'gis_options': {'coordinate_reference_system': 'WGS_84', 'detail_level': 1}
+            'gis_options': {'coordinate_reference_system': 'WGS_84', 'detail_level': 1}
         }
 
     def tearDown(self):
@@ -165,6 +166,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.QUEUED)
         self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
+        assert_that(newly_created_order.extraction_formats, contains_in_any_order('fgdb'))
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'A very interesting region')
 
@@ -187,5 +189,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.QUEUED)
         self.assertDictEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
+        assert_that(newly_created_order.extraction_formats, contains_in_any_order('fgdb'))
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'Some old Excerpt')
