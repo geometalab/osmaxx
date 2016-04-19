@@ -21,8 +21,9 @@ def test_0019_forward(migrate, user, extraction_configuration_with_formats):
     new_apps = migrate('excerptexport', '0019_one_export_per_file_format')
     ExtractionOrder = new_apps.get_model('excerptexport', 'ExtractionOrder')  # noqa
     extraction_order_after_migration = ExtractionOrder.objects.get(id=extraction_order_id)
+    file_formats_of_created_exports = extraction_order_after_migration.exports.values_list('file_format', flat=True)
     assert_that(
-        extraction_order_after_migration.exports.values_list('file_format', flat=True), contains_in_any_order(
+        file_formats_of_created_exports, contains_in_any_order(
             'txt',
             'foobar',
         )
