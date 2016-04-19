@@ -1,7 +1,7 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+
 
 def test_admin_login(base_url, selenium):
     selenium.get('{0}/admin/login/'.format(base_url))

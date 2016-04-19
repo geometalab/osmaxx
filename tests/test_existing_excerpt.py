@@ -1,11 +1,10 @@
 import pytest
-import time
 import requests
 from new_excerpt import new_excerpt
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+
 
 @pytest.fixture
 def prerequisite(login, base_url, selenium):
@@ -47,7 +46,7 @@ def test_existing_excerpt(base_url, prerequisite, file_format, selenium, reload_
     create.send_keys(Keys.RETURN)
 
     # wait until the download link appears
-    btn_reload = selenium.find_element_by_link_text('↻ Reload')
+    selenium.find_element_by_link_text('↻ Reload')
     element = reload_until_condition(selenium.find_element_by_class_name, "form-control")
     
     # check if the download link is a valid link

@@ -1,5 +1,4 @@
 import pytest
-import time
 import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -29,7 +28,7 @@ def test_select_country(base_url, login, file_format, selenium, reload_until_con
     create.send_keys(Keys.RETURN)
 
     # wait until the download link appears
-    btn_reload = selenium.find_element_by_link_text('↻ Reload')
+    selenium.find_element_by_link_text('↻ Reload')
     element = reload_until_condition(selenium.find_element_by_class_name, "form-control")
 
     # check if the download link is a valid link
