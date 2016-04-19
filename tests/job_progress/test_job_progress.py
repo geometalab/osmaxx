@@ -13,6 +13,7 @@ from io import BytesIO
 from rest_framework.test import APITestCase, APIRequestFactory
 
 from osmaxx.api_client.conversion_api_client import ConversionApiClient
+from osmaxx.conversion_api.statuses import STARTED
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
@@ -47,39 +48,13 @@ class CallbackHandlingTest(APITestCase):
             ExtractionOrder.DoesNotExist,
             ExtractionOrder.objects.get, pk=self.nonexistant_export_id
         )
-        self.fgdb_started_and_spatialite_queued_response = {
+        self.fgdb_started_response = {
+            "id": 1,
+            "callback_url": "http://callback.example.com",
+            "parametrization": 1,
             "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
             "status": "started",
-            "progress": "started",
-            "gis_formats": [
-                {
-                    "format": "fgdb",
-                    "progress": "started",
-                    "result_url": None
-                },
-                {
-                    "format": "spatialite",
-                    "progress": "queued",
-                    "result_url": None
-                }
-            ]
-        }
-        self.fgdb_and_spatialite_successful_response = {
-            "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
-            "status": "done",
-            "progress": "successful",
-            "gis_formats": [
-                {
-                    "format": "fgdb",
-                    "progress": "successful",
-                    "result_url": "http://localhost:8901/api/gis_format/27/download_result/"
-                },
-                {
-                    "format": "spatialite",
-                    "progress": "successful",
-                    "result_url": "http://localhost:8901/api/gis_format/28/download_result/"
-                }
-            ]
+            "resulting_file": None
         }
 
     def test_calling_tracker_with_nonexistant_export_raises_404_not_found(self):
@@ -98,22 +73,22 @@ class CallbackHandlingTest(APITestCase):
     @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
-    def xtest_calling_tracker_when_status_query_indicates_started_updates_export_state(self, *args, **mocks):
+    def test_calling_tracker_when_status_query_indicates_started_updates_export_status(self, *args, **mocks):
         requests_mock = mocks['requests']
         requests_mock.get(
-            'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
-            json=self.fgdb_started_and_spatialite_queued_response
+            'http://localhost:8901/api/conversion_job/1/',
+            json=self.fgdb_started_response
         )
 
         factory = APIRequestFactory()
         request = factory.get(
             reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
-            data=dict(status='http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/')
+            data=dict(status='started', job='http://localhost:8901/api/conversion_job/1/')
         )
 
         views.tracker(request, export_id=str(self.export.id))
         self.export.refresh_from_db()
-        self.assertEqual(self.export.state, ExtractionOrderState.PROCESSING)
+        self.assertEqual(self.export.status, STARTED)
 
     @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic

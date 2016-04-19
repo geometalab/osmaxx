@@ -5,7 +5,9 @@ from osmaxx.excerptexport.models import Export
 
 
 def tracker(request, export_id):
-    get_object_or_404(Export, pk=export_id)
+    export = get_object_or_404(Export, pk=export_id)
+    export.status = request.GET['status']
+    export.save()
 
     # emissary = Emissary(recipient=export.extraction_order.orderer)
     response = HttpResponse('')

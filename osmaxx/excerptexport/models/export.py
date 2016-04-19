@@ -2,7 +2,12 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
+from osmaxx.conversion_api import statuses
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
+
+INITIAL = 'initial'
+INITIAL_CHOICE = (INITIAL, _('initial'))
+STATUS_CHOICES = (INITIAL_CHOICE,) + statuses.STATUS_CHOICES
 
 
 class Export(models.Model):
@@ -21,6 +26,7 @@ class Export(models.Model):
                                          verbose_name=_('extraction order'))
     file_format = models.TextField(choices=FORMAT_CHOICES, verbose_name=_('file format / data format'))
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
+    status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
 
     def send_to_conversion_service(self, clipping_area_json, incoming_request):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
