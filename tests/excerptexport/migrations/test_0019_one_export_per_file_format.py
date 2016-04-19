@@ -19,15 +19,11 @@ def test_0019_forward(migrate, user, extraction_configuration_with_formats):
     extraction_order_id = extraction_order.id
 
     new_apps = migrate('excerptexport', '0019_one_export_per_file_format')
+
     ExtractionOrder = new_apps.get_model('excerptexport', 'ExtractionOrder')  # noqa
     extraction_order_after_migration = ExtractionOrder.objects.get(id=extraction_order_id)
     file_formats_of_created_exports = extraction_order_after_migration.exports.values_list('file_format', flat=True)
-    assert_that(
-        file_formats_of_created_exports, contains_in_any_order(
-            'txt',
-            'foobar',
-        )
-    )
+    assert_that(file_formats_of_created_exports, contains_in_any_order('txt', 'foobar'))
 
 
 @pytest.mark.django_db
@@ -42,6 +38,7 @@ def test_0019_backward(migrate, user, extraction_configuration_with_formats):
     extraction_order_id = extraction_order.id
 
     new_apps = migrate('excerptexport', '0017_auto_20160310_1102')
+
     ExtractionOrder = new_apps.get_model('excerptexport', 'ExtractionOrder')  # noqa
     extraction_order_after_migration = ExtractionOrder.objects.get(id=extraction_order_id)
     assert json.loads(extraction_order_after_migration._extraction_configuration) == extraction_configuration_with_formats
