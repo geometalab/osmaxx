@@ -51,10 +51,24 @@ compose-env/%.env: compose-env-dist/%.env
 .PHONY: tests-quick
 tests-quick: up-redis up-pg
 	./runtests.py $(PYTEST_ARGS)
+	@echo
+	@echo Transactional tests are skipped in target tests-quick!
+	@echo Use
+	@echo "\t"make tests-transactional
+	@echo to run them.
+
+.PHONY: tests-transactional
+tests-transactional: up-pg
+	./runtests.py --transactional -k tests/excerptexport/migrations $(PYTEST_ARGS)
 
 .PHONY: tests-all
 tests-all: up-redis up-pg up-pg_translit
 	./runtests.py $(PYTEST_ARGS) --runslow
+	@echo
+	@echo Transactional tests are skipped in target tests-all!
+	@echo Use
+	@echo "\t"make tests-transactional
+	@echo to run them.
 
 .PHONY: tox
 tox: up-redis up-pg up-pg_translit
