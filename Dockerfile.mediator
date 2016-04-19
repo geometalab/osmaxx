@@ -32,5 +32,6 @@ ENV DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.production
 
 RUN mkdir -p $HOME/docker_entrypoint/osmaxx/conversion_service $HOME/entrypoint
 COPY ./docker_entrypoint/osmaxx/conversion_service $HOME/entrypoint
+COPY ./docker_entrypoint/wait-for-it/wait-for-it.sh $HOME/entrypoint/wait-for-it.sh
 
 ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]

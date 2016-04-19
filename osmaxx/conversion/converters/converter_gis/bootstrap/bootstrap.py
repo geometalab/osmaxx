@@ -34,6 +34,8 @@ class BootStrapper:
     def _setup_db(self):
         self._postgres.create_extension("hstore")
         self._postgres.create_extension("postgis")
+        drop_and_recreate_script_folder = os.path.join(self._script_base_dir, 'sql', 'drop_and_recreate')
+        self._execute_sql_scripts_in_folder(drop_and_recreate_script_folder)
 
     def _import_from_world_db(self):
         osm_importer = OSMImporter()
@@ -48,7 +50,6 @@ class BootStrapper:
 
     def _filter_data(self):
         filter_sql_script_folders = [
-            'drop_and_recreate',
             'address',
             'adminarea_boundary',
             'building',

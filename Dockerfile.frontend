@@ -20,5 +20,6 @@ ADD ./web_frontend $HOME/web_frontend
 
 RUN mkdir -p $HOME/docker_entrypoint/osmaxx/web_frontend $HOME/entrypoint
 COPY ./docker_entrypoint/osmaxx/web_frontend $HOME/entrypoint
+COPY ./docker_entrypoint/wait-for-it/wait-for-it.sh $HOME/entrypoint/wait-for-it.sh
 
 ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]
