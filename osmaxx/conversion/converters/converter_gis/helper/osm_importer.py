@@ -9,6 +9,7 @@ class OSMImporter:
     def __init__(self):
         self._osm_derived_tables = ['osm_point', 'osm_line', 'osm_polygon', 'osm_roads']
         self._osm_base_tables = ['osm_ways', 'osm_nodes']
+        self._osm_boundaries_tables = ['coastlines', 'land_polygons', 'water_polygons']
 
         _world_db_connection_parameters = dict(
             username='gis',
@@ -19,7 +20,16 @@ class OSMImporter:
         )
         world_db_connection = URL('postgresql', **_world_db_connection_parameters)
         self._world_db_engine = create_engine(world_db_connection)
-        self._world_db_meta_data = MetaData()
+
+        _osm_boundaries_db_connection_parameters = dict(
+            username='osmboundaries',
+            password='osmboundaries',
+            port=5432,
+            database='osmboundaries',
+            host='osmboundaries-database',
+        )
+        osm_boundaries_db_connection = URL('postgresql', **_osm_boundaries_db_connection_parameters)
+        self._osm_boundaries_db_engine = create_engine(osm_boundaries_db_connection)
 
         _local_db_connection_parameters = dict(
             username='postgres',
@@ -31,20 +41,34 @@ class OSMImporter:
         self._local_db_engine = create_engine(local_db_connection)
 
         assert Geometry, Geography  # assert classes needed for GIS-reflection are available
-        self._table_metas = {
-            to_be_created_table: Table(
-                to_be_created_table, self._world_db_meta_data, autoload=True, autoload_with=self._world_db_engine
-            )
-            for to_be_created_table in self._osm_derived_tables + self._osm_base_tables
+        self._db_meta_data = MetaData()
+        self._table_metas = self._get_meta_tables()
+
+    def _autoinspect_tables(self, tables, autoloader):
+        return {
+            table: Table(table, self._db_meta_data, autoload=True, autoload_with=autoloader)
+            for table in tables
         }
+
+    def _get_meta_tables(self):
+        meta_boundaries = self._autoinspect_tables(
+            tables=self._osm_boundaries_tables, autoloader=self._osm_boundaries_db_engine
+        )
+        meta_boundaries.update(
+            self._autoinspect_tables(
+                tables=self._osm_derived_tables + self._osm_base_tables, autoloader=self._world_db_engine
+            )
+        )
+        return meta_boundaries
 
     def load_area_specific_data(self, *, extent):
         self._create_tables_on_local_db()
         self._load_tables(extent)
         self._load_base_tables()
+        self._load_boundaries_tables(extent)
 
     def _create_tables_on_local_db(self):
-        self._world_db_meta_data.create_all(self._local_db_engine)
+        self._db_meta_data.create_all(self._local_db_engine)
 
     def _load_tables(self, extent):
         for table_name in self._osm_derived_tables:
@@ -61,6 +85,37 @@ class OSMImporter:
         if local_ways.rowcount == 0:
             return
         self._insert_corresponding_osm_nodes(local_ways)
+
+    def _load_boundaries_tables(self, extent):
+        for table_name in self._osm_boundaries_tables:
+            source_table_meta = self._table_metas[table_name]
+            query = select([
+                source_table_meta.c.ogc_fid,
+                source_table_meta.c.fid,
+                source_table_meta.c.wkb_geometry
+            ])
+            query = query.where(func.ST_Intersects(source_table_meta.c.wkb_geometry, extent.ewkt))
+            self._execute_and_insert_into_local_db(query, source_table_meta, source_engine=self._osm_boundaries_db_engine)
+            from sqlalchemy_views import CreateView
+            view_definition_query = select([
+                source_table_meta.c.ogc_fid,
+                source_table_meta.c.fid,
+                func.ST_Intersection(source_table_meta.c.wkb_geometry, extent.ewkt).label('geom')
+            ]).where(func.ST_Intersects(source_table_meta.c.wkb_geometry, extent.ewkt))
+            view_meta = MetaData()
+            view = Table(table_name, view_meta, schema='view_osmaxx')
+            from sqlalchemy.dialects import postgresql
+            from sqlalchemy.sql import text
+            query_defintion_string = str(
+                view_definition_query.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True})
+            )
+            # TODO: REMOVE the ugly replacement hack
+            query_defintion_string = query_defintion_string.replace(') AS', ' AS')
+            query_defintion_string = query_defintion_string.replace('ST_AsEWKB(', '')
+
+            query_defintion_text = text(query_defintion_string)
+            create_view = CreateView(view, query_defintion_text, or_replace=True)
+            self._local_db_engine.execute(create_view)
 
     def _get_local_osm_ids(self):
         osm_line = self._table_metas['osm_line']
@@ -86,8 +141,10 @@ class OSMImporter:
         )
         self._execute_and_insert_into_local_db(osm_nodes_query, osm_nodes)
 
-    def _execute_and_insert_into_local_db(self, query, table_meta):
-        query_result = self._world_db_engine.execute(query)
+    def _execute_and_insert_into_local_db(self, query, table_meta, source_engine=None):
+        if source_engine is None:
+            source_engine = self._world_db_engine
+        query_result = source_engine.execute(query)
         if query_result.rowcount > 0:
             results = query_result.fetchall()
             for result in results:

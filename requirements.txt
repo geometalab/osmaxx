@@ -18,6 +18,7 @@ django-downloadview>=1.8,<2.0
 psycopg2>=2.6,<2.7
 SQLAlchemy>=1.0,<2.0
 SQLAlchemy-Utils>=0.31.6,<0.40
+sqlalchemy-views>=0.2.1,<0.3
 GeoAlchemy2>=0.2.0,<0.4
 
 # pbf estimation service
