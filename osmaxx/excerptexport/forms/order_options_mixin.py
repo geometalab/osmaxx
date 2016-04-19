@@ -24,7 +24,7 @@ def get_export_options():
 
 
 def get_export_formats(selected_options):
-    return [option.split('.')[-1] for option in selected_options]
+    return [option for option in selected_options]
 
 
 class OrderOptionsMixin(forms.Form):
