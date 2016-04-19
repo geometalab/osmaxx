@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, Submit
 
+from osmaxx.excerptexport.forms.order_options_mixin import get_export_formats
 from .order_options_mixin import OrderOptionsMixin, get_export_options
 from .bbox_bounding_geometry_mixin import BBoxBoundingGeometryMixin
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, BBoxBoundingGeometry
@@ -43,7 +44,8 @@ class ExcerptForm(BBoxBoundingGeometryMixin, OrderOptionsMixin, forms.ModelForm)
 
     def save(self, user):
         extraction_order = ExtractionOrder(orderer=user)
-        extraction_order.extraction_configuration = get_export_options(self.cleaned_data['formats'])
+        extraction_order.extraction_configuration = get_export_options()
+        extraction_order.extraction_formats = get_export_formats(self.cleaned_data['formats'])
 
         bbox_kwargs = select_keys(self.cleaned_data, ['north', 'east', 'south', 'west'])
         bounding_geometry = BBoxBoundingGeometry(**bbox_kwargs)

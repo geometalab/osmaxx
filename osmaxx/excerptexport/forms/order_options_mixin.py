@@ -14,14 +14,17 @@ available_format_choices = (
 )
 
 
-def get_export_options(selected_options):
+def get_export_options():
     return {
         'gis_options': {
             "coordinate_reference_system": "WGS_84",
             "detail_level": 1,
         },
-        'gis_formats': [option.split('.')[-1] for option in selected_options],
     }
+
+
+def get_export_formats(selected_options):
+    return [option.split('.')[-1] for option in selected_options]
 
 
 class OrderOptionsMixin(forms.Form):

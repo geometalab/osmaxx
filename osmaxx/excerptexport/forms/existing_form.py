@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.countries.models import Country
+from osmaxx.excerptexport.forms.order_options_mixin import get_export_formats
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_user_excerpts, \
     other_users_public_excerpts
@@ -77,7 +78,8 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
 
     def save(self, user):
         extraction_order = ExtractionOrder(orderer=user)
-        extraction_order.extraction_configuration = get_export_options(self.cleaned_data['formats'])
+        extraction_order.extraction_configuration = get_export_options()
+        extraction_order.extraction_formats = get_export_formats(self.cleaned_data['formats'])
 
         existing_key = self.cleaned_data['existing_excerpts']
         if self._is_country(existing_key):
