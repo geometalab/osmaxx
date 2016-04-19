@@ -3,8 +3,8 @@ import requests
 from selenium.webdriver.common.keys import Keys
 
 
-@pytest.mark.parametrize("file_format", ['id_formats_1', 'id_formats_2', 
-                                         'id_formats_3', 'id_formats_4', 
+@pytest.mark.parametrize("file_format", ['id_formats_1', 'id_formats_2',
+                                         'id_formats_3', 'id_formats_4',
                                          'id_formats_5'])
 def test_select_country(base_url, login, file_format, selenium, reload_until_condition):
     selenium.get('{0}/'.format(base_url))
@@ -13,7 +13,7 @@ def test_select_country(base_url, login, file_format, selenium, reload_until_con
     country_page = selenium.find_element_by_link_text('➽ Existing excerpt / country')
     country_page.click()
 
-    # select monaco 
+    # select monaco
     country = selenium.find_element_by_xpath("//option[contains(.,'Monaco')]")
     country.click()
 

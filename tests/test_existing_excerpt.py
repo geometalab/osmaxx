@@ -21,8 +21,8 @@ def prerequisite(login, base_url, selenium):
     create.send_keys(Keys.RETURN)
 
 
-@pytest.mark.parametrize("file_format", ['id_formats_1', 'id_formats_2', 
-                                         'id_formats_3', 'id_formats_4', 
+@pytest.mark.parametrize("file_format", ['id_formats_1', 'id_formats_2',
+                                         'id_formats_3', 'id_formats_4',
                                          'id_formats_5'])
 def test_existing_excerpt(base_url, prerequisite, file_format, selenium, reload_until_condition):
     selenium.get('{0}/'.format(base_url))
@@ -31,7 +31,7 @@ def test_existing_excerpt(base_url, prerequisite, file_format, selenium, reload_
     menu = selenium.find_element_by_link_text('➽ Existing excerpt / country')
     menu.click()
 
-    # select existing excerpt 
+    # select existing excerpt
     excerpt = selenium.find_element_by_xpath("//option[contains(.,'existing_excerpt')]")
     excerpt.click()
 
@@ -46,7 +46,7 @@ def test_existing_excerpt(base_url, prerequisite, file_format, selenium, reload_
     # wait until the download link appears
     selenium.find_element_by_link_text('↻ Reload')
     element = reload_until_condition(selenium.find_element_by_class_name, "form-control")
-    
+
     # check if the download link is a valid link
     url = element.text
     r = requests.head(url)
