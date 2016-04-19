@@ -21,13 +21,13 @@ def login(base_url, selenium):
 @pytest.fixture
 def reload_until_condition(selenium):
     def _reload_until_condition(condition, *args, timeout=100, refresh_interval=5, **kwargs):
-	    while timeout:
-		    selenium.refresh()
-		    try:
-			    return condition(*args, **kwargs)
-		    except: 
-			    if timeout < 0:
-				   raise 
-		    time.sleep(refresh_interval)
-		    timeout -= refresh_interval
+        while timeout:
+            selenium.refresh()
+            try:
+                return condition(*args, **kwargs)
+            except:
+                if timeout < 0:
+                    raise
+            time.sleep(refresh_interval)
+            timeout -= refresh_interval
     return _reload_until_condition
