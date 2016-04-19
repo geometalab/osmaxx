@@ -2,6 +2,7 @@
 *.db
 *~
 .*
+compose-env/
 
 # Documentation builds
 /html/
@@ -85,7 +86,6 @@ local/
 !osmaxx/conversion/converters/converter_garmin/command_line_utils/mkgmap/lib
 !osmaxx/conversion/converters/converter_garmin/command_line_utils/splitter/lib
 
-docker-compose.yml
 web_frontend/src/
 # ignore environment file for local production environment
 .env

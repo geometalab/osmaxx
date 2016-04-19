@@ -3,10 +3,11 @@ Django>=1.9,<1.10
 djangorestframework>=3.2,<3.4
 djangorestframework-gis>=0.10,<0.11
 djangorestframework-jwt==1.7.2
-django-enumfield==1.2.1
+django-enumfield==1.3b2
 requests==2.8.1
 markdown
 django-filter
+rq==0.5.6
 django-rq==0.9.0
 django-environ==0.4.0
 django-extensions==1.5.9
@@ -40,6 +41,7 @@ pyroma==1.8.2
 vulture==0.8.1
 
 coverage
+pyhamcrest==1.9.0
 vcrpy
 requests-mock
 

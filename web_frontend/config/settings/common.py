@@ -22,8 +22,6 @@ APPS_DIR = ROOT_DIR.path('osmaxx')
 
 env = environ.Env()
 
-TEMPLATE_DIRS = ()
-
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
 DJANGO_APPS = (
@@ -56,6 +54,7 @@ LOCAL_APPS = (
     'osmaxx.version',
 
     'osmaxx.countries',
+    'osmaxx.conversion_api',
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
     'osmaxx.social_auth',

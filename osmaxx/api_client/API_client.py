@@ -5,97 +5,40 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-class RESTApiJWTClient:
+class RESTApiClient:
     """
-    REST Client Base Class With JWT enabled authentication
-
-    Can be either extended through inheritance or created using the params `service_base` and `login_url`
-
-    returns the response object and errors dictionary: if errors are None, all is fine.
+    REST Client Base Class
 
     :param service_base: the base url
-    :param login_url: the relative path to the login url
-    :returns response object
     """
 
-    service_base = 'http://localhost/api/'
-    login_url = '/jwt-auth/'
-
-    def __init__(self, service_base=None, login_url=None):
-        if service_base:
-            self.service_base = service_base
-        if login_url:
-            self.login_url = login_url
-        self.headers = {
-            'Content-Type': 'application/json; charset=UTF-8',
-        }
+    def __init__(self, service_base):
+        self.service_base = service_base
         self.client = requests.session()
-        self.token = None
-        self.errors = None
 
     def get(self, url, params=None, **kwargs):
-        response = requests.get(self._to_fully_qualified_url(url), params=params, **self._data_dict(**kwargs))
-        self.errors = self._get_error(response)
-        return response
+        return self._request(requests.get, url, dict(params=params), kwargs)
 
     def post(self, url, json_data=None, **kwargs):
-        response = requests.post(self._to_fully_qualified_url(url), json=json_data, **self._data_dict(**kwargs))
-        self.errors = self._get_error(response)
+        return self._request(requests.post, url, dict(json=json_data), kwargs)
+
+    def _request(self, method, url, payload, kwargs):
+        kwargs = self._data_dict(**kwargs)
+        kwargs.update(payload)
+        response = method(self._to_fully_qualified_url(url), **kwargs)
+        response.raise_for_status()
         return response
-
-    def options(self, url, **kwargs):
-        response = self._get_error(
-            requests.options(self._to_fully_qualified_url(url), **self._data_dict(**kwargs))
-        )
-        self.errors = self._get_error(response)
-        return response
-
-    def auth(self, username, password):
-        login_url = self._to_fully_qualified_url(self.login_url)
-        login_data = dict(username=username, password=password, next=self.service_base)
-        response = self.post(login_url, json_data=login_data, headers=dict(Referer=login_url))
-        if not self.errors:
-            self.token = response.json().get('token')
-        return response
-
-    def authorized_get(self, url, params=None, **kwargs):
-        self._make_request_authorized()
-        return self.get(url, params, **kwargs)
-
-    def authorized_post(self, url, json_data=None, **kwargs):
-        self._make_request_authorized()
-        return self.post(url, json_data, **kwargs)
-
-    def authorized_options(self, url, **kwargs):
-        self._make_request_authorized()
-        return self.options(self._to_fully_qualified_url(url), **kwargs)
-
-    def service_is_available(self):
-        try:
-            requests.get(self.service_base)
-            is_available = True
-        except ConnectionError as e:
-            logger.error('service {service_url} is down'.format(service_url=self.service_base), e)
-            is_available = False
-        return is_available
-
-    def _get_error(self, response):
-        try:
-            response.raise_for_status()
-            error = None
-        except requests.HTTPError as e:
-            try:
-                error = e.response.json()
-            except:
-                error = {'unknown': 'Unknown error happened. Please try again.'}
-            logger.error("Received an %s error code with: %s", e.response.status_code, error, exc_info=1)
-        return error
 
     def _data_dict(self, **kwargs):
-        headers = self.headers.copy()
+        headers = self._default_headers()
         if 'headers' in kwargs:
             headers.update(kwargs.pop('headers'))
         return dict(headers=headers, **kwargs)
+
+    def _default_headers(self):
+        return {
+            'Content-Type': 'application/json; charset=UTF-8',
+        }
 
     def _is_colliding_slashes(self, url):
         return self.service_base.endswith('/') and url.startswith('/')
@@ -106,26 +49,46 @@ class RESTApiJWTClient:
         base_url = self.service_base[:-1] if (self._is_colliding_slashes(url)) else self.service_base
         return base_url + url
 
-    def _make_request_authorized(self):
-        if not self.token:
-            raise Exception('Unauthorized request. Assure you call `auth()` before making a request.')
-        # TODO: comply to jwt and check if key is valid, if it needs reinitialization etc
-        self.headers['Authorization'] = 'JWT {token}'.format(token=self.token)
 
-    def _request_successful(self, response):
-        try:
-            response.raise_for_status()
-        except requests.HTTPError as e:
-            logging.error('API job creation failed.', str(e) + " response: " + str(response.__dict__))
-            return False
-        return True
+class JWTClient(RESTApiClient):
+    """REST client with JWT authentication
 
-    def _extract_key_from_json_or_none(self, response, key):
-        if self._request_successful(response):
-            try:
-                json_response = response.json()
-                return json_response.get(key, None)
-            except ValueError:
-                logging.error('API job creation failed because of an JSON decoding Issue.', str(response.__dict__))
-                return None
-        return None
+    :param login_url: the relative path to the login url
+    """
+
+    def __init__(self, *args, username, password, login_url, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.username = username
+        self.password = password
+        self.login_url = login_url
+        self.token = None
+
+    def authorized_get(self, url, params=None, **kwargs):
+        return self.get(url, params, headers=self._authorization_headers(), **kwargs)
+
+    def authorized_post(self, url, json_data=None, **kwargs):
+        return self.post(url, json_data, headers=self._authorization_headers(), **kwargs)
+
+    def _login(self):
+        """
+        Logs in the api client by requesting an API token
+        """
+        if self.token:
+            # already logged in
+            return
+            # TODO: comply to JWT and check whether key is (still) valid, whether it needs reinitialization etc.
+        login_url = self._to_fully_qualified_url(self.login_url)
+        login_data = dict(username=self.username, password=self.password, next=self.service_base)
+        response = self.post(login_url, json_data=login_data, headers=dict(Referer=login_url))
+        self.token = response.json().get('token')
+        return response
+
+    def _authorization_headers(self):
+        self._login()
+        return {
+            'Authorization': 'JWT {token}'.format(token=self.token),
+        }
+
+
+def reasons_for(http_error):
+    return http_error.response.json()

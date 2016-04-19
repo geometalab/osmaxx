@@ -18,11 +18,35 @@ list:
 
 .PHONY: _list_targets_on_separate_lines
 _list_targets_on_separate_lines:
-    # Adopted from http://stackoverflow.com/a/26339924/674064
+	# Adopted from http://stackoverflow.com/a/26339924/674064
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | \
 	    awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | \
 	    sort | \
 	    egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
+
+.PHONY: local_dev_env
+local_dev_env: compose-env/common.env compose-env/frontend.env compose-env/mediator.env compose-env/worker.env
+	@echo
+	@echo "\tIf you haven't already, you might want to "'`source activate_local_development`', now.
+
+compose-env/common.env: compose-env-dist/common.env
+	@mkdir -p $(@D)
+	sed -e 's/^\(DJANGO_OSMAXX_CONVERSION_SERVICE_\(USERNAME\|PASSWORD\)=\)/\1dev/' < $< > $@
+
+PUBLIC_LOCALHOST_IP := $(shell ip route get 1 | awk '{print $$NF;exit}')
+
+compose-env/frontend.env: compose-env-dist/frontend.env
+	@mkdir -p $(@D)
+# We don't have to set DJANGO_SECRET_KEY here, as docker-compose-dev.yml sets it for local use.
+	sed -e 's/^\(DJANGO_EMAIL_\)/# \1/' \
+	    -e 's/^\(DJANGO_ALLOWED_HOSTS=\)/\1$(PUBLIC_LOCALHOST_IP)/' \
+	    < $< \
+	    > $@
+
+compose-env/%.env: compose-env-dist/%.env
+	@mkdir -p $(@D)
+# We don't have to set DJANGO_SECRET_KEY here, as docker-compose-dev.yml sets it for local use.
+	cp $< $@
 
 .PHONY: tests-quick
 tests-quick: up-redis up-pg

@@ -1,203 +1,261 @@
-from unittest.mock import Mock
+import time
+from unittest import mock
+from unittest.mock import Mock, sentinel
 from urllib.parse import urlparse
 
 import os
-import time
 
-from django.contrib.auth.models import User
+import pytest
 from django.core.urlresolvers import resolve
-from django.test.testcases import TestCase
-from hamcrest import matches_regexp, match_equality
+from hamcrest import assert_that, contains_inanyorder, close_to as is_close_to
+from requests import HTTPError
 
+from osmaxx.api_client import ConversionApiClient, API_client
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
-from osmaxx.excerptexport.services import ConversionApiClient
 from osmaxx.job_progress.views import tracker
 from tests.test_helpers import vcr_explicit_path as vcr, absolute_cassette_lib_path
 
 
-class ConversionApiClientAuthTestCase(TestCase):
-    @vcr.use_cassette('fixtures/vcr/conversion_api-test_successful_login.yml')
-    def test_successful_login(self):
-        api_client = ConversionApiClient()
+# Authentication tests
 
-        self.assertIsNone(api_client.token)
+@vcr.use_cassette('fixtures/vcr/conversion_api-test_successful_login.yml')
+def test_successful_login():
+    api_client = ConversionApiClient()
 
-        success = api_client.login()
+    assert api_client.token is None
 
-        self.assertTrue(success)
-        self.assertIsNotNone(api_client.token)
+    api_client._login()
 
-    @vcr.use_cassette('fixtures/vcr/conversion_api-test_failed_login.yml')
-    def test_failed_login(self):
-        api_client = ConversionApiClient()
-        api_client.password = 'invalid'
-
-        self.assertEqual(api_client.password, 'invalid')
-        self.assertIsNone(api_client.token)
-
-        success = api_client.login()
-
-        self.assertEqual({'non_field_errors': ['Unable to login with provided credentials.']}, api_client.errors)
-        self.assertIsNone(api_client.token)
-        self.assertFalse(success)
+    assert api_client.token is not None
 
 
-class ConversionApiClientTestCase(TestCase):
-    def setUp(self):
-        self.request = Mock()
-        self.request.build_absolute_uri.return_value = 'http://the-host.example.com/job_progress/tracker/1/'
-        self.user = User.objects.create_user('user', 'user@example.com', 'pw')
-        self.bounding_box = BBoxBoundingGeometry.create_from_bounding_box_coordinates(
-            40.77739734768811, 29.528980851173397, 40.77546776498174, 29.525547623634335
-        )
-        self.excerpt = Excerpt.objects.create(
-            name='Neverland', is_active=True, is_public=True, owner=self.user, bounding_geometry=self.bounding_box
-        )
-        self.extraction_order = ExtractionOrder.objects.create(excerpt=self.excerpt, orderer=self.user)
-        self.extraction_order.extraction_configuration = {
-            'gis_formats': ['fgdb', 'spatialite'],
-            'gis_options': {
-                'coordinate_reference_system': 'WGS_84',
-                'detail_level': 1
-            }
+@vcr.use_cassette('fixtures/vcr/conversion_api-test_failed_login.yml')
+def test_failed_login():
+    api_client = ConversionApiClient()
+    api_client.password = 'invalid'
+
+    assert api_client.password == 'invalid'
+    assert api_client.token is None
+
+    expected_msg = \
+        "400 Client Error: BAD REQUEST for url: http://localhost:8901/api/token-auth/"
+    with pytest.raises(HTTPError) as excinfo:
+        api_client._login()
+
+    assert str(excinfo.value) == expected_msg
+    assert API_client.reasons_for(excinfo.value) == {'non_field_errors': ['Unable to login with provided credentials.']}
+    assert api_client.token is None
+
+
+@pytest.fixture
+def job_progress_request():
+    request = Mock()
+    request.build_absolute_uri.return_value = 'http://the-host.example.com/job_progress/tracker/23/'
+    return request
+
+
+@pytest.fixture
+def bounding_box(db):
+    return BBoxBoundingGeometry.create_from_bounding_box_coordinates(
+        40.77739734768811, 29.528980851173397, 40.77546776498174, 29.525547623634335
+    )
+
+
+@pytest.fixture
+def excerpt(user, bounding_box, db):
+    return Excerpt.objects.create(
+        name='Neverland', is_active=True, is_public=True, owner=user, bounding_geometry=bounding_box
+    )
+
+
+@pytest.fixture
+def extraction_order(excerpt, user, db):
+    extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user, id=23)
+    extraction_order.extraction_configuration = {
+        'gis_formats': ['fgdb', 'spatialite'],
+        'gis_options': {
+            'coordinate_reference_system': 'WGS_84',
+            'detail_level': 1
         }
-        self.api_client = ConversionApiClient()
+    }
+    return extraction_order
 
-    @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
-    def test_create_job(self):
-        self.api_client.login()
-        self.assertIsNone(self.extraction_order.process_id)
 
-        response = self.api_client.create_job(self.extraction_order, request=self.request)
+#
+# ConversionApiClient unit tests:
 
-        self.assertEqual(self.api_client.headers['Authorization'], 'JWT {token}'.format(token=self.api_client.token))
-        self.assertIsNone(self.api_client.errors)
-        expected_keys_in_response = ["rq_job_id", "callback_url", "status", "gis_formats", "gis_options", "extent"]
-        actual_keys_in_response = list(response.json().keys())
-        self.assertCountEqual(expected_keys_in_response, actual_keys_in_response)
-        self.assertEqual(self.extraction_order.state, ExtractionOrderState.QUEUED)
-        self.assertEqual(self.extraction_order.process_id, response.json().get('rq_job_id'))
-        self.assertIsNotNone(self.extraction_order.process_id)
-        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
+def test_extraction_order_forward_to_conversion_service(mocker, excerpt, extraction_order, job_progress_request, bounding_box):
+    mocker.patch.object(ConversionApiClient, 'create_job', side_effect=[sentinel.job_1, sentinel.job_2])
+    mocker.patch.object(
+        ConversionApiClient, 'create_parametrization',
+        side_effect=[sentinel.parametrization_1, sentinel.parametrization_2],
+    )
+    mocker.patch.object(ConversionApiClient, 'create_boundary')
 
-    @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
-    def test_callback_url_of_created_job_resolves_to_job_updater(self):
-        self.api_client.login()
-        self.assertIsNone(self.extraction_order.process_id)
+    result = extraction_order.forward_to_conversion_service(incoming_request=job_progress_request)
 
-        response = self.api_client.create_job(self.extraction_order, request=self.request)
-
-        callback_url = response.json()['callback_url']
-        scheme, host, callback_path, params, *_ = urlparse(callback_url)
-
-        match = resolve(callback_path)
-        self.assertEqual(match.func, tracker)
-        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
-
-    @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
-    def test_callback_url_of_created_job_refers_to_correct_extraction_order(self):
-        self.api_client.login()
-        self.assertIsNone(self.extraction_order.process_id)
-
-        response = self.api_client.create_job(self.extraction_order, request=self.request)
-
-        callback_url = response.json()['callback_url']
-        scheme, host, callback_path, params, *_ = urlparse(callback_url)
-
-        match = resolve(callback_path)
-        self.assertEqual(match.kwargs, {'order_id': str(self.extraction_order.id)})
-        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
-
-    @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
-    def test_callback_url_would_reach_this_django_instance(self):
-        self.api_client.login()
-        self.assertIsNone(self.extraction_order.process_id)
-
-        response = self.api_client.create_job(self.extraction_order, request=self.request)
-
-        callback_url = response.json()['callback_url']
-        scheme, host, callback_path, params, *_ = urlparse(callback_url)
-        assert scheme.startswith('http')  # also matches https
-        self.assertEqual(host, 'the-host.example.com')
-        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
-
-    def test_download_files(self):
-        cassette_file_location = os.path.join(
-            absolute_cassette_lib_path,
-            'fixtures/vcr/conversion_api-test_download_files.yml'
+    ConversionApiClient.create_boundary.assert_called_once_with(bounding_box.geometry, name=excerpt.name)
+    gis_conversion_options = extraction_order.extraction_configuration['gis_options']
+    assert_that(
+        ConversionApiClient.create_parametrization.mock_calls, contains_inanyorder(
+            mock.call(ConversionApiClient.create_boundary.return_value, 'fgdb', gis_conversion_options),
+            mock.call(ConversionApiClient.create_boundary.return_value, 'spatialite', gis_conversion_options),
         )
-        cassette_empty = not os.path.exists(cassette_file_location)
-
-        with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
-            self.api_client.create_job(self.extraction_order, request=self.request)
-
-            if cassette_empty:
-                # wait for external service to complete request
-                time.sleep(120)
-
-            self.api_client._download_result_files(
-                self.extraction_order,
-                job_status=self.api_client.job_status(self.extraction_order)
-            )
-            self.assertIsNone(self.api_client.errors)
-            content_types_of_output_files = (f.content_type for f in self.extraction_order.output_files.all())
-            ordered_formats = self.extraction_order.extraction_configuration['gis_formats']
-            self.assertCountEqual(content_types_of_output_files, ordered_formats)
-            self.assertAlmostEqual(
-                len(self.extraction_order.output_files.order_by('id')[0].file.read()),
-                446005,
-                delta=10000
-            )
-            self.assertAlmostEqual(
-                len(self.extraction_order.output_files.order_by('id')[1].file.read()),
-                368378,
-                delta=10000
-            )
-        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
-
-    def test_order_status_processing(self):
-        cassette_file_location = os.path.join(
-            absolute_cassette_lib_path,
-            'fixtures/vcr/conversion_api-test_order_status_processing.yml'
+    )
+    assert_that(
+        ConversionApiClient.create_job.mock_calls, contains_inanyorder(
+            # FIXME: Must be called with callback url, not with request.
+            mock.call(sentinel.parametrization_1, job_progress_request),
+            mock.call(sentinel.parametrization_2, job_progress_request),
         )
-        cassette_empty = not os.path.exists(cassette_file_location)
-        with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
-
-            self.assertEqual(self.extraction_order.output_files.count(), 0)
-            self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
-            self.assertEqual(self.extraction_order.state, ExtractionOrderState.INITIALIZED)
-
-            self.api_client.create_job(self.extraction_order, request=self.request)
-
-            if cassette_empty:
-                time.sleep(10)
-
-            self.api_client.update_order_status(self.extraction_order)
-            self.assertEqual(self.extraction_order.state, ExtractionOrderState.PROCESSING)
-            self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.INITIALIZED)
-            self.assertEqual(self.extraction_order.output_files.count(), 0)
-        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
-
-    def test_order_status_done(self):
-        cassette_file_location = os.path.join(
-            absolute_cassette_lib_path,
-            'fixtures/vcr/conversion_api-test_order_status_done.yml'
+    )
+    assert_that(
+        result, contains_inanyorder(
+            sentinel.job_1,
+            sentinel.job_2,
         )
-        cassette_empty = not os.path.exists(cassette_file_location)
+    )
 
-        with vcr.use_cassette(cassette_file_location):
-            self.api_client.login()
-            self.api_client.create_job(self.extraction_order, request=self.request)
-            self.api_client.update_order_status(self.extraction_order)  # processing
-            self.assertEqual(self.extraction_order.output_files.count(), 0)
-            self.assertNotEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
 
-            if cassette_empty:
-                # wait for external service to complete request
-                time.sleep(120)
+@pytest.fixture
+def api_client():
+    return ConversionApiClient()
 
-            self.api_client.update_order_status(self.extraction_order)
-            self.assertEqual(self.extraction_order.state, ExtractionOrderState.FINISHED)
-        self.request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
+
+#
+# ConversionApiClient integration tests:
+
+# TODO: re-record VCR (service API has changed)
+
+@vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
+def test_create_job(api_client, extraction_order, job_progress_request):
+    assert extraction_order.process_id is None
+
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
+
+    assert response.request.headers['Authorization'] == 'JWT {token}'.format(token=api_client.token)
+    expected_keys_in_response = ["rq_job_id", "callback_url", "status", "gis_formats", "gis_options", "extent"]
+    actual_keys_in_response = response.json().keys()
+    assert_that(expected_keys_in_response, contains_inanyorder(*actual_keys_in_response))
+    assert extraction_order.state == ExtractionOrderState.QUEUED
+    assert extraction_order.process_id == response.json().get('rq_job_id')
+    assert extraction_order.process_id is not None
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
+
+
+@vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
+def test_callback_url_of_created_job_resolves_to_job_updater(api_client, extraction_order, job_progress_request):
+    assert extraction_order.process_id is None
+
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
+
+    callback_url = response.json()['callback_url']
+    scheme, host, callback_path, params, *_ = urlparse(callback_url)
+
+    match = resolve(callback_path)
+    assert match.func == tracker
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
+
+
+@vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
+def test_callback_url_of_created_job_refers_to_correct_extraction_order(api_client, extraction_order, job_progress_request):
+    assert extraction_order.process_id is None
+
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
+
+    callback_url = response.json()['callback_url']
+    scheme, host, callback_path, params, *_ = urlparse(callback_url)
+
+    match = resolve(callback_path)
+    assert match.kwargs == {'order_id': str(extraction_order.id)}
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
+
+
+@vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
+def test_callback_url_would_reach_this_django_instance(api_client, extraction_order, job_progress_request):
+    assert extraction_order.process_id is None
+
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
+
+    callback_url = response.json()['callback_url']
+    scheme, host, callback_path, params, *_ = urlparse(callback_url)
+    assert scheme.startswith('http')  # also matches https
+    assert host == 'the-host.example.com'
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
+
+
+def test_download_files(api_client, extraction_order, job_progress_request):
+    cassette_file_location = os.path.join(
+        absolute_cassette_lib_path,
+        'fixtures/vcr/conversion_api-test_download_files.yml'
+    )
+    cassette_empty = not os.path.exists(cassette_file_location)
+
+    with vcr.use_cassette(cassette_file_location):
+        api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
+
+        if cassette_empty:
+            # wait for external service to complete request
+            time.sleep(120)
+
+        api_client._download_result_files(
+            extraction_order,
+            job_status=api_client.job_status(extraction_order)
+        )
+        content_types_of_output_files = (f.content_type for f in extraction_order.output_files.all())
+        ordered_formats = extraction_order.extraction_formats
+        assert_that(content_types_of_output_files, contains_inanyorder(*ordered_formats))
+        assert_that(
+            len(extraction_order.output_files.order_by('id')[0].file.read()),
+            is_close_to(446005, delta=10000)
+        )
+        assert_that(
+            len(extraction_order.output_files.order_by('id')[1].file.read()),
+            is_close_to(368378, delta=10000)
+        )
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
+
+
+def test_order_status_processing(api_client, extraction_order, job_progress_request):
+    cassette_file_location = os.path.join(
+        absolute_cassette_lib_path,
+        'fixtures/vcr/conversion_api-test_order_status_processing.yml'
+    )
+    cassette_empty = not os.path.exists(cassette_file_location)
+    with vcr.use_cassette(cassette_file_location):
+        assert extraction_order.output_files.count() == 0
+        assert extraction_order.state != ExtractionOrderState.PROCESSING
+        assert extraction_order.state == ExtractionOrderState.INITIALIZED
+
+        api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
+
+        if cassette_empty:
+            time.sleep(10)
+
+        api_client.update_order_status(extraction_order)
+        assert extraction_order.state == ExtractionOrderState.PROCESSING
+        assert extraction_order.state != ExtractionOrderState.INITIALIZED
+        assert extraction_order.output_files.count() == 0
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
+
+
+def test_order_status_done(api_client, extraction_order, job_progress_request):
+    cassette_file_location = os.path.join(
+        absolute_cassette_lib_path,
+        'fixtures/vcr/conversion_api-test_order_status_done.yml'
+    )
+    cassette_empty = not os.path.exists(cassette_file_location)
+
+    with vcr.use_cassette(cassette_file_location):
+        api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
+        api_client.update_order_status(extraction_order)  # processing
+        assert extraction_order.output_files.count() == 0
+        assert extraction_order.state != ExtractionOrderState.FINISHED
+
+        if cassette_empty:
+            # wait for external service to complete request
+            time.sleep(120)
+
+        api_client.update_order_status(extraction_order)
+        assert extraction_order.state == ExtractionOrderState.FINISHED
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')

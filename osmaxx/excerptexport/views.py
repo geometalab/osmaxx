@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
-from django.http import StreamingHttpResponse, HttpResponseNotFound, HttpResponseRedirect, FileResponse
+from django.http import HttpResponseNotFound, HttpResponseRedirect, FileResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
@@ -15,13 +15,13 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
+from osmaxx.api_client import ConversionApiClient
 from osmaxx.contrib.auth.frontend_permissions import (
     frontend_access_required,
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
-from osmaxx.excerptexport.services.shortcuts import get_authenticated_api_client
 from osmaxx.utils import get_default_private_storage
 from .models import ExtractionOrder, OutputFile
 from .models.extraction_order import ExtractionOrderState
@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 
 def execute_converters(extraction_order, request):
-    get_authenticated_api_client().create_job(extraction_order, request=request)
+    ConversionApiClient()._create_job_TODO_replace_me(extraction_order, request=request)
 
 
 class OrderFormViewMixin(FormMixin):
@@ -180,7 +180,7 @@ def request_access(request):
                 _('Sending of access request failed. Please contact an administrator.')
             )
 
-    return redirect(request.GET['next']+'?next='+request.GET['next'])
+    return redirect(request.GET['next'] + '?next=' + request.GET['next'])
 
 
 def _social_identification_description(user):

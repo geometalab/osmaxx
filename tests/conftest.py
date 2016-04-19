@@ -1,7 +1,7 @@
 # pylint: disable=C0111
 import os
 import tempfile
-from datetime import timedelta, timezone
+from datetime import timedelta
 
 import pytest
 
@@ -35,7 +35,7 @@ def pytest_configure():
             'django.template.loaders.filesystem.Loader',
             'django.template.loaders.app_directories.Loader',
         ),
-        TEMPLATES = [
+        TEMPLATES=[
             {
                 'BACKEND': 'django.template.backends.django.DjangoTemplates',
                 'OPTIONS': {
@@ -159,7 +159,7 @@ def pytest_configure():
                 'LOCATION': ''
             }
         },
-        MIGRATION_MODULES = {
+        MIGRATION_MODULES={
             'sites': 'osmaxx.contrib.sites.migrations',
             'auth': 'osmaxx.contrib.auth.migrations',
             'stored_messages': 'osmaxx.third_party_apps.stored_messages.migrations',
@@ -169,8 +169,39 @@ def pytest_configure():
 
 # if any global fixtures are needed, add them below
 
+@pytest.yield_fixture
+def requests_mock():
+    import requests_mock
+    with requests_mock.mock() as m:
+        yield m
+
+
 @pytest.fixture
-def authenticated_client(client):
+def user(db, django_user_model, django_username_field):
+    """A Django user.
+
+    This uses an existing user with username "user", or creates a new one with
+    password "password".
+    """
+    # Adapted from pytest_django.fixtures.admin_user
+    UserModel = django_user_model  # noqa
+    username_field = django_username_field
+    username = 'user'
+    password = 'password'
+
+    try:
+        user = UserModel._default_manager.get(**{username_field: 'user'})
+    except UserModel.DoesNotExist:
+        extra_fields = {}
+        if username_field != 'username':
+            extra_fields[username_field] = username
+        user = UserModel._default_manager.create_user(
+            username, '{}@example.com'.format(username), password, **extra_fields)
+    return user
+
+
+@pytest.fixture
+def authenticated_client(client, user):
     """
     Client fixture using an authenticated user.
 
@@ -184,9 +215,7 @@ def authenticated_client(client):
     Returns:
         Authenticated Client
     """
-    from django.contrib.auth import get_user_model
-    user = get_user_model().objects.create_user(username='lauren', password='lauri', email=None)
-    client.login(username='lauren', password='lauri')
+    client.login(username='user', password='password')
     client.user = user
     return client
 
@@ -198,7 +227,7 @@ def api_client():
 
 
 @pytest.fixture
-def authenticated_api_client(api_client):
+def authenticated_api_client(api_client, user):
     """
     API-Client fixture using an authenticated user.
 
@@ -212,7 +241,7 @@ def authenticated_api_client(api_client):
     Returns:
         Authenticated Client
     """
-    return authenticated_client(api_client)
+    return authenticated_client(api_client, user)
 
 
 @pytest.fixture
@@ -235,3 +264,30 @@ def authorized_client(authenticated_client):
     from osmaxx.contrib.auth.frontend_permissions import FRONTEND_USER_GROUP
     authenticated_client.user.groups.add(Group.objects.get(name=FRONTEND_USER_GROUP))
     return authenticated_client
+
+
+@pytest.fixture
+def geos_geometry_can_be_created_from_geojson_string():
+    """
+    Just a sanity check asserting that GEOSGeometry instances can be created from GeoJSON strings.
+
+    If you get an error here, check your libraries, especially GDAL. (libgdal.so.1)
+    """
+    from django.contrib.gis.geos import GEOSGeometry
+    import json
+    geojson_point = dict(type="Point", coordinates=[100.0, 0.0])
+    geojson_point_string = json.dumps(geojson_point)
+    GEOSGeometry(geojson_point_string)
+
+
+@pytest.fixture
+def area_polyfile_string():
+    return ''''none
+polygon-1
+    7.495679855346679 43.75782881091782
+    7.38581657409668 43.75782881091782
+    7.38581657409668 43.70833803832912
+    7.495679855346679 43.75782881091782
+END
+END
+'''

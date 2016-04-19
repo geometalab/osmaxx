@@ -7,8 +7,8 @@ from .fields import InternalCountryFileField
 class Country(models.Model):
     name = models.CharField(verbose_name=_('name'), max_length=100)
     polyfile = InternalCountryFileField(verbose_name=_('polyfile'))
-    polygon = models.MultiPolygonField(verbose_name=_('polygon'), help_text=_('original polygon'))
-    simplified_polygon = models.MultiPolygonField(verbose_name=_('simplified area'))
+    border = models.MultiPolygonField(verbose_name=_('border'), help_text=_('original border multipolygon'))
+    simplified_border = models.MultiPolygonField(verbose_name=_('simplified border multipolygon'))
 
     @property
     def type_of_geometry(self):

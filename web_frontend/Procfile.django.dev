@@ -1,1 +1,1 @@
-web: python3 manage.py runserver_plus ${APP_HOST}:${APP_PORT}
+web: python3 web_frontend/manage.py runserver_plus ${APP_HOST}:${APP_PORT}

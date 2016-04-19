@@ -16,7 +16,7 @@ ENV HOME /home/py
 
 WORKDIR $HOME
 
-ADD osmaxx_conversion_service/requirements.txt $HOME/
+ADD ./requirements.txt $HOME/
 
 RUN pip3 install honcho
 
