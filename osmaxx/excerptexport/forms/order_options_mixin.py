@@ -23,10 +23,6 @@ def get_export_options():
     }
 
 
-def get_export_formats(selected_options):
-    return selected_options
-
-
 class OrderOptionsMixin(forms.Form):
     formats = forms.MultipleChoiceField(
         label=_("GIS export formats"),
