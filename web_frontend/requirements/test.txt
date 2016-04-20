@@ -1,6 +1,0 @@
-# Test dependencies go here.
-coverage
-flake8
-vcrpy
-requests-mock
-pytest-django

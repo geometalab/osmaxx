@@ -1,0 +1,60 @@
+version: '2'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - ./osmaxx:/home/py/osmaxx
+      - ./web_frontend:/home/py/web_frontend
+      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+    ports:
+      - "8000:8000"
+    command: [honcho, -f, ./web_frontend/Procfile.django.dev, start]
+    environment:
+      - DJANGO_SECRET_KEY=insecure!1
+      - DJANGO_SETTINGS_MODULE=config.settings.local
+  mediator:
+    build:
+      context: .
+      dockerfile: Dockerfile.mediator
+    ports:
+      - "8901:8901"
+    volumes:
+      - ./osmaxx:/home/py/osmaxx
+      - ./web_frontend:/home/py/web_frontend
+      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.dev, start]
+    environment:
+      - DJANGO_SECRET_KEY=insecure!2
+      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+  worker:
+    extends:
+      file: docker-compose-common.yml
+      service: conversionbase
+    volumes:
+      - ./osmaxx:/home/py/osmaxx
+      - ./web_frontend:/home/py/web_frontend
+      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
+    environment:
+      - DJANGO_SECRET_KEY=insecure!3
+      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+  world-database:
+    command: postgres -B 1GB -F -N 512 -S 1GB --max_wal_size=1GB
+    ports:
+      - "5433:5432"
+  osm_importer:
+    environment:
+      - ram_cache=2000  # in megabytes
+      - num_processes=8
+      - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/monaco-updates/
+      - osm_planet_mirror=http://download.geofabrik.de/
+      - osm_planet_path_relative_to_mirror=europe/monaco-latest.osm.pbf
+  osmboundaries-database:
+    command: postgres -B 1GB -F -S 1GB
+    ports:
+      - "5442:5432"
