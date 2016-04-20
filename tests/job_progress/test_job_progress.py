@@ -94,24 +94,26 @@ class CallbackHandlingTest(APITestCase):
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
     @patch('osmaxx.job_progress.views.Emissary')
-    def xtest_calling_tracker_when_status_query_indicates_started_informs_user(
+    def test_calling_tracker_when_status_query_indicates_started_informs_user(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
+
         requests_mock = mocks['requests']
         requests_mock.get(
-            'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
-            json=self.fgdb_started_and_spatialite_queued_response
+            'http://localhost:8901/api/conversion_job/1/',
+            json=self.fgdb_started_response
         )
 
         factory = APIRequestFactory()
         request = factory.get(
             reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
-            data=dict(status='http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/')
+            data=dict(status='started', job='http://localhost:8901/api/conversion_job/1/')
         )
 
         views.tracker(request, export_id=str(self.export.id))
+        self.export.refresh_from_db()
         emissary_mock.info.assert_called_with(
-            'Export #{export_id} "Neverland" is now PROCESSING.'.format(
+            'Export #{export_id} "Neverland" is now started.'.format(
                 export_id=self.export.id
             )
         )
