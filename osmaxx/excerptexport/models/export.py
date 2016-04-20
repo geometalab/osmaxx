@@ -19,3 +19,13 @@ class Export(models.Model):
     extraction_order = models.ForeignKey('ExtractionOrder', related_name='exports',
                                          verbose_name=_('extraction order'))
     file_format = models.TextField(choices=FORMAT_CHOICES)
+
+    def send_to_conversion_service(self, clipping_area_json, incoming_request):
+        from osmaxx.api_client.conversion_api_client import ConversionApiClient
+        api_client = ConversionApiClient()
+        extraction_format = self.file_format
+        gis_options = self.extraction_order.extraction_configuration['gis_options']
+        out_srs = gis_options['coordinate_reference_system']
+        parametrization_json = api_client.create_parametrization(clipping_area_json, extraction_format, out_srs)
+        job_json = api_client.create_job(parametrization_json, incoming_request)
+        return job_json
