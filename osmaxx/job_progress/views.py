@@ -10,9 +10,10 @@ def tracker(request, export_id):
     export.status = request.GET['status']
     emissary = Emissary(recipient=export.extraction_order.orderer)
     emissary.info(
-        'Export #{export_id} "{name}" is now started.'.format(
+        'Export #{export_id} "{name}" to {format} is now started.'.format(
             export_id=export.id,
             name=export.extraction_order.excerpt_name,
+            format=export.get_file_format_display(),
         )
     )
     export.save()
