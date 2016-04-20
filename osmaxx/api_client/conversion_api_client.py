@@ -41,7 +41,18 @@ class ConversionApiClient(JWTClient):
         return self.authorized_post(url='clipping_area/', json_data=json_payload)
 
     def create_parametrization(self, *, boundary, out_format, out_srs):
-        self.authorized_post(url=None, json_data=None)
+        """
+
+        Args:
+            boundary: A dictionary as returned by create_boundary
+            out_format: A string identifying the output format
+            out_srs: A string identifying the spatial reference system of the output
+
+        Returns:
+            A dictionary representing the payload of the service's response
+        """
+        json_payload = dict(clipping_area=boundary['id'], out_format=out_format, out_srs=out_srs)
+        return self.authorized_post(url='conversion_parametrization/', json_data=json_payload)
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
