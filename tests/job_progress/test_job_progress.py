@@ -48,14 +48,6 @@ class CallbackHandlingTest(APITestCase):
             ExtractionOrder.DoesNotExist,
             ExtractionOrder.objects.get, pk=self.nonexistant_export_id
         )
-        self.fgdb_started_response = {
-            "id": 1,
-            "callback_url": "http://callback.example.com",
-            "parametrization": 1,
-            "rq_job_id": "53880847-faa9-43eb-ae84-dd92f3803a28",
-            "status": "started",
-            "resulting_file": None
-        }
 
     def test_calling_tracker_with_nonexistant_export_raises_404_not_found(self):
         factory = APIRequestFactory()
@@ -72,14 +64,7 @@ class CallbackHandlingTest(APITestCase):
 
     @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
-    @requests_mock.Mocker(kw='requests')
-    def test_calling_tracker_when_status_query_indicates_started_updates_export_status(self, *args, **mocks):
-        requests_mock = mocks['requests']
-        requests_mock.get(
-            'http://localhost:8901/api/conversion_job/1/',
-            json=self.fgdb_started_response
-        )
-
+    def test_calling_tracker_with_payload_indicating_started_updates_export_status(self, *args):
         factory = APIRequestFactory()
         request = factory.get(
             reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
@@ -92,17 +77,10 @@ class CallbackHandlingTest(APITestCase):
 
     @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
-    @requests_mock.Mocker(kw='requests')
     @patch('osmaxx.job_progress.views.Emissary')
-    def test_calling_tracker_when_status_query_indicates_started_informs_user(
+    def test_calling_tracker_with_payload_indicating_started_informs_user(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
-
-        requests_mock = mocks['requests']
-        requests_mock.get(
-            'http://localhost:8901/api/conversion_job/1/',
-            json=self.fgdb_started_response
-        )
 
         factory = APIRequestFactory()
         request = factory.get(
