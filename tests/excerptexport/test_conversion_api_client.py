@@ -7,7 +7,7 @@ import os
 
 import pytest
 from django.core.urlresolvers import resolve
-from hamcrest import assert_that, contains_inanyorder, matches_regexp, match_equality, close_to as is_close_to
+from hamcrest import assert_that, contains_inanyorder, close_to as is_close_to
 from requests import HTTPError
 
 from osmaxx.api_client import ConversionApiClient, API_client
@@ -50,7 +50,7 @@ def test_failed_login():
 @pytest.fixture
 def job_progress_request():
     request = Mock()
-    request.build_absolute_uri.return_value = 'http://the-host.example.com/job_progress/tracker/1/'
+    request.build_absolute_uri.return_value = 'http://the-host.example.com/job_progress/tracker/23/'
     return request
 
 
@@ -70,9 +70,9 @@ def excerpt(user, bounding_box, db):
 
 @pytest.fixture
 def extraction_order(excerpt, user, db):
-    extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user, id=1)
+    extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user, id=23)
+    extraction_order.extraction_formats = ['fgdb', 'spatialite']
     extraction_order.extraction_configuration = {
-        'gis_formats': ['fgdb', 'spatialite'],
         'gis_options': {
             'coordinate_reference_system': 'WGS_84',
             'detail_level': 1
@@ -104,6 +104,7 @@ def test_extraction_order_forward_to_conversion_service(mocker, excerpt, extract
     )
     assert_that(
         ConversionApiClient.create_job.mock_calls, contains_inanyorder(
+            # FIXME: Must be called with callback url, not with request.
             mock.call(sentinel.parametrization_1, job_progress_request),
             mock.call(sentinel.parametrization_2, job_progress_request),
         )
@@ -130,7 +131,7 @@ def api_client():
 def test_create_job(api_client, extraction_order, job_progress_request):
     assert extraction_order.process_id is None
 
-    response = api_client.create_job(extraction_order, request=job_progress_request)
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
     assert response.request.headers['Authorization'] == 'JWT {token}'.format(token=api_client.token)
     expected_keys_in_response = ["rq_job_id", "callback_url", "status", "gis_formats", "gis_options", "extent"]
@@ -139,48 +140,48 @@ def test_create_job(api_client, extraction_order, job_progress_request):
     assert extraction_order.state == ExtractionOrderState.QUEUED
     assert extraction_order.process_id == response.json().get('rq_job_id')
     assert extraction_order.process_id is not None
-    job_progress_request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
 def test_callback_url_of_created_job_resolves_to_job_updater(api_client, extraction_order, job_progress_request):
     assert extraction_order.process_id is None
 
-    response = api_client.create_job(extraction_order, request=job_progress_request)
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
     callback_url = response.json()['callback_url']
     scheme, host, callback_path, params, *_ = urlparse(callback_url)
 
     match = resolve(callback_path)
     assert match.func == tracker
-    job_progress_request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
 def test_callback_url_of_created_job_refers_to_correct_extraction_order(api_client, extraction_order, job_progress_request):
     assert extraction_order.process_id is None
 
-    response = api_client.create_job(extraction_order, request=job_progress_request)
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
     callback_url = response.json()['callback_url']
     scheme, host, callback_path, params, *_ = urlparse(callback_url)
 
     match = resolve(callback_path)
     assert match.kwargs == {'order_id': str(extraction_order.id)}
-    job_progress_request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # Intentionally same as for test_create_job()
 def test_callback_url_would_reach_this_django_instance(api_client, extraction_order, job_progress_request):
     assert extraction_order.process_id is None
 
-    response = api_client.create_job(extraction_order, request=job_progress_request)
+    response = api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
     callback_url = response.json()['callback_url']
     scheme, host, callback_path, params, *_ = urlparse(callback_url)
     assert scheme.startswith('http')  # also matches https
     assert host == 'the-host.example.com'
-    job_progress_request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 
 
 def test_download_files(api_client, extraction_order, job_progress_request):
@@ -191,7 +192,7 @@ def test_download_files(api_client, extraction_order, job_progress_request):
     cassette_empty = not os.path.exists(cassette_file_location)
 
     with vcr.use_cassette(cassette_file_location):
-        api_client.create_job(extraction_order, request=job_progress_request)
+        api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
         if cassette_empty:
             # wait for external service to complete request
@@ -202,7 +203,7 @@ def test_download_files(api_client, extraction_order, job_progress_request):
             job_status=api_client.job_status(extraction_order)
         )
         content_types_of_output_files = (f.content_type for f in extraction_order.output_files.all())
-        ordered_formats = extraction_order.extraction_configuration['gis_formats']
+        ordered_formats = extraction_order.extraction_formats
         assert_that(content_types_of_output_files, contains_inanyorder(*ordered_formats))
         assert_that(
             len(extraction_order.output_files.order_by('id')[0].file.read()),
@@ -212,7 +213,7 @@ def test_download_files(api_client, extraction_order, job_progress_request):
             len(extraction_order.output_files.order_by('id')[1].file.read()),
             is_close_to(368378, delta=10000)
         )
-    job_progress_request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 
 
 def test_order_status_processing(api_client, extraction_order, job_progress_request):
@@ -226,7 +227,7 @@ def test_order_status_processing(api_client, extraction_order, job_progress_requ
         assert extraction_order.state != ExtractionOrderState.PROCESSING
         assert extraction_order.state == ExtractionOrderState.INITIALIZED
 
-        api_client.create_job(extraction_order, request=job_progress_request)
+        api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
 
         if cassette_empty:
             time.sleep(10)
@@ -235,7 +236,7 @@ def test_order_status_processing(api_client, extraction_order, job_progress_requ
         assert extraction_order.state == ExtractionOrderState.PROCESSING
         assert extraction_order.state != ExtractionOrderState.INITIALIZED
         assert extraction_order.output_files.count() == 0
-    job_progress_request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 
 
 def test_order_status_done(api_client, extraction_order, job_progress_request):
@@ -246,7 +247,7 @@ def test_order_status_done(api_client, extraction_order, job_progress_request):
     cassette_empty = not os.path.exists(cassette_file_location)
 
     with vcr.use_cassette(cassette_file_location):
-        api_client.create_job(extraction_order, request=job_progress_request)
+        api_client._create_job_TODO_replace_me(extraction_order, request=job_progress_request)
         api_client.update_order_status(extraction_order)  # processing
         assert extraction_order.output_files.count() == 0
         assert extraction_order.state != ExtractionOrderState.FINISHED
@@ -257,4 +258,4 @@ def test_order_status_done(api_client, extraction_order, job_progress_request):
 
         api_client.update_order_status(extraction_order)
         assert extraction_order.state == ExtractionOrderState.FINISHED
-    job_progress_request.build_absolute_uri.assert_called_with(match_equality(matches_regexp('/job_progress/tracker/\d+/')))
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')

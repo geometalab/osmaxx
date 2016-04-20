@@ -15,7 +15,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
-from osmaxx.api_client.shortcuts import get_authenticated_api_client
+from osmaxx.api_client import ConversionApiClient
 from osmaxx.contrib.auth.frontend_permissions import (
     frontend_access_required,
     LoginRequiredMixin,
@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 
 def execute_converters(extraction_order, request):
-    get_authenticated_api_client().create_job(extraction_order, request=request)
+    ConversionApiClient()._create_job_TODO_replace_me(extraction_order, request=request)
 
 
 class OrderFormViewMixin(FormMixin):

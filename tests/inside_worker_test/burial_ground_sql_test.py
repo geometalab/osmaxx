@@ -4,6 +4,7 @@ import pytest
 import sqlalchemy
 from sqlalchemy.sql.schema import Table as DbTable
 
+from tests.conftest import area_polyfile_string
 from tests.inside_worker_test.conftest import slow
 from tests.inside_worker_test.declarative_schema import osm_models
 
@@ -34,13 +35,13 @@ def data_import(osmaxx_functions, clean_osm_tables, monkeypatch):
 
     class _BootStrapperWithoutPbfFile(BootStrapper):
         def __init__(self, data):
-            super().__init__(pbf_file_path=None)
+            super().__init__(area_polyfile_string=area_polyfile_string())
             self.data = data
 
         def _reset_database(self):
             pass  # Already taken care of by clean_osm_tables fixture.
 
-        def _convert_osm_pbf_to_postgres(self):
+        def _import_from_world_db(self):
             for table, values in self.data.items():
                 engine.execute(table.insert().execution_options(autocommit=True), values)
 

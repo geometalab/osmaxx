@@ -1,63 +1,55 @@
-shareddata:
-  image: buildpack-deps:jessie
-  command: /bin/true
-  volumes:
-    # as noted in https://docs.docker.com/userguide/dockervolumes/#mount-a-host-file-as-a-data-volume
-    # the parent directory should be mounted, not the directories itself
-    # otherwise we get OSError: Device or resource busy
-    - /data
-    # database
-    - /database/data
-    # temporary results directory used as pipe between multiple docker forests
-    - /tmp/osmaxx-results:/results
-    # emails file from email sending during development and testing
-    - /tmp/osmaxx-development-emails:/dev-emails
-  net: "none"
-
-sources:
-  image: buildpack-deps:jessie
-  volumes:
-    - ./osmaxx:/home/py/osmaxx
-    - ./web_frontend:/home/py/web_frontend
-    - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
-
-frontend:
-  dockerfile: Dockerfile.frontend
-  build: .
-  volumes_from:
-    - sources
-  ports:
-    - "8000:8000"
-  command: [honcho, -f, ./web_frontend/Procfile.django.dev, start]
-  environment:
-    - DJANGO_SECRET_KEY=insecure!1
-    - DJANGO_SETTINGS_MODULE=config.settings.local
-
-mediator:
-  dockerfile: Dockerfile.mediator
-  build: .
-  ports:
-    - "8901:8901"
-  volumes_from:
-    - sources
-  command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.dev, start]
-  environment:
-    - DJANGO_SECRET_KEY=insecure!2
-    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
-
-worker:
-  extends:
-    file: docker-compose-common.yml
-    service: conversionbase
-  dockerfile: Dockerfile.worker
-  build: .
-  command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
-  environment:
-    - DJANGO_SECRET_KEY=insecure!2
-    - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
-    - OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH=/var/data/osm-planet/switzerland-latest.osm.pbf
-
-osmplanet:
-  environment:
-    - osm_planet_mirror=http://download.geofabrik.de/europe/
-    - osm_planet_path_relative_to_mirror=switzerland-latest.osm.pbf
+version: '2'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - ./osmaxx:/home/py/osmaxx
+      - ./web_frontend:/home/py/web_frontend
+      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+    ports:
+      - "8000:8000"
+    command: [honcho, -f, ./web_frontend/Procfile.django.dev, start]
+    environment:
+      - DJANGO_SECRET_KEY=insecure!1
+      - DJANGO_SETTINGS_MODULE=config.settings.local
+  mediator:
+    build:
+      context: .
+      dockerfile: Dockerfile.mediator
+    ports:
+      - "8901:8901"
+    volumes:
+      - ./osmaxx:/home/py/osmaxx
+      - ./web_frontend:/home/py/web_frontend
+      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.dev, start]
+    environment:
+      - DJANGO_SECRET_KEY=insecure!2
+      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+  worker:
+    extends:
+      file: docker-compose-common.yml
+      service: conversionbase
+    volumes:
+      - ./osmaxx:/home/py/osmaxx
+      - ./web_frontend:/home/py/web_frontend
+      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
+    environment:
+      - DJANGO_SECRET_KEY=insecure!3
+      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+  world-database:
+    command: postgres -B 2GB -F -N 512 -S 2GB --max_wal_size=2GB
+    ports:
+      - "5433:5432"
+  osm_importer:
+    environment:
+      - num_processes=8
+      - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/monaco-updates/
+      - osm_planet_mirror=http://download.geofabrik.de/
+      - osm_planet_path_relative_to_mirror=europe/monaco-latest.osm.pbf

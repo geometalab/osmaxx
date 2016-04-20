@@ -9,7 +9,7 @@ from .serializers import JobSerializer, ParametrizationSerializer
 
 
 class JobViewSet(viewsets.ModelViewSet):
-    queryset = Job.objects.all()
+    queryset = Job.objects.all().order_by('-id')
     serializer_class = JobSerializer
     permission_classes = (
         permissions.IsAuthenticated,
