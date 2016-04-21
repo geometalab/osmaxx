@@ -96,11 +96,11 @@ def test_extraction_order_forward_to_conversion_service(mocker, excerpt, extract
     result = extraction_order.forward_to_conversion_service(incoming_request=job_progress_request)
 
     ConversionApiClient.create_boundary.assert_called_once_with(bounding_box.geometry, name=excerpt.name)
-    gis_conversion_options = extraction_order.extraction_configuration['gis_options']
+    srs = extraction_order.extraction_configuration['gis_options']['coordinate_reference_system']
     assert_that(
         ConversionApiClient.create_parametrization.mock_calls, contains_inanyorder(
-            mock.call(ConversionApiClient.create_boundary.return_value, 'fgdb', gis_conversion_options),
-            mock.call(ConversionApiClient.create_boundary.return_value, 'spatialite', gis_conversion_options),
+            mock.call(ConversionApiClient.create_boundary.return_value, 'fgdb', srs),
+            mock.call(ConversionApiClient.create_boundary.return_value, 'spatialite', srs),
         )
     )
     assert_that(
