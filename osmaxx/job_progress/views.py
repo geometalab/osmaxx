@@ -16,12 +16,12 @@ def tracker(request, export_id):
 
 def _handle_new_status(export, new_status):
     if export.status != new_status:
-        _handle_changed_status(export, new_status)
+        export.status = new_status
+        _handle_changed_status(export)
         export.save()
 
 
-def _handle_changed_status(export, new_status):
-    export.status = new_status
+def _handle_changed_status(export):
     emissary = Emissary(recipient=export.extraction_order.orderer)
     emissary.info(
         'Export #{export_id} "{name}" to {format} is now started.'.format(
