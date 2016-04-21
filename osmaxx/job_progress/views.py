@@ -24,9 +24,10 @@ def _handle_new_status(export, new_status):
 def _handle_changed_status(export):
     emissary = Emissary(recipient=export.extraction_order.orderer)
     emissary.info(
-        'Export #{export_id} "{name}" to {format} is now started.'.format(
+        'Export #{export_id} "{name}" to {format} is now {status}.'.format(
             export_id=export.id,
             name=export.extraction_order.excerpt_name,
             format=export.get_file_format_display(),
+            status=export.get_status_display(),
         )
     )

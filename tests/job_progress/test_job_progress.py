@@ -85,6 +85,24 @@ class CallbackHandlingTest(APITestCase):
         self.assertEqual(self.export.status, STARTED)
 
     @patch('osmaxx.job_progress.views.Emissary')
+    def test_calling_tracker_with_payload_indicating_queued_informs_user(
+            self, emissary_class_mock, *args, **mocks):
+        emissary_mock = emissary_class_mock()
+
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
+            data=dict(status='queued', job='http://localhost:8901/api/conversion_job/1/')
+        )
+
+        views.tracker(request, export_id=str(self.export.id))
+        emissary_mock.info.assert_called_with(
+            'Export #{export_id} "Neverland" to ESRI File Geodatabase is now queued.'.format(
+                export_id=self.export.id
+            )
+        )
+
+    @patch('osmaxx.job_progress.views.Emissary')
     def test_calling_tracker_with_payload_indicating_started_informs_user(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
