@@ -7,8 +7,7 @@ from osmaxx.utilities.shortcuts import Emissary
 
 def tracker(request, export_id):
     export = get_object_or_404(Export, pk=export_id)
-    new_status = request.GET['status']
-    _handle_new_status(export, new_status)
+    _handle_new_status(export, request.GET['status'])
 
     response = HttpResponse('')
     response.status_code = 200
