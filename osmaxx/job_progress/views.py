@@ -7,7 +7,8 @@ from osmaxx.utilities.shortcuts import Emissary
 
 def tracker(request, export_id):
     export = get_object_or_404(Export, pk=export_id)
-    export.status = request.GET['status']
+    new_status = request.GET['status']
+    export.status = new_status
     emissary = Emissary(recipient=export.extraction_order.orderer)
     emissary.info(
         'Export #{export_id} "{name}" to {format} is now started.'.format(
