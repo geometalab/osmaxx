@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 
 from osmaxx.excerptexport.models import Export
 from osmaxx.utilities.shortcuts import Emissary
@@ -24,7 +25,7 @@ def _handle_new_status(export, new_status):
 def _handle_changed_status(export):
     emissary = Emissary(recipient=export.extraction_order.orderer)
     emissary.info(
-        'Export #{export_id} "{name}" to {format} is now {status}.'.format(
+        _('Export #{export_id} "{name}" to {format} is now {status}.').format(
             export_id=export.id,
             name=export.extraction_order.excerpt_name,
             format=export.get_file_format_display(),
