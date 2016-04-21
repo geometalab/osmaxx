@@ -13,7 +13,7 @@ from io import BytesIO
 from rest_framework.test import APITestCase, APIRequestFactory
 
 from osmaxx.api_client.conversion_api_client import ConversionApiClient
-from osmaxx.conversion_api.statuses import STARTED
+from osmaxx.conversion_api.statuses import STARTED, QUEUED
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
@@ -61,6 +61,17 @@ class CallbackHandlingTest(APITestCase):
             views.tracker, request, export_id=str(self.nonexistant_export_id)
         )
         request.resolver_match
+
+    def test_calling_tracker_with_payload_indicating_queued_updates_export_status(self, *args):
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
+            data=dict(status='queued', job='http://localhost:8901/api/conversion_job/1/')
+        )
+
+        views.tracker(request, export_id=str(self.export.id))
+        self.export.refresh_from_db()
+        self.assertEqual(self.export.status, QUEUED)
 
     def test_calling_tracker_with_payload_indicating_started_updates_export_status(self, *args):
         factory = APIRequestFactory()
