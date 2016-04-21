@@ -91,6 +91,22 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
+    @patch('osmaxx.job_progress.views.Emissary')
+    def test_calling_tracker_with_payload_indicating_unchanged_status_does_not_inform_user(
+            self, emissary_class_mock, *args, **mocks):
+        self.export.status = 'started'
+        self.export.save()
+        emissary_mock = emissary_class_mock()
+
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
+            data=dict(status='started', job='http://localhost:8901/api/conversion_job/1/')
+        )
+
+        views.tracker(request, export_id=str(self.export.id))
+        assert emissary_mock.mock_calls == []
+
     @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
