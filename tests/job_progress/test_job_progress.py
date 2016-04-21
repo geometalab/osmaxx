@@ -62,8 +62,6 @@ class CallbackHandlingTest(APITestCase):
         )
         request.resolver_match
 
-    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
-    @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     def test_calling_tracker_with_payload_indicating_started_updates_export_status(self, *args):
         factory = APIRequestFactory()
         request = factory.get(
@@ -75,8 +73,6 @@ class CallbackHandlingTest(APITestCase):
         self.export.refresh_from_db()
         self.assertEqual(self.export.status, STARTED)
 
-    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
-    @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @patch('osmaxx.job_progress.views.Emissary')
     def test_calling_tracker_with_payload_indicating_started_informs_user(
             self, emissary_class_mock, *args, **mocks):
