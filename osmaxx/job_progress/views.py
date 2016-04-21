@@ -24,9 +24,14 @@ def _handle_new_status(export, new_status):
 
 def _handle_changed_status(export):
     emissary = Emissary(recipient=export.extraction_order.orderer)
+    message = _get_export_status_changed_message(export)
+    emissary.info(message)
+
+
+def _get_export_status_changed_message(export):
     view_context = dict(export=export)
     message = render_to_string(
         'job_progress/messages/export_status_changed.txt',
         context=view_context,
     ).strip()
-    emissary.info(message)
+    return message
