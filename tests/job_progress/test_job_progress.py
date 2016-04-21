@@ -85,7 +85,6 @@ class CallbackHandlingTest(APITestCase):
         )
 
         views.tracker(request, export_id=str(self.export.id))
-        self.export.refresh_from_db()
         emissary_mock.info.assert_called_with(
             'Export #{export_id} "Neverland" to ESRI File Geodatabase is now started.'.format(
                 export_id=self.export.id
