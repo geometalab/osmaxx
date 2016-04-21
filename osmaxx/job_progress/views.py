@@ -8,6 +8,15 @@ from osmaxx.utilities.shortcuts import Emissary
 def tracker(request, export_id):
     export = get_object_or_404(Export, pk=export_id)
     new_status = request.GET['status']
+    _handle_new_status(export, new_status)
+    export.save()
+
+    response = HttpResponse('')
+    response.status_code = 200
+    return response
+
+
+def _handle_new_status(export, new_status):
     export.status = new_status
     emissary = Emissary(recipient=export.extraction_order.orderer)
     emissary.info(
@@ -17,8 +26,3 @@ def tracker(request, export_id):
             format=export.get_file_format_display(),
         )
     )
-    export.save()
-
-    response = HttpResponse('')
-    response.status_code = 200
-    return response
