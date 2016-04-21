@@ -128,7 +128,7 @@ services:
   osm_importer:
     # to limit scaling to exactly 1, we need to specify the container name
     container_name: osmworlddb_osm_importer
-    image: geometalab/osm2pgsql:latest
+    image: geometalab/continuous-osm2pgsql:latest
     command: /root/run.sh
     links:
       - world-database:database
