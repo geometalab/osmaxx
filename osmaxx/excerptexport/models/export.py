@@ -45,3 +45,22 @@ class Export(models.Model):
     @property
     def status_update_url(self):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
+
+    def set_and_handle_new_status(self, new_status):
+        if self.status != new_status:
+            self.status = new_status
+            self._handle_changed_status()
+            self.save()
+
+    def _handle_changed_status(self):
+        from osmaxx.utilities.shortcuts import Emissary
+        emissary = Emissary(recipient=self.extraction_order.orderer)
+        emissary.info(self._get_export_status_changed_message())
+
+    def _get_export_status_changed_message(self):
+        from django.template.loader import render_to_string
+        view_context = dict(export=self)
+        return render_to_string(
+            'job_progress/messages/export_status_changed.txt',
+            context=view_context,
+        ).strip()

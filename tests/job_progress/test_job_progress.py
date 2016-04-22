@@ -84,7 +84,7 @@ class CallbackHandlingTest(APITestCase):
         self.export.refresh_from_db()
         self.assertEqual(self.export.status, STARTED)
 
-    @patch('osmaxx.job_progress.views.Emissary')
+    @patch('osmaxx.utilities.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_queued_informs_user(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -102,7 +102,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.job_progress.views.Emissary')
+    @patch('osmaxx.utilities.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_started_informs_user(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -120,7 +120,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.job_progress.views.Emissary')
+    @patch('osmaxx.utilities.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_unchanged_status_does_not_inform_user(
             self, emissary_class_mock, *args, **mocks):
         self.export.status = 'started'
@@ -140,7 +140,7 @@ class CallbackHandlingTest(APITestCase):
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
     @patch.object(OutputFile, 'get_absolute_url', side_effect=['/a/download', '/another/download'])
-    @patch('osmaxx.job_progress.views.Emissary')
+    @patch('osmaxx.utilities.shortcuts.Emissary')
     def xtest_calling_tracker_when_status_query_indicates_downloads_ready_advertises_downloads(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -191,7 +191,7 @@ class CallbackHandlingTest(APITestCase):
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._download_file')  # mock download
     @requests_mock.Mocker(kw='requests')
-    @patch('osmaxx.job_progress.views.Emissary')
+    @patch('osmaxx.utilities.shortcuts.Emissary')
     def xtest_calling_tracker_when_status_query_indicates_finished_informs_user(
             self, emissary_class_mock, *args, **mocks
     ):
@@ -235,7 +235,7 @@ class CallbackHandlingTest(APITestCase):
     @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
-    @patch('osmaxx.job_progress.views.Emissary')
+    @patch('osmaxx.utilities.shortcuts.Emissary')
     def xtest_calling_tracker_when_status_query_indicates_error_informs_user(
             self, emissary_class_mock, *args, **mocks
     ):
