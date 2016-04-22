@@ -1,0 +1,242 @@
+osmaxx_v1:
+  filename: OSMaxx_v1.ttf
+  fontname: OSMaxx_v1
+  mappings:
+#  range 0x0000 to 0x0020 has been excluded, contains non-printable characters
+    "0x0021":
+      filename: "accomodation_camp_site.svg"
+    "0x0022":
+      filename: "accomodation_caravan_site.svg"
+    "0x0023":
+      filename: "accomodation_guest_house.svg"
+    "0x0024":
+      filename: "accomodation_hostel.svg"
+    "0x0025":
+      filename: "accomodation_hotel.svg"
+    "0x0026":
+      filename: "accomodation_motel.svg"
+    "0x0027":
+      filename: "accomodation_shelter.svg"
+    "0x0028":
+      filename: "amenity_burial_ground.svg"
+    "0x0029":
+      filename: "catering_cafe.svg"
+    "0x002a":
+      filename: "catering_fastfood.svg"
+    "0x002b":
+      filename: "catering_pub.svg"
+    "0x002c":
+      filename: "catering_restaurant.svg"
+    "0x002d":
+      filename: "default_OSMaxx_marker.svg"
+    "0x002e":
+      filename: "destination_castle.svg"
+    "0x002f":
+      filename: "destination_memorial.svg"
+    "0x0030":
+      filename: "destination_monument.svg"
+    "0x0031":
+      filename: "destination_museum.svg"
+    "0x0032":
+      filename: "destination_picnic_site.svg"
+    "0x0033":
+      filename: "destination_ruin.svg"
+    "0x0034":
+      filename: "destination_view_point.svg"
+    "0x0035":
+      filename: "destination_wayside_cross.svg"
+    "0x0036":
+      filename: "destination_zoo.svg"
+    "0x0037":
+      filename: "education_kindergarten.svg"
+    "0x0038":
+      filename: "education_school.svg"
+    "0x0039":
+      filename: "education_university.svg"
+    "0x003a":
+      filename: "_frame.svg"
+    "0x003b":
+      filename: "health_clinic.svg"
+    "0x003c":
+      filename: "health_dentist.svg"
+    "0x003d":
+      filename: "health_doctor.svg"
+    "0x003e":
+      filename: "health_hospital.svg"
+    "0x003f":
+      filename: "health_pharmacy.svg"
+    "0x0040":
+      filename: "leisure_cinema.svg"
+    "0x0041":
+      filename: "leisure_golf_course.svg"
+    "0x0042":
+      filename: "leisure_stadium.svg"
+    "0x0043":
+      filename: "leisure_theatre.svg"
+    "0x0044":
+      filename: "military_military_airfield.svg"
+    "0x0045":
+      filename: "misc_comm_tower.svg"
+    "0x0046":
+      filename: "misc_drinking_water.svg"
+    "0x0047":
+      filename: "misc_fountain.svg"
+    "0x0048":
+      filename: "misc_hunting_stand.svg"
+    "0x0049":
+      filename: "misc_lighthouse.svg"
+    "0x004a":
+      filename: "misc_tower.svg"
+    "0x004b":
+      filename: "misc_watch_tower.svg"
+    "0x004c":
+      filename: "misc_water_tower.svg"
+    "0x004d":
+      filename: "misc_water_well.svg"
+    "0x004e":
+      filename: "misc_windmill.svg"
+    "0x004f":
+      filename: "money_atm.svg"
+    "0x0050":
+      filename: "money_bank.svg"
+    "0x0051":
+      filename: "money_money_exchange.svg"
+    "0x0052":
+      filename: "natural_cave_entrance.svg"
+    "0x0053":
+      filename: "natural_peak.svg"
+    "0x0054":
+      filename: "natural_rock.svg"
+    "0x0055":
+      filename: "natural_sink_hole.svg"
+    "0x0056":
+      filename: "natural_tree.svg"
+    "0x0057":
+      filename: "natural_volcano.svg"
+    "0x0058":
+      filename: "public_building_.svg"
+    "0x0059":
+      filename: "public_courthouse.svg"
+    "0x005a":
+      filename: "public_embassy.svg"
+    "0x005b":
+      filename: "public_fire_station.svg"
+    "0x005c":
+      filename: "public_government.svg"
+    "0x005d":
+      filename: "public_library.svg"
+    "0x005e":
+      filename: "public_market_stand.svg"
+    "0x005f":
+      filename: "public_police.svg"
+    "0x0060":
+      filename: "public_post_office.svg"
+    "0x0061":
+      filename: "public_prison.svg"
+    "0x0062":
+      filename: "public_toilet.svg"
+    "0x0063":
+      filename: "public_town_hall.svg"
+    "0x0064":
+      filename: "shop_car.svg"
+    "0x0065":
+      filename: "shop_car_rental.svg"
+    "0x0066":
+      filename: "shop_car_repair.svg"
+    "0x0067":
+      filename: "shop_kiosk.svg"
+    "0x0068":
+      filename: "shop_laundry.svg"
+    "0x0069":
+      filename: "shop_supermarket.svg"
+    "0x006a":
+      filename: "special_bicycle.svg"
+    "0x006b":
+      filename: "special_coniferous.svg"
+    "0x006c":
+      filename: "special_deciduous.svg"
+    "0x006d":
+      filename: "special_industrial.svg"
+    "0x006e":
+      filename: "special_landfill.svg"
+    "0x006f":
+      filename: "special_military.svg"
+    "0x0070":
+      filename: "special_mining.svg"
+    "0x0071":
+      filename: "special_rider.svg"
+    "0x0072":
+      filename: "tourism_information.svg"
+    "0x0073":
+      filename: "traffic_fuel_station.svg"
+    "0x0074":
+      filename: "traffic_gate.svg"
+    "0x0075":
+      filename: "traffic_level_crossing.svg"
+    "0x0076":
+      filename: "traffic_multi_storey_parking.svg"
+    "0x0077":
+      filename: "traffic_parking.svg"
+    "0x0078":
+      filename: "transport_airfield.svg"
+    "0x0079":
+      filename: "transport_airport.svg"
+    "0x007a":
+      filename: "transport_bus_station.svg"
+    "0x007b":
+      filename: "transport_bus_stop.svg"
+    "0x007c":
+      filename: "transport_bus_stop_and_railway_halt_alternative_M4_one.svg"
+    "0x007d":
+      filename: "transport_bus_stop_and_railway_halt_alternative_M4_two.svg"
+    "0x007e":
+      filename: "transport_ferry_station.svg"
+# Range from 0x007F to 0x00A0 has been excluded because they contain control sequnces
+    "0x00a1":
+      filename: "transport_helipad.svg"
+    "0x00a2":
+      filename: "transport_railway_halt.svg"
+    "0x00a3":
+      filename: "transport_railway_station.svg"
+    "0x00a4":
+      filename: "transport_taxi_stand.svg"
+    "0x00a5":
+      filename: "transport_tram_halt.svg"
+    "0x00a6":
+      filename: "utility_fossil.svg"
+    "0x00a7":
+      filename: "utility_hydro.svg"
+    "0x00a8":
+      filename: "utility_nuclear.svg"
+    "0x00a9":
+      filename: "utility_plant.svg"
+    "0x00aa":
+      filename: "utility_pole_and_tower.svg"
+    "0x00ab":
+      filename: "utility_solar.svg"
+    "0x00ac":
+      filename: "utility_substation.svg"
+    "0x00ad":
+      filename: "utility_wind.svg"
+    "0x00ae":
+      filename: "water_dam.svg"
+    "0x00af":
+      filename: "water_reservoir_covered.svg"
+    "0x00b0":
+      filename: "water_spring.svg"
+    "0x00b1":
+      filename: "water_waterfall.svg"
+    "0x00b2":
+      filename: "worship_buddhist.svg"
+    "0x00b3":
+      filename: "worship_christian.svg"
+    "0x00b4":
+      filename: "worship_hindu.svg"
+    "0x00b5":
+      filename: "worship_islamic.svg"
+    "0x00b6":
+      filename: "worship_jewish.svg"
+    "0x00b7":
+      filename: "worship_place_of_worship_shinto_taoist.svg"
+    "0x00b8":
+      filename: "worship_sikh.svg"
