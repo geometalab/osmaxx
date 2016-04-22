@@ -61,7 +61,7 @@ def pytest_configure():
             'django.middleware.csrf.CsrfViewMiddleware',
             'django.contrib.auth.middleware.AuthenticationMiddleware',
             'django.contrib.messages.middleware.MessageMiddleware',
-            'osmaxx.job_progress.middleware.OrderUpdaterMiddleware',
+            'osmaxx.job_progress.middleware.ExportUpdaterMiddleware',
         ),
         INSTALLED_APPS=(
             'django.contrib.auth',

@@ -2,71 +2,72 @@ import logging
 from datetime import timedelta
 
 from osmaxx.api_client import ConversionApiClient
-from osmaxx.excerptexport.models import ExtractionOrder
-from osmaxx.excerptexport.models.extraction_order import FINAL_STATES, ExtractionOrderState
+from osmaxx.conversion_api.statuses import FINAL_STATUSES
+from osmaxx.excerptexport.models import Export
 from osmaxx.utilities.shortcuts import get_cached_or_set
 
 logger = logging.getLogger(__name__)
 
 
-class OrderUpdaterMiddleware(object):
+class ExportUpdaterMiddleware(object):
     def process_request(self, request):
         assert hasattr(request, 'user'), (
-            "The osmaxx order update middleware requires Django authentication middleware "
+            "The osmaxx export updater middleware requires Django authentication middleware "
             "to be installed. Edit your MIDDLEWARE_CLASSES setting to insert "
             "'django.contrib.auth.middleware.AuthenticationMiddleware' before "
-            "'osmaxx.job_progress.middleware.OrderUpdaterMiddleware'."
+            "'osmaxx.job_progress.middleware.ExportUpdaterMiddleware'."
         )
-        update_orders_of_request_user(request)
+        update_exports_of_request_user(request)
 
 
-def update_orders_of_request_user(request):
+def update_exports_of_request_user(request):
     current_user = request.user
     if current_user.is_anonymous():
         return
-    for order in ExtractionOrder.objects.exclude(state__in=FINAL_STATES).filter(orderer=current_user):
-        update_order_if_stale(order)
+    for export in Export.objects.exclude(status__in=FINAL_STATUSES).filter(extraction_order__orderer=current_user):
+        update_export_if_stale(export)
 
 
-def update_order_if_stale(extraction_order):
+def update_export_if_stale(export):
     get_cached_or_set(
-        'extraction_order_{}_progress'.format(extraction_order.id),
-        update_order, extraction_order,
+        'export_{}_job_progress'.format(export.id),
+        update_export, export,
         on_cache_hit=_log_cache_hit,
         timeout=timedelta(minutes=1).total_seconds(),
     )
 
 
-def update_order(extraction_order):
-    _log_cache_miss(extraction_order)
-    conversion_client = ConversionApiClient()
-    conversion_client.update_order_status(extraction_order)
+def update_export(export):
+    _log_cache_miss(export)
+    client = ConversionApiClient()
+    status = client.job_status(export)
+    export.set_and_handle_new_status(status)
     if logger.isEnabledFor(logging.DEBUG):
-        message = "Fetched, updated and cached ExtractionOrder {extraction_order} progress: {progress}".format(
-            extraction_order=extraction_order.id,
-            progress=ExtractionOrderState.label(extraction_order.state),
+        message = "Fetched, updated and cached Export {export} status: {status}".format(
+            export=export.id,
+            status=export.get_status_display(),
         )
         logger.debug(message)
-    return extraction_order.state
+    return export.status
 
 
-def _log_cache_miss(extraction_order):
+def _log_cache_miss(export):
     if not logger.isEnabledFor(logging.INFO):
         return
-    message = "Cache miss - Re-fetching progress of pending ExtractionOrder {extraction_order}.".format(
-        extraction_order=extraction_order.id,
+    message = "Cache miss - Re-fetching progress of pending Export {export}.".format(
+        export=export.id,
     )
     logger.info(message)
 
 
-def _log_cache_hit(cached_value, extraction_order):
+def _log_cache_hit(cached_value, export):
     if not logger.isEnabledFor(logging.INFO):
         return
     message = (
-        "Cache hit - Not re-fetching progress of pending ExtractionOrder {extraction_order}, "
-        "as it has already been fetched recently. Progress then was {progress}."
+        "Cache hit - Not re-fetching progress of pending Export {export}, "
+        "as it has already been fetched recently. Status then was {status}."
     ).format(
-        extraction_order=extraction_order.id,
-        progress=ExtractionOrderState.label(extraction_order.state),
+        export=export.id,
+        status=export.get_status_display(),
     )
     logger.info(message)

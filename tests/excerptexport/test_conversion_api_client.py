@@ -205,6 +205,7 @@ def test_callback_url_would_reach_this_django_instance(api_client, extraction_or
     job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 
 
+@pytest.mark.xfail
 def test_download_files(api_client, extraction_order, job_progress_request):
     cassette_file_location = os.path.join(
         absolute_cassette_lib_path,
@@ -237,6 +238,7 @@ def test_download_files(api_client, extraction_order, job_progress_request):
     job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 
 
+@pytest.mark.xfail
 def test_order_status_processing(api_client, extraction_order, job_progress_request):
     cassette_file_location = os.path.join(
         absolute_cassette_lib_path,
@@ -260,6 +262,7 @@ def test_order_status_processing(api_client, extraction_order, job_progress_requ
     job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/23/')
 
 
+@pytest.mark.xfail
 def test_order_status_done(api_client, extraction_order, job_progress_request):
     cassette_file_location = os.path.join(
         absolute_cassette_lib_path,

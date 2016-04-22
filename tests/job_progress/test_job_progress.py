@@ -1,4 +1,4 @@
-from unittest.mock import patch, ANY, call
+from unittest.mock import patch, ANY, call, Mock, sentinel
 
 import os
 import requests_mock
@@ -12,8 +12,9 @@ from django.test.utils import override_settings
 from io import BytesIO
 from rest_framework.test import APITestCase, APIRequestFactory
 
+from osmaxx import excerptexport
 from osmaxx.api_client.conversion_api_client import ConversionApiClient
-from osmaxx.conversion_api.statuses import STARTED, QUEUED
+from osmaxx.conversion_api.statuses import STARTED, QUEUED, FINISHED, FAILED
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
@@ -298,29 +299,40 @@ class CallbackHandlingTest(APITestCase):
             shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
 
 
-class OrderUpdaterMiddlewareTest(TestCase):
-    @patch('osmaxx.job_progress.middleware.update_orders_of_request_user')
-    def test_request_middleware_updates_orders_of_request_user(self, update_orders_mock):
+class ExportUpdaterMiddlewareTest(TestCase):
+    @patch('osmaxx.job_progress.middleware.update_exports_of_request_user')
+    def test_request_middleware_updates_exports_of_request_user(self, update_exports_mock):
         self.client.get('/dummy/')
-        update_orders_mock.assert_called_once_with(ANY)
+        update_exports_mock.assert_called_once_with(ANY)
 
-    @patch('osmaxx.job_progress.middleware.update_orders_of_request_user')
-    def test_request_middleware_passes_request_with_user(self, update_orders_mock):
+    @patch('osmaxx.job_progress.middleware.update_exports_of_request_user')
+    def test_request_middleware_passes_request_with_user(self, update_exports_mock):
         self.client.get('/dummy/')
-        args, kwargs = update_orders_mock.call_args
+        args, kwargs = update_exports_mock.call_args
         request = args[0]
         self.assertIsNotNone(request.build_absolute_uri.__call__, msg='not a usable request')
         self.assertIsNotNone(request.user)
 
-    @patch('osmaxx.job_progress.middleware.update_orders_of_request_user')
-    def test_request_middleware_when_authenticated_passes_request_with_logged_in_user(self, update_orders_mock):
+    @patch('osmaxx.job_progress.middleware.update_exports_of_request_user')
+    def test_request_middleware_when_authenticated_passes_request_with_logged_in_user(self, update_exports_mock):
         user = User.objects.create_user('user', 'user@example.com', 'pw')
         self.client.login(username='user', password='pw')
         self.client.get('/dummy/')
-        args, kwargs = update_orders_mock.call_args
+        args, kwargs = update_exports_mock.call_args
         request = args[0]
         self.assertIsNotNone(request.build_absolute_uri.__call__, msg='not a usable request')
         self.assertEqual(user, request.user)
+
+    @patch.object(ConversionApiClient, 'authorized_get')
+    def test_update_export_set_and_lets_handle_export_status(self, authorized_get_mock):
+        authorized_get_mock.return_value.json.return_value = dict(status=sentinel.new_status)
+        export_mock = Mock(spec=excerptexport.models.Export())
+        export_mock.conversion_service_job_id = 42
+
+        middleware.update_export(export_mock)
+
+        authorized_get_mock.assert_called_once_with(url='conversion_job/42')
+        export_mock.set_and_handle_new_status.assert_called_once_with(sentinel.new_status)
 
 
 _LOC_MEM_CACHE = {
@@ -331,54 +343,56 @@ _LOC_MEM_CACHE = {
 }
 
 
-class OrderUpdateTest(TestCase):
+class ExportUpdateTest(TestCase):
     def setUp(self):
         test_user = User.objects.create_user('user', 'user@example.com', 'pw')
         other_user = User.objects.create_user('other', 'other@example.com', 'pw')
-        self.own_unfinished_orders = [
-            ExtractionOrder.objects.create(orderer=test_user) for i in range(2)]
+        own_order = ExtractionOrder.objects.create(orderer=test_user)
+        foreign_order = ExtractionOrder.objects.create(orderer=other_user)
+        self.own_unfinished_exports = [
+            own_order.exports.create(file_format='fgdb') for i in range(2)]
         for i in range(4):
-            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.FINISHED)
+            own_order.exports.create(file_format='fgdb', status=FINISHED)
         for i in range(8):
-            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.FAILED)
+            own_order.exports.create(file_format='fgdb', status=FAILED)
         for i in range(32):
-            ExtractionOrder.objects.create(orderer=other_user)
+            foreign_order.exports.create(file_format='fgdb')
         self.client.login(username='user', password='pw')
 
-    @patch('osmaxx.job_progress.middleware.update_order_if_stale')
-    def test_update_orders_of_request_user_updates_each_unfinished_order_of_request_user(self, update_progress_mock):
+    @patch('osmaxx.job_progress.middleware.update_export_if_stale')
+    def test_update_exports_of_request_user_updates_each_unfinished_export_of_request_user(self, update_progress_mock):
         self.client.get('/dummy/')
         update_progress_mock.assert_has_calls(
-            [call(order) for order in self.own_unfinished_orders],
+            [call(export) for export in self.own_unfinished_exports],
             any_order=True,
         )
 
-    @patch('osmaxx.job_progress.middleware.update_order_if_stale')
-    def test_update_orders_of_request_user_does_not_update_any_orders_of_other_users_nor_own_orders_in_a_final_state(
+    @patch('osmaxx.job_progress.middleware.update_export_if_stale')
+    def test_update_exports_of_request_user_does_not_update_any_exports_of_other_users_nor_own_exports_in_a_final_state(
             self, update_progress_mock
     ):
         self.client.get('/dummy/')
-        self.assertEqual(update_progress_mock.call_count, len(self.own_unfinished_orders))
+        self.assertEqual(update_progress_mock.call_count, len(self.own_unfinished_exports))
 
     @override_settings(CACHES=_LOC_MEM_CACHE)
-    @patch('osmaxx.job_progress.middleware.update_order', return_value="updated")
-    def test_update_order_if_stale_when_stale_updates_order(self, update_order_mock):
-        assert len(self.own_unfinished_orders) > 1,\
-            "Test requires more than one order to prove that orders don't shadow each other in the cache."
+    @patch('osmaxx.job_progress.middleware.update_export', return_value="updated")
+    def test_update_export_if_stale_when_stale_updates_export(self, update_export_mock):
+        assert len(self.own_unfinished_exports) > 1,\
+            "Test requires more than one export to prove that exports don't shadow each other in the cache."
         from django.core.cache import cache
         cache.clear()
-        for order in self.own_unfinished_orders:
-            middleware.update_order_if_stale(order)
-        update_order_mock.assert_has_calls(
-            [call(order) for order in self.own_unfinished_orders],
+        for export in self.own_unfinished_exports:
+            middleware.update_export_if_stale(export)
+        update_export_mock.assert_has_calls(
+            [call(export) for export in self.own_unfinished_exports],
         )
 
     @override_settings(CACHES=_LOC_MEM_CACHE)
-    @patch('osmaxx.job_progress.middleware.update_order', return_value="updated")
-    def test_update_order_if_stale_when_not_stale_does_not_update_order(self, update_order_mock):
+    @patch('osmaxx.job_progress.middleware.update_export', return_value="updated")
+    def test_update_export_if_stale_when_not_stale_does_not_update_export(self, update_export_mock):
         from django.core.cache import cache
         cache.clear()
-        the_order = self.own_unfinished_orders[0]
-        middleware.update_order_if_stale(the_order)
-        middleware.update_order_if_stale(the_order)
-        self.assertEqual(update_order_mock.call_count, 1)
+        the_export = self.own_unfinished_exports[0]
+        middleware.update_export_if_stale(the_export)
+        middleware.update_export_if_stale(the_export)
+        self.assertEqual(update_export_mock.call_count, 1)
