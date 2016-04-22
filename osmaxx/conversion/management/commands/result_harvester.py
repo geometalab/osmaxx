@@ -50,7 +50,7 @@ class Command(BaseCommand):
             return
 
         if job is None:  # already processed by someone else
-            if conversion_job.status not in conversion_models.Job.STATUSES_FINAL:
+            if conversion_job.status not in STATUSES_FINAL:
                 logger.warning("job {} not found in queue but status is {} on database.".format(
                     job_id, conversion_job.status
                 ))
