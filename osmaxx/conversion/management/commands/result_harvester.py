@@ -11,7 +11,7 @@ from django.core.management.base import BaseCommand
 
 from osmaxx.conversion import models as conversion_models
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
-from osmaxx.conversion_api.statuses import STATUSES_FINAL, FINISHED
+from osmaxx.conversion_api.statuses import FINAL_STATUSES, FINISHED
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -35,7 +35,7 @@ class Command(BaseCommand):
 
     def _handle_running_jobs(self):
         queue = django_rq.get_queue()
-        active_jobs = conversion_models.Job.objects.exclude(status__in=STATUSES_FINAL)\
+        active_jobs = conversion_models.Job.objects.exclude(status__in=FINAL_STATUSES)\
             .values_list('rq_job_id', flat=True)
         for job_id in active_jobs:
             self._update_job(job_id=job_id, queue=queue)
@@ -50,7 +50,7 @@ class Command(BaseCommand):
             return
 
         if job is None:  # already processed by someone else
-            if conversion_job.status not in STATUSES_FINAL:
+            if conversion_job.status not in FINAL_STATUSES:
                 logger.warning("job {} not found in queue but status is {} on database.".format(
                     job_id, conversion_job.status
                 ))
@@ -62,7 +62,7 @@ class Command(BaseCommand):
         if job.status == FINISHED:
             add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
         conversion_job.save()
-        if job.status in STATUSES_FINAL:
+        if job.status in FINAL_STATUSES:
             job.delete()
 
     def _notify(self, conversion_job):
