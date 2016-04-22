@@ -16,10 +16,9 @@ class ExtractionOrderState(enum.Enum):
     QUEUED = 2
     PROCESSING = 3
     FINISHED = 4
-    CANCELED = 5
     FAILED = 6
 
-FINAL_STATES = {ExtractionOrderState.FINISHED, ExtractionOrderState.CANCELED, ExtractionOrderState.FAILED}
+FINAL_STATES = {ExtractionOrderState.FINISHED, ExtractionOrderState.FAILED}
 
 
 CONVERSION_PROGRESS_TO_EXTRACTION_ORDER_STATE_MAPPING = {

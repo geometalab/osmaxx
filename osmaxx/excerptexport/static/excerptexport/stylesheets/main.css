@@ -255,7 +255,6 @@ table th                    { padding-right: 2rem; }
 [data-order-status="QUEUED"] { background: lightyellow; border: 0.1rem solid yellow; }
 [data-order-status="PROCESSING"] { background: aliceblue; border: 0.1rem solid steelblue; }
 [data-order-status="FINISHED"] { background: honeydew; border: 0.1rem solid seagreen; }
-[data-order-status="CANCELED"] { background: peachpuff; border: 0.1rem solid maroon; }
 [data-order-status="FAILED"] { background: mistyrose; border: 0.1rem solid maroon; }
 
 .symbol.undefined { color: maroon; }
@@ -264,7 +263,6 @@ table th                    { padding-right: 2rem; }
 .symbol.rotated90deg { display: inline-block; -ms-transform: rotate(90deg); -webkit-transform: rotate(90deg); transform: rotate(90deg); }
 .symbol.processing { color: dodgerblue; }
 .symbol.finished { color: seagreen; }
-.symbol.canceled { color: maroon; }
 .symbol.failed { color: darkred; }
 
 .download_files li[data-file-deleted] { opacity: 0.5; }

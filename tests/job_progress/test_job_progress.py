@@ -341,8 +341,6 @@ class OrderUpdateTest(TestCase):
             ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.FINISHED)
         for i in range(8):
             ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.FAILED)
-        for i in range(16):
-            ExtractionOrder.objects.create(orderer=test_user, state=ExtractionOrderState.CANCELED)
         for i in range(32):
             ExtractionOrder.objects.create(orderer=other_user)
         self.client.login(username='user', password='pw')
