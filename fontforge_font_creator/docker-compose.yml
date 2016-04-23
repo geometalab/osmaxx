@@ -8,4 +8,4 @@ services:
       - ../osmaxx-symbology/OSMaxx_point_symbols:/home/fonts/osmaxx
       - ./creator.py:/home/fontforge/creator.py
       - ./out:/out
-    command: python creator.py && move OSMaxx_v1.ttf /out/OSMaxx_v1.ttf
+    command: python creator.py

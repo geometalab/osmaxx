@@ -2,6 +2,7 @@
 import fontforge
 import os
 import ruamel.yaml
+import shutil
 
 
 class FontMaker:
@@ -28,6 +29,9 @@ class FontMaker:
             print("creating {}".format(font))
             self.n.fontname = definition['fontname']
             self.n.familyname = definition['fontname']
+            self.n.fullname = definition['fontname']
+            self.n.comment = definition['fontname']
+            self.n.weight = 'normal'
             for hex_position, glyph in definition['mappings'].items():
                 hex_value = int(hex_position, 16)
                 print(hex_value, glyph['filename'])
@@ -36,6 +40,7 @@ class FontMaker:
             export_file_name = '{}'.format(definition['filename'])
             self.n.generate(export_file_name)
             print("generated: ", export_file_name)
+            shutil.move(export_file_name, '/out/OSMaxx_v1.ttf')
 
 fm = FontMaker('osmaxx_v1_definition.yml')
 fm.create_font()
