@@ -2,26 +2,28 @@ import os
 
 import pytest
 
+from osmaxx.conversion_api.statuses import STARTED, FAILED, FINISHED
+
 
 @pytest.mark.django_db()
 def test_job_get_download_url_returns_none_when_file_missing(started_conversion_job, failed_conversion_job):
-    assert started_conversion_job.status == started_conversion_job.STARTED
+    assert started_conversion_job.status == STARTED
     assert started_conversion_job.get_download_url() is None
 
-    assert failed_conversion_job.status == started_conversion_job.FAILED
+    assert failed_conversion_job.status == FAILED
     assert failed_conversion_job.get_download_url() is None
 
 
 @pytest.mark.django_db()
 def test_job_get_download_url_returns_path_when_file_done(finished_conversion_job):
-    assert finished_conversion_job.status == finished_conversion_job.FINISHED
+    assert finished_conversion_job.status == FINISHED
     assert finished_conversion_job.get_download_url() is not None
     assert finished_conversion_job.get_download_url() == finished_conversion_job.get_absolute_url() + 'download-zip/'
 
 
 @pytest.mark.django_db()
 def test_job_removes_file_when_deleted(finished_conversion_job):
-    assert finished_conversion_job.status == finished_conversion_job.FINISHED
+    assert finished_conversion_job.status == FINISHED
     file_path = finished_conversion_job.resulting_file.name
     assert file_path is not None
     assert os.path.exists(file_path)

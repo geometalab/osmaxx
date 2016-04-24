@@ -75,6 +75,7 @@ def pytest_configure():
             'rest_framework_gis',
             'rest_framework.authtoken',
             'crispy_forms',
+            'stored_messages',
 
             'tests',
 

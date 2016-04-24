@@ -2,6 +2,8 @@ from collections import namedtuple
 
 import pytest
 
+from osmaxx.conversion_api.statuses import STARTED
+
 
 @pytest.fixture
 def queue(fake_rq_id):
@@ -9,8 +11,7 @@ def queue(fake_rq_id):
     Job = namedtuple('Job', ['status'])
 
     def fetch_job(job_id):
-        from osmaxx.conversion.models import Job as ConversionJob
-        job = Job(status=ConversionJob.STARTED)
+        job = Job(status=STARTED)
         return job
     queue = Queue(job_ids=[str(fake_rq_id)], fetch_job=fetch_job)
     return queue

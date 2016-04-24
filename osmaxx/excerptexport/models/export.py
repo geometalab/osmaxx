@@ -2,7 +2,12 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
+from osmaxx.conversion_api import statuses
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
+
+INITIAL = 'initial'
+INITIAL_CHOICE = (INITIAL, _('initial'))
+STATUS_CHOICES = (INITIAL_CHOICE,) + statuses.STATUS_CHOICES
 
 
 class Export(models.Model):
@@ -21,6 +26,7 @@ class Export(models.Model):
                                          verbose_name=_('extraction order'))
     file_format = models.CharField(choices=FORMAT_CHOICES, verbose_name=_('file format / data format'), max_length=10)
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
+    status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
 
     def send_to_conversion_service(self, clipping_area_json, incoming_request):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
@@ -40,3 +46,22 @@ class Export(models.Model):
     @property
     def status_update_url(self):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
+
+    def set_and_handle_new_status(self, new_status):
+        if self.status != new_status:
+            self.status = new_status
+            self._handle_changed_status()
+            self.save()
+
+    def _handle_changed_status(self):
+        from osmaxx.utilities.shortcuts import Emissary
+        emissary = Emissary(recipient=self.extraction_order.orderer)
+        emissary.info(self._get_export_status_changed_message())
+
+    def _get_export_status_changed_message(self):
+        from django.template.loader import render_to_string
+        view_context = dict(export=self)
+        return render_to_string(
+            'job_progress/messages/export_status_changed.txt',
+            context=view_context,
+        ).strip()
