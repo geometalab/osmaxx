@@ -94,7 +94,7 @@ begin
       --
       --raise info 'info: %', housenr;
       INSERT INTO temp_tbl
-	  select line_id, addr_street, housenr, st_line_interpolate_point(line_geom, location);
+    select line_id, addr_street, housenr, st_line_interpolate_point(line_geom, location);
       select location+step into location;
     end loop;
 
