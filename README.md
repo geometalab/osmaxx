@@ -25,7 +25,7 @@ Change to the directory `fontforge_font_creator`.
 ### Add/remove a symbol
 
 To add a single Symbol, edit the `osmaxx_v1_definition.yml` manually and add a hex value below the existing ones,
-best in descending order (next higher number).
+best in ascending order (next higher number).
 
 To remove a symbol, just delete the corresponding lines in the `osmaxx_v1_definition.yml`. 
 
