@@ -16,12 +16,6 @@ def docker_push(release, image_name, *args, **kwargs):
     subprocess.check_call(['docker', 'push', '{}:{}'.format(image_name, release)])
 
 
-def parse_args(args):
-    parser = argparse.ArgumentParser(description='Image pusher for a new OSMaxx release.')
-    parser.add_argument('release', type=str, help='the name of the new release')
-    return parser.parse_args(args)
-
-
 if __name__ == '__main__':
     import subprocess
     release = subprocess.check_output(["git", "describe"]).strip().decode()
