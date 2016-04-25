@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+import argparse
+import sys
+import subprocess
+
+IMAGES = [
+    dict(image_name='geometalab/osmaxx-mediator', dockerfile='Dockerfile.mediator'),
+    dict(image_name='geometalab/osmaxx-worker', dockerfile='Dockerfile.worker'),
+    dict(image_name='geometalab/osmaxx-frontend', dockerfile='Dockerfile.frontend'),
+]
+
+def docker_build(dockerfile, image_name, release, location='.'):
+    print(dockerfile, image_name, release, location)
+    subprocess.check_call(['docker', 'build', '-f', dockerfile, '-t', '{}:{}'.format(image_name, release), location])
+
+def docker_push(release, image_name, *args, **kwargs):
+    subprocess.check_call(['docker', 'push', '{}:{}'.format(image_name, release)])
+
+def parse_args(args):
+    parser = argparse.ArgumentParser(description='Image pusher for a new OSMaxx release.')
+    parser.add_argument('release', type=str, help='the name of the new release')
+    return parser.parse_args(args)
+
+
+if __name__ == '__main__':
+    import subprocess
+    release = subprocess.check_output(["git", "describe"]).strip().decode()
+    for image in IMAGES:
+        docker_build(release=release, **image)
+    for image in IMAGES:
+        docker_push(release=release, **image)
+    print(release, ' has been pushed, you can now use that in your deployment!')
