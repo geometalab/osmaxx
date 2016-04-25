@@ -19,7 +19,6 @@ services:
     extends: baseenv
     expose:
       - "8000"
-    command: honcho start -f Procfile.django
     environment:
       # port and host application listens
       - APP_PORT=8000
