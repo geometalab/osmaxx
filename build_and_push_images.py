@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-import argparse
-
 IMAGES = [
     dict(image_name='geometalab/osmaxx-mediator', dockerfile='Dockerfile.mediator'),
     dict(image_name='geometalab/osmaxx-worker', dockerfile='Dockerfile.worker'),
