@@ -57,4 +57,3 @@ for svg in svgs:
     print("    \"{:#06x}\":".format(r.__next__()), file=oufile_writer)
     print("      filename: \"{}\"".format(svg), file=oufile_writer)
     count += 1
-
