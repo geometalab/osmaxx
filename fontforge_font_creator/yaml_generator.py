@@ -38,7 +38,7 @@ class UnicodeRanger:
 
 svg_dir = os.path.join(os.path.dirname(__file__), '..', 'osmaxx-symbology', 'OSMaxx_point_symbols', 'svg')
 
-svgs = [f for f in os.listdir(svg_dir) if f.endswith('svg')]
+svgs = [f for f in os.listdir(svg_dir) if f.lower().endswith('.svg')]
 svgs.sort()
 
 start_number = 0xE000
