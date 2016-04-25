@@ -12,13 +12,15 @@ class FontMaker:
         fm.create_font()
     """
     def __init__(self, font_config):
-        self.config = self.yml_reader(font_config)
+        self.config = self.read_yaml(font_config)
         self._base_path = '/home/fonts/osmaxx/svg'
         self.fontforge_font = fontforge.font()
         self.fontforge_font.encoding = 'Unicode'
 
-    def yml_reader(self, font_config):
-        return ruamel.yaml.load(open(font_config, 'r').read())
+    def read_yaml(self, file_name):
+        with open(file_name, 'r') as yaml_file:
+            parsed_yaml = ruamel.yaml.load(yaml_file.read())
+        return parsed_yaml
 
     def add_glyph(self, hex_position, svg):
         glyph = self.fontforge_font.createChar(hex_position)
