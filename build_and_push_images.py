@@ -16,7 +16,7 @@ def docker_push(release, image_name, *args, **kwargs):
 
 if __name__ == '__main__':
     import subprocess
-    release = subprocess.check_output(["git", "describe"]).strip().decode()
+    release = subprocess.check_output(["git", "describe", " --dirty"]).strip().decode()
     for image in IMAGES:
         docker_build(release=release, **image)
     for image in IMAGES:
