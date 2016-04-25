@@ -9,7 +9,6 @@ IMAGES = [
 
 
 def docker_build(dockerfile, image_name, release, location='.'):
-    print(dockerfile, image_name, release, location)
     subprocess.check_call(['docker', 'build', '-f', dockerfile, '-t', '{}:{}'.format(image_name, release), location])
 
 
