@@ -1,0 +1,11 @@
+version: '2'
+services:
+  fontforge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../osmaxx-symbology/OSMaxx_point_symbols:/home/fonts/osmaxx
+      - ./creator.py:/home/fontforge/creator.py
+      - ./out:/out
+    command: python creator.py
