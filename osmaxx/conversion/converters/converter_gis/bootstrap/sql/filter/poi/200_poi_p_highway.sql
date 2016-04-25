@@ -31,8 +31,10 @@ INSERT INTO osmaxx.poi_p
 	cast(tags as text) as tags,
 	website as website,
 	wikipedia as wikipedia,
-	phone as phone,
-	"contact:phone" as contact_phone,
+	case
+		when "contact:phone" is not NULL then "contact:phone"
+		else phone
+	end as phone,
 	opening_hours as opening_hours,
 	cuisine as cuisine,
 	"access" as "access",
@@ -74,8 +76,10 @@ UNION
 	cast(tags as text) as tags,
 	website as website,
 	wikipedia as wikipedia,
-	phone as phone,
-	"contact:phone" as contact_phone,
+	case
+		when "contact:phone" is not NULL then "contact:phone"
+		else phone
+	end as phone,
 	opening_hours as opening_hours,
 	cuisine as cuisine,
 	"access" as "access",
