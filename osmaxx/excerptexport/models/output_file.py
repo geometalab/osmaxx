@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
+from osmaxx.excerptexport.models.export import Export
 from .extraction_order import ExtractionOrder
 from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 
@@ -21,6 +22,7 @@ class OutputFile(models.Model):
 
     extraction_order = models.ForeignKey(ExtractionOrder, related_name='output_files',
                                          verbose_name=_('extraction order'))
+    export = models.OneToOneField(Export, related_name='output_file', verbose_name=_('export'), null=True)
 
     @property
     def download_file_name(self):
