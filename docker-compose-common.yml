@@ -24,7 +24,7 @@ services:
       - APP_PORT=8000
       - APP_HOST=0.0.0.0
       # hardened security compared to default settings.
-      - DJANGO_SETTINGS_MODULE=config.settings.production
+      - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.production
       - DJANGO_STATIC_ROOT=/data/static
       - DJANGO_MEDIA_ROOT=/data/media
       - DJANGO_PRIVATE_MEDIA_ROOT=/data/private_media
