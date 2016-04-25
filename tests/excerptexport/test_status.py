@@ -10,7 +10,7 @@ from .permission_test_helper import PermissionHelperMixin
 from tests.test_helpers import vcr_explicit_path as vcr
 
 
-@patch('osmaxx.job_progress.middleware.update_order')
+@patch('osmaxx.job_progress.middleware.update_export')
 class StatusTestCase(TestCase, PermissionHelperMixin):
     extraction_order = None
 

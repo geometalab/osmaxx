@@ -12,7 +12,7 @@ from osmaxx.excerptexport.models import OutputFile, Excerpt, ExtractionOrder
 from osmaxx.excerptexport.models import BBoxBoundingGeometry
 
 
-@patch('osmaxx.job_progress.middleware.update_order')
+@patch('osmaxx.job_progress.middleware.update_export')
 class DownloadsTestCase(TestCase):
     def setUp(self):
         if not os.path.isdir(settings.PRIVATE_MEDIA_ROOT):

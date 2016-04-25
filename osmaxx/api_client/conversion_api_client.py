@@ -161,64 +161,20 @@ class ConversionApiClient(JWTClient):
         output_file.file = get_default_private_storage().save(file_name, ContentFile(result_response.content))
         output_file.save()
 
-    def job_status(self, extraction_order):
+    def job_status(self, export):
         """
         Get the status of the conversion job
 
         Args:
-            extraction_order: an ExtractionOrder object containing a process id
+            export: an Export object
 
         Returns:
-            A status dict on success like:
-                {
-                    "rq_job_id": "4b529c79-559c-4730-9cd2-03ea91c9a5ef",
-                    "status": "done",
-                    "progress": "successful",
-                    "gis_formats": [
-                        {
-                            "format": "fgdb",
-                            "progress": "successful",
-                            "result_url": "http://<conversion service host>:8901/api/gis_format/11/download_result/"
-                        },
-                        {
-                            "format": "spatialite",
-                            "progress": "successful",
-                            "result_url": "http://<conversion service host>:8901/api/gis_format/12/download_result/"
-                        }
-                    ]
-                }
-            False on error
+            The status of the associated job (if any), otherwise ``None``
         """
-        if not extraction_order.progress_url:  # None or empty
+        if not export.conversion_service_job_id:
             return None
-        try:
-            response = self.authorized_get(url=extraction_order.progress_url)
-        except HTTPError:
-            return None
-        return response.json()
-
-    def update_order_status(self, extraction_order):
-        """
-        Update the status of the extraction order by the status of the conversion job
-
-        Args:
-            extraction_order: an ExtractionOrder object to update the state
-        """
-        job_status = self.job_status(extraction_order)
-
-        if job_status:
-            progress = job_status['progress']
-            extraction_order.set_status_from_conversion_progress(progress)
-            extraction_order.save()
-            if progress == 'successful':
-                self._download_result_files(extraction_order, job_status)
-            elif self._extraction_processing_overdue(progress, extraction_order):
-                logger.warning(
-                    'Extraction order %s processing timeout overdue. Set status to FAILED.',
-                    extraction_order.id,
-                )
-                extraction_order.state = ExtractionOrderState.FAILED
-                extraction_order.save()
+        response = self.authorized_get(url='conversion_job/{}'.format(export.conversion_service_job_id))
+        return response.json()['status']
 
     def estimated_file_size(self, north, west, south, east):
         request_data = {
