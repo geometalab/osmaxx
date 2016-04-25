@@ -45,4 +45,4 @@ docker-compose build
 docker-compose run --rm
 ```
 
-Open the generated font found in the `out` directory and check, if the symbols are placed correctly.
+Open the generated font found in the `out` directory and check whether the symbols are placed correctly.
