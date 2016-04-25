@@ -1,15 +1,27 @@
 #!/usr/bin/env python3
 import os
+import unicodedata
 
-excluded_ranges = list(range(0x0000, 0x0021)) + list(range(0x007F, 0x00A1))
 
-
-class Ranger:
-    def __init__(self, start, stop, excluded_range=None):
+class UnicodeRanger:
+    def __init__(self, start, stop):
         self.current = start
         self.high = stop
         self.stop = stop
-        self.excluded_range = excluded_range
+        self._allowed_ranges = [
+            ('Co', 'Other', 'Private Use'),
+            ('LC', 'Letter', 'Cased'),
+            ('Ll', 'Letter', 'Lowercase'),
+            ('Lo', 'Letter', 'Other'),
+            ('Lt', 'Letter', 'Titlecase'),
+            ('Lu', 'Letter', 'Uppercase'),
+            ('Nd', 'Number', 'Decimal Digit'),
+            ('Sc', 'Symbol', 'Currency'),
+            ('Sm', 'Symbol', 'Math'),
+            ('So', 'Symbol', 'Other'),
+            ('Zs', 'Separator', 'Space'),
+        ]
+        self._included_ranges = [t[0] for t in self._allowed_ranges]
 
     def __iter__(self):
         return self
@@ -19,7 +31,7 @@ class Ranger:
             raise StopIteration
         else:
             self.current += 1
-            while self.current in self.excluded_range:
+            while unicodedata.category(chr(self.current)) not in self._included_ranges:
                 self.current += 1
                 self.stop += 1
             return self.current
@@ -30,7 +42,7 @@ svgs = [f for f in os.listdir(svg_dir) if f.endswith('svg')]
 svgs.sort()
 
 start_number = 0xE000
-r = Ranger(start_number, start_number + len(svgs), excluded_ranges)
+r = UnicodeRanger(start_number, start_number + len(svgs))
 outfile = os.path.join(os.path.dirname(__file__), 'osmaxx_v1_definition.yml')
 oufile_writer = open(outfile, 'w+')
 
