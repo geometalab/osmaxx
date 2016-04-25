@@ -8,7 +8,7 @@ These are the documents and resources to be expected here 2016:
 * Other related stuff
 
 
-## Font Generation
+## Symbol Font Generation
 
 The font-generation for OSMaxx can be found in `fontforge_font_creator`.
 
