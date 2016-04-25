@@ -29,13 +29,13 @@ best in descending order (next higher number).
 
 To remove a symbol, just delete the corresponding lines in the `osmaxx_v1_definition.yml`. 
 
-Then execute *Generating the font*.
+Then follow the instructions in section [Generating the font](#generating-the-font) below.
 
 ### Create initial yml/move the entire symbols to another range
 
 Edit `yaml_generator.py` and set the (new) start_number, ie. `start_number = 0xE000` for the `user defined range`.
 
-Then follow the instructions below, *Generating the font*.
+Then follow the instructions in section [Generating the font](#generating-the-font) below.
 
 ### Generating the font
 
