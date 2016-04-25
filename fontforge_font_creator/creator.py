@@ -44,5 +44,6 @@ class FontMaker:
             print("generated: ", export_file_name)
             shutil.move(export_file_name, '/out/OSMaxx_v1.ttf')
 
-fm = FontMaker('osmaxx_v1_definition.yml')
-fm.create_font()
+if __name__ == '__main__':
+    fm = FontMaker('osmaxx_v1_definition.yml')
+    fm.create_font()
