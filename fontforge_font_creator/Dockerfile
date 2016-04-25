@@ -1,9 +1,7 @@
 FROM python:3
 
-RUN apt-get update && apt-get install -y git \
- autotools-dev libjpeg-dev libtiff5-dev libpng-dev libgif-dev libxt-dev libfreetype6-dev autoconf automake libtool libltdl7-dev libxml2-dev libuninameslist-dev libspiro-dev python-dev libpango1.0-dev libcairo2-dev \
- automake \
- unifont
+RUN apt-get update && apt-get install -y \
+  git autotools-dev libjpeg-dev libtiff5-dev libpng-dev libgif-dev libxt-dev libfreetype6-dev autoconf automake libtool libltdl7-dev libxml2-dev libuninameslist-dev libspiro-dev python-dev libpango1.0-dev libcairo2-dev unifont
 
 WORKDIR /home/fontforge
 
