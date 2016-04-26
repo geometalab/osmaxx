@@ -2,12 +2,6 @@
 
 <nav id="main_menu">
     <ul class="nav nav-pills">
-        <li role="presentation" {% if view == 'index' %}class="active"{% endif %}>
-            <a href="{% url 'excerptexport:index' %}">
-                <span class="menu_icon">&bigstar;</span>&nbsp;{% trans 'Home' %}
-            </a>
-        </li>
-
         <li role="presentation" {% if view == 'order_existing_excerpt' %}class="active"{% endif %}>
             <a href="{% url 'excerptexport:order_existing_excerpt' %}">
                 <span class="menu_icon">&#x27bd;</span>&nbsp;{% trans 'Existing excerpt / country' %}
