@@ -7,6 +7,7 @@ from django.dispatch.dispatcher import receiver
 from django.utils.translation import ugettext_lazy as _
 from django_enumfield import enum
 
+from osmaxx.excerptexport.models.output_file import OutputFile
 from .excerpt import Excerpt
 
 
@@ -78,7 +79,6 @@ class ExtractionOrder(models.Model):
                 ),
                 'excerpt: {}'.format(str(self.excerpt_name)),
                 'state: {}'.format(self.get_state_display()),
-                'output files: {}'.format(str(self.output_files.count())),
             ]
         )
 
@@ -95,6 +95,10 @@ class ExtractionOrder(models.Model):
         elif self.country_id:
             from osmaxx.api_client import ConversionApiClient
             return ConversionApiClient().get_country_name(self.country_id)
+
+    @property
+    def output_files(self):
+        return OutputFile.objects.filter(export__extraction_order=self)
 
     @property
     def are_downloads_ready(self):

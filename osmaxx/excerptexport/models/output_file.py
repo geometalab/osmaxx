@@ -6,7 +6,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 from osmaxx.excerptexport.models.export import Export
-from .extraction_order import ExtractionOrder
 from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 
 
@@ -19,9 +18,6 @@ class OutputFile(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
     deleted_on_filesystem = models.BooleanField(default=False, verbose_name=_('deleted on filesystem'))
     public_identifier = models.UUIDField(primary_key=False, default=uuid.uuid4, verbose_name=_('public identifier'))
-
-    extraction_order = models.ForeignKey(ExtractionOrder, related_name='output_files',
-                                         verbose_name=_('extraction order'))
     export = models.OneToOneField(Export, related_name='output_file', verbose_name=_('export'), null=True)
 
     @property
@@ -30,7 +26,7 @@ class OutputFile(models.Model):
             'id': str(self.public_identifier),
             'name': os.path.basename(self.file.name) if self.file else None,
             'date': self.creation_date.strftime("%F"),
-            'excerpt_name': self.extraction_order.excerpt_name.replace(" ", ""),
+            'excerpt_name': self.export.extraction_order.excerpt_name.replace(" ", ""),
             'content_type': self.content_type if self.content_type else 'file',
             'file_extension': self.file_extension
         }
