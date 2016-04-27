@@ -4,7 +4,7 @@ from rest_framework.reverse import reverse
 
 from osmaxx.conversion_api import statuses
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
-from osmaxx.conversion_api.statuses import FAILED, FINAL_STATUSES
+from osmaxx.conversion_api.statuses import FAILED, FINAL_STATUSES, FINISHED
 
 INITIAL = 'initial'
 INITIAL_CHOICE = (INITIAL, _('initial'))
@@ -59,6 +59,8 @@ class Export(models.Model):
         emissary = Emissary(recipient=self.extraction_order.orderer)
         if self.status == FAILED:
             emissary.error(self._get_export_status_changed_message())
+        elif self.status == FINISHED:
+            emissary.success(self._get_export_status_changed_message())
         else:
             emissary.info(self._get_export_status_changed_message())
 

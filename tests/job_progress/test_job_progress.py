@@ -153,6 +153,28 @@ class CallbackHandlingTest(APITestCase):
         )
 
     @patch('osmaxx.utilities.shortcuts.Emissary')
+    def test_calling_tracker_with_payload_indicating_finished_informs_user_with_success(
+            self, emissary_class_mock, *args, **mocks):
+        emissary_mock = emissary_class_mock()
+
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
+            data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
+        )
+
+        views.tracker(request, export_id=str(self.export.id))
+        assert_that(
+            emissary_mock.mock_calls, contains_in_any_order(
+                call.success(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has finished.'.format(
+                        export_id=self.export.id
+                    ),
+                ),
+            )
+        )
+
+    @patch('osmaxx.utilities.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_unchanged_status_does_not_inform_user(
             self, emissary_class_mock, *args, **mocks):
         self.export.status = 'started'
