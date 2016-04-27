@@ -84,6 +84,7 @@ def pytest_configure():
             'osmaxx.conversion',
 
             # web_frontend apps
+            'osmaxx.core',
             'osmaxx.countries',
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
