@@ -1,0 +1,14 @@
+{% extends "excerptexport/layouts/base.html" %}
+<!-- TODO: Move the base to top directory! -->
+{% load i18n %}
+
+{% block main %}
+<div class="container-row">
+    <h2>About OSMaxx</h2>
+    <p>Some description</p>
+    <h3>Usefull links</h3>
+    <p>Can be found in our separate <a href="{% url 'static_pages:downloads' %}">downloads page</a></p>
+    <h3>Impressum</h3>
+    <p>some words about license and such.</p>
+</div>
+{% endblock %}
