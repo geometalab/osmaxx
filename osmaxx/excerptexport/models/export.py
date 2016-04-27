@@ -4,6 +4,7 @@ from rest_framework.reverse import reverse
 
 from osmaxx.conversion_api import statuses
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
+from osmaxx.conversion_api.statuses import FAILED, FINAL_STATUSES
 
 INITIAL = 'initial'
 INITIAL_CHOICE = (INITIAL, _('initial'))
@@ -56,7 +57,10 @@ class Export(models.Model):
     def _handle_changed_status(self):
         from osmaxx.utilities.shortcuts import Emissary
         emissary = Emissary(recipient=self.extraction_order.orderer)
-        emissary.info(self._get_export_status_changed_message())
+        if self.status == FAILED:
+            emissary.error(self._get_export_status_changed_message())
+        else:
+            emissary.info(self._get_export_status_changed_message())
 
     def _get_export_status_changed_message(self):
         from django.template.loader import render_to_string
@@ -65,3 +69,7 @@ class Export(models.Model):
             'job_progress/messages/export_status_changed.txt',
             context=view_context,
         ).strip()
+
+    @property
+    def is_status_final(self):
+        return self.status in FINAL_STATUSES

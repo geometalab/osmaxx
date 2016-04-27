@@ -101,7 +101,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.info(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase is now queued.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has been queued.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -123,7 +123,29 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.info(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase is now started.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has been started.'.format(
+                        export_id=self.export.id
+                    ),
+                ),
+            )
+        )
+
+    @patch('osmaxx.utilities.shortcuts.Emissary')
+    def test_calling_tracker_with_payload_indicating_failed_informs_user_with_error(
+            self, emissary_class_mock, *args, **mocks):
+        emissary_mock = emissary_class_mock()
+
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
+            data=dict(status='failed', job='http://localhost:8901/api/conversion_job/1/')
+        )
+
+        views.tracker(request, export_id=str(self.export.id))
+        assert_that(
+            emissary_mock.mock_calls, contains_in_any_order(
+                call.error(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has failed.'.format(
                         export_id=self.export.id
                     ),
                 ),
