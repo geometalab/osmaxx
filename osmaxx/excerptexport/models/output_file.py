@@ -12,7 +12,6 @@ from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 class OutputFile(models.Model):
     mime_type = models.CharField(max_length=64, verbose_name=_('mime type'))
     file_extension = models.CharField(max_length=64, verbose_name=_('file extension'), default='')
-    content_type = models.CharField(max_length=64, verbose_name=_('content type'), default='')
     file = models.FileField(storage=get_private_upload_storage(), blank=True, null=True,
                             verbose_name=_('file'))
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
@@ -30,6 +29,10 @@ class OutputFile(models.Model):
             'content_type': self.content_type if self.content_type else 'file',
             'file_extension': self.file_extension
         }
+
+    @property
+    def content_type(self):
+        return self.export.file_format
 
     def __str__(self):
         return \
