@@ -5,58 +5,15 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Osmaxx</title>
-    <link rel="icon" type="image/png" href='{% static "excerptexport/images/favicon.png" %}' />
+    <link rel="icon" type="image/png" href='{% static "osmaxx/images/favicon.png" %}' />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <style>
-        body { font-family: Arial, sans-serif; }
-    </style>
-
-    <link rel="stylesheet" href="{% static 'excerptexport/libraries/bootstrap/css/bootstrap.min.css' %}" />
-
-    <link rel='stylesheet' type='text/css' href='{% static "excerptexport/stylesheets/main.css" %}' />
-    <link rel='stylesheet' type='text/css' href='{% static "excerptexport/stylesheets/ie-fixes.css" %}' />
-
-    {% block extracss %}
+    {% block extra_head %}
     {% endblock %}
 
 </head>
 <body>
-    <div class="page">
-        <header>
-            <div class="topBar">
-                <a href="{% url 'excerptexport:index' %}">
-                    <h1><img class="logo" src='{% static "excerptexport/images/logo-osmaxx-200.png" %}' alt="Osmaxx" /></h1>
-                </a>
-                <img class="hsr-logo" src='{% static "excerptexport/images/logo-hsr.jpg" %}' alt="Logo hsr" />
-                {% include 'excerptexport/partials/navigation.html' with view=view user=user %}
-            </div>
-            <nav class="breadcrumb">
-                <ol class="breadcrumb" data-type="bootstrap">
-                    {% block breadcrumb %}<li>Osmaxx</li>{% endblock %}
-                </ol>
-            </nav>
-        </header>
-
-        <div class="main box-row-grid">
-            <div class="grid-row messagebox">
-                {% include 'excerptexport/partials/flash_messages.html' with messages=messages %}
-            </div>
-
-            {% block main %}
-            <div class="container-row">
-                <h2>Main block</h2>
-            </div>
-            {% endblock %}
-        </div>
-
-        <footer>
-            {% include 'excerptexport/partials/footer.html' %}
-        </footer>
-    </div>
-
-    {% block scripts %}
-
+    {% block body %}
     {% endblock %}
 </body>
 </html>
