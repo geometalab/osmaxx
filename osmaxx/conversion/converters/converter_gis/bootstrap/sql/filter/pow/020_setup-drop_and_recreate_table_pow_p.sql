@@ -20,7 +20,6 @@ CREATE TABLE osmaxx.pow_p (
   website text,
   wikipedia text,
   phone text,
-  contact_phone text,
   opening_hours text,
   "access" text
 );

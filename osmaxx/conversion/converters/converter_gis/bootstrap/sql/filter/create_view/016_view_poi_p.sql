@@ -11,7 +11,6 @@ CREATE OR REPLACE VIEW view_osmaxx.poi_p AS SELECT
   website,
   wikipedia,
   phone,
-  contact_phone,
   opening_hours,
   cuisine,
   "access",
