@@ -14,11 +14,12 @@
 
     <link rel="stylesheet" href="{% static 'excerptexport/libraries/bootstrap/css/bootstrap.min.css' %}" />
 
-    <link rel="stylesheet" type="text/css" href='{% static "excerptexport/libraries/leaflet/leaflet.css" %}' />
-    <link rel='stylesheet' type='text/css' href='{% static "excerptexport/libraries/leaflet-locationfilter/locationfilter.css" %}' />
-
     <link rel='stylesheet' type='text/css' href='{% static "excerptexport/stylesheets/main.css" %}' />
     <link rel='stylesheet' type='text/css' href='{% static "excerptexport/stylesheets/ie-fixes.css" %}' />
+
+    {% block extracss %}
+    {% endblock %}
+
 </head>
 <body>
     <div class="page">
@@ -53,16 +54,9 @@
             {% include 'excerptexport/partials/footer.html' %}
         </footer>
     </div>
-    <script type="text/javascript" src="{% static 'js/custom_event_polyfills.js' %}"></script>
+
     {% block scripts %}
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script type="text/javascript" src="{% static 'excerptexport/libraries/jquery/jquery.min.js' %}"></script>
 
-    <!-- Bootstrap -->
-    <script type="text/javascript" src="{% static 'excerptexport/libraries/bootstrap/js/bootstrap.min.js' %}"></script>
-
-    <!-- Helpers -->
-    <script type="text/javascript" src="{% static 'excerptexport/scripts/helperFunctions.js' %}"></script>
     {% endblock %}
 </body>
 </html>
