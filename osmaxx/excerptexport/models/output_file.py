@@ -17,7 +17,7 @@ class OutputFile(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
     deleted_on_filesystem = models.BooleanField(default=False, verbose_name=_('deleted on filesystem'))
     public_identifier = models.UUIDField(primary_key=False, default=uuid.uuid4, verbose_name=_('public identifier'))
-    export = models.OneToOneField(Export, related_name='output_file', verbose_name=_('export'), null=True)
+    export = models.OneToOneField(Export, related_name='output_file', verbose_name=_('export'))
 
     @property
     def download_file_name(self):
