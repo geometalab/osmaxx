@@ -10,6 +10,7 @@ from django.http.response import Http404
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
 from io import BytesIO
+from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 from rest_framework.test import APITestCase, APIRequestFactory
 
 from osmaxx import excerptexport
@@ -97,9 +98,13 @@ class CallbackHandlingTest(APITestCase):
         )
 
         views.tracker(request, export_id=str(self.export.id))
-        emissary_mock.info.assert_called_with(
-            'Export #{export_id} "Neverland" to ESRI File Geodatabase is now queued.'.format(
-                export_id=self.export.id
+        assert_that(
+            emissary_mock.mock_calls, contains_in_any_order(
+                call.info(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase is now queued.'.format(
+                        export_id=self.export.id
+                    ),
+                ),
             )
         )
 
@@ -115,9 +120,13 @@ class CallbackHandlingTest(APITestCase):
         )
 
         views.tracker(request, export_id=str(self.export.id))
-        emissary_mock.info.assert_called_with(
-            'Export #{export_id} "Neverland" to ESRI File Geodatabase is now started.'.format(
-                export_id=self.export.id
+        assert_that(
+            emissary_mock.mock_calls, contains_in_any_order(
+                call.info(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase is now started.'.format(
+                        export_id=self.export.id
+                    ),
+                ),
             )
         )
 
