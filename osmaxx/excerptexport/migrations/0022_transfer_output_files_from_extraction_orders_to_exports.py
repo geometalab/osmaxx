@@ -37,6 +37,11 @@ class Migration(migrations.Migration):
             set_export_fk_from_extraction_order_and_content_type,
             set_extraction_order_fk_and_content_type_from_export
         ),
+        migrations.AlterField(
+            model_name='outputfile',
+            name='export',
+            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='output_file', to='excerptexport.Export', verbose_name='export'),
+        ),
         migrations.RemoveField(
             model_name='outputfile',
             name='extraction_order',
