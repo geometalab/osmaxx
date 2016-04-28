@@ -20,7 +20,6 @@ CREATE TABLE osmaxx.poi_p(
 	website text,
 	wikipedia text,
 	phone text,
-	contact_phone text,
 	opening_hours text,
 	cuisine text,
 	"access" text,
