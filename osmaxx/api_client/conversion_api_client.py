@@ -22,7 +22,7 @@ LOGIN_URL = '/token-auth/'
 USERNAME = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
 PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
 
-CONVERSION_JOB_URL = '/jobs/'
+CONVERSION_JOB_URL = '/conversion_job/'
 ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
 
 
@@ -128,6 +128,18 @@ class ConversionApiClient(JWTClient):
         else:
             logging.error('Could not retrieve api job id from response.', response)
         return response
+
+    def get_result_file_url(self, job_id):
+        job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)
+        return self.authorized_get(job_detail_url).json()['resulting_file']
+
+    def download_file_to(self, url, destination_filename):
+        r = self.authorized_get(url, stream=True)
+        with open(destination_filename, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+        return destination_filename
 
     def _download_result_files(self, extraction_order, job_status):
         """
