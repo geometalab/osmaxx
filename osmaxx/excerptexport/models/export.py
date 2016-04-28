@@ -34,7 +34,7 @@ class Export(models.Model):
         extraction_format = self.file_format
         gis_options = self.extraction_order.extraction_configuration['gis_options']
         out_srs = gis_options['coordinate_reference_system']
-        parametrization_json = api_client.create_parametrization(clipping_area_json, extraction_format, out_srs)
+        parametrization_json = api_client.create_parametrization(boundary=clipping_area_json, out_format=extraction_format, out_srs=out_srs)
         job_json = api_client.create_job(parametrization_json, self.status_update_url)
         self.conversion_service_job_id = job_json['id']
         self.save()
@@ -48,7 +48,8 @@ class Export(models.Model):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
 
     def set_and_handle_new_status(self, new_status):
-        if self.status != new_status:
+        # TODO: remove ugly bug fix and make it cleaner
+        if new_status and self.status != new_status:
             self.status = new_status
             self._handle_changed_status()
             self.save()
