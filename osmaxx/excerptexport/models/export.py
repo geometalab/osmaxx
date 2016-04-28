@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
@@ -27,6 +29,7 @@ class Export(models.Model):
     file_format = models.CharField(choices=FORMAT_CHOICES, verbose_name=_('file format / data format'), max_length=10)
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
     status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
+    conversion_result = models.FileField(blank=True, null=True, verbose_name=_('conversion result'))
 
     def send_to_conversion_service(self, clipping_area_json, incoming_request):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
@@ -47,10 +50,31 @@ class Export(models.Model):
     def status_update_url(self):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
 
+    def _get_uuid_file_name(self):
+        # TODO: make this name better!
+        return uuid.uuid4()
+
+    def _attach_file(self):
+        from osmaxx.api_client import ConversionApiClient
+        api_client = ConversionApiClient()
+        download_url = api_client.get_result_file_url(self.conversion_service_job_id)
+        if download_url:
+            local_file = api_client.download_file_to(url=download_url, destination_filename='asdas')
+            from django.core.files import File
+            unique_name = self._get_uuid_file_name()
+            # TODO: remove hardcoded zip extension
+            unique_file_name = '{}.zip'.format(unique_name)
+            self.conversion_result.save(unique_file_name, File(open(local_file, 'rb')))
+
     def set_and_handle_new_status(self, new_status):
         # TODO: remove ugly bug fix and make it cleaner
         if new_status and self.status != new_status:
             self.status = new_status
+            if self.status == statuses.FINISHED:
+                try:
+                    self.conversion_result.url
+                except ValueError:
+                    self._attach_file()
             self._handle_changed_status()
             self.save()
 

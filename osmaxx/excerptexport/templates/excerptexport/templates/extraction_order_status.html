@@ -31,6 +31,16 @@
             </tbody>
         </table>
 
+        <ul>
+            {% for export in extraction_order.exports.all %}
+            {% if export.conversion_result %}
+                <li>
+                    {{export.file_format}}: <a href="{{export.conversion_result.url}}">{{export.conversion_result.name}}</a>
+                </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+
         {% if extraction_order.output_files.count > 0 %}
             <h3>{% trans 'Downloads' %}&nbsp;<!--
                 -->{% if extraction_order.are_downloads_ready %}<!--
