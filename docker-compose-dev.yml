@@ -12,6 +12,7 @@ services:
       - "8000:8000"
     command: [honcho, -f, ./web_frontend/Procfile.django.dev, start]
     environment:
+      - DJANGO_DEBUG=True
       - DJANGO_ALLOWED_HOSTS=*
       - DJANGO_SECRET_KEY=insecure!1
       - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.local
@@ -27,6 +28,7 @@ services:
       - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
     command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.dev, start]
     environment:
+      - DJANGO_DEBUG=True
       - DJANGO_SECRET_KEY=insecure!2
       - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
   worker:
