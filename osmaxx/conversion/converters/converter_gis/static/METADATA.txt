@@ -1,0 +1,21 @@
+titel               = "OpenStreetMap-Daten im Datenmodell Osmaxx v.2"
+abstract            = "OpenStreetMap-Daten aufbereitet zur Kartenerstellung, POI-Suche und Analyse"
+bezug               = "CH" 
+geodatentyp         = Vector
+source_owner        = http://www.openstreetmap.org
+external_metadata   = file:\\gdimetadata\opendata\OSM\Osmaxx_Data_Model_v2.pdf
+keywords            = Base Data, Basisdaten, Open Data, OpenStreetMap
+data_format         = Shapefile
+geodata_ref         = \\gdifiler.hsr.ch\gdivector\opendata\OSM\switzerland.zip
+class_name          = adminarea, boundary, building, geoname, geoname, landuse, military, military, natural, natural, nonop, poi, poi, power, power, power, pow, pow, railway, road, traffic, traffic, transport, transport, water, water, water
+crs                 = WGS84
+license_ref         = http://osmaxx.hsr.ch
+restricted_use      = frei
+restricted_use_end  = NULL
+credit_is_required  = true
+update_period       = unregelmaessig
+data_updated        = 2015-03-13
+metadata_updated    = 2015-03-13H10:35MEZ
+metadata_author     = KES
+metadata_is_internal= false
+
