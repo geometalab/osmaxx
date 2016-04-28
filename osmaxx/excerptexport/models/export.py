@@ -35,7 +35,7 @@ class Export(models.Model):
         gis_options = self.extraction_order.extraction_configuration['gis_options']
         out_srs = gis_options['coordinate_reference_system']
         parametrization_json = api_client.create_parametrization(boundary=clipping_area_json, out_format=extraction_format, out_srs=out_srs)
-        job_json = api_client.create_job(parametrization_json, self.status_update_url)
+        job_json = api_client.create_job(parametrization_json, self.get_full_status_update_uri(incoming_request))
         self.conversion_service_job_id = job_json['id']
         self.save()
         return job_json
