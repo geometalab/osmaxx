@@ -2,7 +2,7 @@
 INSERT INTO osmaxx.utility_l
   SELECT osm_id as osm_id,
     osm_timestamp as lastchange ,
-    'W' AS geomtype, -- Way
+    'W' AS geomtype,       -- Way
     ST_Multi(way) AS geom,
     'man_made' AS aggtype,
     man_made as type,

@@ -4,7 +4,7 @@ INSERT INTO osmaxx.misc_l
     osm_timestamp as lastchange,
     CASE
      WHEN osm_id<0 THEN 'R' -- Relation
-     ELSE 'W'         -- Way
+     ELSE 'W'               -- Way
      END AS geomtype,
     ST_Multi(way) AS geom,
     'barrier' as aggtype,
@@ -48,7 +48,7 @@ UNION
     osm_timestamp as lastchange,
     CASE
      WHEN osm_id<0 THEN 'R' -- Relation
-     ELSE 'W'         -- Way
+     ELSE 'W'               -- Way
      END AS geomtype,
     ST_Multi(way) AS geom,
     'barrier' as aggtype,

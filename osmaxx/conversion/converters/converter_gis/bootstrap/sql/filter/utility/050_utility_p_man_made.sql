@@ -4,7 +4,7 @@ INSERT INTO osmaxx.utility_p
     osm_timestamp as lastchange ,
     CASE
      WHEN osm_id<0 THEN 'R' -- Relation
-     ELSE 'W'         -- Way
+     ELSE 'W'               -- Way
      END AS geomtype,
     way AS geom,
     'man_made' AS aggtype,

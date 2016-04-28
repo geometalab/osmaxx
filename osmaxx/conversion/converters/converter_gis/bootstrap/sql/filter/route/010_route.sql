@@ -1,7 +1,7 @@
 INSERT INTO osmaxx.route_l
   SELECT osm_id as osm_id,
     osm_timestamp as lastchange ,
-    'W' AS geomtype,     -- Way
+    'W' AS geomtype,           -- Way
     ST_Multi(way) AS geom,
 -- Combining different types of routes --
     case

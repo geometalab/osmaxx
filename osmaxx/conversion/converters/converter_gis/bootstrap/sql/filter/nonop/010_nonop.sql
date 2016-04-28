@@ -4,7 +4,7 @@ INSERT INTO osmaxx.nonop_l
 -- R=Relation & W=Way --
     CASE
      WHEN osm_id<0 THEN 'R' -- Relation
-     ELSE 'W'         -- Way
+     ELSE 'W'               -- Way
     END AS geomtype,
 
     ST_Multi(way) AS geom,

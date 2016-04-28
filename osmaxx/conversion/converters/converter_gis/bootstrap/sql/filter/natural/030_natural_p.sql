@@ -34,7 +34,7 @@ UNION
     osm_timestamp as lastchange ,
     CASE
      WHEN osm_id<0 THEN 'R' -- Relations
-     ELSE 'W'         -- W=Way
+     ELSE 'W'               -- W=Way
      END AS geomtype,
     ST_Centroid(way) AS geom,
 -- Differentiating between different natural NODES --

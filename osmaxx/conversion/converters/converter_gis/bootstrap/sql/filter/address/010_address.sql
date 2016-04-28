@@ -8,7 +8,7 @@ INSERT INTO osmaxx.address_p
     osm_timestamp as lastchange,
     'N' AS geomtype, -- When address is linked to a node
     way AS geom,
-    'b' AS type, --When address is linked to a building
+    'b' AS type,     -- When address is linked to a building
     name as name,
     "name:en" as name_en,
     "name:fr" as name_fr,
@@ -43,7 +43,7 @@ UNION
     osm_timestamp as lastchange,
     CASE
      WHEN osm_id<0 THEN 'R' -- R=Relation
-     ELSE 'W'         -- W=Way
+     ELSE 'W'               -- W=Way
      END AS geomtype,
     ST_Centroid(way) AS geom,
     'b' AS type,

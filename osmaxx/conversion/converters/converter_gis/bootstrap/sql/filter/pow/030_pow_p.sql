@@ -53,7 +53,7 @@ UNION
     osm_timestamp as lastchange,
     CASE
      WHEN osm_id<0 THEN 'R' -- Relation
-     ELSE 'W'         -- Way
+     ELSE 'W'               -- Way
      END AS geomtype,
     ST_Centroid(way) AS geom,
 -- Combining the different tags in Religion --

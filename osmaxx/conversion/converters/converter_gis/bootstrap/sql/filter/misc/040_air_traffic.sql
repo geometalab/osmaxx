@@ -4,7 +4,7 @@ INSERT INTO osmaxx.misc_l
     osm_timestamp as lastchange,
     CASE
      WHEN osm_id<0 THEN 'R' -- R=Relation
-     ELSE 'W'         -- W=Way
+     ELSE 'W'               -- W=Way
      END AS geomtype,
     ST_Multi(way) AS geom,
     'air_traffic' as aggtype,
@@ -42,7 +42,7 @@ UNION
     osm_timestamp as lastchange,
     CASE
      WHEN osm_id<0 THEN 'R' -- R=Relation
-     ELSE 'W'         -- W=Way
+     ELSE 'W'               -- W=Way
      END AS geomtype,
     ST_Multi(way) AS geom,
     'air_traffic' as aggtype,
