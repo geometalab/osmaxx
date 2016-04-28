@@ -12,8 +12,9 @@ services:
       - "8000:8000"
     command: [honcho, -f, ./web_frontend/Procfile.django.dev, start]
     environment:
+      - DJANGO_ALLOWED_HOSTS=*
       - DJANGO_SECRET_KEY=insecure!1
-      - DJANGO_SETTINGS_MODULE=config.settings.local
+      - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.local
   mediator:
     build:
       context: .
