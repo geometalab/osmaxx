@@ -13,7 +13,7 @@ from osmaxx.excerptexport.models.output_file import OutputFile
 
 
 @pytest.fixture
-def excerpt(authenticated_client):
+def excerpt(authenticated_client, db):
     return Excerpt.objects.create(
         name='Neverland',
         owner=authenticated_client.user,
@@ -22,7 +22,7 @@ def excerpt(authenticated_client):
 
 
 @pytest.fixture
-def order(excerpt):
+def order(excerpt, db):
     return ExtractionOrder.objects.create(
         orderer=excerpt.owner,
         excerpt=excerpt,
@@ -32,14 +32,19 @@ def order(excerpt):
 
 
 @pytest.fixture
-def downloads(order):
+def exports(order, db):
+    return [order.exports.create(file_format=format_choice[0]) for format_choice in available_format_choices]
+
+
+@pytest.fixture
+def downloads(exports, db):
     return [
         OutputFile.objects.create(
             deleted_on_filesystem=False,
-            content_type=format_choice[0],
+            content_type=export.file_format,
             public_identifier=UUID(int=0x0),  # Nil UUID, see http://tools.ietf.org/html/rfc4122#section-4.1.7
-            extraction_order=order,
-        ) for format_choice in available_format_choices
+            export=export,
+        ) for export in exports
     ]
 
 
@@ -57,7 +62,7 @@ def test_send_all_links_mailto_link(_, authorized_client, db, downloads, view_wi
     assert response.status_code == 200
 
     expected_send_all_links_link = """
-    <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=Garmin%20navigation%20%26%20map%20data%20%28garmin%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0ASQLite%20based%20SpatiaLite%20%28spatialite%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AGeoPackage%20%28gpkg%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AESRI%20Shapefile%20%28shp%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AESRI%20File%20Geodatabase%20%28fgdb%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/">
+    <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=ESRI%20File%20Geodatabase%20%28fgdb%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AGarmin%20navigation%20%26%20map%20data%20%28garmin%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AGeoPackage%20%28gpkg%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AESRI%20Shapefile%20%28shp%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0ASQLite%20based%20SpatiaLite%20%28spatialite%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/">
         <button>&#9993; Send all links</button>
     </a>"""  # noqa
     actual_response_content = response.content.decode()

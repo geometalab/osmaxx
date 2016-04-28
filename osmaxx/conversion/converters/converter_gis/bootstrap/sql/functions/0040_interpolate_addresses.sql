@@ -39,16 +39,16 @@ select
   first.osm_id as line_id,
   coalesce(addr_street,first_addr_street,last_addr_street) as addr_street,
   interpolation_type,
-  least(first_housenr,last_housenr) as first_housenr, -- swap first_housenr and last_housenr?
-  greatest(first_housenr, last_housenr) as last_housenr, -- swap last_housenr and first_housenr?
+  least(first_housenr,last_housenr) as first_housenr,          -- swap first_housenr and last_housenr?
+  greatest(first_housenr, last_housenr) as last_housenr,       -- swap last_housenr and first_housenr?
   case when (first_housenr > last_housenr) then ST_Reverse(way)
-    else way end as line_geom -- reverse geometry when a swap is needed?
+    else way end as line_geom                                  -- reverse geometry when a swap is needed?
 from addr_interpolation_line_first_addr first
 join addr_interpolation_line_last_addr last on last.osm_id=first.osm_id
-where abs(first_housenr - last_housenr) < 1000 -- from-to-range too large
-and first_housenr is not null -- endpoint_wrong_format
-and last_housenr is not null  -- endpoint_wrong_format
-and (                         -- interpolation even but number odd or inverse
+where abs(first_housenr - last_housenr) < 1000                 -- from-to-range too large
+and first_housenr is not null                                  -- endpoint_wrong_format
+and last_housenr is not null                                   -- endpoint_wrong_format
+and (                                                          -- interpolation even but number odd or inverse
   (abs(first_housenr - last_housenr) >= 2 AND interpolation_type IN ('even', 'odd'))
   or (abs(first_housenr - last_housenr) >= 1 AND interpolation_type = 'all')
   )
@@ -94,7 +94,7 @@ begin
       --
       --raise info 'info: %', housenr;
       INSERT INTO temp_tbl
-	  select line_id, addr_street, housenr, st_line_interpolate_point(line_geom, location);
+      select line_id, addr_street, housenr, st_line_interpolate_point(line_geom, location);
       select location+step into location;
     end loop;
 
