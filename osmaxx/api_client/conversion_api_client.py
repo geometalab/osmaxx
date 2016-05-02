@@ -22,7 +22,7 @@ LOGIN_URL = '/token-auth/'
 USERNAME = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
 PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
 
-CONVERSION_JOB_URL = '/jobs/'
+OLD_CONVERSION_JOB_URL = '/jobs/'  # TODO: remove
 ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
 
 
@@ -114,7 +114,7 @@ class ConversionApiClient(JWTClient):
             }
         })
         try:
-            response = self.authorized_post(CONVERSION_JOB_URL, json_data=request_data)
+            response = self.authorized_post(OLD_CONVERSION_JOB_URL, json_data=request_data)
         except HTTPError as e:
             logging.error('API job creation failed.', e.response)
             return e.response
