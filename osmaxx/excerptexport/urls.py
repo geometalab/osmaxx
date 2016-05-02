@@ -31,9 +31,9 @@ excerpt_export_urlpatterns = [
 
 login_logout_patterns = [
     url(r'^login/$', login,
-        {'template_name': 'excerptexport/templates/login.html'}, name='login'),
+        {'template_name': 'osmaxx/login.html'}, name='login'),
     url(r'^logout/$', logout,
-        {'template_name': 'excerptexport/templates/logout.html'}, name='logout'),
+        {'template_name': 'osmaxx/logout.html'}, name='logout'),
 ]
 
 urlpatterns = excerpt_export_urlpatterns + login_logout_patterns
