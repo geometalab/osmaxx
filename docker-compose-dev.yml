@@ -14,6 +14,7 @@ services:
     environment:
       - DJANGO_SECRET_KEY=insecure!1
       - DJANGO_SETTINGS_MODULE=config.settings.local
+      - DJANGO_ALLOWED_HOSTS=*
   mediator:
     build:
       context: .
