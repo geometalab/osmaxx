@@ -385,7 +385,10 @@ class ExportUpdaterMiddlewareTest(TestCase):
         middleware.update_export(export_mock, request=sentinel.REQUEST)
 
         authorized_get_mock.assert_called_once_with(url='conversion_job/42')
-        export_mock.set_and_handle_new_status.assert_called_once_with(sentinel.new_status, incoming_request=sentinel.REQUEST)
+        export_mock.set_and_handle_new_status.assert_called_once_with(
+            sentinel.new_status,
+            incoming_request=sentinel.REQUEST,
+        )
 
 
 _LOC_MEM_CACHE = {
