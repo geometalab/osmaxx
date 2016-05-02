@@ -48,13 +48,13 @@ class Export(models.Model):
     def status_update_url(self):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
 
-    def set_and_handle_new_status(self, new_status):
+    def set_and_handle_new_status(self, new_status, *, request):
         if self.status != new_status:
             self.status = new_status
             self.save()
-            self._handle_changed_status()
+            self._handle_changed_status(request=request)
 
-    def _handle_changed_status(self):
+    def _handle_changed_status(self, *, request):
         from osmaxx.utilities.shortcuts import Emissary
         emissary = Emissary(recipient=self.extraction_order.orderer)
         if self.status == FAILED:
