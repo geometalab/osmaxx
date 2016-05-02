@@ -18,6 +18,7 @@ from osmaxx.api_client.conversion_api_client import ConversionApiClient
 from osmaxx.conversion_api.statuses import STARTED, QUEUED, FINISHED, FAILED
 from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
+from osmaxx.excerptexport.models.export import Export
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
 from osmaxx.excerptexport.models.output_file import OutputFile
 from osmaxx.job_progress import views, middleware
@@ -152,6 +153,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
+    @patch.object(Export, '_fetch_result_file')
     @patch('osmaxx.utilities.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_finished_informs_user_with_success(
             self, emissary_class_mock, *args, **mocks):
@@ -189,6 +191,34 @@ class CallbackHandlingTest(APITestCase):
 
         views.tracker(request, export_id=str(self.export.id))
         assert emissary_mock.mock_calls == []
+
+    @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
+    @requests_mock.Mocker(kw='requests')
+    def test_calling_tracker_with_payload_indicating_status_finished_downloads_result(self, *args, **mocks):
+        self.export.conversion_service_job_id = 1
+        self.export.save()
+
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
+            data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
+        )
+        requests_mock = mocks['requests']
+        requests_mock.get(
+            'http://localhost:8901/api/conversion_job/1/',
+            json=dict(
+                resulting_file='http://localhost:8901/api/conversion_job/1/conversion_result.zip'
+            )
+        )
+        requests_mock.get(
+            'http://localhost:8901/api/conversion_job/1/conversion_result.zip',
+            body=BytesIO('dummy file'.encode())
+        )
+
+        views.tracker(request, export_id=str(self.export.id))
+        with self.export.output_file.file as f:
+            file_content = f.read()
+        assert file_content.decode() == 'dummy file'
 
     @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic

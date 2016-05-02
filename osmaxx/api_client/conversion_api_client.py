@@ -23,6 +23,7 @@ USERNAME = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
 PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
 
 OLD_CONVERSION_JOB_URL = '/jobs/'  # TODO: remove
+CONVERSION_JOB_URL = '/conversion_job/'
 ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
 
 
@@ -69,6 +70,15 @@ class ConversionApiClient(JWTClient):
         json_payload = dict(parametrization=parametrization['id'], callback_url=callback_url)
         response = self.authorized_post(url='conversion_job/', json_data=json_payload)
         return response.json()
+
+    def get_result_file(self, job_id):
+        download_url = self._get_result_file_url(job_id)
+        response = self.authorized_get(download_url)
+        return ContentFile(response.content)
+
+    def _get_result_file_url(self, job_id):
+        job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)
+        return self.authorized_get(job_detail_url).json()['resulting_file']
 
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
