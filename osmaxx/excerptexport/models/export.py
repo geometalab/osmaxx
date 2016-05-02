@@ -52,9 +52,9 @@ class Export(models.Model):
         if self.status != new_status:
             self.status = new_status
             self.save()
-            self._handle_changed_status(request=incoming_request)
+            self._handle_changed_status(incoming_request=incoming_request)
 
-    def _handle_changed_status(self, *, request):
+    def _handle_changed_status(self, *, incoming_request):
         from osmaxx.utilities.shortcuts import Emissary
         emissary = Emissary(recipient=self.extraction_order.orderer)
         if self.status == FAILED:
