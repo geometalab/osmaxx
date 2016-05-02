@@ -67,6 +67,7 @@ class Export(models.Model):
             emissary.success(self._get_export_status_changed_message())
         else:
             emissary.info(self._get_export_status_changed_message())
+        self.extraction_order.send_email_if_all_exports_done(incoming_request)
 
     def _get_export_status_changed_message(self):
         from django.template.loader import render_to_string

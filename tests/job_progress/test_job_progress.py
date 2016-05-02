@@ -20,7 +20,6 @@ from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.export import Export
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
-from osmaxx.excerptexport.models.output_file import OutputFile
 from osmaxx.job_progress import views, middleware
 
 
@@ -220,55 +219,64 @@ class CallbackHandlingTest(APITestCase):
             file_content = f.read()
         assert file_content.decode() == 'dummy file'
 
-    @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
-    @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @requests_mock.Mocker(kw='requests')
-    @patch.object(OutputFile, 'get_absolute_url', side_effect=['/a/download', '/another/download'])
+    @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
     @patch('osmaxx.utilities.shortcuts.Emissary')
-    def xtest_calling_tracker_when_status_query_indicates_downloads_ready_advertises_downloads(
+    def test_calling_tracker_with_payload_indicating_final_status_for_only_remaining_nonfinal_export_of_extraction_order_advertises_downloads(
             self, emissary_class_mock, *args, **mocks):
+        self.export.conversion_service_job_id = 1
+        self.export.save()
+        for other_export in self.export.extraction_order.exports.exclude(id=self.export.id):
+            other_export.status = FAILED
+            other_export.save()
         emissary_mock = emissary_class_mock()
-        requests_mock = mocks['requests']
-        requests_mock.get(
-            'http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/',
-            json=self.fgdb_and_spatialite_successful_response
-        )
-        for available_download in self.fgdb_and_spatialite_successful_response["gis_formats"]:
-            requests_mock.get(
-                available_download['result_url'],
-                body=BytesIO(
-                    bytes("dummy {} file".format(available_download['format']), encoding='utf-8')
-                )
-            )
-
         factory = APIRequestFactory()
         request = factory.get(
-            reverse('job_progress:tracker', kwargs=dict(order_id=self.extraction_order.id)),
-            data=dict(status='http://localhost:8901/api/conversion_result/53880847-faa9-43eb-ae84-dd92f3803a28/')
+            reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
+            data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
+        )
+        requests_mock = mocks['requests']
+        requests_mock.get(
+            'http://localhost:8901/api/conversion_job/1/',
+            json=dict(
+                resulting_file='http://localhost:8901/api/conversion_job/1/conversion_result.zip'
+            )
+        )
+        requests_mock.get(
+            'http://localhost:8901/api/conversion_job/1/conversion_result.zip',
+            body=BytesIO('dummy file'.encode())
         )
 
-        views.tracker(request, order_id=str(self.extraction_order.id))
-        emissary_mock.success.assert_called_with(
-            'The extraction of the order #{order_id} "Neverland" has been finished.'.format(
-                order_id=self.extraction_order.id,
-            ),
-        )
+        views.tracker(request, export_id=str(self.export.id))
+
         expected_body = '\n'.join(
             [
-                'The extraction order #{order_id} "Neverland" has been finished and is ready for retrieval.',
+                'The extraction order #{order_id} "Neverland" has been processed.',
+                'Results available for download:',
+                '- ESRI File Geodatabase',  # TODO: download link
                 '',
-                'ESRI File Geodatabase (FileGDB): http://testserver/a/download',
-                'SQLite based SpatiaLite (spatialite): http://testserver/another/download',
+                'The following exports have failed:',
+                '- SpatiaLite',
+                'Please order them anew if you need them. '
+                'If there are repeated failures please inform the administrators.',
                 '',
                 'View the complete order at http://testserver/orders/{order_id}',
             ]
-        )
-        expected_body = expected_body.format(order_id=self.extraction_order.id)
-        emissary_mock.inform_mail.assert_called_with(
-            subject='Extraction Order #{order_id} "Neverland" finished'.format(
-                order_id=self.extraction_order.id,
-            ),
-            mail_body=expected_body,
+        ).format(order_id=self.export.extraction_order.id)
+        assert_that(
+            emissary_mock.mock_calls, contains_in_any_order(
+                call.success(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has finished.'.format(
+                        export_id=self.export.id,
+                    ),
+                ),
+                call.inform_mail(
+                    subject='Extraction Order #{order_id} "Neverland": 1 Export finished successfully, 1 failed'.format(
+                        order_id=self.export.extraction_order.id,
+                    ),
+                    mail_body=expected_body,
+                ),
+            )
         )
 
     @patch('osmaxx.api_client.conversion_api_client.ConversionApiClient._login')
