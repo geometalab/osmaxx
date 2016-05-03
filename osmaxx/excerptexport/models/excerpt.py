@@ -9,7 +9,9 @@ class Excerpt(models.Model):
     is_active = models.BooleanField(default=True, verbose_name=_('is active'))
 
     owner = models.ForeignKey(User, related_name='excerpts', verbose_name=_('owner'))
+    # TODO: remove bounding_geometry_old when witched to new bounding geometry
     bounding_geometry_old = models.OneToOneField('BoundingGeometry', verbose_name=_('bounding geometry'))
+    # TODO: Remove null=True when switched to new bounding geometry
     bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'), null=True)
 
     def send_to_conversion_service(self):
