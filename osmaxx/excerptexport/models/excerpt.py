@@ -10,6 +10,7 @@ class Excerpt(models.Model):
 
     owner = models.ForeignKey(User, related_name='excerpts', verbose_name=_('owner'))
     bounding_geometry_old = models.OneToOneField('BoundingGeometry', verbose_name=_('bounding geometry'))
+    bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'), null=True)
 
     def send_to_conversion_service(self):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
