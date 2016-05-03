@@ -28,7 +28,12 @@ def update_exports_of_request_user(request):
         exclude(status__in=FINAL_STATUSES).\
         filter(extraction_order__orderer=current_user, conversion_service_job_id__isnull=False)
     for export in pending_exports:
-        update_export_if_stale(export)
+        try:
+            update_export_if_stale(export)
+        except:  # noqa:
+            # Intentionally catching all non-system-exiting exceptions here, so that the loop can continue
+            # and (try) to update the other pending exports.
+            logger.exception("Failed to update status of pending export #%s.", export.id)
 
 
 def update_export_if_stale(export):
