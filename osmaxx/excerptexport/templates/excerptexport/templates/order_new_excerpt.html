@@ -1,6 +1,11 @@
 {% extends "excerptexport/base.html" %}
 {% load staticfiles i18n crispy_forms_tags %}
 
+{% block extracss %}
+    {{ block.super }}
+    <link rel='stylesheet' type='text/css' href='{% static "excerptexport/libraries/Leaflet.draw/leaflet.draw.css" %}' />
+{% endblock %}
+
 {% block breadcrumb %}
     {{ block.super }}
     <li class="active">{% trans 'New excerpt export' %}</li>
@@ -27,7 +32,7 @@
 {% block scripts %}
     {{ block.super }}
     <!-- Leaflet plugins -->
-    <script src='{% static "excerptexport/libraries/leaflet-locationfilter/locationfilter.js" %}'></script>
+    <script src='{% static "excerptexport/libraries/Leaflet.draw/leaflet.draw.js" %}'></script>
 
     <!-- map -->
     <script src='{% static "excerptexport/scripts/maps/new_excerpt_map.js" %}'></script>
