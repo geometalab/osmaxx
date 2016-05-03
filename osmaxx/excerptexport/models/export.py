@@ -49,9 +49,11 @@ class Export(models.Model):
 
     def set_and_handle_new_status(self, new_status):
         if self.status != new_status:
-            self.status = new_status
-            self._handle_changed_status()
-            self.save()
+            # TODO: REMOVE as soon as fix is committed
+            if new_status:
+                self.status = new_status
+                self._handle_changed_status()
+                self.save()
 
     def _handle_changed_status(self):
         from osmaxx.utilities.shortcuts import Emissary
