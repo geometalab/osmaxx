@@ -7,6 +7,7 @@ from django.core.files.base import ContentFile
 from django.db import transaction
 from django.utils import timezone
 from requests import HTTPError
+from requests.models import CONTENT_CHUNK_SIZE
 from rest_framework.reverse import reverse
 
 from osmaxx.api_client.API_client import JWTClient, reasons_for
@@ -73,8 +74,8 @@ class ConversionApiClient(JWTClient):
 
     def get_result_file(self, job_id):
         download_url = self._get_result_file_url(job_id)
-        response = self.authorized_get(download_url)
-        return ContentFile(response.content)
+        response = self.authorized_get(download_url, stream=True)
+        return LazyChunkedRemoteFile(response)
 
     def _get_result_file_url(self, job_id):
         job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)
@@ -200,3 +201,13 @@ class ConversionApiClient(JWTClient):
         except HTTPError as e:
             return reasons_for(e)
         return response.json()
+
+
+class LazyChunkedRemoteFile:
+    def __init__(self, response):
+        self._content_it = response.iter_content(chunk_size=CONTENT_CHUNK_SIZE)
+
+    def chunks(self):
+        for chunk in self._content_it:
+            if chunk:
+                yield chunk
