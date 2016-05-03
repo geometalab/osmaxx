@@ -1,6 +1,7 @@
 import logging
 
 import requests
+from requests.models import CONTENT_CHUNK_SIZE
 
 logger = logging.getLogger(__name__)
 
@@ -88,6 +89,18 @@ class JWTClient(RESTApiClient):
         return {
             'Authorization': 'JWT {token}'.format(token=self.token),
         }
+
+
+class LazyChunkedRemoteFile:
+    def __init__(self, *args, download_fu, **kwargs):
+        assert kwargs.get('stream', True), "can't chunk without streaming"
+        response = download_fu(*args, stream=True, **kwargs)
+        self._content_it = response.iter_content(chunk_size=CONTENT_CHUNK_SIZE)
+
+    def chunks(self):
+        for chunk in self._content_it:
+            if chunk:
+                yield chunk
 
 
 def reasons_for(http_error):

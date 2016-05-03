@@ -7,10 +7,9 @@ from django.core.files.base import ContentFile
 from django.db import transaction
 from django.utils import timezone
 from requests import HTTPError
-from requests.models import CONTENT_CHUNK_SIZE
 from rest_framework.reverse import reverse
 
-from osmaxx.api_client.API_client import JWTClient, reasons_for
+from osmaxx.api_client.API_client import JWTClient, reasons_for, LazyChunkedRemoteFile
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import get_default_private_storage
 
@@ -200,15 +199,3 @@ class ConversionApiClient(JWTClient):
         except HTTPError as e:
             return reasons_for(e)
         return response.json()
-
-
-class LazyChunkedRemoteFile:
-    def __init__(self, *args, download_fu, **kwargs):
-        assert kwargs.get('stream', True), "can't chunk without streaming"
-        response = download_fu(*args, stream=True, **kwargs)
-        self._content_it = response.iter_content(chunk_size=CONTENT_CHUNK_SIZE)
-
-    def chunks(self):
-        for chunk in self._content_it:
-            if chunk:
-                yield chunk
