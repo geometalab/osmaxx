@@ -19,10 +19,10 @@ declare
   height4 float;
 begin
   select into height1,height2,height3,height4
-    to_pos_int(tags->'height'), -- in meters
-    to_pos_int(tags->'building:height'), -- in meters
+    to_pos_int(tags->'height'),                -- in meters
+    to_pos_int(tags->'building:height'),       -- in meters
     to_pos_int(tags->'building:levels') * 3.0, -- estimated average building height
-    to_pos_int(tags->'levels') * 3.0; -- estimated average building height
+    to_pos_int(tags->'levels') * 3.0;          -- estimated average building height
   if height1 > 0 then
     height := height1;
   elseif height2 > 0 then

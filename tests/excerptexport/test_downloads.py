@@ -24,7 +24,8 @@ class DownloadsTestCase(TestCase):
         excerpt = Excerpt.objects.create(name='Neverland', is_active=True, is_public=True, owner=user,
                                          bounding_geometry=bg)
         extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
-        output_file = OutputFile.objects.create(mime_type='test/plain', extraction_order=extraction_order,
+        export = extraction_order.exports.create(file_format='fgdb')
+        output_file = OutputFile.objects.create(mime_type='test/plain', export=export,
                                                 content_type='text', file_extension='txt')
 
         file_path = os.path.join(settings.PRIVATE_MEDIA_ROOT, str(output_file.download_file_name))

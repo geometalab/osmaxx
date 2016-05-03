@@ -21,6 +21,6 @@ def email_body_with_single_result_link(context, output_file):
 @register.simple_tag(takes_context=True)
 def email_body_with_all_result_links(context, extraction_order):
     return mark_safe('\r\n'.join(
-        email_body_with_single_result_link(context, file)
-        for file in extraction_order.output_files.all().order_by('-file_extension')
+        email_body_with_single_result_link(context, export.output_file)
+        for export in extraction_order.exports.all().order_by('file_format')
     ))
