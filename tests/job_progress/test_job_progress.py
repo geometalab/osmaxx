@@ -29,7 +29,7 @@ class CallbackHandlingTest(APITestCase):
             40.77739734768811, 29.528980851173397, 40.77546776498174, 29.525547623634335
         )
         self.excerpt = Excerpt.objects.create(
-            name='Neverland', is_active=True, is_public=True, owner=self.user, bounding_geometry=self.bounding_box
+            name='Neverland', is_active=True, is_public=True, owner=self.user, bounding_geometry_old=self.bounding_box
         )
         extraction_order = ExtractionOrder.objects.create(
             excerpt=self.excerpt,

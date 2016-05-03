@@ -14,8 +14,8 @@ admin.site.register(BBoxBoundingGeometry, BBoxBoundingGeometryAdmin)
 
 @admin.register(Excerpt)
 class ExcerptAdmin(admin.ModelAdmin):
-    list_display = ['name', 'is_public', 'is_active', 'owner', 'bounding_geometry']
-    fields = ('name', ('bounding_geometry', 'bounding_geometry_subclass_instance_edit_link'))
+    list_display = ['name', 'is_public', 'is_active', 'owner', 'bounding_geometry_old']
+    fields = ('name', ('bounding_geometry_old', 'bounding_geometry_subclass_instance_edit_link'))
     readonly_fields = ('bounding_geometry_subclass_instance_edit_link',)
 
     def bounding_geometry_subclass_instance_edit_link(self, excerpt):

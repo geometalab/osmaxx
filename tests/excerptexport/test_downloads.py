@@ -22,7 +22,7 @@ class DownloadsTestCase(TestCase):
         user = User.objects.create_user('user', 'user@example.com', 'pw')
         bg = BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
         excerpt = Excerpt.objects.create(name='Neverland', is_active=True, is_public=True, owner=user,
-                                         bounding_geometry=bg)
+                                         bounding_geometry_old=bg)
         extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
         export = extraction_order.exports.create(file_format='fgdb')
         output_file = OutputFile.objects.create(mime_type='test/plain', export=export,

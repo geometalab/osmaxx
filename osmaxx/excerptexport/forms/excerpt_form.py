@@ -53,7 +53,7 @@ class ExcerptForm(BBoxBoundingGeometryMixin, OrderOptionsMixin, forms.ModelForm)
         excerpt_dict = select_keys(self.cleaned_data, ['name', 'is_public'])
         excerpt = Excerpt(
             is_active=True,
-            bounding_geometry=bounding_geometry,
+            bounding_geometry_old=bounding_geometry,
             owner=user,
             **excerpt_dict
         )

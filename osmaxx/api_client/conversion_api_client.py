@@ -91,8 +91,8 @@ class ConversionApiClient(JWTClient):
         Returns:
             response of the call
         """
-        if hasattr(extraction_order.excerpt, 'bounding_geometry'):
-            bounding_geometry = extraction_order.excerpt.bounding_geometry.subclass_instance
+        if hasattr(extraction_order.excerpt, 'bounding_geometry_old'):
+            bounding_geometry = extraction_order.excerpt.bounding_geometry_old.subclass_instance
         else:
             bounding_geometry = None
 

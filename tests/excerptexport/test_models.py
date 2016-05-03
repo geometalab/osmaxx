@@ -62,7 +62,7 @@ class ExtractionOrderTestCase(TestCase):
             is_active=True,
             is_public=False,
             owner=self.user,
-            bounding_geometry=models.OsmosisPolygonFilterBoundingGeometry.objects.create(
+            bounding_geometry_old=models.OsmosisPolygonFilterBoundingGeometry.objects.create(
                 polygon_file=SimpleUploadedFile('in_memory_file.poly', b'the file content (not a real .poly file)')
             )
         )

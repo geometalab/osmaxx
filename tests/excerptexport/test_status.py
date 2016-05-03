@@ -25,7 +25,7 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
             name="Switzerland",
             is_active=True,
             is_public=True,
-            bounding_geometry=bounding_geometry,
+            bounding_geometry_old=bounding_geometry,
             owner=user
         )
 

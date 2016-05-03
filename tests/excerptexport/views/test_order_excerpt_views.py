@@ -32,21 +32,21 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             is_active=True,
             is_public=False,
             owner=self.user,
-            bounding_geometry=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
+            bounding_geometry_old=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
         )
         self.existing_public_foreign_excerpt = Excerpt.objects.create(
             name='Public Excerpt by someone else',
             is_active=True,
             is_public=True,
             owner=other_user,
-            bounding_geometry=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
+            bounding_geometry_old=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
         )
         self.existing_private_foreign_excerpt = Excerpt.objects.create(
             name='Private Excerpt by someone else',
             is_active=True,
             is_public=False,
             owner=other_user,
-            bounding_geometry=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
+            bounding_geometry_old=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
         )
         self.existing_excerpt_post_data = {
             'existing_excerpts': self.existing_own_excerpt.id,

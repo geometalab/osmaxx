@@ -17,7 +17,7 @@ def excerpt(authenticated_client, db):
     return Excerpt.objects.create(
         name='Neverland',
         owner=authenticated_client.user,
-        bounding_geometry=BBoxBoundingGeometry.objects.create(north=0, east=0, west=0, south=0),
+        bounding_geometry_old=BBoxBoundingGeometry.objects.create(north=0, east=0, west=0, south=0),
     )
 
 

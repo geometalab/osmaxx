@@ -65,7 +65,7 @@ def bounding_box(db):
 @pytest.fixture
 def excerpt(user, bounding_box, db):
     return Excerpt.objects.create(
-        name='Neverland', is_active=True, is_public=True, owner=user, bounding_geometry=bounding_box
+        name='Neverland', is_active=True, is_public=True, owner=user, bounding_geometry_old=bounding_box
     )
 
 
