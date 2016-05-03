@@ -15,6 +15,7 @@ services:
       - DJANGO_ALLOWED_HOSTS=*
       - DJANGO_SECRET_KEY=insecure!1
       - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.local
+      - DJANGO_DEBUG=true
   mediator:
     build:
       context: .
