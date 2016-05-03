@@ -47,6 +47,7 @@ class Export(models.Model):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
 
     def set_and_handle_new_status(self, new_status):
+        assert new_status in dict(STATUS_CHOICES)
         if self.status != new_status:
             self.status = new_status
             self._handle_changed_status()
