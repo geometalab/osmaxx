@@ -24,10 +24,10 @@ def update_exports_of_request_user(request):
     current_user = request.user
     if current_user.is_anonymous():
         return
-    transmitted_but_unfinished_exports = Export.objects.\
+    pending_exports = Export.objects.\
         exclude(status__in=FINAL_STATUSES).\
         filter(extraction_order__orderer=current_user)
-    for export in transmitted_but_unfinished_exports:
+    for export in pending_exports:
         update_export_if_stale(export)
 
 
