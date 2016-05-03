@@ -169,10 +169,12 @@ class ConversionApiClient(JWTClient):
             export: an Export object
 
         Returns:
-            The status of the associated job (if any), otherwise ``None``
+            The status of the associated job
+
+        Raises:
+            AssertionError: If `export` has no associated job
         """
-        if not export.conversion_service_job_id:
-            return None
+        assert isinstance(export.conversion_service_job_id, int)
         response = self.authorized_get(url='conversion_job/{}'.format(export.conversion_service_job_id))
         return response.json()['status']
 
