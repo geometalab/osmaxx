@@ -173,10 +173,7 @@ class ConversionApiClient(JWTClient):
         """
         if not export.conversion_service_job_id:
             return None
-        try:
-            response = self.authorized_get(url='conversion_job/{}'.format(export.conversion_service_job_id))
-        except HTTPError:
-            return None
+        response = self.authorized_get(url='conversion_job/{}'.format(export.conversion_service_job_id))
         return response.json()['status']
 
     def estimated_file_size(self, north, west, south, east):
