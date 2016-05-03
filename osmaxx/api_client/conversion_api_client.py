@@ -74,8 +74,7 @@ class ConversionApiClient(JWTClient):
 
     def get_result_file(self, job_id):
         download_url = self._get_result_file_url(job_id)
-        response = self.authorized_get(download_url, stream=True)
-        return LazyChunkedRemoteFile(response)
+        return LazyChunkedRemoteFile(download_url, download_fu=self.authorized_get)
 
     def _get_result_file_url(self, job_id):
         job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)
@@ -204,7 +203,9 @@ class ConversionApiClient(JWTClient):
 
 
 class LazyChunkedRemoteFile:
-    def __init__(self, response):
+    def __init__(self, *args, download_fu, **kwargs):
+        assert kwargs.get('stream', True), "can't chunk without streaming"
+        response = download_fu(*args, stream=True, **kwargs)
         self._content_it = response.iter_content(chunk_size=CONTENT_CHUNK_SIZE)
 
     def chunks(self):
