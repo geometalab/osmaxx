@@ -26,7 +26,7 @@ def update_exports_of_request_user(request):
         return
     pending_exports = Export.objects.\
         exclude(status__in=FINAL_STATUSES).\
-        filter(extraction_order__orderer=current_user)
+        filter(extraction_order__orderer=current_user, conversion_service_job_id__isnull=False)
     for export in pending_exports:
         update_export_if_stale(export)
 

@@ -350,13 +350,15 @@ class ExportUpdateTest(TestCase):
         own_order = ExtractionOrder.objects.create(orderer=test_user)
         foreign_order = ExtractionOrder.objects.create(orderer=other_user)
         self.own_unfinished_exports = [
-            own_order.exports.create(file_format='fgdb') for i in range(2)]
+            own_order.exports.create(file_format='fgdb', conversion_service_job_id=1) for i in range(2)]
         for i in range(4):
-            own_order.exports.create(file_format='fgdb', status=FINISHED)
+            own_order.exports.create(file_format='fgdb')
         for i in range(8):
-            own_order.exports.create(file_format='fgdb', status=FAILED)
+            own_order.exports.create(file_format='fgdb', conversion_service_job_id=1, status=FINISHED)
+        for i in range(16):
+            own_order.exports.create(file_format='fgdb', conversion_service_job_id=1, status=FAILED)
         for i in range(32):
-            foreign_order.exports.create(file_format='fgdb')
+            foreign_order.exports.create(file_format='fgdb', conversion_service_job_id=1)
         self.client.login(username='user', password='pw')
 
     @patch('osmaxx.job_progress.middleware.update_export_if_stale')
