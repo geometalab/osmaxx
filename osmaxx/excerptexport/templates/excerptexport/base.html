@@ -1,0 +1,17 @@
+{% extends 'osmaxx/base.html' %}
+{% load staticfiles %}
+{% block extracss %}
+<link rel="stylesheet" type="text/css" href='{% static "excerptexport/libraries/leaflet/leaflet.css" %}' />
+<link rel='stylesheet' type='text/css' href='{% static "excerptexport/libraries/leaflet-locationfilter/locationfilter.css" %}' />
+{% endblock %}
+
+{% block main %}
+<div class="container-row">
+    <h2>Content</h2>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Helpers -->
+<script type="text/javascript" src="{% static 'excerptexport/scripts/helperFunctions.js' %}"></script>
+{% endblock %}

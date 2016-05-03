@@ -25,8 +25,15 @@
             </a>
         </li>
         {% endif %}
+
+        <li role="presentation">
+            <a href="{% url 'pages:about' %}">
+                <span class="menu_icon">?</span>&nbsp;{% trans 'About' %}
+            </a>
+        </li>
+
         <li class="col-lg-push-1 col-md-push-1">
-            {% include 'excerptexport/partials/login_logout_link.html' with user=user %}
+            {% include 'osmaxx/login_logout_link.html' with user=user %}
         </li>
     </ul>
 </nav>

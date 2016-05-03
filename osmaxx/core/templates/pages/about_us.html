@@ -1,0 +1,50 @@
+{% extends "osmaxx/base.html" %}
+{% load i18n %}
+
+{% block main %}
+<div class="container-row content">
+    <h2>About OSMaxx</h2>
+    <p>
+        OSMaxx (short for "OpenStreetMap arbitrary excerpt export") cuts out OpenStreetMap data, processes it to
+        geodata, converts it to typical GIS fileformats and offers those for download.
+    </p>
+
+    <h3>Useful links</h3>
+    <p>Can be found in our separate <a href="{% url 'pages:downloads' %}">downloads page</a></p>
+
+    <h3>About Us</h3>
+    <p>
+        OSMaxx has been developed by the Geometalab at Hochschule Rapperswil.
+        Geometalab can be reached via email: <a href="mailto:geometalab@hsr.ch">geometalab@hsr.ch</a>.
+    </p><p>
+        <strong>Geometalab</strong><br />
+        HSR Hochschule für Technik Rapperswil<br />
+        Institute for Software<br />
+        c/o Stefan Keller<br />
+        Oberseestrasse 10<br />
+        Postfach 1475<br />
+        CH-8640 Rapperswil<br />
+    </p>
+
+    <h3>Data sources</h3>
+    <p>All data used by OSMaxx comes directly or indirectly from <a href='https://www.openstreetmap.org/'>OpenStreetMap</a>:</p>
+    <h4>Main data source</h4>
+    <p>
+        The bulk of our input data (everything not listed separately below) is verbatim OpenStreetMap data,
+        taken from our own regularly synchronized database import of
+        the <a href='http://planet.openstreetmap.org/'>OpenStreetMap planet</a>.
+    </p>
+    <h4>Additional data sources</h4>
+    <h5>Coastlines, Water-polygons and Landmasses</h5>
+    <p>
+        Coastlines, water-polygons and landmasses are from
+        OSM derived data provided by
+        <a href="http://openstreetmapdata.com/data/">openstreetmapdata.com</a>.
+    </p>
+    <h5>Country Boundaries</h5>
+    <p>
+        We are using the country boundaries that are based on OSM-Data,
+        cleaned and maintained by <a href="https://osm.wno-edv-service.de/boundaries/">Mr. Wambacher</a>.
+    </p>
+</div>
+{% endblock %}

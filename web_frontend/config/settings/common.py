@@ -58,6 +58,7 @@ LOCAL_APPS = (
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
     'osmaxx.social_auth',
+    'osmaxx.core',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
