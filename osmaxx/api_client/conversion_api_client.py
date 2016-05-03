@@ -73,7 +73,7 @@ class ConversionApiClient(JWTClient):
 
     def get_result_file(self, job_id):
         download_url = self._get_result_file_url(job_id)
-        return LazyChunkedRemoteFile(download_url, download_fu=self.authorized_get)
+        return LazyChunkedRemoteFile(download_url, download_function=self.authorized_get)
 
     def _get_result_file_url(self, job_id):
         job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)

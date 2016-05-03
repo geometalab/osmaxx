@@ -92,9 +92,9 @@ class JWTClient(RESTApiClient):
 
 
 class LazyChunkedRemoteFile:
-    def __init__(self, *args, download_fu=requests.get, **kwargs):
+    def __init__(self, *args, download_function=requests.get, **kwargs):
         assert kwargs.get('stream', True), "can't chunk without streaming"
-        response = download_fu(*args, stream=True, **kwargs)
+        response = download_function(*args, stream=True, **kwargs)
         self._content_it = response.iter_content(chunk_size=CONTENT_CHUNK_SIZE)
 
     def chunks(self):
