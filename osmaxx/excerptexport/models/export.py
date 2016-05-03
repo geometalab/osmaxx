@@ -4,6 +4,7 @@ from rest_framework.reverse import reverse
 
 from osmaxx.conversion_api import statuses
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
+from osmaxx.conversion_api.statuses import FAILED, FINAL_STATUSES, FINISHED
 
 INITIAL = 'initial'
 INITIAL_CHOICE = (INITIAL, _('initial'))
@@ -47,17 +48,22 @@ class Export(models.Model):
     def status_update_url(self):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
 
-    def set_and_handle_new_status(self, new_status):
+    def set_and_handle_new_status(self, new_status, *, request):
         assert new_status in dict(STATUS_CHOICES)
         if self.status != new_status:
             self.status = new_status
-            self._handle_changed_status()
             self.save()
+            self._handle_changed_status(request=request)
 
-    def _handle_changed_status(self):
+    def _handle_changed_status(self, *, request):
         from osmaxx.utilities.shortcuts import Emissary
         emissary = Emissary(recipient=self.extraction_order.orderer)
-        emissary.info(self._get_export_status_changed_message())
+        if self.status == FAILED:
+            emissary.error(self._get_export_status_changed_message())
+        elif self.status == FINISHED:
+            emissary.success(self._get_export_status_changed_message())
+        else:
+            emissary.info(self._get_export_status_changed_message())
 
     def _get_export_status_changed_message(self):
         from django.template.loader import render_to_string
@@ -66,3 +72,7 @@ class Export(models.Model):
             'job_progress/messages/export_status_changed.txt',
             context=view_context,
         ).strip()
+
+    @property
+    def is_status_final(self):
+        return self.status in FINAL_STATUSES

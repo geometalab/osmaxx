@@ -10,6 +10,7 @@ from django.http.response import Http404
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
 from io import BytesIO
+from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 from rest_framework.test import APITestCase, APIRequestFactory
 
 from osmaxx import excerptexport
@@ -97,9 +98,13 @@ class CallbackHandlingTest(APITestCase):
         )
 
         views.tracker(request, export_id=str(self.export.id))
-        emissary_mock.info.assert_called_with(
-            'Export #{export_id} "Neverland" to ESRI File Geodatabase is now queued.'.format(
-                export_id=self.export.id
+        assert_that(
+            emissary_mock.mock_calls, contains_in_any_order(
+                call.info(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has been queued.'.format(
+                        export_id=self.export.id
+                    ),
+                ),
             )
         )
 
@@ -115,9 +120,57 @@ class CallbackHandlingTest(APITestCase):
         )
 
         views.tracker(request, export_id=str(self.export.id))
-        emissary_mock.info.assert_called_with(
-            'Export #{export_id} "Neverland" to ESRI File Geodatabase is now started.'.format(
-                export_id=self.export.id
+        assert_that(
+            emissary_mock.mock_calls, contains_in_any_order(
+                call.info(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has been started.'.format(
+                        export_id=self.export.id
+                    ),
+                ),
+            )
+        )
+
+    @patch('osmaxx.utilities.shortcuts.Emissary')
+    def test_calling_tracker_with_payload_indicating_failed_informs_user_with_error(
+            self, emissary_class_mock, *args, **mocks):
+        emissary_mock = emissary_class_mock()
+
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
+            data=dict(status='failed', job='http://localhost:8901/api/conversion_job/1/')
+        )
+
+        views.tracker(request, export_id=str(self.export.id))
+        assert_that(
+            emissary_mock.mock_calls, contains_in_any_order(
+                call.error(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has failed.'.format(
+                        export_id=self.export.id
+                    ),
+                ),
+            )
+        )
+
+    @patch('osmaxx.utilities.shortcuts.Emissary')
+    def test_calling_tracker_with_payload_indicating_finished_informs_user_with_success(
+            self, emissary_class_mock, *args, **mocks):
+        emissary_mock = emissary_class_mock()
+
+        factory = APIRequestFactory()
+        request = factory.get(
+            reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
+            data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
+        )
+
+        views.tracker(request, export_id=str(self.export.id))
+        assert_that(
+            emissary_mock.mock_calls, contains_in_any_order(
+                call.success(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has finished.'.format(
+                        export_id=self.export.id
+                    ),
+                ),
             )
         )
 
@@ -329,10 +382,10 @@ class ExportUpdaterMiddlewareTest(TestCase):
         export_mock = Mock(spec=excerptexport.models.Export())
         export_mock.conversion_service_job_id = 42
 
-        middleware.update_export(export_mock)
+        middleware.update_export(export_mock, request=sentinel.REQUEST)
 
         authorized_get_mock.assert_called_once_with(url='conversion_job/42')
-        export_mock.set_and_handle_new_status.assert_called_once_with(sentinel.new_status)
+        export_mock.set_and_handle_new_status.assert_called_once_with(sentinel.new_status, request=sentinel.REQUEST)
 
 
 _LOC_MEM_CACHE = {
@@ -365,7 +418,7 @@ class ExportUpdateTest(TestCase):
     def test_update_exports_of_request_user_updates_each_unfinished_export_of_request_user(self, update_progress_mock):
         self.client.get('/dummy/')
         update_progress_mock.assert_has_calls(
-            [call(export) for export in self.own_unfinished_exports],
+            [call(export, request=ANY) for export in self.own_unfinished_exports],
             any_order=True,
         )
 
@@ -384,9 +437,9 @@ class ExportUpdateTest(TestCase):
         from django.core.cache import cache
         cache.clear()
         for export in self.own_unfinished_exports:
-            middleware.update_export_if_stale(export)
+            middleware.update_export_if_stale(export, request=sentinel.REQUEST)
         update_export_mock.assert_has_calls(
-            [call(export) for export in self.own_unfinished_exports],
+            [call(export, request=sentinel.REQUEST) for export in self.own_unfinished_exports],
         )
 
     @override_settings(CACHES=_LOC_MEM_CACHE)
@@ -395,6 +448,6 @@ class ExportUpdateTest(TestCase):
         from django.core.cache import cache
         cache.clear()
         the_export = self.own_unfinished_exports[0]
-        middleware.update_export_if_stale(the_export)
-        middleware.update_export_if_stale(the_export)
+        middleware.update_export_if_stale(the_export, request=Mock())
+        middleware.update_export_if_stale(the_export, request=Mock())
         self.assertEqual(update_export_mock.call_count, 1)
