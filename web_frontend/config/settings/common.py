@@ -73,7 +73,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'osmaxx.job_progress.middleware.OrderUpdaterMiddleware',
+    'osmaxx.job_progress.middleware.ExportUpdaterMiddleware',
 )
 
 # MIGRATIONS CONFIGURATION

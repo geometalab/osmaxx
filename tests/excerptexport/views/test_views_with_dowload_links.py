@@ -51,7 +51,7 @@ def view_with_mailto_links(request, order):
 
 
 @pytest.mark.django_db
-@patch('osmaxx.job_progress.middleware.update_order')
+@patch('osmaxx.job_progress.middleware.update_export')
 def test_send_all_links_mailto_link(_, authorized_client, db, downloads, view_with_mailto_links):
     response = authorized_client.get(view_with_mailto_links, HTTP_HOST='example.com')
     assert response.status_code == 200
@@ -67,7 +67,7 @@ def test_send_all_links_mailto_link(_, authorized_client, db, downloads, view_wi
 
 
 @pytest.mark.django_db
-@patch('osmaxx.job_progress.middleware.update_order')
+@patch('osmaxx.job_progress.middleware.update_export')
 @pytest.mark.parametrize('expected_html', [
     """
     <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=ESRI%20File%20Geodatabase%20%28fgdb%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/">
@@ -109,7 +109,7 @@ def test_send_link_mailto_links(_, authorized_client, db, downloads, view_with_m
 
 
 @pytest.mark.django_db
-@patch('osmaxx.job_progress.middleware.update_order')
+@patch('osmaxx.job_progress.middleware.update_export')
 def test_copy_link(_, authorized_client, db, downloads, view_with_mailto_links):
     response = authorized_client.get(view_with_mailto_links, HTTP_HOST='example.com')
     assert response.status_code == 200
