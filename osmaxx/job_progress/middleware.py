@@ -17,7 +17,16 @@ class ExportUpdaterMiddleware(object):
             "'django.contrib.auth.middleware.AuthenticationMiddleware' before "
             "'osmaxx.job_progress.middleware.ExportUpdaterMiddleware'."
         )
-        update_exports_of_request_user(request)
+        try:
+            update_exports_of_request_user(request)
+        except:  # noqa:
+            # Intentionally catching all non-system-exiting exceptions here, because this middleware must never* raise.
+            # (This middleware does processing that needs the current request,
+            # but is ultimately unrelated to the request.
+            # So, whatever happens, this middleware shouldn't let the request processing fail.)
+            #
+            # * unless improperly configured (see assert above)
+            logger.exception("Failed to update statuses of pending requests.")
 
 
 def update_exports_of_request_user(request):
