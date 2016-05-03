@@ -58,7 +58,7 @@ def update_export(export, *, request):
     _log_cache_miss(export)
     client = ConversionApiClient()
     status = client.job_status(export)
-    export.set_and_handle_new_status(status, request=request)
+    export.set_and_handle_new_status(status, incoming_request=request)
     if logger.isEnabledFor(logging.DEBUG):
         message = "Fetched, updated and cached Export {export} status: {status}".format(
             export=export.id,

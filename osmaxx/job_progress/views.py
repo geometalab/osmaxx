@@ -6,7 +6,7 @@ from osmaxx.excerptexport.models import Export
 
 def tracker(request, export_id):
     export = get_object_or_404(Export, pk=export_id)
-    export.set_and_handle_new_status(request.GET['status'], request=request)
+    export.set_and_handle_new_status(request.GET['status'], incoming_request=request)
 
     response = HttpResponse('')
     response.status_code = 200
