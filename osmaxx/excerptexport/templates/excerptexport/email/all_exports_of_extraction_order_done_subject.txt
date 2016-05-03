@@ -1,1 +1,1 @@
-Extraction Order #{{ extraction_order.id }} "{{ extraction_order.excerpt_name }}": {{ successful_exports_count }} Export{{ successful_exports_count|pluralize }} finished successfully, {{ failed_exports_count }} failed
+Extraction Order #{{ extraction_order.id }} "{{ extraction_order.excerpt_name }}": {{ successful_exports_count }} Export{{ successful_exports_count|pluralize }} finished successfully{% if failed_exports_count > 0 %}, {{ failed_exports_count }} failed{% endif %}
