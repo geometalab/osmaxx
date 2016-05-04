@@ -99,7 +99,10 @@ class LazyChunkedRemoteFile:
     at https://github.com/django/django/blob/1.9.4/django/core/files/storage.py#L252
 
     Notes:
-        This is not a file-like object: It has no ``read`` method.
+        - This is not a file-like object: It has no ``read`` method.
+        - Object initialization opens the connection for downloading, but will not fetch the content until the chunks
+          are requested. If too much time has passed between those steps, the server might have closed the connection,
+          so don't wait too long.
     """
 
     def __init__(self, *args, download_function=requests.get, **kwargs):
