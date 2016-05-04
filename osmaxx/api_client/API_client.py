@@ -92,6 +92,16 @@ class JWTClient(RESTApiClient):
 
 
 class LazyChunkedRemoteFile:
+    """Wrapper around to-be-downloaded files
+
+    Can be passed to django.core.files.storage.Storage#save as ``content``
+    if that storage's save logic consumes chunks like ``FileSystemStorage`` does
+    at https://github.com/django/django/blob/1.9.4/django/core/files/storage.py#L252
+
+    Notes:
+        This is not a file-like object: It has no ``read`` method.
+    """
+
     def __init__(self, *args, download_function=requests.get, **kwargs):
         stream = kwargs.pop('stream', True)
         assert stream, "can't chunk without streaming"
