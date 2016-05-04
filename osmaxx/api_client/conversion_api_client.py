@@ -1,16 +1,14 @@
 import json
 import logging
-from collections import OrderedDict
 
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db import transaction
 from django.utils import timezone
 from requests import HTTPError
-from rest_framework.reverse import reverse
 
 from osmaxx.api_client.API_client import JWTClient, reasons_for, LazyChunkedRemoteFile
-from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
+from osmaxx.excerptexport.models import OutputFile
 from osmaxx.utils import get_default_private_storage
 
 logger = logging.getLogger(__name__)
@@ -86,57 +84,6 @@ class ConversionApiClient(JWTClient):
         process_unfinished = progress in ['new', 'received', 'started']
         timeout_reached = timezone.now() > extraction_order.process_due_time
         return process_unfinished and timeout_reached
-
-    # TODO: replace this by a call to extraction_order.forward_to_conversion_service(request)
-    def _create_job_TODO_replace_me(self, extraction_order, request):  # noqa
-        """
-        Kickoff a conversion job
-
-        Args:
-            extraction_order: an ExtractionOrder object
-                extraction_order.extraction_configuration is directly used for the api
-                -> must be in a compatible format
-
-        Returns:
-            response of the call
-        """
-        if hasattr(extraction_order.excerpt, 'bounding_geometry_old'):
-            bounding_geometry = extraction_order.excerpt.bounding_geometry_old.subclass_instance
-        else:
-            bounding_geometry = None
-
-        request_data = OrderedDict({
-            "callback_url": request.build_absolute_uri(
-                # FIXME: Nonsense to temporarily make the tests pass. (Shouldn't matter as this code will be removed.)
-                # Why do we keep the tests, then, you ask? Because the code replacing this here should make them pass
-                # again, without any dirty hacks.
-                reverse('job_progress:tracker', kwargs=dict(export_id=extraction_order.id))
-            ),
-            "gis_formats": list(extraction_order.extraction_formats),
-            "gis_options": extraction_order.extraction_configuration['gis_options'],
-            "extent": {
-                "west": bounding_geometry.west if bounding_geometry else None,
-                "south": bounding_geometry.south if bounding_geometry else None,
-                "east": bounding_geometry.east if bounding_geometry else None,
-                "north": bounding_geometry.north if bounding_geometry else None,
-                "country": extraction_order.country_id,
-            }
-        })
-        try:
-            response = self.authorized_post(OLD_CONVERSION_JOB_URL, json_data=request_data)
-        except HTTPError as e:
-            logging.error('API job creation failed.', e.response)
-            return e.response
-        rq_job_id = response.json().get('rq_job_id', None)
-        if rq_job_id:
-            extraction_order.process_id = rq_job_id
-            extraction_order.process_start_time = timezone.now()
-            extraction_order.progress_url = response.json()['status']
-            extraction_order.state = ExtractionOrderState.QUEUED
-            extraction_order.save()
-        else:
-            logging.error('Could not retrieve api job id from response.', response)
-        return response
 
     def _download_result_files(self, extraction_order, job_status):
         """
