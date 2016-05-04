@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
+from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from django_enumfield import enum
 
@@ -145,6 +146,38 @@ class ExtractionOrder(models.Model):
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('excerptexport:status', kwargs={'extraction_order_id': self.id})
+
+    def send_email_if_all_exports_done(self, incoming_request):
+        if all(export.is_status_final for export in self.exports.all()):
+            from osmaxx.utilities.shortcuts import Emissary
+            emissary = Emissary(recipient=self.orderer)
+            emissary.inform_mail(
+                subject=self._get_all_exports_done_email_subject(),
+                mail_body=self._get_all_exports_done_mail_body(incoming_request)
+            )
+
+    def _get_all_exports_done_email_subject(self):
+        view_context = dict(
+            extraction_order=self,
+            successful_exports_count=self.exports.filter(output_file__isnull=False).count(),
+            failed_exports_count=self.exports.filter(output_file__isnull=True).count(),
+        )
+        return render_to_string(
+            'excerptexport/email/all_exports_of_extraction_order_done_subject.txt',
+            context=view_context,
+        ).strip()
+
+    def _get_all_exports_done_mail_body(self, incoming_request):
+        view_context = dict(
+            extraction_order=self,
+            successful_exports=self.exports.filter(output_file__isnull=False),
+            failed_exports=self.exports.filter(output_file__isnull=True),
+            request=incoming_request,
+        )
+        return render_to_string(
+            'excerptexport/email/all_exports_of_extraction_order_done_body.txt',
+            context=view_context,
+        ).strip()
 
 
 @receiver(post_save, sender=ExtractionOrder)

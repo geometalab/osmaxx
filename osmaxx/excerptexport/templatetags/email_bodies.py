@@ -12,7 +12,7 @@ def email_body_with_single_result_link(context, output_file):
         'file': output_file,
     }
     return mark_safe(render_to_string(
-        'excerptexport/email_bodies/download_single_result.txt',
+        'excerptexport/email/download_single_result_body.txt',
         context=view_context,
         context_instance=RequestContext(context.request),
     ).strip())
