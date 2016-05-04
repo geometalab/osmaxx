@@ -39,7 +39,7 @@ class CallbackHandlingTest(APITestCase):
             extraction_formats=['fgdb', 'spatialite'],
             extraction_configuration={
                 'gis_options': {
-                    'coordinate_reference_system': 'WGS_84',
+                    'coordinate_reference_system': '4326',
                     'detail_level': 1
                 }
             },

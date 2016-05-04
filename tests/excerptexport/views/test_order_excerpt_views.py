@@ -53,7 +53,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             'formats': ['fgdb'],
         }
         self.existing_excerpt_extraction_options = {
-            'gis_options': {'coordinate_reference_system': 'WGS_84', 'detail_level': 1}
+            'gis_options': {'coordinate_reference_system': '4326', 'detail_level': 1}
         }
 
     def tearDown(self):
