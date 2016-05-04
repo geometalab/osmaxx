@@ -31,6 +31,11 @@ class OrderOptionsMixin(forms.Form):
         required=True,
     )
 
+    def clean(self):
+        # only needed so check is actually run by inherited class
+        data = super().clean()
+        return data
+
     def form_layout(self):
         return Fieldset(
             _('Extraction options'),
