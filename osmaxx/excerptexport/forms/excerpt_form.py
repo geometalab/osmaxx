@@ -22,7 +22,7 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
     bounding_geometry = forms.CharField(
         label=_('Bounding Geometry (GeoJSON)'),
         required=True,
-        widget=forms.Textarea(attrs={'required': 'required', 'rows': '10'}),
+        widget=forms.Textarea(attrs={'rows': '10'}),
     )
 
     def __init__(self, *args, **kwargs):
@@ -44,6 +44,13 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
             OrderOptionsMixin(self).form_layout(),
             Submit('submit', 'Submit'),
         )
+
+    def clean(self):
+        clean = super().clean()
+        if 'bounding_geometry' in self._errors:
+            # need to add the hidden field validation error to a visible dom
+            self.add_error(None, _('Area Invalid or none selected.'))
+        return clean
 
     def clean_bounding_geometry(self):
         allowed_types = ['Polygon', 'Multipolygon']

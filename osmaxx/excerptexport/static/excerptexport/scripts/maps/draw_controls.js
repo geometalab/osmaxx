@@ -1,4 +1,8 @@
 var draw_controls = function (map) {
+    // holds the geoJSON text representation
+    var geoJSON_element = document.getElementById('id_bounding_geometry');
+    geoJSON_element.parentNode.parentNode.className = "hidden";
+
     var editableLayers = new L.FeatureGroup();
     map.addLayer(editableLayers);
 
@@ -43,9 +47,8 @@ var draw_controls = function (map) {
     var drawControlDisabled = new L.Control.Draw(optionsDisabled);
 
     drawControlEnabled.addTo(map);
-    var geoJSON_element = document.getElementById('div_id_north').parentNode.parentNode;
     function updateGeoJSON (layer){
-        geoJSON_element.innerHTML = JSON.stringify(layer.toGeoJSON()['geometry']);
+        geoJSON_element.value = JSON.stringify(layer.toGeoJSON()['geometry']);
     };
 
     map.on('draw:created', function (e) {
@@ -70,6 +73,7 @@ var draw_controls = function (map) {
     });
 
     map.on('draw:deleted', function () {
+        geoJSON_element.value = '';
         if (editableLayers.getLayers().length === 0) {
             drawControlEnabled.addTo(map);
             drawControlDisabled.removeFrom(map);
