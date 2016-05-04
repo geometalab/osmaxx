@@ -43,7 +43,7 @@ interactions:
     method: POST
     uri: http://localhost:8901/api/jobs/
   response:
-    body: {string: '{"rq_job_id":"93b1f4c3-1582-4c6d-b1f8-8eb8862d17ea","callback_url":"http://the-host.example.com/job_progress/tracker/1/","status":"http://localhost:8901/api/conversion_result/93b1f4c3-1582-4c6d-b1f8-8eb8862d17ea/","gis_formats":["fgdb","spatialite"],"gis_options":{"coordinate_reference_system":"WGS_84","detail_level":1},"extent":{"west":29.525548,"south":40.775468,"east":29.528981,"north":40.777397,"polyfile":null}}'}
+    body: {string: '{"rq_job_id":"93b1f4c3-1582-4c6d-b1f8-8eb8862d17ea","callback_url":"http://the-host.example.com/job_progress/tracker/1/","status":"http://localhost:8901/api/conversion_result/93b1f4c3-1582-4c6d-b1f8-8eb8862d17ea/","gis_formats":["fgdb","spatialite"],"gis_options":{"coordinate_reference_system":"4326","detail_level":1},"extent":{"west":29.525548,"south":40.775468,"east":29.528981,"north":40.777397,"polyfile":null}}'}
     headers:
       Allow: ['GET, POST, HEAD, OPTIONS']
       Connection: [close]
