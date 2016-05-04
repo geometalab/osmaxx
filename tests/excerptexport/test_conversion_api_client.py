@@ -64,6 +64,13 @@ def job_progress_request(the_host):
 
 
 @pytest.fixture
+def excerpt_request(the_host):
+    request = Mock()
+    request.build_absolute_uri.return_value = 'http://' + the_host + '/orders/new/new_excerpt/'
+    return request
+
+
+@pytest.fixture
 def bounding_box(db):
     return BBoxBoundingGeometry.create_from_bounding_box_coordinates(
         40.77739734768811, 29.528980851173397, 40.77546776498174, 29.525547623634335
@@ -158,7 +165,7 @@ def api_client():
 # ConversionApiClient integration tests:
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
-def test_create_jobs_for_extraction_order(extraction_order, job_progress_request):
+def test_create_jobs_for_extraction_order(extraction_order, excerpt_request):
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
     spatialite_export = extraction_order.exports.get(file_format=SPATIALITE)
 
@@ -167,7 +174,7 @@ def test_create_jobs_for_extraction_order(extraction_order, job_progress_request
     assert spatialite_export.conversion_service_job_id is None
     assert spatialite_export.status == INITIAL
 
-    request = job_progress_request  # FIXME: this isn't the request that would cause this to be called
+    request = excerpt_request
     jobs_json = extraction_order.forward_to_conversion_service(incoming_request=request)
 
     fgdb_export.refresh_from_db()
@@ -195,8 +202,8 @@ def clipping_area_json():
 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
-def test_create_job_for_export(extraction_order, job_progress_request, clipping_area_json):
-    incoming_request = job_progress_request  # FIXME: this isn't the request that would cause this to be called
+def test_create_job_for_export(extraction_order, excerpt_request, clipping_area_json):
+    incoming_request = excerpt_request
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
 
     job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request)
@@ -210,8 +217,8 @@ def test_create_job_for_export(extraction_order, job_progress_request, clipping_
 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
-def test_callback_url_of_created_job_refers_to_correct_export(extraction_order, job_progress_request, clipping_area_json):
-    incoming_request = job_progress_request  # FIXME: this isn't the request that would cause this to be called
+def test_callback_url_of_created_job_refers_to_correct_export(extraction_order, excerpt_request, clipping_area_json):
+    incoming_request = excerpt_request
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
 
     job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request)
@@ -221,12 +228,12 @@ def test_callback_url_of_created_job_refers_to_correct_export(extraction_order, 
 
     match = resolve(callback_path)
     assert match.func == tracker
-    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/{}/'.format(fgdb_export.id))
+    excerpt_request.build_absolute_uri.assert_called_with('/job_progress/tracker/{}/'.format(fgdb_export.id))
 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
-def test_callback_url_would_reach_this_django_instance(extraction_order, job_progress_request, the_host, clipping_area_json):
-    incoming_request = job_progress_request  # FIXME: this isn't the request that would cause this to be called
+def test_callback_url_would_reach_this_django_instance(extraction_order, excerpt_request, the_host, clipping_area_json):
+    incoming_request = excerpt_request
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
 
     job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request)
