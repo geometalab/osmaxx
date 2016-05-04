@@ -194,7 +194,7 @@ def clipping_area_json():
     }
 
 
-@vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # TODO: use separate casette
+@vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
 def test_create_job_for_export(extraction_order, job_progress_request, clipping_area_json):
     incoming_request = job_progress_request  # FIXME: this isn't the request that would cause this to be called
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
@@ -202,14 +202,14 @@ def test_create_job_for_export(extraction_order, job_progress_request, clipping_
     job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request)
 
     assert job_json['callback_url'] == "http://the-host.example.com/job_progress/tracker/23/"
-    assert job_json['rq_job_id'] == "a4d7961b-934e-42ea-b761-6099942e77c8"
-    assert job_json['id'] == 52
+    assert job_json['rq_job_id'] == "f41f9cbe-e916-41a7-8349-192d3a616a35"
+    assert job_json['id'] == 57
     assert job_json['status'] == RECEIVED
     assert job_json['resulting_file'] is None
-    assert job_json['parametrization'] == 57
+    assert job_json['parametrization'] == 62
 
 
-@vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # TODO: use same casette as test_create_job_for_export
+@vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
 def test_callback_url_of_created_job_refers_to_correct_export(extraction_order, job_progress_request, clipping_area_json):
     incoming_request = job_progress_request  # FIXME: this isn't the request that would cause this to be called
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
@@ -224,7 +224,7 @@ def test_callback_url_of_created_job_refers_to_correct_export(extraction_order, 
     job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/{}/'.format(fgdb_export.id))
 
 
-@vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')  # TODO: use same casette as test_create_job_for_export
+@vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
 def test_callback_url_would_reach_this_django_instance(extraction_order, job_progress_request, the_host, clipping_area_json):
     incoming_request = job_progress_request  # FIXME: this isn't the request that would cause this to be called
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
