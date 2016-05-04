@@ -9,7 +9,7 @@ from django.utils import timezone
 from requests import HTTPError
 from rest_framework.reverse import reverse
 
-from osmaxx.api_client.API_client import JWTClient, reasons_for
+from osmaxx.api_client.API_client import JWTClient, reasons_for, LazyChunkedRemoteFile
 from osmaxx.excerptexport.models import ExtractionOrderState, OutputFile
 from osmaxx.utils import get_default_private_storage
 
@@ -22,7 +22,8 @@ LOGIN_URL = '/token-auth/'
 USERNAME = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
 PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
 
-CONVERSION_JOB_URL = '/jobs/'
+OLD_CONVERSION_JOB_URL = '/jobs/'  # TODO: remove
+CONVERSION_JOB_URL = '/conversion_job/'
 ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
 
 
@@ -70,6 +71,14 @@ class ConversionApiClient(JWTClient):
         response = self.authorized_post(url='conversion_job/', json_data=json_payload)
         return response.json()
 
+    def get_result_file(self, job_id):
+        download_url = self._get_result_file_url(job_id)
+        return LazyChunkedRemoteFile(download_url, download_function=self.authorized_get)
+
+    def _get_result_file_url(self, job_id):
+        job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)
+        return self.authorized_get(job_detail_url).json()['resulting_file']
+
     @staticmethod
     def _extraction_processing_overdue(progress, extraction_order):
         if extraction_order.process_start_time is None:
@@ -114,7 +123,7 @@ class ConversionApiClient(JWTClient):
             }
         })
         try:
-            response = self.authorized_post(CONVERSION_JOB_URL, json_data=request_data)
+            response = self.authorized_post(OLD_CONVERSION_JOB_URL, json_data=request_data)
         except HTTPError as e:
             logging.error('API job creation failed.', e.response)
             return e.response
@@ -169,10 +178,12 @@ class ConversionApiClient(JWTClient):
             export: an Export object
 
         Returns:
-            The status of the associated job (if any), otherwise ``None``
+            The status of the associated job
+
+        Raises:
+            AssertionError: If `export` has no associated job
         """
-        if not export.conversion_service_job_id:
-            return None
+        assert isinstance(export.conversion_service_job_id, int)
         response = self.authorized_get(url='conversion_job/{}'.format(export.conversion_service_job_id))
         return response.json()['status']
 

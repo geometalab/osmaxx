@@ -17,31 +17,48 @@ class ExportUpdaterMiddleware(object):
             "'django.contrib.auth.middleware.AuthenticationMiddleware' before "
             "'osmaxx.job_progress.middleware.ExportUpdaterMiddleware'."
         )
-        update_exports_of_request_user(request)
+        try:
+            update_exports_of_request_user(request)
+        except:  # noqa:
+            # Intentionally catching all non-system-exiting exceptions here, because this middleware must never* raise.
+            # (This middleware does processing that needs the current request,
+            # but is ultimately unrelated to the request.
+            # So, whatever happens, this middleware shouldn't let the request processing fail.)
+            #
+            # * unless improperly configured (see assert above)
+            logger.exception("Failed to update statuses of pending requests.")
 
 
 def update_exports_of_request_user(request):
     current_user = request.user
     if current_user.is_anonymous():
         return
-    for export in Export.objects.exclude(status__in=FINAL_STATUSES).filter(extraction_order__orderer=current_user):
-        update_export_if_stale(export)
+    pending_exports = Export.objects.\
+        exclude(status__in=FINAL_STATUSES).\
+        filter(extraction_order__orderer=current_user, conversion_service_job_id__isnull=False)
+    for export in pending_exports:
+        try:
+            update_export_if_stale(export, request=request)
+        except:  # noqa:
+            # Intentionally catching all non-system-exiting exceptions here, so that the loop can continue
+            # and (try) to update the other pending exports.
+            logger.exception("Failed to update status of pending export #%s.", export.id)
 
 
-def update_export_if_stale(export):
+def update_export_if_stale(export, *, request):
     get_cached_or_set(
         'export_{}_job_progress'.format(export.id),
-        update_export, export,
+        update_export, export, request=request,
         on_cache_hit=_log_cache_hit,
         timeout=timedelta(minutes=1).total_seconds(),
     )
 
 
-def update_export(export):
+def update_export(export, *, request):
     _log_cache_miss(export)
     client = ConversionApiClient()
     status = client.job_status(export)
-    export.set_and_handle_new_status(status)
+    export.set_and_handle_new_status(status, incoming_request=request)
     if logger.isEnabledFor(logging.DEBUG):
         message = "Fetched, updated and cached Export {export} status: {status}".format(
             export=export.id,
@@ -60,7 +77,7 @@ def _log_cache_miss(export):
     logger.info(message)
 
 
-def _log_cache_hit(cached_value, export):
+def _log_cache_hit(cached_value, export, **_):
     if not logger.isEnabledFor(logging.INFO):
         return
     message = (
