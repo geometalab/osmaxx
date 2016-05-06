@@ -94,8 +94,8 @@ class ExtractionOrder(models.Model):
         if self.excerpt:
             return self.excerpt.name
         elif self.country_id:
-            from osmaxx.api_client import ConversionApiClient
-            return ConversionApiClient().get_country_name(self.country_id)
+            from osmaxx.countries.models import Country
+            return Country.objects.get(pk=self.country_id)
 
     @property
     def output_files(self):

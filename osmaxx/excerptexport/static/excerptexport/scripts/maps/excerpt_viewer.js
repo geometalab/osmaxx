@@ -33,20 +33,19 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
             var feature_type = event.target.getLayers()[0].feature.properties.type_of_geometry;
             var layer = event.target;
             this._handleCountryOrBBox(layer);
+            this.map.fitBounds(layer.getBounds());
             switch(feature_type) {
-                case 'BBoxBoundingGeometry':
+                case 'Excerpt':
                     layer.setStyle({
                         color: 'black',
                         fillOpacity: 0.15
                     });
-                    this.map.fitBounds(this._extendBounds(layer.getBounds(), 0.2));
                     break;
                 case 'Country':
                     layer.setStyle({
                         color: 'navy',
                         fillOpacity: 0.1
                     });
-                    this.map.fitBounds(layer.getBounds());
                     break;
                 default:
                     break;

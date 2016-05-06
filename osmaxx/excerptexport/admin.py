@@ -1,22 +1,13 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from osmaxx.excerptexport.models import BBoxBoundingGeometry, OsmosisPolygonFilterBoundingGeometry
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, OutputFile
-
-
-class BBoxBoundingGeometryAdmin(admin.ModelAdmin):
-    list_display = ('north', 'east', 'south', 'west')
-    fields = (list_display,)
-    readonly_fields = list_display
-admin.site.register(BBoxBoundingGeometry, BBoxBoundingGeometryAdmin)
 
 
 @admin.register(Excerpt)
 class ExcerptAdmin(admin.ModelAdmin):
-    list_display = ['name', 'is_public', 'is_active', 'owner', 'bounding_geometry_old']
-    fields = ('name', ('bounding_geometry_old', 'bounding_geometry_subclass_instance_edit_link'))
-    readonly_fields = ('bounding_geometry_subclass_instance_edit_link',)
+    list_display = ['name', 'is_public', 'is_active', 'owner', 'bounding_geometry']
+    fields = ('name', ('bounding_geometry',))
 
     def bounding_geometry_subclass_instance_edit_link(self, excerpt):
         admin_link = excerpt.bounding_geometry.subclass_instance.get_admin_url()
@@ -39,4 +30,3 @@ class ExtractionOrderAdmin(admin.ModelAdmin):
     readonly_fields = ('process_id', '_extraction_configuration', 'progress_url')
 
 admin.site.register(OutputFile)
-admin.site.register(OsmosisPolygonFilterBoundingGeometry)

@@ -71,16 +71,17 @@ def excerpt_request(the_host):
 
 
 @pytest.fixture
-def bounding_box(db):
-    return BBoxBoundingGeometry.create_from_bounding_box_coordinates(
-        40.77739734768811, 29.528980851173397, 40.77546776498174, 29.525547623634335
+def bounding_box():
+    from django.contrib.gis import geos
+    return geos.GEOSGeometry(
+        '{"type":"MultiPolygon","coordinates":[[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]]}'
     )
 
 
 @pytest.fixture
 def excerpt(user, bounding_box, db):
     return Excerpt.objects.create(
-        name='Neverland', is_active=True, is_public=True, owner=user, bounding_geometry_old=bounding_box
+        name='Neverland', is_active=True, is_public=True, owner=user, bounding_geometry=bounding_box
     )
 
 
@@ -114,7 +115,7 @@ def test_extraction_order_forward_to_conversion_service(rf, mocker, excerpt, ext
     request = rf.get('/tracker/something', HTTP_HOST=the_host)
     result = extraction_order.forward_to_conversion_service(incoming_request=request)
 
-    ConversionApiClient.create_boundary.assert_called_once_with(bounding_box.geometry, name=excerpt.name)
+    ConversionApiClient.create_boundary.assert_called_once_with(bounding_box, name=excerpt.name)
     srs = extraction_order.extraction_configuration['gis_options']['coordinate_reference_system']
     assert_that(
         ConversionApiClient.create_parametrization.mock_calls, contains_inanyorder(

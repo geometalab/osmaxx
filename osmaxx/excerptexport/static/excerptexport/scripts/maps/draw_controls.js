@@ -17,12 +17,14 @@ var draw_controls = function (map) {
                 message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
             },
             shapeOptions: {
-                color: '#000000'
+                color: 'black',
+                fillOpacity: 0.15
             }
         },
         rectangle: {
             shapeOptions: {
-                color: '#000000'
+                color: 'black',
+                fillOpacity: 0.15
             }
         }
     };
