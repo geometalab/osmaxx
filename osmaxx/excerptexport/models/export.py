@@ -22,7 +22,7 @@ class Export(models.Model):
     encompasses
 
     - the spatial selection ('clipping' or 'extraction') of the input data within one perimeter
-      (``extraction_order.excerpt`` or ``extraction_order.country_id`)
+      (``extraction_order.excerpt``)
     - the transformation of the data from the data sources' schemata (e.g. ``osm2pgsql`` schema) to the OSMaxx schema
     - the actual export to one specific GIS or navigation file format with one specific set of parameters
     """
