@@ -16,7 +16,6 @@ from rest_framework.test import APITestCase, APIRequestFactory
 from osmaxx import excerptexport
 from osmaxx.api_client.conversion_api_client import ConversionApiClient
 from osmaxx.conversion_api.statuses import STARTED, QUEUED, FINISHED, FAILED
-from osmaxx.excerptexport.models.bounding_geometry import BBoxBoundingGeometry
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.export import Export
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder
@@ -26,11 +25,14 @@ from osmaxx.job_progress import views, middleware
 class CallbackHandlingTest(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
-        self.bounding_box = BBoxBoundingGeometry.create_from_bounding_box_coordinates(
-            40.77739734768811, 29.528980851173397, 40.77546776498174, 29.525547623634335
+
+        from django.contrib.gis import geos
+        # FIXME: use the bounding_geometry fixture for this
+        self.bounding_box = geos.GEOSGeometry(
+            '{"type":"MultiPolygon","coordinates":[[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]]}'
         )
         self.excerpt = Excerpt.objects.create(
-            name='Neverland', is_active=True, is_public=True, owner=self.user, bounding_geometry_old=self.bounding_box
+            name='Neverland', is_active=True, is_public=True, owner=self.user, bounding_geometry=self.bounding_box
         )
         extraction_order = ExtractionOrder.objects.create(
             excerpt=self.excerpt,

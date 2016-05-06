@@ -14,7 +14,7 @@ from rest_framework.reverse import reverse
 from osmaxx.api_client import ConversionApiClient, API_client
 from osmaxx.conversion_api.formats import FGDB, SPATIALITE
 from osmaxx.conversion_api.statuses import RECEIVED
-from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState, BBoxBoundingGeometry
+from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, ExtractionOrderState
 from osmaxx.excerptexport.models.export import INITIAL
 from osmaxx.job_progress.views import tracker
 from tests.test_helpers import vcr_explicit_path as vcr, absolute_cassette_lib_path
@@ -71,17 +71,9 @@ def excerpt_request(the_host):
 
 
 @pytest.fixture
-def bounding_box():
-    from django.contrib.gis import geos
-    return geos.GEOSGeometry(
-        '{"type":"MultiPolygon","coordinates":[[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]]}'
-    )
-
-
-@pytest.fixture
-def excerpt(user, bounding_box, db):
+def excerpt(user, bounding_geometry, db):
     return Excerpt.objects.create(
-        name='Neverland', is_active=True, is_public=True, owner=user, bounding_geometry=bounding_box
+        name='Neverland', is_active=True, is_public=True, owner=user, bounding_geometry=bounding_geometry
     )
 
 
@@ -101,7 +93,7 @@ def extraction_order(excerpt, user, db):
 #
 # ConversionApiClient unit tests:
 
-def test_extraction_order_forward_to_conversion_service(rf, mocker, excerpt, extraction_order, bounding_box, the_host):
+def test_extraction_order_forward_to_conversion_service(rf, mocker, excerpt, extraction_order, bounding_geometry, the_host):
     mocker.patch.object(
         ConversionApiClient, 'create_job',
         side_effect=[{'id': 5, 'status': RECEIVED}, {'id': 23, 'status': RECEIVED}],
@@ -115,7 +107,7 @@ def test_extraction_order_forward_to_conversion_service(rf, mocker, excerpt, ext
     request = rf.get('/tracker/something', HTTP_HOST=the_host)
     result = extraction_order.forward_to_conversion_service(incoming_request=request)
 
-    ConversionApiClient.create_boundary.assert_called_once_with(bounding_box, name=excerpt.name)
+    ConversionApiClient.create_boundary.assert_called_once_with(bounding_geometry, name=excerpt.name)
     srs = extraction_order.extraction_configuration['gis_options']['coordinate_reference_system']
     assert_that(
         ConversionApiClient.create_parametrization.mock_calls, contains_inanyorder(

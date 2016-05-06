@@ -8,7 +8,6 @@ from django.test import TestCase
 from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
-from osmaxx.excerptexport.models import BBoxBoundingGeometry
 from tests.excerptexport.permission_test_helper import PermissionHelperMixin
 from tests.test_helpers import vcr_explicit_path as vcr
 
@@ -16,6 +15,7 @@ from tests.test_helpers import vcr_explicit_path as vcr
 class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
     def setUp(self):
         from django.contrib.gis import geos
+        # FIXME: use the bounding_geometry fixture for this
         multi_polygon = geos.GEOSGeometry('{"type":"MultiPolygon","coordinates":[[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]]}')
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
         other_user = User.objects.create_user('other_user', 'o_u@example.com', 'o_pw')
@@ -133,7 +133,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             1
         )
 
-    # @vcr.use_cassette('fixtures/vcr/views-test_create_with_existing_excerpt.yml')
+    @vcr.use_cassette('fixtures/vcr/views-test_create_with_existing_excerpt.yml')
     def test_create_with_existing_excerpt(self):
         """
         When logged in, POSTing an export request using an existing excerpt is successful.
@@ -145,7 +145,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             self.existing_excerpt_post_data,
             HTTP_HOST='thehost.example.com'
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)  # this should be a redirect when successful
         self.assertEqual(ExtractionOrder.objects.filter(
             excerpt_id=self.existing_excerpt_post_data['existing_excerpts']
         ).count(), 1)  # only reproducible because there is only 1
