@@ -54,6 +54,17 @@ var draw_controls = function (map) {
     }
 
     function showSizeOfLayer(layer) {
+        var allowedMaxSize = 5 * 1000 * 1000 * 1000;  // 5 GB in bytes, approx. Germany
+        var nameField = document.getElementById('id_name');
+
+        var e = document.getElementById('error_size_estimation_too_large');
+        if (!e) {
+            e = document.createElement('span');
+            e.className = 'help-block';
+            e.id = 'error_size_estimation_too_large';
+            nameField.parentNode.appendChild(e);
+        }
+
         estimateSize(layer).done(function (data) {
             function formatBytes(bytes) {
                if(bytes == 0) return '0 Byte';
@@ -64,22 +75,25 @@ var draw_controls = function (map) {
             }
 
             var estimatedFileSize = Number(data['estimated_file_size_in_bytes']);
-            var e = document.getElementById('error_size_estimation_too_large');
-            if (!e) {
-                e = document.createElement('span');
-                e.className = 'help-block';
-                e.id = 'error_size_estimation_too_large';
-                var bboxErrorField = document.getElementById('id_name');
-                bboxErrorField.parentNode.appendChild(e);
+
+            var message_html = '';
+            if (estimatedFileSize > allowedMaxSize) {
+                var howMuchTooLarge = estimatedFileSize ? Math.ceil(estimatedFileSize * 100 / allowedMaxSize - 100) + '% ' : '';
+                var message = 'Excerpt {percent}too large!'.replace('{percent}', howMuchTooLarge);
+                message_html = '<strong>' + message + '<br />';
+                nameField.setCustomValidity(message);
+            } else {
+                nameField.setCustomValidity('');
             }
+
             if (isNaN(estimatedFileSize)) {
                 e.innerHTML = '<strong>Invalid Area selected.</strong>';
             } else {
-                e.innerHTML = '<strong>(Rough) Estimated File Size: ' + formatBytes(estimatedFileSize) + '</strong>';
+                e.innerHTML = message_html + '<strong>(Rough) Estimated File Size: ' + formatBytes(estimatedFileSize) + '</strong>';
             }
 
         });
-    };
+    }
 
     map.on('draw:created', function (e) {
         drawControlDisabled.addTo(map);
