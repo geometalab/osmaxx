@@ -51,6 +51,34 @@ var draw_controls = function (map) {
     drawControlEnabled.addTo(map);
     function updateGeoJSON (layer){
         geoJSON_element.value = JSON.stringify(layer.toGeoJSON()['geometry']);
+    }
+
+    function showSizeOfLayer(layer) {
+        estimateSize(layer).done(function (data) {
+            function formatBytes(bytes) {
+               if(bytes == 0) return '0 Byte';
+               var k = 1000;
+               var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+               var i = Math.floor(Math.log(bytes) / Math.log(k));
+               return parseFloat((bytes / Math.pow(k, i)).toFixed()) + ' ' + sizes[i];
+            }
+
+            var estimatedFileSize = Number(data['estimated_file_size_in_bytes']);
+            var e = document.getElementById('error_size_estimation_too_large');
+            if (!e) {
+                e = document.createElement('span');
+                e.className = 'help-block';
+                e.id = 'error_size_estimation_too_large';
+                var bboxErrorField = document.getElementById('id_name');
+                bboxErrorField.parentNode.appendChild(e);
+            }
+            if (isNaN(estimatedFileSize)) {
+                e.innerHTML = '<strong>Invalid Area selected.</strong>';
+            } else {
+                e.innerHTML = '<strong>(Rough) Estimated File Size: ' + formatBytes(estimatedFileSize) + '</strong>';
+            }
+
+        });
     };
 
     map.on('draw:created', function (e) {
@@ -58,6 +86,7 @@ var draw_controls = function (map) {
         drawControlEnabled.removeFrom(map);
         var layer = e.layer;
         if (layer !== undefined) {
+            showSizeOfLayer(layer);
             editableLayers.addLayer(layer);
             map.fitBounds(layer.getBounds());
             updateGeoJSON(layer);
@@ -68,6 +97,7 @@ var draw_controls = function (map) {
         var layers = e.layers;
         layers.eachLayer(function (layer) {
             if (layer !== undefined) {
+                showSizeOfLayer(layer);
                 map.fitBounds(layer.getBounds());
                 updateGeoJSON(layer);
             }
