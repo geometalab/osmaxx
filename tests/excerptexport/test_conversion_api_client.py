@@ -93,7 +93,8 @@ def extraction_order(excerpt, user, db):
 #
 # ConversionApiClient unit tests:
 
-def test_extraction_order_forward_to_conversion_service(rf, mocker, excerpt, extraction_order, bounding_geometry, the_host):
+def test_extraction_order_forward_to_conversion_service(
+        rf, mocker, excerpt, extraction_order, bounding_geometry, the_host):
     mocker.patch.object(
         ConversionApiClient, 'create_job',
         side_effect=[{'id': 5, 'status': RECEIVED}, {'id': 23, 'status': RECEIVED}],
