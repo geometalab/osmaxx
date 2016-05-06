@@ -170,7 +170,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'A very interesting region')
 
-    # @vcr.use_cassette('fixtures/vcr/views-test_create_with_existing_excerpt_persists_a_new_order.yml')
+    @vcr.use_cassette('fixtures/vcr/views-test_create_with_existing_excerpt_persists_a_new_order.yml')
     def test_create_with_existing_excerpt_persists_a_new_order(self):
         """
         When logged in, POSTing an export request using an existing excerpt persists a new ExtractionOrder.
