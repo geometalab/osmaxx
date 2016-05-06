@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from hamcrest import assert_that, has_entries, contains_inanyorder as contains_in_any_order
 
+from osmaxx.conversion_api.formats import GARMIN
+from osmaxx.conversion_api.statuses import FINISHED
 from osmaxx.excerptexport.models.bounding_geometry import BoundingGeometry, BBoxBoundingGeometry
 from osmaxx.excerptexport import models
 from osmaxx.utils import frozendict
@@ -109,3 +111,11 @@ class ExtractionOrderTestCase(TestCase):
                     contains_in_any_order(*self.extraction_configuration.keys()))
         assert_that(extraction_order.extraction_configuration, has_entries(self.extraction_configuration))
         assert_that(extraction_order.extraction_formats, contains_in_any_order('txt'))
+
+
+def test_export_get_export_status_changed_message_does_not_html_escape_format_description():
+    excerpt = models.Excerpt(name='Obersee')
+    extraction_order = models.ExtractionOrder(excerpt=excerpt)
+    export = models.Export(id=5, status=FINISHED, extraction_order=extraction_order, file_format=GARMIN)
+    assert export._get_export_status_changed_message() == \
+        'Export #5 "Obersee" to Garmin navigation & map data has finished.'
