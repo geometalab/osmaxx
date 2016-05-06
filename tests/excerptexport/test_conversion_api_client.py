@@ -123,10 +123,12 @@ def test_extraction_order_forward_to_conversion_service(rf, mocker, excerpt, ext
     )
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
     spatialite_export = extraction_order.exports.get(file_format=SPATIALITE)
+    fgdb_callback_uri_path = reverse('job_progress:tracker', kwargs=dict(export_id=fgdb_export.id))
+    spatialite_callback_uri_path = reverse('job_progress:tracker', kwargs=dict(export_id=spatialite_export.id))
     assert_that(
         ConversionApiClient.create_job.mock_calls, contains_inanyorder(
-            mock.call(ANY, 'http://' + the_host + reverse('job_progress:tracker', kwargs=dict(export_id=fgdb_export.id))),
-            mock.call(ANY, 'http://' + the_host + reverse('job_progress:tracker', kwargs=dict(export_id=spatialite_export.id))),
+            mock.call(ANY, 'http://' + the_host + fgdb_callback_uri_path),
+            mock.call(ANY, 'http://' + the_host + spatialite_callback_uri_path),
         )
     )
     assert_that(
