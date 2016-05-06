@@ -57,7 +57,7 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
         data = self.cleaned_data['bounding_geometry']
         data_dict = json.loads(data)
         if data_dict.get('type') not in allowed_types:
-            raise ValidationError(_('Only {} are allowed as input.'.format(allowed_types)))
+            raise ValidationError(_('Only {} are allowed as input.').format(allowed_types))
         if data_dict.get('type') == 'Polygon':
             data_dict['coordinates'] = [data_dict.get('coordinates')]
             data_dict['type'] = 'Multipolygon'
