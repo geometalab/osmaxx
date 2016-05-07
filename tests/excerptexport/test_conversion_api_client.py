@@ -167,8 +167,7 @@ def test_create_jobs_for_extraction_order(extraction_order, excerpt_request):
     assert spatialite_export.conversion_service_job_id is None
     assert spatialite_export.status == INITIAL
 
-    request = excerpt_request
-    jobs_json = extraction_order.forward_to_conversion_service(incoming_request=request)
+    jobs_json = extraction_order.forward_to_conversion_service(incoming_request=(excerpt_request))
 
     fgdb_export.refresh_from_db()
     spatialite_export.refresh_from_db()
@@ -189,17 +188,22 @@ def clipping_area_json():
         "name": "Neverland",
         "clipping_multi_polygon": {
             "type": "MultiPolygon",
-            "coordinates": [[[[29.525547623634335, 40.77546776498174], [29.525547623634335, 40.77739734768811], [29.528980851173397, 40.77739734768811], [29.528980851173397, 40.77546776498174], [29.525547623634335, 40.77546776498174]]]]  # noqa
+            "coordinates": [[[
+                [29.525547623634335, 40.77546776498174],
+                [29.525547623634335, 40.77739734768811],
+                [29.528980851173397, 40.77739734768811],
+                [29.528980851173397, 40.77546776498174],
+                [29.525547623634335, 40.77546776498174],
+            ]]],
         }
     }
 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
 def test_create_job_for_export(extraction_order, excerpt_request, clipping_area_json):
-    incoming_request = excerpt_request
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
 
-    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request)
+    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=excerpt_request)
 
     assert job_json['callback_url'] == "http://the-host.example.com/job_progress/tracker/23/"
     assert job_json['rq_job_id'] == "f41f9cbe-e916-41a7-8349-192d3a616a35"
@@ -211,10 +215,9 @@ def test_create_job_for_export(extraction_order, excerpt_request, clipping_area_
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
 def test_callback_url_of_created_job_refers_to_correct_export(extraction_order, excerpt_request, clipping_area_json):
-    incoming_request = excerpt_request
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
 
-    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request)
+    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=excerpt_request)
 
     callback_url = job_json['callback_url']
     scheme, host, callback_path, params, *_ = urlparse(callback_url)
@@ -226,10 +229,9 @@ def test_callback_url_of_created_job_refers_to_correct_export(extraction_order, 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
 def test_callback_url_would_reach_this_django_instance(extraction_order, excerpt_request, the_host, clipping_area_json):
-    incoming_request = excerpt_request
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
 
-    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request)
+    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=excerpt_request)
 
     callback_url = job_json['callback_url']
     scheme, host, callback_path, params, *_ = urlparse(callback_url)
