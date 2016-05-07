@@ -10,17 +10,16 @@ def move_country_from_extraction_order_to_export(apps, schema_editor):
     ExtractionOrder = apps.get_model('excerptexport', 'ExtractionOrder')  # noqa
     Country = apps.get_model('countries', 'Country')  # noqa
 
-    for extraction_order in ExtractionOrder.objects.all():
-        if extraction_order.country_id is not None:
-            country = Country.objects.get(pk=extraction_order.country_id)
-            extraction_order.country_id = None
-            excerpt = Excerpt.objects.create(
-                name=country.name,
-                country=country,
-                owner=extraction_order.orderer
-            )
-            excerpt.save()
-            extraction_order.save()
+    for extraction_order in ExtractionOrder.objects.filter(country_id__is_null=False):
+        country = Country.objects.get(pk=extraction_order.country_id)
+        extraction_order.country_id = None
+        excerpt = Excerpt.objects.create(
+            name=country.name,
+            country=country,
+            owner=extraction_order.orderer
+        )
+        excerpt.save()
+        extraction_order.save()
 
 
 def move_country_from_extraction_order_to_export_undo(apps, schema_editor):
