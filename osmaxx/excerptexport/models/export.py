@@ -74,7 +74,7 @@ class Export(models.Model):
         from django.template.loader import render_to_string
         view_context = dict(export=self)
         return render_to_string(
-            'job_progress/messages/export_status_changed.txt',
+            'job_progress/messages/export_status_changed.unsave_text',
             context=view_context,
         ).strip()
 
