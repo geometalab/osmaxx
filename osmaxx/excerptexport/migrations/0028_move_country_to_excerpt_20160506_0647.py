@@ -10,7 +10,7 @@ def move_country_from_extraction_order_to_export(apps, schema_editor):
     ExtractionOrder = apps.get_model('excerptexport', 'ExtractionOrder')  # noqa
     Country = apps.get_model('countries', 'Country')  # noqa
 
-    for extraction_order in ExtractionOrder.objects.filter(country_id__is_null=False):
+    for extraction_order in ExtractionOrder.objects.filter(country_id__isnull=False):
         country = Country.objects.get(pk=extraction_order.country_id)
         extraction_order.country_id = None
         excerpt = Excerpt.objects.create(
