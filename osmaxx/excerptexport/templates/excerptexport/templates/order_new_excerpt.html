@@ -31,13 +31,13 @@
 
 {% block scripts %}
     {{ block.super }}
-    <!-- Leaflet plugins -->
+    {# Leaflet plugins #}
     <script src='{% static "excerptexport/libraries/Leaflet.draw/leaflet.draw.js" %}'></script>
 
-    <!-- map -->
+    {# map #}
     <script src='{% static "excerptexport/scripts/maps/draw_controls.js" %}'></script>
     <script src='{% static "excerptexport/scripts/maps/new_excerpt_map.js" %}'></script>
 
-    <!-- form -->
+    {# form #}
     <script src='{% static "excerptexport/scripts/validation/new_excerpt_validation.js" %}'></script>
 {% endblock %}

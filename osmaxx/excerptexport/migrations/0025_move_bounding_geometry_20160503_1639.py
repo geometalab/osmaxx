@@ -15,10 +15,9 @@ def multi_polygon_from(bounding_geometry_old):
 
 def move_bounding_geometry_data_to_new_multipolygon_field(apps, schema_editor):
     Excerpt = apps.get_model('excerptexport', 'Excerpt')  # noqa
-    BBoxBoundingGeometry = apps.get_model('excerptexport', 'BBoxBoundingGeometry')  # noqa
     for excerpt in Excerpt.objects.all():
         excerpt.bounding_geometry = multi_polygon_from(
-            BBoxBoundingGeometry.objects.get(pk=excerpt.bounding_geometry_old.id)
+            excerpt.bounding_geometry_old
         )
         excerpt.save()
 
