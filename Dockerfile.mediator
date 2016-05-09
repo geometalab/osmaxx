@@ -16,6 +16,7 @@ ENV HOME /home/py
 
 WORKDIR $HOME
 
+ENV REQS_LAST_UPDATED 04-05-2016 8:50
 ADD ./requirements.txt $HOME/
 
 RUN pip3 install honcho

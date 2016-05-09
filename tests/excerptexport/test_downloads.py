@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from osmaxx.excerptexport.models import OutputFile, Excerpt, ExtractionOrder
-from osmaxx.excerptexport.models import BBoxBoundingGeometry
 
 
 @patch('osmaxx.job_progress.middleware.update_export')
@@ -20,7 +19,11 @@ class DownloadsTestCase(TestCase):
 
     def test_file_download(self, *args):
         user = User.objects.create_user('user', 'user@example.com', 'pw')
-        bg = BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
+        # FIXME: use the bounding_geometry fixture for this
+        from django.contrib.gis import geos
+        bg = geos.GEOSGeometry(
+            '{"type":"MultiPolygon","coordinates":[[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]]}'
+        )
         excerpt = Excerpt.objects.create(name='Neverland', is_active=True, is_public=True, owner=user,
                                          bounding_geometry=bg)
         extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)

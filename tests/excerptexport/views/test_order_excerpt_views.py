@@ -8,22 +8,22 @@ from django.test import TestCase
 from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
-from osmaxx.excerptexport.models import BBoxBoundingGeometry
 from tests.excerptexport.permission_test_helper import PermissionHelperMixin
 from tests.test_helpers import vcr_explicit_path as vcr
 
 
 class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
     def setUp(self):
+        from django.contrib.gis import geos
+        # FIXME: use the bounding_geometry fixture for this
+        multi_polygon = geos.GEOSGeometry('{"type":"MultiPolygon","coordinates":[[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]]}')
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
         other_user = User.objects.create_user('other_user', 'o_u@example.com', 'o_pw')
+
         self.new_excerpt_post_data = {
             'name': 'A very interesting region',
             'is_public': 'True',
-            'north': '1.0',
-            'east': '2.0',
-            'south': '3.0',
-            'west': '4.0',
+            'bounding_geometry': '{"type":"Polygon","coordinates":[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]}',
             'formats': ['fgdb'],
             'detail_level': 'verbatim',
         }
@@ -32,28 +32,28 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             is_active=True,
             is_public=False,
             owner=self.user,
-            bounding_geometry=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
+            bounding_geometry=multi_polygon
         )
         self.existing_public_foreign_excerpt = Excerpt.objects.create(
             name='Public Excerpt by someone else',
             is_active=True,
             is_public=True,
             owner=other_user,
-            bounding_geometry=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
+            bounding_geometry=multi_polygon
         )
         self.existing_private_foreign_excerpt = Excerpt.objects.create(
             name='Private Excerpt by someone else',
             is_active=True,
             is_public=False,
             owner=other_user,
-            bounding_geometry=BBoxBoundingGeometry.create_from_bounding_box_coordinates(0, 0, 0, 0)
+            bounding_geometry=multi_polygon
         )
         self.existing_excerpt_post_data = {
             'existing_excerpts': self.existing_own_excerpt.id,
             'formats': ['fgdb'],
         }
         self.existing_excerpt_extraction_options = {
-            'gis_options': {'coordinate_reference_system': 'WGS_84', 'detail_level': 1}
+            'gis_options': {'coordinate_reference_system': '4326', 'detail_level': 1}
         }
 
     def tearDown(self):
@@ -145,7 +145,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             self.existing_excerpt_post_data,
             HTTP_HOST='thehost.example.com'
         )
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)  # this should be a redirect when successful
         self.assertEqual(ExtractionOrder.objects.filter(
             excerpt_id=self.existing_excerpt_post_data['existing_excerpts']
         ).count(), 1)  # only reproducible because there is only 1
@@ -164,7 +164,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-        self.assertEqual(newly_created_order.state, ExtractionOrderState.QUEUED)
+        self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
         self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         assert_that(newly_created_order.extraction_formats, contains_in_any_order('fgdb'))
         self.assertEqual(newly_created_order.orderer, self.user)
@@ -187,7 +187,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-        self.assertEqual(newly_created_order.state, ExtractionOrderState.QUEUED)
+        self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
         self.assertDictEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
         assert_that(newly_created_order.extraction_formats, contains_in_any_order('fgdb'))
         self.assertEqual(newly_created_order.orderer, self.user)

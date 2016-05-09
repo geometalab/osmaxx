@@ -1,10 +1,11 @@
 from unittest.mock import patch
 
-from django.test import TestCase
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.gis import geos
+from django.core.urlresolvers import reverse
+from django.test import TestCase
 
-from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, BBoxBoundingGeometry
+from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
 from .permission_test_helper import PermissionHelperMixin
 from tests.test_helpers import vcr_explicit_path as vcr
@@ -18,8 +19,10 @@ class StatusTestCase(TestCase, PermissionHelperMixin):
         self.user = user = User.objects.create_user('user', 'user@example.com', 'pw')
         self.client.login(username='user', password='pw')
 
-        bounding_geometry = BBoxBoundingGeometry.create_from_bounding_box_coordinates(48, 9, 46, 6)
-        bounding_geometry.save()
+        # FIXME: use the bounding_geometry fixture for this
+        bounding_geometry = geos.GEOSGeometry(
+            '{"type":"MultiPolygon","coordinates":[[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]]}'
+        )
 
         excerpt = Excerpt.objects.create(
             name="Switzerland",

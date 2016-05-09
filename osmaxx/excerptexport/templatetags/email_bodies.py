@@ -22,5 +22,5 @@ def email_body_with_single_result_link(context, output_file):
 def email_body_with_all_result_links(context, extraction_order):
     return mark_safe('\r\n'.join(
         email_body_with_single_result_link(context, export.output_file)
-        for export in extraction_order.exports.all().order_by('file_format')
+        for export in extraction_order.exports.filter(output_file__isnull=False).order_by('file_format')
     ))

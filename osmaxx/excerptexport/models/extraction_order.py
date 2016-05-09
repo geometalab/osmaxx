@@ -54,7 +54,6 @@ class ExtractionOrder(models.Model):
     process_id = models.TextField(blank=True, null=True, verbose_name=_('process link'))
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True)
-    country_id = models.IntegerField(verbose_name=_('country ID'), null=True, blank=True)
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
     process_start_time = models.DateTimeField(verbose_name=_('process start time'), null=True, blank=True)
     download_status = models.IntegerField(
@@ -93,9 +92,6 @@ class ExtractionOrder(models.Model):
         """
         if self.excerpt:
             return self.excerpt.name
-        elif self.country_id:
-            from osmaxx.api_client import ConversionApiClient
-            return ConversionApiClient().get_country_name(self.country_id)
 
     @property
     def output_files(self):

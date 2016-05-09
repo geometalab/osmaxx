@@ -145,6 +145,7 @@ RUN chmod a+rx $CODE
 
 WORKDIR $HOME
 
+ENV REQS_LAST_UPDATED 04-05-2016 8:50
 ADD ./requirements.txt $HOME/requirements.txt
 
 RUN pip3 install honcho

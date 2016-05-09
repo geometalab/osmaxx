@@ -22,7 +22,7 @@ class Export(models.Model):
     encompasses
 
     - the spatial selection ('clipping' or 'extraction') of the input data within one perimeter
-      (``extraction_order.excerpt`` or ``extraction_order.country_id`)
+      (``extraction_order.excerpt``)
     - the transformation of the data from the data sources' schemata (e.g. ``osm2pgsql`` schema) to the OSMaxx schema
     - the actual export to one specific GIS or navigation file format with one specific set of parameters
     """
@@ -38,9 +38,10 @@ class Export(models.Model):
         extraction_format = self.file_format
         gis_options = self.extraction_order.extraction_configuration['gis_options']
         out_srs = gis_options['coordinate_reference_system']
-        parametrization_json = api_client.create_parametrization(clipping_area_json, extraction_format, out_srs)
-        job_json = api_client.create_job(parametrization_json, self.status_update_url)
+        parametrization_json = api_client.create_parametrization(boundary=clipping_area_json, out_format=extraction_format, out_srs=out_srs)
+        job_json = api_client.create_job(parametrization_json, self.get_full_status_update_uri(incoming_request))
         self.conversion_service_job_id = job_json['id']
+        self.status = job_json['status']
         self.save()
         return job_json
 
