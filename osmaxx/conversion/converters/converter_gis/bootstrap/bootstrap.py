@@ -6,9 +6,9 @@ from osmaxx.conversion.converters.converter_gis.helper.osm_importer import OSMIm
 from osmaxx.utils import polyfile_helpers
 
 
-def boostrap(area_polyfile_string):
+def boostrap(area_polyfile_string, with_boundaries):
     bootstrapper = BootStrapper(area_polyfile_string)
-    bootstrapper.bootstrap()
+    bootstrapper.bootstrap(with_boundaries)
 
 
 class BootStrapper:
@@ -19,9 +19,9 @@ class BootStrapper:
         self._style_path = os.path.join(self._script_base_dir, 'styles', 'style.lua')
         self._extent = polyfile_helpers.parse_poly_string(area_polyfile_string)
 
-    def bootstrap(self):
+    def bootstrap(self, with_boundaries=True):
         self._reset_database()
-        self._import_from_world_db()
+        self._import_from_world_db(with_boundaries)
         self._setup_db_functions()
         self._harmonize_database()
         self._filter_data()
@@ -37,8 +37,8 @@ class BootStrapper:
         drop_and_recreate_script_folder = os.path.join(self._script_base_dir, 'sql', 'drop_and_recreate')
         self._execute_sql_scripts_in_folder(drop_and_recreate_script_folder)
 
-    def _import_from_world_db(self):
-        osm_importer = OSMImporter()
+    def _import_from_world_db(self, with_boundaries):
+        osm_importer = OSMImporter(with_boundaries)
         osm_importer.load_area_specific_data(extent=self._extent)
 
     def _setup_db_functions(self):

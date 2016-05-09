@@ -43,7 +43,7 @@ class OutputFormat:
 FORMAT_DEFINITIONS = OrderedDict([
     (FGDB, OutputFormat(
         long_identifier='ESRI File Geodatabase',
-        verbose_name=_('ESRI File Geodatabase'),
+        verbose_name=_('ESRI File Geodatabase (without coastlines, land and sea polygons)'),
         archive_file_name_identifier='FileGDB',
         abbreviations=['FileGDB', 'FGDB'],
         is_white_box=True,

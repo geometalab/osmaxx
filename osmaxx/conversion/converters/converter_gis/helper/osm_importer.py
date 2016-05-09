@@ -6,7 +6,8 @@ from geoalchemy2 import Geometry, Geography
 
 
 class OSMImporter:
-    def __init__(self):
+    def __init__(self, with_boundaries):
+        self._with_boundaries = with_boundaries
         self._osm_derived_tables = ['osm_point', 'osm_line', 'osm_polygon', 'osm_roads']
         self._osm_base_tables = ['osm_ways', 'osm_nodes']
         self._osm_boundaries_tables = ['coastlines', 'land_polygons', 'water_polygons']
@@ -65,7 +66,8 @@ class OSMImporter:
         self._create_tables_on_local_db()
         self._load_tables(extent)
         self._load_base_tables()
-        self._load_boundaries_tables(extent)
+        if self._with_boundaries:
+            self._load_boundaries_tables(extent)
 
     def _create_tables_on_local_db(self):
         self._db_meta_data.create_all(self._local_db_engine)
@@ -100,19 +102,16 @@ class OSMImporter:
             view_definition_query = select([
                 source_table_meta.c.ogc_fid,
                 source_table_meta.c.fid,
-                func.ST_Intersection(source_table_meta.c.wkb_geometry, extent.ewkt).label('geom')
+                func.ST_Multi(func.ST_Intersection(source_table_meta.c.wkb_geometry, extent.ewkt)).label('geom')
             ]).where(func.ST_Intersects(source_table_meta.c.wkb_geometry, extent.ewkt))
             view_meta = MetaData()
             view = Table(table_name, view_meta, schema='view_osmaxx')
+
             from sqlalchemy.dialects import postgresql
             from sqlalchemy.sql import text
             query_defintion_string = str(
                 view_definition_query.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True})
             )
-            # TODO: REMOVE the ugly replacement hack
-            query_defintion_string = query_defintion_string.replace(') AS', ' AS')
-            query_defintion_string = query_defintion_string.replace('ST_AsEWKB(', '')
-
             query_defintion_text = text(query_defintion_string)
             create_view = CreateView(view, query_defintion_text, or_replace=True)
             self._local_db_engine.execute(create_view)
