@@ -70,7 +70,7 @@ var draw_controls = function (map) {
                if(bytes == 0) return '0 Byte';
                var k = 1000;
                var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-               var i = Math.max(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
+               var i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
                return parseFloat((bytes / Math.pow(k, i)).toFixed()) + ' ' + sizes[i];
             }
 
