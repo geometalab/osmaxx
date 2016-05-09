@@ -43,7 +43,7 @@ Then follow the instructions in section [Generating the font](#generating-the-fo
 Run 
 ```
 docker-compose build
-docker-compose run --rm
+docker-compose run --rm fontforge
 ```
 
 Open the generated font found in the `out` directory and check whether the symbols are placed correctly.
