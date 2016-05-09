@@ -74,12 +74,8 @@ class Export(models.Model):
                 self._fetch_result_file()
                 emissary.success(status_changed_message)
             except ResultFileNotAvailableError:
-                logger.error(
-                    self._get_job_finished_but_result_file_missing_log_message()
-                )
-                emissary.warn(
-                    _("{} But the result file is not available.").format(status_changed_message)
-                )
+                logger.error(self._get_job_finished_but_result_file_missing_log_message())
+                emissary.warn(_("{} But the result file is not available.").format(status_changed_message))
         else:
             emissary.info(status_changed_message)
         self.extraction_order.send_email_if_all_exports_done(incoming_request)
