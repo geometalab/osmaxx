@@ -65,13 +65,14 @@ class Export(models.Model):
     def _handle_changed_status(self, *, incoming_request):
         from osmaxx.utilities.shortcuts import Emissary
         emissary = Emissary(recipient=self.extraction_order.orderer)
+        status_changed_message = self._get_export_status_changed_message()
         if self.status == FAILED:
-            emissary.error(self._get_export_status_changed_message())
+            emissary.error(status_changed_message)
         elif self.status == FINISHED:
             from osmaxx.api_client.conversion_api_client import ResultFileNotAvailableError
             try:
                 self._fetch_result_file()
-                emissary.success(self._get_export_status_changed_message())
+                emissary.success(status_changed_message)
             except ResultFileNotAvailableError:
                 logger.error(
                     'Export {export_id}: Job {job_id} finished, but file not available.'.format(
@@ -80,10 +81,10 @@ class Export(models.Model):
                     )
                 )
                 emissary.warn(
-                    _("{} But the result file is not available.").format(self._get_export_status_changed_message())
+                    _("{} But the result file is not available.").format(status_changed_message)
                 )
         else:
-            emissary.info(self._get_export_status_changed_message())
+            emissary.info(status_changed_message)
         self.extraction_order.send_email_if_all_exports_done(incoming_request)
 
     def _get_export_status_changed_message(self):
