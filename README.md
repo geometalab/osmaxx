@@ -33,7 +33,8 @@ Then follow the instructions in section [Generating the font](#generating-the-fo
 
 ### Create initial yml/move the entire symbols to another range
 
-Edit `yaml_generator.py` and set the (new) start_number, ie. `start_number = 0xE000` for the `user defined range`.
+1. Edit `yaml_generator.py` and set the (new) start_number, ie. `start_number = 0xE000` for the `user defined range`.
+2. Run `python3 yaml_generator.py`
 
 Then follow the instructions in section [Generating the font](#generating-the-font) below.
 
