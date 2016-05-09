@@ -75,10 +75,7 @@ class Export(models.Model):
                 emissary.success(status_changed_message)
             except ResultFileNotAvailableError:
                 logger.error(
-                    'Export {export_id}: Job {job_id} finished, but file not available.'.format(
-                        export_id=self.id,
-                        job_id=self.conversion_service_job_id,
-                    )
+                    self._get_job_finished_but_result_file_missing_log_message()
                 )
                 emissary.warn(
                     _("{} But the result file is not available.").format(status_changed_message)
@@ -94,6 +91,12 @@ class Export(models.Model):
             'job_progress/messages/export_status_changed.unsave_text',
             context=view_context,
         ).strip()
+
+    def _get_job_finished_but_result_file_missing_log_message(self):
+        return 'Export {export_id}: Job {job_id} finished, but file not available.'.format(
+            export_id=self.id,
+            job_id=self.conversion_service_job_id,
+        )
 
     def _fetch_result_file(self):
         from osmaxx.api_client import ConversionApiClient
