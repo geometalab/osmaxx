@@ -1,3 +1,4 @@
+import logging
 import uuid
 
 from django.db import models
@@ -12,6 +13,8 @@ from osmaxx.utils.private_system_storage import get_default_private_storage
 INITIAL = 'initial'
 INITIAL_CHOICE = (INITIAL, _('initial'))
 STATUS_CHOICES = (INITIAL_CHOICE,) + statuses.STATUS_CHOICES
+
+logger = logging.getLogger(__name__)
 
 
 class Export(models.Model):
@@ -65,8 +68,20 @@ class Export(models.Model):
         if self.status == FAILED:
             emissary.error(self._get_export_status_changed_message())
         elif self.status == FINISHED:
-            self._fetch_result_file()
-            emissary.success(self._get_export_status_changed_message())
+            from osmaxx.api_client.conversion_api_client import ResultFileNotAvailableError
+            try:
+                self._fetch_result_file()
+                emissary.success(self._get_export_status_changed_message())
+            except ResultFileNotAvailableError:
+                logger.error(
+                    'Export {export_id}: Job {job_id} finished, but file not available.'.format(
+                        export_id=self.id,
+                        job_id=self.conversion_service_job_id,
+                    )
+                )
+                emissary.warn(
+                    _("{} But the result file is not available.").format(self._get_export_status_changed_message())
+                )
         else:
             emissary.info(self._get_export_status_changed_message())
         self.extraction_order.send_email_if_all_exports_done(incoming_request)
