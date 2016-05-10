@@ -415,6 +415,7 @@ Values of attributes type
 ## misc_l
 
  Values of attributes type  
+ 
 |aggtype             |values              |osm_tags            |description                                                           |  
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |  
 |traffic_calming     |traffic_calming     |traffic_calming=*   |Describes features used to slow down traffic. This will contain any   |  
