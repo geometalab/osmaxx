@@ -111,13 +111,13 @@ example: osm_building_a_gen1_v01.gpkg
 ## Layer Specification Headers
 
 
-|Additional Attribute   |This is the addition attribute that is introduce to the table to      |
+|Additional Attribute   |This is the addition attribute that is introduce to the table to      |  
 |                       |provide more information on top of the Common Layer Attributes.       |  
-|Values of attributes   |Tells what the database values might contain based on the description |
-|'type'                 |of the tables under 3. Layer Overview. It also helps to defined the   |
-|                       |value meanings to remove unwanted vagueness.                          |
-|Values of attributes   |Same as the above but this table includes the aggregrate values which |
-|'aggtype' and 'type'   |is to group the 'type' with more specific grouping                    |
+|Values of attributes   |Tells what the database values might contain based on the description |  
+|'type'                 |of the tables under 3. Layer Overview. It also helps to defined the   |  
+|                       |value meanings to remove unwanted vagueness.                          |  
+|Values of attributes   |Same as the above but this table includes the aggregrate values which |  
+|'aggtype' and 'type'   |is to group the 'type' with more specific grouping                    |  
 
 ## Common Attributes
 
