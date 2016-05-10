@@ -2,9 +2,9 @@
 
 ## Credits and legal issues
 
-Credits go to OpenSteetMap and to Geofabrik.
-This document is licensed under CC-BY-SA.
-The data referred to is from OpenStreetMap planet file licensed under ODbL 1.0.
+Credits go to OpenSteetMap and to Geofabrik.  
+This document is licensed under CC-BY-SA.  
+The data referred to is from OpenStreetMap planet file licensed under ODbL 1.0.  
 
 ## Goal, scope, and limits
 
@@ -15,60 +15,60 @@ wird versucht, so viele Informationen (Tabellen, Attribute und Wertebereiche) wi
 herauszuholen, die einigermassen konsistent erfasst werden bzw. die sich filtern („Cleansing“ und 
 Homogenisierung) oder aus den Daten herleiten lassen („Data Curation“). Das ist zwangsläufig 
 mehr, als beispielsweise für die (gedruckte) Kartendarstellung eines topografischen 
-Landschaftsmodells nötig ist.
-These are known limits, omissions and bugs:
-    1. Current data export exports POLYGON instead of MULTPOLYGON
-    2. Statistics is missing
-    3. Missing tables: coastline_l, adminunit_a
-    4. tbd.
+Landschaftsmodells nötig ist.  
+These are known limits, omissions and bugs:  
+    1. Current data export exports POLYGON instead of MULTPOLYGON  
+    2. Statistics is missing  
+    3. Missing tables: coastline_l, adminunit_a  
+    4. tbd.  
 
 Tbd.
 
 ## Status of this document and future releases
 
-This document and the project just started and thus is in e pre-mature state.
+This document and the project just started and thus is in e pre-mature state.  
 
-These are possible enhancements in next releases
+These are possible enhancements in next releases  
     * File STATISTICS.txt whih contains a report about tables, attributes and it's rows and 
-      values.
-    * Final data model (V.3?)
+      values.  
+    * Final data model (V.3?)  
     * Adding attribute height to tables like poi_p from external digital terrain model data 
-      like SRTM3.
+      like SRTM3.  
 
 ## How OSM data is being curated (discussion) ###
 
-Semicolons in tag values:
+Semicolons in tag values:  
     * Data value will be changed to ‘others’ for such events
-Data Cleaning:
-    * Spelling errors
-    * Upper case errors
-    * Values singular and plural
-    * Handling values which contains words
+Data Cleaning:  
+    * Spelling errors  
+    * Upper case errors  
+    * Values singular and plural  
+    * Handling values which contains words  
 Elevation: Elevation values will not be set in this release.
 
 Type-'others'. Data value will be change to ‘others’ as it cannot be categorized. This is 
 introduced to ensure values that are misspelled, concatenated, illegible or user defined are 
 sorted accordingly into their table. Seeing this type of value given to some feature is due to a 
 few reasons. 1) Data is not in the list of core value to be considered. 2) Value is being given 
-by users where we might know understand the value significance.
+by users where we might know understand the value significance.  
 
 Grouping of features. unable to group features like airports and power station as buildings are 
-not defined to specific areas to be able to group them together.
+not defined to specific areas to be able to group them together.  
 
 Multiple Table. There are instances where different table can contain the same feature. e.g. 
 buildings_a and poi_a (like campus areas or school areas) where it can overlap one another. This 
-have not been resolve, therefore, users do take note of double entry.
+have not been resolve, therefore, users do take note of double entry.  
 
-'Refer to table'. This is to keep the documentation short and not allowing it to repeat the common attribute value which is similar to other table.
+'Refer to table'. This is to keep the documentation short and not allowing it to repeat the common attribute value which is similar to other table.  
 
 Administrative boundary extracted on the fly and placed into boundary_l table but these are 
 without warranty to be consistent. There exist other sources with validated boundaries including 
-country borders and coastlines.
+country borders and coastlines.  
 
 Landcover contains partial landuse elements while some landcover elements are put into natural or 
-water.
+water.  
 
-Building addresses are not yet handled due to the complexity of this issue.
+Building addresses are not yet handled due to the complexity of this issue.  
 
 
 # Specification
@@ -78,35 +78,35 @@ Building addresses are not yet handled due to the complexity of this issue.
 The original OSM schema contains an id (type bigint) for every element node,way and relation. 
 This OSM id is mapped to attribute osm_id (see chapter “Common Attributes”). The id in OSM is not 
 stable but often the only one, one can work with. During transformation I can happen that thie 
-osm_id is being changed or duplicated:
+osm_id is being changed or duplicated:  
     * osm2pgsql generates areas/polygons out of ways and relations. These objects get negative 
-      values of the way or the relation.
-    * osm2pgsql splits ways which are too long
+      values of the way or the relation.  
+    * osm2pgsql splits ways which are too long  
     * tags can contain many values separated by semicolon (e.g. “shop-a;b”); this object may 
       be split into two for each shop-value (“shop-a” and “shop-b”) while the osm_id os 
-      maintained.
-
+      maintained.  
+  
 ## Metadata
 
-    * Datum  (coordinate reference system) of data: WGS84 (EPSG: 4326)
-    * Character Encoding: UTF-8
+    * Datum  (coordinate reference system) of data: WGS84 (EPSG: 4326)  
+    * Character Encoding: UTF-8  
 
 ## File Names
 
-Base file names are formed according to following template:
+Base file names are formed according to following template:  
 osm_tablename_g_vNN (example: osm_building_a_v01.gpkg)
-... with following meaning:
-    * osm_: Prefix
-    * tablename: A table name from the data model.
-    * _g: layer geometry type (g is a char out of “p”, “l” or “a”, meaning point, linestring, 
-      area/polygon)
-    * vNN: Version of the data model
+... with following meaning:  
+    * osm_: Prefix  
+    * tablename: A table name from the data model.  
+    * _g: layer geometry type (g is a char out of “p”, “l” or “a”, meaning point, linestring,   
+      area/polygon)  
+    * vNN: Version of the data model  
 For some roads and other tables of geometry type (Multi-)Linestring, there will be tables with 
-generalized geometry, called _gen0, _gen1 as follows (gen- generalized):
-    * _gen0: smoothed for highest zoom level
-    * _gen1: simplified
-    * _gen2: more simplified
-example: osm_building_a_gen1_v01.gpkg
+generalized geometry, called _gen0, _gen1 as follows (gen- generalized):  
+    * _gen0: smoothed for highest zoom level  
+    * _gen1: simplified  
+    * _gen2: more simplified  
+example: osm_building_a_gen1_v01.gpkg  
 
 ## Layer Specification Headers
 
