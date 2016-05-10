@@ -110,7 +110,8 @@ example: osm_building_a_gen1_v01.gpkg
 
 ## Layer Specification Headers
 
-
+|Headers                |Description                                                           |
+| --------------------- | -------------------------------------------------------------------- |
 |Additional Attribute   |This is the addition attribute that is introduce to the table to      |  
 |                       |provide more information on top of the Common Layer Attributes.       |  
 |Values of attributes   |Tells what the database values might contain based on the description |  
@@ -125,8 +126,8 @@ These attributes are common to all tables (eventually except table from external
 
 
 |Attribute   |Data Type         |Description                                   |Osm Tags       |
-|:---------- |:---------------- |:-------------------------------------------- |:------------- |
-|osm_id      |bigint            |The id taken over from OSM elements node, way |osm_id-*       |
+| ---------- | ---------------- | -------------------------------------------- | ------------- |
+|osm_id      |bigint            |The id taken over from OSM elements node, way |osm_id=*       |
 |            |			        |or relationship. The uniqueness is only within|               |
 |	         |			        |an OSM element. OSM does not guarantee        |               |
 |	         |			        |uniqueness. But its often the only id one can |               |
@@ -135,23 +136,23 @@ These attributes are common to all tables (eventually except table from external
 |	         |			        |relations. And osm2pgsql creates sometimes    |               |
 |	         |			        |duplicates by splitting large ways.           |               |
 |lastchange  |timestamp without |The timestamp of the last time the feature    |osm_lastchange | 
-|            |time zone         |was changed (UTC)                             |-*             |
+|            |time zone         |was changed (UTC)                             |=*             |
 |geomtype    |varchar(1)        |This will define weather it is a node (“N”),  |(n/a)          |
 |            |                  |a way (“W”) or a relation (“R”). Self         |               |
 |            |                  |derivitive not from OSM database.             |               |
-|geom        |geometry(<<geome  |The “<<geometry>>” of the feature can be      |way-*          |
-|            |try>>, 4326)      |POINT, MULTILINESTRING or MULTIPOLYGON        |               |
+|geom        |geometry(<<       |The “geometry” of the feature can be          |way=*          |
+|            |try, 4326)        |POINT, MULTILINESTRING or MULTIPOLYGON        |               |
 |type        |text(Enum)        |This will define the feature type             |               |
-|name        |text		        |The name shich is in general use (which means |name-*         |
+|name        |text		        |The name shich is in general use (which means |name=*         |
 |            |			        |cyrillic, arabic etc.)                        |               |
 |name_intl   |text              |The name which is written in english,         |Coalesce(name: |
 |            |			        |international				                   |en, int_name,  |
 |            |			        |					                           |name:fr,name:es|
 |            |			        |					                           |name:de, name) |
-|name_fr     |text              |The name which is written in french           |name:fr-*      |
-|name_es     |text              |The name which is written in spanish          |name:es-*      |
-|name_de     |text              |The name which is written in german           |name:de-*      |
-|name_int    |text              |The international name of the feature         |int_name-*     |
+|name_fr     |text              |The name which is written in french           |name:fr=*      |
+|name_es     |text              |The name which is written in spanish          |name:es=*      |
+|name_de     |text              |The name which is written in german           |name:de=*      |
+|name_int    |text              |The international name of the feature         |int_name=*     |
 |label       |text              |Translated name through transliterated        |               |
 
 
@@ -163,7 +164,7 @@ See file name conventions above about the meaning of “_a” etc.
 
 
 |Tables        |Geometry Type        |Description                                              |
-| ------------ |:-------------------:| -------------------------------------------------------:|
+| ------------ | ------------------- | ------------------------------------------------------- |
 |address_p     |POINT                |Stores a point type of entrances and address information |
 |adminarea_a   |MULTIPOLYGON         |Administrative boundaries range from large groups of     |
 |              |                     |nation states right down to small administrative         |
@@ -227,19 +228,13 @@ See file name conventions above about the meaning of “_a” etc.
 |              |                     |river, etc.                                              |
 
 
-
-
-
-
-
-
 # Layers Specification
 ## adminarea_a
 
  Values of attributes type
 
 |values              |osm_tags            |description                                                           |
-| ------------------ |:------------------:|:-------------------------------------------------------------------- |
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
 |national_park       |boundary=           |A national park is a relatively large area of land declared by a      |
 |                    |'national_park' 	  |government, to be set aside for human recreation and enjoyment, animal| 
 |                    |              	  |and environmental protection.                                         |
@@ -288,7 +283,7 @@ See file name conventions above about the meaning of “_a” etc.
 Values of attribute type
 
 |values              |osm_tags            |description                                                           |
-| ------------------ |:------------------:|:-------------------------------------------------------------------- |
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
 |national_park       |boundary=           |A national park is a relatively large area of land declared by a      |
 |                    |'national_park' 	  |government, to be set aside for human recreation and enjoyment, animal| 
 |                    |					  |and environmental protection.                                         |
@@ -388,79 +383,78 @@ Values of attribute type
 |landuse             |landuse=*           |Get all landuse that is not classified in any table                   |  
 
 
-## military_p
+## military_p  
 
- Values of attributes type
-|values              |osm_tags            |description                                                           |
-| ------------------ | ------------------ | -------------------------------------------------------------------- |
-|nuclear_site        |military=           |Nuclear weapons test site                                             |
-|                    |'nuclear_explosion_ |                                                                      |
-|                    |site'               |                                                                      |
-|training_area       |military=           |An area where soldiers train and weapons or other military technology |
-|                    |'training_area'     |are experimented with or are tested.                                  |
-|danger_area         |military=           |Usually a large marked area around something like a firing range,     |
-|                    |'danger_area'       |bombing range, etc which can be an exclusion zone.                    |
-|obstacle_course     |military=           |A military obstacle course.                                           |
-|                    |'obstacle_course'   |                                                                      |
-|checkpoint          |military=           |Place of a possible access to a restricted or secured area, where     |
-|                    |'checkpoint'        |civilian visitors and vehicles will be controled by a military        |
-|                    |                    |authority.                                                            |
-|range               |military='range'    |Where soldiers practice with their weapons (firing, bombing,          |
-|                    |                    |artillery).                                                           |
-|airfield            |military='airfield' |A place where military planes take off and land.                      |
-|bunker              |military='bunker'   |Buildings, often build from concrete, to stand even heavier fire.     |
-|                    |                    |This includes WW2 pillboxes.                                          |
-|naval_base          |military=           |A naval base                                                          |
-|                    |'naval_base'        |                                                                      |
-|military            |military=''         |Any other military type that are not sorted to any type above         |
-|barracks            |military='barracks' |Buildings where soldiers live and work.                               |
+Values of attributes type  
+|values              |osm_tags            |description                                                           |  
+| ------------------ | ------------------ | -------------------------------------------------------------------- |  
+|nuclear_site        |military=           |Nuclear weapons test site                                             |  
+|                    |'nuclear_explosion_ |                                                                      |  
+|                    |site'               |                                                                      |  
+|training_area       |military=           |An area where soldiers train and weapons or other military technology |  
+|                    |'training_area'     |are experimented with or are tested.                                  |  
+|danger_area         |military=           |Usually a large marked area around something like a firing range,     |  
+|                    |'danger_area'       |bombing range, etc which can be an exclusion zone.                    |  
+|obstacle_course     |military=           |A military obstacle course.                                           |  
+|                    |'obstacle_course'   |                                                                      |  
+|checkpoint          |military=           |Place of a possible access to a restricted or secured area, where     |  
+|                    |'checkpoint'        |civilian visitors and vehicles will be controled by a military        |  
+|                    |                    |authority.                                                            |  
+|range               |military='range'    |Where soldiers practice with their weapons (firing, bombing,          |  
+|                    |                    |artillery).                                                           |  
+|airfield            |military='airfield' |A place where military planes take off and land.                      |  
+|bunker              |military='bunker'   |Buildings, often build from concrete, to stand even heavier fire.     |  
+|                    |                    |This includes WW2 pillboxes.                                          |  
+|naval_base          |military=           |A naval base                                                          |  
+|                    |'naval_base'        |                                                                      |  
+|military            |military=''         |Any other military type that are not sorted to any type above         |  
+|barracks            |military='barracks' |Buildings where soldiers live and work.                               |  
 
 
 ## misc_l
 
  Values of attributes type
-|aggtype             |values              |osm_tags            |description                                                           |
-| ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|traffic_calming     |traffic_calming     |traffic_calming=*   |Describes features used to slow down traffic. This will contain any   |
-|                    |                    |                    |other traffic calming except the specifics below.                     |
-|barrier             |barrier             |barrier=*           |A barrier is a physical structure which blocks or impedes movement.   |
-|                    |                    |                    |This contains any other barrier except the specifics below.           |
-|traffic_calming     |chicane             |traffic_calming=    |Hazards on the street you have to drive round                         |
-|                    |                    |'chicane'           |                                                                      |
-|barrier             |wall                |barrier='wall'      |A freestanding solid structure designed to restrict or prevent        |
-|                    |                    |                    |movement across a boundary. Usually made from solid brick, concrete   |
-|                    |                    |                    |or stone and almost always built so that it is opaque to vision.      |
-|traffic_calming     |hump                |traffic_calming=    |Similar to a bump, but longer - total length usually 2-4 m (in        |
-|                    |                    |                    |direction of travel)                                                  |
-|                    |                    |'hump'              |                                                                      |
-|barrier             |retaining_wall      |barrier=            |Retaining walls serve to retain the lateral pressure of soil. Right   |
-|                    |                    |'retaining_wall'    |side is bottom, left side is top.                                     |
-|traffic_calming     |bump                |traffic_calming=    |Short bump - length (in direction of travel) about 30 cm or shorter.  |
-|                    |                    |'bump'              |Spans the entire width of the road, but can have cuts and small gaps  |
-|                    |                    |                    |left and right for cyclists.                                          |
-|barrier             |city_wall           |barrier='city_wall' |A fortification used to defend a city or settlement from potential    |
-|                    |                    |                    |aggressors. From ancient to modern times, they are used to enclose    |
-|                    |                    |                    |settlements                                                           |
-|traffic_calming     |cushion             |traffic_calming=    |A hump with spaces between or several multiple rectangular humps      |
-|                    |                    |'cushion'           |aligned across the road. This allows emergency vehicles, buses (due   |
-|                    |                    |                    |to their wider axle) and bicycles to pass through without slowing down|
-|barrier             |avalanche_protection|barrier=            |A variety of linear structures which are placed on steep slopes to    |
-|                    |                    |'avalanche_         |hold snow in place.                                                   |
-|                    |                    |protection'         |                                                                      |
-|barrier             |gate                |barrier='gate'      |An entrance that can be opened or closed to get through the barrier.  |
-|barrier             |hedge               |barrier='hedge'     |A line of closely spaced shrubs and bushes, planted and trained in    |
-|                    |                    |                    |such a way as to form a barrier or to mark the boundary of an area.   |
-|traffic_calming     |table               |traffic_calming=    |Designed as a long speed hump with a flat section in the middle. The  |
-|                    |                    |'table'             |flat section is long enough for all wheels of a passenger car to fit  |
-|                    |                    |                    |on that section simultaneously. Does not slow as much as a hump and is| 
-|                    |                    |                    |usually used on roads with residential speed limit. It is known as    |
-|                    |                    |                    |flat top hump or raised pedestrian crossing.                          |
-|barrier             |fence               |barrier='fence'     |A structure supported by posts driven into the ground and designed to |
-|                    |                    |                    |prevent movement across a boundary. It is distinguished from a wall by| 
-|                    |                    |                    |the lightness of its construction.                                    |
-|natural             |cliff               |natural='cliff'     |A vertical or almost vertical natural drop in terrain, usually with a |
-|                    |                    |                    |bare rock surface.                                                    |
-
+|aggtype             |values              |osm_tags            |description                                                           |  
+| ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |  
+|traffic_calming     |traffic_calming     |traffic_calming=*   |Describes features used to slow down traffic. This will contain any   |  
+|                    |                    |                    |other traffic calming except the specifics below.                     |  
+|barrier             |barrier             |barrier=*           |A barrier is a physical structure which blocks or impedes movement.   |  
+|                    |                    |                    |This contains any other barrier except the specifics below.           |  
+|traffic_calming     |chicane             |traffic_calming=    |Hazards on the street you have to drive round                         |  
+|                    |                    |'chicane'           |                                                                      |  
+|barrier             |wall                |barrier='wall'      |A freestanding solid structure designed to restrict or prevent        |  
+|                    |                    |                    |movement across a boundary. Usually made from solid brick, concrete   |  
+|                    |                    |                    |or stone and almost always built so that it is opaque to vision.      |  
+|traffic_calming     |hump                |traffic_calming=    |Similar to a bump, but longer - total length usually 2-4 m (in        |  
+|                    |                    |                    |direction of travel)                                                  |  
+|                    |                    |'hump'              |                                                                      |  
+|barrier             |retaining_wall      |barrier=            |Retaining walls serve to retain the lateral pressure of soil. Right   |  
+|                    |                    |'retaining_wall'    |side is bottom, left side is top.                                     |  
+|traffic_calming     |bump                |traffic_calming=    |Short bump - length (in direction of travel) about 30 cm or shorter.  |  
+|                    |                    |'bump'              |Spans the entire width of the road, but can have cuts and small gaps  |  
+|                    |                    |                    |left and right for cyclists.                                          |  
+|barrier             |city_wall           |barrier='city_wall' |A fortification used to defend a city or settlement from potential    |  
+|                    |                    |                    |aggressors. From ancient to modern times, they are used to enclose    |  
+|                    |                    |                    |settlements                                                           |  
+|traffic_calming     |cushion             |traffic_calming=    |A hump with spaces between or several multiple rectangular humps      |  
+|                    |                    |'cushion'           |aligned across the road. This allows emergency vehicles, buses (due   |  
+|                    |                    |                    |to their wider axle) and bicycles to pass through without slowing down|  
+|barrier             |avalanche_protection|barrier=            |A variety of linear structures which are placed on steep slopes to    |  
+|                    |                    |'avalanche_         |hold snow in place.                                                   |  
+|                    |                    |protection'         |                                                                      |  
+|barrier             |gate                |barrier='gate'      |An entrance that can be opened or closed to get through the barrier.  |  
+|barrier             |hedge               |barrier='hedge'     |A line of closely spaced shrubs and bushes, planted and trained in    |  
+|                    |                    |                    |such a way as to form a barrier or to mark the boundary of an area.   |  
+|traffic_calming     |table               |traffic_calming=    |Designed as a long speed hump with a flat section in the middle. The  | 
+|                    |                    |'table'             |flat section is long enough for all wheels of a passenger car to fit  |  
+|                    |                    |                    |on that section simultaneously. Does not slow as much as a hump and is|  
+|                    |                    |                    |usually used on roads with residential speed limit. It is known as    |  
+|                    |                    |                    |flat top hump or raised pedestrian crossing.                          |  
+|barrier             |fence               |barrier='fence'     |A structure supported by posts driven into the ground and designed to |  
+|                    |                    |                    |prevent movement across a boundary. It is distinguished from a wall by|  
+|                    |                    |                    |the lightness of its construction.                                    |  
+|natural             |cliff               |natural='cliff'     |A vertical or almost vertical natural drop in terrain, usually with a |  
+|                    |                    |                    |bare rock surface.                                                    |  
 
 
 
