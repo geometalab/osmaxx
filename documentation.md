@@ -415,7 +415,7 @@ Values of attributes type
 ## misc_l
 
  Values of attributes type  
- 
+
 |aggtype             |values              |osm_tags            |description                                                           |  
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |  
 |traffic_calming     |traffic_calming     |traffic_calming=*   |Describes features used to slow down traffic. This will contain any   |  
@@ -623,9 +623,10 @@ Values of attributes type
 |                    |                    |another one.                                                          |                    |
 |ref                 |text                |Reference number of this road unset for railways.                     |ref=*               |
 |status              |text                |P for Planned; C for underconstruction; D for disused; A for          |                    |
-|                    |                    |abandoned; this is dependent on the values.                           |                    |
+|                    |                    |abandoned; this is dependent on the values.                           |                    |  
 
-Values of attributes type
+Values of attributes type  
+
 |values              |osm_tags            |description                                                           |
 + ------------------ + ------------------ + -------------------------------------------------------------------- +
 |railway             |railway='planned'   |Contains railways which are disused, planned, under constructions or  |
@@ -655,9 +656,10 @@ Values of attributes type
 |access              |text                |The legal accessibility of a element.                                 |access=*            |
 |phone               |text                |A telephone number associated with the object.                        |phone=*             |
 |tower_type          |text                |The type of tower                                                     |tower:type=*        |
-|contact_phone       |text                |Phone number                                                          |contact:phone=*     |
+|contact_phone       |text                |Phone number                                                          |contact:phone=*     |  
 
- Values of attributes type
+ Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |shop                |shop                |shop='{}'           |All other types of shop which is not defined as above                 |
@@ -974,9 +976,10 @@ Values of attributes type
 |access              |text                |The legal accessibility of a element.                                 |access=*            |
 |phone               |text                |A telephone number associated with the object.                        |phone=*             |
 |tower_type          |text                |The type of tower                                                     |tower:type=*        |
-|contact_phone       |text                |Phone number                                                          |contact:phone=*     |
+|contact_phone       |text                |Phone number                                                          |contact:phone=*     |  
 
- Values of attributes type
+ Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |shop                |shop                |shop='{}'           |All other types of shop which is not defined as above                 |
@@ -1292,7 +1295,8 @@ Values of attributes type
 |phone               |text                |A telephone number associated with the object.                        |phone=*             |
 |contact_phone       |text                |Phone number                                                          |contact:phone=*     |  
 
- Values of attributes type
+ Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |christian           |anglican            |religion='christian'|A christian place of worship with denomination                        |
@@ -1357,7 +1361,8 @@ Values of attributes type
 |phone               |text                |A telephone number associated with the object.                        |phone=*             |
 |contact_phone       |text                |Phone number                                                          |contact:phone=*     |  
 
- Values of attributes type
+ Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |christian           |anglican            |religion='christian'|A christian place of worship with denomination                        |
@@ -1430,7 +1435,8 @@ Values of attributes type
 |                    |                    |other feature.                                                        |                    |
 |tunnel              |boolean             |A tunnel is an underground passage for a road or similar.             |tunnel=no           |  
 
-Values of attributes type
+Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |roundabout          |living_street       |hihgway=            |For living streets, which are residential streets where pedestrians   |
@@ -1537,7 +1543,8 @@ Values of attributes type
 |                    |                    |roads, railways, waterways or valleys and carries a road, railway or  |                    |
 |                    |                    |other feature.                                                        |                    |   
 
-Values of attributes type
+Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |roundabout          |living_street       |hihgway=            |For living streets, which are residential streets where pedestrians   |
@@ -1642,7 +1649,8 @@ Values of attributes type
 |                    |                    |use levels instead of layers.                                         |                    |
 |tunnel              |boolean             |A tunnel is an underground passage for a road or similar.             |tunnel=yes          |  
 
-Values of attributes type
+Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |roundabout          |living_street       |hihgway=            |For living streets, which are residential streets where pedestrians   |
@@ -1748,7 +1756,8 @@ Values of attributes type
 |frequency           |text                |The electrical frequncy that the electrified cable is running on      |frequency=*         |
 |                    |                    |direction.                                                            |                    |
 
- Values of attributes type
+ Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |railway             |narrow_gauge        |railway=            |Narrow-gauge passenger or freight trains.                             |
@@ -1812,7 +1821,8 @@ Values of attributes type
 |frequency           |text                |The electrical frequncy that the electrified cable is running on      |frequency=*         |
 |                    |                    |direction.                                                            |                    |
 
- Values of attributes type
+ Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |railway             |narrow_gauge        |railway=            |Narrow-gauge passenger or freight trains.                             |
@@ -1873,7 +1883,8 @@ Values of attributes type
 |frequency           |text                |The electrical frequncy that the electrified cable is running on      |frequency=*         |
 |                    |                    |direction.                                                            |                    |
 
- Values of attributes type
+ Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |railway             |narrow_gauge        |railway=            |Narrow-gauge passenger or freight trains.                             |
@@ -1922,7 +1933,7 @@ Values of attributes type
 
 ## route_l
 
-Values of attributes type
+Values of attributes type  
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -1968,7 +1979,8 @@ Values of attributes type
 |aggtype             |text                |Grouping several different 'type' to a common 'type'. (aka enmu)      |                    |
 |access              |text(later)         |For describing the legal accessibility of a element.                  |access=*            |
 
- Values of attributes type
+ Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |fuel                |fuel                |amenity='fuel'      |Petrol station; gas station; marine fuel                              |
@@ -1992,7 +2004,8 @@ Values of attributes type
 |aggtype             |text                |Grouping several different 'type' to a common 'type'. (aka enmu)      |                    |
 |access              |text(later)         |For describing the legal accessibility of a element.                  |access=*            |
 
- Values of attributes type
+ Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |barrier             |lift_gate           |barrier='lift_gate' |A lift gate (boom barrier) is a bar, or pole pivoted in such a way as |
@@ -2077,7 +2090,7 @@ Values of attributes type
 
 ## transport_a
 
- Values of attributes type
+ Values of attributes type  
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -2111,7 +2124,7 @@ Values of attributes type
 
 ## transport_p
 
- Values of attributes type
+ Values of attributes type  
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -2149,7 +2162,8 @@ Values of attributes type
 |aggtype             |text                |Grouping several different 'type' to a common 'type'. (aka enmu)      |                    |
 
 
- Values of attributes type
+ Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |substation          |substation          |power='station'     |A tag for electricity substations. These provide voltage              |
@@ -2200,7 +2214,8 @@ Values of attributes type
 
 ## utility_p
 
- Values of attributes type
+ Values of attributes type  
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |pole                |pole                |power='pole'        |For single (often wooden or concrete) poles carrying medium/low       |
@@ -2214,7 +2229,8 @@ Values of attributes type
 |frequency           |text                |The frequency level the power line is running on                      |frequency=*         |
 |voltage             |text                |The voltage level the power line is running on                        |voltage=*           |
 
- Values of attributes type
+ Values of attributes type  
+ 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |man_made            |pipeline            |man_made='pipeline' |A pipe for carrying various fluids, such as water, gas, sewage.       |
