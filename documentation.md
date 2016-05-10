@@ -112,8 +112,7 @@ example: osm_building_a_gen1_v01.gpkg
 
 |Headers                |Description                                                           |
 | --------------------- | -------------------------------------------------------------------- |
-|Additional Attribute   |This is the addition attribute that is introduce to the table to      |  
-|                       |provide more information on top of the Common Layer Attributes.       |  
+|Additional Attribute   |This is the addition attribute that is introduce to the table to provide more information on top of the Common Layer Attributes.       |  
 |Values of attributes   |Tells what the database values might contain based on the description |  
 |'type'                 |of the tables under 3. Layer Overview. It also helps to defined the   |  
 |                       |value meanings to remove unwanted vagueness.                          |  
@@ -2230,7 +2229,7 @@ Values of attributes type
 |voltage             |text                |The voltage level the power line is running on                        |voltage=*           |
 
  Values of attributes type  
- 
+
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |man_made            |pipeline            |man_made='pipeline' |A pipe for carrying various fluids, such as water, gas, sewage.       |
