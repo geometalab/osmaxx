@@ -386,6 +386,7 @@ Values of attribute type
 ## military_p  
 
 Values of attributes type  
+
 |values              |osm_tags            |description                                                           |  
 | ------------------ | ------------------ | -------------------------------------------------------------------- |  
 |nuclear_site        |military=           |Nuclear weapons test site                                             |  
@@ -413,7 +414,7 @@ Values of attributes type
 
 ## misc_l
 
- Values of attributes type
+ Values of attributes type  
 |aggtype             |values              |osm_tags            |description                                                           |  
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |  
 |traffic_calming     |traffic_calming     |traffic_calming=*   |Describes features used to slow down traffic. This will contain any   |  
