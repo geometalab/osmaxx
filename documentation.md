@@ -1,3 +1,185 @@
+# Introduction
+
+## Credits and legal issues
+
+Credits go to OpenSteetMap and to Geofabrik.  
+This document is licensed under CC-BY-SA.  
+The data referred to is from OpenStreetMap planet file licensed under ODbL 1.0.  
+
+## Goal, scope, and limits
+
+Notes regarding limits, quality and out of scope of the data model and the related datasets.
+Goal and scope: Das Osmaxx-Datenmodell ist zur möglichst breiten Nutzung ausgelegt 
+(Kartendarstellung, Orientierung, POI-Suche und räumliche Analyse und später Routing). D.h. es 
+wird versucht, so viele Informationen (Tabellen, Attribute und Wertebereiche) wie möglich aus OSM 
+herauszuholen, die einigermassen konsistent erfasst werden bzw. die sich filtern („Cleansing“ und 
+Homogenisierung) oder aus den Daten herleiten lassen („Data Curation“). Das ist zwangsläufig 
+mehr, als beispielsweise für die (gedruckte) Kartendarstellung eines topografischen 
+Landschaftsmodells nötig ist.  
+These are known limits, omissions and bugs:  
+1. Current data export exports POLYGON instead of MULTPOLYGON  
+2. Statistics is missing  
+3. Missing tables: coastline_l, adminunit_a  
+4. tbd.  
+
+Tbd.
+
+## Status of this document and future releases
+
+This document and the project just started and thus is in e pre-mature state.  
+
+These are possible enhancements in next releases  
+* File STATISTICS.txt whih contains a report about tables, attributes and it's rows and 
+  values.  
+* Final data model (V.3?)  
+* Adding attribute height to tables like poi_p from external digital terrain model data 
+      like SRTM3.  
+
+## How OSM data is being curated (discussion) ###
+
+Semicolons in tag values:  
+* Data value will be changed to ‘others’ for such events
+Data Cleaning:  
+* Spelling errors  
+* Upper case errors  
+* Values singular and plural  
+* Handling values which contains words  
+Elevation: Elevation values will not be set in this release.
+
+Type-'others'. Data value will be change to ‘others’ as it cannot be categorized. This is 
+introduced to ensure values that are misspelled, concatenated, illegible or user defined are 
+sorted accordingly into their table. Seeing this type of value given to some feature is due to a 
+few reasons. 1) Data is not in the list of core value to be considered. 2) Value is being given 
+by users where we might know understand the value significance.  
+
+Grouping of features. unable to group features like airports and power station as buildings are 
+not defined to specific areas to be able to group them together.  
+
+Multiple Table. There are instances where different table can contain the same feature. e.g. 
+buildings_a and poi_a (like campus areas or school areas) where it can overlap one another. This 
+have not been resolve, therefore, users do take note of double entry.  
+
+'Refer to table'. This is to keep the documentation short and not allowing it to repeat the common attribute value which is similar to other table.  
+
+Administrative boundary extracted on the fly and placed into boundary_l table but these are 
+without warranty to be consistent. There exist other sources with validated boundaries including 
+country borders and coastlines.  
+
+Landcover contains partial landuse elements while some landcover elements are put into natural or 
+water.  
+
+Building addresses are not yet handled due to the complexity of this issue.  
+
+
+# Specification
+
+## Identifiers
+
+The original OSM schema contains an id (type bigint) for every element node,way and relation. 
+This OSM id is mapped to attribute osm_id (see chapter “Common Attributes”). The id in OSM is not 
+stable but often the only one, one can work with. During transformation I can happen that thie 
+osm_id is being changed or duplicated:  
+* osm2pgsql generates areas/polygons out of ways and relations. These objects get negative 
+  values of the way or the relation.  
+* osm2pgsql splits ways which are too long  
+* tags can contain many values separated by semicolon (e.g. “shop-a;b”); this object may 
+  be split into two for each shop-value (“shop-a” and “shop-b”) while the osm_id os 
+  maintained.  
+  
+## Metadata
+
+* Datum  (coordinate reference system) of data: WGS84 (EPSG: 4326)  
+* Character Encoding: UTF-8  
+
+## File Names
+
+Base file names are formed according to following template:  
+osm_tablename_g_vNN (example: osm_building_a_v01.gpkg)
+... with following meaning:  
+* osm_: Prefix  
+* tablename: A table name from the data model.  
+* _g: layer geometry type (g is a char out of “p”, “l” or “a”, meaning point, linestring,   
+  area/polygon)  
+* vNN: Version of the data model  
+For some roads and other tables of geometry type (Multi-)Linestring, there will be tables with 
+generalized geometry, called _gen0, _gen1 as follows (gen- generalized):  
+* _gen0: smoothed for highest zoom level  
+* _gen1: simplified  
+* _gen2: more simplified  
+example: osm_building_a_gen1_v01.gpkg  
+
+## Layer Specification Headers
+
+|Headers                |Description                                                           |
+| --------------------- | -------------------------------------------------------------------- |
+|Additional Attribute   |This is the addition attribute that is introduce to the table to provide more information on top of the Common Layer Attributes.| 
+|Values of attributes 'type' |Tells what the database values might contain based on the description of the tables under 3. Layer Overview. It also helps to defined the value meanings to remove unwanted vagueness.|  
+|Values of attributes 'aggtype' and 'type'   |Same as the above but this table includes the aggregrate values which is to group the 'type' with more specific grouping|  
+
+## Common Attributes
+
+These attributes are common to all tables (eventually except table from external sources).
+
+
+|Attribute   |Data Type         |Description                                   |Osm Tags       |
+| ---------- | ---------------- | -------------------------------------------- | ------------- |
+|osm_id|bigint|The id taken over from OSM elements node, way or relationship. The uniqueness is only within an OSM element. OSM does not guarantee uniqueness. But its often the only id one can get from the origin.  osm2pgsql generates negative osm_ids when areas are created from relations. And osm2pgsql creates sometimes duplicates by splitting large ways.|osm_id=*|
+|lastchange |timestamp without time zone |The timestamp of the last time the feature was changed (UTC)|osm_lastchange=* | 
+|geomtype|varchar(1)|This will define weather it is a node (“N”), a way (“W”) or a relation (“R”). Self derivitive not from OSM database.|(n/a)|
+|geom|geometry(<<geometry>>, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON|way=*|
+|type|text(Enum)|This will define the feature type| |
+|name|text|The name shich is in general use (which means cyrillic, arabic etc.)|name=* |
+|name_intl|text|The name which is written in english, international|Coalesce(name:en, int_name, name:fr,name:es,name:de, name)|
+|name_fr|text|The name which is written in french|name:fr=*|
+|name_es|text|The name which is written in spanish|name:es=*|
+|name_de|text|The name which is written in german|name:de=*|
+|name_int|text|The international name of the feature|int_name=*|
+|label|text|Translated name through transliterated| |
+
+
+ 
+
+## Layer Overview 
+
+See file name conventions above about the meaning of “_a” etc.
+
+
+|Tables        |Geometry Type        |Description                                              |
+| ------------ | ------------------- | ------------------------------------------------------- |
+|address_p|POINT|Stores a point type of entrances and address information |
+|adminarea_a|MULTIPOLYGON|Administrative boundaries range from large groups of nation states right down to small administrative districts and suburbs, with an indication of this size/level of importance.|
+|boundary_l|MULTILINESTRING|The boundary is used to mark the borders of areas, mostly political, but possibly also of other administrative area|
+|building_a|MULTIPOLYGON|To mark the outline of the area of buildings|
+|geoname_l|MULTILINESTRING|The boarder of a settlement which is marked around the node and to mark the specific type of settlement. Eg. City, town, village, etc|
+|geoname_p|POINT|It is to mark the centre of a named settlement and the specific type of settlement. Eg. City, town, village, etc|
+|landuse_a|MULTIPOLYGON|Landuse describes the human use of land, for example fields and pastures.|
+|military_a|MULTIPOLYGON|See military_p|
+|military_p|POINT|The military is for buildings and area used by the military.|
+|misc_l|MULTILINESTRING|This contains elements could not be categorized into specific tables. E.g barrier and cliffs.|
+|natural_a|MULTIPOLYGON|see natural_p|
+|natural_p|POINT|Used to describes natural physical land features, including small modification by humans. E.g glacier, volcano, mud, etc.|
+|nonop_l|MULTILINESTRING|non-op./planned infrastructure not usable for traffic or transport|
+|poi_a|MULTIPOLYGON|Points of interest features of a generic place, like shops, amenities,  leisure, accomondation, pitches etc.|
+|poi_p|POINT |Points of interest features of a generic place, like shops, amenities, leisure, accomondation, etc.    |
+|pow_a|MULTIPOLYGON|See pow_p|
+|pow_p|POINT|This it a place of worship where people of different religion can go. e.g. church, temples(buddist, taoist, etc.), mosque(muslims)|
+|railway_l|MULTILINESTRING|All forms of transport using metal rails, including mainline services, subways, heritage lines and trams.|
+|road_l|MULTILINESTRING|Any road, route, way, or thoroughfare on land which connects one location to another and has been paved or otherwise improved to allow travel by some conveyance, including motorised vehicles, cyclists, pedestrians, horse, riders, and others|
+|route_l|MULTILINESTRING|A route is a customary or regular line of passage or travel, often predetermined and publicized. Routes consist of paths taken repeatedly by people and vehicles.|
+|traffic_a|MULTIPOLYGON|See traffic_p|
+|traffic_p|POINT|It contains information regarding the rules of the road. Which allow better flow of traffic. E.g. Road signs, traffic calming, etc.|
+|transport_a|MULTIPOLYGON|See transport_p|
+|transport_p|POINT|Features which mark out points or location where it enable transporting anyone from one place to another. E.g. Bus stops, train station, etc.|
+|utility_a|MULTIPOLYGON|See utility_l|
+|utility_p|POINT|See utility_l|
+|utility_l|MULTILINESTRING|All features which are part of the utility body. E.g. Power structure (powerlines, power building), pipelines (oil, water, gas etc.),  etc..|
+|water_a|MULTIPOLYGON|See water_l|
+|water_p|POINT|See water_l|
+|water_l|MULTILINESTRING|All features which are part of the waterbody. E.g. Dams, river, etc. |
+
+
+# Layers Specification
+
 ## adminarea_a
 
 
@@ -71,7 +253,7 @@ refer to geoname_p
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|named_place|area='yes' name='{}'|A place where is given a name with a given area but no specific type|
+|named_place|area='yes' name=*|A place where is given a name with a given area but no specific type|
 |farm|place='farm' |A farm can be a part of a human settlement|
 |municipality|place='municipality' |a town or district that has local government.|
 |isolated_dwelling|place='isolated_dweilling' |The smallest kind of settlement (1-2 households)|
@@ -87,7 +269,7 @@ refer to geoname_p
 |island|place='island' |An island is any piece of land that is completely surrounded by water and isolated from other significant landmasses.|
 |region|place='region' |an area, especially part of a country or the world having definable characteristics but not always fixed boundaries.|
 |state|place='state' |A large sub-national political/administrative area.|
-|place|place='{}' |Any other place type that are not sorted to any type above except for area without name.|
+|place|place=* |Any other place type that are not sorted to any type above except for area without name.|
 
 ## landuse_a
 
@@ -151,8 +333,8 @@ refer to military_p
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|traffic_calming|traffic_calming|traffic_calming='{}' |Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.|
-|barrier|barrier|barrier='{}' |A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.|
+|traffic_calming|traffic_calming|traffic_calming=* |Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.|
+|barrier|barrier|barrier=* |A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.|
 |traffic_calming|chicane|traffic_calming='chicane' |Hazards on the street you have to drive round|
 |barrier|wall|barrier='wall' |A freestanding solid structure designed to restrict or prevent movement across a boundary. Usually made from solid brick, concrete or stone and almost always built so that it is opaque to vision.|
 |traffic_calming|hump|traffic_calming='hump' |Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)|
@@ -181,7 +363,7 @@ refer to military_p
 |bare_rock|natural='bare_rock' |An area with sparse or no vegetation, so that the bedrock becomes visible. NOTE: Will appear only on natural_p but not natural_a|
 |wood|natural='wood' |Used for ancient or virgin woodland, with no forestry use.|
 |stone|natural='stone' |Freestanding stone; e.g., glacial erratic.|
-|natural|natural='{}' |Any other natural type that are not sorted to any type above|
+|natural|natural=* |Any other natural type that are not sorted to any type above|
 |glacier|natural='glacier' |A permanent body of ice formed naturally from snow that is moving under its own weight.|
 |heath|natural='heath' |A dwarf-shrub habitat, characterised by open, low growing woody vegetation, often dominated by plants of the Ericaceae.|
 |mud|natural='mud' |Large area covered with mud|
@@ -203,19 +385,21 @@ refer to natural_a
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one.|layer=*|
 |ref|text|Reference number of this road unset for railways.|ref=*|
+|status|text|P for Planned; C for underconstruction; D for disused; A for abandoned; this is dependent on the values.| |
 
  Values of attributes type  
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|railway|railway='planned' railway='construction'|Contains railways which are disused, planned, under constructions or abandoned. These type of features will be place in this table to keep the feature but display as not available|
-|highway|highway='planned' highway='construction'|Contains roads which are disused, planned, under constructions or abandoned. These type of features will be place in this table to keep the feature but display as not available|
+|railway|railway='planned' railway='construction' railway='disused' railway='abandoned'|Contains railways which are disused, planned, under constructions or abandoned. These type of features will be place in this table to keep the feature but display as not available|
+|highway|highway='planned' highway='construction' highway='disused' highway='abandoned'|Contains roads which are disused, planned, under constructions or abandoned. These type of features will be place in this table to keep the feature but display as not available|
 
 
 ## poi_p
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |website|text|Specifying the link to the official website for a feature.|website=*|
 |cuisine|text|The type of food served at an eating place.|cuisine=*|
 |opening_hours|text|The timing of when something is open or close|opening_hours=*|
@@ -230,7 +414,7 @@ refer to natural_a
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|shop|shop|shop='{}' |All other types of shop which is not defined as above|
+|shop|shop|shop=* |All other types of shop which is not defined as above|
 |shop|outdoor|shop='outdoor' |Shop focused on selling garden furniture (sheds, outdoor tables, gates, fences, ...).|
 |miscpoi|comm_tower|man_made='tower' tower:type='communication'|Describes the type of tower as communication tower|
 |shop|shoes|shop='shoes' |Shop focused on selling shoes|
@@ -256,17 +440,17 @@ refer to natural_a
 |public|government|amenity='government' |Government buildings|
 |shop|department_store|shop='department_store' |A single large store - often multiple storeys high - selling a large variety of goods|
 |leisure|golf_course|leisure='golf_course' |A place or area where you can play golf.|
-|leisure|leisure|leisure='{}' |All other types of leisure which is not defined as above|
+|leisure|leisure|leisure=* |All other types of leisure which is not defined as above|
 |miscpoi|waste_basket|amenity='waste_backet' |A single small container for depositing garbage that is easily accessible for pedestrians.|
-|historic|historic|historic='{}' |All other types of historic which is not defined as above|
+|historic|historic|historic=* |All other types of historic which is not defined as above|
 |destination|artwork|tourism='artwork' |Used to tag public pieces of art. Usually such artwork are outdoors.|
 |catering|bar|amenity='bar' |Bar is a purpose-built commercial establishment that sells alcoholic drinks to be consumed on the premises. They are characterised by a noisy and vibrant atmosphere, similar to a party and usually don't sell food.|
-|tourism|tourism|tourism='{}' |All other types of tourism which is not defined as above|
+|tourism|tourism|tourism=* |All other types of tourism which is not defined as above|
 |vending|vending_parking|vending='parking_tickets' |A machine selling tickets for parking|
 |money|bank|amenity='bank' |Shows the location of a bank branch.|
 |shop|furniture|shop='furniture' |Shop focused on selling furniture, might range from small decoration items to a whole flat interior|
 |education|school|amenity='school' |Institution designed for learning under the supervision of teachers.|
-|vending|vending|amenity='vending_machine' vending='{}'|A general machine to vend goods, tickets and so on|
+|vending|vending|amenity='vending_machine' vending=*|A general machine to vend goods, tickets and so on|
 |shop|optician|shop='optician' |Shop focused on selling eyeglasses, contact lenses|
 |shop|gift|shop='gift' |Shop focused on selling gifts, greeting cards, or tourist gifts (souvenirs)|
 |education|university|amenity='university' |An educational institution designed for instruction, examination, or both, of students in many branches of advanced learning.|
@@ -284,7 +468,7 @@ refer to natural_a
 |miscpoi|emergency_access|highway='emergency_access_point' |Sign number which can be used to define you current position in case of an emergency|
 |shop|books|shop='books' |Shop focused on selling books|
 |education|college|amenity='college' |A place for further education usually a post-secondary education institution|
-|sport|sport|sport='{}' |All other types of sport which is not defined as above|
+|sport|sport|sport=* |All other types of sport which is not defined as above|
 |accommodation_in|guest_house|tourism='guest_house' tourism='bed_and_breakfast'|Accommodation without hotel license that is typically owner-operated, offers a room and breakfast with staff not available 24/7, ranging from purpose-built guest houses to family-based Bed & Breakfast.|
 |accommodation_in|hostel|tourism='hostel' |Provide inexpensive accommodation, typically with them having shared bedrooms, bathrooms, kitchens, and lounges.|
 |accommodation_out|alpine_hut|tourism='alpine_hut' |a mountain hut is a remote building positioned in the mountains designed to provided lodging accommodation for mountaineers, climbers and hikers. The access is usually restricted to foot, mountain bike or ski.|
@@ -292,7 +476,7 @@ refer to natural_a
 |public|mortuary|amenity='mortuary' |A morgue or mortuary is a building or room (as in a hospital) used for the storage of human corpses awaiting identification, or removal for autopsy, burial, cremation or some other post-death ritual.|
 |accommodation_in|motel|tourism='motel' |It's an establishment that provides accommodation designed for motorists usually on a short-term basis, with convenient parking for motor cars at or close to the room.|
 |health|veterinary|amenity='veterinary' |It is a place where there is a certified doctor that deals with the prevention, diagnosis and treatment of disease, disorder and injury in animals is stationed.|
-|man_made|man_made|man_made='{}' |All other types of man_made which is not defined as above|
+|man_made|man_made|man_made=* |All other types of man_made which is not defined as above|
 |miscpoi|fountain|amenity='fountain' |A fountain for cultural / decoration / recreational purposes.|
 |leisure|playground|amenity='playground' |These are commonly small outdoor areas with children's play equipment such as swings, climbing frames and roundabouts.|
 |tourism|guidepost|tourism='information' information='guidepost'|Signposts/Guideposts are often found along official hiking/cycling routes to indicate the directions to different destinations|
@@ -347,7 +531,7 @@ refer to natural_a
 |destination|monument|historic='museum' |An object, especially large and made of stone, built to remember and show respect to a person or group of people|
 |shop|video|shop='video' |Shop focused on selling or renting out videos/DVDs.|
 |miscpoi|toilet|amenity='toilets' |A public accessible toilets|
-|amenity|amenity|amenity='{}' |All other types of amenity which is not defined as above|
+|amenity|amenity|amenity=* |All other types of amenity which is not defined as above|
 |recycling|general_reclycling|amenity='recycling' |Container or centre where you can take waste for recycling.|
 |education|public_building|amenity='public_building' |A generic public building. (Maybe abandoned by osm but still have data concerning this)|
 |leisure|cinema|amenity='cinema' |Cinema/movie theatre - place for showing movies.|
@@ -395,6 +579,7 @@ refer to poi_p
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |website|text|Specifying the link to the official website for a feature.|website=*|
 |opening_hours|text|The timing of when something is open or close|opening_hours=*|
 |wikipedia|text|Provide a reference to an article in Wikipedia about the feature.|wikipedia=*|
@@ -409,11 +594,11 @@ refer to poi_p
 |christian|anglican|religion='christian' denomination='anglican'|A christian place of worship with denomination|
 |christian|presbyterian|religion='christian' denomination='presbyterian'|A christian place of worship with denomination|
 |muslim|shia|religion='muslim' denomination='shia'|A muslim place of worship with denomination.|
-|christian|christian|religion='christian' denomination='{}'|A christian place of worship. This is a generalise christian type other then the specific denomination|
+|christian|christian|religion='christian' denomination=*|A christian place of worship. This is a generalise christian type other then the specific denomination|
 |christian|lutheran|religion='christian' denomination='lutheran'|A christian place of worship with denomination|
 |jewish|jewish|religion='jewish' |A jewish place of worship|
 |christian|mormon|religion='christian' denomination='mormon'|A christian place of worship with denomination|
-|muslim|muslim|religion='muslim' denomination='{}'|A muslim place of worship. This is a generalise muslim type other then the specific denomination|
+|muslim|muslim|religion='muslim' denomination=*|A muslim place of worship. This is a generalise muslim type other then the specific denomination|
 |christian|methodist|religion='christian' denomination='methodist'|A christian place of worship with denomination|
 |christian|protestant|religion='christian' denomination='protestant'|A christian place of worship with denomination|
 |taoist|taoist|religion='taoist' |A taoist place of worship|
@@ -426,17 +611,107 @@ refer to poi_p
 |christian|orthodox|religion='christian' denomination='orthodox'|A christian place of worship with denomination|
 |buddhist|buddhist|religion='buddhist' |A buddist place of worship|
 |shinto|shinto|religion='shinto' |A shinto place of worship|
-|place_of_worship|place_of_worship|religion='{}' amenity='place_of_worship'|A place of worship which is not tag to any of the above.|
+|place_of_worship|place_of_worship|religion=* amenity='place_of_worship'|A place of worship which is not tag to any of the above.|
 
 ## pow_a
 
 refer to pow_p
 
 
-## route_l
+## railway_bridge_l
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers.|layer=*|
+|bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.|bridge=yes|
+|tunnel|boolean|A tunnel is an underground passage for a road or similar.|tunnel=no|
+|voltage|text|The voltage level the electrified cable is running on|voltage=*|
+|frequency|text|The electrical frequncy that the electrified cable is running on|frequency=*|
+
+railway_bridge_l: bridge = 1
+railway_tunnel_l: tunnel = 1
+railway_ground_l: bridge = 0, tunnel = 0
+
+ Values of attributes type  
+
+|aggtype             |values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
+|railway|narrow_gauge|railway='narrow_gauge' |Narrow-gauge passenger or freight trains.|
+|aerialway|zip_line|aerialway='zip_line' |Zip lines, Flying fox and similar|
+|railway|tram|railway='tram' |One or two carriage rail vehicles, usually sharing motor road|
+|aerialway|drag_lift|aerialway='drag_lift' |an overhead tow-line for skiers and riders.|
+|railway|rail|railway='rail' |Full sized passenger or freight trains in the standard gauge for the country or state.|
+|aerialway|chair_lift|aerialway='chair_lift' aerialway='high_speed_chair_lift'|Looped cable with a series of single chairs (typically seating two or four people, but can be more). Exposed to the open air (can have a bubble).|
+|railway|monorail|railway='monorail' |A railway with only a single rail.|
+|railway|subway|railway='subway' |A city passenger rail service running mostly grade separated|
+|aerialway|magic_carpet|aerialway='magic_carpet' |Ski lift for small children resembling a conveyor belt.|
+|aerialway|t-bar|aerialway='t-bar' |T-bar lift. Overhead tow-line for skiers and riders with T-shaped carriers for two passengers.|
+|aerialway|goods|aerialway='goods' |A cable/wire supported lift for goods. Passenger transport is usually not allowed.|
+|aerialway|aerialway|aerialway='{}' |All other types of aerialways which is not defined as above|
+|aerialway|j-bar|aerialway='t-bar' |J-bar lift or L-bar lift. Overhead tow-line for skiers and riders with carriers in J-shape.|
+|railway|funicular|railway='funicular' |Cable driven inclined railways|
+|aerialway|gondola|aerialway='gondola' |Many cars on a looped cable.|
+|aerialway|cable_car|aerialway='cable_car' |Just one or two large cars. The cable forms a loop, but the cars do not loop around, they just move up and down on their own side.|
+|railway|miniature|railway='miniature' |Miniature railways are narrower than narrow gauge and carry passengers. They can be found in parks.|
+|railway|light_rail|railway='light_rail' |A higher-standard tram system, normally in its own right-of-way. Often it connects towns and thus reaches a considerable length (tens of kilometer).|
+|aerialway|rope_tow|aerialway='rope_tow' |Ski tow lift. Tow-line for skiers and riders where passenger hold by hand or use special tow grabbers.|
+|railway|railway|railway='{}' |All other types of railways which is not defined as above|
+|aerialway|platter|aerialway='platter' |Platter lift (poma). Overhead tow-line for skiers and riders with platters.|
+|aerialway|mixed_lift|aerialway='mixed_lift' |A lift mixed with gondola and chair_lift|
+
+
+## road_ground_l
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|ref|text|Used for reference numbers or codes.Common for roads, highway exits, routes, etc.|ref=*|
+|z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers.|layer=*|
+|maxspeed|smallint|Specifies the maximum legal speed limit on a road, railway or waterway|maxspeed=*|
+|oneway|boolean|Oneway streets are streets where you are only allowed to drive in one direction.|oneway=*|
+|bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.|bridge=no|
+|tunnel|boolean|A tunnel is an underground passage for a road or similar.|tunnel=no|  
+
+railway_bridge_l: bridge = 1
+railway_tunnel_l: tunnel = 1
+railway_ground_l: bridge = 0, tunnel = 0
+
+
+ Values of attributes type  
+
+|aggtype             |values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
+|roundabout|living_street|hihgway='living_street' junction='roundabout'|For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.|
+|roundabout|track|hihgway='service' tracktype=''|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present,|
+|roundabout|trunk|hihgway='trunk' junction='roundabout'|The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)|
+|roundabout|primary|hihgway='primary' junction='roundabout'|The next most important roads in a country's system. (Often link larger towns.)|
+|roundabout|motorway|hihgway='motorway' junction='roundabout'|A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..|
+|roundabout|pedestrian|hihgway='pedestrian' junction='roundabout'|For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian.|
+|roundabout|grade3|hihgway='track' tracktype='grade3'|Even mixture of hard and soft materials. Almost always an unpaved track.|
+|junction|grade2|hihgway='track' tracktype='grade2'|Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.|
+|roundabout|grade5|hihgway='track' tracktype='grade5'|Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.|
+|roundabout|grade4|hihgway='track' tracktype='grade4'|Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.|
+|roundabout|bridleway|hihgway='bridleway' junction='roundabout'|For horses.|
+|roundabout|secondary_link|hihgway='secondary_link' junction='roundabout'|The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.|
+|track|grade1|hihgway='track' tracktype='grade1'|Solid. Usually a paved or heavily compacted hardcore surface.|
+|roundabout|path|hihgway='path' junction='roundabout'|A non-specific path.|
+|roundabout|tertiary|hihgway='tertiary' junction='roundabout'|The next most important roads in a country's system.|
+|roundabout|secondary|hihgway='secondary' junction='roundabout'|The next most important roads in a country's system. (Often link smaller towns and villages.)|
+|roundabout|primary_link|hihgway='primary_link' junction='roundabout'|The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.|
+|junction|footway|hihgway='footway' junction='roundabout'|For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.|
+|roundabout|service|hihgway='service' junction='roundabout'|For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.|
+|roundabout|residential|hihgway='residential' junction='roundabout'|Roads which are primarily lined with and serve as an access to housing.|
+|roundabout|motorway_link|hihgway='motorway_link' junction='roundabout'|The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.|
+|junction|cycleway|hihgway='cycleway' junction='roundabout'|Cycling infrastructure that is an inherent part of a road - particularly "cycle lanes" which are a part of the road|
+|roundabout|unclassified|hihgway='unclassified' junction='roundabout'|The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)|
+|roundabout|steps|hihgway='steps' junction='roundabout'|For flights of steps (stairs) on footways.|
+|roundabout|trunk_link|hihgway='trunk_link' junction='roundabout'|The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.|
+|unclassified|road|hihgway='{}' roundabout=''|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
+|roundabout|roundabout|hihgway='' junction='roundabout'|This contains any other roundabout except the specifics above.|
+
+
+## route_l
 
  Values of attributes type  
 
@@ -454,7 +729,7 @@ refer to pow_p
 |horse|route='horse' |A route that horses can walk on|
 |hiking|route='hiking' |Hiking route is a distinct path that a person may take to walk which is usually often used.|
 |tram|route='tram' |Trams services|
-|route|route='{}' |This contains any other route except the specifics above.|
+|route|route=* |This contains any other route except the specifics above.|
 |campe|route='canoe' |Route for canoeing through a waterway.|
 |light_rail|route='light_rail' |Light rail or light rail transit (LRT) is typically an urban form of public transport often using rolling stock similar to a tramway, but operating primarily along exclusive rights-of-way and having vehicles capable of operating as a single tramcar or as multiple units coupled together to form a train.|
 |mtb|route='mtb' |Mountainbiking route|
@@ -469,6 +744,7 @@ refer to pow_p
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |access|text(later)|For describing the legal accessibility of a element.|access=*|
 
  Values of attributes type  
@@ -477,7 +753,7 @@ refer to pow_p
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |fuel|fuel|amenity='fuel' |Petrol station; gas station; marine fuel|
 |parking|bicycle|amenity='bicycle_parking' |A place where bicycles can park|
-|parking|parking|amenity='parking' parking='{}'|A place for parking cars. This contains any other parking except the specifics below.|
+|parking|parking|amenity='parking' parking=*|A place for parking cars. This contains any other parking except the specifics below.|
 |parking|underground|amenity='parking' parking='underground'|Carpark is built below the ground level|
 |parking|multi-storey|amenity='parking' parking='multi-storey'|A building built to park cars on multiple levels|
 |parking|surface|amenity='parking' parking='surface'|Open area parking normally on ground level|
@@ -487,6 +763,7 @@ refer to pow_p
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |access|text(later)|For describing the legal accessibility of a element.|access=*|
 
  Values of attributes type  
@@ -501,14 +778,14 @@ refer to pow_p
 |parking|multi-storey|amenity='parking' parking='multi-storey'|A building built to park cars on multiple levels|
 |parking|surface|amenity='parking' parking='surface'|Open area parking normally on ground level|
 |barrier|stile|barrier='stile' |A stile allows pedestrians to cross a wall or fence, but never actually "opens" the barrier|
-|parking|parking|amenity='parking' parking='{}'|A place for parking cars. This contains any other parking except the specifics below.|
+|parking|parking|amenity='parking' parking=*|A place for parking cars. This contains any other parking except the specifics below.|
 |traffic_calming|table|traffic_calming='table' |Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.|
 |general_traffic|mini_roundabout|highway='mini_roundabout' |Similar to roundabouts, but at the center there is either a painted circle or a fully traversable island.|
 |barrier|toll_booth|barrier='toll_booth' |A road usage toll or fee is collected here.|
-|barrier|barrier|barrier='{}' |A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.|
+|barrier|barrier|barrier=* |A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.|
 |traffic_calming|hump|traffic_calming='hump' |Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)|
 |barrier|cycle_barrier|barrier='cycle_barrier' |Barriers to bicycle traffic, most typically a pair of staggered steel bars perpendicular to the way itself whose gaps allow pedestrians to pass.|
-|general_traffic|general_traffic|highway='{}' |Contain all other highway except the specifics below.|
+|general_traffic|general_traffic|highway=* |Contain all other highway except the specifics below.|
 |barrier|bollard|barrier='bollard' |solid (usually concrete or metal) pillar or pillars in the middle of the road to prevent passage by some traffic.|
 |fuel|fuel|amenity='fuel' |Petrol station; gas station; marine fuel|
 |barrier|gate|barrier='gate' |An entrance that can be opened or closed to get through the barrier.|
@@ -524,7 +801,7 @@ refer to pow_p
 |traffic_calming|cushion|traffic_calming='cushion' |A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.|
 |service|services|amenity='services' |Generally for access to a building, motorway service station, beach, campsite, industrial estate, business park, etc.|
 |general_traffic|street_lamp|highway='street_lamp' |A street light, lamppost, street lamp, light standard, or lamp standard is a raised source of light on the edge of a road, which is turned on or lit at a certain time every night|
-|barrier|traffic_calming|traffic_calming='{}' |Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.|
+|barrier|traffic_calming|traffic_calming=* |Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.|
 |general_traffic|traffic_signals|highway='traffic_signals' |The light that control the traffic|
 |barrier|kissing_gate|barrier='kissing_gate' |A gate which allows people to cross, but not livestock.|
 |general_traffic|crossing|highway='crossing' |Pedestrians can cross a street here|
@@ -541,7 +818,7 @@ refer to pow_p
 |air_traffic|apron|aeroway='taxiway' |An apron is the surfaced part of an airport where planes park.|
 |public_transport|stop_position|public_transport='stop_position' |Where public transports stop to pick up passengers|
 |railway|railway_halt|railway='halt' public_transport='stop_position'|A small station, may not have a platform, trains may only stop on request.|
-|aerialway|aerialway|aerialway='{}' |All other types of aerialway which is not defined as above|
+|aerialway|aerialway|aerialway=* |All other types of aerialway which is not defined as above|
 |water_traffic|ferry_terminal|amenity='ferry_terminal' |Ferry terminal/stop. A place where people/cars/etc. can board and leave a ferry.|
 |air_traffic|runway|aeroway='runway' |Where airplanes take off and land|
 |air_traffic|taxiway|aeroway='taxiway' |Where airplanes manouevre between runways and parking areas.|
@@ -550,13 +827,16 @@ refer to pow_p
 |railway|railway_station|railway='station' |Railway stations (including main line, light rail, subway, etc.) are places where customers can access railway services|
 |taxi|taxi_stand|amenity='taxi' |A place where taxi waits for passengers|
 |bus|bus_station|amenity='bus_station' |A station is an area designed to access bus.|
-|aeroway|aeroway|aeroway='{}' |All other types of aeroway which is not defined as above|
+|aeroway|aeroway|aeroway=* |All other types of aeroway which is not defined as above|
 |air_traffic|helipad|aeroway='helipad' |A place where helicopters can land.|
 |other_traffic|aerialway_station|aerialway='station' |A station, where passengers can enter and/or leave the aerialway|
 
 
 ## utility_a
 
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 
  Values of attributes type  
 
@@ -564,23 +844,20 @@ refer to pow_p
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |substation|substation|power='station' power='substation'|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
 |transformer|transformer|power='transformer' |A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
-|station|fossil|power='generator' generator:source='gas'|Using the combustion of fuels to heat the water to in turn spin the generators turbine |
-|power|power|power='{}' |All other types of power which is not defined as above|
-|station|nuclear|power='generator' generator:source='nuclear'|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
+|station|fossil|power='generator' generator:source='gas' or generator:source='coal'|Using the combustion of fuels to heat the water to in turn spin the generators turbine |
+|power|power|power=* |All other types of power which is not defined as above|
+|station|nuclear|power='generator' and generator:source='nuclear'|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
 |man_made|storage_tank|man_made='storage_tank' |A large holding tank, typically cylindrical.|
 |man_made|wastewater_plant|man_made='wastewater_plant' |Facilities used to treat wastewater|
 |station|station|power='generator' |A device used to convert power from one form to another. This contain all other power except the specifics below.|
 |man_made|water_works|man_made='water_works' |Place where drinking water is found and applied to the local waterpipes network.|
-|station|solar|power='generator' generator:source='solar'|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
+|station|solar|(power='generator' and generator:source='solar') or power_source='photovoltaic'|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
 |tower|tower|power='tower' |For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
-|station|wind|power='generator' generator:source='wind'|A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.|
-|station|hydro|power='generator' generator:source='water'|Hydroelectricity is the term referring to electricity generated by hydropower; the production of electrical power through the use of the gravitational force of falling or flowing water. It is the most widely used form of renewable energy.|
+|station|wind|(power='generator' and generator:source='wind') or power_source='wind'|A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.|
+|station|hydro|(power='generator' and generator:source='water') or power_source='hydro'|Hydroelectricity is the term referring to electricity generated by hydropower; the production of electrical power through the use of the gravitational force of falling or flowing water. It is the most widely used form of renewable energy.|
 
 
 ## utility_p
-
-|Attributes          |type                |Description                                                           |osm_tags            |
-| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 
  Values of attributes type  
 
@@ -603,16 +880,13 @@ refer to pow_p
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |man_made|pipeline|man_made='pipeline' |A pipe for carrying various fluids, such as water, gas, sewage.|
 |power|minor_cable|power='minor_underground_cable' power='minor_cable'|A smaller line under earth|
-|power|power|power='{}' |All other power line which is not specific.|
+|power|power|power=* |All other power line which is not specific.|
 |power|cable|power='cable' |A high voltage earth cables|
 |power|line|power='line' |A overground high voltage power line|
 |power|minor_line|power='minor_line' |A smaller overhead line|
 
 
 ## water_a
-
-|Attributes          |type                |Description                                                           |osm_tags            |
-| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 
  Values of attributes type  
 
@@ -625,15 +899,13 @@ refer to pow_p
 |reservoir_covered|man_made='reservoir_covered' |A covered reservoir is a large man-made tank for holding fresh water|
 |dam|waterway='dam' |A wall built across a river or stream to impound the water. A dam normally does not have water flowing over the top of it.|
 |marina|leisure='marina' |For mooring leisure yachts and motor boats|
-|waterway|waterway='{}' |Rivers or other kind of waterways. This contains any other water traffic except the specifics below.|
+|waterway|waterway=* |Rivers or other kind of waterways. This contains any other water traffic except the specifics below.|
 |pier|man_made='pier' |A "bridge into the ocean", usually for recreation.|
 |riverbank|natural='riverbank' |For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
 
 
 ## water_p
 
-|Attributes          |type                |Description                                                           |osm_tags            |
-| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 
  Values of attributes type  
 
@@ -648,7 +920,7 @@ refer to pow_p
 |reservoir_covered|man_made='reservoir_covered' |A covered reservoir is a large man-made tank for holding fresh water|
 |dam|waterway='dam' |A wall built across a river or stream to impound the water. A dam normally does not have water flowing over the top of it.|
 |marina|leisure='marina' |For mooring leisure yachts and motor boats|
-|waterway|waterway='{}' |Rivers or other kind of waterways. This contains any other water traffic except the specifics below.|
+|waterway|waterway=* |Rivers or other kind of waterways. This contains any other water traffic except the specifics below.|
 |lock_gate|man_made='pier' |A "bridge into the ocean", usually for recreation.|
 |riverbank|natural='riverbank' |For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
 
@@ -664,7 +936,7 @@ refer to pow_p
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |canal|waterway='canal' |An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.|
-|waterway|waterway='{}' |Other waterways which is user-defined|
+|waterway|waterway=* |Other waterways which is user-defined|
 |river|waterway='river' |A large natural stream of water flowing in a channel to the sea, a lake, or another river.|
 |stream|waterway='stream' |A small and narrow river.|
 |drain|waterway='drain' |A channel or pipe carrying off any excess liquid.|
