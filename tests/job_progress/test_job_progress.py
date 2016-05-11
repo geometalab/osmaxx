@@ -103,7 +103,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.info(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has been queued.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase (without coastlines, land and sea polygons) has been queued.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -125,7 +125,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.info(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has been started.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase (without coastlines, land and sea polygons) has been started.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -147,7 +147,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.error(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has failed.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase (without coastlines, land and sea polygons) has failed.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -170,7 +170,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.success(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has finished.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase (without coastlines, land and sea polygons) has finished.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -255,7 +255,7 @@ class CallbackHandlingTest(APITestCase):
             [
                 'The extraction order #{order_id} "Neverland" has been processed.',
                 'Results available for download:',
-                '- ESRI File Geodatabase',  # TODO: download link
+                '- ESRI File Geodatabase (without coastlines, land and sea polygons)',  # TODO: download link
                 '',
                 'The following exports have failed:',
                 '- SpatiaLite',
@@ -268,7 +268,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.success(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has finished.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase (without coastlines, land and sea polygons) has finished.'.format(
                         export_id=self.export.id,
                     ),
                 ),
