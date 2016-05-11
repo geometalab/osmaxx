@@ -22,8 +22,6 @@ APPS_DIR = ROOT_DIR.path('osmaxx')
 
 env = environ.Env()
 
-TEMPLATE_DIRS = ()
-
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
 DJANGO_APPS = (
@@ -53,11 +51,14 @@ THIRD_PARTY_APPS = (
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'version',
+    'osmaxx.version',
 
+    'osmaxx.countries',
+    'osmaxx.conversion_api',
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
     'osmaxx.social_auth',
+    'osmaxx.core',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -73,7 +74,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'osmaxx.job_progress.middleware.OrderUpdaterMiddleware',
+    'osmaxx.job_progress.middleware.ExportUpdaterMiddleware',
 )
 
 # MIGRATIONS CONFIGURATION
@@ -223,10 +224,10 @@ MEDIA_URL = '/media/'
 
 # URL Configuration
 # ------------------------------------------------------------------------------
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'web_frontend.config.urls'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = 'web_frontend.config.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.open_id.OpenIdAuth',

@@ -1,0 +1,38 @@
+FROM geometalab/gdal-debian
+
+USER root
+
+MAINTAINER HSR Geometalab <geometalab@hsr.ch>
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y\
+\
+    libgeos-dev \
+    libgeos++-dev \
+    python3-pip
+
+# Install required Python packages:
+ENV HOME /home/py
+
+WORKDIR $HOME
+
+ENV REQS_LAST_UPDATED 04-05-2016 8:50
+ADD ./requirements.txt $HOME/
+
+RUN pip3 install honcho
+
+RUN pip3 install -r requirements.txt
+
+# TODO: this is just a temporary solution, use pip for production as soon as geometalab.osmaxx is published there
+ADD ./osmaxx $HOME/osmaxx
+ADD ./osmaxx_conversion_service $HOME/osmaxx_conversion_service
+
+# Expose modules:
+ENV PYTHONPATH=PYTHONPATH:$HOME
+ENV DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.production
+
+RUN mkdir -p $HOME/docker_entrypoint/osmaxx/conversion_service $HOME/entrypoint
+COPY ./docker_entrypoint/osmaxx/conversion_service $HOME/entrypoint
+COPY ./docker_entrypoint/wait-for-it/wait-for-it.sh $HOME/entrypoint/wait-for-it.sh
+
+ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]

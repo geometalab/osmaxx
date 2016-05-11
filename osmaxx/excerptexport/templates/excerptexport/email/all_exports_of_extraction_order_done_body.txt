@@ -1,0 +1,10 @@
+{% load navigation %}
+The extraction order #{{ extraction_order.id }} "{{ extraction_order.excerpt_name }}" has been processed.
+{% if successful_exports.count > 0 %}Results available for download:
+{% for export in successful_exports %}- {{ export.get_file_format_display }}
+{% endfor %}
+{% endif %}{% if failed_exports.count > 0 %}The following exports have failed:
+{% for export in failed_exports %}- {{ export.get_file_format_display }}
+{% endfor %}Please order them anew if you need them. If there are repeated failures please inform the administrators.
+{% endif %}
+View the complete order at {{  extraction_order.get_absolute_url | siteabsoluteurl:request }}

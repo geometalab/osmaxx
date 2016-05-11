@@ -1,0 +1,51 @@
+{% extends "osmaxx/base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'Login' %}</li>
+{% endblock %}
+
+{% block main %}
+    <div class="container-row content">
+        <h2>{% trans 'Login' %}</h2>
+        {% if form.errors %}
+        <p>{% trans "Your username and password didn't match. Please try again." %}</p>
+        {% endif %}
+
+        <p>
+            {% blocktrans %}
+            Please use your <strong>Clavid OpenID account</strong> to authenticate.
+            <br />If you don't have an account already, please <a href="https://www.clavid.com/">create a Clavid OpenID account</a> and log in.
+            <br /><br />If this is your <strong>first visit</strong> of Osmaxx: Please log in and request activation of your account for the Osmaxx application.
+            {% endblocktrans %}
+        </p>
+
+        <h3>clavid.ch users</h3>
+        <form id="clavidch-login-form" method="post" action="{% url 'social:begin' 'clavid.ch' %}" class="form-inline">{% csrf_token %}
+            <div class="form-group">
+                <div><label for="clavid_ch_openid_user">user name</label></div>
+                <div>
+                    <input name="openid_user" class="form-control" id="clavid_ch_openid_user" type="text" required="required" placeholder="username" />
+                    <span>.clavid.ch</span>
+                    <input type="submit" class="btn btn-default" value="login" />
+                </div>
+            </div>
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+
+        <h3>clavid.com users</h3>
+        <form id="clavidcom-login-form" method="post" action="{% url 'social:begin' 'clavid.com' %}" class="form-inline">{% csrf_token %}
+            <div class="form-group">
+                <div><label for="clavid_com_openid_user">user name</label></div>
+                <div>
+                    <input name="openid_user" class="form-control" id="clavid_com_openid_user" type="text" required="required" placeholder="username" />
+                    <span>.clavid.com</span>
+                    <input type="submit" class="btn btn-default" value="login" />
+                </div>
+            </div>
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+    </div>
+{% endblock %}

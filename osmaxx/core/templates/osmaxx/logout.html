@@ -1,0 +1,25 @@
+{% extends "osmaxx/base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'Logout' %}</li>
+{% endblock %}
+
+{% block main %}
+    <div class="container-row content">
+        <h2>{% trans 'Logout' %}</h2>
+        <p>{% trans 'You are logged out.' %}</p>
+        <nav>
+            <ul>
+                <li>
+                    <a href="{% url 'excerptexport:login' %}">{% trans 'Login' %}</a>
+                </li>
+                <li>
+                    <a href="{% url 'excerptexport:index' %}">{% trans 'Home' %}</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
