@@ -188,19 +188,20 @@ See file name conventions above about the meaning of “_a” etc.
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |national_park|boundary='national_park' |A national park is a relatively large area of land declared by a government, to be set aside for human recreation and enjoyment, animal and environmental protection.|
-|admin_level3|boundary='administrative' admin_level='3'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level1|boundary='administrative' admin_level='1'|Efnahags-loegsaga(Exclusive Economic Zone) use in Iceland|
-|admin_level6|boundary='administrative' admin_level='6'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
-|admin_level7|boundary='administrative' admin_level='7'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|national|boundary='administrative' admin_level='2'|National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country).|
+|admin_level3|boundary='administrative' admin_level='3'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level4|boundary='administrative' admin_level='4'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level5|boundary='administrative' admin_level='5'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
-|national|boundary='administrative' admin_level='2'|National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country).|
+|admin_level6|boundary='administrative' admin_level='6'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|admin_level7|boundary='administrative' admin_level='7'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|admin_level8|boundary='administrative' admin_level='8'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level9|boundary='administrative' admin_level='9'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level10|boundary='administrative' admin_level='10'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level11|boundary='administrative' admin_level='11'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |protected_area|boundary='protected_area' |Protected areas, such as for national-parks, water protection areas or indigenous areas.|
 |administrative|admin_level=* |All empty or User input admin_level values to be placed under|
-|admin_level8|boundary='administrative' admin_level='8'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+
 
 
 ## boundary_l
