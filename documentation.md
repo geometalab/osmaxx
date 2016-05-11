@@ -126,7 +126,7 @@ These attributes are common to all tables (eventually except table from external
 |osm_id|bigint|The id taken over from OSM elements node, way or relationship. The uniqueness is only within an OSM element. OSM does not guarantee uniqueness. But its often the only id one can get from the origin.  osm2pgsql generates negative osm_ids when areas are created from relations. And osm2pgsql creates sometimes duplicates by splitting large ways.|osm_id=*|
 |lastchange |timestamp without time zone |The timestamp of the last time the feature was changed (UTC)|osm_lastchange=* | 
 |geomtype|varchar(1)|This will define weather it is a node (“N”), a way (“W”) or a relation (“R”). Self derivitive not from OSM database.|(n/a)|
-|geom|geometry(<<geometry>>, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON|way=*|
+|geom|geometry(geometry, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON|way=*|
 |type|text(Enum)|This will define the feature type| |
 |name|text|The name shich is in general use (which means cyrillic, arabic etc.)|name=* |
 |name_intl|text|The name which is written in english, international|Coalesce(name:en, int_name, name:fr,name:es,name:de, name)|
@@ -199,7 +199,7 @@ See file name conventions above about the meaning of “_a” etc.
 |admin_level10|boundary='administrative' admin_level='10'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level11|boundary='administrative' admin_level='11'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |protected_area|boundary='protected_area' |Protected areas, such as for national-parks, water protection areas or indigenous areas.|
-|administrative|admin_level='' |All empty or User input admin_level values to be placed under|
+|administrative|admin_level=* |All empty or User input admin_level values to be placed under|
 |admin_level8|boundary='administrative' admin_level='8'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 
 
@@ -211,19 +211,20 @@ See file name conventions above about the meaning of “_a” etc.
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |national_park|boundary='national_park' |A national park is a relatively large area of land declared by a government, to be set aside for human recreation and enjoyment, animal and environmental protection.|
-|admin_level3|boundary='administrative' admin_level='3'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level1|boundary='administrative' admin_level='1'|Efnahags-loegsaga(Exclusive Economic Zone) use in Iceland|
-|admin_level6|boundary='administrative' admin_level='6'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
-|admin_level7|boundary='administrative' admin_level='7'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|national|boundary='administrative' admin_level='2'|National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country).|
+|admin_level3|boundary='administrative' admin_level='3'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level4|boundary='administrative' admin_level='4'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level5|boundary='administrative' admin_level='5'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
-|national|boundary='administrative' admin_level='2'|National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country).|
+|admin_level6|boundary='administrative' admin_level='6'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|admin_level7|boundary='administrative' admin_level='7'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|admin_level8|boundary='administrative' admin_level='8'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level9|boundary='administrative' admin_level='9'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level10|boundary='administrative' admin_level='10'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level11|boundary='administrative' admin_level='11'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |protected_area|boundary='protected_area' |Protected areas, such as for national-parks, water protection areas or indigenous areas.|
-|administrative|admin_level='' |All empty or User input admin_level values to be placed under|
-|admin_level8|boundary='administrative' admin_level='8'|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|administrative|admin_level=* |All empty or User input admin_level values to be placed under|
+
 
 
 ## building_a
@@ -236,7 +237,7 @@ See file name conventions above about the meaning of “_a” etc.
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|building|building='' |This marks out the size and area of a building.|
+|building|building=* |This marks out the size and area of a building.|
 
 ## geoname_l
 
@@ -302,7 +303,7 @@ refer to geoname_p
 |forest|landuse='forest' |Managed forest or woodland plantation|
 |military|landuse='military' |For land areas owned/used by the military for whatever purpose|
 |basin|landuse='basin' |An area of water that drains into a river.|
-|landuse|landuse='' |Get all landuse that is not classified in any table|
+|landuse|landuse=* |Get all landuse that is not classified in any table|
 
 
 ## military_p
@@ -320,7 +321,7 @@ refer to geoname_p
 |airfield|military='airfield' |A place where military planes take off and land.|
 |bunker|military='bunker' |Buildings, often build from concrete, to stand even heavier fire. This includes WW2 pillboxes.|
 |naval_base|military='naval_base' |A naval base|
-|military|military='' |Any other military type that are not sorted to any type above|
+|military|military=* |Any other military type that are not sorted to any type above|
 |barracks|military='barracks' |Buildings where soldiers live and work.|
 
 ## military_a
@@ -683,7 +684,7 @@ railway_ground_l: bridge = 0, tunnel = 0
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |roundabout|living_street|hihgway='living_street' junction='roundabout'|For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.|
-|roundabout|track|hihgway='service' tracktype=''|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present,|
+|roundabout|track|hihgway='service' tracktype=*|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present,|
 |roundabout|trunk|hihgway='trunk' junction='roundabout'|The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)|
 |roundabout|primary|hihgway='primary' junction='roundabout'|The next most important roads in a country's system. (Often link larger towns.)|
 |roundabout|motorway|hihgway='motorway' junction='roundabout'|A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..|
@@ -707,8 +708,8 @@ railway_ground_l: bridge = 0, tunnel = 0
 |roundabout|unclassified|hihgway='unclassified' junction='roundabout'|The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)|
 |roundabout|steps|hihgway='steps' junction='roundabout'|For flights of steps (stairs) on footways.|
 |roundabout|trunk_link|hihgway='trunk_link' junction='roundabout'|The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.|
-|unclassified|road|hihgway='{}' roundabout=''|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
-|roundabout|roundabout|hihgway='' junction='roundabout'|This contains any other roundabout except the specifics above.|
+|unclassified|road|hihgway='{}' roundabout=*|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
+|roundabout|roundabout|hihgway=* junction='roundabout'|This contains any other roundabout except the specifics above.|
 
 
 ## route_l
