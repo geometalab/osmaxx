@@ -44,10 +44,10 @@ osmaxx_v1:
       element: "path17553"
     "0xe00e":
       filename: "default_OSMaxx_marker.svg"
-      element: "path6864"
+      element: "background"
     "0xe00f":
       filename: "default_OSMaxx_marker.svg"
-      element: "path6293"
+      element: "foreground"
     "0xe010":
       filename: "destination_castle.svg"
       element: "path14817-0"
