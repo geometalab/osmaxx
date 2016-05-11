@@ -7,36 +7,13 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
    width="1000"
    height="1000"
-   id="svg3361"
-   version="1.1"
-   inkscape:version="0.91 r13725"
    viewBox="0 0 1000 1000"
-   sodipodi:docname="public_library.svg">
+   id="svg3361">
   <defs
      id="defs3363" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="9.2008305"
-     inkscape:cy="496"
-     inkscape:current-layer="g7"
-     showgrid="true"
-     inkscape:grid-bbox="true"
-     inkscape:document-units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1018"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
   <metadata
      id="metadata3366">
     <rdf:RDF>
@@ -50,18 +27,15 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1"
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     transform="translate(0,968)">
+     transform="translate(0,968)"
+     id="layer1">
     <g
        transform="translate(-0.05208308,0.18)"
        id="g7">
       <path
+         d="m 805.11051,-326.32834 a 13.910066,12.091572 0 0 0 -6.1937,1.70015 l -274.96799,138.66136 a 13.912774,12.093926 0 1 0 13.96303,20.92201 l 274.96796,-138.66136 a 13.910066,12.091572 0 0 0 -7.7693,-22.6222 z m 0,-45.05548 a 13.910066,12.091572 0 0 0 -6.1937,1.70014 l -274.96799,138.66135 a 13.912764,12.093918 0 1 0 13.96303,20.92199 l 274.96796,-138.66135 a 13.910066,12.091572 0 0 0 -7.7693,-22.62218 z m 1.35832,-48.9282 a 13.910066,12.091572 0 0 0 -7.55196,1.74753 l -274.968,138.61413 a 13.912765,12.093919 0 1 0 13.96304,20.92199 L 812.87987,-397.6425 a 13.910066,12.091572 0 0 0 -6.41104,-22.66943 z m -639.0567,-160.94088 313.25117,309.85184 1.36305,117.34906 -315.97727,-310.43217 1.36305,-116.76873 z m 17.13549,-34.79607 318.61992,314.51871 305.1285,-152.58038 L 497.79879,-766.308 184.54762,-616.04897 z"
          id="line15"
-         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#c84614;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="m 883.12478,-292.86542 a 17.387582,15.114465 0 0 0 -7.74212,2.12518 l -343.70999,173.3267 a 17.390967,15.117408 0 1 0 17.45379,26.15251 l 343.70995,-173.32669 a 17.387582,15.114465 0 0 0 -9.71163,-28.27776 z m 0,-56.31936 a 17.387582,15.114465 0 0 0 -7.74212,2.12518 l -343.70999,173.32669 a 17.390952,15.117395 0 1 0 17.45379,26.15249 l 343.70995,-173.32669 a 17.387582,15.114465 0 0 0 -9.71163,-28.27773 z m 1.6979,-61.16025 a 17.387582,15.114465 0 0 0 -9.43995,2.18442 l -343.70999,173.26766 a 17.390955,15.117398 0 1 0 17.45379,26.15249 l 343.70995,-173.26766 a 17.387582,15.114465 0 0 0 -8.0138,-28.33679 z M 86.001813,-611.52112 477.56577,-224.20633 479.26959,-77.52 84.298,-465.56021 86.001813,-611.52112 Z m 21.419357,-43.49509 398.2749,393.14839 L 887.1067,-452.5933 498.98513,-842.84 107.42117,-655.01621 Z"
-         inkscape:connector-curvature="0" />
+         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#c84614;fill-opacity:1;fill-rule:nonzero;stroke:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:sans-serif" />
     </g>
   </g>
 </svg>
