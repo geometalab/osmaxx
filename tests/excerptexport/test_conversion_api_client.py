@@ -42,7 +42,7 @@ def test_failed_login():
     assert api_client.token is None
 
     expected_msg = \
-        "400 Client Error: BAD REQUEST for url: http://localhost:8901/api/token-auth/"
+        "400 Client Error: Bad Request for url: http://localhost:8901/api/token-auth/"
     with pytest.raises(HTTPError) as excinfo:
         api_client._login()
 
@@ -187,7 +187,7 @@ def test_create_jobs_for_extraction_order(extraction_order, excerpt_request):
 @pytest.fixture
 def clipping_area_json():
     return {
-        "id": 38,
+        "id": 17,
         "name": "Neverland",
         "clipping_multi_polygon": {
             "type": "MultiPolygon",
@@ -203,38 +203,36 @@ def clipping_area_json():
 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
-def test_create_job_for_export(extraction_order, excerpt_request, clipping_area_json):
+def test_create_job_for_export(extraction_order, job_progress_request, clipping_area_json):
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
-
-    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=excerpt_request)
-
+    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=job_progress_request)
     assert job_json['callback_url'] == "http://the-host.example.com/job_progress/tracker/23/"
-    assert job_json['rq_job_id'] == "f41f9cbe-e916-41a7-8349-192d3a616a35"
-    assert job_json['id'] == 57
+    assert job_json['rq_job_id'] == "6692fa44-cc19-4252-88ae-8687496da421"
+    assert job_json['id'] == 29
     assert job_json['status'] == RECEIVED
     assert job_json['resulting_file'] is None
-    assert job_json['parametrization'] == 62
+    assert job_json['parametrization'] == 38
 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
-def test_callback_url_of_created_job_refers_to_correct_export(extraction_order, excerpt_request, clipping_area_json):
+def test_callback_url_of_created_job_refers_to_correct_export(extraction_order, job_progress_request, clipping_area_json):
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
 
-    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=excerpt_request)
+    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=job_progress_request)
 
     callback_url = job_json['callback_url']
     scheme, host, callback_path, params, *_ = urlparse(callback_url)
 
     match = resolve(callback_path)
     assert match.func == tracker
-    excerpt_request.build_absolute_uri.assert_called_with('/job_progress/tracker/{}/'.format(fgdb_export.id))
+    job_progress_request.build_absolute_uri.assert_called_with('/job_progress/tracker/{}/'.format(fgdb_export.id))
 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
-def test_callback_url_would_reach_this_django_instance(extraction_order, excerpt_request, the_host, clipping_area_json):
+def test_callback_url_would_reach_this_django_instance(extraction_order, job_progress_request, the_host, clipping_area_json):
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
 
-    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=excerpt_request)
+    job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=job_progress_request)
 
     callback_url = job_json['callback_url']
     scheme, host, callback_path, params, *_ = urlparse(callback_url)
