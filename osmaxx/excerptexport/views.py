@@ -51,8 +51,6 @@ class OrderFormViewMixin(FormMixin):
 class OrderNewExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_new_excerpt.html'
     form_class = ExcerptForm
-
-
 order_new_excerpt = OrderNewExcerptView.as_view()
 
 
@@ -62,7 +60,6 @@ class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, 
 
     def get_form_class(self):
         return super().get_form_class().get_dynamic_form_class(self.request.user)
-
 order_existing_excerpt = OrderExistingExcerptView.as_view()
 
 
@@ -75,7 +72,6 @@ class DownloadListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView
             orderer=self.request.user,
             state=ExtractionOrderState.FINISHED
         ).order_by('-id')
-
 list_downloads = DownloadListView.as_view()
 
 
@@ -113,7 +109,6 @@ class ExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Owner
     model = ExtractionOrder
     pk_url_kwarg = 'extraction_order_id'
     owner = 'orderer'
-
 extraction_order_status = ExtractionOrderView.as_view()
 
 
