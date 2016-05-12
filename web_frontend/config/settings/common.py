@@ -58,6 +58,7 @@ LOCAL_APPS = (
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
     'osmaxx.social_auth',
+    'osmaxx.profile',
     'osmaxx.core',
 )
 
@@ -231,10 +232,14 @@ WSGI_APPLICATION = 'web_frontend.config.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.open_id.OpenIdAuth',
+    'social.backends.openstreetmap.OpenStreetMapOAuth',
     'osmaxx.social_auth.backends.clavid_backend.ClavidChOpenId',
     'osmaxx.social_auth.backends.clavid_backend.ClavidComOpenId',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+SOCIAL_AUTH_OPENSTREETMAP_KEY = env.str('SOCIAL_AUTH_OPENSTREETMAP_KEY', '')
+SOCIAL_AUTH_OPENSTREETMAP_SECRET = env.str('SOCIAL_AUTH_OPENSTREETMAP_SECRET', '')
 
 SOCIAL_AUTH_PIPELINE = (
     # Get the information we can about the user and return it in a simple
@@ -318,27 +323,27 @@ LOGGING = {
 }
 
 # login url if param 'next' is not set
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/profile/edit/'
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 # TODO: show nice user error page
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
 # Used to redirect the user once the auth process ended successfully.
 # The value of ?next=/foo is used if it was present.
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/profile/edit/'
 # Is used as a fallback for LOGIN_ERROR_URL
 SOCIAL_AUTH_LOGIN_URL = '/'
 # Used to redirect new registered users, will be used in place of SOCIAL_AUTH_LOGIN_REDIRECT_URL if defined.
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/profile/edit/'
 # Like SOCIAL_AUTH_NEW_USER_REDIRECT_URL but for new associated accounts (user is already logged in).
 # Used in place of SOCIAL_AUTH_LOGIN_REDIRECT_URL
-SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/'
+SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/profile/edit/'
 # The user will be redirected to this URL when a social account is disconnected.
 SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/'
 # Inactive users can be redirected to this URL when trying to authenticate.
 # Successful URLs will default to SOCIAL_AUTH_LOGIN_URL while error URLs will fallback to SOCIAL_AUTH_LOGIN_ERROR_URL.
 SOCIAL_AUTH_INACTIVE_USER_URL = '/'
-SOCIAL_AUTH_LOGIN_SUCCESS_URL = '/'
+SOCIAL_AUTH_LOGIN_SUCCESS_URL = '/profile/edit/'
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'email']
 
