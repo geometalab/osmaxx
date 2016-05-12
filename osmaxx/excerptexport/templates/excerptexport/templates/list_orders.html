@@ -22,6 +22,9 @@
                     {% endif %}
                 </p>
             </div>
+        {% empty %}
+            <h3>{% trans 'You have no orders' %}</h3>
+            <p>Order a <a href="{% url 'excerptexport:order_new_excerpt' %}"><strong>new one</strong></a> or <a href="{% url 'excerptexport:order_existing_excerpt' %}"><strong>existing one</strong></a></p>
         {% endfor %}
     </div>
 {% endblock %}

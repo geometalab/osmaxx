@@ -16,7 +16,14 @@
 
             {% include 'excerptexport/partials/download_list.html' %}
             {% include 'excerptexport/partials/send_all_links.html' %}
-
+        {% empty %}
+            <h3>{% trans 'You have no downloads' %}</h3>
+            <p>
+                You can check on the <a href="{% url 'excerptexport:orders' %}"><strong>current status</strong></a>,
+                or create an export:
+                order a <a href="{% url 'excerptexport:order_new_excerpt' %}"><strong>new one</strong></a>
+                or an <a href="{% url 'excerptexport:order_existing_excerpt' %}"><strong>existing one</strong></a>
+            </p>
         {% endfor %}
     </div>
 {% endblock %}
