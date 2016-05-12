@@ -35,6 +35,7 @@ class FontMaker:
     def add_glyph(self, hex_position, svg):
         glyph = self.fontforge_font.createChar(hex_position)
         glyph.importOutlines(os.path.join(self._base_path, svg))
+        assert glyph.isWorthOutputting()
 
     def create_font(self):
         for font, definition in self.config.items():
