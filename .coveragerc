@@ -1,5 +1,5 @@
 [run]
-omit = tests/*,osmaxx/converters/converter_settings.py,osmaxx/rest_api/urls.py
+omit = tests/*
 
 [report]
 show_missing = True
