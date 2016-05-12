@@ -31,7 +31,7 @@ class UnicodeRanger:
         return self
 
     def __next__(self):
-        if self.stop is not None and self.current > self.stop:
+        if self.current > self.stop:
             raise StopIteration
         else:
             self.current += 1
