@@ -51,7 +51,7 @@ django-secure==1.0.1
 django-stored-messages==1.4.0
 django-crispy-forms==1.5.2
 
-python-social-auth==0.2.12
+python-social-auth==0.2.19
 
 # WSGI Handler
 # needed for production and docker images
