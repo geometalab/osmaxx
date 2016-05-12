@@ -7,16 +7,14 @@ from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseNotFound, HttpResponseRedirect, FileResponse
-from django.shortcuts import get_object_or_404, render_to_response, redirect
-from django.template import RequestContext
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView, DetailView
+from django.views.generic import FormView, DetailView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
 from osmaxx.contrib.auth.frontend_permissions import (
-    frontend_access_required,
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
@@ -112,23 +110,25 @@ class ExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, Owner
 extraction_order_status = ExtractionOrderView.as_view()
 
 
-@login_required()
-@frontend_access_required()
-def list_orders(request):
-    extraction_orders = ExtractionOrder.objects.filter(orderer=request.user)
-    view_context = {
-        'extraction_orders': extraction_orders.order_by('-id')
-    }
-    return render_to_response('excerptexport/templates/list_orders.html', context=view_context,
-                              context_instance=RequestContext(request))
+class ExtractionOrderListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
+    template_name = 'excerptexport/templates/list_orders.html'
+    context_object_name = 'extraction_order'
+    model = ExtractionOrder
+    owner = 'orderer'
+    ordering = ['-id']
+
+    def get_queryset(self):
+        super().get_queryset().filter(orderer=self.request.user)
+list_orders = ExtractionOrderListView.as_view()
 
 
-def access_denied(request):
-    view_context = {
-        'next_page': request.GET['next']
-    }
-    return render_to_response('excerptexport/templates/access_denied.html', context=view_context,
-                              context_instance=RequestContext(request))
+class AccesssDenied(TemplateView):
+    template_name = 'excerptexport/templates/access_denied.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(dict(next_page=self.request.GET.get('next', '/')))
+access_denied = AccesssDenied.as_view()
 
 
 @login_required()
