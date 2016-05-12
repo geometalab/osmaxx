@@ -1,5 +1,13 @@
 version: '2'
 services:
+  nginx:
+    image: geometalab/osmaxx-nginx:${DEPLOY_VERSION}
+    volumes:
+      - frontend-media:/data/frontend/media
+    depends_on:
+      - frontend
+    networks:
+      - osmaxx-internal
   # if you change the names of the containers, please remember
   # that you need to adapt REAMDE.md
   ##### frontend START ########
