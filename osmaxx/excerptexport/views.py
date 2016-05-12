@@ -112,9 +112,8 @@ extraction_order_status = ExtractionOrderView.as_view()
 
 class ExtractionOrderListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
     template_name = 'excerptexport/templates/list_orders.html'
-    context_object_name = 'extraction_order'
+    context_object_name = 'extraction_orders'
     model = ExtractionOrder
-    owner = 'orderer'
     ordering = ['-id']
 
     def get_queryset(self):
