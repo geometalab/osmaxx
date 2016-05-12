@@ -54,7 +54,8 @@ If haven't already, `source ./activate_local_development`.
 ```bash
 docker-compose -f docker-compose-tests.yml run --rm frontend python3 web_frontend/manage.py createsuperuser
 ```
-Enter `admin` as 
+Enter `admin` as username, you can leave the email blank, then enter `admin` twice for the password.
+
 Run the containers:
 
 ```bash
