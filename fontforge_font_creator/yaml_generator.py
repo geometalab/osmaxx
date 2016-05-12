@@ -66,6 +66,19 @@ for svg in svgs:
         h = hash(path_el.get('d'))
         if h not in already_done:
             el_id = path_el.get('id')
+            id_attr_count = len(tree.findall(".//*[@id='{}']".format(el_id)))
+            assert id_attr_count == 1,\
+                "{file}: "\
+                "ID attribute missing or value not unique in document:\n"\
+                "\tFound {count} XML-elements with id='{id_value}'\n"\
+                "\tElement: {element}".format(
+                    file=svg,
+                    element=ElementTree.tostring(
+                        path_el, 'unicode', short_empty_elements=True,
+                    ),
+                    count=id_attr_count,
+                    id_value=el_id,
+                )
             print("    \"{:#06x}\":".format(r.__next__()), file=oufile_writer)
             print("      filename: \"{}\"".format(svg), file=oufile_writer)
             print("      element: \"{}\"".format(el_id), file=oufile_writer)
