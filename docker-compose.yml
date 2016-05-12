@@ -12,6 +12,7 @@ services:
     volumes:
       - frontend-data:/data
       - frontend-results:/results
+      - frontend-media:/data/media
     links:
       - frontenddatabase:database
       - mediator:conversion-service
@@ -190,6 +191,7 @@ volumes:
   # osmaxx
   frontend-database-data: {}
   frontend-data: {}
+  frontend-media: {}
   frontend-results: {}
   mediator-database-data: {}
   worker-data: {}
