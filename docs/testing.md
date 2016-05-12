@@ -45,11 +45,39 @@ To run tests of all available test types, call the script without passing any op
 ```
 
 
-## Generating the test coverage html
+## Running selenium tests
+
+Prerequisite: a user login with username `admin` and password `admin`. To create this, run the command below:
+
+If haven't already, `source ./activate_local_development`.
+
+```bash
+docker-compose -f docker-compose-tests.yml run --rm frontend python3 web_frontend/manage.py createsuperuser
+```
+Enter `admin` as 
+Run the containers:
+
+```bash
+docker-compose -f docker-compose-tests.yml up --build -d frontend worker mediator nginx
+```
+
+Wait a few minutes for all services to be available, then run all the tests including selenium tests: 
 
 ```shell
-docker-compose run webapp bash -c "DJANGO_SETTINGS_MODULE=config.settings.test coverage run --source='.' manage.py test;coverage html"
-``` 
+./runtests.py --driver Firefox
+```
 
-and then open the directory `web_frontend/htmlcov/index.html` in a browser.
+If you don't want to have Firefox running in front, under Linux there is a utility which helps in running
+this in a separate display: https://github.com/jordansissel/xdotool/blob/master/t/ephemeral-x.sh.
+
+This lets you execute any command in a separate display, and still getting the console output.
+
+For example, using our tests:
+
+```
+sudo apt-get install xvfb
+wget -O /tmp/ephemeral-x.sh https://github.com/jordansissel/xdotool/blob/master/t/ephemeral-x.sh
+chmod +x /tmp/ephemeral-x.sh
+/tmp/ephemeral-x.sh ./runtests.py --driver Firefox
+```
 
