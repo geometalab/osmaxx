@@ -1,5 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Field
+from crispy_forms.layout import Submit, Layout
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django import forms
