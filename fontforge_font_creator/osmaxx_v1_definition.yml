@@ -83,7 +83,7 @@ osmaxx_v1:
       element: "path4722"
     "0xe01b":
       filename: "education_college.svg"
-      element: "path4213"
+      element: "path7556"
     "0xe01c":
       filename: "education_kindergarten.svg"
       element: "path3-97"
@@ -176,22 +176,22 @@ osmaxx_v1:
       element: "path6863"
     "0xe03a":
       filename: "natural_rock_and_stone.svg"
-      element: "path9919"
-    "0xe03b":
-      filename: "natural_rock_and_stone.svg"
       element: "path4573"
-    "0xe03c":
+    "0xe03b":
       filename: "natural_sink_hole.svg"
       element: "path3777-6"
-    "0xe03d":
+    "0xe03c":
       filename: "natural_tree.svg"
       element: "path6706-0"
-    "0xe03e":
+    "0xe03d":
       filename: "natural_volcano.svg"
       element: "path3-491"
-    "0xe03f":
+    "0xe03e":
       filename: "public_building_.svg"
       element: "path9"
+    "0xe03f":
+      filename: "public_checkpoint.svg"
+      element: "path9919"
     "0xe040":
       filename: "public_checkpoint.svg"
       element: "path9356"
