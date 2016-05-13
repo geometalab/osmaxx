@@ -41,9 +41,14 @@ Then follow the instructions in section [Generating the font](#generating-the-fo
 ### Generating the font
 
 Run 
-```
+```bash
 docker-compose build
 docker-compose run --rm fontforge
 ```
 
 Open the generated font found in the `out` directory and check whether the symbols are placed correctly.
+
+Once you are happy with the symbol font in `out/`, replace the current font with it:
+```bash
+mv out/OSMaxx_v*.ttf ../osmaxx-symbology/OSMaxx_point_symbols/
+```
