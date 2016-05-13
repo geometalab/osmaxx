@@ -1,0 +1,31 @@
+{% load i18n capture_as email_bodies static %}
+<div class="panel panel-{{ export.css_status_class }}">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-6">
+                {{ export.get_file_format_display }}
+            </div>
+            <div class="col-lg-3">
+                {{ export.file_format }}
+            </div>
+            <div class="col-lg-3">
+                {{ export.status }}
+            </div>
+        </div>
+        {% if export.output_file.file %}
+            </div>
+            <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6">
+{#                  TODO: replace with direct link to download, as soon as mechanism is switched #}
+                    <a href="{{ export.output_file.get_absolute_url }}">{{ export.output_file.file.name }}</a>
+                </div>
+                <div class="col-lg-3">
+                    {% capture_as subject %}Download {{ export.get_file_format_display }} map data of {{ export_group.grouper.name }}{% end_capture_as %}
+                    {% capture_as body %}{% email_body_with_single_result_link export.output_file %}{% end_capture_as %}
+                    <a href="mailto:?subject={% filter urlencode %}{{ subject }}{% endfilter %}&body={% filter urlencode %}{{ body }}{% endfilter %}">Send Mail</a>
+                </div>
+            </div>
+        {% endif %}
+        </div>
+</div>
