@@ -1,4 +1,4 @@
-{% extends 'excerptexport/base.html' %}{% load i18n %}
+{% extends 'excerptexport/base.html' %}{% load i18n capture_as email_bodies %}
 {% block breadcrumb %}
     {{ block.super }}
     <li class="active">{% trans 'My Exports' %}</li>
@@ -41,7 +41,8 @@
                                                         <a href="{{ export.output_file.get_absolute_url }}">{{ export.output_file.file.name }}</a>
                                                     </div>
                                                     <div class="col-lg-3">
-{#                                                    TODO: fill with real content (body & subject) #}
+                                                        {% capture_as subject %}Download {{ export.get_file_format_display }} map data of {{ export_group.grouper.name }}{% end_capture_as %}
+                                                        {% capture_as body %}{% email_body_with_single_result_link export.output_file %}{% end_capture_as %}
                                                         <a href="mailto:?subject={% filter urlencode %}{{ subject }}{% endfilter %}&body={% filter urlencode %}{{ body }}{% endfilter %}">Send Mail</a>
                                                     </div>
                                                 </div>
