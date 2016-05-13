@@ -1,4 +1,4 @@
-{% extends 'excerptexport/base.html' %}{% load i18n capture_as email_bodies %}
+{% extends 'excerptexport/base.html' %}{% load i18n capture_as email_bodies static %}
 {% block breadcrumb %}
     {{ block.super }}
     <li class="active">{% trans 'My Exports' %}</li>
@@ -54,8 +54,11 @@
                                 {% if export_group.list|length > 5 %}<a href="">{% trans 'see full history' %}</a>{% endif %}
                             </div>
                             <div class="col-lg-6">
-{#                                TODO: show the Map #}
-                                <h6>Show the map!</h6>
+                                {% if export_group.grouper.country %}
+                                    <div class="minimap" id="minimap-country-{{ export_group.grouper.id }}">Show the map! ID: country-{{ export_group.grouper.id }}</div>
+                                {% else %}
+                                    <div class="minimap" id="minimap-{{ export_group.grouper.id }}">Show the map! ID: {{ export_group.grouper.id }}</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -76,4 +79,11 @@
         </div>
     </div>
 
+{% endblock %}
+
+
+{% block scripts %}
+    {{ block.super }}
+    <script src='{% static "excerptexport/scripts/maps/excerpt_viewer.js" %}'></script>
+    <script src='{% static "excerptexport/scripts/maps/minimap.js" %}'></script>
 {% endblock %}
