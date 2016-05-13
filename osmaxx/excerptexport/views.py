@@ -19,8 +19,9 @@ from osmaxx.contrib.auth.frontend_permissions import (
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
+from osmaxx.excerptexport.models import Excerpt
 from osmaxx.utils import get_default_private_storage
-from .models import ExtractionOrder, OutputFile
+from .models import ExtractionOrder, OutputFile, Export
 from .models.extraction_order import ExtractionOrderState
 
 
@@ -42,7 +43,7 @@ class OrderFormViewMixin(FormMixin):
             )
         )
         return HttpResponseRedirect(
-            reverse('excerptexport:status', kwargs={'extraction_order_id': extraction_order.id})
+            reverse('excerptexport:export_list')
         )
 
 
@@ -119,6 +120,17 @@ class ExtractionOrderListView(LoginRequiredMixin, FrontendAccessRequiredMixin, L
     def get_queryset(self):
         super().get_queryset().filter(orderer=self.request.user)
 list_orders = ExtractionOrderListView.as_view()
+
+
+class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
+    template_name = 'excerptexport/exports_list.html'
+    context_object_name = 'exports'
+    model = Export
+    ordering = ['-id']
+
+    def get_queryset(self):
+        return super().get_queryset().filter(extraction_order__orderer=self.request.user)
+export_list = ExportsListView.as_view()
 
 
 class AccesssDenied(TemplateView):

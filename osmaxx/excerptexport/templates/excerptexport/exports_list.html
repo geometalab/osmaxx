@@ -1,0 +1,78 @@
+{% extends 'excerptexport/base.html' %}{% load i18n %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'My Exports' %}</li>
+{% endblock %}
+
+
+{% block main %}
+    <div class="container-row content">
+        <div class="col-lg-12">
+            <h2>My Exports</h2>
+            {% regroup exports by extraction_order.excerpt as grouped_export_list %}
+            {% for export_group in grouped_export_list %}
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{ export_group.grouper.name }}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-lg-6">
+                                {% for export in export_group.list|slice:":5" %}
+                                    <div class="panel panel-{{ export.css_status_class }}">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    {{ export.get_file_format_display }}
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    {{ export.file_format }}
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    {{ export.status }}
+                                                </div>
+                                            </div>
+                                            {% if export.output_file.file %}
+                                                </div>
+                                                <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+{#                                                        TODO: replace with direct link to download, as soon as mechanism is switched #}
+                                                        <a href="{{ export.output_file.get_absolute_url }}">{{ export.output_file.file.name }}</a>
+                                                    </div>
+                                                    <div class="col-lg-3">
+{#                                                    TODO: fill with real content (body & subject) #}
+                                                        <a href="mailto:?subject={% filter urlencode %}{{ subject }}{% endfilter %}&body={% filter urlencode %}{{ body }}{% endfilter %}">Send Mail</a>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            </div>
+                                    </div>
+                                {% endfor %}
+{#                            TODO: fill in the url when the detail view is available #}
+                                {% if export_group.list|length > 5 %}<a href="">{% trans 'see full history' %}</a>{% endif %}
+                            </div>
+                            <div class="col-lg-6">
+{#                                TODO: show the Map #}
+                                <h6>Show the map!</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <h3>{% trans 'You have no exports' %}</h3>
+                <p>
+                    {% url 'excerptexport:order_new_excerpt' as new_export_url %}
+                    {% url 'excerptexport:order_existing_excerpt' as existing_export_url %}
+                    {% blocktrans %}
+                        You can create an export by ordering a
+                        <a href="{{ new_export_url }}"><strong>new one</strong></a>
+                        or an
+                        <a href="{{ existing_export_url }}"><strong>existing one</strong></a>
+                    {% endblocktrans %}
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

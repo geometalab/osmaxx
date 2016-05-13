@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, OutputFile
+from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, OutputFile, Export
 
 
 @admin.register(Excerpt)
@@ -30,3 +30,5 @@ class ExtractionOrderAdmin(admin.ModelAdmin):
     readonly_fields = ('process_id', '_extraction_configuration', 'progress_url')
 
 admin.site.register(OutputFile)
+
+admin.site.register(Export)
