@@ -113,3 +113,22 @@ class Export(models.Model):
     @property
     def is_status_final(self):
         return self.status in FINAL_STATUSES
+
+    @property
+    def css_status_class(self):
+        """
+        based on the status, returns the bootstrap 3 class
+
+        Returns: the bootstrap css class
+        """
+        default_class = 'default'
+
+        status_map = {
+            statuses.RECEIVED: 'info',
+            statuses.QUEUED: 'info',
+            statuses.FINISHED: 'success',
+            statuses.FAILED: 'error',
+            statuses.STARTED: 'info',
+            statuses.DEFERRED: 'default',
+        }
+        return status_map.get(self.status, default_class)
