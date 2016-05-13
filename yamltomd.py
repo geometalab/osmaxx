@@ -6,7 +6,6 @@ import yaml
 def yaml_to_md(table):
     out.write('## ' + table + '\n\n')
     for data in yaml.load_all(inp):
-        key = data['layers'].keys()
         key1 = data['layers'][table]['attributes'].keys()
         dicts = data['layers'][table]['attributes']
         dicts2 = dicts['type']['values']
