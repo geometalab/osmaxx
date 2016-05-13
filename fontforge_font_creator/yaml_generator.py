@@ -3,6 +3,8 @@ import os
 import unicodedata
 from xml.etree import ElementTree
 
+FONT_MAJOR_VERSION = 1
+
 UNICODE_MAX = 0x10FFFF  # last chr of plane 16 (plane 0x10)
 
 class UnicodeRanger:
@@ -53,10 +55,10 @@ oufile_writer = open(outfile, 'w+')
 ns = dict(svg='http://www.w3.org/2000/svg')
 
 print('''---
-osmaxx_v1:
-  filename: OSMaxx_v1.ttf
-  fontname: OSMaxx_v1
-  mappings:''', file=oufile_writer)
+osmaxx_v{major_version}:
+  filename: OSMaxx_v{major_version}.ttf
+  fontname: OSMaxx_v{major_version}
+  mappings:'''.format(major_version=FONT_MAJOR_VERSION), file=oufile_writer)
 
 count = 0
 already_done = set()
