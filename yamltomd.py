@@ -63,7 +63,7 @@ def yaml_to_md(table):
 
 f = open("osmaxx_schema.yaml", 'r')
 inp = f.read()
-out = open("mdtrial.md", 'w')
+out = open("documentation.md", 'w')
 yaml_to_md('adminarea_a')
 yaml_to_md('building_a')
 yaml_to_md('geoname_p')
