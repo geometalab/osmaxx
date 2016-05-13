@@ -141,7 +141,7 @@ class ExtractionOrder(models.Model):
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
-        return reverse('excerptexport:status', kwargs={'extraction_order_id': self.id})
+        return reverse('excerptexport:export_list')
 
     def send_email_if_all_exports_done(self, incoming_request):
         if all(export.is_status_final for export in self.exports.all()):
