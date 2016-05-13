@@ -64,13 +64,13 @@ Change to the directory `fontforge_font_creator`.
 To add a single Symbol, edit the `osmaxx_v1_definition.yml` manually and add a hex value below the existing ones,
 best in ascending order (next higher number).
 
-To remove a symbol, just delete the corresponding lines in the `osmaxx_v1_definition.yml`. Note that removal is an incopatible change that requires a new major version.
+To remove a symbol, just delete the corresponding lines in the `osmaxx_v1_definition.yml`. Note that removal is an incompatible change that requires a new major version.
 
 Then follow the instructions in section [Generating the font](#generating-the-font) below.
 
 ### Create initial SVG-to-Codepoint mapping YAML / move the entire symbols to another range
 
-Doing this usually results in an incopatible change that requires a new major version. As long as feasible, prefer manual [compatible edits](#examples-of-compatible-symbol-font-changes) to `osmaxx_v1_definition.yml`.
+Doing this usually results in an incompatible change that requires a new major version. As long as feasible, prefer manual [compatible edits](#examples-of-compatible-symbol-font-changes) to `osmaxx_v1_definition.yml`.
 
 1. Edit `yaml_generator.py` and set the (new) start_number, ie. `start_number = 0xE000` for the `user defined range`.
 2. Run `python3 yaml_generator.py`
