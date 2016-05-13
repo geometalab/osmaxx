@@ -19,7 +19,6 @@ from osmaxx.contrib.auth.frontend_permissions import (
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
-from osmaxx.excerptexport.models import Excerpt
 from osmaxx.utils import get_default_private_storage
 from .models import ExtractionOrder, OutputFile, Export
 from .models.extraction_order import ExtractionOrderState
