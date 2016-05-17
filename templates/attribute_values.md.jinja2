@@ -2,23 +2,23 @@
  Values of attributes type  {#  #}
 
 {% for attribute_name in correlated_attributes -%}
-|{{ attribute_name }}             {#  #}
+    |{{ attribute_name }}             {#  #}
 {%- endfor -%}
 |values              |osm_tags            |description                                                           |
 {% for _ in correlated_attributes -%}
-| ------------------ {#  #}
+    | ------------------ {#  #}
 {%- endfor -%}
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 {% for value, definition in type_values.items() -%}
-{% for attribute_name in correlated_attributes -%}
-|{{ definition['correlated_attributes'][attribute_name] -}}
-{% endfor -%}
-|{{ value }}|
-{{- definition['osm_tags'][0].keys()[0] }}='{{ definition['osm_tags'][0].values()[0] }}' {#  #}
-{%- if definition['osm_tags'][1] is defined -%}
-{{ definition['osm_tags'][1].keys()[0] }}='{{ definition['osm_tags'][1].values()[0] }}'|
-{%- else -%}
-|
-{%- endif -%}
-{{ definition['description'] }}|
+    {% for attribute_name in correlated_attributes -%}
+        |{{ definition['correlated_attributes'][attribute_name] -}}
+    {%- endfor -%}
+    |{{ value }}|
+    {{- definition['osm_tags'][0].keys()[0] }}='{{ definition['osm_tags'][0].values()[0] }}' {#  #}
+    {%- if definition['osm_tags'][1] is defined -%}
+        {{- definition['osm_tags'][1].keys()[0] }}='{{ definition['osm_tags'][1].values()[0] }}'|
+    {%- else -%}
+        |
+    {%- endif -%}
+    {{ definition['description'] }}|
 {% endfor -%}
