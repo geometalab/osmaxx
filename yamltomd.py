@@ -3,11 +3,10 @@ from jinja2 import Template
 import yaml
 
 
-def yaml_to_md(layer_name):
+def yaml_to_md(layer_name, layer_definition):
     out.write('## ' + layer_name + '\n\n')
 
-    layer = layers[layer_name]
-    attributes = layer['attributes']
+    attributes = layer_definition['attributes']
 
     # values of layer attribute "type" (not to be confused with an attribute's type)
     type_values = attributes["type"]['values']
@@ -30,27 +29,31 @@ def yaml_to_md(layer_name):
 with open("osmaxx_schema.yaml", 'r') as in_file:
     data = yaml.load(in_file)
 layers = data['layers']
+layers_to_be_documented = [
+    'adminarea_a',
+    'building_a',
+    'geoname_p',
+    'landuse_a',
+    'military_p',
+    'misc_l',
+    'natural_a',
+    'nonop_l',
+    'poi_p',
+    'pow_p',
+    'railway_bridge_l',
+    'road_ground_l',
+    'route_l',
+    'traffic_a',
+    'traffic_p',
+    'transport_a',
+    'utility_a',
+    'utility_p',
+    'utility_l',
+    'water_a',
+    'water_p',
+    'water_l',
+]
 with open("documentation.md", 'w') as out_file:
     out = out_file
-    yaml_to_md('adminarea_a')
-    yaml_to_md('building_a')
-    yaml_to_md('geoname_p')
-    yaml_to_md('landuse_a')
-    yaml_to_md('military_p')
-    yaml_to_md('misc_l')
-    yaml_to_md('natural_a')
-    yaml_to_md('nonop_l')
-    yaml_to_md('poi_p')
-    yaml_to_md('pow_p')
-    yaml_to_md('railway_bridge_l')
-    yaml_to_md('road_ground_l')
-    yaml_to_md('route_l')
-    yaml_to_md('traffic_a')
-    yaml_to_md('traffic_p')
-    yaml_to_md('transport_a')
-    yaml_to_md('utility_a')
-    yaml_to_md('utility_p')
-    yaml_to_md('utility_l')
-    yaml_to_md('water_a')
-    yaml_to_md('water_p')
-    yaml_to_md('water_l')
+    for layer_name in layers_to_be_documented:
+        yaml_to_md(layer_name, layers[layer_name])
