@@ -9,7 +9,7 @@ from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from tests.excerptexport.permission_test_helper import PermissionHelperMixin
 
 
-# FIXME: test more possibilities
+# TODO: test more possibilities
 @patch('osmaxx.job_progress.middleware.update_export')
 class ExportListTestCase(TestCase, PermissionHelperMixin):
     extraction_order = None
