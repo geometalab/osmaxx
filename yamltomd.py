@@ -7,7 +7,8 @@ def yaml_to_md(layer_name):
     out.write('## ' + layer_name + '\n\n')
     data = yaml.load(inp)
 
-    attributes = data['layers'][layer_name]['attributes']
+    layer = data['layers'][layer_name]
+    attributes = layer['attributes']
     dicts2 = attributes['type']['values']
     key2 = dicts2.keys()
 
