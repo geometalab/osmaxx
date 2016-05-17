@@ -28,7 +28,7 @@ def yaml_to_md(layer_name):
 
 
 with open("osmaxx_schema.yaml", 'r') as in_file:
-    data = yaml.load(in_file.read())
+    data = yaml.load(in_file)
 with open("documentation.md", 'w') as out_file:
     out = out_file
     yaml_to_md('adminarea_a')
