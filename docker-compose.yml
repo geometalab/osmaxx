@@ -16,6 +16,8 @@ services:
     extends:
       file: docker-compose-common.yml
       service: frontendbase
+    expose:
+      - "8000"
     command: [honcho, -f, ./web_frontend/Procfile.django.prod, start]
     volumes:
       - frontend-data:/data
