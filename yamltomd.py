@@ -5,26 +5,27 @@ import yaml
 
 def yaml_to_md(table):
     out.write('## ' + table + '\n\n')
-    for data in yaml.load_all(inp):
-        key1 = data['layers'][table]['attributes'].keys()
-        dicts = data['layers'][table]['attributes']
-        dicts2 = dicts['type']['values']
-        key2 = dicts2.keys()
+    data = yaml.load(inp)
 
-        with open('templates/layer_attributes.md.jinja2') as f:
-            t2 = Template(f.read())
-        out.write(t2.render(mylist1=key1, a1=len(key1), space=' ', dicts=dicts))
+    key1 = data['layers'][table]['attributes'].keys()
+    dicts = data['layers'][table]['attributes']
+    dicts2 = dicts['type']['values']
+    key2 = dicts2.keys()
 
-        if 'correlated_attributes' in dicts2[key2[0]].keys():
-            with open('templates/attribute_values_with_aggtype.md.jinja2') as f:
-                type_table = f.read()
-        else:
-            with open('templates/attribute_values.md.jinja2') as f:
-                type_table = f.read()
+    with open('templates/layer_attributes.md.jinja2') as f:
+        t2 = Template(f.read())
+    out.write(t2.render(mylist1=key1, a1=len(key1), space=' ', dicts=dicts))
 
-        t3 = Template(type_table)
-        out.write(t3.render(typelist=key2, a=len(key2), dicts=dicts2))
-        out.write('\n\n')
+    if 'correlated_attributes' in dicts2[key2[0]].keys():
+        with open('templates/attribute_values_with_aggtype.md.jinja2') as f:
+            type_table = f.read()
+    else:
+        with open('templates/attribute_values.md.jinja2') as f:
+            type_table = f.read()
+
+    t3 = Template(type_table)
+    out.write(t3.render(typelist=key2, a=len(key2), dicts=dicts2))
+    out.write('\n\n')
 
 
 f = open("osmaxx_schema.yaml", 'r')
