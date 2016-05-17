@@ -12,6 +12,8 @@ from osmaxx.excerptexport.models.output_file import OutputFile
 from .excerpt import Excerpt
 
 
+# TODO: remove ExtractionOrderState,
+# TODO:   since this is obsolete and replaced with osmaxx.conversion_api.statuses.STATUS_CHOICES
 class ExtractionOrderState(enum.Enum):
     UNDEFINED = 0
     INITIALIZED = 1

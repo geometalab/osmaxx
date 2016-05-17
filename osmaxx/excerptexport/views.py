@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseNotFound, HttpResponseRedirect, FileResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView, DetailView, TemplateView
+from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
@@ -20,8 +20,7 @@ from osmaxx.contrib.auth.frontend_permissions import (
 )
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.utils import get_default_private_storage
-from .models import ExtractionOrder, OutputFile, Export
-from .models.extraction_order import ExtractionOrderState
+from .models import OutputFile, Export
 
 
 logger = logging.getLogger(__name__)
@@ -61,18 +60,6 @@ class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, 
 order_existing_excerpt = OrderExistingExcerptView.as_view()
 
 
-class DownloadListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
-    template_name = 'excerptexport/templates/list_downloads.html'
-    context_object_name = 'extraction_orders'
-
-    def get_queryset(self):
-        return ExtractionOrder.objects.filter(
-            orderer=self.request.user,
-            state=ExtractionOrderState.FINISHED
-        ).order_by('-id')
-list_downloads = DownloadListView.as_view()
-
-
 def download_file(request, uuid):
     output_file = get_object_or_404(OutputFile, public_identifier=uuid, deleted_on_filesystem=False)
     if not output_file.file:
@@ -99,26 +86,6 @@ class OwnershipRequiredMixin(SingleObjectMixin):
         if getattr(o, self.owner) != self.request.user:
             raise PermissionDenied
         return o
-
-
-class ExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, OwnershipRequiredMixin, DetailView):
-    template_name = 'excerptexport/templates/extraction_order_status.html'
-    context_object_name = 'extraction_order'
-    model = ExtractionOrder
-    pk_url_kwarg = 'extraction_order_id'
-    owner = 'orderer'
-extraction_order_status = ExtractionOrderView.as_view()
-
-
-class ExtractionOrderListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
-    template_name = 'excerptexport/templates/list_orders.html'
-    context_object_name = 'extraction_orders'
-    model = ExtractionOrder
-    ordering = ['-id']
-
-    def get_queryset(self):
-        super().get_queryset().filter(orderer=self.request.user)
-list_orders = ExtractionOrderListView.as_view()
 
 
 class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
