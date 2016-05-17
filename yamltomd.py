@@ -7,14 +7,14 @@ def yaml_to_md(table):
     out.write('## ' + table + '\n\n')
     data = yaml.load(inp)
 
-    key1 = data['layers'][table]['attributes'].keys()
+    attribute_names = data['layers'][table]['attributes'].keys()
     dicts = data['layers'][table]['attributes']
     dicts2 = dicts['type']['values']
     key2 = dicts2.keys()
 
     with open('templates/layer_attributes.md.jinja2') as f:
         t2 = Template(f.read())
-    out.write(t2.render(mylist1=key1, a1=len(key1), space=' ', dicts=dicts))
+    out.write(t2.render(mylist1=attribute_names, a1=len(attribute_names), space=' ', dicts=dicts))
 
     if 'correlated_attributes' in dicts2[key2[0]].keys():
         with open('templates/attribute_values_with_aggtype.md.jinja2') as f:
