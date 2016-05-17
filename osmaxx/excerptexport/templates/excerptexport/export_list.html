@@ -35,17 +35,7 @@
                     </div>
                 </div>
             {% empty %}
-                <h3>{% trans 'You have no exports' %}</h3>
-                <p>
-                    {% url 'excerptexport:order_new_excerpt' as new_export_url %}
-                    {% url 'excerptexport:order_existing_excerpt' as existing_export_url %}
-                    {% blocktrans %}
-                        You can create an export by ordering a
-                        <a href="{{ new_export_url }}"><strong>new one</strong></a>
-                        or an
-                        <a href="{{ existing_export_url }}"><strong>existing one</strong></a>
-                    {% endblocktrans %}
-                </p>
+                {% include 'excerptexport/partials/no_excerpt_message.html' %}
             {% endfor %}
         </div>
     </div>
