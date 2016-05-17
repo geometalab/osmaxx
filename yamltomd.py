@@ -3,11 +3,11 @@ from jinja2 import Template
 import yaml
 
 
-def yaml_to_md(table):
-    out.write('## ' + table + '\n\n')
+def yaml_to_md(layer_name):
+    out.write('## ' + layer_name + '\n\n')
     data = yaml.load(inp)
 
-    attributes = data['layers'][table]['attributes']
+    attributes = data['layers'][layer_name]['attributes']
     dicts2 = attributes['type']['values']
     key2 = dicts2.keys()
 
