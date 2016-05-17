@@ -14,7 +14,7 @@ def yaml_to_md(table):
 
     with open('templates/layer_attributes.md.jinja2') as f:
         t2 = Template(f.read())
-    out.write(t2.render(attribute_names=attribute_names, space=' ', dicts=dicts))
+    out.write(t2.render(attribute_names=attribute_names, dicts=dicts))
 
     if 'correlated_attributes' in dicts2[key2[0]].keys():
         with open('templates/attribute_values_with_aggtype.md.jinja2') as f:
