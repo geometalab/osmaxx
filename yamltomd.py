@@ -3,7 +3,7 @@ from jinja2 import Template
 import yaml
 
 
-def yaml_to_md(layer_name, layer_definition):
+def yaml_to_md(layer_name, layer_definition, out):
     out.write('## ' + layer_name + '\n\n')
 
     attributes = layer_definition['attributes']
@@ -54,6 +54,5 @@ layers_to_be_documented = [
     'water_l',
 ]
 with open("documentation.md", 'w') as out_file:
-    out = out_file
     for layer_name in layers_to_be_documented:
-        yaml_to_md(layer_name, layers[layer_name])
+        yaml_to_md(layer_name, layers[layer_name], out=out_file)
