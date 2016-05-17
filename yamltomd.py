@@ -40,14 +40,14 @@ def yaml_to_md(layer_name, layer_definition, out):
         layer_attributes_template = Template(f.read())
     out.write(layer_attributes_template.render(attributes=attributes))
 
-    if any('correlated_attributes' in definition for definition in type_values.values()):
-        with open('templates/attribute_values_with_aggtype.md.jinja2') as f:
-            attribute_values_template = Template(f.read())
-    else:
-        with open('templates/attribute_values.md.jinja2') as f:
-            attribute_values_template = Template(f.read())
+    correlated_attributes = set()
+    for definition in type_values.values():
+        for name, _ in definition.get('correlated_attributes', {}).items():
+            correlated_attributes.add(name)
+    with open('templates/attribute_values.md.jinja2') as f:
+        attribute_values_template = Template(f.read())
 
-    out.write(attribute_values_template.render(type_values=type_values))
+    out.write(attribute_values_template.render(type_values=type_values, correlated_attributes=correlated_attributes))
     out.write('\n\n')
 
 
