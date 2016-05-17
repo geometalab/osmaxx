@@ -6,7 +6,7 @@ import yaml
 def yaml_to_md(layer_name):
     out.write('## ' + layer_name + '\n\n')
 
-    layer = data['layers'][layer_name]
+    layer = layers[layer_name]
     attributes = layer['attributes']
 
     # values of layer attribute "type" (not to be confused with an attribute's type)
@@ -29,6 +29,7 @@ def yaml_to_md(layer_name):
 
 with open("osmaxx_schema.yaml", 'r') as in_file:
     data = yaml.load(in_file)
+layers = data['layers']
 with open("documentation.md", 'w') as out_file:
     out = out_file
     yaml_to_md('adminarea_a')
