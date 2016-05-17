@@ -9,6 +9,7 @@ def yaml_to_md(layer_name):
 
     layer = data['layers'][layer_name]
     attributes = layer['attributes']
+
     dicts2 = attributes['type']['values']
     key2 = dicts2.keys()
 
