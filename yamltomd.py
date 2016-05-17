@@ -11,50 +11,16 @@ def yaml_to_md(table):
         dicts2 = dicts['type']['values']
         key2 = dicts2.keys()
 
-        s =  '|Attributes          |type                |Description                                                           |osm_tags            |\n'
-        s += '| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |\n'
-
-        s += "{% for i in range(0, a1) %}"
-        s += "{% if dicts[mylist1[i]]['osm_tags'] is defined %}|"
-        s += "{{ mylist1[i] }}|"
-        s += "{{ dicts[mylist1[i]]['type'] }}|"
-        s += "{{ dicts[mylist1[i]]['description'] }}|"
-        s += "{{ dicts[mylist1[i]]['osm_tags'].keys()[0]}}=*|\n"
-        s += "{% endif %}"
-        s += "{% endfor %}"
-
-        t2 = Template(s)
+        with open('templates/layer_attributes.md.jinja2') as f:
+            t2 = Template(f.read())
         out.write(t2.render(mylist1=key1, a1=len(key1), space=' ', dicts=dicts))
 
         if 'correlated_attributes' in dicts2[key2[0]].keys():
-            type_table = "\n Values of attributes type  \n\n"
-            type_table += '|aggtype             |values              |osm_tags            |description                                                           |\n'
-            type_table += '| ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |\n'
-            type_table += "{% for i in range(0, a)%}"
-            type_table += "|{{ dicts[typelist[i]]['correlated_attributes'].values()[0]}}"
-            type_table += "|{{ typelist[i] }}|"
-            type_table += "{{ dicts[typelist[i]]['osm_tags'][0].keys()[0] }}='{{ dicts[typelist[i]]['osm_tags'][0].values()[0] }}' "
-            type_table += "{% if dicts[typelist[i]]['osm_tags'][1] is defined %}"
-            type_table += "{{ dicts[typelist[i]]['osm_tags'][1].keys()[0] }}='{{ dicts[typelist[i]]['osm_tags'][1].values()[0] }}'|"
-            type_table += "{% else %}"
-            type_table += "|"
-            type_table += "{% endif %}"
-            type_table += "{{ dicts[typelist[i]]['description'] }}|\n"
-            type_table += "{% endfor %}"
+            with open('templates/attribute_values_with_aggtype.md.jinja2') as f:
+                type_table = f.read()
         else:
-            type_table = "\n Values of attributes type  \n\n"
-            type_table += '|values              |osm_tags            |description                                                           |\n'
-            type_table += '| ------------------ | ------------------ | -------------------------------------------------------------------- |\n'
-            type_table += "{% for i in range(0, a)%}"
-            type_table += "|{{ typelist[i] }}|"
-            type_table += "{{ dicts[typelist[i]]['osm_tags'][0].keys()[0] }}='{{ dicts[typelist[i]]['osm_tags'][0].values()[0] }}' "
-            type_table += "{% if dicts[typelist[i]]['osm_tags'][1] is defined %}"
-            type_table += "{{ dicts[typelist[i]]['osm_tags'][1].keys()[0] }}='{{ dicts[typelist[i]]['osm_tags'][1].values()[0] }}'|"
-            type_table += "{% else %}"
-            type_table += "|"
-            type_table += "{% endif %}"
-            type_table += "{{ dicts[typelist[i]]['description'] }}|\n"
-            type_table += "{% endfor %}"
+            with open('templates/attribute_values.md.jinja2') as f:
+                type_table = f.read()
 
         t3 = Template(type_table)
         out.write(t3.render(typelist=key2, a=len(key2), dicts=dicts2))
