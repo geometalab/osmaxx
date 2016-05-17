@@ -2,26 +2,21 @@
 
 <nav id="main_menu">
     <ul class="nav nav-pills">
-        <li role="presentation" {% if view == 'order_existing_excerpt' %}class="active"{% endif %}>
+        <li role="presentation">
             <a href="{% url 'excerptexport:order_existing_excerpt' %}">
                 <span class="menu_icon">&#x27bd;</span>&nbsp;{% trans 'Existing excerpt / country' %}
             </a>
         </li>
-        <li role="presentation" {% if view == 'order_new_excerpt' %}class="active"{% endif %}>
+        <li role="presentation">
             <a href="{% url 'excerptexport:order_new_excerpt' %}">
                 <span class="menu_icon">&#8983;</span>&nbsp;{% trans 'New excerpt' %}
             </a>
         </li>
 
         {% if user.is_authenticated %}
-        <li role="presentation" {% if view == 'orders' %}class="active"{% endif %}>
-            <a href="{% url 'excerptexport:orders' %}">
-                <span class="menu_icon">&#x2637;</span>&nbsp;{% trans 'My orders' %}
-            </a>
-        </li>
-        <li role="presentation" {% if view == 'downloads' %}class="active"{% endif %}>
-            <a href="{% url 'excerptexport:downloads' %}">
-                <span class="menu_icon">&#8681;</span>&nbsp;{% trans 'My downloads' %}
+        <li role="presentation">
+            <a href="{% url 'excerptexport:export_list' %}">
+                <span class="menu_icon">&#x2637;</span>&nbsp;{% trans 'My exports' %}
             </a>
         </li>
         {% endif %}
