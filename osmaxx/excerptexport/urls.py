@@ -9,7 +9,7 @@ from osmaxx.excerptexport.views import (
     order_new_excerpt,
     order_existing_excerpt,
     export_list,
-)
+    export_detail)
 
 
 excerpt_export_urlpatterns = [
@@ -19,6 +19,7 @@ excerpt_export_urlpatterns = [
     url(r'^downloads/(?P<uuid>[A-Za-z0-9_-]+)/$', download_file, name='download'),
 
     url(r'^exports/$', export_list, name='export_list'),
+    url(r'^exports/(?P<id>[A-Za-z0-9_-]+)/$', export_detail, name='export_detail'),
     url(r'^orders/new/new_excerpt/$', order_new_excerpt, name='order_new_excerpt'),
     url(r'^orders/new/existing_excerpt/$', order_existing_excerpt, name='order_existing_excerpt'),
 

@@ -10,7 +10,7 @@ from django.http import HttpResponseNotFound, HttpResponseRedirect, FileResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView, TemplateView
-from django.views.generic.detail import SingleObjectMixin, DetailView
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
@@ -95,8 +95,25 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView)
     ordering = ['-id']
 
     def get_queryset(self):
-        return super().get_queryset().filter(extraction_order__orderer=self.request.user)
+        return super().get_queryset().filter(extraction_order__orderer=self.request.user)\
+            .select_related('extraction_order', 'extraction_order__excerpt', 'output_file')
 export_list = ExportsListView.as_view()
+
+
+class ExportsDetailView(ExportsListView):
+    template_name = 'excerptexport/export_detail.html'
+    context_object_name = 'exports'
+    model = Export
+    pk_url_kwarg = 'id'
+
+    def get_queryset(self):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        if pk is None:
+            raise AttributeError("ExportsDetailView must be called with an Excerpt pk.")
+        queryset = super().get_queryset()
+        queryset = queryset.filter(extraction_order__excerpt__pk=pk)
+        return queryset
+export_detail = ExportsDetailView.as_view()
 
 
 class AccesssDenied(TemplateView):
