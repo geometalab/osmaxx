@@ -10,7 +10,7 @@ from django.http import HttpResponseNotFound, HttpResponseRedirect, FileResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView, TemplateView
-from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.detail import SingleObjectMixin, DetailView
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
@@ -89,7 +89,7 @@ class OwnershipRequiredMixin(SingleObjectMixin):
 
 
 class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
-    template_name = 'excerptexport/exports_list.html'
+    template_name = 'excerptexport/export_list.html'
     context_object_name = 'exports'
     model = Export
     ordering = ['-id']
