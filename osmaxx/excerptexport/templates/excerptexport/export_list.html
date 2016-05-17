@@ -21,7 +21,7 @@
                                 {% for export in export_group.list|slice:":5" %}
                                     {% include 'excerptexport/partials/export_display.html' %}
                                 {% endfor %}
-                                {% if export_group.list|length > 5 %}<a href="{% url 'excerptexport:export_detail' id=export_group.grouper.id %}">{% trans 'see all your export of this excerpt.' %} ({{ export_group.list|length }})</a>{% endif %}
+                                {% if export_group.list|length > 5 %}<a href="{% url 'excerptexport:export_detail' id=export_group.grouper.id %}">{% trans 'see all your exports of this excerpt.' %} ({{ export_group.list|length }})</a>{% endif %}
                             </div>
                             <div class="col-lg-6">
                                 {% if export_group.grouper.country %}
