@@ -23,8 +23,7 @@
                 </p>
             </div>
         {% empty %}
-            <h3>{% trans "You haven't exported anything, yet." %}</h3>
-            <p><a href="{% url 'excerptexport:order_new_excerpt' %}"><strong>Export an existing excerpt</strong></a> or <a href="{% url 'excerptexport:order_existing_excerpt' %}"><strong>create and export a new excerpt</strong></a>.</p>
+            {% include 'excerptexport/partials/no_exports_message.html' %}
         {% endfor %}
     </div>
 {% endblock %}

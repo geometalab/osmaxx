@@ -1,12 +1,6 @@
 {% load i18n capture_as %}
 <h3>{% trans 'You have no exports' %}</h3>
 <p>
-    {% url 'excerptexport:order_new_excerpt' as new_export_url %}
-    {% url 'excerptexport:order_existing_excerpt' as existing_export_url %}
-    {% blocktrans %}
-        You can create an export by ordering a
-        <a href="{{ new_export_url }}"><strong>new one</strong></a>
-        or an
-        <a href="{{ existing_export_url }}"><strong>existing one</strong></a>
-    {% endblocktrans %}
+    <h3>{% trans "You haven't exported anything, yet." %}</h3>
+    <p><a href="{% url 'excerptexport:order_new_excerpt' %}"><strong>Export an existing excerpt</strong></a> or <a href="{% url 'excerptexport:order_existing_excerpt' %}"><strong>create and export a new excerpt</strong></a>.</p>
 </p>
