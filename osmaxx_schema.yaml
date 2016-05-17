@@ -1736,11 +1736,11 @@ layers:
     attributes: &layer_railway_bridge_l_attributes
       "aggtype":
         type: text
-        osm_tag: {}
+        osm_tags: {}
         description: "Grouping several different 'type' to a common 'type'. (aka enmu)"
       "z_order":
         type: smallint
-        osm_tag: 
+        osm_tags: 
           "layer": {}
         description: "The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers."
       "bridge":
@@ -1753,14 +1753,14 @@ layers:
                      'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
       "voltage":
         type: text
-        osm_tag: 
+        osm_tags: 
           "voltage": {}
         description: 'The voltage level the electrified cable is running on'
       "frequency":
         type: text
-        osm_tag: 
+        osm_tags: 
           "frequency": {}
-        description: 'The electrical frequncy that the electrified cable is running on'
+        description: 'The electrical frequency that the electrified cable is running on'
       "type":
         type: text
         values:
@@ -1930,7 +1930,7 @@ layers:
           "1":
             osm_tags: 
               "tunnel": 'yes'
-            description: *railway_attribute_tunnel_description
+        description: *railway_attribute_tunnel_description
   "road_ground_l":
     attributes: &layer_road_ground_l_attributes
       "aggtype":
@@ -1943,7 +1943,7 @@ layers:
         description: >
           Used for reference numbers or codes.
           Common for roads, highway exits, routes, etc.
-        oms_tags:
+        osm_tags:
           "ref": {}
       "oneway":
         type: boolean
@@ -1975,7 +1975,8 @@ layers:
         type: boolean
         values:
            "0":
-             osm_tags: {}
+             osm_tags:
+               "bridge": 'no'
         description: &road_attribute_bridge_description >
           A bridge is an artificial construction that spans features
           such as roads, railways, waterways or valleys and carries a
@@ -1984,7 +1985,8 @@ layers:
         type: boolean
         values:
           "0":
-            osm_tags: {}
+            osm_tags:
+              "tunnel": 'yes'
         description: &road_attribute_tunnel_description >
           A tunnel is an underground passage for a road or similar.
       "type":
@@ -2385,7 +2387,7 @@ layers:
                "bridge": "yes"
         description: *road_attribute_bridge_description
   "road_tunnel_l":
-      <<: *layer_road_ground_l_attributes
+      attributes: *layer_road_ground_l_attributes
       "tunnel":
         # can this type be with the specified value ???
         type: boolean
