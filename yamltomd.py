@@ -2,6 +2,31 @@ from jinja2 import Template
 
 import yaml
 
+LAYERS_TO_BE_DOCUMENTED = [
+    'adminarea_a',
+    'building_a',
+    'geoname_p',
+    'landuse_a',
+    'military_p',
+    'misc_l',
+    'natural_a',
+    'nonop_l',
+    'poi_p',
+    'pow_p',
+    'railway_bridge_l',
+    'road_ground_l',
+    'route_l',
+    'traffic_a',
+    'traffic_p',
+    'transport_a',
+    'utility_a',
+    'utility_p',
+    'utility_l',
+    'water_a',
+    'water_p',
+    'water_l',
+]
+
 
 def yaml_to_md(layer_name, layer_definition, out):
     out.write('## ' + layer_name + '\n\n')
@@ -29,30 +54,6 @@ def yaml_to_md(layer_name, layer_definition, out):
 with open("osmaxx_schema.yaml", 'r') as in_file:
     data = yaml.load(in_file)
 layers = data['layers']
-layers_to_be_documented = [
-    'adminarea_a',
-    'building_a',
-    'geoname_p',
-    'landuse_a',
-    'military_p',
-    'misc_l',
-    'natural_a',
-    'nonop_l',
-    'poi_p',
-    'pow_p',
-    'railway_bridge_l',
-    'road_ground_l',
-    'route_l',
-    'traffic_a',
-    'traffic_p',
-    'transport_a',
-    'utility_a',
-    'utility_p',
-    'utility_l',
-    'water_a',
-    'water_p',
-    'water_l',
-]
 with open("documentation.md", 'w') as out_file:
-    for layer_name in layers_to_be_documented:
+    for layer_name in LAYERS_TO_BE_DOCUMENTED:
         yaml_to_md(layer_name, layers[layer_name], out=out_file)
