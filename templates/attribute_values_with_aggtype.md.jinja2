@@ -3,14 +3,14 @@
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-{% for i in range(0, a) -%}
-|{{ dicts[typelist[i]]['correlated_attributes'].values()[0] -}}
-|{{ typelist[i] }}|
-{{- dicts[typelist[i]]['osm_tags'][0].keys()[0] }}='{{ dicts[typelist[i]]['osm_tags'][0].values()[0] }}' {#  #}
-{%- if dicts[typelist[i]]['osm_tags'][1] is defined -%}
-{{- dicts[typelist[i]]['osm_tags'][1].keys()[0] }}='{{ dicts[typelist[i]]['osm_tags'][1].values()[0] }}'|
+{% for value, definition in type_values.items() -%}
+|{{ definition['correlated_attributes'].values()[0] -}}
+|{{ value }}|
+{{- definition['osm_tags'][0].keys()[0] }}='{{ definition['osm_tags'][0].values()[0] }}' {#  #}
+{%- if definition['osm_tags'][1] is defined -%}
+{{- definition['osm_tags'][1].keys()[0] }}='{{ definition['osm_tags'][1].values()[0] }}'|
 {%- else -%}
 |
 {%- endif -%}
-{{ dicts[typelist[i]]['description'] }}|
+{{ definition['description'] }}|
 {% endfor -%}

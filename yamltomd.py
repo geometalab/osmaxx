@@ -26,7 +26,7 @@ def yaml_to_md(layer_name):
             type_table = f.read()
 
     t3 = Template(type_table)
-    out.write(t3.render(typelist=key2, a=len(key2), dicts=type_values))
+    out.write(t3.render(type_values=type_values))
     out.write('\n\n')
 
 
