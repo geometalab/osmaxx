@@ -1,10 +1,10 @@
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 {% for i in range(0, a1) -%}
-{%- if dicts[mylist1[i]]['osm_tags'] is defined %}|
-{{- mylist1[i] }}|
-{{- dicts[mylist1[i]]['type'] }}|
-{{- dicts[mylist1[i]]['description'] }}|
-{{- dicts[mylist1[i]]['osm_tags'].keys()[0] }}=*|
+{%- if dicts[attribute_names[i]]['osm_tags'] is defined %}|
+{{- attribute_names[i] }}|
+{{- dicts[attribute_names[i]]['type'] }}|
+{{- dicts[attribute_names[i]]['description'] }}|
+{{- dicts[attribute_names[i]]['osm_tags'].keys()[0] }}=*|
 {% endif -%}
 {%- endfor %}
