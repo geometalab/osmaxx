@@ -1,10 +1,10 @@
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-{% for attribute_name in attribute_names -%}
-{%- if attributes[attribute_name]['osm_tags'] is defined %}|
+{% for attribute_name, attribute in attributes.items() -%}
+{%- if attribute['osm_tags'] is defined %}|
 {{- attribute_name }}|
-{{- attributes[attribute_name]['type'] }}|
-{{- attributes[attribute_name]['description'] }}|
-{{- attributes[attribute_name]['osm_tags'].keys()[0] }}=*|
+{{- attribute['type'] }}|
+{{- attribute['description'] }}|
+{{- attribute['osm_tags'].keys()[0] }}=*|
 {% endif -%}
 {%- endfor %}
