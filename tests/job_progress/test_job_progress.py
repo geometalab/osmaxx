@@ -262,7 +262,7 @@ class CallbackHandlingTest(APITestCase):
                 'Please order them anew if you need them. '
                 'If there are repeated failures please inform the administrators.',
                 '',
-                'View the complete order at http://testserver/orders/{order_id}',
+                'View the complete order at http://testserver/exports/',
             ]
         ).format(order_id=self.export.extraction_order.id)
         assert_that(

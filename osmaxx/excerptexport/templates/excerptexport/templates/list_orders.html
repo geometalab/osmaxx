@@ -22,6 +22,8 @@
                     {% endif %}
                 </p>
             </div>
+        {% empty %}
+            {% include 'excerptexport/partials/no_exports_message.html' %}
         {% endfor %}
     </div>
 {% endblock %}

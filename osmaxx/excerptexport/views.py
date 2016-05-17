@@ -7,23 +7,20 @@ from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseNotFound, HttpResponseRedirect, FileResponse
-from django.shortcuts import get_object_or_404, render_to_response, redirect
-from django.template import RequestContext
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView, DetailView
+from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 
 from osmaxx.contrib.auth.frontend_permissions import (
-    frontend_access_required,
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.utils import get_default_private_storage
-from .models import ExtractionOrder, OutputFile
-from .models.extraction_order import ExtractionOrderState
+from .models import OutputFile, Export
 
 
 logger = logging.getLogger(__name__)
@@ -44,15 +41,13 @@ class OrderFormViewMixin(FormMixin):
             )
         )
         return HttpResponseRedirect(
-            reverse('excerptexport:status', kwargs={'extraction_order_id': extraction_order.id})
+            reverse('excerptexport:export_list')
         )
 
 
 class OrderNewExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_new_excerpt.html'
     form_class = ExcerptForm
-
-
 order_new_excerpt = OrderNewExcerptView.as_view()
 
 
@@ -62,21 +57,7 @@ class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, 
 
     def get_form_class(self):
         return super().get_form_class().get_dynamic_form_class(self.request.user)
-
 order_existing_excerpt = OrderExistingExcerptView.as_view()
-
-
-class DownloadListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
-    template_name = 'excerptexport/templates/list_downloads.html'
-    context_object_name = 'extraction_orders'
-
-    def get_queryset(self):
-        return ExtractionOrder.objects.filter(
-            orderer=self.request.user,
-            state=ExtractionOrderState.FINISHED
-        ).order_by('-id')
-
-list_downloads = DownloadListView.as_view()
 
 
 def download_file(request, uuid):
@@ -107,33 +88,41 @@ class OwnershipRequiredMixin(SingleObjectMixin):
         return o
 
 
-class ExtractionOrderView(LoginRequiredMixin, FrontendAccessRequiredMixin, OwnershipRequiredMixin, DetailView):
-    template_name = 'excerptexport/templates/extraction_order_status.html'
-    context_object_name = 'extraction_order'
-    model = ExtractionOrder
-    pk_url_kwarg = 'extraction_order_id'
-    owner = 'orderer'
+class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
+    template_name = 'excerptexport/export_list.html'
+    context_object_name = 'exports'
+    model = Export
+    ordering = ['-id']
 
-extraction_order_status = ExtractionOrderView.as_view()
-
-
-@login_required()
-@frontend_access_required()
-def list_orders(request):
-    extraction_orders = ExtractionOrder.objects.filter(orderer=request.user)
-    view_context = {
-        'extraction_orders': extraction_orders.order_by('-id')
-    }
-    return render_to_response('excerptexport/templates/list_orders.html', context=view_context,
-                              context_instance=RequestContext(request))
+    def get_queryset(self):
+        return super().get_queryset().filter(extraction_order__orderer=self.request.user)\
+            .select_related('extraction_order', 'extraction_order__excerpt', 'output_file')
+export_list = ExportsListView.as_view()
 
 
-def access_denied(request):
-    view_context = {
-        'next_page': request.GET['next']
-    }
-    return render_to_response('excerptexport/templates/access_denied.html', context=view_context,
-                              context_instance=RequestContext(request))
+class ExportsDetailView(ExportsListView):
+    template_name = 'excerptexport/export_detail.html'
+    context_object_name = 'exports'
+    model = Export
+    pk_url_kwarg = 'id'
+
+    def get_queryset(self):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        if pk is None:
+            raise AttributeError("ExportsDetailView must be called with an Excerpt pk.")
+        queryset = super().get_queryset()
+        queryset = queryset.filter(extraction_order__excerpt__pk=pk)
+        return queryset
+export_detail = ExportsDetailView.as_view()
+
+
+class AccesssDenied(TemplateView):
+    template_name = 'excerptexport/templates/access_denied.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(dict(next_page=self.request.GET.get('next', '/')))
+access_denied = AccesssDenied.as_view()
 
 
 @login_required()

@@ -62,7 +62,7 @@ footer p            { margin: 1rem; }
 #map                { height: 100%; /* fix height in chrome */ min-height: 60vh; }
 .outerMapWrapper    { height: 100%; }
 .leaflet-container  { background: #A9A7A3; }
-
+.minimap            { height: 100%; /* fix height in chrome */ min-height: 30vh; }
 
 /* font */
 h1                  { font-size: 2rem; margin: 0; margin-right: 2rem; float: left; color: white; }
