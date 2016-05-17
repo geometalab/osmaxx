@@ -27,6 +27,11 @@ LAYERS_TO_BE_DOCUMENTED = [
     'water_l',
 ]
 
+with open('templates/layer_attributes.md.jinja2') as f:
+    LAYER_ATTRIBUTES_TEMPLATE = Template(f.read())
+with open('templates/attribute_values.md.jinja2') as f:
+    ATTRIBUTE_VALUES_TEMPLATE = Template(f.read())
+
 
 def yaml_to_md(layer_name, layer_definition, out):
     out.write('## ' + layer_name + '\n\n')
@@ -35,19 +40,14 @@ def yaml_to_md(layer_name, layer_definition, out):
 
     # values of layer attribute "type" (not to be confused with an attribute's type)
     type_values = attributes["type"]['values']
-
-    with open('templates/layer_attributes.md.jinja2') as f:
-        layer_attributes_template = Template(f.read())
-    out.write(layer_attributes_template.render(attributes=attributes))
+    out.write(LAYER_ATTRIBUTES_TEMPLATE.render(attributes=attributes))
 
     correlated_attributes = set()
     for definition in type_values.values():
         for name, _ in definition.get('correlated_attributes', {}).items():
             correlated_attributes.add(name)
-    with open('templates/attribute_values.md.jinja2') as f:
-        attribute_values_template = Template(f.read())
 
-    out.write(attribute_values_template.render(type_values=type_values, correlated_attributes=correlated_attributes))
+    out.write(ATTRIBUTE_VALUES_TEMPLATE.render(type_values=type_values, correlated_attributes=correlated_attributes))
     out.write('\n\n')
 
 
