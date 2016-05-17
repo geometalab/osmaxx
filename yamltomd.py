@@ -19,12 +19,11 @@ def yaml_to_md(layer_name):
 
     if any('correlated_attributes' in definition for definition in type_values.values()):
         with open('templates/attribute_values_with_aggtype.md.jinja2') as f:
-            type_table = f.read()
+            attribute_values_template = Template(f.read())
     else:
         with open('templates/attribute_values.md.jinja2') as f:
-            type_table = f.read()
+            attribute_values_template = Template(f.read())
 
-    attribute_values_template = Template(type_table)
     out.write(attribute_values_template.render(type_values=type_values))
     out.write('\n\n')
 
