@@ -23,8 +23,8 @@
                 </p>
             </div>
         {% empty %}
-            <h3>{% trans 'You have no orders' %}</h3>
-            <p>Order a <a href="{% url 'excerptexport:order_new_excerpt' %}"><strong>new one</strong></a> or <a href="{% url 'excerptexport:order_existing_excerpt' %}"><strong>existing one</strong></a></p>
+            <h3>{% trans "You haven't exported anything, yet." %}</h3>
+            <p><a href="{% url 'excerptexport:order_new_excerpt' %}"><strong>Export an existing excerpt</strong></a> or <a href="{% url 'excerptexport:order_existing_excerpt' %}"><strong>create and export a new excerpt</strong></a>.</p>
         {% endfor %}
     </div>
 {% endblock %}
