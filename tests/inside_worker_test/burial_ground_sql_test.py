@@ -40,12 +40,12 @@ def graveyard_osm_tags_without_religion():
 
 
 @slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_a(
+def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_with_religion_into_table_pow_a(
         graveyard_polygon_with_religion, data_import):
     with data_import(graveyard_polygon_with_religion) as engine:
         t_pow_a = DbTable('pow_a', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select([t_pow_a]))) as result:
-            assert result.rowcount == 1
+            assert result.rowcount == 0
 
 
 @slow
