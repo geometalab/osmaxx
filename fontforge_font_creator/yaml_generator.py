@@ -65,7 +65,7 @@ already_done = set()
 for svg in svgs:
     tree = ElementTree.parse(os.path.join(svg_dir, svg))
     for path_el in tree.findall('.//svg:path', ns):
-        h = hash(path_el.get('d'))
+        h = hash(path_el.get('d').lower())
         if h not in already_done:
             el_id = path_el.get('id')
             id_attr_count = len(tree.findall(".//*[@id='{}']".format(el_id)))
