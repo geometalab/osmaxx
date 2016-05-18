@@ -304,20 +304,20 @@ osmaxx_v1:
       filename: "transport_bus_station.svg"
       element: "path4747"
     "0xe065":
-      filename: "transport_bus_stop_and_railway_halt_alternative_M4_one.svg"
-      element: "rect6708"
-    "0xe066":
       filename: "transport_bus_stop_and_railway_halt_alternative_M4_two.svg"
       element: "path6706"
-    "0xe067":
+    "0xe066":
       filename: "transport_ferry_station.svg"
       element: "ferry"
-    "0xe068":
+    "0xe067":
       filename: "transport_helipad.svg"
       element: "heliport"
-    "0xe069":
+    "0xe068":
       filename: "transport_railway_halt.svg"
       element: "path7172"
+    "0xe069":
+      filename: "transport_railway_halt_alternative_M4.svg"
+      element: "rect6708"
     "0xe06a":
       filename: "transport_taxi_stand.svg"
       element: "path7-8"
