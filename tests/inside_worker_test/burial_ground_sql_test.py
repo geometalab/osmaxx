@@ -10,156 +10,87 @@ from tests.inside_worker_test.declarative_schema import osm_models
 
 
 @pytest.fixture
-def graveyard_polygon_with_religion(graveyard_osm_tags_with_religion):
-    return {osm_models.t_osm_polygon: graveyard_osm_tags_with_religion}
+def graveyard_polygon(graveyard_osm_tags):
+    return {osm_models.t_osm_polygon: graveyard_osm_tags}
 
 
 @pytest.fixture
-def graveyard_polygon_without_religion(graveyard_osm_tags_without_religion):
-    return {osm_models.t_osm_polygon: graveyard_osm_tags_without_religion}
+def graveyard_point(graveyard_osm_tags):
+    return {osm_models.t_osm_point: graveyard_osm_tags}
 
 
-@pytest.fixture
-def graveyard_point_with_religion(graveyard_osm_tags_with_religion):
-    return {osm_models.t_osm_point: graveyard_osm_tags_with_religion}
-
-
-@pytest.fixture
-def graveyard_point_without_religion(graveyard_osm_tags_without_religion):
-    return {osm_models.t_osm_point: graveyard_osm_tags_without_religion}
-
-
-@pytest.fixture
-def graveyard_osm_tags_with_religion():
-    return dict(amenity='grave_yard', religion='any value will do, as long as one is present')
-
-
-@pytest.fixture
-def graveyard_osm_tags_without_religion():
-    return dict(amenity='grave_yard')
+@pytest.fixture(
+    params=[
+        dict(amenity='grave_yard', religion='any value will do, as long as one is present'),
+        dict(amenity='grave_yard'),
+    ],
+    ids=[
+        'with religion=*',
+        'without religion',
+    ]
+)
+def graveyard_osm_tags(request):
+    return request.param
 
 
 @slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_with_religion_into_table_pow_a(
-        graveyard_polygon_with_religion, data_import):
-    with data_import(graveyard_polygon_with_religion) as engine:
+def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_into_table_pow_a(
+        graveyard_polygon, data_import):
+    with data_import(graveyard_polygon) as engine:
         t_pow_a = DbTable('pow_a', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select([t_pow_a]))) as result:
             assert result.rowcount == 0
 
 
 @slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_without_religion_into_table_pow_a(
-        graveyard_polygon_without_religion, data_import):
-    with data_import(graveyard_polygon_without_religion) as engine:
-        t_pow_a = DbTable('pow_a', osm_models.metadata, schema='osmaxx')
-        with closing(engine.execute(sqlalchemy.select([t_pow_a]))) as result:
-            assert result.rowcount == 0
-
-
-@slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_poi_a(
-        graveyard_polygon_with_religion, data_import):
-    with data_import(graveyard_polygon_with_religion) as engine:
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_into_table_poi_a(
+        graveyard_polygon, data_import):
+    with data_import(graveyard_polygon) as engine:
         t_poi_a = DbTable('poi_a', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select([t_poi_a]))) as result:
             assert result.rowcount == 1
 
 
 @slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_without_religion_into_table_poi_a(
-        graveyard_polygon_without_religion, data_import):
-    with data_import(graveyard_polygon_without_religion) as engine:
-        t_poi_a = DbTable('poi_a', osm_models.metadata, schema='osmaxx')
-        with closing(engine.execute(sqlalchemy.select([t_poi_a]))) as result:
-            assert result.rowcount == 1
-
-
-@slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_with_religion_into_table_landuse_a(
-        graveyard_polygon_with_religion, data_import):
-    with data_import(graveyard_polygon_with_religion) as engine:
+def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_into_table_landuse_a(
+        graveyard_polygon, data_import):
+    with data_import(graveyard_polygon) as engine:
         t_landuse_a = DbTable('landuse_a', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select([t_landuse_a]))) as result:
             assert result.rowcount == 0
 
 
 @slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_without_religion_into_table_landuse_a(
-        graveyard_polygon_without_religion, data_import):
-    with data_import(graveyard_polygon_without_religion) as engine:
-        t_landuse_a = DbTable('landuse_a', osm_models.metadata, schema='osmaxx')
-        with closing(engine.execute(sqlalchemy.select([t_landuse_a]))) as result:
-            assert result.rowcount == 0
-
-
-@slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_with_religion_into_table_pow_p(
-        graveyard_polygon_with_religion, data_import):
-    with data_import(graveyard_polygon_with_religion) as engine:
+def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_into_table_pow_p(
+        graveyard_polygon, data_import):
+    with data_import(graveyard_polygon) as engine:
         t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select([t_pow_p]))) as result:
             assert result.rowcount == 0
 
 
 @slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_without_religion_into_table_pow_p(
-        graveyard_polygon_without_religion, data_import):
-    with data_import(graveyard_polygon_without_religion) as engine:
-        t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
-        with closing(engine.execute(sqlalchemy.select([t_pow_p]))) as result:
-            assert result.rowcount == 0
-
-
-@slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_poi_p(
-        graveyard_polygon_with_religion, data_import):
-    with data_import(graveyard_polygon_with_religion) as engine:
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_into_table_poi_p(
+        graveyard_polygon, data_import):
+    with data_import(graveyard_polygon) as engine:
         t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select([t_poi_p]))) as result:
             assert result.rowcount == 1
 
 
 @slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_without_religion_into_table_poi_p(
-        graveyard_polygon_without_religion, data_import):
-    with data_import(graveyard_polygon_without_religion) as engine:
-        t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
-        with closing(engine.execute(sqlalchemy.select([t_poi_p]))) as result:
-            assert result.rowcount == 1
-
-
-@slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_point_with_religion_into_table_pow_p(
-        graveyard_point_with_religion, data_import):
-    with data_import(graveyard_point_with_religion) as engine:
+def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_point_into_table_pow_p(
+        graveyard_point, data_import):
+    with data_import(graveyard_point) as engine:
         t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select([t_pow_p]))) as result:
             assert result.rowcount == 0
 
 
 @slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_point_without_religion_into_table_pow_p(
-        graveyard_point_without_religion, data_import):
-    with data_import(graveyard_point_without_religion) as engine:
-        t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
-        with closing(engine.execute(sqlalchemy.select([t_pow_p]))) as result:
-            assert result.rowcount == 0
-
-
-@slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_point_with_religion_into_table_poi_p(
-        graveyard_point_with_religion, data_import):
-    with data_import(graveyard_point_with_religion) as engine:
-        t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
-        with closing(engine.execute(sqlalchemy.select([t_poi_p]))) as result:
-            assert result.rowcount == 1
-
-
-@slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_point_without_religion_into_table_poi_p(
-        graveyard_point_without_religion, data_import):
-    with data_import(graveyard_point_without_religion) as engine:
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_point_into_table_poi_p(
+        graveyard_point, data_import):
+    with data_import(graveyard_point) as engine:
         t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select([t_poi_p]))) as result:
             assert result.rowcount == 1
