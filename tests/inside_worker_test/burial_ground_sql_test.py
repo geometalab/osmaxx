@@ -23,6 +23,20 @@ def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into
             assert result.rowcount == 1
 
 
+@slow
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_poi_a(data_import):
+    data = {
+        osm_models.t_osm_polygon: dict(
+            amenity='grave_yard',
+            religion='any value will do, as long as one is present',
+        ),
+    }
+    with data_import(data) as engine:
+        t_poi_a = DbTable('poi_a', osm_models.metadata, schema='osmaxx')
+        with closing(engine.execute(sqlalchemy.select([t_poi_a]))) as result:
+            assert result.rowcount == 1
+
+
 @pytest.fixture()
 def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch):
     from tests.inside_worker_test.conftest import cleanup_osmaxx_schemas
