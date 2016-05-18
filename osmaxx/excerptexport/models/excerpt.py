@@ -7,12 +7,8 @@ class Excerpt(models.Model):
     EXCERPT_TYPE_USER_DEFINED = 'user-defined'
     EXCERPT_TYPE_COUNTRY_BOUNDARY = 'country'
     EXCERPT_TYPES = [
-        (
-            EXCERPT_TYPE_USER_DEFINED, _('user defined')
-        ),
-        (
-            EXCERPT_TYPE_COUNTRY_BOUNDARY, _('country'),
-        ),
+        (EXCERPT_TYPE_USER_DEFINED, _('user defined')),
+        (EXCERPT_TYPE_COUNTRY_BOUNDARY, _('country')),
     ]
     name = models.CharField(max_length=128, verbose_name=_('name'))
     is_public = models.BooleanField(default=False, verbose_name=_('is public'))
