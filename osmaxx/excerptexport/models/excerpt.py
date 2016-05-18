@@ -4,12 +4,23 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Excerpt(models.Model):
+    EXCERPT_TYPE_USER_DEFINED = 'user-defined'
+    EXCERPT_TYPE_COUNTRY_BOUNDARY = 'country'
+    EXCERPT_TYPES = [
+        (
+            EXCERPT_TYPE_USER_DEFINED, _('user defined')
+        ),
+        (
+            EXCERPT_TYPE_COUNTRY_BOUNDARY, _('country'),
+        ),
+    ]
     name = models.CharField(max_length=128, verbose_name=_('name'))
     is_public = models.BooleanField(default=False, verbose_name=_('is public'))
     is_active = models.BooleanField(default=True, verbose_name=_('is active'))
     owner = models.ForeignKey(User, related_name='excerpts', verbose_name=_('owner'))
     bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'), null=True)
     country = models.ForeignKey('countries.Country', verbose_name=_('Country'), null=True)
+    excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
 
     def send_to_conversion_service(self):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
