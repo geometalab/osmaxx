@@ -304,7 +304,7 @@ osmaxx_v1:
       filename: "transport_bus_station.svg"
       element: "path4747"
     "0xe065":
-      filename: "transport_bus_stop_and_railway_halt_alternative_M4_two.svg"
+      filename: "transport_bus_stop_alternative_M4.svg"
       element: "path6706"
     "0xe066":
       filename: "transport_ferry_station.svg"
