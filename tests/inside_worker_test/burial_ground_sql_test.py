@@ -10,26 +10,30 @@ from tests.inside_worker_test.declarative_schema import osm_models
 
 
 @pytest.fixture
-def graveyard_polygon(graveyard_osm_tags):
-    return {osm_models.t_osm_polygon: graveyard_osm_tags}
+def graveyard_polygon(osm_tags):
+    return {osm_models.t_osm_polygon: osm_tags}
 
 
 @pytest.fixture
-def graveyard_point(graveyard_osm_tags):
-    return {osm_models.t_osm_point: graveyard_osm_tags}
+def graveyard_point(osm_tags):
+    return {osm_models.t_osm_point: osm_tags}
 
 
 @pytest.fixture(
     params=[
         dict(amenity='grave_yard', religion='any value will do, as long as one is present'),
         dict(amenity='grave_yard'),
+        dict(landuse='cemetery', religion='any value will do, as long as one is present'),
+        dict(landuse='cemetery'),
     ],
     ids=[
-        'with religion=*',
-        'without religion',
+        'amenity=grave_yard with religion=*',
+        'amenity=grave_yard without religion',
+        'landuse=cemetery with religion=*',
+        'landuse=cemetery without religion',
     ]
 )
-def graveyard_osm_tags(request):
+def osm_tags(request):
     return request.param
 
 
