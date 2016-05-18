@@ -90,6 +90,114 @@ def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_without_re
             assert result.rowcount == 0
 
 
+@slow
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_pow_p(data_import):
+    data = {
+        osm_models.t_osm_polygon: dict(
+            amenity='grave_yard',
+            religion='any value will do, as long as one is present',
+        ),
+    }
+    with data_import(data) as engine:
+        t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
+        with closing(engine.execute(sqlalchemy.select([t_pow_p]))) as result:
+            assert result.rowcount == 1
+
+
+@slow
+def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_without_religion_into_table_pow_p(data_import):
+    data = {
+        osm_models.t_osm_polygon: dict(
+            amenity='grave_yard',
+        ),
+    }
+    with data_import(data) as engine:
+        t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
+        with closing(engine.execute(sqlalchemy.select([t_pow_p]))) as result:
+            assert result.rowcount == 0
+
+
+@slow
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_with_religion_into_table_poi_p(data_import):
+    data = {
+        osm_models.t_osm_polygon: dict(
+            amenity='grave_yard',
+            religion='any value will do, as long as one is present',
+        ),
+    }
+    with data_import(data) as engine:
+        t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
+        with closing(engine.execute(sqlalchemy.select([t_poi_p]))) as result:
+            assert result.rowcount == 1
+
+
+@slow
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_without_religion_into_table_poi_p(data_import):
+    data = {
+        osm_models.t_osm_polygon: dict(
+            amenity='grave_yard',
+        ),
+    }
+    with data_import(data) as engine:
+        t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
+        with closing(engine.execute(sqlalchemy.select([t_poi_p]))) as result:
+            assert result.rowcount == 1
+
+
+@slow
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_point_with_religion_into_table_pow_p(data_import):
+    data = {
+        osm_models.t_osm_point: dict(
+            amenity='grave_yard',
+            religion='any value will do, as long as one is present',
+        ),
+    }
+    with data_import(data) as engine:
+        t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
+        with closing(engine.execute(sqlalchemy.select([t_pow_p]))) as result:
+            assert result.rowcount == 1
+
+
+@slow
+def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_point_without_religion_into_table_pow_p(data_import):
+    data = {
+        osm_models.t_osm_point: dict(
+            amenity='grave_yard',
+        ),
+    }
+    with data_import(data) as engine:
+        t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
+        with closing(engine.execute(sqlalchemy.select([t_pow_p]))) as result:
+            assert result.rowcount == 0
+
+
+@slow
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_point_with_religion_into_table_poi_p(data_import):
+    data = {
+        osm_models.t_osm_point: dict(
+            amenity='grave_yard',
+            religion='any value will do, as long as one is present',
+        ),
+    }
+    with data_import(data) as engine:
+        t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
+        with closing(engine.execute(sqlalchemy.select([t_poi_p]))) as result:
+            assert result.rowcount == 1
+
+
+@slow
+def test_osmaxx_data_model_processing_puts_amenity_grave_yard_point_without_religion_into_table_poi_p(data_import):
+    data = {
+        osm_models.t_osm_point: dict(
+            amenity='grave_yard',
+        ),
+    }
+    with data_import(data) as engine:
+        t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
+        with closing(engine.execute(sqlalchemy.select([t_poi_p]))) as result:
+            assert result.rowcount == 1
+
+
 @pytest.fixture()
 def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch):
     from tests.inside_worker_test.conftest import cleanup_osmaxx_schemas
