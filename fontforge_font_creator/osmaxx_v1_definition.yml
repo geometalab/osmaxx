@@ -187,50 +187,50 @@ osmaxx_v1:
       filename: "natural_volcano.svg"
       element: "path3-491"
     "0xe03e":
-      filename: "public_building_.svg"
-      element: "path9"
-    "0xe03f":
       filename: "public_checkpoint.svg"
       element: "path9919"
-    "0xe040":
+    "0xe03f":
       filename: "public_checkpoint.svg"
       element: "path9356"
-    "0xe041":
+    "0xe040":
       filename: "public_courthouse.svg"
       element: "path9714"
-    "0xe042":
+    "0xe041":
       filename: "public_embassy.svg"
       element: "path11388"
-    "0xe043":
+    "0xe042":
       filename: "public_emergency.svg"
       element: "rect8244"
-    "0xe044":
+    "0xe043":
       filename: "public_emergency.svg"
       element: "path7657"
-    "0xe045":
+    "0xe044":
       filename: "public_fire_station.svg"
       element: "path12510"
-    "0xe046":
+    "0xe045":
       filename: "public_government.svg"
       element: "path4159"
-    "0xe047":
+    "0xe046":
       filename: "public_library.svg"
       element: "line15"
-    "0xe048":
+    "0xe047":
       filename: "public_market_stand.svg"
       element: "path8207"
-    "0xe049":
+    "0xe048":
       filename: "public_police.svg"
       element: "path15871"
-    "0xe04a":
+    "0xe049":
       filename: "public_post_office.svg"
       element: "rect5468"
-    "0xe04b":
+    "0xe04a":
       filename: "public_post_office.svg"
       element: "path5458"
-    "0xe04c":
+    "0xe04b":
       filename: "public_prison.svg"
       element: "path3-5"
+    "0xe04c":
+      filename: "public_public_building.svg"
+      element: "path9"
     "0xe04d":
       filename: "public_toilet.svg"
       element: "path19254"
