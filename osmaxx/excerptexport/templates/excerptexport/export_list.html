@@ -24,11 +24,9 @@
                                 {% if export_group.list|length > 5 %}<a href="{% url 'excerptexport:export_detail' id=export_group.grouper.id %}">{% trans 'see all your exports of this excerpt.' %} ({{ export_group.list|length }})</a>{% endif %}
                             </div>
                             <div class="col-lg-6">
-                                {% if export_group.grouper.country %}
-                                    <div class="minimap" id="minimap-country-{{ export_group.grouper.id }}">Show the map! ID: country-{{ export_group.grouper.id }}</div>
-                                {% else %}
-                                    <div class="minimap" id="minimap-{{ export_group.grouper.id }}">Show the map! ID: {{ export_group.grouper.id }}</div>
-                                {% endif %}
+                                {% with excerpt=export_group.grouper %}
+                                    {% include 'excerptexport/partials/minimap.html' %}
+                                {% endwith %}
                             </div>
                         </div>
                     </div>
