@@ -11,45 +11,32 @@ from tests.inside_worker_test.declarative_schema import osm_models
 
 @pytest.fixture
 def graveyard_polygon_with_religion(graveyard_osm_tags_with_religion):
-    return {
-        osm_models.t_osm_polygon: graveyard_osm_tags_with_religion,
-    }
+    return {osm_models.t_osm_polygon: graveyard_osm_tags_with_religion}
 
 
 @pytest.fixture
 def graveyard_polygon_without_religion(graveyard_osm_tags_without_religion):
-    return {
-        osm_models.t_osm_polygon: graveyard_osm_tags_without_religion,
-    }
+    return {osm_models.t_osm_polygon: graveyard_osm_tags_without_religion}
 
 
 @pytest.fixture
 def graveyard_point_with_religion(graveyard_osm_tags_with_religion):
-    return {
-        osm_models.t_osm_point: graveyard_osm_tags_with_religion,
-    }
+    return {osm_models.t_osm_point: graveyard_osm_tags_with_religion}
 
 
 @pytest.fixture
 def graveyard_point_without_religion(graveyard_osm_tags_without_religion):
-    return {
-        osm_models.t_osm_point: graveyard_osm_tags_without_religion,
-    }
+    return {osm_models.t_osm_point: graveyard_osm_tags_without_religion}
 
 
 @pytest.fixture
 def graveyard_osm_tags_with_religion():
-    return dict(
-        amenity='grave_yard',
-        religion='any value will do, as long as one is present',
-    )
+    return dict(amenity='grave_yard', religion='any value will do, as long as one is present')
 
 
 @pytest.fixture
 def graveyard_osm_tags_without_religion():
-    return dict(
-        amenity='grave_yard',
-    )
+    return dict(amenity='grave_yard')
 
 
 @slow
