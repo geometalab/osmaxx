@@ -38,7 +38,7 @@ def osm_tags(request):
 
 
 @slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_into_table_pow_a(
+def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_table_pow_a(
         graveyard_polygon, data_import):
     with data_import(graveyard_polygon) as engine:
         t_pow_a = DbTable('pow_a', osm_models.metadata, schema='osmaxx')
@@ -47,7 +47,7 @@ def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_into_table
 
 
 @slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_into_table_poi_a(
+def test_osmaxx_data_model_processing_puts_burial_ground_into_table_poi_a(
         graveyard_polygon, data_import):
     with data_import(graveyard_polygon) as engine:
         t_poi_a = DbTable('poi_a', osm_models.metadata, schema='osmaxx')
@@ -56,7 +56,7 @@ def test_osmaxx_data_model_processing_puts_amenity_grave_yard_into_table_poi_a(
 
 
 @slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_into_table_landuse_a(
+def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_table_landuse_a(
         graveyard_polygon, data_import):
     with data_import(graveyard_polygon) as engine:
         t_landuse_a = DbTable('landuse_a', osm_models.metadata, schema='osmaxx')
@@ -65,7 +65,7 @@ def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_into_table
 
 
 @slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_into_table_pow_p(
+def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_table_pow_p(
         graveyard_polygon, data_import):
     with data_import(graveyard_polygon) as engine:
         t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
@@ -74,7 +74,7 @@ def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_into_table
 
 
 @slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_into_table_poi_p(
+def test_osmaxx_data_model_processing_puts_burial_ground_into_table_poi_p(
         graveyard_polygon, data_import):
     with data_import(graveyard_polygon) as engine:
         t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
@@ -83,7 +83,7 @@ def test_osmaxx_data_model_processing_puts_amenity_grave_yard_into_table_poi_p(
 
 
 @slow
-def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_point_into_table_pow_p(
+def test_osmaxx_data_model_processing_does_not_put_burial_ground_point_into_table_pow_p(
         graveyard_point, data_import):
     with data_import(graveyard_point) as engine:
         t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
@@ -92,7 +92,7 @@ def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_point_into
 
 
 @slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_point_into_table_poi_p(
+def test_osmaxx_data_model_processing_puts_burial_ground_point_into_table_poi_p(
         graveyard_point, data_import):
     with data_import(graveyard_point) as engine:
         t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
