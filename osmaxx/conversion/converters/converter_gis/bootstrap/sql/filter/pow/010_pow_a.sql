@@ -50,4 +50,4 @@ INSERT INTO osmaxx.pow_a
     opening_hours as opening_hours,
     "access" as "access"
   FROM osm_polygon
-  WHERE (religion is not null and amenity IS DISTINCT FROM 'grave_yard') or amenity='place_of_worship';
+  WHERE (religion is not null and amenity IS DISTINCT FROM 'grave_yard' and landuse IS DISTINCT FROM 'cemetery') or amenity='place_of_worship';

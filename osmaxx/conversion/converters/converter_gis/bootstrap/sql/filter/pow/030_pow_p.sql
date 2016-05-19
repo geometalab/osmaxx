@@ -47,7 +47,7 @@ INSERT INTO osmaxx.pow_p
     opening_hours as opening_hours,
     "access" as "access"
   FROM osm_point
-  WHERE (religion is not null and amenity IS DISTINCT FROM 'grave_yard') or amenity='place_of_worship'
+  WHERE (religion is not null and amenity IS DISTINCT FROM 'grave_yard' and landuse IS DISTINCT FROM 'cemetery') or amenity='place_of_worship'
 UNION
   SELECT osm_id as osm_id,
     osm_timestamp as lastchange,
@@ -100,4 +100,4 @@ UNION
     opening_hours as opening_hours,
     "access" as "access"
   FROM osm_polygon
-  WHERE (religion is not null and amenity IS DISTINCT FROM 'grave_yard') or amenity='place_of_worship';
+  WHERE (religion is not null and amenity IS DISTINCT FROM 'grave_yard' and landuse IS DISTINCT FROM 'cemetery') or amenity='place_of_worship';
