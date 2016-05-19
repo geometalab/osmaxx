@@ -130,12 +130,12 @@ def test_osmaxx_data_model_processing_puts_amenity_grave_yard_without_religion_i
 
 
 @slow
-def test_osmaxx_data_model_processing_puts_amenity_grave_yard_point_with_religion_into_table_pow_p(
+def test_osmaxx_data_model_processing_does_not_put_amenity_grave_yard_point_with_religion_into_table_pow_p(
         graveyard_point_with_religion, data_import):
     with data_import(graveyard_point_with_religion) as engine:
         t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select([t_pow_p]))) as result:
-            assert result.rowcount == 1
+            assert result.rowcount == 0
 
 
 @slow
