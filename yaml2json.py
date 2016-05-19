@@ -91,7 +91,3 @@ for i in range(0, len(table)):
 		elif attr[j] == 'aggtype':
 			continue
 		
-
-
-
-				
