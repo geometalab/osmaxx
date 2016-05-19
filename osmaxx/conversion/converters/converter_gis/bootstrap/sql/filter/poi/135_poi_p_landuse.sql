@@ -7,7 +7,10 @@ INSERT INTO osmaxx.poi_p
     'N' AS geomtype,     -- Node
     way AS geom,
     NULL as aggtype,
-    'burial_ground' as type,
+    CASE
+        WHEN landuse='cemetery' THEN 'burial_ground'
+        ELSE 'landuse'
+    END as type,
     name as name,
     "name:en" as name_en,
     "name:fr" as name_fr,
@@ -46,7 +49,10 @@ UNION
      END AS geomtype,
     ST_Centroid(way) AS geom,
     NULL as aggtype,
-    'burial_ground' as type,
+    CASE
+        WHEN landuse='cemetery' THEN 'burial_ground'
+        ELSE 'landuse'
+    END as type,
     name as name,
     "name:en" as name_en,
     "name:fr" as name_fr,
