@@ -16,5 +16,5 @@ class ExcerptGeometrySerializer(gis_serializers.GeoFeatureModelSerializer):
     class Meta:
         geo_field = 'geometry'
         model = Excerpt
-        fields = ['id', 'type_of_geometry']
+        fields = ['id', 'excerpt_type', 'color']
         auto_bbox = True

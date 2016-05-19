@@ -4,19 +4,17 @@ from django import forms
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from osmaxx.countries.models import Country
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_user_excerpts, \
     other_users_public_excerpts
-from osmaxx.api_client import COUNTRY_ID_PREFIX
 from .order_options_mixin import OrderOptionsMixin, get_export_options
 
 
 def get_country_choices():
-    return tuple(
-        (COUNTRY_ID_PREFIX + str(country[0]), country[1])
-        for country in Country.objects.all().order_by('name').values_list('id', 'name')
-    )
+    return [
+        (excerpt['id'], excerpt['name'])
+        for excerpt in Excerpt.objects.filter(excerpt_type=Excerpt.EXCERPT_TYPE_COUNTRY_BOUNDARY, is_public=True).order_by('name').values('id', 'name')
+    ]
 
 
 def get_existing_excerpt_choices(user):
@@ -24,14 +22,14 @@ def get_existing_excerpt_choices(user):
     return (
         ('Personal excerpts ({username}) [{count}]'
             .format(username=user.username, count=private_user_excerpts(user).count()),
-         tuple((excerpt.id, excerpt.name) for excerpt in private_user_excerpts(user))
+         tuple((excerpt['id'], excerpt['name']) for excerpt in private_user_excerpts(user).values('id', 'name'))
          ),
         ('Personal public excerpts ({username}) [{count}]'
             .format(username=user.username, count=public_user_excerpts(user).count()),
-         tuple((excerpt.id, excerpt.name) for excerpt in public_user_excerpts(user))
+         tuple((excerpt['id'], excerpt['name']) for excerpt in public_user_excerpts(user).values('id', 'name'))
          ),
         ('Other excerpts [{count}]'.format(count=other_users_public_excerpts(user).count()),
-         tuple((excerpt.id, excerpt.name) for excerpt in other_users_public_excerpts(user))
+         tuple((excerpt['id'], excerpt['name']) for excerpt in other_users_public_excerpts(user).values('id', 'name'))
          ),
         ('Countries [{count}]'.format(count=len(country_choices)), country_choices),
     )
@@ -81,20 +79,8 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
         extraction_order.extraction_formats = self.cleaned_data['formats']
 
         existing_key = self.cleaned_data['existing_excerpts']
-        if self._is_country(existing_key):
-            country_id = int(existing_key.strip(COUNTRY_ID_PREFIX))
-            country = Country.objects.get(pk=country_id)
-            excerpt = Excerpt.objects.create(
-                name=country.name,
-                country=country,
-                owner=user
-            )
-        else:
-            excerpt = Excerpt.objects.get(pk=int(existing_key))
+        excerpt = Excerpt.objects.get(pk=int(existing_key))
         extraction_order.excerpt = excerpt
 
         extraction_order.save()
         return extraction_order
-
-    def _is_country(self, pk):
-        return pk.startswith(COUNTRY_ID_PREFIX)

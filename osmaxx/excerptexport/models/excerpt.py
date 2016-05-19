@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
+from django.contrib.gis import geos
 from django.contrib.gis.db import models
 from django.utils.translation import gettext_lazy as _
+
+from osmaxx.utils.geometry_buffer_helper import with_metric_buffer
 
 
 class Excerpt(models.Model):
@@ -15,27 +18,33 @@ class Excerpt(models.Model):
     is_active = models.BooleanField(default=True, verbose_name=_('is active'))
     owner = models.ForeignKey(User, related_name='excerpts', verbose_name=_('owner'), null=True)
     bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'), null=True)
-    country = models.ForeignKey('countries.Country', verbose_name=_('Country'), null=True)
     excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
+
+    COUNTRY_SIMPLIFICATION_TOLERANCE = 0.01
 
     def send_to_conversion_service(self):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
         api_client = ConversionApiClient()
-        geometry = self.bounding_geometry
-        if not geometry:
-            geometry = self.country.border
-        return api_client.create_boundary(geometry, name=self.name)
+        bounding_geometry = self.bounding_geometry
+        if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
+            original_srid = self.bounding_geometry.srs
+            bounding_geometry = geos.MultiPolygon(with_metric_buffer(self.bounding_geometry, buffer_meters=500, map_srid=original_srid))
+        return api_client.create_boundary(bounding_geometry, name=self.name)
 
     @property
     def geometry(self):
-        if self.bounding_geometry:
-            return self.bounding_geometry
-        if self.country:
-            return self.country.border
+        if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
+            return self.bounding_geometry.simplify(
+                tolerance=self.COUNTRY_SIMPLIFICATION_TOLERANCE,
+                preserve_topology=True
+            )
+        return self.bounding_geometry
 
     @property
-    def type_of_geometry(self):
-        return str(self.__class__.__name__)
+    def color(self):
+        if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
+            return 'black'
+        return 'blue'
 
     @property
     def extent(self):
@@ -45,19 +54,20 @@ class Excerpt(models.Model):
         return self.name
 
 
-def _active_excerpts():
+def _active_user_defined_excerpts():
     return Excerpt.objects.filter(is_active=True).filter(
-        bounding_geometry__isnull=False
+        bounding_geometry__isnull=False,
+        excerpt_type=Excerpt.EXCERPT_TYPE_USER_DEFINED,
     )
 
 
 def private_user_excerpts(user):
-    return _active_excerpts().filter(is_public=False, owner=user)
+    return _active_user_defined_excerpts().filter(is_public=False, owner=user)
 
 
 def public_user_excerpts(user):
-    return _active_excerpts().filter(is_public=True, owner=user)
+    return _active_user_defined_excerpts().filter(is_public=True, owner=user)
 
 
 def other_users_public_excerpts(user):
-    return _active_excerpts().filter(is_public=True).exclude(owner=user)
+    return _active_user_defined_excerpts().filter(is_public=True).exclude(owner=user)
