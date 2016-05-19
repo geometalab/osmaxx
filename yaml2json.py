@@ -34,7 +34,7 @@ for data in yaml.load_all(inp):
 							s += "\"{{ type_tags[m].values()[0] }}\",\n"        
 							s += "{{ '\"description\": '|indent(16, true) }}"
 							s += "\"{{ type_tags_description }}\""
-							s += "{{ '\n}'|indent(16, true) }}"
+							s += "{{ '\n},'|indent(16, true) }}"
 
 							t = Template(s)
 							out.write(t.render(type_tags=type_tags, type_tags_description=type_tags_description, m=l))
@@ -57,7 +57,7 @@ for data in yaml.load_all(inp):
 					s += "\"{{ attr_tags_values[0] }}\",\n"        
 					s += "{{ '\"description\": '|indent(16, true) }}"
 					s += "\"{{ attr_tags_description }}\""
-					s += "{{ '\n}'|indent(16, true) }}"
+					s += "{{ '\n},'|indent(16, true) }}"
 
 
 					t = Template(s)
@@ -76,7 +76,7 @@ for data in yaml.load_all(inp):
 					s += "\"{{ attr_tags_keys[0] }}\",\n"
 					s += "{{ '\"description\": '|indent(16, true) }}"
 					s += "\"{{ attr_tags_description }}\""
-					s += "{{ '\n}'|indent(16, true) }}"
+					s += "{{ '\n},'|indent(16, true) }}"
 
 
 					t = Template(s)
