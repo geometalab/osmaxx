@@ -11,11 +11,6 @@ var draw_controls = function (map) {
         circle: false, // Turns off this drawing tool
         marker: false,
         polygon: {
-            allowIntersection: false, // Restricts shapes to simple polygons
-            drawError: {
-                color: '#e1e100', // Color the shape will turn when intersects
-                message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-            },
             shapeOptions: {
                 color: 'black',
                 fillOpacity: 0.15
