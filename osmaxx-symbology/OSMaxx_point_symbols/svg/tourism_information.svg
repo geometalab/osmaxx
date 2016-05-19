@@ -7,35 +7,13 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="352.78mm"
-   height="352.78mm"
-   viewBox="0 0 1250.0079 1250.0079"
-   id="svg34895"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="tourism_information.svg">
+   width="1000"
+   height="1000"
+   viewBox="0 0 1000 1000"
+   id="svg34895">
   <defs
      id="defs34897" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="80"
-     inkscape:cy="520"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1018"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
   <metadata
      id="metadata34900">
     <rdf:RDF>
@@ -49,21 +27,14 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,197.64569)">
+     id="layer1">
     <path
-       style="fill:#1e32a0;fill-opacity:1;stroke:none;stroke-width:37.73622131;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 625.00315,28.096319 a 399.26245,399.26245 0 0 0 -399.261,399.262001 399.26245,399.26245 0 0 0 399.261,399.262 399.26245,399.26245 0 0 0 399.26255,-399.262 A 399.26245,399.26245 0 0 0 625.00315,28.096319 Z"
-       id="path6262"
-       inkscape:connector-curvature="0" />
+       style="opacity:1;fill:#1e32a0;fill-opacity:1;stroke:none;stroke-width:37.73622131;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 497.04268,179.40814 A 320.59155,320.59155 0 0 0 176.45091,499.99994 320.59155,320.59155 0 0 0 497.04268,820.59186 320.59155,320.59155 0 0 0 817.63449,499.99994 320.59155,320.59155 0 0 0 497.04268,179.40814 Z"
+       id="path9919" />
     <path
-       d="m 665.65495,182.67379 c -27.102,0 -43.362,21.682 -43.362,39.492 0,20.13001 17.036,38.71501 39.491,38.71501 21.68,0 41.038,-20.132 41.038,-40.26401 0,-16.262 -11.614,-37.943 -37.167,-37.943 z m -10.84,149.44202 c -6.193,0 -47.232,10.84 -107.629,19.358 0,10.84 0.773,21.682 1.547,33.296 l 65.819,-3.87 c -20.133,86.72401 -44.911,190.48103 -61.945,267.13804 4.644,10.841 22.455,24.005 27.1,24.005 29.424,0 65.042,-6.969 96.79,-17.035 -1.548,-11.61501 -3.097,-21.68101 -6.196,-32.52301 -25.551,6.97 -48.006,12.389 -58.072,12.389 -3.097,0 -3.872,-2.321 -3.098,-5.419 9.292,-38.716 48.783,-202.09602 66.591,-277.98003 -3.871,-6.968 -16.261,-19.358 -20.907,-19.358 z"
+       d="m 530.91384,303.8113 c -21.64709,0 -34.6344,17.31799 -34.6344,31.54332 0,16.07838 13.60712,30.92271 31.54253,30.92271 17.3164,0 32.77815,-16.07997 32.77815,-32.15994 0,-12.9889 -9.27641,-30.30609 -29.68628,-30.30609 z m -8.6582,119.36335 c -4.94652,0 -37.72546,8.6582 -85.96617,15.46176 0,8.65819 0.61742,17.31799 1.23562,26.59441 l 52.57141,-3.09108 c -16.08077,69.26879 -35.87162,152.14231 -49.47713,213.37032 3.70929,8.65901 17.93541,19.17344 21.64549,19.17344 23.50175,0 51.95079,-5.56632 77.30878,-13.6063 -1.23643,-9.27723 -2.47366,-17.31722 -4.94891,-25.97701 -20.40827,5.56713 -38.34369,9.89543 -46.38367,9.89543 -2.47366,0 -3.09267,-1.85385 -2.47445,-4.3283 7.42177,-30.92351 38.96428,-161.41952 53.18802,-222.03012 -3.09188,-5.56553 -12.9881,-15.46175 -16.69899,-15.46175 z"
        id="path5-6"
-       inkscape:connector-curvature="0"
-       inkscape:transform-center-x="1786.458"
-       inkscape:transform-center-y="2433.1396"
        style="fill:#ffffff;fill-opacity:1" />
   </g>
 </svg>
