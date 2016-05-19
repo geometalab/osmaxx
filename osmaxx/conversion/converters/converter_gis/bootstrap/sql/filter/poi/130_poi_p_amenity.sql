@@ -6,7 +6,7 @@ INSERT INTO osmaxx.poi_p
     osm_timestamp as lastchange,
     'N' AS geomtype,  -- Node
     way AS geom,
--- Combining the different tags in Amenity into different categories --
+    -- Combining the different tags in Amenity into different categories --
     case
      when amenity in('police','fire_station','post_box','post_office','telephone','library','townhall','courthouse','prison','embassy',
              'community_centre','nursing_home','arts_centre','grave_yard','marketplace','mortuary') then 'public'
@@ -38,11 +38,12 @@ INSERT INTO osmaxx.poi_p
          when vending='parking_tickets' then 'vending_parking'
          else 'vending_machine'
         end
+     when amenity = 'grave_yard' then 'burial_ground'
      when amenity in ('arts_centre','atm','bank','bar','bench','bicycle_rental','biergarten','cafe','car_rental','car_sharing','car_wash','cinema','college',
                     'community_centre','courthouse','dentist','doctors','drinking_water','embassy','fast_food','fire_station','food_court',
                     'hospital','hunting_stand','kindergarten','library','marketplace','nightclub','nursing_home','pharmacy','police',
                     'post_box','post_office','prison','pub','public_building','restaurant','school','shelter','telephone','theatre','toilets',
-                    'townhall','university','veterinary','waste_basket','clinic','social_facility','swimming_pool','grave_yard','emergency_phone'
+                    'townhall','university','veterinary','waste_basket','clinic','social_facility','swimming_pool','emergency_phone'
                     'fire_hydrant','mortuary') then amenity
      else 'amenity'
     end as type,
@@ -116,11 +117,12 @@ UNION
          when vending='parking_tickets' then 'vending_parking'
          else 'vending_machine'
         end
+     when amenity = 'grave_yard' then 'burial_ground'
      when amenity in ('arts_centre','atm','bank','bar','bench','bicycle_rental','biergarten','cafe','car_rental','car_sharing','car_wash','cinema','college',
                     'community_centre','courthouse','dentist','doctors','drinking_water','embassy','fast_food','fire_station','food_court',
                     'hospital','hunting_stand','kindergarten','library','marketplace','nightclub','nursing_home','pharmacy','police',
                     'post_box','post_office','prison','pub','public_building','restaurant','school','shelter','telephone','theatre','toilets',
-                    'townhall','university','veterinary','waste_basket','clinic','social_facility','swimming_pool','grave_yard','emergency_phone'
+                    'townhall','university','veterinary','waste_basket','clinic','social_facility','swimming_pool','emergency_phone'
                     'fire_hydrant','mortuary') then amenity
      else 'amenity'
     end as type,

@@ -53,6 +53,8 @@ def test_osmaxx_data_model_processing_puts_burial_ground_into_table_poi_a(
         t_poi_a = DbTable('poi_a', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select('*').select_from(t_poi_a))) as result:
             assert result.rowcount == 1
+            row = result.fetchone()
+            assert row['type'] == 'burial_ground'
 
 
 @slow
@@ -80,6 +82,8 @@ def test_osmaxx_data_model_processing_puts_burial_ground_into_table_poi_p(
         t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select('*').select_from(t_poi_p))) as result:
             assert result.rowcount == 1
+            row = result.fetchone()
+            assert row['type'] == 'burial_ground'
 
 
 @slow
@@ -98,6 +102,8 @@ def test_osmaxx_data_model_processing_puts_burial_ground_point_into_table_poi_p(
         t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select('*').select_from(t_poi_p))) as result:
             assert result.rowcount == 1
+            row = result.fetchone()
+            assert row['type'] == 'burial_ground'
 
 
 @pytest.fixture()

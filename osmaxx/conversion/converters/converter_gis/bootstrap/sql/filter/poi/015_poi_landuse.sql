@@ -9,6 +9,8 @@ INSERT INTO osmaxx.poi_a
      ELSE 'W'               -- Way
      END AS geomtype,
     ST_Multi(way) AS geom,
+    NULL as aggtype,
+    'burial_ground' as type,
 
     name as name,
     "name:en" as name_en,

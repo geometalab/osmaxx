@@ -6,6 +6,8 @@ INSERT INTO osmaxx.poi_p
     osm_timestamp as lastchange,
     'N' AS geomtype,     -- Node
     way AS geom,
+    NULL as aggtype,
+    'burial_ground' as type,
     name as name,
     "name:en" as name_en,
     "name:fr" as name_fr,
@@ -43,6 +45,8 @@ UNION
      ELSE 'W'               -- Way
      END AS geomtype,
     ST_Centroid(way) AS geom,
+    NULL as aggtype,
+    'burial_ground' as type,
     name as name,
     "name:en" as name_en,
     "name:fr" as name_fr,
