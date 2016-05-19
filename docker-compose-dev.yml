@@ -16,6 +16,7 @@ services:
       - DJANGO_SECRET_KEY=insecure!1
       - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.local
       - DJANGO_DEBUG=true
+      - DJANGO_INTERNAL_IPS=172.19.0.1
   mediator:
     build:
       context: .
