@@ -24,7 +24,7 @@ def reset_type_to_default(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('excerptexport', '0029_remove_extractionorder_country_id'),
+        ('excerptexport', '0030_remove_empty_exports_20160519_1134'),
     ]
 
     operations = [

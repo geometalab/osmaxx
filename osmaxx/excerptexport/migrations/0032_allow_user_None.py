@@ -10,7 +10,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('excerptexport', '0030_add_types_field_20160518_1307'),
+        ('excerptexport', '0031_add_types_field_20160518_1307'),
     ]
 
     operations = [
