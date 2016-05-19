@@ -44,8 +44,10 @@ for i in range(0, len(table)):
 		or table[i] == 'railway_ground_l' or table[i] == 'railway_bridge_l' or table[i] == 'railway_tunnel_l':
 			if attr[j] == 'bridge' or attr[j] == 'tunnel':
 
-				attr_tags_keys = dicts['attributes'][attr[j]]['values'][dicts['attributes'][attr[j]]['values'].keys()[0]]['osm_tags'].keys()
-				attr_tags_values = dicts['attributes'][attr[j]]['values'][dicts['attributes'][attr[j]]['values'].keys()[0]]['osm_tags'].values()
+				attr_tags_keys = dicts['attributes'][attr[j]]['values'][dicts['attributes'][attr[j]]['values'].keys()[0]] \
+				                 ['osm_tags'].keys()
+				attr_tags_values = dicts['attributes'][attr[j]]['values'][dicts['attributes'][attr[j]]['values'].keys()[0]] \
+				                   ['osm_tags'].values()
 				attr_tags_description = dicts['attributes'][attr[j]]['description']
 
 
@@ -60,7 +62,8 @@ for i in range(0, len(table)):
 
 
 				t = Template(s)
-				out.write(t.render(attr_tags_keys=attr_tags_keys, attr_tags_description=attr_tags_description, attr_tags_values=attr_tags_values))
+				out.write(t.render(attr_tags_keys=attr_tags_keys, attr_tags_description=attr_tags_description, \
+					               attr_tags_values=attr_tags_values))
 			elif attr[j] == 'aggtype' or attr[j] == 'type':
 				continue
 			
