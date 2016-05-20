@@ -44,10 +44,10 @@ def unmerge_countries(apps, schema_editor):  # noqa
 
 
 def import_countries(apps, schema_editor):  # noqa
+    from osmaxx.utils.polyfile_helpers import polyfile_to_geos_geometry
     Excerpt = apps.get_model("excerptexport", "Excerpt")  # noqa
     ExtractionOrder = apps.get_model("excerptexport", "ExtractionOrder")  # noqa
     for name, polyfile_path in get_polyfile_name_to_file_mapping().items():
-        from osmaxx.utils.polyfile_helpers import polyfile_to_geos_geometry
         geometry = polyfile_to_geos_geometry(polyfile_path)
         excerpt = Excerpt.objects.create(
             is_public=True,
