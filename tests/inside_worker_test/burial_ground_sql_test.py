@@ -37,12 +37,16 @@ def osm_tags(request):
     return request.param
 
 
+@pytest.fixture(params=['pow_a', 'landuse_a', 'pow_p'])
+def non_burial_ground_area_target_layer(request):
+    return DbTable(request.param, osm_models.metadata, schema='osmaxx')
+
+
 @slow
-def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_table_pow_a(
-        graveyard_polygon, data_import):
-    t_pow_a = DbTable('pow_a', osm_models.metadata, schema='osmaxx')
+def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_non_burial_ground_area_target_layer(
+        graveyard_polygon, data_import, non_burial_ground_area_target_layer):
     with data_import(graveyard_polygon) as engine:
-        with closing(engine.execute(sqlalchemy.select('*').select_from(t_pow_a))) as result:
+        with closing(engine.execute(sqlalchemy.select('*').select_from(non_burial_ground_area_target_layer))) as result:
             assert result.rowcount == 0
 
 
@@ -58,24 +62,6 @@ def test_osmaxx_data_model_processing_puts_burial_ground_into_table_poi_a(
             assert expected_type in {'grave_yard', 'cemetery'}  # just a sanity check, not the test assertion
             assert row['type'] == expected_type
             assert row['aggtype'] == 'burial_ground'
-
-
-@slow
-def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_table_landuse_a(
-        graveyard_polygon, data_import):
-    t_landuse_a = DbTable('landuse_a', osm_models.metadata, schema='osmaxx')
-    with data_import(graveyard_polygon) as engine:
-        with closing(engine.execute(sqlalchemy.select('*').select_from(t_landuse_a))) as result:
-            assert result.rowcount == 0
-
-
-@slow
-def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_table_pow_p(
-        graveyard_polygon, data_import):
-    t_pow_p = DbTable('pow_p', osm_models.metadata, schema='osmaxx')
-    with data_import(graveyard_polygon) as engine:
-        with closing(engine.execute(sqlalchemy.select('*').select_from(t_pow_p))) as result:
-            assert result.rowcount == 0
 
 
 @slow
