@@ -10,7 +10,7 @@ from tests.inside_worker_test.declarative_schema import osm_models
 
 
 @pytest.fixture(params=[osm_models.t_osm_polygon, osm_models.t_osm_point], ids=['osm_polygon', 'osm_point'])
-def graveyard_data(request, osm_tags):
+def burial_ground_data(request, osm_tags):
     return {request.param: osm_tags}
 
 
@@ -44,8 +44,8 @@ def burial_ground_target_layer(request):
 
 @slow
 def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_non_burial_ground_target_layer(
-        burial_ground_data_import, graveyard_data, non_burial_ground_target_layer):
-    if all(source_table is osm_models.t_osm_point for source_table in graveyard_data.keys()) \
+        burial_ground_data_import, burial_ground_data, non_burial_ground_target_layer):
+    if all(source_table is osm_models.t_osm_point for source_table in burial_ground_data.keys()) \
             and not non_burial_ground_target_layer.name.endswith('_p'):
         pytest.skip()
     engine = burial_ground_data_import
@@ -55,8 +55,8 @@ def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_non_burial
 
 @slow
 def test_osmaxx_data_model_processing_puts_burial_ground_into_burial_ground_target_layer(
-        burial_ground_data_import, graveyard_data, osm_tags, burial_ground_target_layer):
-    if all(source_table is osm_models.t_osm_point for source_table in graveyard_data.keys()) \
+        burial_ground_data_import, burial_ground_data, osm_tags, burial_ground_target_layer):
+    if all(source_table is osm_models.t_osm_point for source_table in burial_ground_data.keys()) \
             and not burial_ground_target_layer.name.endswith('_p'):
         pytest.skip()
     engine = burial_ground_data_import
@@ -70,8 +70,8 @@ def test_osmaxx_data_model_processing_puts_burial_ground_into_burial_ground_targ
 
 
 @pytest.yield_fixture
-def burial_ground_data_import(graveyard_data, data_import):
-    with data_import(graveyard_data) as engine:
+def burial_ground_data_import(burial_ground_data, data_import):
+    with data_import(burial_ground_data) as engine:
         yield engine
 
 
