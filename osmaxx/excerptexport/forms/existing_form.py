@@ -13,7 +13,10 @@ from .order_options_mixin import OrderOptionsMixin, get_export_options
 def get_country_choices():
     return [
         (excerpt['id'], excerpt['name'])
-        for excerpt in Excerpt.objects.filter(excerpt_type=Excerpt.EXCERPT_TYPE_COUNTRY_BOUNDARY, is_public=True).order_by('name').values('id', 'name')
+        for excerpt in Excerpt.objects
+        .filter(excerpt_type=Excerpt.EXCERPT_TYPE_COUNTRY_BOUNDARY, is_public=True)
+        .order_by('name')
+        .values('id', 'name')
     ]
 
 
