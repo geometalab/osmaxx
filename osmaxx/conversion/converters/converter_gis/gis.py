@@ -31,10 +31,7 @@ class GISConverter:
         self._static_directory = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static')
 
     def create_gis_export(self):
-        from osmaxx.conversion_api import formats
-        # FIXME: Hack to fix (hopefully temporary) issue with boundaries and fgdb format export
-        with_boundaries = not (self._conversion_format == formats.FGDB)
-        bootstrap.boostrap(self._polyfile_string, with_boundaries)
+        bootstrap.boostrap(self._polyfile_string)
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             data_dir = os.path.join(tmp_dir, 'data')
