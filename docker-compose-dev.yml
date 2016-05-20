@@ -22,6 +22,12 @@ services:
       - DJANGO_SECRET_KEY=insecure!1
       - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.local
       - DJANGO_DEBUG=true
+#      this is the most common used docker-ip connecting from localhost to docker network
+      - DJANGO_INTERNAL_IPS=172.19.0.1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 1M
   mediator:
     build:
       context: .
@@ -36,6 +42,10 @@ services:
     environment:
       - DJANGO_SECRET_KEY=insecure!2
       - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 1M
   worker:
     extends:
       file: docker-compose-common.yml
@@ -51,6 +61,10 @@ services:
     environment:
       - DJANGO_SECRET_KEY=insecure!3
       - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 1M
   world-database:
     command: postgres -B 1GB -F -N 512 -S 1GB --max_wal_size=1GB
     ports:

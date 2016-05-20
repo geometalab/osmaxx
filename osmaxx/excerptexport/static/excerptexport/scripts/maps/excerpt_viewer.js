@@ -18,39 +18,17 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
         this.map.addLayer(layer);
     }.bind(this);
 
-    this._extendBounds = function(bounds, marginFactor) {
-        var latDiff = bounds._northEast.lat - bounds._southWest.lat;
-        var lonDiff = bounds._northEast.lon - bounds._southWest.lon;
-        bounds._northEast.lat += latDiff*marginFactor;
-        bounds._southWest.lat -= latDiff*marginFactor;
-        bounds._northEast.lon += lonDiff*marginFactor;
-        bounds._southWest.lon -= lonDiff*marginFactor;
-        return bounds;
-    };
-
-    this.showExcerptOrCountryOnMap = function(ID) {
+    this.showExcerptOnMap = function(ID) {
         L.geoJson.ajax(this.excerptApiUrl.replace('{ID}', ID)).on('data:loaded', function(event) {
             // We are certain that there is only one layer on this feature, because our API provides it so.
-            var feature_type = event.target.getLayers()[0].feature.properties.type_of_geometry;
+            var color = event.target.getLayers()[0].feature.properties.color || 'red';
             var layer = event.target;
             this._handleCountryOrBBox(layer);
             this.map.fitBounds(layer.getBounds());
-            switch(feature_type) {
-                case 'Excerpt':
-                    layer.setStyle({
-                        color: 'black',
-                        fillOpacity: 0.15
-                    });
-                    break;
-                case 'Country':
-                    layer.setStyle({
-                        color: 'navy',
-                        fillOpacity: 0.1
-                    });
-                    break;
-                default:
-                    break;
-            }
+            layer.setStyle({
+                color: color,
+                fillOpacity: 0.15
+            });
         }.bind(this)).on('data:loading', function(){
             this.map.spin(true);
         }.bind(this)).on('data:loaded', function(){

@@ -1,6 +1,5 @@
-from .conversion_api_client import ConversionApiClient, COUNTRY_ID_PREFIX
+from .conversion_api_client import ConversionApiClient
 
 __all__ = [
     "ConversionApiClient",
-    "COUNTRY_ID_PREFIX",
 ]
