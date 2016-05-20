@@ -9,9 +9,12 @@ INSERT INTO osmaxx.poi_a
      ELSE 'W'               -- Way
      END AS geomtype,
     ST_Multi(way) AS geom,
-    NULL as aggtype,
     CASE
         WHEN landuse='cemetery' THEN 'burial_ground'
+        ELSE 'landuse'
+    END as aggtype,
+    CASE
+        WHEN landuse='cemetery' THEN landuse
         ELSE 'landuse'
     END as type,
 

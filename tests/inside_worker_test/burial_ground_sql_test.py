@@ -48,13 +48,16 @@ def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_table_pow_
 
 @slow
 def test_osmaxx_data_model_processing_puts_burial_ground_into_table_poi_a(
-        graveyard_polygon, data_import):
+        graveyard_polygon, data_import, osm_tags):
     with data_import(graveyard_polygon) as engine:
         t_poi_a = DbTable('poi_a', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select('*').select_from(t_poi_a))) as result:
             assert result.rowcount == 1
             row = result.fetchone()
-            assert row['type'] == 'burial_ground'
+            expected_type = osm_tags.get('amenity', None) or osm_tags['landuse']
+            assert expected_type in {'grave_yard', 'cemetery'}  # just a sanity check, not the test assertion
+            assert row['type'] == expected_type
+            assert row['aggtype'] == 'burial_ground'
 
 
 @slow
@@ -77,13 +80,16 @@ def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_table_pow_
 
 @slow
 def test_osmaxx_data_model_processing_puts_burial_ground_into_table_poi_p(
-        graveyard_polygon, data_import):
+        graveyard_polygon, data_import, osm_tags):
     with data_import(graveyard_polygon) as engine:
         t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select('*').select_from(t_poi_p))) as result:
             assert result.rowcount == 1
             row = result.fetchone()
-            assert row['type'] == 'burial_ground'
+            expected_type = osm_tags.get('amenity', None) or osm_tags['landuse']
+            assert expected_type in {'grave_yard', 'cemetery'}  # just a sanity check, not the test assertion
+            assert row['type'] == expected_type
+            assert row['aggtype'] == 'burial_ground'
 
 
 @slow
@@ -97,13 +103,16 @@ def test_osmaxx_data_model_processing_does_not_put_burial_ground_point_into_tabl
 
 @slow
 def test_osmaxx_data_model_processing_puts_burial_ground_point_into_table_poi_p(
-        graveyard_point, data_import):
+        graveyard_point, data_import, osm_tags):
     with data_import(graveyard_point) as engine:
         t_poi_p = DbTable('poi_p', osm_models.metadata, schema='osmaxx')
         with closing(engine.execute(sqlalchemy.select('*').select_from(t_poi_p))) as result:
             assert result.rowcount == 1
             row = result.fetchone()
-            assert row['type'] == 'burial_ground'
+            expected_type = osm_tags.get('amenity', None) or osm_tags['landuse']
+            assert expected_type in {'grave_yard', 'cemetery'}  # just a sanity check, not the test assertion
+            assert row['type'] == expected_type
+            assert row['aggtype'] == 'burial_ground'
 
 
 @pytest.fixture()

@@ -6,9 +6,12 @@ INSERT INTO osmaxx.poi_p
     osm_timestamp as lastchange,
     'N' AS geomtype,     -- Node
     way AS geom,
-    NULL as aggtype,
     CASE
         WHEN landuse='cemetery' THEN 'burial_ground'
+        ELSE 'landuse'
+    END as aggtype,
+    CASE
+        WHEN landuse='cemetery' THEN landuse
         ELSE 'landuse'
     END as type,
     name as name,
@@ -48,9 +51,12 @@ UNION
      ELSE 'W'               -- Way
      END AS geomtype,
     ST_Centroid(way) AS geom,
-    NULL as aggtype,
     CASE
         WHEN landuse='cemetery' THEN 'burial_ground'
+        ELSE 'landuse'
+    END as aggtype,
+    CASE
+        WHEN landuse='cemetery' THEN landuse
         ELSE 'landuse'
     END as type,
     name as name,

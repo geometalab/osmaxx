@@ -9,7 +9,8 @@ INSERT INTO osmaxx.poi_p
     -- Combining the different tags in Amenity into different categories --
     case
      when amenity in('police','fire_station','post_box','post_office','telephone','library','townhall','courthouse','prison','embassy',
-             'community_centre','nursing_home','arts_centre','grave_yard','marketplace','mortuary') then 'public'
+             'community_centre','nursing_home','arts_centre','marketplace','mortuary') then 'public'
+     when amenity = 'grave_yard' then 'burial_ground'
      when amenity='recycling' or "recycling:glass"='yes' or "recycling:paper"='yes' or "recycling:clothes"='yes' or "recycling:scrap_metal"='yes' then 'recycling'
      when amenity in ('university','school','kindergarten','college','public_building') then 'education'
      when amenity in ('pharmacy','hospital','doctors','dentist','veterinary','clinic','social_facility') then 'health'
@@ -38,12 +39,11 @@ INSERT INTO osmaxx.poi_p
          when vending='parking_tickets' then 'vending_parking'
          else 'vending_machine'
         end
-     when amenity = 'grave_yard' then 'burial_ground'
      when amenity in ('arts_centre','atm','bank','bar','bench','bicycle_rental','biergarten','cafe','car_rental','car_sharing','car_wash','cinema','college',
                     'community_centre','courthouse','dentist','doctors','drinking_water','embassy','fast_food','fire_station','food_court',
                     'hospital','hunting_stand','kindergarten','library','marketplace','nightclub','nursing_home','pharmacy','police',
                     'post_box','post_office','prison','pub','public_building','restaurant','school','shelter','telephone','theatre','toilets',
-                    'townhall','university','veterinary','waste_basket','clinic','social_facility','swimming_pool','emergency_phone'
+                    'townhall','university','veterinary','waste_basket','clinic','social_facility','swimming_pool','grave_yard','emergency_phone'
                     'fire_hydrant','mortuary') then amenity
      else 'amenity'
     end as type,
@@ -88,7 +88,8 @@ UNION
 -- Combining the different tags in Amenity into different categories --
     case
      when amenity in('police','fire_station','post_box','post_office','telephone','library','townhall','courthouse','prison','embassy',
-             'community_centre','nursing_home','arts_centre','grave_yard','marketplace','mortuary') then 'public'
+             'community_centre','nursing_home','arts_centre','marketplace','mortuary') then 'public'
+     when amenity = 'grave_yard' then 'burial_ground'
      when amenity='recycling' or "recycling:glass"='yes' or "recycling:paper"='yes' or "recycling:clothes"='yes' or "recycling:scrap_metal"='yes' then 'recycling'
      when amenity in ('university','school','kindergarten','college','public_building') then 'education'
      when amenity in ('pharmacy','hospital','doctors','dentist','veterinary','clinic','social_facility') then 'health'
@@ -117,12 +118,11 @@ UNION
          when vending='parking_tickets' then 'vending_parking'
          else 'vending_machine'
         end
-     when amenity = 'grave_yard' then 'burial_ground'
      when amenity in ('arts_centre','atm','bank','bar','bench','bicycle_rental','biergarten','cafe','car_rental','car_sharing','car_wash','cinema','college',
                     'community_centre','courthouse','dentist','doctors','drinking_water','embassy','fast_food','fire_station','food_court',
                     'hospital','hunting_stand','kindergarten','library','marketplace','nightclub','nursing_home','pharmacy','police',
                     'post_box','post_office','prison','pub','public_building','restaurant','school','shelter','telephone','theatre','toilets',
-                    'townhall','university','veterinary','waste_basket','clinic','social_facility','swimming_pool','emergency_phone'
+                    'townhall','university','veterinary','waste_basket','clinic','social_facility','swimming_pool','grave_yard','emergency_phone'
                     'fire_hydrant','mortuary') then amenity
      else 'amenity'
     end as type,
