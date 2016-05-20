@@ -21,7 +21,7 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
     this.showExcerptOnMap = function(ID) {
         L.geoJson.ajax(this.excerptApiUrl.replace('{ID}', ID)).on('data:loaded', function(event) {
             // We are certain that there is only one layer on this feature, because our API provides it so.
-            var color = event.target.getLayers()[0].feature.properties.color || 'black';
+            var color = event.target.getLayers()[0].feature.properties.color || 'red';
             var layer = event.target;
             this._handleCountryOrBBox(layer);
             this.map.fitBounds(layer.getBounds());
