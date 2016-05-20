@@ -23,11 +23,9 @@
                                     {% endfor %}
                                 </div>
                                 <div class="col-lg-6">
-                                    {% if excerpt.country %}
-                                        <div style="min-height: 50vh" class="minimap" id="minimap-country-{{ excerpt.country.id }}">Enable JavaScript to see the map for {{ excerpt.country.name }}</div>
-                                    {% else %}
-                                        <div style="min-height: 50vh"  class="minimap" id="minimap-{{ excerpt.id }}">Enable JavaScript to see the map for {{ excerpt.name }}</div>
-                                    {% endif %}
+                                    {% with min_height=70 %}
+                                        {% include 'excerptexport/partials/minimap.html' %}
+                                    {% endwith %}
                                 </div>
                             </div>
                         </div>

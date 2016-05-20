@@ -13,7 +13,6 @@ from osmaxx.utils import get_default_private_storage
 
 logger = logging.getLogger(__name__)
 
-COUNTRY_ID_PREFIX = 'country-'
 SERVICE_BASE_URL = settings.OSMAXX.get('CONVERSION_SERVICE_URL')
 LOGIN_URL = '/token-auth/'
 

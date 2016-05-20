@@ -127,7 +127,7 @@ class Export(models.Model):
             statuses.RECEIVED: 'info',
             statuses.QUEUED: 'info',
             statuses.FINISHED: 'success',
-            statuses.FAILED: 'error',
+            statuses.FAILED: 'danger',
             statuses.STARTED: 'info',
             statuses.DEFERRED: 'default',
         }

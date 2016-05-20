@@ -11,7 +11,7 @@
         var onExistingExcerptSelectBoxChange = function() {
             var excerptOption = existingExcerptSelectBox.querySelector('option:checked');
             if(excerptOption) {
-                excerptViewer.showExcerptOrCountryOnMap(excerptOption.value);
+                excerptViewer.showExcerptOnMap(excerptOption.value);
             }
         };
 
