@@ -55,8 +55,7 @@ def import_countries(apps, schema_editor):  # noqa
             bounding_geometry=geometry,
             excerpt_type='country',
         )
-        qs = ExtractionOrder.objects.filter(excerpt__name=name)
-        for extraction_order in qs:
+        for extraction_order in ExtractionOrder.objects.filter(excerpt__name=name):
             extraction_order.excerpt = excerpt
             extraction_order.save()
 
@@ -64,8 +63,8 @@ def import_countries(apps, schema_editor):  # noqa
 def remove_countries(apps, schema_editor):  # noqa
     Excerpt = apps.get_model("excerptexport", "Excerpt")  # noqa
     ExtractionOrder = apps.get_model("excerptexport", "ExtractionOrder")  # noqa
-    inner_qs = ExtractionOrder.objects.all()
-    Excerpt.objects.exclude(extraction_orders__in=inner_qs).delete()
+    existing_extraction_orders = ExtractionOrder.objects.all()
+    Excerpt.objects.exclude(extraction_orders__in=existing_extraction_orders).delete()
 
 
 class Migration(migrations.Migration):
