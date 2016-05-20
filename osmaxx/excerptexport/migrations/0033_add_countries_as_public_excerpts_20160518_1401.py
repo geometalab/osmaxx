@@ -31,11 +31,11 @@ def merge_countries(apps, schema_editor):  # noqa
         group_list = list(group)
         if len(group_list) > 1:
             country_excerpt = group_list[0]
-            for item in group_list[1:]:
-                for extraction_order in item.extraction_orders.all():
+            for duplicate_country_excerpt in group_list[1:]:
+                for extraction_order in duplicate_country_excerpt.extraction_orders.all():
                     extraction_order.excerpt = country_excerpt
                     extraction_order.save()
-                item.delete()
+                    duplicate_country_excerpt.delete()
 
 
 def unmerge_countries(apps, schema_editor):  # noqa
