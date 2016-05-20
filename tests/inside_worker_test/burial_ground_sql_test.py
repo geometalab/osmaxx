@@ -44,29 +44,35 @@ def burial_ground_target_layer(request):
 
 @slow
 def test_osmaxx_data_model_processing_does_not_put_burial_ground_into_non_burial_ground_target_layer(
-        graveyard_data, data_import, non_burial_ground_target_layer):
+        burial_ground_data_import, graveyard_data, non_burial_ground_target_layer):
     if all(source_table is osm_models.t_osm_point for source_table in graveyard_data.keys()) \
             and not non_burial_ground_target_layer.name.endswith('_p'):
         pytest.skip()
-    with data_import(graveyard_data) as engine:
-        with closing(engine.execute(sqlalchemy.select('*').select_from(non_burial_ground_target_layer))) as result:
-            assert result.rowcount == 0
+    engine = burial_ground_data_import
+    with closing(engine.execute(sqlalchemy.select('*').select_from(non_burial_ground_target_layer))) as result:
+        assert result.rowcount == 0
 
 
 @slow
 def test_osmaxx_data_model_processing_puts_burial_ground_into_burial_ground_target_layer(
-        graveyard_data, data_import, osm_tags, burial_ground_target_layer):
+        burial_ground_data_import, graveyard_data, osm_tags, burial_ground_target_layer):
     if all(source_table is osm_models.t_osm_point for source_table in graveyard_data.keys()) \
             and not burial_ground_target_layer.name.endswith('_p'):
         pytest.skip()
+    engine = burial_ground_data_import
+    with closing(engine.execute(sqlalchemy.select('*').select_from(burial_ground_target_layer))) as result:
+        assert result.rowcount == 1
+        row = result.fetchone()
+        expected_type = osm_tags.get('amenity', None) or osm_tags['landuse']
+        assert expected_type in {'grave_yard', 'cemetery'}  # just a sanity check, not the test assertion
+        assert row['type'] == expected_type
+        assert row['aggtype'] == 'burial_ground'
+
+
+@pytest.yield_fixture
+def burial_ground_data_import(graveyard_data, data_import):
     with data_import(graveyard_data) as engine:
-        with closing(engine.execute(sqlalchemy.select('*').select_from(burial_ground_target_layer))) as result:
-            assert result.rowcount == 1
-            row = result.fetchone()
-            expected_type = osm_tags.get('amenity', None) or osm_tags['landuse']
-            assert expected_type in {'grave_yard', 'cemetery'}  # just a sanity check, not the test assertion
-            assert row['type'] == expected_type
-            assert row['aggtype'] == 'burial_ground'
+        yield engine
 
 
 @pytest.fixture()
