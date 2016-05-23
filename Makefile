@@ -90,7 +90,7 @@ down-pg:
 .PHONY: up-pg_translit
 up-pg_translit:
 	docker pull geometalab/postgis-with-translit > /dev/null
-	docker create -p "127.0.0.1:65432:5432" -e POSTGRES_DB='osmaxx_db' --name pg_translit geometalab/postgis-with-translit > /dev/null 2>&1
+	docker create -p "127.0.0.1:65432:5432" -e POSTGRES_DB='osmaxx_db' --name pg_translit geometalab/postgis-with-translit > /dev/null 2>&1  || true
 	docker start pg_translit
 	./docker_entrypoint/wait-for-it/wait-for-it.sh 127.0.0.1:65432 -t 20
 
