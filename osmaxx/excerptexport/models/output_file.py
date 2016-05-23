@@ -6,7 +6,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 from osmaxx.excerptexport.models.export import Export
-from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 
 
 def uuid_directory_path(instance, filename):
@@ -17,8 +16,6 @@ def uuid_directory_path(instance, filename):
 class OutputFile(models.Model):
     mime_type = models.CharField(max_length=64, verbose_name=_('mime type'))
     file_extension = models.CharField(max_length=64, verbose_name=_('file extension'), default='')
-    file_old = models.FileField(storage=get_private_upload_storage(), blank=True, null=True,
-                                verbose_name=_('file'))
     file = models.FileField(blank=True, null=True, verbose_name=_('file'), upload_to=uuid_directory_path,
                             max_length=250)
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
