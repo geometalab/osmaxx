@@ -2,6 +2,7 @@ import logging
 import uuid
 
 from django.db import models
+from django.utils.datetime_safe import datetime
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
@@ -17,7 +18,21 @@ STATUS_CHOICES = (INITIAL_CHOICE,) + statuses.STATUS_CHOICES
 logger = logging.getLogger(__name__)
 
 
-class Export(models.Model):
+class TimeStampModelMixin(models.Model):
+    created = models.DateTimeField(_('created on'), default=datetime.now, blank=True, editable=False)
+    updated = models.DateTimeField(_('updated on'), default=None, blank=True, editable=False, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created = datetime.now()
+        self.updated = datetime.now()
+        super().save(*args, **kwargs)
+
+    class Meta:
+        abstract = True
+
+
+class Export(TimeStampModelMixin, models.Model):
     """
     Frontend-side representation of both, a export procedure in progress (or concluded) *and* the result of exporting.
 
@@ -34,6 +49,7 @@ class Export(models.Model):
     file_format = models.CharField(choices=FORMAT_CHOICES, verbose_name=_('file format / data format'), max_length=10)
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
     status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
+    finished = models.DateTimeField(_('finished on'), default=None, blank=True, editable=False, null=True)
 
     def send_to_conversion_service(self, clipping_area_json, incoming_request):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
