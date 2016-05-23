@@ -9,7 +9,7 @@ import osmaxx.excerptexport.models.output_file
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('excerptexport', '0035_merge'),
+        ('excerptexport', '0034_auto_20160519_0825'),
     ]
 
     operations = [

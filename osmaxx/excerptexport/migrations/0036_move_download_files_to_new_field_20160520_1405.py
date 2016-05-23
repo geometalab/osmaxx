@@ -44,7 +44,7 @@ def inverse_copy_old_file_to_file_to_export(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('excerptexport', '0036_auto_20160520_1402'),
+        ('excerptexport', '0035_auto_20160520_1402'),
     ]
 
     operations = [
