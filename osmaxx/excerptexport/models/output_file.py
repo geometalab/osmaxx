@@ -11,7 +11,7 @@ from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
 
 def uuid_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/osmaxx/<public_uuid>/<filename>
-    return '{0}/{1}/{2}/{3}'.format('osmaxx', 'outputfiles', instance.public_identifier, filename)
+    return os.path.join('osmaxx', 'outputfiles', str(instance.public_identifier), filename)
 
 
 class OutputFile(models.Model):
