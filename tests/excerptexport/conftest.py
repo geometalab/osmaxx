@@ -26,27 +26,27 @@ def extraction_order(excerpt, user, db):
     return extraction_order
 
 
-@pytest.fixture(
-    params=[formats.FGDB, formats.SHAPEFILE, formats.GPKG, formats.SPATIALITE, formats.GARMIN]
-)
+@pytest.fixture(params=[formats.FGDB, formats.SHAPEFILE, formats.GPKG, formats.SPATIALITE, formats.GARMIN])
 def export(request, extraction_order):
     return Export.objects.create(
         extraction_order=extraction_order,
-        file_format=request.param
+        file_format=request.param,
     )
 
 
 @pytest.fixture
 def output_file(export):
-    return OutputFile.objects.create(
-        mime_type='test/plain', export=export, content_type='text', file_extension='zip'
-    )
+    return OutputFile.objects.create(mime_type='test/plain', export=export, content_type='text', file_extension='zip')
 
 
 @pytest.fixture
-def output_file_with_file(output_file):
+def output_file_filename():
+    return 'download_file.zip'
+
+
+@pytest.fixture
+def output_file_with_file(output_file, output_file_filename):
     from django.core.files.base import ContentFile
-    name = 'download_file.zip'
     file = ContentFile(b"some content")
-    output_file.file.save(name, file)
-    return output_file, name
+    output_file.file.save(output_file_filename, file)
+    return output_file
