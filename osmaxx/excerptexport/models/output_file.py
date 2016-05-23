@@ -46,7 +46,7 @@ class OutputFile(models.Model):
 
     def get_filename_display(self):
         if self.file:
-            return self.file.name.split('/')[-1]
+            return os.path.basename(self.file.name)
         return ''
 
     def get_absolute_url(self):
