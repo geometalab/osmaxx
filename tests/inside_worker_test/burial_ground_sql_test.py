@@ -56,4 +56,5 @@ def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch):
             yield engine
         finally:
             cleanup_osmaxx_schemas(bootstrapper._postgres._engine)
+
     return import_data
