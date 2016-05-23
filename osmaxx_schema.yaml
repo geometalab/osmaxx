@@ -672,13 +672,12 @@ layers:
              correlated_attributes:
                "aggtype": 'public'
              description: 'A venue where a variety of arts are performed or conducted'
-          "graveyard":
+          "grave_yard":
               osm_tags:
-                - "amenity": 'prison'
-                - "landuse": 'cemetery'
+                - "amenity": 'grave_yard'
               correlated_attributes:
                 "aggtype": 'public'
-              description: "A (smaller) place of burial, often you'll find a church nearby. Large places are usually cemetery."
+              description: "A place where people, or sometimes animals are buried which is close to a place of worship."
           "mortuary":
               osm_tags:
                 - "amenity": 'mortuary'
