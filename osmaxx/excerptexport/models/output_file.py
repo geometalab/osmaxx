@@ -44,7 +44,7 @@ class OutputFile(models.Model):
             + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
             + 'identifier: ' + str(self.public_identifier)
 
-    def get_filename(self):
+    def get_filename_display(self):
         if self.file:
             return self.file.name.split('/')[-1]
         return ''
