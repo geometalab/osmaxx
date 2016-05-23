@@ -1,1 +1,1 @@
-worker: python3 ./osmaxx_conversion_service/manage.py rqworker default
+worker: ${HOME}/entrypoint/wait-for-it.sh localhost:5432 -t 30 && python3 ./osmaxx_conversion_service/manage.py rqworker default

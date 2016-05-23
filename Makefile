@@ -67,9 +67,10 @@ tox: up-redis up-pg up-pg_translit
 
 .PHONY: up-redis
 up-redis:
-	docker pull redis
+	docker pull redis  > /dev/null
 	docker create -p "127.0.0.1:6379:6379" --name redis-local redis > /dev/null 2>&1 || true
 	docker start redis-local > /dev/null 2>&1 || true
+	./docker_entrypoint/wait-for-it/wait-for-it.sh 127.0.0.1:6379 -t 20
 
 .PHONY: down-redis
 down-redis:
@@ -77,9 +78,10 @@ down-redis:
 
 .PHONY: up-pg
 up-pg:
-	docker pull geometalab/postgis-with-translit > /dev/null 2>&1
-	docker run -d -p "127.0.0.1:54321:5432" -e POSTGRES_DB='postgres' --name pg_tests geometalab/postgis-with-translit > /dev/null 2>&1 \
-	&& sleep 10 || docker start pg_tests > /dev/null 2>&1 && sleep 1
+	docker pull geometalab/postgis-with-translit > /dev/null
+	docker create -p "127.0.0.1:54321:5432" -e POSTGRES_DB='postgres' --name pg_tests geometalab/postgis-with-translit > /dev/null 2>&1 || true
+	docker start pg_tests
+	./docker_entrypoint/wait-for-it/wait-for-it.sh 127.0.0.1:54321 -t 20
 
 .PHONY: down-pg
 down-pg:
@@ -87,9 +89,10 @@ down-pg:
 
 .PHONY: up-pg_translit
 up-pg_translit:
-	docker pull geometalab/postgis-with-translit > /dev/null 2>&1
-	docker run -d -p "127.0.0.1:65432:5432" -e POSTGRES_DB='osmaxx_db' --name pg_translit geometalab/postgis-with-translit > /dev/null 2>&1\
-	&& sleep 10 || docker start pg_translit > /dev/null 2>&1 && sleep 1
+	docker pull geometalab/postgis-with-translit > /dev/null
+	docker create -p "127.0.0.1:65432:5432" -e POSTGRES_DB='osmaxx_db' --name pg_translit geometalab/postgis-with-translit > /dev/null 2>&1  || true
+	docker start pg_translit
+	./docker_entrypoint/wait-for-it/wait-for-it.sh 127.0.0.1:65432 -t 20
 
 .PHONY: down-pg_translit
 down-pg_translit:

@@ -1,0 +1,5 @@
+{% if excerpt.country %}
+    <div{% if min_height %} style="min-height: {{ min_height }}vh"{% endif %} class="minimap" id="minimap-country-{{ excerpt.country.id }}">Enable JavaScript to see the map for {{ excerpt.country.name }}</div>
+{% else %}
+    <div{% if min_height %} style="min-height: {{ min_height }}vh"{% endif %} class="minimap" id="minimap-{{ excerpt.id }}">Enable JavaScript to see the map for {{ excerpt.name }}</div>
+{% endif %}

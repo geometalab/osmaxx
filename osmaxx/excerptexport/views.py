@@ -92,7 +92,7 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView)
     template_name = 'excerptexport/export_list.html'
     context_object_name = 'exports'
     model = Export
-    ordering = ['-id']
+    ordering = ['-extraction_order__excerpt', '-status']
 
     def get_queryset(self):
         return super().get_queryset().filter(extraction_order__orderer=self.request.user)\
@@ -105,6 +105,7 @@ class ExportsDetailView(ExportsListView):
     context_object_name = 'exports'
     model = Export
     pk_url_kwarg = 'id'
+    ordering = ['-status']
 
     def get_queryset(self):
         pk = self.kwargs.get(self.pk_url_kwarg)
