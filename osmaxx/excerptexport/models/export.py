@@ -23,9 +23,10 @@ class TimeStampModelMixin(models.Model):
     updated = models.DateTimeField(_('updated on'), default=None, blank=True, editable=False, null=True)
 
     def save(self, *args, **kwargs):
+        now = datetime.now()
         if not self.id:
-            self.created = datetime.now()
-        self.updated = datetime.now()
+            self.created = now
+        self.updated = now
         super().save(*args, **kwargs)
 
     class Meta:
