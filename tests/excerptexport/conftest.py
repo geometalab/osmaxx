@@ -37,9 +37,14 @@ def export(request, extraction_order):
 
 
 @pytest.fixture
-def output_file_with_file(export):
-    output_file = OutputFile.objects.create(mime_type='test/plain', export=export,
-                                            content_type='text', file_extension='zip')
+def output_file(export):
+    return OutputFile.objects.create(
+        mime_type='test/plain', export=export, content_type='text', file_extension='zip'
+    )
+
+
+@pytest.fixture
+def output_file_with_file(output_file):
     from django.core.files.base import ContentFile
     name = 'download_file.zip'
     file = ContentFile(b"some content")

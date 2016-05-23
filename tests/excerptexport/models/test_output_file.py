@@ -1,3 +1,7 @@
+def test_output_file_get_filename_display_returns_correct_string_without_file(output_file, db):
+    assert output_file.get_filename_display() == ''
+
+
 def test_output_file_get_filename_display_returns_correct_string(output_file_with_file, db):
     output_file, name = output_file_with_file
     assert output_file.get_filename_display() is not None
