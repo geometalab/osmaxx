@@ -1,8 +1,0 @@
-{% spaceless %}
-    {% with content_type|lower as type %}
-        <strong class="content_type_description {{ content_type }}">
-            {% include 'excerptexport/partials/content_file_type_description.html' with content_type=content_type %}
-        </strong>
-    {% endwith %}
-    (<span class="content_type_name">{{ content_type }}</span>)
-{% endspaceless %}

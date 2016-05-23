@@ -1,5 +1,4 @@
 import logging
-import uuid
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -8,7 +7,6 @@ from rest_framework.reverse import reverse
 from osmaxx.conversion_api import statuses
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
 from osmaxx.conversion_api.statuses import FAILED, FINAL_STATUSES, FINISHED
-from osmaxx.utils.private_system_storage import get_default_private_storage
 
 INITIAL = 'initial'
 INITIAL_CHOICE = (INITIAL, _('initial'))
@@ -99,15 +97,14 @@ class Export(models.Model):
         from . import OutputFile
         api_client = ConversionApiClient()
         file_content = api_client.get_result_file(self.conversion_service_job_id)
-        file_location = get_default_private_storage().save(
-            name=str(uuid.uuid4()),
-            content=file_content,
-        )
-        OutputFile.objects.create(
+        of = OutputFile.objects.create(
             export=self,
             mime_type='application/zip',
             file_extension='zip',
-            file=file_location,
+        )
+        of.file.save(
+            of.download_file_name,
+            file_content,
         )
 
     @property
