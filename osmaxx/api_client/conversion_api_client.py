@@ -9,7 +9,6 @@ from requests import HTTPError
 
 from osmaxx.api_client.API_client import JWTClient, reasons_for, LazyChunkedRemoteFile
 from osmaxx.excerptexport.models import OutputFile
-from osmaxx.utils import get_default_private_storage
 
 logger = logging.getLogger(__name__)
 
@@ -116,8 +115,7 @@ class ConversionApiClient(JWTClient):
             extraction_order=extraction_order,
         )
         file_name = str(output_file.public_identifier) + '.zip'
-        output_file.file = get_default_private_storage().save(file_name, ContentFile(result_response.content))
-        output_file.save()
+        output_file.file.save(file_name, ContentFile(result_response.content))
 
     def job_status(self, export):
         """

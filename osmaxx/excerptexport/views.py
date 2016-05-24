@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseNotFound, HttpResponseRedirect, FileResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
@@ -19,8 +19,7 @@ from osmaxx.contrib.auth.frontend_permissions import (
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
-from osmaxx.utils import get_default_private_storage
-from .models import OutputFile, Export
+from .models import Export
 
 
 logger = logging.getLogger(__name__)
@@ -58,24 +57,6 @@ class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, 
     def get_form_class(self):
         return super().get_form_class().get_dynamic_form_class(self.request.user)
 order_existing_excerpt = OrderExistingExcerptView.as_view()
-
-
-def download_file(request, uuid):
-    output_file = get_object_or_404(OutputFile, public_identifier=uuid, deleted_on_filesystem=False)
-    if not output_file.file:
-        return HttpResponseNotFound('<p>No output file attached to output file record.</p>')
-
-    download_file_name = output_file.download_file_name
-    private_storage = get_default_private_storage()
-
-    # stream file in chunks
-    response = FileResponse(
-        private_storage.open(output_file.file),
-        content_type=output_file.mime_type
-    )
-    response['Content-Length'] = private_storage.size(output_file.file)
-    response['Content-Disposition'] = 'attachment; filename=%s' % download_file_name
-    return response
 
 
 class OwnershipRequiredMixin(SingleObjectMixin):
