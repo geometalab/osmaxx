@@ -2816,19 +2816,19 @@ layers:
             correlated_attributes:
               "aggtype": 'air_traffic'
             description: 'An Aerodrome (UK), Airport (US)'
-          "taxiway":
+          "taxiway": &transport_type_taxiway
             osm_tags:
              - "aeroway": 'taxiway'
             correlated_attributes:
               "aggtype": 'air_traffic'
             description: 'Where airplanes manouevre between runways and parking areas.'
-          "apron":
+          "apron": &transport_type_apron
             osm_tags:
              - "aeroway": 'apron'
             correlated_attributes:
               "aggtype": 'air_traffic'
             description: 'An apron is the surfaced part of an airport where planes park.'
-          "runway":
+          "runway": &transport_type_runway
             osm_tags:
              - "aeroway": 'runway'
             correlated_attributes:
@@ -2871,6 +2871,14 @@ layers:
               "aggtype": 'public_transport'
             description: 'Where public transports stop to pick up passengers'
   "transport_p": *layer_transport_a
+  "transport_l":
+          "taxiway": *transport_type_taxiway
+          "apron": *transport_type_apron
+          "runway": *transport_type_runway
+    attributes:
+      "type":
+        type: text
+        values:
   "utility_a": &layer_utility_a
     attributes:
       "aggtype":
