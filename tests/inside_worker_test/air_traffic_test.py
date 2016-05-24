@@ -19,13 +19,18 @@ def osm_tags(request):
 
 
 @pytest.fixture
-def misc_l():
-    return DbTable('misc_l', osm_models.metadata, schema='osmaxx')
+def misc_l(osmaxx_output_schema):
+    return DbTable('misc_l', osm_models.metadata, schema=osmaxx_output_schema)
 
 
 @pytest.fixture
-def transport_l():
-    return DbTable('transport_l', osm_models.metadata, schema='osmaxx')
+def transport_l(osmaxx_output_schema):
+    return DbTable('transport_l', osm_models.metadata, schema=osmaxx_output_schema)
+
+
+@pytest.fixture(params=['osmaxx', 'view_osmaxx'])
+def osmaxx_output_schema(request):
+    return request.param
 
 
 @slow

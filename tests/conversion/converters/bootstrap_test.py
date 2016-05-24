@@ -126,6 +126,7 @@ class BootStrapperTest(TestCase):
                 'sql/filter/create_view/1620_view_traffic_p.sql',
                 'sql/filter/create_view/1710_view_transport_a.sql',
                 'sql/filter/create_view/1720_view_transport_p.sql',
+                'sql/filter/create_view/1730_view_transport_l.sql',
                 'sql/filter/create_view/1810_view_utility_a.sql',
                 'sql/filter/create_view/1820_view_utility_p.sql',
                 'sql/filter/create_view/1830_view_utility_l.sql',
