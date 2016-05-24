@@ -18,7 +18,6 @@ LOGIN_URL = '/token-auth/'
 USERNAME = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
 PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
 
-OLD_CONVERSION_JOB_URL = '/jobs/'  # TODO: remove
 CONVERSION_JOB_URL = '/conversion_job/'
 ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
 
