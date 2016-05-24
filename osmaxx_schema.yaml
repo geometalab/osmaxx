@@ -2824,7 +2824,7 @@ layers:
             description: 'Where airplanes manouevre between runways and parking areas.'
           "apron":
             osm_tags:
-             - "aeroway": 'taxiway'
+             - "aeroway": 'apron'
             correlated_attributes:
               "aggtype": 'air_traffic'
             description: 'An apron is the surfaced part of an airport where planes park.'
