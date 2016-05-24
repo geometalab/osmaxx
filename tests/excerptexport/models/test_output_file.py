@@ -8,3 +8,12 @@ def test_output_file_get_filename_display_returns_correct_string(output_file_wit
     assert '/' not in output_file.get_filename_display()
     assert output_file.file.name.split('/')[-1] == output_file.get_filename_display()
     assert output_file_filename == output_file.get_filename_display()
+
+
+def test_output_file_get_absolute_url_returns_excerpt_detail_with_no_file(output_file, db):
+    reverse_url = '/exports/{}/'.format(output_file.export.extraction_order.excerpt.id)
+    assert output_file.get_absolute_url() == reverse_url
+
+
+def test_output_file_get_absolute_url_returns_file_download_url_with_file(output_file_with_file, db):
+    assert output_file_with_file.get_absolute_url() == output_file_with_file.file.url
