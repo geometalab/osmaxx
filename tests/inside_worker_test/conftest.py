@@ -1,11 +1,12 @@
 import os
+from contextlib import contextmanager
 
 import pytest
 import sqlalchemy
 from sqlalchemy.engine.url import URL as DBURL
 from sqlalchemy_utils import functions as sql_alchemy_utils
 
-from tests.conftest import postgres_container_userland_port
+from tests.conftest import postgres_container_userland_port, area_polyfile_string
 from tests.inside_worker_test.declarative_schema import osm_models
 
 slow = pytest.mark.skipif(
@@ -144,3 +145,40 @@ def sql_from_bootstrap_relative_location(file_name):
     script_path = os.path.join(os.path.abspath(os.path.dirname(bootstrap.__file__)), file_name)
     content = open(script_path, 'r').read()
     return content
+
+
+@pytest.fixture()
+def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch):
+    from tests.inside_worker_test.conftest import cleanup_osmaxx_schemas
+    from osmaxx.conversion.converters.converter_gis.bootstrap.bootstrap import BootStrapper
+
+    assert osmaxx_schemas == clean_osm_tables  # same db-connection
+    engine = osmaxx_schemas
+    monkeypatch.setattr(
+        'osmaxx.conversion.converters.converter_gis.helper.postgres_wrapper.create_engine', lambda *_, **__: engine)
+
+    class _BootStrapperWithoutPbfFile(BootStrapper):
+        def __init__(self, data):
+            super().__init__(area_polyfile_string=area_polyfile_string())
+            self.data = data
+
+        def _reset_database(self):
+            pass  # Already taken care of by clean_osm_tables fixture.
+
+        def _import_from_world_db(self):
+            for table, values in self.data.items():
+                engine.execute(table.insert().execution_options(autocommit=True), values)
+
+        def _setup_db_functions(self):
+            pass  # Already taken care of by osmaxx_functions fixture.
+
+    @contextmanager
+    def import_data(data):
+        bootstrapper = _BootStrapperWithoutPbfFile(data)
+        try:
+            bootstrapper.bootstrap()
+            yield engine
+        finally:
+            cleanup_osmaxx_schemas(bootstrapper._postgres._engine)
+
+    return import_data

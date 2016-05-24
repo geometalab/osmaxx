@@ -9,7 +9,7 @@ import django.utils.datetime_safe
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('excerptexport', '0034_auto_20160519_0825'),
+        ('excerptexport', '0036_move_download_files_to_new_field_20160520_1405'),
     ]
 
     operations = [

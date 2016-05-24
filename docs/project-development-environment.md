@@ -67,7 +67,7 @@ To run the application tests only, see [Commonly used commands while developing 
 
 ## Access the application
 
-`http://<your_ip>:8000`
+`http://<your_ip>:8888`
 
 where `<your_ip>` is your (public) IP as reported by
 ```bash
@@ -82,7 +82,7 @@ or add
 
 to your `/etc/hosts` file and access by
 
-[http://osmaxx.dev:8000](http://osmaxx.dev:8000)
+[http://osmaxx.dev:8888](http://osmaxx.dev:8888)
 
 ## Enable development with debug toolbar enabled
 
