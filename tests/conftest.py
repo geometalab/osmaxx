@@ -266,8 +266,8 @@ def persisted_valid_clipping_area():
 @pytest.fixture
 def authorized_client(authenticated_client):
     from django.contrib.auth.models import Group
-    from osmaxx.contrib.auth.frontend_permissions import FRONTEND_USER_GROUP
-    authenticated_client.user.groups.add(Group.objects.get(name=FRONTEND_USER_GROUP))
+    from django.conf import settings
+    authenticated_client.user.groups.add(Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP))
     return authenticated_client
 
 
