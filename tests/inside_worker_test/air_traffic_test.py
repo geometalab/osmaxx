@@ -29,23 +29,21 @@ def transport_l():
 
 
 @slow
-def test_osmaxx_data_model_processing_puts_aeroway_line_features_into_misc_l(
-        aeroway_line_feature_data_import, misc_l, osm_tags):
+def test_osmaxx_data_model_processing_puts_aeroway_line_features_into_misc_l(aeroway_line_feature_data_import, misc_l):
     engine = aeroway_line_feature_data_import
     with closing(engine.execute(sqlalchemy.select('*').select_from(misc_l))) as result:
+        assert result.rowcount == 0
+
+
+@slow
+def test_osmaxx_data_model_processing_produces_no_layer_transport_l(
+        aeroway_line_feature_data_import, transport_l, osm_tags):
+    engine = aeroway_line_feature_data_import
+    with closing(engine.execute(sqlalchemy.select('*').select_from(transport_l))) as result:
         assert result.rowcount == 1
         row = result.fetchone()
         assert row['type'] == osm_tags['aeroway']
         assert row['aggtype'] == 'air_traffic'
-
-
-@slow
-def test_osmaxx_data_model_processing_produces_no_layer_transport_l(aeroway_line_feature_data_import, transport_l):
-    engine = aeroway_line_feature_data_import
-    with pytest.raises(sqlalchemy.exc.ProgrammingError) as excinfo:
-        with closing(engine.execute(sqlalchemy.select('*').select_from(transport_l))):
-            pass
-    assert 'relation "osmaxx.transport_l" does not exist' in excinfo.value.orig.pgerror
 
 
 @pytest.yield_fixture

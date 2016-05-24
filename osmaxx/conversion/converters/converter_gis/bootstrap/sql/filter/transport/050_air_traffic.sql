@@ -1,5 +1,5 @@
 -- air_traffic --
-INSERT INTO osmaxx.misc_l
+INSERT INTO osmaxx.transport_l
   SELECT osm_id as osm_id,
     osm_timestamp as lastchange,
     CASE

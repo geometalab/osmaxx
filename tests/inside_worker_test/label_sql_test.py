@@ -300,7 +300,7 @@ def test_label_traffic_calming(osmaxx_schemas, label_input):
 @slow
 def test_label_air_traffic(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
-    address_script_setup = 'sql/filter/misc/000_setup_misc_table.sql'
+    address_script_setup = 'sql/filter/transport/040_setup-drop_and_recreate_table_transport_l.sql'
     engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script_setup)).execution_options(autocommit=True))
 
     expected_label = label_input.pop('expected_label')
@@ -308,11 +308,11 @@ def test_label_air_traffic(osmaxx_schemas, label_input):
 
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
-    address_script = 'sql/filter/misc/040_air_traffic.sql'
+    address_script = 'sql/filter/transport/050_air_traffic.sql'
     result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
     assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.misc_l").execution_options(autocommit=True))
+    result = engine.execute(sqlalchemy.text("select label from osmaxx.transport_l").execution_options(autocommit=True))
     assert result.fetchone()['label'] == expected_label
 
 
