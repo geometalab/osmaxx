@@ -2878,13 +2878,13 @@ layers:
             description: 'Where public transports stop to pick up passengers'
   "transport_p": *layer_transport_a
   "utility_a": &layer_utility_a
-    attributes:
+    attributes: &utility_a_p_attributes
       "aggtype":
         type: text
         description: "Grouping several different 'type' to a common 'type' (aka enmu)"
-      "type":
+      "type": &utility_a_p_attribute_type
         type: text
-        values:
+        values: &utility_a_p_type_values
           "tower":
             osm_tags:
              - "power": 'tower'
@@ -2984,10 +2984,12 @@ layers:
               "aggtype": 'power'
             description: 'All other types of power which is not defined as above'
   "utility_p": &layer_utility_p
-    attributes: 
+    attributes:
+      <<: *utility_a_p_attributes
       "type":
-        type: text
+        <<: *utility_a_p_attribute_type
         values:
+          <<: *utility_a_p_type_values
           "pole":
             osm_tags:
              - "power": 'pole'
