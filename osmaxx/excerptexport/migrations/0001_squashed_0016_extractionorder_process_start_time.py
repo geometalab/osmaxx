@@ -15,7 +15,9 @@ class PrivateFileSystemStorage(FileSystemStorage):
     # without having the hardcoded PRIVATE_MEDIA_ROOT in automatic generated migrations.
     def __init__(self, *args, **kwargs):
         if 'location' not in kwargs:
-            kwargs['location'] = settings.PRIVATE_MEDIA_ROOT
+            import environ
+            env = environ.Env()
+            kwargs['location'] = env.str('DJANGO_PRIVATE_MEDIA_ROOT', default=str(settings.ROOT_DIR.path('..', 'private_media')))
         super().__init__(*args, **kwargs)
 
 

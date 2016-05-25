@@ -1,6 +1,7 @@
+from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import User, Group
-from osmaxx.contrib.auth.frontend_permissions import _may_user_access_osmaxx_frontend, FRONTEND_USER_GROUP
+from osmaxx.contrib.auth.frontend_permissions import _may_user_access_osmaxx_frontend
 
 
 class TestFrontendPermissions(TestCase):
@@ -17,7 +18,7 @@ class TestFrontendPermissions(TestCase):
         To activate a user for frontend access, add it to the osmaxx frontend group.
         """
         a_user = User.objects.create_user('U. Ser', 'user@example.com', 'password')
-        a_user.groups.add(Group.objects.get(name=FRONTEND_USER_GROUP))
+        a_user.groups.add(Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP))
         self.assertTrue(_may_user_access_osmaxx_frontend(a_user))
 
     def test_superuser_can_access_frontend_even_if_not_in_osmaxx_group(self):

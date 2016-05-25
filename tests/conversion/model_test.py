@@ -24,7 +24,7 @@ def test_job_get_download_url_returns_path_when_file_done(finished_conversion_jo
 @pytest.mark.django_db()
 def test_job_removes_file_when_deleted(finished_conversion_job):
     assert finished_conversion_job.status == FINISHED
-    file_path = finished_conversion_job.resulting_file.name
+    file_path = finished_conversion_job.resulting_file.path
     assert file_path is not None
     assert os.path.exists(file_path)
     finished_conversion_job.delete()

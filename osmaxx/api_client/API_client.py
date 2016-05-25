@@ -15,7 +15,6 @@ class RESTApiClient:
 
     def __init__(self, service_base):
         self.service_base = service_base
-        self.client = requests.session()
 
     def get(self, url, params=None, **kwargs):
         return self._request(requests.get, url, dict(params=params), kwargs)
