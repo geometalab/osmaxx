@@ -114,6 +114,7 @@ class Export(TimeStampModelMixin, models.Model):
         from . import OutputFile
         api_client = ConversionApiClient()
         file_content = api_client.get_result_file(self.conversion_service_job_id)
+        now = datetime.now()
         of = OutputFile.objects.create(
             export=self,
             mime_type='application/zip',
@@ -123,6 +124,8 @@ class Export(TimeStampModelMixin, models.Model):
             of.download_file_name,
             file_content,
         )
+        self.finished = now
+        self.save()
 
     @property
     def is_status_final(self):

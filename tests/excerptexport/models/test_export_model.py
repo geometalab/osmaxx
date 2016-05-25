@@ -22,3 +22,10 @@ def test_saved_again_export_has_correct_time_stamp(export):
     assert export.updated is not None
     assert export.created is not None
     assert export.created != export.updated
+
+
+@pytest.mark.django_db
+def test_saved_again_export_doesnt_change_finished(export):
+    assert export.finished is None
+    export.save()
+    assert export.finished is None
