@@ -1,4 +1,5 @@
 import logging
+from collections import OrderedDict
 
 from django.conf import settings
 from django.contrib import messages
@@ -8,6 +9,7 @@ from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
+from django.utils.datastructures import OrderedSet
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
@@ -19,6 +21,7 @@ from osmaxx.contrib.auth.frontend_permissions import (
     FrontendAccessRequiredMixin
 )
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
+from osmaxx.excerptexport.models import Excerpt
 from .models import Export
 
 
@@ -69,30 +72,46 @@ class OwnershipRequiredMixin(SingleObjectMixin):
         return o
 
 
-class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
+class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, TemplateView):
     template_name = 'excerptexport/export_list.html'
     context_object_name = 'exports'
-    model = Export
-    ordering = ['-extraction_order__excerpt', '-status']
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['data'] = OrderedDict(
+            (
+                Excerpt.objects.get(pk=excerpt_id),
+                self.get_queryset().filter(extraction_order__excerpt__pk=excerpt_id)
+                .select_related('extraction_order', 'extraction_order__excerpt', 'output_file'))
+            for excerpt_id in self._get_timeley_ordered_excerpts()
+        )
+        return context_data
+
+    def _get_timeley_ordered_excerpts(self):
+        if not hasattr(self, '_timley_ordered_excerpt_ids'):
+            self._timley_ordered_excerpt_ids = OrderedSet(
+                self.get_queryset().
+                order_by('-updated').values_list('extraction_order__excerpt', flat=True)
+            )
+        return self._timley_ordered_excerpt_ids
 
     def get_queryset(self):
-        return super().get_queryset().filter(extraction_order__orderer=self.request.user)\
-            .select_related('extraction_order', 'extraction_order__excerpt', 'output_file')
+        return Export.objects.filter(extraction_order__orderer=self.request.user)
 export_list = ExportsListView.as_view()
 
 
-class ExportsDetailView(ExportsListView):
+class ExportsDetailView(ListView):
     template_name = 'excerptexport/export_detail.html'
     context_object_name = 'exports'
     model = Export
     pk_url_kwarg = 'id'
-    ordering = ['-status']
 
     def get_queryset(self):
         pk = self.kwargs.get(self.pk_url_kwarg)
         if pk is None:
             raise AttributeError("ExportsDetailView must be called with an Excerpt pk.")
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().filter(extraction_order__orderer=self.request.user)\
+            .select_related('extraction_order', 'extraction_order__excerpt', 'output_file')
         queryset = queryset.filter(extraction_order__excerpt__pk=pk)
         return queryset
 export_detail = ExportsDetailView.as_view()
