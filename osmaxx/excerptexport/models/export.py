@@ -9,10 +9,6 @@ from osmaxx.conversion_api import statuses
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
 from osmaxx.conversion_api.statuses import FAILED, FINAL_STATUSES, FINISHED
 
-INITIAL = 'initial'
-INITIAL_CHOICE = (INITIAL, _('initial'))
-STATUS_CHOICES = (INITIAL_CHOICE,) + statuses.STATUS_CHOICES
-
 logger = logging.getLogger(__name__)
 
 
@@ -43,6 +39,10 @@ class Export(TimeStampModelMixin, models.Model):
     - the transformation of the data from the data sources' schemata (e.g. ``osm2pgsql`` schema) to the OSMaxx schema
     - the actual export to one specific GIS or navigation file format with one specific set of parameters
     """
+    INITIAL = 'initial'
+    INITIAL_CHOICE = (INITIAL, _('initial'))
+    STATUS_CHOICES = (INITIAL_CHOICE,) + statuses.STATUS_CHOICES
+
     extraction_order = models.ForeignKey('excerptexport.ExtractionOrder', related_name='exports',
                                          verbose_name=_('extraction order'))
     file_format = models.CharField(choices=FORMAT_CHOICES, verbose_name=_('file format / data format'), max_length=10)
@@ -71,7 +71,7 @@ class Export(TimeStampModelMixin, models.Model):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
 
     def set_and_handle_new_status(self, new_status, *, incoming_request):
-        assert new_status in dict(STATUS_CHOICES)
+        assert new_status in dict(self.STATUS_CHOICES)
         if self.status != new_status:
             self.status = new_status
             self.save()
