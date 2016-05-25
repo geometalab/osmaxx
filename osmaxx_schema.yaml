@@ -676,8 +676,14 @@ layers:
               osm_tags:
                 - "amenity": 'grave_yard'
               correlated_attributes:
-                "aggtype": 'public'
-              description: "A place where people, or sometimes animals are buried which is close to a place of worship."
+                "aggtype": 'burial_ground'
+              description: "A place where people, or sometimes animals are buried which is close to a place of worship. See 'cemetery' for burial grounds not in the yard of a place of worship."
+          "cemetery":
+              osm_tags:
+                - "landuse": 'cemetery'
+              correlated_attributes:
+                "aggtype": 'burial_ground'
+              description: "A place where people, or sometimes animals are buried which is independent of places of worship. See 'grave_yard' for burial grounds in the yard of a place of worship."
           "mortuary":
               osm_tags:
                 - "amenity": 'mortuary'

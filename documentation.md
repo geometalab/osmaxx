@@ -515,7 +515,8 @@ refer to natural_a
 |miscpoi|drinking_water|amenity='drinking_water' |Drinking water is a place where humans can obtain potable water for consumption. Typically, the water is used for only drinking. Also known as a drinking fountain or water tap.|
 |shop|mobile_phone|shop='mobile_phone' |Shop focused on selling mobile phones and accessories|
 |leisure|stadium|leisure='stadium' |A major sports arena with substantial tiered seating.|
-|public|grave_yard|amenity='grave_yard'|A place where people, or sometimes animals are buried which is close to a place of worship.|
+|burial_ground|grave_yard|amenity='grave_yard'|A place where people, or sometimes animals are buried which is close to a place of worship.  See 'cemetery' for burial grounds not in the yard of a place of worship.|
+|burial_ground|cemetery|landuse='cemetery'|A place where people, or sometimes animals are buried which is independent of places of worship. See 'grave_yard' for burial grounds in the yard of a place of worship.|
 |accommodation_in|hotel|tourism='hotel' |provide accommodation for guests with usually numbered rooms. Some facilities provided may include a basic bed, storage for clothing and additional guest facilities may include swimming pool, childcare, and conference facilities.|
 |shop|kiosk|shop='kiosk' |A small shop on the pavement that sells magazines, tobacco, newspapers, sweets and stamps.|
 |recycling|glass|recycling:glass='yes' |Container or centre where you can take waste for recycling for glass.|
