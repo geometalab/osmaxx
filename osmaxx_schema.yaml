@@ -1737,7 +1737,6 @@ layers:
     attributes: &layer_railway_bridge_l_attributes
       "aggtype":
         type: text
-        osm_tags: {}
         description: "Grouping several different 'type' to a common 'type'. (aka enmu)"
       "z_order":
         type: smallint
@@ -1750,8 +1749,7 @@ layers:
           "1":
             osm_tags:
               "bridge": 'yes'
-        description: &railway_attribute_bridge_description >
-                     'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
+        description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
       "voltage":
         type: text
         osm_tags: 
@@ -1921,8 +1919,7 @@ layers:
           "0":
             osm_tags: 
               "tunnel": 'no'
-        description: &railway_attribute_tunnel_description >
-          A tunnel is an underground passage for a road or similar.
+        description: 'A tunnel is an underground passage for a road or similar.'
   "railway_tunnel_l":
     attributes: 
       "tunnel":
@@ -1931,44 +1928,30 @@ layers:
           "1":
             osm_tags: 
               "tunnel": 'yes'
-        description: *railway_attribute_tunnel_description
+        description: 'A tunnel is an underground passage for a road or similar.'
   "road_ground_l":
     attributes: &layer_road_ground_l_attributes
       "aggtype":
         type: text
-        description: >
-          Grouping several different 'type' to a common 'type'.
-          (aka enmu)
+        description: "Grouping several different 'type' to a common 'type'. (aka enmu)"
       "ref":
         type: text
-        description: >
-          Used for reference numbers or codes.
-          Common for roads, highway exits, routes, etc.
+        description: 'Used for reference numbers or codes. Common for roads, highway exits, routes, etc.'
         osm_tags:
           "ref": {}
       "oneway":
         type: boolean
-        description: >
-          Oneway streets are streets where you are only allowed
-          to drive in one direction.
+        description: 'Oneway streets are streets where you are only allowed to drive in one direction.'
         osm_tags:
           "oneway": {}
       "maxspeed":
         type: smallint
-        description: >
-          Specifies the maximum legal speed limit
-          on a road, railway or waterway
+        description: 'Specifies the maximum legal speed limit on a road, railway or waterway'
         osm_tags:
           "maxspeed": {}
       "z_order":
         type: smallint
-        description: >
-          The layer tag is used to describe vertical relationships
-          between different crossing or overlapping map features.
-          Use this in combination with bridge/tunnel tags when one way
-          passes above or under another one. For describing different
-          floors within a building or levels of multilevel parking decks
-          use levels instead of layers.
+        description: 'The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers.'
         osm_tags:
           "layer": {}
       "bridge":
@@ -1978,18 +1961,14 @@ layers:
            "0":
              osm_tags:
                "bridge": 'no'
-        description: &road_attribute_bridge_description >
-          A bridge is an artificial construction that spans features
-          such as roads, railways, waterways or valleys and carries a
-          road, railway or other feature.
+        description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
       "tunnel":
         type: boolean
         values:
           "0":
             osm_tags:
               "tunnel": 'yes'
-        description: &road_attribute_tunnel_description >
-          A tunnel is an underground passage for a road or similar.
+        description: 'A tunnel is an underground passage for a road or similar.'
       "type":
         type: text
         values:
@@ -2386,7 +2365,7 @@ layers:
            "1":
              osm_tags:
                "bridge": "yes"
-        description: *road_attribute_bridge_description
+        description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
   "road_tunnel_l":
       attributes: *layer_road_ground_l_attributes
       "tunnel":
@@ -2396,7 +2375,7 @@ layers:
            "1":
              osm_tags:
                "tunnel": "yes"
-        description: *road_attribute_tunnel_description
+        description: 'A tunnel is an underground passage for a road or similar.'
   "route_l": &layer_route_l
     attributes:
       "type":

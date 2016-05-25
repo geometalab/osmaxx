@@ -65,9 +65,13 @@ with open("documentation.md", 'w') as out_file:
         yaml_to_md(layer_name, layers[layer_name], out=out_file)
 
 '''
-{%- if definition['osm_tags'][1] is defined -%}
-        {{- definition['osm_tags'][1].keys()[0] }}='{{ definition['osm_tags'][1].values()[0] }}'|
-    {%- else -%}
-        |
-    {%- endif -%}
+{{- attribute_name }}|
+        {{- attribute['type'] }}|
+        {{- attribute['description'] }}|
+        {{- attribute['values'][attribute['values'].keys()[0]]['osm_tags'].keys()[0] }}='
+        {%- if attribute['values'][attribute['values'].keys()[0]]['osm_tags'].values()[0] == 0 %}
+            {{- 'no' }}
+        {%- else %}
+            {{- 'yes' }}
+        {%- endif %}'|
 '''

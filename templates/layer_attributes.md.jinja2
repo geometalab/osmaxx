@@ -1,11 +1,23 @@
 {% if dicts_len > 1 %}
 {{ header }}
 {% for attribute_name, attribute in attributes.items() -%}
-    {%- if attribute['osm_tags'] is not defined and attribute['description'] is defined %}|
-        {{- attribute_name|e }}|
-        {{- attribute['type'] }}|
-        {{- attribute['description']|safe }}
-        {{- '| |\n' }}
+    {%- if attribute['osm_tags'] is not defined and attribute['description'] is defined %}
+        {%- if 'bridge' in attribute_name or 'tunnel' in attribute_name %}|
+            {{- attribute_name }}|
+            {{- attribute['type'] }}|
+            {{- attribute['description'] }}|
+            {{- attribute['values'][attribute['values'].keys()[0]]['osm_tags'].keys()[0] }}='
+            {%- if attribute['values'][attribute['values'].keys()[0]]['osm_tags'].values()[0] == 0 %}
+                {{- 'no' }}
+            {%- else %}
+                {{- 'yes' }}
+            {%- endif %}'|{{'\n'}}
+        {%- else %}|
+            {{- attribute_name|e }}|
+            {{- attribute['type'] }}|
+            {{- attribute['description']|safe }}
+            {{- '| |\n' }}
+        {%- endif %}
     {%- elif attribute['osm_tags'] is defined %}|
         {{- attribute_name }}|
         {{- attribute['type'] }}|
