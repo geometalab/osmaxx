@@ -2948,6 +2948,8 @@ layers:
              - "power": 'station'
              # or
              - "power": 'substation'
+             # or
+             - "power": 'sub_station'
             correlated_attributes:
               "aggtype": 'substation'
             description: 'A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines'

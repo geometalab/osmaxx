@@ -845,7 +845,7 @@ railway_ground_l: bridge = 0, tunnel = 0
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|substation|substation|power='station' power='substation'|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
+|substation|substation|power='station' power='substation' power='sub_station'|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
 |transformer|transformer|power='transformer' |A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
 |station|fossil|power='generator' generator:source='gas' or generator:source='coal'|Using the combustion of fuels to heat the water to in turn spin the generators turbine |
 |power|power|power=* |All other types of power which is not defined as above|
