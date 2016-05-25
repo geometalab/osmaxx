@@ -45,9 +45,6 @@ def yaml_to_md(layer_name, layer_definition, out):
     # values of layer attribute "type" (not to be confused with an attribute's type)
 
     type_values = attributes["type"]['values']
-    # osm_tags = attributes["type"]['values'][attributes["type"]['values']]['osm_tags']
-    # tags_len = len(osm_tags.keys())
-    
     correlated_attributes = set()
     for definition in type_values.values():
         for name, _ in definition.get('correlated_attributes', {}).items():
@@ -63,15 +60,3 @@ layers = data['layers']
 with open("documentation.md", 'w') as out_file:
     for layer_name in LAYERS_TO_BE_DOCUMENTED:
         yaml_to_md(layer_name, layers[layer_name], out=out_file)
-
-'''
-{{- attribute_name }}|
-        {{- attribute['type'] }}|
-        {{- attribute['description'] }}|
-        {{- attribute['values'][attribute['values'].keys()[0]]['osm_tags'].keys()[0] }}='
-        {%- if attribute['values'][attribute['values'].keys()[0]]['osm_tags'].values()[0] == 0 %}
-            {{- 'no' }}
-        {%- else %}
-            {{- 'yes' }}
-        {%- endif %}'|
-'''
