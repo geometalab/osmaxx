@@ -603,9 +603,9 @@ See file name conventions above about the meaning of “_a” etc.
 |aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |voltage|text|The voltage level the electrified cable is running on|voltage=*|
 
-railway_bridge_l: bridge = 1
-railway_tunnel_l: tunnel = 1
-railway_ground_l: bridge = 0, tunnel = 0
+railway_bridge_l: bridge = 1  
+railway_tunnel_l: tunnel = 1  
+railway_ground_l: bridge = 0, tunnel = 0  
 
  Values of attributes type  
 
@@ -648,9 +648,9 @@ railway_ground_l: bridge = 0, tunnel = 0
 |ref|text|Used for reference numbers or codes. Common for roads, highway exits, routes, etc.|ref=*|
 |oneway|boolean|Oneway streets are streets where you are only allowed to drive in one direction.|oneway=*|
 
-road_bridge_l: bridge = 1
-road_tunnel_l: tunnel = 1
-road_ground_l: bridge = 0, tunnel = 0
+road_bridge_l: bridge = 1  
+road_tunnel_l: tunnel = 1  
+road_ground_l: bridge = 0, tunnel = 0  
 
  Values of attributes type  
 
