@@ -49,7 +49,7 @@ class OutputFile(models.Model):
             return os.path.basename(self.file.name)
         return ''
 
-    def get_absolute_url(self):
+    def get_file_media_url_or_status_page(self):
         if self.file:
             return self.file.url
         from django.core.urlresolvers import reverse

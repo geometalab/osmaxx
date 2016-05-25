@@ -12,8 +12,10 @@ postgres_container_userland_port = 65432  # required for travis, so using it eve
 
 def pytest_configure():
     from django.conf import settings
+    import environ
 
     settings.configure(
+        ROOT_DIR=environ.Path(__file__) - 1,
         DEBUG_PROPAGATE_EXCEPTIONS=True,
         DATABASES={
             'default': {
@@ -136,11 +138,6 @@ def pytest_configure():
             'PBF_PLANET_FILE_PATH': os.path.join(test_data_dir, 'osm', 'monaco-latest.osm.pbf'),
         },
         _OSMAXX_POLYFILE_LOCATION=os.path.join(test_data_dir, 'polyfiles'),
-
-        # Some of our tests erase PRIVATE_MEDIA_ROOT dir to clean up after themselves,
-        # so DON'T set this to the location of anything valuable.
-        PRIVATE_MEDIA_ROOT=tempfile.mkdtemp(),
-
         OSMAXX_TEST_SETTINGS={
             'download_file_name': '%(excerpt_name)s-%(content_type)s-%(id)s.%(file_extension)s',
             'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
