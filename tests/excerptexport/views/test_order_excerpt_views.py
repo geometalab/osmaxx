@@ -1,7 +1,3 @@
-import shutil
-import os
-
-from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -55,10 +51,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.existing_excerpt_extraction_options = {
             'gis_options': {'coordinate_reference_system': '4326', 'detail_level': 1}
         }
-
-    def tearDown(self):
-        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
-            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
 
     def test_new_when_not_logged_in(self):
         """

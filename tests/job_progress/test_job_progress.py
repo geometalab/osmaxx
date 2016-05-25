@@ -1,9 +1,6 @@
 from unittest.mock import patch, ANY, call, Mock, sentinel
 
-import os
 import requests_mock
-import shutil
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
@@ -280,10 +277,6 @@ class CallbackHandlingTest(APITestCase):
                 ),
             )
         )
-
-    def tearDown(self):
-        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
-            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
 
 
 class ExportUpdaterMiddlewareTest(TestCase):

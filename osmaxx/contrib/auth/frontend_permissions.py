@@ -1,10 +1,7 @@
-from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
 from rest_framework import permissions
-
-FRONTEND_USER_GROUP = settings.OSMAXX_FRONTEND_USER_GROUP
 
 
 def _may_user_access_osmaxx_frontend(user):
