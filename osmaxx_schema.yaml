@@ -593,6 +593,7 @@ layers:
         osm_tags:
            "tower:type": {}
       "type":
+        type: text
         values:
           "police":
             osm_tags:
