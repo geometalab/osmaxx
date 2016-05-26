@@ -18,7 +18,6 @@
             <div class="row">
                 <div class="col-md-6 col-lg-6">
                     <p>
-                        {#                  TODO: replace with direct link to download, as soon as mechanism is switched #}
                         <a href="{{ export.output_file.file.url }}">{{ export.output_file.get_filename_display }}</a>
                     </p>
                 </div>
@@ -31,10 +30,16 @@
                 </div>
                 <div class="col-md-3 col-lg-3">
                     <p>
-                        {% firstof export.finished|date:"Y-m-d H:i:s" export.updated%}
+                        {% firstof export.finished|date:"Y-m-d H:i:s" export.updated %}
                     </p>
                 </div>
             </div>
+        </div>
+    {% elif export.status == "finished" %}{# FIXME: finished is hardcoded, but as long as we don't have the STATUS on the model, we can't access it here! #}
+        <div class="panel-body">
+            <p>{% url 'excerptexport:order_existing_excerpt' as order_existing_url %}
+                {% blocktrans %}This file has been removed from the server. Please <a href="{{ order_existing_url }}">request it</a> again.{% endblocktrans %}
+            </p>
         </div>
     {% endif %}
 </div>
