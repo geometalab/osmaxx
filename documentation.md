@@ -835,6 +835,18 @@ railway_ground_l: bridge = 0, tunnel = 0
 |other_traffic|aerialway_station|aerialway='station' |A station, where passengers can enter and/or leave the aerialway|
 
 
+## transport_l
+
+
+ Values of attributes type  
+
+|aggtype             |values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
+|air_traffic|apron|aeroway='taxiway' |An apron is the surfaced part of an airport where planes park.|
+|air_traffic|runway|aeroway='runway' |Where airplanes take off and land|
+|air_traffic|taxiway|aeroway='taxiway' |Where airplanes manouevre between runways and parking areas.|
+
+
 ## utility_a
 
 |Attributes          |type                |Description                                                           |osm_tags            |
