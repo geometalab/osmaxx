@@ -105,6 +105,12 @@ class ExportsListMixin:
             return query.filter(status=status_filter)
         return query
 
+    def _get_extra_context_data(self):
+        return dict(
+            status_choices=self.status_choices,
+            status_filter=self.request.GET.get('status', None),
+        )
+
 
 class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_list.html'
@@ -114,7 +120,7 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data['status_choices'] = self.status_choices
+        context_data.update(self._get_extra_context_data())
         context_data['excerpt_list_with_exports'] = OrderedDict(
             (
                 Excerpt.objects.get(pk=excerpt_id),
@@ -122,7 +128,6 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
                 .select_related('extraction_order', 'extraction_order__excerpt', 'output_file'))
             for excerpt_id in context_data[self.context_object_name].values_list('id', flat=True)
         )
-        context_data['status_filter'] = self.request.GET.get('status', None)
         return context_data
 
     def get_queryset(self):
