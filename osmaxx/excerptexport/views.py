@@ -73,7 +73,40 @@ class OwnershipRequiredMixin(SingleObjectMixin):
         return o
 
 
-class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
+class ExportsListMixin:
+    @property
+    def excerpt_ids(self):
+        if not hasattr(self, '_excerpt_ids'):
+            self._excerpt_ids = OrderedSet(
+                self.get_user_exports().select_related('extraction_order__excerpt')
+                .values_list('extraction_order__excerpt', flat=True)
+            )
+        return self._excerpt_ids
+
+    @property
+    def status_choices(self):
+        allowed_choices = [
+            statuses.FINISHED,
+            statuses.FAILED,
+        ]
+        return [choice for choice in Export.STATUS_CHOICES if choice[0] in allowed_choices]
+
+    def get_user_exports(self):
+        return self._filter_exports(
+            Export.objects.filter(extraction_order__orderer=self.request.user).order_by('-finished', '-updated')
+        )
+
+    def _filter_exports(self, query):
+        allowed_status_filters = [
+            status[0] for status in self.status_choices
+        ]
+        status_filter = self.request.GET.get('status', None)
+        if status_filter and status_filter in allowed_status_filters:
+            return query.filter(status=status_filter)
+        return query
+
+
+class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_list.html'
     context_object_name = 'excerpts'
     model = Excerpt
@@ -92,39 +125,8 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView)
         context_data['status_filter'] = self.request.GET.get('status', None)
         return context_data
 
-    @property
-    def excerpt_ids(self):
-        if not hasattr(self, '_excerpt_ids'):
-            self._excerpt_ids = OrderedSet(
-                self.get_user_exports().select_related('extraction_order__excerpt')
-                .values_list('extraction_order__excerpt', flat=True)
-            )
-        return self._excerpt_ids
-
-    @property
-    def status_choices(self):
-        allowed_choices = [
-            statuses.FINISHED,
-            statuses.FAILED,
-        ]
-        return [choice for choice in Export.STATUS_CHOICES if choice[0] in allowed_choices]
-
     def get_queryset(self):
             return super().get_queryset().filter(pk__in=self.excerpt_ids)
-
-    def get_user_exports(self):
-        return self._filter_exports(
-            Export.objects.filter(extraction_order__orderer=self.request.user).order_by('-finished', '-updated')
-        )
-
-    def _filter_exports(self, query):
-        allowed_status_filters = [
-            status[0] for status in self.status_choices
-        ]
-        status_filter = self.request.GET.get('status', None)
-        if status_filter and status_filter in allowed_status_filters:
-            return query.filter(status=status_filter)
-        return query
 export_list = ExportsListView.as_view()
 
 
