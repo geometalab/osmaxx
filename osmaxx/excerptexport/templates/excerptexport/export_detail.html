@@ -17,7 +17,11 @@
                                 <h3 class="panel-title">{{ excerpt.name }}</h3>
                                 <div class="col-lg-12">
                                     {% if is_paginated %}
-                                        {% include 'excerptexport/partials/pagination.html' %}
+                                        <div class="row">
+                                            <div class="col-lg-6 col-lg-push-3 last">
+                                                {% include 'excerptexport/partials/pagination.html' %}
+                                            </div>
+                                        </div>
                                     {% endif %}
                                 </div>
                             </div>

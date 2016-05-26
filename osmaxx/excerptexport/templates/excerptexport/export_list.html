@@ -10,7 +10,11 @@
         <div class="col-lg-12">
             <h2>My Exports</h2>
             {% if is_paginated %}
-                {% include 'excerptexport/partials/pagination.html' %}
+                <div class="row">
+                    <div class="col-lg-6 col-lg-push-3 last">
+                        {% include 'excerptexport/partials/pagination.html' %}
+                    </div>
+                </div>
             {% endif %}
             {% for excerpt, exports in excerpt_list_with_exports.items %}
                 <div class="row">

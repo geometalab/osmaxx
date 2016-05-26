@@ -1,11 +1,7 @@
-<div class="row">
-    <div class="col-lg-6 col-lg-push-3">
-        <nav>
-            <ul class="pager">
-                <li class="previous{% if not page_obj.has_previous %} disabled{% endif %}"><a href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"><span aria-hidden="true">&larr;</span> Newer</a></li>
-                <li class="current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</li>
-                <li class="next{% if not page_obj.has_next %} disabled{% endif %}"><a href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}">Older <span aria-hidden="true">&rarr;</span></a></li>
-            </ul>
-        </nav>
-    </div>
-</div>
+<nav>
+    <ul class="pager">
+        <li class="previous{% if not page_obj.has_previous %} disabled{% endif %}"><a href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"><span aria-hidden="true">&larr;</span> Newer</a></li>
+        <li class="current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</li>
+        <li class="next{% if not page_obj.has_next %} disabled{% endif %}"><a href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}">Older <span aria-hidden="true">&rarr;</span></a></li>
+    </ul>
+</nav>
