@@ -72,31 +72,39 @@ class OwnershipRequiredMixin(SingleObjectMixin):
         return o
 
 
-class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, TemplateView):
+class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
     template_name = 'excerptexport/export_list.html'
-    context_object_name = 'exports'
+    context_object_name = 'excerpts'
+    model = Excerpt
+    paginate_by = 2
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data['data'] = OrderedDict(
+        context_data['excerpt_list_with_exports'] = OrderedDict(
             (
                 Excerpt.objects.get(pk=excerpt_id),
-                self.get_queryset().filter(extraction_order__excerpt__pk=excerpt_id)
+                self.get_user_exports().filter(extraction_order__excerpt__pk=excerpt_id).order_by('-finished', '-updated')
                 .select_related('extraction_order', 'extraction_order__excerpt', 'output_file'))
-            for excerpt_id in self._get_timeley_ordered_excerpts()
+            for excerpt_id in context_data[self.context_object_name].values_list('id', flat=True)
         )
         return context_data
 
-    def _get_timeley_ordered_excerpts(self):
-        if not hasattr(self, '_timley_ordered_excerpt_ids'):
-            self._timley_ordered_excerpt_ids = OrderedSet(
-                self.get_queryset().
-                order_by('-updated').values_list('extraction_order__excerpt', flat=True)
+    @property
+    def excerpt_ids(self):
+        if not hasattr(self, '_excerpt_ids'):
+            self._excerpt_ids = OrderedSet(
+                self.get_user_exports().select_related('extraction_order__excerpt')
+                .values_list('extraction_order__excerpt', flat=True)
             )
-        return self._timley_ordered_excerpt_ids
+        return self._excerpt_ids
+
+    def get_user_exports(self):
+        if not hasattr(self, '_user_exports'):
+            self._user_exports = Export.objects.filter(extraction_order__orderer=self.request.user).order_by('-finished', '-updated')
+        return self._user_exports
 
     def get_queryset(self):
-        return Export.objects.filter(extraction_order__orderer=self.request.user)
+        return super().get_queryset().filter(pk__in=self.excerpt_ids)
 export_list = ExportsListView.as_view()
 
 
@@ -105,6 +113,7 @@ class ExportsDetailView(ListView):
     context_object_name = 'exports'
     model = Export
     pk_url_kwarg = 'id'
+    paginate_by = 10
 
     def get_queryset(self):
         pk = self.kwargs.get(self.pk_url_kwarg)

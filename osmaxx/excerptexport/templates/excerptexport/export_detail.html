@@ -15,6 +15,11 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">{{ excerpt.name }}</h3>
+                                <div class="col-lg-12">
+                                    {% if is_paginated %}
+                                        {% include 'excerptexport/partials/pagination.html' %}
+                                    {% endif %}
+                                </div>
                             </div>
                             <div class="panel-body">
                                 <div class="col-lg-6">
@@ -40,7 +45,6 @@
             {% endif %}
         </div>
     </div>
-
 {% endblock %}
 
 
