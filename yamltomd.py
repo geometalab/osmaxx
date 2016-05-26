@@ -1,5 +1,4 @@
 from jinja2 import Template
-from jinja2.ext import loopcontrols
 import yaml
 
 LAYERS_TO_BE_DOCUMENTED = [
