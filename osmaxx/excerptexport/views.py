@@ -99,9 +99,7 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView)
         return self._excerpt_ids
 
     def get_user_exports(self):
-        if not hasattr(self, '_user_exports'):
-            self._user_exports = Export.objects.filter(extraction_order__orderer=self.request.user).order_by('-finished', '-updated')
-        return self._user_exports
+        return Export.objects.filter(extraction_order__orderer=self.request.user).order_by('-finished', '-updated')
 
     def get_queryset(self):
         return super().get_queryset().filter(pk__in=self.excerpt_ids)
