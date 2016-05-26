@@ -77,9 +77,11 @@ class ExportsListMixin:
     @property
     def excerpt_ids(self):
         if not hasattr(self, '_excerpt_ids'):
-            self._excerpt_ids = OrderedSet(
-                self.get_user_exports().select_related('extraction_order__excerpt')
-                .values_list('extraction_order__excerpt', flat=True)
+            self._excerpt_ids = list(
+                OrderedSet(
+                    self.get_user_exports()
+                    .values_list('extraction_order__excerpt', flat=True)
+                )
             )
         return self._excerpt_ids
 
@@ -93,8 +95,8 @@ class ExportsListMixin:
 
     def get_user_exports(self):
         return self._filter_exports(
-            Export.objects.filter(extraction_order__orderer=self.request.user).order_by('-finished', '-updated')
-        )
+            Export.objects.filter(extraction_order__orderer=self.request.user)
+        ).order_by('-updated', '-finished')
 
     def _filter_exports(self, query):
         allowed_status_filters = [
@@ -116,22 +118,24 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
     template_name = 'excerptexport/export_list.html'
     context_object_name = 'excerpts'
     model = Excerpt
-    paginate_by = 2
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data.update(self._get_extra_context_data())
         context_data['excerpt_list_with_exports'] = OrderedDict(
             (
-                Excerpt.objects.get(pk=excerpt_id),
-                self.get_user_exports().filter(extraction_order__excerpt__pk=excerpt_id)
+                excerpt,
+                self.get_user_exports().filter(extraction_order__excerpt__pk=excerpt.id)
                 .select_related('extraction_order', 'extraction_order__excerpt', 'output_file'))
-            for excerpt_id in context_data[self.context_object_name].values_list('id', flat=True)
+            for excerpt in context_data[self.context_object_name]
         )
         return context_data
 
     def get_queryset(self):
-            return super().get_queryset().filter(pk__in=self.excerpt_ids)
+        return sorted(
+            super().get_queryset().filter(pk__in=self.excerpt_ids), key=lambda x: self.excerpt_ids.index(x.pk)
+        )
 export_list = ExportsListView.as_view()
 
 
