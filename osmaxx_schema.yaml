@@ -61,7 +61,7 @@ layers:
             description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
           "administrative":
             osm_tags:
-              - "admin_level": ''
+              - "admin_level": '*'
             description: 'All empty or User input admin_level values to be placed under'
           "national_park":
             osm_tags:
@@ -78,13 +78,13 @@ layers:
         type: text
         description: Stores the height of the building (Unit Meters)
         osm_tags:
-          "height": {}
+          - "height": '*'
       "type":
         type: text
         values:
           "building":
             osm_tags:
-              - "building": ''
+              - "building": '*'
             description: This marks out the size and area of a building.
   "geoname_p": &layer_geoname_p
     attributes:
@@ -92,12 +92,12 @@ layers:
         type: int
         description: A rough number of citizens in a given place
         osm_tags:
-          "population": {}
+          - "population": '*'
       "wikipedia":
         type: text
         description: Provide a reference to an article in Wikipedia about the feature
         osm_tags:
-          "wikipedia": {}
+          - "wikipedia": '*'
       "type":
         type: text
         values:
@@ -114,13 +114,13 @@ layers:
               - "area": 'yes'
               # Just a string means complete tag (here: name=*)
               # independent of value.
-              - "name": {}
+              - "name": '*'
             description: A place where is given a name with a given area but no specific type
           "place":
             osm_tags:
               # Just a string means complete tag (here: place=*)
               # independent of value.
-              - "place": {}
+              - "place": '*'
             description: Any other place type that are not sorted to any type above except for area without name.
           "village":
             osm_tags:
@@ -284,7 +284,7 @@ layers:
             description: 'Where waste is collected, sorted or covered over'
           "landuse":
             osm_tags:
-              - "landuse": ''
+              - "landuse": '*'
             description: 'Get all landuse that is not classified in any table'
   "military_p": &layer_military_p
     attributes:
@@ -333,7 +333,7 @@ layers:
             description: 'An area where soldiers train and weapons or other military technology are experimented with or are tested.'
           "military":
             osm_tags:
-              - "military": ''
+              - "military": '*'
             description: 'Any other military type that are not sorted to any type above'
   "military_a": *layer_military_p
   "misc_l": &layer_misc_l
@@ -343,7 +343,7 @@ layers:
         values:
           "barrier":
             osm_tags:
-              - "barrier": {}
+              - "barrier": '*'
             correlated_attributes:
               # key: attribute name, value: attribute value
               "aggtype": 'barrier'
@@ -401,7 +401,7 @@ layers:
             description: 'A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.'
           "traffic_calming":
             osm_tags:
-              - "traffic_calming": {}
+              - "traffic_calming": '*'
             correlated_attributes:
               "aggtype": 'traffic_calming'
             description: 'Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.'
@@ -507,7 +507,7 @@ layers:
             description: 'The wetland tag is used for natural areas subject to inundation or with waterlogged ground'
           "natural":
             osm_tags:
-              - "natural": {}
+              - "natural": '*'
             description: 'Any other natural type that are not sorted to any type above'
   "natural_p": *layer_natural_a
   "nonop_l": &layer_nonop_l
@@ -516,12 +516,12 @@ layers:
         type: text
         description: 'Reference number of this road unset for railways.'
         osm_tags:
-          "ref": {}
+          - "ref": '*'
       "z_order":
         type: smallint
         description: 'The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one.'
         osm_tags:
-          "layer": {}
+          - "layer": '*'
       "status":
         type: text
         description: 'P for Planned; C for underconstruction; D for disused; A for abandoned; this is dependent on the values.'
@@ -551,47 +551,47 @@ layers:
         type: text 
         description: 'Specifying the link to the official website for a feature.'
         osm_tags:
-          "website": {}
+          - "website": '*'
       "wikipedia":
         type: text
         description: 'Provide a reference to an article in Wikipedia about the feature.'
         osm_tags:
-          "wikipedia": {}
+          - "wikipedia": '*'
       "phone":
         type: text
         description: 'A telephone number associated with the object.'
         osm_tags:
-          "phone": {}
+          - "phone": '*'
       "contact_phone":
         type: text
         description: 'Phone number'
         osm_tags:
-          "contact:phone": {}
+          - "contact:phone": '*'
       "opening_hours":
         type: text
         description: 'The timing of when something is open or close'
         osm_tags:
-          "opening_hours": {}
+          - "opening_hours": '*'
       "cuisine":
         type: text
         description: 'The type of food served at an eating place.'
         osm_tags:
-          "cuisine": {}
+          - "cuisine": '*'
       "access":
         type: text
         description: 'The legal accessibility of a element.'
         osm_tags:
-           "access": {}
+           - "access": '*'
       "brand":
         type: text
         description: 'The identity of a specific product, service, or business. Often trademarks'
         osm_tags:
-           "brand": {}
+           - "brand": '*'
       "tower_type":
         type: text
         description: 'The type of tower'
         osm_tags:
-           "tower:type": {}
+           - "tower:type": '*'
       "type":
         type: text
         values:
@@ -1229,7 +1229,7 @@ layers:
           "vending":
               osm_tags:
                 - "amenity": 'vending_machine'
-                - "vending": {}
+                - "vending": '*'
               correlated_attributes:
                 "aggtype": 'vending'
               description: 'A general machine to vend goods, tickets and so on'
@@ -1512,43 +1512,43 @@ layers:
               description: 'A place where drinking water is found and applied to the local water pipes network.'
           "tourism":
               osm_tags:
-                - "tourism": {}
+                - "tourism": '*'
               correlated_attributes:
                 "aggtype": 'tourism'
               description: 'All other types of tourism which is not defined as above'
           "leisure":
               osm_tags:
-                - "leisure": {}
+                - "leisure": '*'
               correlated_attributes:
                 "aggtype": 'leisure'
               description: 'All other types of leisure which is not defined as above'
           "sport":
               osm_tags:
-                - "sport": {}
+                - "sport": '*'
               correlated_attributes:
                 "aggtype": 'sport'
               description: 'All other types of sport which is not defined as above'
           "man_made":
               osm_tags:
-                - "man_made": {}
+                - "man_made": '*'
               correlated_attributes:
                 "aggtype": 'man_made'
               description: 'All other types of man_made which is not defined as above'
           "shop":
               osm_tags:
-                - "shop": {}
+                - "shop": '*'
               correlated_attributes:
                 "aggtype": 'shop'
               description: 'All other types of shop which is not defined as above'
           "historic":
               osm_tags:
-                - "historic": {}
+                - "historic": '*'
               correlated_attributes:
                 "aggtype": 'historic'
               description: 'All other types of historic which is not defined as above'
           "amenity":
               osm_tags:
-                - "amenity": {}
+                - "amenity": '*'
               correlated_attributes:
                 "aggtype": 'amenity'
               description: 'All other types of amenity which is not defined as above'
@@ -1562,32 +1562,32 @@ layers:
         type: text 
         description: 'Specifying the link to the official website for a feature.'
         osm_tags:
-          "website": {}
+          - "website": '*'
       "wikipedia":
         type: text
         description: 'Provide a reference to an article in Wikipedia about the feature.'
         osm_tags:
-          "wikipedia": {}
+          - "wikipedia": '*'
       "phone":
         type: text
         description: 'A telephone number associated with the object.'
         osm_tags:
-          "phone": {}
+          - "phone": '*'
       "contact_phone":
         type: text
         description: 'Phone number'
         osm_tags:
-          "contact:phone": {}
+          - "contact:phone": '*'
       "opening_hours":
         type: text
         description: 'The timing of when something is open or close'
         osm_tags:
-          "opening_hours": {}
+          - "opening_hours": '*'
       "access":
         type: text
         description: 'The legal accessibility of a element.'
         osm_tags:
-          "access": {}
+          - "access": '*'
       "type":
         type: text
         values:
@@ -1600,7 +1600,7 @@ layers:
           "christian":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": {}
+              - "denomination": '*'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship. This is a generalise christian type other then the specific denomination'
@@ -1689,7 +1689,7 @@ layers:
           "muslim":
             osm_tags:
               - "religion": 'muslim'
-              - "denomination": {}
+              - "denomination": '*'
             correlated_attributes:
               "aggtype": 'muslim'
             description: 'A muslim place of worship. This is a generalise muslim type other then the specific denomination'
@@ -1727,7 +1727,7 @@ layers:
             description: 'A taoist place of worship'
           "place_of_worship":
             osm_tags:
-              - "religion": {}
+              - "religion": '*'
               - "amenity": 'place_of_worship'
             correlated_attributes:
               "aggtype": 'place_of_worship'
@@ -1741,24 +1741,24 @@ layers:
       "z_order":
         type: smallint
         osm_tags: 
-          "layer": {}
+          - "layer": '*'
         description: "The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers."
       "bridge":
         type: boolean
         values:
           "1":
             osm_tags:
-              "bridge": 'yes'
+              - "bridge": 'yes'
         description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
       "voltage":
         type: text
         osm_tags: 
-          "voltage": {}
+          - "voltage": '*'
         description: 'The voltage level the electrified cable is running on'
       "frequency":
         type: text
         osm_tags: 
-          "frequency": {}
+          - "frequency": '*'
         description: 'The electrical frequency that the electrified cable is running on'
       "type":
         type: text
@@ -1819,7 +1819,7 @@ layers:
             description: 'Cable driven inclined railways'
           "railway":
             osm_tags:
-              - "railway": {}
+              - "railway": '*'
             correlated_attributes:
               "aggtype": 'railway'
             description: 'All other types of railways which is not defined as above'
@@ -1899,7 +1899,7 @@ layers:
             description: 'A lift mixed with gondola and chair_lift'
           "aerialway":
             osm_tags:
-              - "aerialway": {}
+              - "aerialway": '*'
             correlated_attributes:
               "aggtype": 'aerialway'
             description: 'All other types of aerialways which is not defined as above'
@@ -1911,14 +1911,14 @@ layers:
         values:
            "0":
              osm_tags:
-               "bridge": "no"
+               - "bridge": "no"
         description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
       "tunnel":
         type: boolean
         values:
           "0":
             osm_tags: 
-              "tunnel": 'no'
+              - "tunnel": 'no'
         description: 'A tunnel is an underground passage for a road or similar.'
   "railway_tunnel_l":
     attributes: 
@@ -1927,7 +1927,7 @@ layers:
         values:
           "1":
             osm_tags: 
-              "tunnel": 'yes'
+              - "tunnel": 'yes'
         description: 'A tunnel is an underground passage for a road or similar.'
   "road_ground_l":
     attributes: &layer_road_ground_l_attributes
@@ -1938,36 +1938,36 @@ layers:
         type: text
         description: 'Used for reference numbers or codes. Common for roads, highway exits, routes, etc.'
         osm_tags:
-          "ref": {}
+          - "ref": '*'
       "oneway":
         type: boolean
         description: 'Oneway streets are streets where you are only allowed to drive in one direction.'
         osm_tags:
-          "oneway": {}
+          - "oneway": '*'
       "maxspeed":
         type: smallint
         description: 'Specifies the maximum legal speed limit on a road, railway or waterway'
         osm_tags:
-          "maxspeed": {}
+          - "maxspeed": '*'
       "z_order":
         type: smallint
         description: 'The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers.'
         osm_tags:
-          "layer": {}
+          - "layer": '*'
       "bridge":
         # can this type be with the specified value ???
         type: boolean
         values:
            "0":
              osm_tags:
-               "bridge": 'no'
+               - "bridge": 'no'
         description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
       "tunnel":
         type: boolean
         values:
           "0":
             osm_tags:
-              "tunnel": 'yes'
+              - "tunnel": 'yes'
         description: 'A tunnel is an underground passage for a road or similar.'
       "type":
         type: text
@@ -2059,7 +2059,7 @@ layers:
           "track":
             osm_tags:
               - "hihgway": 'track'
-              - "tracktype": ''
+              - "tracktype": '*'
             correlated_attributes:
               "aggtype": 'track'
             description: 'Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present'
@@ -2130,9 +2130,9 @@ layers:
             description: 'For flights of steps (stairs) on footways.'
           "road":
             osm_tags:
-              - "hihgway": {}
+              - "hihgway": '*'
               # and
-              - "roundabout": ''
+              - "roundabout": '*'
             correlated_attributes:
               "aggtype": 'unclassified'
             description: 'A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed'
@@ -2252,7 +2252,7 @@ layers:
             osm_tags:
               - "hihgway": 'service'
               # and
-              - "tracktype": ''
+              - "tracktype": '*'
               # and
               - "junction": 'roundabout'
             correlated_attributes:
@@ -2350,7 +2350,7 @@ layers:
             description: 'For flights of steps (stairs) on footways.'
           "roundabout":
             osm_tags:
-              - "hihgway": ''
+              - "hihgway": '*'
               # and
               - "junction": 'roundabout'
             correlated_attributes:
@@ -2364,7 +2364,7 @@ layers:
         values:
            "1":
              osm_tags:
-               "bridge": "yes"
+               - "bridge": "yes"
         description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
   "road_tunnel_l":
       attributes: *layer_road_ground_l_attributes
@@ -2374,7 +2374,7 @@ layers:
         values:
            "1":
              osm_tags:
-               "tunnel": "yes"
+               - "tunnel": "yes"
         description: 'A tunnel is an underground passage for a road or similar.'
   "route_l": &layer_route_l
     attributes:
@@ -2463,7 +2463,7 @@ layers:
             description: 'Trams services'
           "route":
             osm_tags:
-              - "route": {}
+              - "route": '*'
             description: 'This contains any other route except the specifics above.'
   "traffic_a": &layer_traffic_a
     attributes:
@@ -2474,7 +2474,7 @@ layers:
         type: text(later)
         description: 'For describing the legal accessibility of a element.'
         osm_tags:
-          "access": {}
+          - "access": '*'
       "type":
         type: text
         values:
@@ -2487,7 +2487,7 @@ layers:
           "parking":
             osm_tags:
              - "amenity": 'parking'
-             - "parking": {}
+             - "parking": '*'
             correlated_attributes:
               "aggtype": 'parking'
             description: 'A place for parking cars. This contains any other parking except the specifics below.'
@@ -2527,13 +2527,13 @@ layers:
         type: text(later)
         description: 'For describing the legal accessibility of a element.'
         osm_tags:
-          "access": {}
+          - "access": '*'
       "type":
         type: text
         values:
           "general_traffic":
             osm_tags:
-             - "highway": {}
+             - "highway": '*'
             correlated_attributes:
               "aggtype": 'general_traffic'
             description: 'Contain all other highway except the specifics below.'
@@ -2599,7 +2599,7 @@ layers:
             description: 'A street light, lamppost, street lamp, light standard, or lamp standard is a raised source of light on the edge of a road, which is turned on or lit at a certain time every night'
           "barrier":
             osm_tags:
-              - "barrier": {}
+              - "barrier": '*'
             correlated_attributes:
               "aggtype": 'barrier'
             description: 'A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.'
@@ -2671,7 +2671,7 @@ layers:
             description: 'A gap in a linear barrier with nothing that limits passing through'
           "traffic_calming":
             osm_tags:
-              - "traffic_calming": {}
+              - "traffic_calming": '*'
             correlated_attributes:
               "aggtype": 'barrier'
             description: 'Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.'
@@ -2720,7 +2720,7 @@ layers:
           "parking":
             osm_tags:
              - "amenity": 'parking'
-             - "parking": {}
+             - "parking": '*'
             correlated_attributes:
               "aggtype": 'parking'
             description: 'A place for parking cars. This contains any other parking except the specifics below.'
@@ -2835,13 +2835,13 @@ layers:
             description: 'A station, where passengers can enter and/or leave the aerialway'
           "aeroway":
             osm_tags:
-             - "aeroway": {}
+             - "aeroway": '*'
             correlated_attributes:
               "aggtype": 'aeroway'
             description: 'All other types of aeroway which is not defined as above'
           "aerialway":
             osm_tags:
-             - "aerialway": {}
+             - "aerialway": '*'
             correlated_attributes:
               "aggtype": 'aerialway'
             description: 'All other types of aerialway which is not defined as above'
@@ -2952,7 +2952,7 @@ layers:
             description: 'A large holding tank, typically cylindrical.'
           "power":
             osm_tags:
-             - "power": {}
+             - "power": '*'
             correlated_attributes:
               "aggtype": 'power'
             description: 'All other types of power which is not defined as above'
@@ -2972,17 +2972,17 @@ layers:
       "operator":
         type: text
         osm_tags:
-          "operator": {}
+          - "operator": '*'
         description: 'Which company is handling this utility_lines'
       "voltage":
         type: text
         osm_tags:
-          "voltage": {}
+          - "voltage": '*'
         description: 'The voltage level the power line is running on'
       "frequency":
         type: text
         osm_tags:
-          "frequency": {}
+          - "frequency": '*'
         description: 'The frequency level the power line is running on'
       "type":
         type: text
@@ -3021,7 +3021,7 @@ layers:
             description: 'A pipe for carrying various fluids, such as water, gas, sewage.'
           "power":
             osm_tags:
-             - "power": {}
+             - "power": '*'
             correlated_attributes:
               "aggtype": 'power'
             description: 'All other power line which is not specific.'
@@ -3068,7 +3068,7 @@ layers:
             description: 'A barrier built across a river, sometimes to divert water for industrial purposes. Water can still flow over the top.'
           "waterway":
             osm_tags:
-              - "waterway": {}
+              - "waterway": '*'
             description: 'Rivers or other kind of waterways. This contains any other water traffic except the specifics below.'
   "water_p": &layer_water_p
     attributes:
@@ -3121,14 +3121,14 @@ layers:
             description: 'A barrier built across a river, sometimes to divert water for industrial purposes. Water can still flow over the top.'
           "waterway":
             osm_tags:
-              - "waterway": {}
+              - "waterway": '*'
             description: 'Rivers or other kind of waterways. This contains any other water traffic except the specifics below.'
   "water_l": &layer_water_l
     attributes:
       "width":
         type: int
         osm_tags: 
-          "width": {}
+          - "width": '*'
         description: 'The the measurement or extent of something from side to side; the lesser of two or the least of three dimensions of a body.'
       "type":
         type: int
@@ -3151,5 +3151,5 @@ layers:
             description: 'A channel or pipe carrying off any excess liquid.'
           "waterway":
             osm_tags:
-              - "waterway": {}
+              - "waterway": '*'
             description: 'Other waterways which is user-defined'
