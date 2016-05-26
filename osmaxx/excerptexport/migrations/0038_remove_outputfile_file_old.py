@@ -8,7 +8,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('excerptexport', '0036_move_download_files_to_new_field_20160520_1405'),
+        ('excerptexport', '0037_auto_20160523_1132'),
     ]
 
     operations = [

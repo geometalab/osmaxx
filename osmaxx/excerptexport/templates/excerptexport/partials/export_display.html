@@ -2,27 +2,26 @@
 <div class="panel panel-{{ export.css_status_class }}">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-md-6">
                 {{ export.get_file_format_display }}
             </div>
-            <div class="col-lg-3">
+            <div class="col-md-3 col-lg-3">
                 {{ export.file_format }}
             </div>
-            <div class="col-lg-3">
-                {{ export.status }}
+            <div class="col-md-3 col-lg-3">
+                {{ export.status }} at {% firstof export.finished|date:"Y-m-d H:i:s" export.updated|date:"Y-m-d H:i:s" %}
             </div>
         </div>
     </div>
     {% if export.output_file.file %}
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-6 col-lg-6">
+                <div class="col-md-9 col-lg-9">
                     <p>
-                        {#                  TODO: replace with direct link to download, as soon as mechanism is switched #}
                         <a href="{{ export.output_file.file.url }}">{{ export.output_file.get_filename_display }}</a>
                     </p>
                 </div>
-                <div class="col-md-6 col-lg-6">
+                <div class="col-md-3 col-lg-3">
                     <p>
                         {% capture_as subject %}Download {{ export.get_file_format_display }} map data of {{ export.extraction_order.excerpt.name }}{% end_capture_as %}
                         {% capture_as body %}{% email_body_with_single_result_link export.output_file %}{% end_capture_as %}
@@ -30,6 +29,12 @@
                     </p>
                 </div>
             </div>
+        </div>
+    {% elif export.status == "finished" %}{# FIXME: finished is hardcoded, but as long as we don't have the STATUS on the model, we can't access it here! #}
+        <div class="panel-body">
+            <p>{% url 'excerptexport:order_existing_excerpt' as order_existing_url %}
+                {% blocktrans %}This file has been removed from the server. Please <a href="{{ order_existing_url }}">request it</a> again.{% endblocktrans %}
+            </p>
         </div>
     {% endif %}
 </div>

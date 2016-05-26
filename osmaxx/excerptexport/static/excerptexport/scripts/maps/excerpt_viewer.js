@@ -1,8 +1,22 @@
-window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
+window.ExcerptViewer = function(mapElementID, excerptApiUrl, disableZoom) {
     this.excerptApiUrl = excerptApiUrl;
     this.currentLayer = null;
 
-    this.map = L.map(mapElementID).setView([0, 0], 2);
+    if (disableZoom) {
+        var map = L.map(mapElementID, {zoomControl: true}).setView([0, 0], 2);
+        map.dragging.disable();
+        map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+        map.scrollWheelZoom.disable();
+        map.keyboard.disable();
+        if (map.tap) {
+            map.tap.disable();
+        }
+        this.map = map;
+    } else {
+        this.map = L.map(mapElementID).setView([0, 0], 2);
+    }
+
     L.control.scale().addTo(this.map);
     // add an OpenStreetMap tile layer
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
