@@ -2886,13 +2886,13 @@ layers:
         type: text
         values:
   "utility_a": &layer_utility_a
-    attributes:
+    attributes: &utility_a_p_attributes
       "aggtype":
         type: text
         description: "Grouping several different 'type' to a common 'type' (aka enmu)"
-      "type":
+      "type": &utility_a_p_attribute_type
         type: text
-        values:
+        values: &utility_a_p_type_values
           "tower":
             osm_tags:
              - "power": 'tower'
@@ -2956,6 +2956,8 @@ layers:
              - "power": 'station'
              # or
              - "power": 'substation'
+             # or
+             - "power": 'sub_station'
             correlated_attributes:
               "aggtype": 'substation'
             description: 'A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines'
@@ -2990,10 +2992,12 @@ layers:
               "aggtype": 'power'
             description: 'All other types of power which is not defined as above'
   "utility_p": &layer_utility_p
-    attributes: 
+    attributes:
+      <<: *utility_a_p_attributes
       "type":
-        type: text
+        <<: *utility_a_p_attribute_type
         values:
+          <<: *utility_a_p_type_values
           "pole":
             osm_tags:
              - "power": 'pole'
