@@ -11,7 +11,7 @@ INSERT INTO osmaxx.utility_a
      when "power"='plant' then 'plant'
      when "power"='tower' then 'tower'
      when "power"='generator' then 'station'
-     when "power"='station' or "power"='sub_station'  then 'substation'
+     when "power"='substation' or "power"='station' or "power"='sub_station'  then 'substation'
      when "power"='transformer' then 'transformer'
      else 'power'
     end as aggtype,
@@ -30,7 +30,7 @@ INSERT INTO osmaxx.utility_a
      when "power_source"='photovoltaic' then 'solar'
      when "power_source"='hydro' then 'hydro'
      when "power_source"='wind' then 'wind'
-     when "power"='station' or "power"='sub_station'  then 'substation'
+     when "power"='substation' or "power"='station' or "power"='sub_station'  then 'substation'
      when "power"='transformer' then 'transformer'
      else 'power'
     end as type,
