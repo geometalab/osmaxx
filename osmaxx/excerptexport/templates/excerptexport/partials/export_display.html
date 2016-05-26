@@ -9,14 +9,14 @@
                 {{ export.file_format }}
             </div>
             <div class="col-md-3 col-lg-3">
-                {{ export.status }}
+                {{ export.status }} at {% firstof export.finished|date:"Y-m-d H:i:s" export.updated|date:"Y-m-d H:i:s" %}
             </div>
         </div>
     </div>
     {% if export.output_file.file %}
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-6 col-lg-6">
+                <div class="col-md-9 col-lg-9">
                     <p>
                         <a href="{{ export.output_file.file.url }}">{{ export.output_file.get_filename_display }}</a>
                     </p>
@@ -26,11 +26,6 @@
                         {% capture_as subject %}Download {{ export.get_file_format_display }} map data of {{ export.extraction_order.excerpt.name }}{% end_capture_as %}
                         {% capture_as body %}{% email_body_with_single_result_link export.output_file %}{% end_capture_as %}
                         <a href="mailto:?subject={% filter urlencode %}{{ subject }}{% endfilter %}&body={% filter urlencode %}{{ body }}{% endfilter %}">Send Mail</a>
-                    </p>
-                </div>
-                <div class="col-md-3 col-lg-3">
-                    <p>
-                        {% firstof export.finished|date:"Y-m-d H:i:s" export.updated %}
                     </p>
                 </div>
             </div>
