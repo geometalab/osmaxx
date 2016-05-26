@@ -1,10 +1,10 @@
 import pytest
+from django.conf import settings
 from django.contrib.auth.models import Group
-from osmaxx.contrib.auth.frontend_permissions import FRONTEND_USER_GROUP
 
 
 @pytest.mark.django_db
 class PermissionHelperMixin(object):
     def add_permissions_to_user(self):
-        group = Group.objects.get(name=FRONTEND_USER_GROUP)
+        group = Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP)
         self.user.groups.add(group)

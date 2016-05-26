@@ -15,7 +15,6 @@ class RESTApiClient:
 
     def __init__(self, service_base):
         self.service_base = service_base
-        self.client = requests.session()
 
     def get(self, url, params=None, **kwargs):
         return self._request(requests.get, url, dict(params=params), kwargs)
@@ -110,11 +109,17 @@ class LazyChunkedRemoteFile:
         assert stream, "can't chunk without streaming"
         response = download_function(*args, stream=stream, **kwargs)
         self._content_it = response.iter_content(chunk_size=CONTENT_CHUNK_SIZE)
+        self._size = 0
 
     def chunks(self):
         for chunk in self._content_it:
             if chunk:
+                self._size += len(chunk)
                 yield chunk
+
+    @property
+    def size(self):
+        return self._size
 
 
 def reasons_for(http_error):

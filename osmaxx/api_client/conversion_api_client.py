@@ -2,25 +2,18 @@ import json
 import logging
 
 from django.conf import settings
-from django.core.files.base import ContentFile
-from django.db import transaction
-from django.utils import timezone
 from requests import HTTPError
 
 from osmaxx.api_client.API_client import JWTClient, reasons_for, LazyChunkedRemoteFile
-from osmaxx.excerptexport.models import OutputFile
-from osmaxx.utils import get_default_private_storage
 
 logger = logging.getLogger(__name__)
 
-COUNTRY_ID_PREFIX = 'country-'
 SERVICE_BASE_URL = settings.OSMAXX.get('CONVERSION_SERVICE_URL')
 LOGIN_URL = '/token-auth/'
 
 USERNAME = settings.OSMAXX.get('CONVERSION_SERVICE_USERNAME')
 PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
 
-OLD_CONVERSION_JOB_URL = '/jobs/'  # TODO: remove
 CONVERSION_JOB_URL = '/conversion_job/'
 ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
 
@@ -79,46 +72,6 @@ class ConversionApiClient(JWTClient):
     def _get_result_file_url(self, job_id):
         job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)
         return self.authorized_get(job_detail_url).json()['resulting_file']
-
-    @staticmethod
-    def _extraction_processing_overdue(progress, extraction_order):
-        if extraction_order.process_start_time is None:
-            return None
-        process_unfinished = progress in ['new', 'received', 'started']
-        timeout_reached = timezone.now() > extraction_order.process_due_time
-        return process_unfinished and timeout_reached
-
-    def _download_result_files(self, extraction_order, job_status):
-        """
-        Downloads the result files if the conversion was finished,
-        stores the files into the private storage and attaches them as output files to the extraction order
-
-        Args:
-            extraction_order: an ExtractionOrder object to attach the output files
-            job_status: the job status from the conversion api
-        """
-        with transaction.atomic():
-            extraction_order.refresh_from_db()
-            if extraction_order.download_status == extraction_order.DOWNLOAD_STATUS_NOT_DOWNLOADED:
-                extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_DOWNLOADING
-                extraction_order.save()
-                for download_file in job_status['gis_formats']:
-                    assert download_file['progress'] == 'successful'
-                    self._download_file(download_file, extraction_order)
-                extraction_order.download_status = extraction_order.DOWNLOAD_STATUS_AVAILABLE
-                extraction_order.save()
-
-    def _download_file(self, download_file_dict, extraction_order):
-        result_response = self.authorized_get(download_file_dict['result_url'])
-        output_file = OutputFile.objects.create(
-            mime_type='application/zip',
-            file_extension='zip',
-            content_type=download_file_dict['format'],
-            extraction_order=extraction_order,
-        )
-        file_name = str(output_file.public_identifier) + '.zip'
-        output_file.file = get_default_private_storage().save(file_name, ContentFile(result_response.content))
-        output_file.save()
 
     def job_status(self, export):
         """

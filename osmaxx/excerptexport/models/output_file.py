@@ -6,14 +6,18 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 from osmaxx.excerptexport.models.export import Export
-from osmaxx.excerptexport.utils.upload_to import get_private_upload_storage
+
+
+def uuid_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/osmaxx/<public_uuid>/<filename>
+    return os.path.join('osmaxx', 'outputfiles', str(instance.public_identifier), filename)
 
 
 class OutputFile(models.Model):
     mime_type = models.CharField(max_length=64, verbose_name=_('mime type'))
     file_extension = models.CharField(max_length=64, verbose_name=_('file extension'), default='')
-    file = models.FileField(storage=get_private_upload_storage(), blank=True, null=True,
-                            verbose_name=_('file'))
+    file = models.FileField(blank=True, null=True, verbose_name=_('file'), upload_to=uuid_directory_path,
+                            max_length=250)
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
     deleted_on_filesystem = models.BooleanField(default=False, verbose_name=_('deleted on filesystem'))
     public_identifier = models.UUIDField(primary_key=False, default=uuid.uuid4, verbose_name=_('public identifier'))
@@ -40,6 +44,13 @@ class OutputFile(models.Model):
             + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
             + 'identifier: ' + str(self.public_identifier)
 
-    def get_absolute_url(self):
+    def get_filename_display(self):
+        if self.file:
+            return os.path.basename(self.file.name)
+        return ''
+
+    def get_file_media_url_or_status_page(self):
+        if self.file:
+            return self.file.url
         from django.core.urlresolvers import reverse
-        return reverse('excerptexport:download', kwargs=dict(uuid=self.public_identifier))
+        return reverse('excerptexport:export_detail', kwargs={'id': self.export.extraction_order.excerpt.id})

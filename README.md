@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/geometalab/osmaxx-conversion-service.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx-conversion-service)
-
 [![Build Status](https://travis-ci.org/geometalab/osmaxx-frontend.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx-frontend) ([branch `master`](https://github.com/geometalab/osmaxx-frontend/tree/master))
 
 Django-based Web Frontend for **osmaxx**.
@@ -108,7 +106,7 @@ docker-compose up
 
 Unsure which version is running?
 
-Go to `<your_ip>:8000/version/`.
+Go to `<your_ip>:8888/version/`.
 
 where `<your_ip>` is your public IP.
 

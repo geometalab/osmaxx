@@ -3,6 +3,7 @@ IMAGES = [
     dict(image_name='geometalab/osmaxx-mediator', dockerfile='Dockerfile.mediator'),
     dict(image_name='geometalab/osmaxx-worker', dockerfile='Dockerfile.worker'),
     dict(image_name='geometalab/osmaxx-frontend', dockerfile='Dockerfile.frontend'),
+    dict(image_name='geometalab/osmaxx-nginx', dockerfile='Dockerfile.nginx'),
 ]
 
 

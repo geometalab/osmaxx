@@ -1,7 +1,7 @@
 import os
 from django.contrib.gis.geos import Polygon, MultiPolygon, GEOSGeometry
 
-from osmaxx.countries._settings import POLYFILE_LOCATION
+from osmaxx.excerptexport._settings import POLYFILE_LOCATION
 
 POLYFILE_FILENAME_EXTENSION = '.poly'
 

@@ -1,9 +1,6 @@
 from unittest.mock import patch, ANY, call, Mock, sentinel
 
-import os
 import requests_mock
-import shutil
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
@@ -103,7 +100,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.info(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase (without coastlines, land and sea polygons) has been queued.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has been queued.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -125,7 +122,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.info(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase (without coastlines, land and sea polygons) has been started.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has been started.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -147,7 +144,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.error(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase (without coastlines, land and sea polygons) has failed.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has failed.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -170,7 +167,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.success(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase (without coastlines, land and sea polygons) has finished.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has finished.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -255,20 +252,20 @@ class CallbackHandlingTest(APITestCase):
             [
                 'The extraction order #{order_id} "Neverland" has been processed.',
                 'Results available for download:',
-                '- ESRI File Geodatabase (without coastlines, land and sea polygons)',  # TODO: download link
+                '- ESRI File Geodatabase',  # TODO: download link
                 '',
                 'The following exports have failed:',
                 '- SpatiaLite',
                 'Please order them anew if you need them. '
                 'If there are repeated failures please inform the administrators.',
                 '',
-                'View the complete order at http://testserver/orders/{order_id}',
+                'View the complete order at http://testserver/exports/',
             ]
         ).format(order_id=self.export.extraction_order.id)
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.success(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase (without coastlines, land and sea polygons) has finished.'.format(
+                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has finished.'.format(
                         export_id=self.export.id,
                     ),
                 ),
@@ -280,10 +277,6 @@ class CallbackHandlingTest(APITestCase):
                 ),
             )
         )
-
-    def tearDown(self):
-        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
-            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
 
 
 class ExportUpdaterMiddlewareTest(TestCase):

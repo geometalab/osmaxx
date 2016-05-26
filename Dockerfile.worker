@@ -1,5 +1,5 @@
 # this gdal image comes with support for FileGDB
-FROM geometalab/gdal-debian
+FROM geometalab/gdal-debian:2.1.0
 
 USER root
 

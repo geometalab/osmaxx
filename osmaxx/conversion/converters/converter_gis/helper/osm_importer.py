@@ -1,13 +1,12 @@
 from itertools import chain
 from sqlalchemy import MetaData, Table, create_engine, func
 from sqlalchemy.engine.url import URL
-from sqlalchemy.sql import select, insert
+from sqlalchemy.sql import select, insert, expression
 from geoalchemy2 import Geometry, Geography
 
 
 class OSMImporter:
-    def __init__(self, with_boundaries):
-        self._with_boundaries = with_boundaries
+    def __init__(self):
         self._osm_derived_tables = ['osm_point', 'osm_line', 'osm_polygon', 'osm_roads']
         self._osm_base_tables = ['osm_ways', 'osm_nodes']
         self._osm_boundaries_tables = ['coastlines', 'land_polygons', 'water_polygons']
@@ -66,8 +65,7 @@ class OSMImporter:
         self._create_tables_on_local_db()
         self._load_tables(extent)
         self._load_base_tables()
-        if self._with_boundaries:
-            self._load_boundaries_tables(extent)
+        self._load_boundaries_tables(extent)
 
     def _create_tables_on_local_db(self):
         self._db_meta_data.create_all(self._local_db_engine)
@@ -89,6 +87,13 @@ class OSMImporter:
         self._insert_corresponding_osm_nodes(local_ways)
 
     def _load_boundaries_tables(self, extent):
+        multipolygon_cast = Geometry(geometry_type='MULTIPOLYGON', srid=4326)
+        multilinestring_cast = Geometry(geometry_type='MULTILINESTRING', srid=4326)
+        table_casts = {
+            'land_polygons': multipolygon_cast,
+            'water_polygons': multipolygon_cast,
+            'coastlines': multilinestring_cast,
+        }
         for table_name in self._osm_boundaries_tables:
             source_table_meta = self._table_metas[table_name]
             query = select([
@@ -102,7 +107,10 @@ class OSMImporter:
             view_definition_query = select([
                 source_table_meta.c.ogc_fid,
                 source_table_meta.c.fid,
-                func.ST_Multi(func.ST_Intersection(source_table_meta.c.wkb_geometry, extent.ewkt)).label('geom')
+                expression.cast(
+                    func.ST_Multi(func.ST_Intersection(source_table_meta.c.wkb_geometry, extent.ewkt)),
+                    table_casts[table_name]
+                ).label('geom')
             ]).where(func.ST_Intersects(source_table_meta.c.wkb_geometry, extent.ewkt))
             view_meta = MetaData()
             view = Table(table_name, view_meta, schema='view_osmaxx')
@@ -112,6 +120,8 @@ class OSMImporter:
             query_defintion_string = str(
                 view_definition_query.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True})
             )
+            query_defintion_string = query_defintion_string.replace('ST_AsEWKB(CAST', 'CAST')
+            query_defintion_string = query_defintion_string.replace('))) AS geom', ')) AS geom')
             query_defintion_text = text(query_defintion_string)
             create_view = CreateView(view, query_defintion_text, or_replace=True)
             self._local_db_engine.execute(create_view)

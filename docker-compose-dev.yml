@@ -1,5 +1,11 @@
 version: '2'
 services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "8888:80"
   frontend:
     build:
       context: .
@@ -19,6 +25,12 @@ services:
       # set these if you want to be able to login using OSM
       - SOCIAL_AUTH_OPENSTREETMAP_KEY=
       - SOCIAL_AUTH_OPENSTREETMAP_SECRET=
+#      this is the most common used docker-ip connecting from localhost to docker network
+      - DJANGO_INTERNAL_IPS=172.19.0.1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 1M
   mediator:
     build:
       context: .
@@ -33,6 +45,10 @@ services:
     environment:
       - DJANGO_SECRET_KEY=insecure!2
       - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 1M
   worker:
     extends:
       file: docker-compose-common.yml
@@ -48,11 +64,16 @@ services:
     environment:
       - DJANGO_SECRET_KEY=insecure!3
       - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 1M
   world-database:
     command: postgres -B 1GB -F -N 512 -S 1GB --max_wal_size=1GB
     ports:
       - "5433:5432"
   osm_importer:
+    command: [sh, -c, "wget -O /var/data/osm-planet/pbf/planet-latest.osm.pbf --continue http://download.geofabrik.de/europe/switzerland-latest.osm.pbf && osm2pgsql -c --number-processes 8 -H database -U gis -d gis --slim -C 2000 --prefix osm --hstore --latlon --style /root/styles/terminal.style --tag-transform-script /root/styles/tag_transform_style.lua /var/data/osm-planet/pbf/planet-latest.osm.pbf"]
     environment:
       - ram_cache=2000  # in megabytes
       - num_processes=8
