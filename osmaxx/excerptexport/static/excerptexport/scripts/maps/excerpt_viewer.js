@@ -3,7 +3,7 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl, disableZoom) {
     this.currentLayer = null;
 
     if (disableZoom) {
-        var map = L.map(mapElementID, {zoomControl: false}).setView([0, 0], 2);
+        var map = L.map(mapElementID, {zoomControl: true}).setView([0, 0], 2);
         map.dragging.disable();
         map.touchZoom.disable();
         map.doubleClickZoom.disable();
