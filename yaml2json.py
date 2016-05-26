@@ -2,7 +2,7 @@ from jinja2 import Template
 
 import yaml
 
-f = open("osmaxx_trial.yaml", 'r')
+f = open("osmaxx_schema.yaml", 'r')
 inp = f.read()
 out = open("osmaxx.json", 'w')
 
@@ -45,9 +45,9 @@ for i in range(0, len(table)):
 			if attr[j] == 'bridge' or attr[j] == 'tunnel':
 
 				attr_tags_keys = dicts['attributes'][attr[j]]['values'][dicts['attributes'][attr[j]]['values'].keys()[0]] \
-				                 ['osm_tags'].keys()
+				                 ['osm_tags'][0].keys()
 				attr_tags_values = dicts['attributes'][attr[j]]['values'][dicts['attributes'][attr[j]]['values'].keys()[0]] \
-				                   ['osm_tags'].values()
+				                   ['osm_tags'][0].values()
 				attr_tags_description = dicts['attributes'][attr[j]]['description']
 
 
@@ -69,7 +69,7 @@ for i in range(0, len(table)):
 			
 			else: 
 				
-				attr_tags_keys = dicts['attributes'][attr[j]]['osm_tags'].keys()
+				attr_tags_keys = dicts['attributes'][attr[j]]['osm_tags'][0].keys()
 				attr_tags_description = dicts['attributes'][attr[j]]['description']
 
 
