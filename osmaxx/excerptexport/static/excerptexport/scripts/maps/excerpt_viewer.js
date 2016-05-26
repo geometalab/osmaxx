@@ -9,6 +9,7 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl, disableZoom) {
         map.doubleClickZoom.disable();
         map.scrollWheelZoom.disable();
         map.keyboard.disable();
+        if (map.tap) map.tap.disable();
         this.map = map;
     } else {
         this.map = L.map(mapElementID).setView([0, 0], 2);
