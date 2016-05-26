@@ -135,20 +135,25 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
 export_list = ExportsListView.as_view()
 
 
-class ExportsDetailView(ListView):
+class ExportsDetailView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_detail.html'
     context_object_name = 'exports'
     model = Export
     pk_url_kwarg = 'id'
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data.update(self._get_extra_context_data())
+        return context_data
+
     def get_queryset(self):
         pk = self.kwargs.get(self.pk_url_kwarg)
         if pk is None:
             raise AttributeError("ExportsDetailView must be called with an Excerpt pk.")
-        queryset = super().get_queryset().filter(extraction_order__orderer=self.request.user)\
-            .select_related('extraction_order', 'extraction_order__excerpt', 'output_file')
-        queryset = queryset.filter(extraction_order__excerpt__pk=pk)
+        queryset = self.get_user_exports()\
+            .select_related('extraction_order', 'extraction_order__excerpt', 'output_file')\
+            .filter(extraction_order__excerpt__pk=pk)
         return queryset
 export_detail = ExportsDetailView.as_view()
 

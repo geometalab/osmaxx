@@ -8,22 +8,13 @@
 
 {% block main %}
     <div class="container-row content">
-        <div class="col-lg-12">
+        <div class="col-lg-10">
             {% if exports %}
                 {% with excerpt=exports.0.extraction_order.excerpt %}
                     <div class="row">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">{{ excerpt.name }}</h3>
-                                <div class="col-lg-12">
-                                    {% if is_paginated %}
-                                        <div class="row">
-                                            <div class="col-lg-6 col-lg-push-3 last">
-                                                {% include 'excerptexport/partials/pagination.html' %}
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                </div>
                             </div>
                             <div class="panel-body">
                                 <div class="col-lg-6">
@@ -47,6 +38,9 @@
                 {% endcomment %}
                 {% include 'excerptexport/partials/no_exports_message.html' %}
             {% endif %}
+        </div>
+        <div class="col-lg-2">
+            {% include 'excerptexport/partials/export_sidebar.html' %}
         </div>
     </div>
 {% endblock %}
