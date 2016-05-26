@@ -20,6 +20,7 @@ from osmaxx.contrib.auth.frontend_permissions import (
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
+from osmaxx.conversion_api import statuses
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
 from .models import Export
@@ -80,13 +81,15 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView)
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
+        context_data['status_choices'] = self.status_choices
         context_data['excerpt_list_with_exports'] = OrderedDict(
             (
                 Excerpt.objects.get(pk=excerpt_id),
-                self.get_user_exports().filter(extraction_order__excerpt__pk=excerpt_id).order_by('-finished', '-updated')
+                self.get_user_exports().filter(extraction_order__excerpt__pk=excerpt_id)
                 .select_related('extraction_order', 'extraction_order__excerpt', 'output_file'))
             for excerpt_id in context_data[self.context_object_name].values_list('id', flat=True)
         )
+        context_data['status_filter'] = self.request.GET.get('status', None)
         return context_data
 
     @property
@@ -98,11 +101,30 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView)
             )
         return self._excerpt_ids
 
-    def get_user_exports(self):
-        return Export.objects.filter(extraction_order__orderer=self.request.user).order_by('-finished', '-updated')
+    @property
+    def status_choices(self):
+        allowed_choices = [
+            statuses.FINISHED,
+            statuses.FAILED,
+        ]
+        return [choice for choice in Export.STATUS_CHOICES if choice[0] in allowed_choices]
 
     def get_queryset(self):
-        return super().get_queryset().filter(pk__in=self.excerpt_ids)
+            return super().get_queryset().filter(pk__in=self.excerpt_ids)
+
+    def get_user_exports(self):
+        return self._filter_exports(
+            Export.objects.filter(extraction_order__orderer=self.request.user).order_by('-finished', '-updated')
+        )
+
+    def _filter_exports(self, query):
+        allowed_status_filters = [
+            status[0] for status in self.status_choices
+        ]
+        status_filter = self.request.GET.get('status', None)
+        if status_filter and status_filter in allowed_status_filters:
+            return query.filter(status=status_filter)
+        return query
 export_list = ExportsListView.as_view()
 
 
