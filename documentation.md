@@ -650,33 +650,33 @@ See file name conventions above about the meaning of “_a” etc.
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|roundabout|bridleway|hihgway='bridleway' junction='roundabout' |For horses.|
-|junction|cycleway|hihgway='cycleway' junction='roundabout' |Cycling infrastructure that is an inherent part of a road - particularly "cycle lanes" which are a part of the road|
-|junction|footway|hihgway='footway' junction='roundabout' |For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.|
-|track|grade1|hihgway='track' tracktype='grade1' junction='roundabout' |Solid. Usually a paved or heavily compacted hardcore surface.|
-|junction|grade2|hihgway='track' tracktype='grade2' junction='roundabout' |Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.|
-|roundabout|grade3|hihgway='track' tracktype='grade3' junction='roundabout' |Even mixture of hard and soft materials. Almost always an unpaved track.|
-|roundabout|grade4|hihgway='track' tracktype='grade4' junction='roundabout' |Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.|
-|roundabout|grade5|hihgway='track' tracktype='grade5' junction='roundabout' |Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.|
-|roundabout|living_street|hihgway='living_street' junction='roundabout' |For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.|
-|roundabout|motorway|hihgway='motorway' junction='roundabout' |A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..|
-|roundabout|motorway_link|hihgway='motorway_link' junction='roundabout' |The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.|
-|roundabout|path|hihgway='path' junction='roundabout' |A non-specific path.|
-|roundabout|pedestrian|hihgway='pedestrian' junction='roundabout' |For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian.|
-|roundabout|primary|hihgway='primary' junction='roundabout' |The next most important roads in a country's system. (Often link larger towns.)|
-|roundabout|primary_link|hihgway='primary_link' junction='roundabout' |The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.|
-|roundabout|residential|hihgway='residential' junction='roundabout' |Roads which are primarily lined with and serve as an access to housing.|
-|unclassified|road|hihgway='*' roundabout='*' |A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
-|roundabout|roundabout|hihgway='*' junction='roundabout' |This contains any other roundabout except the specifics above.|
-|roundabout|secondary|hihgway='secondary' junction='roundabout' |The next most important roads in a country's system. (Often link smaller towns and villages.)|
-|roundabout|secondary_link|hihgway='secondary_link' junction='roundabout' |The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.|
-|roundabout|service|hihgway='service' junction='roundabout' |For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.|
-|roundabout|steps|hihgway='steps' junction='roundabout' |For flights of steps (stairs) on footways.|
-|roundabout|tertiary|hihgway='tertiary' junction='roundabout' |The next most important roads in a country's system.|
-|roundabout|track|hihgway='service' tracktype='*' junction='roundabout' |Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present,|
-|roundabout|trunk|hihgway='trunk' junction='roundabout' |The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)|
-|roundabout|trunk_link|hihgway='trunk_link' junction='roundabout' |The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.|
-|roundabout|unclassified|hihgway='unclassified' junction='roundabout' |The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)|
+|roundabout|bridleway|highway='bridleway' junction='roundabout' |For horses.|
+|junction|cycleway|highway='cycleway' junction='roundabout' |Cycling infrastructure that is an inherent part of a road - particularly 'cycle lanes' which are a part of the road|
+|junction|footway|highway='footway' junction='roundabout' |For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.|
+|track|grade1|highway='track' tracktype='grade1' junction='roundabout' |Solid. Usually a paved or heavily compacted hardcore surface.|
+|junction|grade2|highway='track' tracktype='grade2' junction='roundabout' |Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.|
+|roundabout|grade3|highway='track' tracktype='grade3' junction='roundabout' |Even mixture of hard and soft materials. Almost always an unpaved track.|
+|roundabout|grade4|highway='track' tracktype='grade4' junction='roundabout' |Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.|
+|roundabout|grade5|highway='track' tracktype='grade5' junction='roundabout' |Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.|
+|roundabout|living_street|highway='living_street' junction='roundabout' |For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.|
+|roundabout|motorway|highway='motorway' junction='roundabout' |A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..|
+|roundabout|motorway_link|highway='motorway_link' junction='roundabout' |The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.|
+|roundabout|path|highway='path' junction='roundabout' |A non-specific path.|
+|roundabout|pedestrian|highway='pedestrian' junction='roundabout' |For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian.|
+|roundabout|primary|highway='primary' junction='roundabout' |The next most important roads in a country's system. (Often link larger towns.)|
+|roundabout|primary_link|highway='primary_link' junction='roundabout' |The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.|
+|roundabout|residential|highway='residential' junction='roundabout' |Roads which are primarily lined with and serve as an access to housing.|
+|unclassified|road|highway='*' roundabout='*' |A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
+|roundabout|roundabout|highway='*' junction='roundabout' |This contains any other roundabout except the specifics above.|
+|roundabout|secondary|highway='secondary' junction='roundabout' |The next most important roads in a country's system. (Often link smaller towns and villages.)|
+|roundabout|secondary_link|highway='secondary_link' junction='roundabout' |The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.|
+|roundabout|service|highway='service' junction='roundabout' |For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.|
+|roundabout|steps|highway='steps' junction='roundabout' |For flights of steps (stairs) on footways.|
+|roundabout|tertiary|highway='tertiary' junction='roundabout' |The next most important roads in a country's system.|
+|roundabout|track|highway='service' tracktype='*' junction='roundabout' |Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present,|
+|roundabout|trunk|highway='trunk' junction='roundabout' |The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)|
+|roundabout|trunk_link|highway='trunk_link' junction='roundabout' |The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.|
+|roundabout|unclassified|highway='unclassified' junction='roundabout' |The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)|
 
 
 ## route_l
@@ -769,7 +769,7 @@ See file name conventions above about the meaning of “_a” etc.
 |parking|parking|amenity='parking' parking='*' |A place for parking cars. This contains any other parking except the specifics below.|
 |service|services|amenity='services' |Generally for access to a building, motorway service station, beach, campsite, industrial estate, business park, etc.|
 |general_traffic|speed_camera|highway='speed_camera' |A fixed road-side or overhead speed camera.|
-|barrier|stile|barrier='stile' |A stile allows pedestrians to cross a wall or fence, but never actually "opens" the barrier|
+|barrier|stile|barrier='stile' |A stile allows pedestrians to cross a wall or fence, but never actually 'opens' the barrier|
 |general_traffic|stop|highway='stop' |A stop sign|
 |general_traffic|street_lamp|highway='street_lamp' |A street light, lamppost, street lamp, light standard, or lamp standard is a raised source of light on the edge of a road, which is turned on or lit at a certain time every night|
 |parking|surface|amenity='parking' parking='surface' |Open area parking normally on ground level|
@@ -873,7 +873,7 @@ See file name conventions above about the meaning of “_a” etc.
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |dam|waterway='dam' |A wall built across a river or stream to impound the water. A dam normally does not have water flowing over the top of it.|
 |marina|leisure='marina' |For mooring leisure yachts and motor boats|
-|pier|man_made='pier' |A "bridge into the ocean", usually for recreation.|
+|pier|man_made='pier' |A 'bridge into the ocean', usually for recreation.|
 |reservoir_covered|man_made='reservoir_covered' |A covered reservoir is a large man-made tank for holding fresh water|
 |riverbank|natural='riverbank' |For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
 |slipway|leisure='slipway' |Boats can be launched here|
@@ -891,9 +891,9 @@ See file name conventions above about the meaning of “_a” etc.
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |dam|waterway='dam' |A wall built across a river or stream to impound the water. A dam normally does not have water flowing over the top of it.|
-|lock_gate|man_made='pier' |A "bridge into the ocean", usually for recreation.|
+|lock_gate|man_made='pier' |A 'bridge into the ocean', usually for recreation.|
 |marina|leisure='marina' |For mooring leisure yachts and motor boats|
-|pier|man_made='pier' |A "bridge into the ocean", usually for recreation.|
+|pier|man_made='pier' |A 'bridge into the ocean', usually for recreation.|
 |reservoir_covered|man_made='reservoir_covered' |A covered reservoir is a large man-made tank for holding fresh water|
 |riverbank|natural='riverbank' |For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
 |slipway|leisure='slipway' |Boats can be launched here|

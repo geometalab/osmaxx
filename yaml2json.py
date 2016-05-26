@@ -1,20 +1,26 @@
 from jinja2 import Template
-
+from collections import OrderedDict
 import yaml
 
 f = open("osmaxx_schema.yaml", 'r')
+h = open("header.json", 'r')
 inp = f.read()
+header = h.read()
 out = open("osmaxx.json", 'w')
 
 data = yaml.load(inp)
 table = data['layers'].keys()
+out.write(header)
+out.write("    \"tags\": [")
 for i in range(0, len(table)):
 	dicts = data['layers'][table[i]]
 	attr = dicts['attributes'].keys()
 	for j in range(0, len(attr)):
 		if attr[j] == 'type':
 
-			type_attr = dicts['attributes'][attr[j]]['values'].keys()
+			type_dict = dicts['attributes'][attr[j]]['values']
+			type_dict = OrderedDict(sorted(type_dict.items()))
+			type_attr = type_dict.keys()
 			
 			for k in range(0, len(type_attr)):
 				type_tags = dicts['attributes'][attr[j]]['values'][type_attr[k]]['osm_tags']
@@ -46,6 +52,7 @@ for i in range(0, len(table)):
 
 				attr_tags_keys = dicts['attributes'][attr[j]]['values'][dicts['attributes'][attr[j]]['values'].keys()[0]] \
 				                 ['osm_tags'][0].keys()
+				attr_tags_keys.sort()
 				attr_tags_values = dicts['attributes'][attr[j]]['values'][dicts['attributes'][attr[j]]['values'].keys()[0]] \
 				                   ['osm_tags'][0].values()
 				attr_tags_description = dicts['attributes'][attr[j]]['description']
@@ -70,6 +77,7 @@ for i in range(0, len(table)):
 			else: 
 				
 				attr_tags_keys = dicts['attributes'][attr[j]]['osm_tags'][0].keys()
+				attr_tags_keys.sort()
 				attr_tags_description = dicts['attributes'][attr[j]]['description']
 
 
@@ -90,4 +98,5 @@ for i in range(0, len(table)):
 
 		elif attr[j] == 'aggtype':
 			continue
-		
+
+out.write('\n]}')
