@@ -18,7 +18,7 @@ class TimeStampModelMixin(models.Model):
 
     def save(self, *args, **kwargs):
         now = datetime.now()
-        if not self.id:
+        if self.id is None:
             self.created = now
         self.updated = now
         super().save(*args, **kwargs)
