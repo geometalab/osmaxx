@@ -124,11 +124,7 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
         context_data = super().get_context_data(**kwargs)
         context_data.update(self._get_extra_context_data())
         context_data['excerpt_list_with_exports'] = OrderedDict(
-            (
-                excerpt,
-                self.get_user_exports().filter(extraction_order__excerpt__pk=excerpt.id)
-                .select_related('extraction_order', 'extraction_order__excerpt', 'output_file'))
-            for excerpt in context_data[self.context_object_name]
+            (excerpt, self._get_exports_for_excerpt(excerpt)) for excerpt in context_data[self.context_object_name]
         )
         return context_data
 
@@ -136,6 +132,11 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
         return sorted(
             super().get_queryset().filter(pk__in=self.excerpt_ids), key=lambda x: self.excerpt_ids.index(x.pk)
         )
+
+    def _get_exports_for_excerpt(self, excerpt):
+        return self.get_user_exports().\
+            filter(extraction_order__excerpt=excerpt).\
+            select_related('extraction_order', 'extraction_order__excerpt', 'output_file')
 export_list = ExportsListView.as_view()
 
 
