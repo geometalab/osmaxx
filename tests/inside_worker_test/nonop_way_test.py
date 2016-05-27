@@ -11,10 +11,12 @@ from tests.inside_worker_test.declarative_schema import osm_models
 
 MAJOR_KEYS = frozenset({'highway', 'railway'})
 
-NON_LIFECYCLE_OSM_TAG_COMBINATIONS_AND_WAY_TYPES = (
-    (TagCombination(highway='track'), 'track'),
-    (TagCombination(highway='track', tracktype='grade3'), 'grade3'),
-    (TagCombination(highway='footway'), 'footway'),
+CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS = frozendict(
+    {
+        TagCombination(highway='track'): 'track',
+        TagCombination(highway='track', tracktype='grade3'): 'grade3',
+        TagCombination(highway='footway'): 'footway',
+    },
 )
 
 CORRESPONDING_OSMAXX_STATUSES_FOR_OSM_STATUSES = frozendict(
@@ -98,8 +100,8 @@ def expected_osmaxx_status(osm_status_and_expected_osmaxx_status):
 
 
 @pytest.fixture(
-    params=NON_LIFECYCLE_OSM_TAG_COMBINATIONS_AND_WAY_TYPES,
-    ids=[str(tag_combination) for tag_combination, _ in NON_LIFECYCLE_OSM_TAG_COMBINATIONS_AND_WAY_TYPES],
+    params=CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS.items(),
+    ids=[str(tag_combination) for tag_combination in CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS.keys()],
 )
 def non_lifecycle_osm_tags_and_expected_nonop_subtype(request):
     return request.param

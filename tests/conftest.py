@@ -301,6 +301,7 @@ END
 class TagCombination(Mapping):
     def __init__(self, *args, **kwargs):
         self.__tags = frozendict(*args, **kwargs)
+        self.__hash = hash(frozenset(self.items()))
 
     def __getitem__(self, item):
         return self.__tags[item]
@@ -313,3 +314,6 @@ class TagCombination(Mapping):
 
     def __str__(self):
         return ' '.join("{key}={value}".format(key=key, value=value) for key, value in self.items())
+
+    def __hash__(self):
+        return self.__hash
