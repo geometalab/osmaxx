@@ -9,6 +9,12 @@ from tests.inside_worker_test.conftest import slow
 from tests.inside_worker_test.declarative_schema import osm_models
 
 MAJOR_KEYS = frozenset({'highway', 'railway'})
+OSM_STATUSES_AND_CORRESPONDING_OSMAXX_STATUSES = [
+    ('planned', 'P'),
+    ('disused', 'D'),
+    ('construction', 'C'),
+    ('abandoned', 'A'),
+]
 
 
 @slow
@@ -100,18 +106,8 @@ def non_lifecycle_osm_tags_and_expected_nonop_subtype(request):
 
 
 @pytest.fixture(
-    params=[
-        ('planned', 'P'),
-        ('disused', 'D'),
-        ('construction', 'C'),
-        ('abandoned', 'A'),
-    ],
-    ids=[
-        'planned',
-        'disused',
-        'construction',
-        'abandoned',
-    ],
+    params=OSM_STATUSES_AND_CORRESPONDING_OSMAXX_STATUSES,
+    ids=[osm_s for osm_s, _ in OSM_STATUSES_AND_CORRESPONDING_OSMAXX_STATUSES],
 )
 def osm_status_and_expected_osmaxx_status(request):
     return request.param
