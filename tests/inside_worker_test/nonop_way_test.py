@@ -1,15 +1,22 @@
 from contextlib import closing
-from copy import deepcopy
 
 import pytest
 import sqlalchemy
 from sqlalchemy.sql.schema import Table as DbTable
 
 from osmaxx.utils.frozendict import frozendict
+from tests.conftest import TagCombination
 from tests.inside_worker_test.conftest import slow
 from tests.inside_worker_test.declarative_schema import osm_models
 
 MAJOR_KEYS = frozenset({'highway', 'railway'})
+
+NON_LIFECYCLE_OSM_TAG_COMBINATIONS_AND_WAY_TYPES = (
+    (TagCombination(highway='track'), 'track'),
+    (TagCombination(highway='track', tracktype='grade3'), 'grade3'),
+    (TagCombination(highway='footway'), 'footway'),
+)
+
 CORRESPONDING_OSMAXX_STATUSES_FOR_OSM_STATUSES = frozendict(
     planned='P',
     disused='D',
@@ -54,7 +61,7 @@ def lifecycle_data(non_lifecycle_osm_tags, osm_status):
     major_keys = MAJOR_KEYS.intersection(non_lifecycle_osm_tags)
     assert len(major_keys) == 1
     major_tag_key = next(iter(major_keys))
-    osm_tags = deepcopy(non_lifecycle_osm_tags)
+    osm_tags = dict(non_lifecycle_osm_tags)
     major_tag_value = osm_tags.pop(major_tag_key)
     osm_tags.update({major_tag_key: osm_status, osm_status: major_tag_value})
     assert len(osm_tags) == len(non_lifecycle_osm_tags) + 1
@@ -91,16 +98,8 @@ def expected_osmaxx_status(osm_status_and_expected_osmaxx_status):
 
 
 @pytest.fixture(
-    params=[
-        (dict(highway='track'), 'track'),
-        (dict(highway='track', tracktype='grade3'), 'grade3'),
-        (dict(highway='footway'), 'footway'),
-    ],
-    ids=[
-        'highway=track',
-        'highway=track tracktype=grade3',
-        'highway=footway',
-    ],
+    params=NON_LIFECYCLE_OSM_TAG_COMBINATIONS_AND_WAY_TYPES,
+    ids=[str(tag_combination) for tag_combination, _ in NON_LIFECYCLE_OSM_TAG_COMBINATIONS_AND_WAY_TYPES],
 )
 def non_lifecycle_osm_tags_and_expected_nonop_subtype(request):
     return request.param
