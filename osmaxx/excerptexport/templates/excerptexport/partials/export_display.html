@@ -16,16 +16,22 @@
     {% if export.output_file.file %}
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-9 col-lg-9">
+                <div class="col-md-8 col-lg-8">
                     <p>
                         <a href="{{ export.output_file.file.url }}">{{ export.output_file.get_filename_display }}</a>
                     </p>
                 </div>
+            <div class="col-md-1 col-lg-1">
+                {{ export.output_file.file.size|filesizeformat }}
+            </div>
                 <div class="col-md-3 col-lg-3">
                     <p>
                         {% capture_as subject %}Download {{ export.get_file_format_display }} map data of {{ export.extraction_order.excerpt.name }}{% end_capture_as %}
                         {% capture_as body %}{% email_body_with_single_result_link export.output_file %}{% end_capture_as %}
-                        <a href="mailto:?subject={% filter urlencode %}{{ subject }}{% endfilter %}&body={% filter urlencode %}{{ body }}{% endfilter %}">Send Mail</a>
+                        <a href="mailto:?subject={% filter urlencode %}{{ subject }}{% endfilter %}&body={% filter urlencode %}{{ body }}{% endfilter %}">
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                            Send Link as Email
+                        </a>
                     </p>
                 </div>
             </div>
