@@ -26,10 +26,13 @@ def test_new_excerpt(base_url, login, file_name, file_format, selenium, reload_u
     create.send_keys(Keys.RETURN)
 
     # wait until download link appears
-    selenium.find_element_by_link_text('↻ Reload')
-    element = reload_until_condition(selenium.find_element_by_class_name, "form-control")
+    selenium.find_element_by_xpath("/html/body/div/div/div[2]/div[2]/div[1]/div/div[1]/h3")
+    first_a = "/html/body/div/div/div[2]/div[2]/div[1]/div/div[2]/div[1]/div[1]/div[2]/div/div[1]/p/a"
+    element = reload_until_condition(selenium.find_element_by_xpath, first_a)
 
     # check if the download link is a valid link
-    url = element.text
+    url = element.get_attribute('href')
+    if not url.startswith('http'):
+        url += 'http://{}{}'.format(base_url, url)
     r = requests.head(url)
     assert r.status_code == requests.codes.ok
