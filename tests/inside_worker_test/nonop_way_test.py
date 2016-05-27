@@ -5,16 +5,17 @@ import pytest
 import sqlalchemy
 from sqlalchemy.sql.schema import Table as DbTable
 
+from osmaxx.utils.frozendict import frozendict
 from tests.inside_worker_test.conftest import slow
 from tests.inside_worker_test.declarative_schema import osm_models
 
 MAJOR_KEYS = frozenset({'highway', 'railway'})
-OSM_STATUSES_AND_CORRESPONDING_OSMAXX_STATUSES = [
-    ('planned', 'P'),
-    ('disused', 'D'),
-    ('construction', 'C'),
-    ('abandoned', 'A'),
-]
+CORRESPONDING_OSMAXX_STATUSES_FOR_OSM_STATUSES = frozendict(
+    planned='P',
+    disused='D',
+    construction='C',
+    abandoned='A',
+)
 
 
 @slow
@@ -106,8 +107,8 @@ def non_lifecycle_osm_tags_and_expected_nonop_subtype(request):
 
 
 @pytest.fixture(
-    params=OSM_STATUSES_AND_CORRESPONDING_OSMAXX_STATUSES,
-    ids=[osm_s for osm_s, _ in OSM_STATUSES_AND_CORRESPONDING_OSMAXX_STATUSES],
+    params=CORRESPONDING_OSMAXX_STATUSES_FOR_OSM_STATUSES.items(),
+    ids=list(CORRESPONDING_OSMAXX_STATUSES_FOR_OSM_STATUSES.keys()),
 )
 def osm_status_and_expected_osmaxx_status(request):
     return request.param
