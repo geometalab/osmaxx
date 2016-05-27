@@ -1,21 +1,8 @@
-window.ExcerptViewer = function(mapElementID, excerptApiUrl, disableZoom) {
+window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
     this.excerptApiUrl = excerptApiUrl;
     this.currentLayer = null;
 
-    if (disableZoom) {
-        var map = L.map(mapElementID, {zoomControl: true}).setView([0, 0], 2);
-        map.dragging.disable();
-        map.touchZoom.disable();
-        map.doubleClickZoom.disable();
-        map.scrollWheelZoom.disable();
-        map.keyboard.disable();
-        if (map.tap) {
-            map.tap.disable();
-        }
-        this.map = map;
-    } else {
-        this.map = L.map(mapElementID).setView([0, 0], 2);
-    }
+    this.map = L.map(mapElementID).setView([0, 0], 2);
 
     L.control.scale().addTo(this.map);
     // add an OpenStreetMap tile layer
@@ -48,5 +35,16 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl, disableZoom) {
         }.bind(this)).on('data:loaded', function(){
             this.map.spin(false);
         }.bind(this));
+    }.bind(this);
+
+    this.disableZoom = function(){
+        this.map.dragging.disable();
+        this.map.touchZoom.disable();
+        this.map.doubleClickZoom.disable();
+        this.map.scrollWheelZoom.disable();
+        this.map.keyboard.disable();
+        if (this.map.tap) {
+            this.map.tap.disable();
+        }
     }.bind(this);
 };

@@ -28,7 +28,9 @@ class Excerpt(models.Model):
         bounding_geometry = self.bounding_geometry
         if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
             original_srid = self.bounding_geometry.srs
-            bounding_geometry = geos.MultiPolygon(with_metric_buffer(self.bounding_geometry, buffer_meters=500, map_srid=original_srid))
+            bounding_geometry = with_metric_buffer(self.bounding_geometry, buffer_meters=100, map_srid=original_srid)
+            if not isinstance(bounding_geometry, geos.MultiPolygon):
+                bounding_geometry = geos.MultiPolygon(bounding_geometry)
         return api_client.create_boundary(bounding_geometry, name=self.name)
 
     @property

@@ -15,17 +15,17 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='export',
-            name='created',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, editable=False, verbose_name='created on'),
+            name='created_at',
+            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, editable=False, verbose_name='created at'),
         ),
         migrations.AddField(
             model_name='export',
-            name='finished',
-            field=models.DateTimeField(blank=True, default=None, editable=False, null=True, verbose_name='finished on'),
+            name='finished_at',
+            field=models.DateTimeField(blank=True, default=None, editable=False, null=True, verbose_name='finished at'),
         ),
         migrations.AddField(
             model_name='export',
-            name='updated',
-            field=models.DateTimeField(blank=True, default=None, editable=False, null=True, verbose_name='updated on'),
+            name='updated_at',
+            field=models.DateTimeField(blank=True, default=None, editable=False, null=True, verbose_name='updated at'),
         ),
     ]

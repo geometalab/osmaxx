@@ -74,6 +74,8 @@ class OwnershipRequiredMixin(SingleObjectMixin):
 
 
 class ExportsListMixin:
+    _filterable_statuses = frozenset({statuses.FINISHED, statuses.FAILED})
+
     @property
     def excerpt_ids(self):
         if not hasattr(self, '_excerpt_ids'):
@@ -87,23 +89,16 @@ class ExportsListMixin:
 
     @property
     def status_choices(self):
-        allowed_choices = [
-            statuses.FINISHED,
-            statuses.FAILED,
-        ]
-        return [choice for choice in Export.STATUS_CHOICES if choice[0] in allowed_choices]
+        return [choice for choice in Export.STATUS_CHOICES if choice[0] in self._filterable_statuses]
 
     def get_user_exports(self):
         return self._filter_exports(
             Export.objects.filter(extraction_order__orderer=self.request.user)
-        ).order_by('-updated', '-finished')
+        ).order_by('-updated_at', '-finished_at')
 
     def _filter_exports(self, query):
-        allowed_status_filters = [
-            status[0] for status in self.status_choices
-        ]
         status_filter = self.request.GET.get('status', None)
-        if status_filter and status_filter in allowed_status_filters:
+        if status_filter in self._filterable_statuses:
             return query.filter(status=status_filter)
         return query
 
@@ -124,11 +119,7 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
         context_data = super().get_context_data(**kwargs)
         context_data.update(self._get_extra_context_data())
         context_data['excerpt_list_with_exports'] = OrderedDict(
-            (
-                excerpt,
-                self.get_user_exports().filter(extraction_order__excerpt__pk=excerpt.id)
-                .select_related('extraction_order', 'extraction_order__excerpt', 'output_file'))
-            for excerpt in context_data[self.context_object_name]
+            (excerpt, self._get_exports_for_excerpt(excerpt)) for excerpt in context_data[self.context_object_name]
         )
         return context_data
 
@@ -136,6 +127,11 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
         return sorted(
             super().get_queryset().filter(pk__in=self.excerpt_ids), key=lambda x: self.excerpt_ids.index(x.pk)
         )
+
+    def _get_exports_for_excerpt(self, excerpt):
+        return self.get_user_exports().\
+            filter(extraction_order__excerpt=excerpt).\
+            select_related('extraction_order', 'extraction_order__excerpt', 'output_file')
 export_list = ExportsListView.as_view()
 
 
