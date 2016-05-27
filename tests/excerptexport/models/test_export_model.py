@@ -6,7 +6,13 @@ from django.utils.datetime_safe import datetime
 
 
 @pytest.mark.django_db
-def test_created_export_has_correct_time_stamp(export):
+def test_created_export_has_correct_time_stamp(extraction_order):
+    from osmaxx.excerptexport.models import Export
+    from osmaxx.conversion_api import formats
+    export = Export.objects.create(
+        extraction_order=extraction_order,
+        file_format=formats.FGDB,
+    )
     now = datetime.now()
     margin = timedelta(minutes=1)
     assert export.finished is None
