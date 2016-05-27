@@ -74,6 +74,8 @@ class OwnershipRequiredMixin(SingleObjectMixin):
 
 
 class ExportsListMixin:
+    _filterable_statuses = frozenset({statuses.FINISHED, statuses.FAILED})
+
     @property
     def excerpt_ids(self):
         if not hasattr(self, '_excerpt_ids'):
@@ -86,15 +88,8 @@ class ExportsListMixin:
         return self._excerpt_ids
 
     @property
-    def filterable_statuses(self):
-        return [
-            statuses.FINISHED,
-            statuses.FAILED,
-        ]
-
-    @property
     def status_choices(self):
-        return [choice for choice in Export.STATUS_CHOICES if choice[0] in self.filterable_statuses]
+        return [choice for choice in Export.STATUS_CHOICES if choice[0] in self._filterable_statuses]
 
     def get_user_exports(self):
         return self._filter_exports(
@@ -103,7 +98,7 @@ class ExportsListMixin:
 
     def _filter_exports(self, query):
         status_filter = self.request.GET.get('status', None)
-        if status_filter in self.filterable_statuses:
+        if status_filter in self._filterable_statuses:
             return query.filter(status=status_filter)
         return query
 
