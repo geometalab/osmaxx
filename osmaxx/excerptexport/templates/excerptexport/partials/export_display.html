@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-    {% elif export.status == "finished" %}{# FIXME: finished is hardcoded, but as long as we don't have the STATUS on the model, we can't access it here! #}
+    {% elif export.status == export.FINISHED %}
         <div class="panel-body">
             <p>{% url 'excerptexport:order_existing_excerpt' as order_existing_url %}
                 {% blocktrans %}This file has been removed from the server. Please <a href="{{ order_existing_url }}">request it</a> again.{% endblocktrans %}

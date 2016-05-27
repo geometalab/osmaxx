@@ -5,9 +5,7 @@ from django.utils.datetime_safe import datetime
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
-from osmaxx.conversion_api import statuses
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
-from osmaxx.conversion_api.statuses import FAILED, FINAL_STATUSES, FINISHED
 
 logger = logging.getLogger(__name__)
 
@@ -39,9 +37,10 @@ class Export(TimeStampModelMixin, models.Model):
     - the transformation of the data from the data sources' schemata (e.g. ``osm2pgsql`` schema) to the OSMaxx schema
     - the actual export to one specific GIS or navigation file format with one specific set of parameters
     """
+    from osmaxx.conversion_api.statuses import RECEIVED, QUEUED, FINISHED, FAILED, STARTED, DEFERRED, FINAL_STATUSES, STATUS_CHOICES  # noqa
     INITIAL = 'initial'
     INITIAL_CHOICE = (INITIAL, _('initial'))
-    STATUS_CHOICES = (INITIAL_CHOICE,) + statuses.STATUS_CHOICES
+    STATUS_CHOICES = (INITIAL_CHOICE,) + STATUS_CHOICES
 
     extraction_order = models.ForeignKey('excerptexport.ExtractionOrder', related_name='exports',
                                          verbose_name=_('extraction order'))
@@ -81,9 +80,9 @@ class Export(TimeStampModelMixin, models.Model):
         from osmaxx.utilities.shortcuts import Emissary
         emissary = Emissary(recipient=self.extraction_order.orderer)
         status_changed_message = self._get_export_status_changed_message()
-        if self.status == FAILED:
+        if self.status == self.FAILED:
             emissary.error(status_changed_message)
-        elif self.status == FINISHED:
+        elif self.status == self.FINISHED:
             from osmaxx.api_client.conversion_api_client import ResultFileNotAvailableError
             try:
                 self._fetch_result_file()
@@ -129,7 +128,7 @@ class Export(TimeStampModelMixin, models.Model):
 
     @property
     def is_status_final(self):
-        return self.status in FINAL_STATUSES
+        return self.status in self.FINAL_STATUSES
 
     @property
     def css_status_class(self):
@@ -141,11 +140,11 @@ class Export(TimeStampModelMixin, models.Model):
         default_class = 'default'
 
         status_map = {
-            statuses.RECEIVED: 'info',
-            statuses.QUEUED: 'info',
-            statuses.FINISHED: 'success',
-            statuses.FAILED: 'danger',
-            statuses.STARTED: 'info',
-            statuses.DEFERRED: 'default',
+            self.RECEIVED: 'info',
+            self.QUEUED: 'info',
+            self.FINISHED: 'success',
+            self.FAILED: 'danger',
+            self.STARTED: 'info',
+            self.DEFERRED: 'default',
         }
         return status_map.get(self.status, default_class)
