@@ -11,14 +11,14 @@ logger = logging.getLogger(__name__)
 
 
 class TimeStampModelMixin(models.Model):
-    created = models.DateTimeField(_('created on'), default=datetime.now, blank=True, editable=False)
-    updated = models.DateTimeField(_('updated on'), default=None, blank=True, editable=False, null=True)
+    created_at = models.DateTimeField(_('created at'), default=datetime.now, blank=True, editable=False)
+    updated_at = models.DateTimeField(_('updated at'), default=None, blank=True, editable=False, null=True)
 
     def save(self, *args, **kwargs):
         now = datetime.now()
         if self.id is None:
-            self.created = now
-        self.updated = now
+            self.created_at = now
+        self.updated_at = now
         super().save(*args, **kwargs)
 
     class Meta:
@@ -47,7 +47,7 @@ class Export(TimeStampModelMixin, models.Model):
     file_format = models.CharField(choices=FORMAT_CHOICES, verbose_name=_('file format / data format'), max_length=10)
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
     status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
-    finished = models.DateTimeField(_('finished on'), default=None, blank=True, editable=False, null=True)
+    finished_at = models.DateTimeField(_('finished at'), default=None, blank=True, editable=False, null=True)
 
     def send_to_conversion_service(self, clipping_area_json, incoming_request):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
@@ -103,7 +103,7 @@ class Export(TimeStampModelMixin, models.Model):
         ).strip()
 
     def _get_job_finished_but_result_file_missing_log_message(self):
-        return 'Export {export_id}: Job {job_id} finished, but file not available.'.format(
+        return 'Export {export_id}: Job {job_id} finished_at, but file not available.'.format(
             export_id=self.id,
             job_id=self.conversion_service_job_id,
         )
@@ -123,7 +123,7 @@ class Export(TimeStampModelMixin, models.Model):
             of.download_file_name,
             file_content,
         )
-        self.finished = now
+        self.finished_at = now
         self.save()
 
     @property

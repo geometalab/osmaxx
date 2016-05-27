@@ -19,8 +19,8 @@ def test_successful_file_attaching_changes_export_finished_timestamp(mocker, out
         ConversionApiClient, 'get_result_file',
         side_effect=[ContentFile(output_file_content)],
     )
-    assert export.finished is None
+    assert export.finished_at is None
     assert export.status is export.INITIAL
     export._fetch_result_file()
-    assert export.finished is not None
-    assert (now - margin) < export.finished < (now + margin)
+    assert export.finished_at is not None
+    assert (now - margin) < export.finished_at < (now + margin)

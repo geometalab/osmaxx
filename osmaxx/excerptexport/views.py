@@ -94,7 +94,7 @@ class ExportsListMixin:
     def get_user_exports(self):
         return self._filter_exports(
             Export.objects.filter(extraction_order__orderer=self.request.user)
-        ).order_by('-updated', '-finished')
+        ).order_by('-updated_at', '-finished_at')
 
     def _filter_exports(self, query):
         status_filter = self.request.GET.get('status', None)

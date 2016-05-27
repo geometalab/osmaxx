@@ -5,11 +5,11 @@
             <div class="col-lg-6 col-md-6">
                 {{ export.get_file_format_display }}
             </div>
-            <div class="col-md-3 col-lg-3">
+            <div class="col-md-2 col-lg-2">
                 {{ export.file_format }}
             </div>
-            <div class="col-md-3 col-lg-3">
-                {{ export.status }} at {% firstof export.finished|date:"Y-m-d H:i:s" export.updated|date:"Y-m-d H:i:s" %}
+            <div class="col-md-4 col-lg-4">
+                {{ export.status }} at {% firstof export.finished_at|date:"Y-m-d H:i:s" export.updated_at|date:"Y-m-d H:i:s" %}
             </div>
         </div>
     </div>
