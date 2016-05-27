@@ -86,12 +86,15 @@ class ExportsListMixin:
         return self._excerpt_ids
 
     @property
-    def status_choices(self):
-        filterable_choices = [
+    def filterable_statuses(self):
+        return [
             statuses.FINISHED,
             statuses.FAILED,
         ]
-        return [choice for choice in Export.STATUS_CHOICES if choice[0] in filterable_choices]
+
+    @property
+    def status_choices(self):
+        return [choice for choice in Export.STATUS_CHOICES if choice[0] in self.filterable_statuses]
 
     def get_user_exports(self):
         return self._filter_exports(
@@ -99,11 +102,8 @@ class ExportsListMixin:
         ).order_by('-updated', '-finished')
 
     def _filter_exports(self, query):
-        filterable_statuses = [
-            status for status, _ in self.status_choices
-        ]
         status_filter = self.request.GET.get('status', None)
-        if status_filter in filterable_statuses:
+        if status_filter in self.filterable_statuses:
             return query.filter(status=status_filter)
         return query
 
