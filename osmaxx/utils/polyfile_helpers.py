@@ -67,3 +67,29 @@ def parse_poly(lines):
             in_ring = True
 
     return MultiPolygon(*(Polygon(*polycoords) for polycoords in coords), srid=4326)
+
+
+def get_polyfile_names_to_file_mapping():
+    """
+    generates names of all polyfiles inside the POLYFILE_LOCATION path.
+
+    Returns: a mapping of polyfile names to polyfile path
+    """
+    from osmaxx.excerptexport._settings import POLYFILE_LOCATION
+    print('pfl: ', POLYFILE_LOCATION)
+    polyfile_name_to_file_path_mapping = {}
+    for root, dirs, files in os.walk(POLYFILE_LOCATION):
+        print('r: ', root)
+        subfolder_name = root.replace(POLYFILE_LOCATION, '').replace('/', '')
+        print('sub: ', subfolder_name)
+        for possible_polyfile in files:
+            print('ps: ', possible_polyfile)
+            name_parts = [] if subfolder_name == '' else [subfolder_name]
+            print(possible_polyfile)
+            if _is_polyfile(possible_polyfile):
+                name, _ = possible_polyfile.split(POLYFILE_FILENAME_EXTENSION)
+                name_parts.append(name)
+                excerpt_name = ' - '.join(name_parts)
+                polyfile_name_to_file_path_mapping[excerpt_name] = os.path.join(root, possible_polyfile)
+                print(excerpt_name)
+    return polyfile_name_to_file_path_mapping
