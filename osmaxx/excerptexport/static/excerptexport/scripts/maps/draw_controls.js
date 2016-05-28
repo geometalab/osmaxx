@@ -49,7 +49,7 @@ var draw_controls = function (map) {
     }
 
     function showSizeOfLayer(layer) {
-        var allowedMaxSize = 5 * 1000 * 1000 * 1000;  // 5 GB in bytes, approx. Germany
+        var allowedMaxSize = 1024 * 1024 * 1024;  // 1 GB in bytes, approx. 1/5 of Germany, estimation of the PBF size
         var nameField = document.getElementById('id_name');
 
         var e = document.getElementById('error_size_estimation_too_large');
