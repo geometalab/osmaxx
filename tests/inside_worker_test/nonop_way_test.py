@@ -62,15 +62,19 @@ def non_lifecycle_data_import(non_lifecycle_data, data_import):
 
 
 @pytest.fixture
-def lifecycle_data(non_lifecycle_osm_tags, osm_status):
-    major_keys = MAJOR_KEYS.intersection(non_lifecycle_osm_tags)
-    assert len(major_keys) == 1
-    major_tag_key = next(iter(major_keys))
+def lifecycle_data(non_lifecycle_osm_tags, osm_status, major_tag_key):
     osm_tags = dict(non_lifecycle_osm_tags)
     major_tag_value = osm_tags.pop(major_tag_key)
     osm_tags.update({major_tag_key: osm_status, osm_status: major_tag_value})
     assert len(osm_tags) == len(non_lifecycle_osm_tags) + 1
     return {osm_models.t_osm_line: osm_tags}
+
+
+@pytest.fixture
+def major_tag_key(non_lifecycle_osm_tags):
+    major_keys = MAJOR_KEYS.intersection(non_lifecycle_osm_tags)
+    assert len(major_keys) == 1
+    return next(iter(major_keys))
 
 
 @pytest.fixture
