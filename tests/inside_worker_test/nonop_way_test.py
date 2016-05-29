@@ -36,12 +36,13 @@ def test_osm_object_without_status_does_not_end_up_in_nonop(non_lifecycle_data_i
 
 @slow
 def test_osm_object_with_status_ends_up_in_nonop_with_correct_attribute_values(
-        lifecycle_data_import, nonop_l, expected_osmaxx_status):
+        lifecycle_data_import, nonop_l, expected_osmaxx_status, osm_status, non_lifecycle_osm_tags, major_tag_key):
     engine = lifecycle_data_import
     with closing(engine.execute(sqlalchemy.select('*').select_from(nonop_l))) as result:
         assert result.rowcount == 1
         row = result.fetchone()
         assert row['status'] == expected_osmaxx_status
+        assert row['tags'] == '"{key}"=>"{value}"'.format(key=osm_status, value=non_lifecycle_osm_tags[major_tag_key])
 
 
 @pytest.fixture
@@ -65,7 +66,7 @@ def non_lifecycle_data_import(non_lifecycle_data, data_import):
 def lifecycle_data(non_lifecycle_osm_tags, osm_status, major_tag_key):
     osm_tags = dict(non_lifecycle_osm_tags)
     major_tag_value = osm_tags.pop(major_tag_key)
-    osm_tags.update({major_tag_key: osm_status, osm_status: major_tag_value})
+    osm_tags.update({major_tag_key: osm_status, 'tags': {osm_status: major_tag_value}})
     assert len(osm_tags) == len(non_lifecycle_osm_tags) + 1
     return {osm_models.t_osm_line: osm_tags}
 
