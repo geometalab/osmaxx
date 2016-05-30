@@ -1,7 +1,8 @@
+from urllib.parse import urljoin
+
 import pytest
 import requests
 from selenium.webdriver.common.keys import Keys
-from urllib.parse import urljoin
 
 from tests.selenium_tests.conftest import skip_selenium_tests, first_panel_on_excerpts_export_overview
 from tests.selenium_tests.new_excerpt import new_excerpt

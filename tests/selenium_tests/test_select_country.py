@@ -1,3 +1,5 @@
+from urllib.parse import urljoin
+
 import pytest
 import requests
 from selenium.webdriver.common.keys import Keys
@@ -34,8 +36,6 @@ def test_select_country(base_url, login, file_format, selenium, reload_until_con
     element = reload_until_condition(selenium.find_element_by_xpath, first_a)
 
     # check if the download link is a valid link
-    url = element.get_attribute('href')
-    if not url.startswith('http'):
-        url += 'http://{}{}'.format(base_url, url)
+    url = urljoin(base_url, element.get_attribute('href'))
     r = requests.head(url)
     assert r.status_code == requests.codes.ok
