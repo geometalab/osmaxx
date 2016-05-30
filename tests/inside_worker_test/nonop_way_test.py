@@ -11,6 +11,11 @@ from tests.inside_worker_test.declarative_schema import osm_models
 
 MAJOR_KEYS = frozenset({'highway', 'railway'})
 
+EXPECTED_FALLBACK_SUBTYPE_FOR_MAJOR_KEY = frozendict(
+    highway='road',
+    railway='railway'
+)
+
 CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS = frozendict(
     {
         TagCombination(highway='track'): 'track',
@@ -58,7 +63,7 @@ def test_osm_object_with_status_without_details_ends_up_in_nonop_with_correct_st
         row = result.fetchone()
         assert row['status'] == expected_osmaxx_status
         assert row['tags'] is None
-        assert row['sub_type'] == dict(highway='road', railway='railway')[major_tag_key]
+        assert row['sub_type'] == EXPECTED_FALLBACK_SUBTYPE_FOR_MAJOR_KEY[major_tag_key]
 
 
 @pytest.fixture
