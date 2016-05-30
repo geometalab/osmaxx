@@ -69,6 +69,11 @@ def lifecycle_data(lifecycle_osm_tags):
 
 
 @pytest.fixture
+def non_lifecycle_data(non_lifecycle_osm_tags):
+    return {osm_models.t_osm_line: non_lifecycle_osm_tags}
+
+
+@pytest.fixture
 def lifecycle_osm_tags(non_lifecycle_osm_tags, osm_status, major_tag_key):
     osm_tags = dict(non_lifecycle_osm_tags)
     major_tag_value = osm_tags.pop(major_tag_key)
@@ -78,21 +83,16 @@ def lifecycle_osm_tags(non_lifecycle_osm_tags, osm_status, major_tag_key):
 
 
 @pytest.fixture
+def non_lifecycle_osm_tags(non_lifecycle_osm_tags_and_expected_nonop_subtype):
+    osm_tags, _ = non_lifecycle_osm_tags_and_expected_nonop_subtype
+    return osm_tags
+
+
+@pytest.fixture
 def major_tag_key(non_lifecycle_osm_tags):
     major_keys = MAJOR_KEYS.intersection(non_lifecycle_osm_tags)
     assert len(major_keys) == 1
     return next(iter(major_keys))
-
-
-@pytest.fixture
-def non_lifecycle_data(non_lifecycle_osm_tags):
-    return {osm_models.t_osm_line: non_lifecycle_osm_tags}
-
-
-@pytest.fixture
-def non_lifecycle_osm_tags(non_lifecycle_osm_tags_and_expected_nonop_subtype):
-    osm_tags, _ = non_lifecycle_osm_tags_and_expected_nonop_subtype
-    return osm_tags
 
 
 @pytest.fixture
