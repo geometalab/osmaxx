@@ -38,7 +38,8 @@ def test_osm_object_without_status_does_not_end_up_in_nonop(non_lifecycle_data_i
 
 @slow
 def test_osm_object_with_status_ends_up_in_nonop_with_correct_attribute_values(
-        lifecycle_data_import, nonop_l, expected_osmaxx_status, osm_status, non_lifecycle_osm_tags, major_tag_key, expected_nonop_subtype):
+        lifecycle_data_import, nonop_l, expected_osmaxx_status, osm_status, non_lifecycle_osm_tags, major_tag_key,
+        expected_nonop_subtype):
     engine = lifecycle_data_import
     with closing(engine.execute(sqlalchemy.select('*').select_from(nonop_l))) as result:
         assert result.rowcount == 1
