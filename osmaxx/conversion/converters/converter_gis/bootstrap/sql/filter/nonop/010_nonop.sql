@@ -55,12 +55,6 @@ INSERT INTO osmaxx.nonop_l
     end as tunnel,
 
     z_order as z_order,
--- Differentiating the different types of transport --
-    case
-     when osm_line.highway='planned' or railway='planned' then 'P'
-     when osm_line.highway='disused'  or railway='disused' then 'D'
-     when osm_line.highway='construction'  or railway='construction' then 'C'
-     when osm_line.highway='abandoned'  or railway='abandoned' then 'A'
-     end as status
+    status AS status
  FROM osm_line
    JOIN osmaxx.lifecycle_l ON osm_line.osm_id = osmaxx.lifecycle_l.osm_id;
