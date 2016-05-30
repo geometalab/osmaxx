@@ -1,7 +1,7 @@
 import logging
 
 from django.db import models
-from django.utils.datetime_safe import datetime
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
@@ -11,11 +11,11 @@ logger = logging.getLogger(__name__)
 
 
 class TimeStampModelMixin(models.Model):
-    created_at = models.DateTimeField(_('created at'), default=datetime.now, blank=True, editable=False)
+    created_at = models.DateTimeField(_('created at'), default=timezone.now, blank=True, editable=False)
     updated_at = models.DateTimeField(_('updated at'), default=None, blank=True, editable=False, null=True)
 
     def save(self, *args, **kwargs):
-        now = datetime.now()
+        now = timezone.now()
         if self.id is None:
             self.created_at = now
         self.updated_at = now
@@ -113,7 +113,7 @@ class Export(TimeStampModelMixin, models.Model):
         from . import OutputFile
         api_client = ConversionApiClient()
         file_content = api_client.get_result_file(self.conversion_service_job_id)
-        now = datetime.now()
+        now = timezone.now()
         of = OutputFile.objects.create(
             export=self,
             mime_type='application/zip',
