@@ -10,11 +10,11 @@ INSERT INTO osmaxx.nonop_l
     ST_Multi(way) AS geom,
 -- Differentiating between Highway and Railway --
     case
-    when osm_line.highway is not null then 'highway'
-    when osm_line.railway is not null then 'railway'
+    when osmaxx.lifecycle_l.highway is not null then 'highway'
+    when osmaxx.lifecycle_l.railway is not null then 'railway'
     end as type,
     case
-      when osm_line.highway is not null then
+      when osmaxx.lifecycle_l.highway is not null then
         case
           when osmaxx.lifecycle_l.highway='track' then
             case
@@ -28,7 +28,7 @@ INSERT INTO osmaxx.nonop_l
                 'path','steps') then osmaxx.lifecycle_l.highway
           else 'road'
         end
-      when osm_line.railway is not null then
+      when osmaxx.lifecycle_l.railway is not null then
         case
           when osmaxx.lifecycle_l.railway in ('rail','light_rail','subway','tram','monorail','narrow_gauge','miniature','funicular','rack') then osmaxx.lifecycle_l.railway
           else 'railway'
