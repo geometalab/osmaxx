@@ -46,6 +46,18 @@ def test_osm_object_with_status_ends_up_in_nonop_with_correct_attribute_values(
         assert row['sub_type'] == expected_nonop_subtype
 
 
+@slow
+def test_osm_object_with_status_without_details_ends_up_in_nonop_with_correct_status(
+        incomplete_lifecycle_data_import, nonop_l, expected_osmaxx_status):
+    engine = incomplete_lifecycle_data_import
+    with closing(engine.execute(sqlalchemy.select('*').select_from(nonop_l))) as result:
+        assert result.rowcount == 1
+        row = result.fetchone()
+        assert row['status'] == expected_osmaxx_status
+        assert row['tags'] is None
+        assert row['sub_type'] == 'road'
+
+
 @pytest.fixture
 def nonop_l():
     return DbTable('nonop_l', osm_models.metadata, schema='view_osmaxx')
@@ -54,6 +66,12 @@ def nonop_l():
 @pytest.yield_fixture
 def lifecycle_data_import(lifecycle_data, data_import):
     with data_import(lifecycle_data) as engine:
+        yield engine
+
+
+@pytest.yield_fixture
+def incomplete_lifecycle_data_import(incomplete_lifecycle_data, data_import):
+    with data_import(incomplete_lifecycle_data) as engine:
         yield engine
 
 
@@ -69,6 +87,11 @@ def lifecycle_data(lifecycle_osm_tags):
 
 
 @pytest.fixture
+def incomplete_lifecycle_data(incomplete_lifecycle_osm_tags):
+    return {osm_models.t_osm_line: incomplete_lifecycle_osm_tags}
+
+
+@pytest.fixture
 def non_lifecycle_data(non_lifecycle_osm_tags):
     return {osm_models.t_osm_line: non_lifecycle_osm_tags}
 
@@ -79,6 +102,14 @@ def lifecycle_osm_tags(non_lifecycle_osm_tags, osm_status, major_tag_key):
     major_tag_value = osm_tags.pop(major_tag_key)
     osm_tags.update({major_tag_key: osm_status, 'tags': {osm_status: major_tag_value}})
     assert len(osm_tags) == len(non_lifecycle_osm_tags) + 1
+    return osm_tags
+
+
+@pytest.fixture
+def incomplete_lifecycle_osm_tags(non_lifecycle_osm_tags, osm_status, major_tag_key):
+    osm_tags = dict(non_lifecycle_osm_tags)
+    osm_tags.update({major_tag_key: osm_status})
+    assert len(osm_tags) == len(non_lifecycle_osm_tags)
     return osm_tags
 
 
