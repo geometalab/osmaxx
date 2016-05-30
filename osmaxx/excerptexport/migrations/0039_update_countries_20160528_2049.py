@@ -30,7 +30,7 @@ def update_countries(apps, schema_editor):  # noqa
         else:
             for excerpt in existing_excerpts:
                 update_excerpt(excerpt, polyfile_path)
-    # remove old countries, yes, this deletes the existing exports with those countries as well!
+    # Remove old countries. Yes, this deletes the existing exports of those countries as well!
     Excerpt.objects.filter(excerpt_type='country').exclude(name__in=done_countries).delete()
 
 
