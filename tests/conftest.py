@@ -300,7 +300,9 @@ END
 
 class TagCombination(Mapping):
     def __init__(self, *args, **kwargs):
-        self.__tags = frozendict(*args, **kwargs)
+        tags = dict(osm_id=id(self))
+        tags.update(*args, **kwargs)
+        self.__tags = frozendict(tags)
         self.__hash = hash(frozenset(self.items()))
 
     def __getitem__(self, item):
