@@ -2,24 +2,26 @@ CREATE OR REPLACE VIEW osmaxx.lifecycle_l AS
   SELECT
     osm_id,
     CASE
-      WHEN highway IS NOT NULL THEN
+      WHEN highway IS NOT NULL THEN coalesce(
         CASE
           WHEN highway = 'planned' THEN tags -> 'planned'
           WHEN highway = 'construction' THEN tags -> 'construction'
           WHEN highway = 'disused' THEN tags -> 'disused'
           WHEN highway = 'abandoned' THEN tags -> 'abandoned'
-          ELSE 'yes'
-        END
+        END,
+        'yes'
+      )
     END AS highway,
     CASE
-      WHEN railway IS NOT NULL THEN
+      WHEN railway IS NOT NULL THEN coalesce(
         CASE
           WHEN railway = 'planned' THEN tags -> 'planned'
           WHEN railway = 'construction' THEN tags -> 'construction'
           WHEN railway = 'disused' THEN tags -> 'disused'
           WHEN railway = 'abandoned' THEN tags -> 'abandoned'
-          ELSE 'yes'
-        END
+        END,
+        'yes'
+      )
     END AS railway,
     CASE
       WHEN highway = 'planned' OR railway = 'planned' THEN 'P'
