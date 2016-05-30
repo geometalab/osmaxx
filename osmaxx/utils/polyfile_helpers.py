@@ -80,8 +80,8 @@ def get_polyfile_names_to_file_mapping():
     for root, dirs, files in os.walk(POLYFILE_LOCATION):
         subfolder_name = root[len(POLYFILE_LOCATION):].replace('/', '')
         for possible_polyfile in files:
-            name_parts = [] if subfolder_name == '' else [subfolder_name]
             if _is_polyfile(possible_polyfile):
+                name_parts = [] if subfolder_name == '' else [subfolder_name]
                 name, _ = possible_polyfile.split(POLYFILE_FILENAME_EXTENSION)
                 name_parts.append(name)
                 excerpt_name = ' - '.join(name_parts)
