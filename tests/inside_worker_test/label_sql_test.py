@@ -1,6 +1,7 @@
 import pytest
 import sqlalchemy
 
+from tests.conftest import TagCombination
 from tests.inside_worker_test.conftest import sql_from_bootstrap_relative_location, slow
 from tests.inside_worker_test.declarative_schema import osm_models
 
@@ -8,27 +9,33 @@ xeno = "大洲南部広域農道"
 xeno_transliterated = 'dà zhōu nán bù guǎng yù nóng dào'
 latin = 'Turicum'
 
+NAME_TAG_COMBINATIONS = tuple(
+    TagCombination(name_tags) for name_tags in
+    [
+        {'name': latin, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': latin},
+        {'name': xeno, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
+        {'name': latin, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': latin},
 
-@pytest.fixture(params=[
-    {'name': latin, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': latin},
-    {'name': xeno, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
-    {'name': latin, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': latin},
-    # correct order of fallbacks
-    {'name': None, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
-    {'name': None, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-fr'},
-    {'name': None, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-es'},
-    {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'expected_label': 'latin-de'},
-    {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': None},
+        # correct order of fallbacks
+        {'name': None, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
+        {'name': None, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-fr'},
+        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-es'},
+        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'expected_label': 'latin-de'},
+        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': None},
 
-    # correct order of fallbacks with transliterate
-    {'name': xeno, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
-    {'name': xeno, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-fr'},
-    {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-es'},
-    {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'expected_label': 'latin-de'},
-    {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': xeno_transliterated},
-])
+        # correct order of fallbacks with transliterate
+        {'name': xeno, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
+        {'name': xeno, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-fr'},
+        {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-es'},
+        {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'expected_label': 'latin-de'},
+        {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': xeno_transliterated},
+    ]
+)
+
+
+@pytest.fixture(params=NAME_TAG_COMBINATIONS, ids=[str(tag_combination) for tag_combination in NAME_TAG_COMBINATIONS])
 def label_input(request):
-    return request.param.copy()
+    return dict(request.param)
 
 
 @slow
