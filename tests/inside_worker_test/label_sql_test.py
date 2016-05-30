@@ -367,6 +367,9 @@ def test_label_nonop(osmaxx_schemas, label_input):
     address_script_setup = 'sql/filter/nonop/000_setup-drop_and_recreate_table_nonop.sql'
     engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script_setup)).execution_options(autocommit=True))
 
+    additional_setup = 'sql/filter/nonop/005_lifecycle_view.sql'
+    engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(additional_setup)).execution_options(autocommit=True))
+
     expected_label = label_input.pop('expected_label')
     label_input.update({'highway': 'planned'})
 
