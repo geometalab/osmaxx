@@ -78,7 +78,7 @@ def get_polyfile_names_to_file_mapping():
     from osmaxx.excerptexport._settings import POLYFILE_LOCATION
     polyfile_name_to_file_path_mapping = {}
     for root, dirs, files in os.walk(POLYFILE_LOCATION):
-        subfolder_name = root.replace(POLYFILE_LOCATION, '').replace('/', '')
+        subfolder_name = root[len(POLYFILE_LOCATION):].replace('/', '')
         for possible_polyfile in files:
             name_parts = [] if subfolder_name == '' else [subfolder_name]
             if _is_polyfile(possible_polyfile):
