@@ -1,3 +1,6 @@
+from selenium.webdriver.support.ui import Select
+
+
 def new_excerpt(driver, base_url):
     driver.get('{0}/'.format(base_url))
 
@@ -25,7 +28,6 @@ def new_excerpt_through_admin(selenium, base_url, excerpt_name="existing_excerpt
     name_field.send_keys(excerpt_name)
     geojson_field = selenium.find_element_by_id('id_bounding_geometry')
     geojson_field.send_keys("SRID=4326;MULTIPOLYGON (((7.4233031272888184 43.7380498124600976, 7.4189472198486328 43.7368560431084887, 7.4186253547668457 43.7337397278454674, 7.4202990531921387 43.7304681975452425, 7.4251914024353027 43.7295998940913222, 7.4289250373840323 43.7296153996205206, 7.4326801300048828 43.7349180551711285, 7.4333238601684561 43.7376622276174842, 7.4286246299743643 43.7405302960438789, 7.4220156669616690 43.7406388148544281, 7.4210071563720703 43.7418015040522690, 7.4180889129638672 43.7418170064223659, 7.4233031272888184 43.7380498124600976)))")
-    from selenium.webdriver.support.ui import Select
     select = Select(selenium.find_element_by_tag_name("select"))
     select.select_by_visible_text("admin")
     selenium.find_element_by_name('_save').click()
