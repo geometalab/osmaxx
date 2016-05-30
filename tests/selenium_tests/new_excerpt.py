@@ -18,7 +18,7 @@ def new_excerpt_through_admin(selenium, base_url, excerpt_name="existing_excerpt
     try:
         selenium.find_element_by_xpath("//a[contains(text(),'{}')]".format(excerpt_name))
         return
-    except:
+    except selenium.common.exceptions.NoSuchElementException:
         pass
     selenium.get('{0}/admin/excerptexport/excerpt/add/'.format(base_url))
     name_field = selenium.find_element_by_id('id_name')
