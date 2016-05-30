@@ -1,6 +1,7 @@
 import pytest
 import requests
 from selenium.webdriver.common.keys import Keys
+from urllib.parse import urljoin
 
 from tests.selenium_tests.conftest import skip_selenium_tests
 from tests.selenium_tests.new_excerpt import new_excerpt
@@ -31,8 +32,6 @@ def test_new_excerpt(base_url, login, file_name, file_format, selenium, reload_u
     element = reload_until_condition(selenium.find_element_by_xpath, first_a)
 
     # check if the download link is a valid link
-    url = element.get_attribute('href')
-    if not url.startswith('http'):
-        url += 'http://{}{}'.format(base_url, url)
+    url = urljoin(base_url, element.get_attribute('href'))
     r = requests.head(url)
     assert r.status_code == requests.codes.ok
