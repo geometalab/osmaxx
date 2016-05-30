@@ -62,4 +62,4 @@ def wait_for_page_load(browser, timeout=30):
     )
 
 
-first_panel_on_excerpts_export_overview = '/html/body/div/div/div[2]/div[2]/div[1]/div/'
+first_panel_on_excerpts_export_overview_xpath = '/html/body/div/div/div[2]/div[2]/div[1]/div/'

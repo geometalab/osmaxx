@@ -4,7 +4,7 @@ import pytest
 import requests
 from selenium.webdriver.common.keys import Keys
 
-from tests.selenium_tests.conftest import skip_selenium_tests, first_panel_on_excerpts_export_overview
+from tests.selenium_tests.conftest import skip_selenium_tests, first_panel_on_excerpts_export_overview_xpath
 
 
 @skip_selenium_tests
@@ -31,8 +31,8 @@ def test_select_country(base_url, login, file_format, selenium, reload_until_con
     create.send_keys(Keys.RETURN)
 
     # wait until the download link appears
-    selenium.find_element_by_xpath(first_panel_on_excerpts_export_overview + "div[1]/h3")
-    first_a = first_panel_on_excerpts_export_overview + "div[2]/div[1]/div[1]/div[2]/div/div[1]/p/a"
+    selenium.find_element_by_xpath(first_panel_on_excerpts_export_overview_xpath + "div[1]/h3")
+    first_a = first_panel_on_excerpts_export_overview_xpath + "div[2]/div[1]/div[1]/div[2]/div/div[1]/p/a"
     element = reload_until_condition(selenium.find_element_by_xpath, first_a)
 
     # check if the download link is a valid link
