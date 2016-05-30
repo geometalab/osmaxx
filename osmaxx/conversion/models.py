@@ -35,7 +35,7 @@ class Job(models.Model):
     parametrization = models.ForeignKey(verbose_name=_('parametrization'), to=Parametrization)
     rq_job_id = models.CharField(_('rq job id'), max_length=250, null=True)
     status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=RECEIVED, max_length=20)
-    resulting_file = models.FileField(_('resulting file'), upload_to=job_directory_path, null=True)
+    resulting_file = models.FileField(_('resulting file'), upload_to=job_directory_path, null=True, max_length=250)
     own_base_url = models.CharField(
         _('own base url'), help_text=_('the url from which this job is reachable'), max_length=250
     )
