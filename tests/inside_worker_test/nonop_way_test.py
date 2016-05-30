@@ -21,8 +21,8 @@ CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS = frozendict(
 
 CORRESPONDING_OSMAXX_STATUSES_FOR_OSM_STATUSES = frozendict(
     planned='P',
-    disused='D',
     construction='C',
+    disused='D',
     abandoned='A',
 )
 
