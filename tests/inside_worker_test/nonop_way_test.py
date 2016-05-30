@@ -16,6 +16,8 @@ CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS = frozendict(
         TagCombination(highway='track'): 'track',
         TagCombination(highway='track', tracktype='grade3'): 'grade3',
         TagCombination(highway='footway'): 'footway',
+        TagCombination(railway='rail'): 'rail',
+        TagCombination(railway='platform'): 'railway',
     },
 )
 
@@ -48,14 +50,14 @@ def test_osm_object_with_status_ends_up_in_nonop_with_correct_attribute_values(
 
 @slow
 def test_osm_object_with_status_without_details_ends_up_in_nonop_with_correct_status(
-        incomplete_lifecycle_data_import, nonop_l, expected_osmaxx_status):
+        incomplete_lifecycle_data_import, nonop_l, expected_osmaxx_status, major_tag_key):
     engine = incomplete_lifecycle_data_import
     with closing(engine.execute(sqlalchemy.select('*').select_from(nonop_l))) as result:
         assert result.rowcount == 1
         row = result.fetchone()
         assert row['status'] == expected_osmaxx_status
         assert row['tags'] is None
-        assert row['sub_type'] == 'road'
+        assert row['sub_type'] == dict(highway='road', railway='railway')[major_tag_key]
 
 
 @pytest.fixture

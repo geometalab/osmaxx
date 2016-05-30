@@ -11,20 +11,28 @@ INSERT INTO osmaxx.nonop_l
 -- Differentiating between Highway and Railway --
     case
     when osm_line.highway is not null then 'highway'
-    when railway is not null then 'railway'
+    when osm_line.railway is not null then 'railway'
     end as type,
     case
-      when osmaxx.lifecycle_l.highway='track' then
+      when osm_line.highway is not null then
         case
-          when tracktype in ('grade1','grade2','grade3','grade4','grade5') then tracktype
-          else 'track'
+          when osmaxx.lifecycle_l.highway='track' then
+            case
+              when tracktype in ('grade1','grade2','grade3','grade4','grade5') then tracktype
+              else 'track'
+            end
+          when osmaxx.lifecycle_l.highway in ('motorway','trunk','primary','secondary','tertiary',
+                'unclassified','residential','living_street','pedestrian',
+                'motorway_link','trunk_link','primary_link','secondary_link',
+                'service','track','bridleway','cycleway','footway',
+                'path','steps') then osmaxx.lifecycle_l.highway
+          else 'road'
         end
-      when osmaxx.lifecycle_l.highway in ('motorway','trunk','primary','secondary','tertiary',
-            'unclassified','residential','living_street','pedestrian',
-            'motorway_link','trunk_link','primary_link','secondary_link',
-            'service','track','bridleway','cycleway','footway',
-            'path','steps') then osmaxx.lifecycle_l.highway
-      else 'road'
+      when osm_line.railway is not null then
+        case
+          when osmaxx.lifecycle_l.railway in ('rail','light_rail','subway','tram','monorail','narrow_gauge','miniature','funicular','rack') then osmaxx.lifecycle_l.railway
+          else 'railway'
+        end
     end as sub_type,
     name as name,
     "name:en" as name_en,
