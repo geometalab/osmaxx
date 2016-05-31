@@ -60,3 +60,6 @@ def wait_for_page_load(browser, timeout=30):
     WebDriverWait(browser, timeout).until(
         staleness_of(old_page)
     )
+
+
+first_panel_on_excerpts_export_overview_xpath = '/html/body/div/div/div[2]/div[2]/div[1]/div/'

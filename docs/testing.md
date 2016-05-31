@@ -3,25 +3,67 @@
 If you want to record (new or recreate) vcr cassettes, before running tests,
 start all the services once and let them finish:
 
+## Setup
+
 ```bash
-docker-compose up
+source ./activate_local_development
+docker-compose up -d --build osm_imorter osmboundaries_importer
+docker-compose run --rm frontend sh -c "web_frontend/manage.py createsuperuser"  # enter admin as username and password
+docker-compose up --build nginx frontend mediator worker
 ```
 
-## Running the standard test-suite
+## Linting
 
-Required environment:
-```shell
-sudo apt-get install python3 libpq-dev python3-dev
+Using the instruction below for testing, the flake8 tool is also run.
 
-virtualenv-3.{version} .venv
-source .venv/bin/activate
-pip3 install -r web_frontend/requirements/local.txt
+## Running Tests
+
+For all tests, a redis-server instance is required.
+
+Install testing requirements.
+
+```bash
+pip install -r requirements.txt
 ```
 
-Testrunner:
-```shell
-DJANGO_SETTINGS_MODULE=config.settings.test ./web_frontend/manage.py test
+Run the tests (using the makefile, which uses the underlying runtests.py), excluding the slow (&sum; > 1 minute) tests:
+
+```bash
+make tests-quick
 ```
+
+You can also use the excellent [tox](http://tox.readthedocs.org/en/latest/) testing tool to run the tests against all supported versions of Python and Django. Install tox globally, and then simply run:
+
+```bash
+make tox
+```
+
+Both runtest-quick and tox only run the fast test-suit, if you want to run the slower (mostly sql related tests), it isn't much harder:
+
+```bash
+make tests-all
+```
+
+### Pass arguments to underlying test runner
+To pass arguments to `./runtests.py` (which will forward most of them to `pytest`), set `PYTEST_ARGS` for any of the `tests-*` targets:
+```bash
+make tests-all PYTEST_ARGS="-k test_label_water_l"  #  Only run tests with names that match the
+                                                    #  string expression "test_label_water_l".
+
+make tests-all PYTEST_ARGS=test_label_water_l       #  Same as above (magic of ./runtests.py)
+
+make test-quick PYTEST_ARGS=--pdb                   #  Drop to debugger upon each test failure.
+```
+For command line options of `pytest`, see http://pytest.org/latest/usage.html.
+
+### Cleanup
+To clean up all after the tests, you can use
+
+```bash
+make clean
+```
+
+Which cleans up `__pycache__`, `*.pyc` and docker-containers produced.
 
 ## Running the test-suite
 
@@ -33,7 +75,6 @@ It allows some control over what tests to run. Call it with
 ```
 to see what options it provides.
 
-
 ### Running all tests
 
 **Warning**: This will usually take more than 7 minutes to finish
@@ -44,7 +85,6 @@ To run tests of all available test types, call the script without passing any op
 ./runtests.py
 ```
 
-
 ## Running selenium tests
 
 Prerequisite: a user login with username `admin` and password `admin`. To create this, run the command below:
@@ -52,14 +92,14 @@ Prerequisite: a user login with username `admin` and password `admin`. To create
 If haven't already, `source ./activate_local_development`.
 
 ```bash
-docker-compose -f docker-compose-tests.yml run --rm frontend python3 web_frontend/manage.py createsuperuser
+docker-compose run --rm frontend python3 web_frontend/manage.py createsuperuser
 ```
 Enter `admin` as username, you can leave the email blank, then enter `admin` twice for the password.
 
 Run the containers:
 
 ```bash
-docker-compose -f docker-compose-tests.yml up --build -d frontend worker mediator nginx
+docker-compose up --build -d frontend worker mediator nginx
 ```
 
 Wait a few minutes for all services to be available, then run all the tests including selenium tests: 
@@ -81,4 +121,3 @@ wget -O /tmp/ephemeral-x.sh https://github.com/jordansissel/xdotool/blob/master/
 chmod +x /tmp/ephemeral-x.sh
 /tmp/ephemeral-x.sh ./runtests.py --driver Firefox
 ```
-
