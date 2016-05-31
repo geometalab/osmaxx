@@ -4,6 +4,7 @@ CREATE OR REPLACE VIEW view_osmaxx.nonop_l AS SELECT
     geomtype,
     geom,
     type,
+    sub_type,
     name,
     label,
     tags,

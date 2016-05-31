@@ -9,6 +9,7 @@ CREATE TABLE osmaxx.nonop_l (
     geomtype char(1),
     geom geometry(MULTILINESTRING, 4326),
     type text,
+    sub_type text,
     name text,
     name_en text,
     name_fr text,
