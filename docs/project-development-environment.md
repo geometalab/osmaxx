@@ -74,6 +74,11 @@ where `<your_ip>` is your (public) IP as reported by
 ip route get 1 | awk '{print $NF;exit}'
 ```
 
+You can generate the complete URL in `sh` with:
+```bash
+echo "http://$(ip route get 1 | awk '{print $NF;exit}'):8888"
+```
+
 ## Enable development with debug toolbar enabled
 
 In your `docker-compose.yml` file, add a line containing the content of the command:
