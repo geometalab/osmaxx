@@ -74,16 +74,6 @@ where `<your_ip>` is your (public) IP as reported by
 ip route get 1 | awk '{print $NF;exit}'
 ```
 
-or add
-
-```txt
-127.0.0.1	osmaxx.dev
-```
-
-to your `/etc/hosts` file and access by
-
-[http://osmaxx.dev:8888](http://osmaxx.dev:8888)
-
 ## Enable development with debug toolbar enabled
 
 In your `docker-compose.yml` file, add a line containing the content of the command:
