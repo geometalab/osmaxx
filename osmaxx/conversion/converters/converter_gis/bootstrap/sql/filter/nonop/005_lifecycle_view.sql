@@ -4,6 +4,7 @@ CREATE OR REPLACE VIEW osmaxx.lifecycle_l AS
     CASE
       WHEN highway IS NOT NULL THEN coalesce(
         CASE
+          WHEN highway = 'proposed' THEN tags -> 'proposed'
           WHEN highway = 'planned' THEN tags -> 'planned'
           WHEN highway = 'construction' THEN tags -> 'construction'
           WHEN highway = 'disused' THEN tags -> 'disused'
@@ -15,6 +16,7 @@ CREATE OR REPLACE VIEW osmaxx.lifecycle_l AS
     CASE
       WHEN railway IS NOT NULL THEN coalesce(
         CASE
+          WHEN railway = 'proposed' THEN tags -> 'proposed'
           WHEN railway = 'planned' THEN tags -> 'planned'
           WHEN railway = 'construction' THEN tags -> 'construction'
           WHEN railway = 'disused' THEN tags -> 'disused'
@@ -24,11 +26,17 @@ CREATE OR REPLACE VIEW osmaxx.lifecycle_l AS
       )
     END AS railway,
     CASE
-      WHEN highway = 'planned' OR railway = 'planned' THEN 'P'
+      WHEN highway = 'proposed' OR railway = 'proposed' OR highway = 'planned' OR railway = 'planned' THEN 'P'
       WHEN highway = 'construction' OR railway = 'construction' THEN 'C'
       WHEN highway = 'disused' OR railway = 'disused' THEN 'D'
       WHEN highway = 'abandoned' OR railway = 'abandoned' THEN 'A'
     END AS status
   FROM osm_line
-  WHERE highway = 'planned' OR highway = 'construction' OR highway = 'disused' OR highway = 'abandoned'
-        OR railway = 'planned' OR railway = 'construction' OR railway = 'disused' OR railway = 'abandoned';
+  WHERE highway = 'proposed'  OR highway = 'planned'
+        OR highway = 'construction'
+        OR highway = 'disused'
+        OR highway = 'abandoned'
+        OR railway = 'proposed' OR railway = 'planned'
+        OR railway = 'construction'
+        OR railway = 'disused'
+        OR railway = 'abandoned';

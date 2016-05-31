@@ -27,6 +27,7 @@ CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS = frozendict(
 )
 
 CORRESPONDING_OSMAXX_STATUSES_FOR_OSM_STATUSES = frozendict(
+    proposed='P',
     planned='P',
     construction='C',
     disused='D',
@@ -35,17 +36,26 @@ CORRESPONDING_OSMAXX_STATUSES_FOR_OSM_STATUSES = frozendict(
 
 
 @slow
-def test_osm_object_without_status_does_not_end_up_in_nonop(non_lifecycle_data_import, nonop_l):
+def test_osm_object_without_status_does_not_end_up_in_nonop(non_lifecycle_data_import, nonop_l, road_l, railway_l):
     engine = non_lifecycle_data_import
-    with closing(engine.execute(sqlalchemy.select('*').select_from(nonop_l))) as result:
-        assert result.rowcount == 0
+    with closing(engine.execute(sqlalchemy.select('*').select_from(road_l))) as road_result:
+        with closing(engine.execute(sqlalchemy.select('*').select_from(railway_l))) as railway_result:
+            assert road_result.rowcount + railway_result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.select('*').select_from(nonop_l))) as nonop_result:
+        assert nonop_result.rowcount == 0
 
 
 @slow
 def test_osm_object_with_status_ends_up_in_nonop_with_correct_attribute_values(
-        lifecycle_data_import, nonop_l, expected_osmaxx_status, osm_status, non_lifecycle_osm_tags, major_tag_key,
-        expected_nonop_subtype):
+        lifecycle_data_import,
+        nonop_l, road_l, railway_l,
+        expected_osmaxx_status, osm_status, non_lifecycle_osm_tags, major_tag_key, expected_nonop_subtype,
+):
     engine = lifecycle_data_import
+    with closing(engine.execute(sqlalchemy.select('*').select_from(road_l))) as road_result:
+        assert road_result.rowcount == 0
+    with closing(engine.execute(sqlalchemy.select('*').select_from(railway_l))) as railway_result:
+        assert railway_result.rowcount == 0
     with closing(engine.execute(sqlalchemy.select('*').select_from(nonop_l))) as result:
         assert result.rowcount == 1
         row = result.fetchone()
@@ -56,8 +66,12 @@ def test_osm_object_with_status_ends_up_in_nonop_with_correct_attribute_values(
 
 @slow
 def test_osm_object_with_status_without_details_ends_up_in_nonop_with_correct_status(
-        incomplete_lifecycle_data_import, nonop_l, expected_osmaxx_status, major_tag_key):
+        incomplete_lifecycle_data_import, nonop_l, road_l, railway_l, expected_osmaxx_status, major_tag_key):
     engine = incomplete_lifecycle_data_import
+    with closing(engine.execute(sqlalchemy.select('*').select_from(road_l))) as road_result:
+        assert road_result.rowcount == 0
+    with closing(engine.execute(sqlalchemy.select('*').select_from(railway_l))) as railway_result:
+        assert railway_result.rowcount == 0
     with closing(engine.execute(sqlalchemy.select('*').select_from(nonop_l))) as result:
         assert result.rowcount == 1
         row = result.fetchone()
@@ -69,6 +83,16 @@ def test_osm_object_with_status_without_details_ends_up_in_nonop_with_correct_st
 @pytest.fixture
 def nonop_l():
     return DbTable('nonop_l', osm_models.metadata, schema='view_osmaxx')
+
+
+@pytest.fixture
+def road_l():
+    return DbTable('road_l', osm_models.metadata, schema='view_osmaxx')
+
+
+@pytest.fixture
+def railway_l():
+    return DbTable('railway_l', osm_models.metadata, schema='view_osmaxx')
 
 
 @pytest.yield_fixture
