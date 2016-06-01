@@ -79,7 +79,7 @@ def release_done():
     print("""
 ---------------------------------
 release {} finished
-You can now use this
+You can now use this in your deployment.
 """.format(release_version))
 
 
@@ -98,7 +98,4 @@ if __name__ == '__main__':
     release_finish(release_version)
 
     release = subprocess.check_output(["git", "describe", "--dirty"]).strip().decode()
-    if release != release_version:
-        continue_or_stop("Your release number ({}) is not the same as the one on the"
-                         "repository ({}).".format(release_version, release))
     release_done()
