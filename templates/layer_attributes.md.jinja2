@@ -5,8 +5,8 @@
         {%- if 'bridge' in attribute_name or 'tunnel' in attribute_name %}|
             {{- attribute_name }}|
             {{- attribute['type'] }}|
-            {{- attribute['description'] }}|`
-            {{- attribute['values'].values()[0]['osm_tags'][0].keys()[0] }}=
+            {{- attribute['description'] }}|{# -#}
+            `{{ attribute['values'].values()[0]['osm_tags'][0].keys()[0] }}=
             {%- if attribute['values'].values()[0]['osm_tags'][0].values()[0] == 0 %}
                 {{- 'no' }}
             {%- else %}
