@@ -18,11 +18,15 @@
             {{- attribute['description']|safe }}
             {{- '| |\n' }}
         {%- endif %}
-    {%- elif attribute['osm_tags'] is defined %}|
+    {%- else %}|
         {{- attribute_name }}|
         {{- attribute['type'] }}|
-        {{- attribute['description'] }}|`
-        {{- attribute['osm_tags'][0].keys()[0] }}=*`|
+        {{- attribute['description']|default(' ') }}|
+        {%- if attribute['osm_tags'] is defined -%}
+            `{{ attribute['osm_tags'][0].keys()[0] }}=*`
+        {%- else -%}
+            {{ ' ' }}
+        {%- endif %}|
 {% endif -%}
 {%- endfor %}
 {% endif -%}
