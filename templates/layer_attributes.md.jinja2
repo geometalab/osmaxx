@@ -24,6 +24,8 @@
         {{- attribute['description']|default(' ') }}|
         {%- if attribute['osm_tags'] is defined -%}
             `{{ attribute['osm_tags'][0].keys()[0] }}=*`
+        {%- elif attribute['values'] is defined -%}
+            (see table below)
         {%- else -%}
             {{ ' ' }}
         {%- endif %}|

@@ -220,7 +220,7 @@ Values of attributes type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |height|text|Stores the height of the building (Unit Meters)|`height=*`|
-|type|text| | |
+|type|text| |(see table below)|
 
 
 Values of attributes type
@@ -236,7 +236,7 @@ Values of attributes type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |population|int|A rough number of citizens in a given place|`population=*`|
-|type|text| | |
+|type|text| |(see table below)|
 |wikipedia|text|Provide a reference to an article in Wikipedia about the feature|`wikipedia=*`|
 
 
@@ -375,7 +375,7 @@ Values of attributes type
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |ref|text|Reference number of this road unset for railways.|`ref=*`|
 |status|text|P for Planned; C for underconstruction; D for disused; A for abandoned; this is dependent on the values.| |
-|type|text| | |
+|type|text| |(see table below)|
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one.|`layer=*`|
 
 
@@ -400,7 +400,7 @@ Values of attributes type
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
 |phone|text|A telephone number associated with the object.|`phone=*`|
 |tower_type|text|The type of tower|`tower:type=*`|
-|type|text| | |
+|type|text| |(see table below)|
 |website|text|Specifying the link to the official website for a feature.|`website=*`|
 |wikipedia|text|Provide a reference to an article in Wikipedia about the feature.|`wikipedia=*`|
 
@@ -576,7 +576,7 @@ Values of attributes type
 |contact_phone|text|Phone number|`contact:phone=*`|
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
 |phone|text|A telephone number associated with the object.|`phone=*`|
-|type|text| | |
+|type|text| |(see table below)|
 |website|text|Specifying the link to the official website for a feature.|`website=*`|
 |wikipedia|text|Provide a reference to an article in Wikipedia about the feature.|`wikipedia=*`|
 
@@ -616,7 +616,7 @@ Values of attributes type
 |aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.|`bridge=yes`|
 |frequency|text|The electrical frequency that the electrified cable is running on|`frequency=*`|
-|type|text| | |
+|type|text| |(see table below)|
 |voltage|text|The voltage level the electrified cable is running on|`voltage=*`|
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers.|`layer=*`|
 
@@ -660,7 +660,7 @@ Values of attributes type
 |oneway|boolean|Oneway streets are streets where you are only allowed to drive in one direction.|`oneway=*`|
 |ref|text|Used for reference numbers or codes. Common for roads, highway exits, routes, etc.|`ref=*`|
 |tunnel|boolean|A tunnel is an underground passage for a road or similar.|`tunnel=yes`|
-|type|text| | |
+|type|text| |(see table below)|
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers.|`layer=*`|
 
 
@@ -734,7 +734,7 @@ Values of attributes type
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text(later)|For describing the legal accessibility of a element.|`access=*`|
 |aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
-|type|text| | |
+|type|text| |(see table below)|
 
 
 Values of attributes type
@@ -756,7 +756,7 @@ Values of attributes type
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text(later)|For describing the legal accessibility of a element.|`access=*`|
 |aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
-|type|text| | |
+|type|text| |(see table below)|
 
 
 Values of attributes type
@@ -831,7 +831,7 @@ Values of attributes type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |aggtype|text|Grouping several different 'type' to a common 'type' (aka enmu)| |
-|type|text| | |
+|type|text| |(see table below)|
 
 
 Values of attributes type
@@ -870,7 +870,7 @@ Values of attributes type
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |frequency|text|The frequency level the power line is running on|`frequency=*`|
 |operator|text|Which company is handling this utility_lines|`operator=*`|
-|type|text| | |
+|type|text| |(see table below)|
 |voltage|text|The voltage level the power line is running on|`voltage=*`|
 
 
@@ -931,7 +931,7 @@ Values of attributes type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|type|int| | |
+|type|int| |(see table below)|
 |width|int|The the measurement or extent of something from side to side; the lesser of two or the least of three dimensions of a body.|`width=*`|
 
 
