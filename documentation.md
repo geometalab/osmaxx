@@ -194,7 +194,7 @@ See file name conventions above about the meaning of “_a” etc.
 ## adminarea_a
 
 
-Values of attributes type
+Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -223,7 +223,7 @@ Values of attributes type
 |type|text| |(see table below)|
 
 
-Values of attributes type
+Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -240,7 +240,7 @@ Values of attributes type
 |wikipedia|text|Provide a reference to an article in Wikipedia about the feature|`wikipedia=*`|
 
 
-Values of attributes type
+Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -266,7 +266,7 @@ Values of attributes type
 ## landuse_a
 
 
-Values of attributes type
+Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -301,7 +301,7 @@ Values of attributes type
 ## military_p
 
 
-Values of attributes type
+Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -321,7 +321,7 @@ Values of attributes type
 ## misc_l
 
 
-Values of attributes type
+Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -345,7 +345,7 @@ Values of attributes type
 ## natural_a
 
 
-Values of attributes type
+Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -379,7 +379,7 @@ Values of attributes type
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one.|`layer=*`|
 
 
-Values of attributes type
+Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -405,7 +405,7 @@ Values of attributes type
 |wikipedia|text|Provide a reference to an article in Wikipedia about the feature.|`wikipedia=*`|
 
 
-Values of attributes type
+Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -581,7 +581,7 @@ Values of attributes type
 |wikipedia|text|Provide a reference to an article in Wikipedia about the feature.|`wikipedia=*`|
 
 
-Values of attributes type
+Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -621,7 +621,7 @@ Values of attributes type
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers.|`layer=*`|
 
 
-Values of attributes type
+Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -664,7 +664,7 @@ Values of attributes type
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers.|`layer=*`|
 
 
-Values of attributes type
+Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -700,7 +700,7 @@ Values of attributes type
 ## route_l
 
 
-Values of attributes type
+Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -737,7 +737,7 @@ Values of attributes type
 |type|text| |(see table below)|
 
 
-Values of attributes type
+Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -759,7 +759,7 @@ Values of attributes type
 |type|text| |(see table below)|
 
 
-Values of attributes type
+Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -804,7 +804,7 @@ Values of attributes type
 ## transport_a
 
 
-Values of attributes type
+Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -834,7 +834,7 @@ Values of attributes type
 |type|text| |(see table below)|
 
 
-Values of attributes type
+Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -856,7 +856,7 @@ Values of attributes type
 ## utility_p
 
 
-Values of attributes type
+Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -874,7 +874,7 @@ Values of attributes type
 |voltage|text|The voltage level the power line is running on|`voltage=*`|
 
 
-Values of attributes type
+Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -889,7 +889,7 @@ Values of attributes type
 ## water_a
 
 
-Values of attributes type
+Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -908,7 +908,7 @@ Values of attributes type
 ## water_p
 
 
-Values of attributes type
+Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
@@ -935,7 +935,7 @@ Values of attributes type
 |width|int|The the measurement or extent of something from side to side; the lesser of two or the least of three dimensions of a body.|`width=*`|
 
 
-Values of attributes type
+Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
