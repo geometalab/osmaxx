@@ -1,5 +1,7 @@
 FROM geometalab/python3-gis
 
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y git
+
 ENV USER py
 
 ENV HOME /home/$USER
@@ -15,8 +17,7 @@ ADD ./requirements.txt $HOME/requirements.txt
 RUN pip3 install -r requirements.txt
 
 # TODO: this is just a temporary solution, use pip for production as soon as geometalab.osmaxx is published there
-ADD ./osmaxx $HOME/osmaxx
-ADD ./web_frontend $HOME/web_frontend
+ADD ./ $HOME
 
 RUN mkdir -p $HOME/docker_entrypoint/osmaxx/web_frontend $HOME/entrypoint
 COPY ./docker_entrypoint/osmaxx/web_frontend $HOME/entrypoint
