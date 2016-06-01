@@ -15,7 +15,7 @@ Values of attributes type
     {%- endfor -%}
     |{{ value }}|
     {%- for osm_tag in definition['osm_tags'] -%}
-        {{- osm_tag.keys()[0] }}='{{ osm_tag.values()[0] }}'{{' '}}
+        `{{ osm_tag.keys()[0] }}={{ osm_tag.values()[0] }}`{{' '}}
     {%- endfor -%}|
     {{- definition['description'] }}|
 {% endfor -%}
