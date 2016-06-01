@@ -14,9 +14,8 @@
         |{{ definition['correlated_attributes'][attribute_name] -}}
     {%- endfor -%}
     |{{ value }}|
-    {%- set tags_len = definition['osm_tags']|length -%}
-    {%- for i in range(0, tags_len) -%}
-    {{- definition['osm_tags'][i].keys()[0] }}='{{ definition['osm_tags'][i].values()[0] }}'{{' '}}
+    {%- for osm_tag in definition['osm_tags'] -%}
+        {{- osm_tag.keys()[0] }}='{{ osm_tag.values()[0] }}'{{' '}}
     {%- endfor -%}|
     {{- definition['description'] }}|
 {% endfor -%}
