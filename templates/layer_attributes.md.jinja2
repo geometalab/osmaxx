@@ -12,9 +12,11 @@
             {%- else %}
                 {{- 'yes' }}
             {%- endif %}`
-        {%- else %}
-            {{- ' ' -}}
-        {%- endif %}
+        {%- elif attribute['values'] is defined -%}
+            (see table below)
+        {%- else -%}
+            {{ ' ' }}
+        {%- endif -%}
     {%- else %}
         {%- if attribute['osm_tags'] is defined -%}
             `{{ attribute['osm_tags'][0].keys()[0] }}=*`
