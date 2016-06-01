@@ -13,8 +13,8 @@ LAYERS_TO_BE_DOCUMENTED = [
     'nonop_l',
     'poi_p',
     'pow_p',
-    'railway_bridge_l',
-    'road_ground_l',
+    'railway_l',
+    'road_l',
     'route_l',
     'traffic_a',
     'traffic_p',
@@ -43,17 +43,31 @@ def yaml_to_md(layer_name, layer_definition, out):
 
     out.write(LAYER_ATTRIBUTES_TEMPLATE.render(attributes=attributes, header=header, dicts_len=len(attributes.keys())))
 
-    # values of layer attribute "type" (not to be confused with an attribute's type)
+    for attribute_name, attribute in attributes.items():
+        try:
+            values = attribute['values']
+        except KeyError:
+            # This is fine. Attributes for which no values are specified will not be documented in a table of their own.
+            continue
+        else:
+            write_attribute_values_table(attribute_name, values, out)
 
-    type_values = attributes["type"]['values']
-    type_values = OrderedDict(sorted(type_values.items()))
+
+def write_attribute_values_table(attribute_name, sorted_values, out):
+    sorted_values = OrderedDict(sorted(sorted_values.items()))
 
     correlated_attributes = set()
-    for definition in type_values.values():
+    for definition in sorted_values.values():
         for name, _ in definition.get('correlated_attributes', {}).items():
             correlated_attributes.add(name)
 
-    out.write(ATTRIBUTE_VALUES_TEMPLATE.render(type_values=type_values, correlated_attributes=correlated_attributes))
+    out.write(
+        ATTRIBUTE_VALUES_TEMPLATE.render(
+            attribute_name=attribute_name,
+            attribute_values=sorted_values,
+            correlated_attributes=correlated_attributes,
+        )
+    )
     out.write('\n\n')
 
 

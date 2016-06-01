@@ -608,17 +608,36 @@ Values of attribute type
 |taoist|taoist|`religion=taoist` |A taoist place of worship|
 
 
-## railway_bridge_l
+## railway_l
 
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)|(see table below)|
-|bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.|`bridge=yes`|
+|bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.|(see table below)|
 |frequency|text|The electrical frequency that the electrified cable is running on|`frequency=*`|
+|tunnel|boolean|A tunnel is an underground passage for a road or similar.|(see table below)|
 |type|text| |(see table below)|
 |voltage|text|The voltage level the electrified cable is running on|`voltage=*`|
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers.|`layer=*`|
+
+
+Values of attribute bridge
+
+|values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
+|0|`bridge=no` | |
+|1|`bridge=yes` | |
+
+
+
+Values of attribute tunnel
+
+|values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
+|0|`tunnel=no` | |
+|1|`tunnel=yes` | |
+
 
 
 Values of attribute type
@@ -649,19 +668,37 @@ Values of attribute type
 |aerialway|zip_line|`aerialway=zip_line` |Zip lines, Flying fox and similar|
 
 
-## road_ground_l
+## road_l
 
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)|(see table below)|
-|bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.|`bridge=no`|
+|bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.|(see table below)|
 |maxspeed|smallint|Specifies the maximum legal speed limit on a road, railway or waterway|`maxspeed=*`|
 |oneway|boolean|Oneway streets are streets where you are only allowed to drive in one direction.|`oneway=*`|
 |ref|text|Used for reference numbers or codes. Common for roads, highway exits, routes, etc.|`ref=*`|
-|tunnel|boolean|A tunnel is an underground passage for a road or similar.|`tunnel=yes`|
+|tunnel|boolean|A tunnel is an underground passage for a road or similar.|(see table below)|
 |type|text| |(see table below)|
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers.|`layer=*`|
+
+
+Values of attribute bridge
+
+|values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
+|0|`bridge=no` | |
+|1|`bridge=yes` | |
+
+
+
+Values of attribute tunnel
+
+|values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
+|0|`tunnel=no` | |
+|1|`tunnel=yes` | |
+
 
 
 Values of attribute type

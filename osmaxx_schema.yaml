@@ -1733,8 +1733,8 @@ layers:
               "aggtype": 'place_of_worship'
             description: 'A place of worship which is not tag to any of the above.'
   "pow_a": *layer_pow_p
-  "railway_bridge_l":
-    attributes: &layer_railway_bridge_l_attributes
+  "railway_l":
+    attributes:
       "aggtype":
         type: text
         description: "Grouping several different 'type' to a common 'type'. (aka enmu)"
@@ -1744,12 +1744,26 @@ layers:
           - "layer": '*'
         description: "The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers."
       "bridge":
+        # can this type be with the specified value ???
         type: boolean
         values:
+          "0":
+            osm_tags:
+              - "bridge": 'no'
           "1":
             osm_tags:
               - "bridge": 'yes'
         description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
+      "tunnel":
+        type: boolean
+        values:
+          "0":
+            osm_tags:
+              - "tunnel": 'no'
+          "1":
+            osm_tags:
+              - "tunnel": 'yes'
+        description: 'A tunnel is an underground passage for a road or similar.'
       "voltage":
         type: text
         osm_tags: 
@@ -1903,34 +1917,8 @@ layers:
             correlated_attributes:
               "aggtype": 'aerialway'
             description: 'All other types of aerialways which is not defined as above'
-  "railway_ground_l":
-    attributes: 
-      "bridge":
-        # can this type be with the specified value ???
-        type: boolean
-        values:
-           "0":
-             osm_tags:
-               - "bridge": "no"
-        description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
-      "tunnel":
-        type: boolean
-        values:
-          "0":
-            osm_tags: 
-              - "tunnel": 'no'
-        description: 'A tunnel is an underground passage for a road or similar.'
-  "railway_tunnel_l":
-    attributes: 
-      "tunnel":
-        type: boolean
-        values:
-          "1":
-            osm_tags: 
-              - "tunnel": 'yes'
-        description: 'A tunnel is an underground passage for a road or similar.'
-  "road_ground_l":
-    attributes: &layer_road_ground_l_attributes
+  "road_l":
+    attributes:
       "aggtype":
         type: text
         description: "Grouping several different 'type' to a common 'type'. (aka enmu)"
@@ -1958,14 +1946,20 @@ layers:
         # can this type be with the specified value ???
         type: boolean
         values:
-           "0":
-             osm_tags:
-               - "bridge": 'no'
+          "0":
+            osm_tags:
+              - "bridge": 'no'
+          "1":
+            osm_tags:
+              - "bridge": 'yes'
         description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
       "tunnel":
         type: boolean
         values:
           "0":
+            osm_tags:
+              - "tunnel": 'no'
+          "1":
             osm_tags:
               - "tunnel": 'yes'
         description: 'A tunnel is an underground passage for a road or similar.'
@@ -2356,26 +2350,6 @@ layers:
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'This contains any other roundabout except the specifics above.'
-  "road_bridge_l":
-    attributes:
-      "bridge":
-        # can this type be with the specified value ???
-        type: boolean
-        values:
-           "1":
-             osm_tags:
-               - "bridge": "yes"
-        description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
-  "road_tunnel_l":
-      attributes: *layer_road_ground_l_attributes
-      "tunnel":
-        # can this type be with the specified value ???
-        type: boolean
-        values:
-           "1":
-             osm_tags:
-               - "tunnel": "yes"
-        description: 'A tunnel is an underground passage for a road or similar.'
   "route_l": &layer_route_l
     attributes:
       "type":
