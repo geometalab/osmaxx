@@ -374,7 +374,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |ref|text|Reference number of this road unset for railways.|`ref=*`|
-|status|text|P for Planned; C for underconstruction; D for disused; A for abandoned; this is dependent on the values.|(see table below)|
+|status|text|P for Planned; C for underconstruction; D for disused; A for abandoned; this is dependent on the values.| |
 |type|text| |(see table below)|
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one.|`layer=*`|
 
@@ -393,7 +393,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)|(see table below)|
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |brand|text|The identity of a specific product, service, or business. Often trademarks|`brand=*`|
 |contact_phone|text|Phone number|`contact:phone=*`|
 |cuisine|text|The type of food served at an eating place.|`cuisine=*`|
@@ -572,7 +572,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)|(see table below)|
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |contact_phone|text|Phone number|`contact:phone=*`|
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
 |phone|text|A telephone number associated with the object.|`phone=*`|
@@ -613,7 +613,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)|(see table below)|
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.|(see table below)|
 |frequency|text|The electrical frequency that the electrified cable is running on|`frequency=*`|
 |tunnel|boolean|A tunnel is an underground passage for a road or similar.|(see table below)|
@@ -673,7 +673,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)|(see table below)|
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.|(see table below)|
 |maxspeed|smallint|Specifies the maximum legal speed limit on a road, railway or waterway|`maxspeed=*`|
 |oneway|boolean|Oneway streets are streets where you are only allowed to drive in one direction.|`oneway=*`|
@@ -770,7 +770,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text(later)|For describing the legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)|(see table below)|
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |type|text| |(see table below)|
 
 
@@ -792,7 +792,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text(later)|For describing the legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)|(see table below)|
+|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |type|text| |(see table below)|
 
 
@@ -867,7 +867,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Grouping several different 'type' to a common 'type' (aka enmu)|(see table below)|
+|aggtype|text|Grouping several different 'type' to a common 'type' (aka enmu)| |
 |type|text| |(see table below)|
 
 

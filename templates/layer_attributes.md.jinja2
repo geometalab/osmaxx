@@ -6,7 +6,7 @@
     {{- attribute['description']|default(' ') }}|
     {%- if attribute['osm_tags'] is defined -%}
         `{{ attribute['osm_tags'][0].keys()[0] }}={{ attribute['osm_tags'][0].values()[0] }}`
-    {%- elif attribute['values'] is defined -%}
+    {%- elif 'values' in attribute -%}
         (see table below)
     {%- else -%}
         {{ ' ' }}
