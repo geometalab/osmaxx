@@ -17,6 +17,7 @@ Homogenisierung) oder aus den Daten herleiten lassen („Data Curation“). Das 
 mehr, als beispielsweise für die (gedruckte) Kartendarstellung eines topografischen
 Landschaftsmodells nötig ist.
 These are known limits, omissions and bugs:
+
 1. Current data export exports POLYGON instead of MULTPOLYGON
 2. Statistics is missing
 3. Missing tables: coastline_l, adminunit_a
@@ -29,6 +30,7 @@ Tbd.
 This document and the project just started and thus is in e pre-mature state.
 
 These are possible enhancements in next releases
+
 * File STATISTICS.txt whih contains a report about tables, attributes and it's rows and
   values.
 * Final data model (V.3?)
@@ -38,12 +40,16 @@ These are possible enhancements in next releases
 ## How OSM data is being curated (discussion) ###
 
 Semicolons in tag values:
+
 * Data value will be changed to ‘others’ for such events
+
 Data Cleaning:
+
 * Spelling errors
 * Upper case errors
 * Values singular and plural
 * Handling values which contains words
+
 Elevation: Elevation values will not be set in this release.
 
 Type-'others'. Data value will be change to ‘others’ as it cannot be categorized. This is
@@ -79,6 +85,7 @@ The original OSM schema contains an id (type bigint) for every element node,way 
 This OSM id is mapped to attribute osm_id (see chapter “Common Attributes”). The id in OSM is not
 stable but often the only one, one can work with. During transformation I can happen that thie
 osm_id is being changed or duplicated:
+
 * osm2pgsql generates areas/polygons out of ways and relations. These objects get negative
   values of the way or the relation.
 * osm2pgsql splits ways which are too long
@@ -96,16 +103,20 @@ osm_id is being changed or duplicated:
 Base file names are formed according to following template:
 osm_tablename_g_vNN (example: osm_building_a_v01.gpkg)
 ... with following meaning:
+
 * osm_: Prefix
 * tablename: A table name from the data model.
 * _g: layer geometry type (g is a char out of “p”, “l” or “a”, meaning point, linestring,
   area/polygon)
 * vNN: Version of the data model
+
 For some roads and other tables of geometry type (Multi-)Linestring, there will be tables with
 generalized geometry, called _gen0, _gen1 as follows (gen- generalized):
+
 * _gen0: smoothed for highest zoom level
 * _gen1: simplified
 * _gen2: more simplified
+
 example: osm_building_a_gen1_v01.gpkg
 
 ## Layer Specification Headers
