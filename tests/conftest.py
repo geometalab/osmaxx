@@ -86,6 +86,9 @@ def pytest_configure():
 
             'tests',
 
+            # version app
+            'osmaxx.version',
+
             # conversion service apps
             'osmaxx.clipping_area',
             'osmaxx.conversion',
