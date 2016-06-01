@@ -655,7 +655,7 @@ Values of attributes type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)|(see table below)|
-|bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.|`bridge=yes`|
+|bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.|`bridge=no`|
 |maxspeed|smallint|Specifies the maximum legal speed limit on a road, railway or waterway|`maxspeed=*`|
 |oneway|boolean|Oneway streets are streets where you are only allowed to drive in one direction.|`oneway=*`|
 |ref|text|Used for reference numbers or codes. Common for roads, highway exits, routes, etc.|`ref=*`|

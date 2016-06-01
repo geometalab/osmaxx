@@ -7,11 +7,7 @@
     {%- if attribute['osm_tags'] is not defined and attribute['description'] is defined %}
         {%- if 'bridge' in attribute_name or 'tunnel' in attribute_name -%}
             `{{ attribute['values'].values()[0]['osm_tags'][0].keys()[0] }}=
-            {%- if attribute['values'].values()[0]['osm_tags'][0].values()[0] == 0 %}
-                {{- 'no' }}
-            {%- else %}
-                {{- 'yes' }}
-            {%- endif %}`
+            {{- attribute['values'].values()[0]['osm_tags'][0].values()[0] }}`
         {%- elif attribute['values'] is defined -%}
             (see table below)
         {%- else -%}
@@ -19,7 +15,7 @@
         {%- endif -%}
     {%- else %}
         {%- if attribute['osm_tags'] is defined -%}
-            `{{ attribute['osm_tags'][0].keys()[0] }}=*`
+            `{{ attribute['osm_tags'][0].keys()[0] }}={{ attribute['osm_tags'][0].values()[0] }}`
         {%- elif attribute['values'] is defined -%}
             (see table below)
         {%- else -%}
