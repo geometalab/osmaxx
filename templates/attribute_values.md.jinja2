@@ -1,5 +1,5 @@
 
-Values of attributes type
+Values of attribute {{ attribute_name }}
 
 {% for attribute_name in correlated_attributes -%}
     |{{ attribute_name }}             {#  #}
@@ -9,7 +9,7 @@ Values of attributes type
     | ------------------ {#  #}
 {%- endfor -%}
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-{% for value, definition in type_values.items() -%}
+{% for value, definition in attribute_values.items() -%}
     {% for attribute_name in correlated_attributes -%}
         |{{ definition['correlated_attributes'][attribute_name] -}}
     {%- endfor -%}
@@ -17,5 +17,5 @@ Values of attributes type
     {%- for osm_tag in definition['osm_tags'] -%}
         `{{ osm_tag.keys()[0] }}={{ osm_tag.values()[0] }}`{{' '}}
     {%- endfor -%}|
-    {{- definition['description'] }}|
+    {{- definition['description']|default(' ') }}|
 {% endfor -%}
