@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import argparse
+import fileinput
+from distutils.util import strtobool
 import os
 import subprocess
 
@@ -7,9 +9,7 @@ from build_and_push_images import IMAGES, docker_build, docker_push
 
 
 def ask_yes_no(question):
-    if input(question).lower().strip()[0] == "y":
-        return True
-    return False
+    return strtobool(input(question))
 
 
 def continue_or_stop(text):
