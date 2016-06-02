@@ -2,31 +2,6 @@ from jinja2 import Template
 from collections import OrderedDict
 import yaml
 
-LAYERS_TO_BE_DOCUMENTED = [
-    'adminarea_a',
-    'building_a',
-    'geoname_p',
-    'landuse_a',
-    'military_p',
-    'misc_l',
-    'natural_a',
-    'nonop_l',
-    'poi_p',
-    'pow_p',
-    'railway_l',
-    'road_l',
-    'route_l',
-    'traffic_a',
-    'traffic_p',
-    'transport_a',
-    'utility_a',
-    'utility_l',
-    'utility_p',
-    'water_a',
-    'water_l',
-    'water_p',
-]
-
 with open('templates/layer_attributes.md.jinja2') as f:
     LAYER_ATTRIBUTES_TEMPLATE = Template(f.read())
 with open('templates/attribute_values.md.jinja2') as f:
@@ -78,5 +53,5 @@ with open('header.md', 'r') as h:
     header_doc = h.read()
 with open("documentation.md", 'w') as out_file:
     out_file.write(header_doc)
-    for layer_name in LAYERS_TO_BE_DOCUMENTED:
-        yaml_to_md(layer_name, layers[layer_name], out=out_file)
+    for layer_name, layer_definition in sorted(layers.items()):
+        yaml_to_md(layer_name, layer_definition, out=out_file)
