@@ -891,6 +891,29 @@ Values of attribute type
 |station|wind|`generator:source=wind`+`power=generator` or `power_source=wind`|A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.|
 
 
+## utility_l
+
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|frequency|text|The frequency level the power line is running on|`frequency=*`|
+|operator|text|Which company is handling this utility_lines|`operator=*`|
+|type|text| |(see table below)|
+|voltage|text|The voltage level the power line is running on|`voltage=*`|
+
+
+Values of attribute type
+
+|aggtype             |values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
+|power|cable|`power=cable`|A high voltage earth cables|
+|power|line|`power=line`|A overground high voltage power line|
+|power|minor_cable|`power=minor_underground_cable` or `power=minor_cable`|A smaller line under earth|
+|power|minor_line|`power=minor_line`|A smaller overhead line|
+|man_made|pipeline|`man_made=pipeline`|A pipe for carrying various fluids, such as water, gas, sewage.|
+|power|power|`power=*`|All other power line which is not specific.|
+
+
 ## utility_p
 
 
@@ -920,29 +943,6 @@ Values of attribute type
 |station|wind|`generator:source=wind`+`power=generator` or `power_source=wind`|A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.|
 
 
-## utility_l
-
-
-|Attributes          |type                |Description                                                           |osm_tags            |
-| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|frequency|text|The frequency level the power line is running on|`frequency=*`|
-|operator|text|Which company is handling this utility_lines|`operator=*`|
-|type|text| |(see table below)|
-|voltage|text|The voltage level the power line is running on|`voltage=*`|
-
-
-Values of attribute type
-
-|aggtype             |values              |osm_tags            |description                                                           |
-| ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|power|cable|`power=cable`|A high voltage earth cables|
-|power|line|`power=line`|A overground high voltage power line|
-|power|minor_cable|`power=minor_underground_cable` or `power=minor_cable`|A smaller line under earth|
-|power|minor_line|`power=minor_line`|A smaller overhead line|
-|man_made|pipeline|`man_made=pipeline`|A pipe for carrying various fluids, such as water, gas, sewage.|
-|power|power|`power=*`|All other power line which is not specific.|
-
-
 ## water_a
 
 
@@ -958,27 +958,6 @@ Values of attribute type
 |slipway|`leisure=slipway`|Boats can be launched here|
 |spring|`natural=spring`|A spring is a point where water naturally surfaces|
 |water|`natural=water`|Used to mark body of standing water, such as a lake or pond.|
-|waterway|`waterway=*`|Rivers or other kind of waterways. This contains any other water traffic except the specifics below.|
-|weir|`waterway=weir`|A barrier built across a river, sometimes to divert water for industrial purposes. Water can still flow over the top.|
-
-
-## water_p
-
-
-Values of attribute type
-
-|values              |osm_tags            |description                                                           |
-| ------------------ | ------------------ | -------------------------------------------------------------------- |
-|dam|`waterway=dam`|A wall built across a river or stream to impound the water. A dam normally does not have water flowing over the top of it.|
-|lock_gate|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
-|marina|`leisure=marina`|For mooring leisure yachts and motor boats|
-|pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
-|reservoir_covered|`man_made=reservoir_covered`|A covered reservoir is a large man-made tank for holding fresh water|
-|riverbank|`natural=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
-|slipway|`leisure=slipway`|Boats can be launched here|
-|spring|`natural=spring`|A spring is a point where water naturally surfaces|
-|water|`natural=water`|Used to mark body of standing water, such as a lake or pond.|
-|waterfall|`waterway=waterfall`|A waterfall is a place where water flows over a vertical drop in the course of a stream or river.|
 |waterway|`waterway=*`|Rivers or other kind of waterways. This contains any other water traffic except the specifics below.|
 |weir|`waterway=weir`|A barrier built across a river, sometimes to divert water for industrial purposes. Water can still flow over the top.|
 
@@ -1001,5 +980,26 @@ Values of attribute type
 |river|`waterway=river`|A large natural stream of water flowing in a channel to the sea, a lake, or another river.|
 |stream|`waterway=stream`|A small and narrow river.|
 |waterway|`waterway=*`|Other waterways which is user-defined|
+
+
+## water_p
+
+
+Values of attribute type
+
+|values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
+|dam|`waterway=dam`|A wall built across a river or stream to impound the water. A dam normally does not have water flowing over the top of it.|
+|lock_gate|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
+|marina|`leisure=marina`|For mooring leisure yachts and motor boats|
+|pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
+|reservoir_covered|`man_made=reservoir_covered`|A covered reservoir is a large man-made tank for holding fresh water|
+|riverbank|`natural=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
+|slipway|`leisure=slipway`|Boats can be launched here|
+|spring|`natural=spring`|A spring is a point where water naturally surfaces|
+|water|`natural=water`|Used to mark body of standing water, such as a lake or pond.|
+|waterfall|`waterway=waterfall`|A waterfall is a place where water flows over a vertical drop in the course of a stream or river.|
+|waterway|`waterway=*`|Rivers or other kind of waterways. This contains any other water traffic except the specifics below.|
+|weir|`waterway=weir`|A barrier built across a river, sometimes to divert water for industrial purposes. Water can still flow over the top.|
 
 

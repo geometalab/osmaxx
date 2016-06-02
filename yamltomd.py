@@ -20,11 +20,11 @@ LAYERS_TO_BE_DOCUMENTED = [
     'traffic_p',
     'transport_a',
     'utility_a',
-    'utility_p',
     'utility_l',
+    'utility_p',
     'water_a',
-    'water_p',
     'water_l',
+    'water_p',
 ]
 
 with open('templates/layer_attributes.md.jinja2') as f:
