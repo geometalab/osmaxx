@@ -2,9 +2,10 @@ import json
 import logging
 
 from django.conf import settings
+from django.core.files import File
 from requests import HTTPError
 
-from osmaxx.api_client.API_client import JWTClient, reasons_for, LazyChunkedRemoteFile
+from osmaxx.api_client.API_client import JWTClient, reasons_for
 
 logger = logging.getLogger(__name__)
 
@@ -63,15 +64,15 @@ class ConversionApiClient(JWTClient):
         return response.json()
 
     def get_result_file(self, job_id):
-        download_url = self._get_result_file_url(job_id)
-        if download_url:
-            return LazyChunkedRemoteFile(download_url, download_function=self.authorized_get)
+        file_path = self._get_result_file_path(job_id)
+        if file_path:
+            return File(open(file_path, 'r'))
         else:
             raise ResultFileNotAvailableError
 
-    def _get_result_file_url(self, job_id):
+    def _get_result_file_path(self, job_id):
         job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)
-        return self.authorized_get(job_detail_url).json()['resulting_file']
+        return self.authorized_get(job_detail_url).json()['resulting_file_path']
 
     def job_status(self, export):
         """
