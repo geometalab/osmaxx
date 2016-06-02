@@ -1,6 +1,6 @@
 # Releasing a new version
 
-Note: We are not using pypi (for now?) for making releases.
+Note: We are not using PyPI (for now?) for making releases.
 
 ## Prerequisites
 
