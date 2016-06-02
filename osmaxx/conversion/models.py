@@ -56,7 +56,7 @@ class Job(models.Model):
         return job_directory_path(self, '{}.{}'.format(self._filename_prefix(), 'zip'))
 
     def get_download_url(self):
-        if not self.resulting_file.name:
+        if not self._has_file:
             return None
         base_uri = self.own_base_url
         if base_uri.endswith('/'):
@@ -79,7 +79,7 @@ class Job(models.Model):
 
     @property
     def get_absolute_file_path(self):
-        if bool(self.resulting_file):
+        if self._has_file:
             return self.resulting_file.path
         return None
 
@@ -90,8 +90,12 @@ class Job(models.Model):
             self.parametrization.out_format
         )
 
+    @property
+    def _has_file(self):
+        return bool(self.resulting_file)
+
     def delete(self, *args, **kwargs):
-        if self.resulting_file.name:
+        if self._has_file:
             os.unlink(self.resulting_file.path)
         return super().delete(args, kwargs)
 
