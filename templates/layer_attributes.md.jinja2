@@ -1,5 +1,6 @@
 {% if attributes %}
-{{ header }}
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 {% for attribute_name, attribute in attributes.items() -%}|
     {{- attribute_name }}|
     {{- attribute['type'] }}|
