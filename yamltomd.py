@@ -41,7 +41,7 @@ def yaml_to_md(layer_name, layer_definition, out):
     header = "|Attributes          |type                |Description                                                           |osm_tags            |"
     header += "\n| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |"
 
-    out.write(LAYER_ATTRIBUTES_TEMPLATE.render(attributes=attributes, header=header, dicts_len=len(attributes.keys())))
+    out.write(LAYER_ATTRIBUTES_TEMPLATE.render(attributes=attributes, header=header))
 
     for attribute_name, attribute in attributes.items():
         try:

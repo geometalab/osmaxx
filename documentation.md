@@ -194,6 +194,11 @@ See file name conventions above about the meaning of “_a” etc.
 ## adminarea_a
 
 
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|text| |(see table below)|
+
+
 Values of attribute type
 
 |values              |osm_tags            |description                                                           |
@@ -266,6 +271,11 @@ Values of attribute type
 ## landuse_a
 
 
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|| |(see table below)|
+
+
 Values of attribute type
 
 |values              |osm_tags            |description                                                           |
@@ -301,6 +311,11 @@ Values of attribute type
 ## military_p
 
 
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|text| |(see table below)|
+
+
 Values of attribute type
 
 |values              |osm_tags            |description                                                           |
@@ -319,6 +334,11 @@ Values of attribute type
 
 
 ## misc_l
+
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|text| |(see table below)|
 
 
 Values of attribute type
@@ -343,6 +363,11 @@ Values of attribute type
 
 
 ## natural_a
+
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|text| |(see table below)|
 
 
 Values of attribute type
@@ -738,6 +763,11 @@ Values of attribute type
 ## route_l
 
 
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|text| |(see table below)|
+
+
 Values of attribute type
 
 |values              |osm_tags            |description                                                           |
@@ -840,6 +870,11 @@ Values of attribute type
 
 
 ## transport_a
+
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|text| |(see table below)|
 
 
 Values of attribute type
@@ -946,6 +981,11 @@ Values of attribute type
 ## water_a
 
 
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|text| |(see table below)|
+
+
 Values of attribute type
 
 |values              |osm_tags            |description                                                           |
@@ -963,6 +1003,11 @@ Values of attribute type
 
 
 ## water_p
+
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|text| |(see table below)|
 
 
 Values of attribute type
