@@ -438,6 +438,7 @@ Values of attribute type
 |shop|car_wash|`amenity=car_wash`|A place to wash a car|
 |accommodation_out|caravan_site|`tourism=caravan_site`|an area where people with caravans, motorhomes, recreational vehicles can stay overnight, or longer, in allotted spaces known as 'pitches' or 'sites'. They usually provide facilities including toilets, waste disposal, water supply, power supply etc.|
 |destination|castle|`historic=castle`|Castles are (often fortified) buildings from medieval and modern times|
+|burial_ground|cemetery|`landuse=cemetery`|A place where people, or sometimes animals are buried which is independent of places of worship. See 'grave_yard' for burial grounds in the yard of a place of worship.|
 |accommodation_in|chalet|`tourism=chalet`|is a type of accommodation used in the hospitality industry to describe one or more detached cottages with self-contained cooking facilities and/or bathroom and toilet facilities.|
 |shop|chemist|`shop=chemist`|Shop focused on selling articles of personal hygiene, cosmetics, and household cleaning products|
 |leisure|cinema|`amenity=cinema`|Cinema/movie theatre - place for showing movies.|
@@ -471,7 +472,7 @@ Values of attribute type
 |recycling|glass|`recycling:glass=yes`|Container or centre where you can take waste for recycling for glass.|
 |leisure|golf_course|`leisure=golf_course`|A place or area where you can play golf.|
 |public|government|`amenity=government`|Government buildings|
-|public|graveyard|`amenity=prison` or `landuse=cemetery`|A (smaller) place of burial, often you'll find a church nearby. Large places are usually cemetery.|
+|burial_ground|grave_yard|`amenity=grave_yard`|A place where people, or sometimes animals are buried which is close to a place of worship. See 'cemetery' for burial grounds not in the yard of a place of worship.|
 |shop|greengrocer|`shop=greengrocer`|Shop focused on selling vegetables and fruits.|
 |accommodation_in|guest_house|`tourism=guest_house` or `tourism=bed_and_breakfast`|Accommodation without hotel license that is typically owner-operated, offers a room and breakfast with staff not available 24/7, ranging from purpose-built guest houses to family-based Bed & Breakfast.|
 |tourism|guidepost|`information=guidepost`+`tourism=information`|Signposts/Guideposts are often found along official hiking/cycling routes to indicate the directions to different destinations|
@@ -849,7 +850,7 @@ Values of attribute type
 |other_traffic|aerialway_station|`aerialway=station`|A station, where passengers can enter and/or leave the aerialway|
 |aeroway|aeroway|`aeroway=*`|All other types of aeroway which is not defined as above|
 |air_traffic|airport|`amenity=airport` or `aeroway=aerodrome`|An Aerodrome (UK), Airport (US)|
-|air_traffic|apron|`aeroway=taxiway`|An apron is the surfaced part of an airport where planes park.|
+|air_traffic|apron|`aeroway=apron`|An apron is the surfaced part of an airport where planes park.|
 |bus|bus_station|`amenity=bus_station`|A station is an area designed to access bus.|
 |bus|bus_stop|`railway=bus_stop` or `bus=yes`+`public_transport=stop_position`|A bus stop is a place where public buses stop.|
 |water_traffic|ferry_terminal|`amenity=ferry_terminal`|Ferry terminal/stop. A place where people/cars/etc. can board and leave a ferry.|
@@ -882,7 +883,7 @@ Values of attribute type
 |station|solar|`generator:source=solar`+`power=generator` or `power_source=photovoltaic`+`power=generator`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
 |station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
 |man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
-|substation|substation|`power=station` or `power=substation`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
+|substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
 |tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
 |transformer|transformer|`power=transformer`|A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
 |man_made|wastewater_plant|`man_made=wastewater_plant`|Facilities used to treat wastewater|
@@ -893,11 +894,30 @@ Values of attribute type
 ## utility_p
 
 
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|aggtype|text|Grouping several different 'type' to a common 'type' (aka enmu)| |
+|type|text| |(see table below)|
+
+
 Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
+|station|fossil|`generator:source=gas`+`power=generator` or `generator:source=coal`+`power=generator`|Using the combustion of fuels to heat the water to in turn spin the generators turbine |
+|station|hydro|`generator:source=water`+`power=generator` or `power_source=hydro`|Hydroelectricity is the term referring to electricity generated by hydropower; the production of electrical power through the use of the gravitational force of falling or flowing water. It is the most widely used form of renewable energy.|
+|station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
 |pole|pole|`power=pole`|For single (often wooden or concrete) poles carrying medium/low voltage electricity cables.|
+|power|power|`power=*`|All other types of power which is not defined as above|
+|station|solar|`generator:source=solar`+`power=generator` or `power_source=photovoltaic`+`power=generator`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
+|station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
+|man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
+|substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
+|tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
+|transformer|transformer|`power=transformer`|A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
+|man_made|wastewater_plant|`man_made=wastewater_plant`|Facilities used to treat wastewater|
+|man_made|water_works|`man_made=water_works`|Place where drinking water is found and applied to the local waterpipes network.|
+|station|wind|`generator:source=wind`+`power=generator` or `power_source=wind`|A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.|
 
 
 ## utility_l
