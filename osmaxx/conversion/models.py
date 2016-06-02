@@ -77,6 +77,12 @@ class Job(models.Model):
         os.makedirs(os.path.dirname(complete_zip_file_path), exist_ok=True)
         return complete_zip_file_path
 
+    @property
+    def get_absolute_file_path(self):
+        if bool(self.resulting_file):
+            return self.resulting_file.path
+        return None
+
     def _filename_prefix(self):
         return '{}-{}_{}'.format(
             time.strftime("%Y%m%d"),
