@@ -4,7 +4,8 @@ Note: We are not using PyPI (for now?) for making releases.
 
 ## Prerequisites
 
-- project setup complete, tests running
+- project setup complete (see https://github.com/geometalab/osmaxx-frontend#development-2)
+- tests running (see https://github.com/geometalab/osmaxx-frontend/blob/develop/docs/testing.md#setup)
 - git flow
 
 ## Steps
