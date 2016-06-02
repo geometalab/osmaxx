@@ -19,7 +19,12 @@ Values of attribute {{ attribute_name }}
         {{- or_sep() -}}
         {%- set and_sep = joiner('+') -%}
         {%- for key, value in tag_combination.items() -%}
-            {{ and_sep() }}`{{ key }}={{ value }}`
+            {{- and_sep() -}}
+            {%- if value == '__ABSENT__' -%}
+                <code>{{ key }}<strong>&ne;\*</strong></code>
+            {%- else -%}
+                `{{ key }}={{ value }}`
+            {%- endif -%}
         {%- endfor -%}
     {% else %}
         {{ ' ' }}

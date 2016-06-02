@@ -2048,7 +2048,7 @@ layers:
           "track":
             osm_tags:
               - "highway": 'track'
-                "tracktype": '*'
+                "tracktype": '__ABSENT__'
             correlated_attributes:
               "aggtype": 'track'
             description: 'Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present'
@@ -2120,7 +2120,7 @@ layers:
           "road":
             osm_tags:
               - "highway": '*'
-                "roundabout": '*'
+                "roundabout": '__ABSENT__'
             correlated_attributes:
               "aggtype": 'unclassified'
             description: 'A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed'
@@ -2225,7 +2225,7 @@ layers:
           "track":
             osm_tags:
               - "highway": 'track'
-                "tracktype": '*'
+                "tracktype": '__ABSENT__'
                 "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
@@ -2307,7 +2307,7 @@ layers:
             description: 'For flights of steps (stairs) on footways.'
           "roundabout":
             osm_tags:
-              - "highway": '*'
+              - "highway": '__ABSENT__'
                 "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'

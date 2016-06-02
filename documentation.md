@@ -721,14 +721,14 @@ Values of attribute type
 |roundabout|primary|`junction=roundabout`+`highway=primary`|The next most important roads in a country's system. (Often link larger towns.)|
 |roundabout|primary_link|`junction=roundabout`+`highway=primary_link`|The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.|
 |roundabout|residential|`junction=roundabout`+`highway=residential`|Roads which are primarily lined with and serve as an access to housing.|
-|unclassified|road|`roundabout=*`+`highway=*`|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
-|roundabout|roundabout|`junction=roundabout`+`highway=*`|This contains any other roundabout except the specifics above.|
+|unclassified|road|<code>roundabout<strong>&ne;\*</strong></code>+`highway=*`|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
+|roundabout|roundabout|`junction=roundabout`+<code>highway<strong>&ne;\*</strong></code>|This contains any other roundabout except the specifics above.|
 |roundabout|secondary|`junction=roundabout`+`highway=secondary`|The next most important roads in a country's system. (Often link smaller towns and villages.)|
 |roundabout|secondary_link|`junction=roundabout`+`highway=secondary_link`|The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.|
 |roundabout|service|`junction=roundabout`+`highway=service`|For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.|
 |roundabout|steps|`junction=roundabout`+`highway=steps`|For flights of steps (stairs) on footways.|
 |roundabout|tertiary|`junction=roundabout`+`highway=tertiary`|The next most important roads in a country's system.|
-|roundabout|track|`tracktype=*`+`junction=roundabout`+`highway=track`|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present,|
+|roundabout|track|<code>tracktype<strong>&ne;\*</strong></code>+`junction=roundabout`+`highway=track`|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present,|
 |roundabout|trunk|`junction=roundabout`+`highway=trunk`|The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)|
 |roundabout|trunk_link|`junction=roundabout`+`highway=trunk_link`|The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.|
 |roundabout|unclassified|`junction=roundabout`+`highway=unclassified`|The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)|
