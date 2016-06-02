@@ -52,13 +52,12 @@ def make_release_specific_changes(release_version):
         ["git", "commit", "-m", 'added makemessages output', 'osmaxx/locale'],
     ])
     version_file_path = os.path.join(os.path.dirname(__file__), 'osmaxx', '__init__.py')
-    with open(version_file_path, 'r') as version_file:
-        version_file_content = version_file.readlines()
-    with open(version_file_path, 'w') as version_file:
-        for line in version_file_content:
-            if line.startswith('__version__'):
-                line = "__version__ = '{}'".format(release_version)
-            version_file.write(line)
+    for line in fileinput.input(version_file_path, inplace=True):
+        line = line.rstrip(os.linesep)
+        if line.startswith('__version__'):
+            line = "__version__ = '{}'".format(release_version)
+        print(line)
+
     print("""Is the version file correct
     {}
     ?
