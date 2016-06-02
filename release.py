@@ -96,5 +96,4 @@ if __name__ == '__main__':
     continue_or_stop("Should be continued to push the release to the repository?")
     release_finish(release_version)
 
-    release = subprocess.check_output(["git", "describe", "--dirty"]).strip().decode()
     release_done()
