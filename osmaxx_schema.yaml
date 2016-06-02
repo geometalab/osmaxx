@@ -7,57 +7,57 @@ layers:
           "admin_level1":
             osm_tags:
               - "boundary": 'administrative'
-              - "admin_level": '1'
+                "admin_level": '1'
             description: Efnahags-loegsaga(Exclusive Economic Zone) use in Iceland
           "national":
             osm_tags:
               - "boundary": 'administrative'
-              - "admin_level": '2'
+                "admin_level": '2'
             description: "National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country)."
           "admin_level3":
             osm_tags:
               - "boundary": 'administrative'
-              - "admin_level": '3'
+                "admin_level": '3'
             description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
           "admin_level4":
             osm_tags:
               - "boundary": 'administrative'
-              - "admin_level": '4'
+                "admin_level": '4'
             description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
           "admin_level5":
             osm_tags:
               - "boundary": 'administrative'
-              - "admin_level": '5'
+                "admin_level": '5'
             description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
           "admin_level6":
             osm_tags:
               - "boundary": 'administrative'
-              - "admin_level": '6'
+                "admin_level": '6'
             description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
           "admin_level7":
             osm_tags:
               - "boundary": 'administrative'
-              - "admin_level": '7'
+                "admin_level": '7'
             description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
           "admin_level8":
             osm_tags:
               - "boundary": 'administrative'
-              - "admin_level": '8'
+                "admin_level": '8'
             description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
           "admin_level9":
             osm_tags:
               - "boundary": 'administrative'
-              - "admin_level": '9'
+                "admin_level": '9'
             description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
           "admin_level10":
             osm_tags:
               - "boundary": 'administrative'
-              - "admin_level": '10'
+                "admin_level": '10'
             description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
           "admin_level11":
             osm_tags:
               - "boundary": 'administrative'
-              - "admin_level": '11'
+                "admin_level": '11'
             description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
           "administrative":
             osm_tags:
@@ -112,14 +112,10 @@ layers:
           "named_place":
             osm_tags:
               - "area": 'yes'
-              # Just a string means complete tag (here: name=*)
-              # independent of value.
-              - "name": '*'
+                "name": '*'
             description: A place where is given a name with a given area but no specific type
           "place":
             osm_tags:
-              # Just a string means complete tag (here: place=*)
-              # independent of value.
               - "place": '*'
             description: Any other place type that are not sorted to any type above except for area without name.
           "village":
@@ -1272,21 +1268,21 @@ layers:
           "map":
               osm_tags:
                 - "tourism": 'information'
-                - "information": 'map'
+                  "information": 'map'
               correlated_attributes:
                 "aggtype": 'tourism'
               description: 'A board with a map.'
           "board":
               osm_tags:
                 - "tourism": 'information'
-                - "information": 'board'
+                  "information": 'board'
               correlated_attributes:
                 "aggtype": 'tourism'
               description: 'A board with information'
           "guidepost":
               osm_tags:
                 - "tourism": 'information'
-                - "information": 'guidepost'
+                  "information": 'guidepost'
               correlated_attributes:
                 "aggtype": 'tourism'
               description: 'Signposts/Guideposts are often found along official hiking/cycling routes to indicate the directions to different destinations'
@@ -1457,7 +1453,7 @@ layers:
           "comm_tower":
               osm_tags:
                 - "man_made": 'tower'
-                - "tower:type": 'communication'
+                  "tower:type": 'communication'
               correlated_attributes:
                 "aggtype": 'miscpoi'
               description: 'Describes the type of tower as communication tower'
@@ -1470,7 +1466,7 @@ layers:
           "observation_tower":
               osm_tags:
                 - "man_made": 'observation_tower'
-                - "tower:type": 'observation'
+                  "tower:type": 'observation'
               correlated_attributes:
                 "aggtype": 'miscpoi'
               description: 'One use of an Observation tower is a tower that used to watch for and report forest fire.'
@@ -1600,77 +1596,77 @@ layers:
           "christian":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": '*'
+                "denomination": '*'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship. This is a generalise christian type other then the specific denomination'
           "anglican":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": 'anglican'
+                "denomination": 'anglican'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship with denomination'
           "baptist":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": 'baptist'
+                "denomination": 'baptist'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship with denomination'
           "catholic":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": 'catholic'
+                "denomination": 'catholic'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship with denomination'
           "evangelical":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": 'evangelical'
+                "denomination": 'evangelical'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship with denomination'
           "lutheran":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": 'lutheran'
+                "denomination": 'lutheran'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship with denomination'
           "methodist":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": 'methodist'
+                "denomination": 'methodist'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship with denomination'
           "orthodox":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": 'orthodox'
+                "denomination": 'orthodox'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship with denomination'
           "protestant":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": 'protestant'
+                "denomination": 'protestant'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship with denomination'
           "mormon":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": 'mormon'
+                "denomination": 'mormon'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship with denomination'
           "presbyterian":
             osm_tags:
               - "religion": 'christian'
-              - "denomination": 'presbyterian'
+                "denomination": 'presbyterian'
             correlated_attributes:
               "aggtype": 'christian'
             description: 'A christian place of worship with denomination'
@@ -1689,21 +1685,21 @@ layers:
           "muslim":
             osm_tags:
               - "religion": 'muslim'
-              - "denomination": '*'
+                "denomination": '*'
             correlated_attributes:
               "aggtype": 'muslim'
             description: 'A muslim place of worship. This is a generalise muslim type other then the specific denomination'
           "shia":
             osm_tags:
               - "religion": 'muslim'
-              - "denomination": 'shia'
+                "denomination": 'shia'
             correlated_attributes:
               "aggtype": 'muslim'
             description: 'A muslim place of worship with denomination.'
           "sunni":
             osm_tags:
               - "religion": 'muslim'
-              - "denomination": 'sunni'
+                "denomination": 'sunni'
             correlated_attributes:
               "aggtype": 'muslim'
             description: 'A muslim place of worship with denomination.'
@@ -1846,7 +1842,6 @@ layers:
           "chair_lift":
             osm_tags:
               - "aerialway": 'chair_lift'
-              # or
               - "aerialway": 'high_speed_chair_lift'
             correlated_attributes:
               "aggtype": 'aerialway'
@@ -2053,42 +2048,42 @@ layers:
           "track":
             osm_tags:
               - "highway": 'track'
-              - "tracktype": '*'
+                "tracktype": '*'
             correlated_attributes:
               "aggtype": 'track'
             description: 'Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present'
           "grade1":
             osm_tags:
               - "highway": 'track'
-              - "tracktype": 'grade1'
+                "tracktype": 'grade1'
             correlated_attributes:
               "aggtype": 'track'
             description: 'Solid. Usually a paved or heavily compacted hardcore surface.'
           "grade2":
             osm_tags:
               - "highway": 'track'
-              - "tracktype": 'grade2'
+                "tracktype": 'grade2'
             correlated_attributes:
               "aggtype": 'track'
             description: 'Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.'
           "grade3":
             osm_tags:
               - "highway": 'track'
-              - "tracktype": 'grade3'
+                "tracktype": 'grade3'
             correlated_attributes:
               "aggtype": 'track'
             description: 'Even mixture of hard and soft materials. Almost always an unpaved track.'
           "grade4":
             osm_tags:
               - "highway": 'track'
-              - "tracktype": 'grade4'
+                "tracktype": 'grade4'
             correlated_attributes:
               "aggtype": 'track'
             description: 'Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.'
           "grade5":
             osm_tags:
               - "highway": 'track'
-              - "tracktype": 'grade5'
+                "tracktype": 'grade5'
             correlated_attributes:
               "aggtype": 'track'
             description: 'Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.'
@@ -2125,228 +2120,195 @@ layers:
           "road":
             osm_tags:
               - "highway": '*'
-              # and
-              - "roundabout": '*'
+                "roundabout": '*'
             correlated_attributes:
               "aggtype": 'unclassified'
             description: 'A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed'
           "motorway":
             osm_tags:
               - "highway": 'motorway'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..'
           "trunk":
             osm_tags:
               - "highway": 'trunk'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: "The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)"
           "primary":
             osm_tags:
               - "highway": 'primary'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: "The next most important roads in a country's system. (Often link larger towns.)"
           "secondary":
             osm_tags:
               - "highway": 'secondary'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: "The next most important roads in a country's system. (Often link smaller towns and villages.)"
           "tertiary":
             osm_tags:
               - "highway": 'tertiary'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: "The next most important roads in a country's system."
           "unclassified":
             osm_tags:
               - "highway": 'unclassified'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: "The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)"
           "residential":
             osm_tags:
               - "highway": 'residential'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'Roads which are primarily lined with and serve as an access to housing.'
           "living_street":
             osm_tags:
               - "highway": 'living_street'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.'
           "pedestrian":
             osm_tags:
               - "highway": 'pedestrian'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: "For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian."
           "motorway_link":
             osm_tags:
               - "highway": 'motorway_link'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.'
           "trunk_link":
             osm_tags:
               - "highway": 'trunk_link'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.'
           "primary_link":
             osm_tags:
               - "highway": 'primary_link'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.'
           "secondary_link":
             osm_tags:
               - "highway": 'secondary_link'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.'
           "service":
             osm_tags:
               - "highway": 'service'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.'
           "track":
             osm_tags:
-              - "highway": 'service'
-              # and
-              - "tracktype": '*'
-              # and
-              - "junction": 'roundabout'
+              - "highway": 'track'
+                "tracktype": '*'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present,'
           "grade1":
             osm_tags:
               - "highway": 'track'
-              # and
-              - "tracktype": 'grade1'
-              # and
-              - "junction": 'roundabout'
+                "tracktype": 'grade1'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'track'
             description: 'Solid. Usually a paved or heavily compacted hardcore surface.'
           "grade2":
             osm_tags:
               - "highway": 'track'
-              # and
-              - "tracktype": 'grade2'
-              # and
-              - "junction": 'roundabout'
+                "tracktype": 'grade2'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'junction'
             description: 'Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.'
           "grade3":
             osm_tags:
               - "highway": 'track'
-              # and
-              - "tracktype": 'grade3'
-              # and
-              - "junction": 'roundabout'
+                "tracktype": 'grade3'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'Even mixture of hard and soft materials. Almost always an unpaved track.'
           "grade4":
             osm_tags:
               - "highway": 'track'
-              # and
-              - "tracktype": 'grade4'
-              # and
-              - "junction": 'roundabout'
+                "tracktype": 'grade4'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.'
           "grade5":
             osm_tags:
               - "highway": 'track'
-              # and
-              - "tracktype": 'grade5'
-              # and
-              - "junction": 'roundabout'
+                "tracktype": 'grade5'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.'
           "bridleway":
             osm_tags:
               - "highway": 'bridleway'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'For horses.'
           "cycleway":
             osm_tags:
               - "highway": 'cycleway'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'junction'
             description: "Cycling infrastructure that is an inherent part of a road - particularly 'cycle lanes' which are a part of the road"
           "footway":
             osm_tags:
               - "highway": 'footway'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'junction'
             description: 'For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.'
           "path":
             osm_tags:
               - "highway": 'path'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'A non-specific path.'
           "steps":
             osm_tags:
               - "highway": 'steps'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'For flights of steps (stairs) on footways.'
           "roundabout":
             osm_tags:
               - "highway": '*'
-              # and
-              - "junction": 'roundabout'
+                "junction": 'roundabout'
             correlated_attributes:
               "aggtype": 'roundabout'
             description: 'This contains any other roundabout except the specifics above.'
@@ -2461,28 +2423,28 @@ layers:
           "parking":
             osm_tags:
              - "amenity": 'parking'
-             - "parking": '*'
+               "parking": '*'
             correlated_attributes:
               "aggtype": 'parking'
             description: 'A place for parking cars. This contains any other parking except the specifics below.'
           "surface":
             osm_tags:
              - "amenity": 'parking'
-             - "parking": 'surface'
+               "parking": 'surface'
             correlated_attributes:
               "aggtype": 'parking'
             description: 'Open area parking normally on ground level'
           "multi-storey":
             osm_tags:
              - "amenity": 'parking'
-             - "parking": 'multi-storey'
+               "parking": 'multi-storey'
             correlated_attributes:
               "aggtype": 'parking'
             description: 'A building built to park cars on multiple levels'
           "underground":
             osm_tags:
              - "amenity": 'parking'
-             - "parking": 'underground'
+               "parking": 'underground'
             correlated_attributes:
               "aggtype": 'parking'
             description: 'Carpark is built below the ground level'
@@ -2694,28 +2656,28 @@ layers:
           "parking":
             osm_tags:
              - "amenity": 'parking'
-             - "parking": '*'
+               "parking": '*'
             correlated_attributes:
               "aggtype": 'parking'
             description: 'A place for parking cars. This contains any other parking except the specifics below.'
           "surface":
             osm_tags:
              - "amenity": 'parking'
-             - "parking": 'surface'
+               "parking": 'surface'
             correlated_attributes:
               "aggtype": 'parking'
             description: 'Open area parking normally on ground level'
           "multi-storey":
             osm_tags:
              - "amenity": 'parking'
-             - "parking": 'multi-storey'
+               "parking": 'multi-storey'
             correlated_attributes:
               "aggtype": 'parking'
             description: 'A building built to park cars on multiple levels'
           "underground":
             osm_tags:
              - "amenity": 'parking'
-             - "parking": 'underground'
+               "parking": 'underground'
             correlated_attributes:
               "aggtype": 'parking'
             description: 'Carpark is built below the ground level'
@@ -2740,7 +2702,7 @@ layers:
             osm_tags:
              - "railway": 'halt'
              - "public_transport": 'stop_position'
-             - "train": 'yes'
+               "train": 'yes'
             correlated_attributes:
               "aggtype": 'railway'
             description: 'A small station, may not have a platform, trains may only stop on request.'
@@ -2748,7 +2710,7 @@ layers:
             osm_tags:
              - "railway": 'bus_stop'
              - "public_transport": 'stop_position'
-             - "bus": 'yes'
+               "bus": 'yes'
             correlated_attributes:
               "aggtype": 'bus'
             description: 'A bus stop is a place where public buses stop.'
@@ -2766,7 +2728,7 @@ layers:
             description: 'A place where taxi waits for passengers'
           "airport":
             osm_tags:
-             - "amenity": 'taxi'
+             - "amenity": 'airport'
              - "aeroway": 'aerodrome'
             correlated_attributes:
               "aggtype": 'air_traffic'
@@ -2849,35 +2811,32 @@ layers:
           "nuclear":
             osm_tags:
              - "power": 'generator'
-             - "generator:source": 'nuclear'
+               "generator:source": 'nuclear'
             correlated_attributes:
               "aggtype": 'station'
             description: 'A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.'
           "solar":
             osm_tags:
              - "power": 'generator'
-             # and
-             - "generator:source": 'solar'
-             # or
-             - "power_source": 'photovoltaic'
+               "generator:source": 'solar'
+             - "power": 'generator'
+               "power_source": 'photovoltaic'
             correlated_attributes:
               "aggtype": 'station'
             description: 'Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).'
           "fossil":
             osm_tags:
              - "power": 'generator'
-             - "generator:source": 'gas'
-             # or
-             - "generator:source": 'coal'
+               "generator:source": 'gas'
+             - "power": 'generator'
+               "generator:source": 'coal'
             correlated_attributes:
               "aggtype": 'station'
             description: 'Using the combustion of fuels to heat the water to in turn spin the generators turbine '
           "hydro":
             osm_tags:
              - "power": 'generator'
-             # and
-             - "generator:source": 'water'
-             # or
+               "generator:source": 'water'
              - "power_source": 'hydro'
             correlated_attributes:
               "aggtype": 'station'
@@ -2885,9 +2844,7 @@ layers:
           "wind":
             osm_tags:
              - "power": 'generator'
-             # and
-             - "generator:source": 'wind'
-             # or
+               "generator:source": 'wind'
              - "power_source": 'wind'
             correlated_attributes:
               "aggtype": 'station'
@@ -2895,7 +2852,6 @@ layers:
           "substation":
             osm_tags:
              - "power": 'station'
-             # or
              - "power": 'substation'
             correlated_attributes:
               "aggtype": 'substation'
@@ -2982,7 +2938,6 @@ layers:
           "minor_cable":
             osm_tags:
              - "power": 'minor_underground_cable'
-             # or
              - "power": 'minor_cable'
             correlated_attributes:
               "aggtype": 'power'

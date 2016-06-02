@@ -14,10 +14,15 @@ Values of attribute {{ attribute_name }}
         |{{ definition['correlated_attributes'][attribute_name] -}}
     {%- endfor -%}
     |{{ value }}|
+    {%- set or_sep = joiner(' or ') -%}
     {%- for tag_combination in definition['osm_tags'] -%}
+        {{- or_sep() -}}
+        {%- set and_sep = joiner('+') -%}
         {%- for key, value in tag_combination.items() -%}
-            `{{ key }}={{ value }}`{{' '}}
+            {{ and_sep() }}`{{ key }}={{ value }}`
         {%- endfor -%}
+    {% else %}
+        {{ ' ' }}
     {%- endfor -%}|
     {{- definition['description']|default(' ') }}|
 {% endfor -%}
