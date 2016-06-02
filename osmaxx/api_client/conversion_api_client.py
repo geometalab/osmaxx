@@ -66,7 +66,7 @@ class ConversionApiClient(JWTClient):
     def get_result_file(self, job_id):
         file_path = self._get_result_file_path(job_id)
         if file_path:
-            return File(open(file_path, 'r'))
+            return File(open(file_path, 'rb'))
         else:
             raise ResultFileNotAvailableError
 
