@@ -673,13 +673,18 @@ layers:
              correlated_attributes:
                "aggtype": 'public'
              description: 'A venue where a variety of arts are performed or conducted'
-          "graveyard":
+          "grave_yard":
               osm_tags:
-                - "amenity": 'prison'
+                - "amenity": 'grave_yard'
+              correlated_attributes:
+                "aggtype": 'burial_ground'
+              description: "A place where people, or sometimes animals are buried which is close to a place of worship. See 'cemetery' for burial grounds not in the yard of a place of worship."
+          "cemetery":
+              osm_tags:
                 - "landuse": 'cemetery'
               correlated_attributes:
-                "aggtype": 'public'
-              description: "A (smaller) place of burial, often you'll find a church nearby. Large places are usually cemetery."
+                "aggtype": 'burial_ground'
+              description: "A place where people, or sometimes animals are buried which is independent of places of worship. See 'grave_yard' for burial grounds in the yard of a place of worship."
           "mortuary":
               osm_tags:
                 - "amenity": 'mortuary'
@@ -2771,19 +2776,19 @@ layers:
             correlated_attributes:
               "aggtype": 'air_traffic'
             description: 'An Aerodrome (UK), Airport (US)'
-          "taxiway":
+          "taxiway": &transport_type_taxiway
             osm_tags:
              - "aeroway": 'taxiway'
             correlated_attributes:
               "aggtype": 'air_traffic'
             description: 'Where airplanes manouevre between runways and parking areas.'
-          "apron":
+          "apron": &transport_type_apron
             osm_tags:
-             - "aeroway": 'taxiway'
+             - "aeroway": 'apron'
             correlated_attributes:
               "aggtype": 'air_traffic'
             description: 'An apron is the surfaced part of an airport where planes park.'
-          "runway":
+          "runway": &transport_type_runway
             osm_tags:
              - "aeroway": 'runway'
             correlated_attributes:
@@ -2826,14 +2831,22 @@ layers:
               "aggtype": 'public_transport'
             description: 'Where public transports stop to pick up passengers'
   "transport_p": *layer_transport_a
-  "utility_a": &layer_utility_a
+  "transport_l":
     attributes:
-      "aggtype":
-        type: text
-        description: "Grouping several different 'type' to a common 'type' (aka enmu)"
       "type":
         type: text
         values:
+          "taxiway": *transport_type_taxiway
+          "apron": *transport_type_apron
+          "runway": *transport_type_runway
+  "utility_a": &layer_utility_a
+    attributes: &utility_a_p_attributes
+      "aggtype":
+        type: text
+        description: "Grouping several different 'type' to a common 'type' (aka enmu)"
+      "type": &utility_a_p_attribute_type
+        type: text
+        values: &utility_a_p_type_values
           "tower":
             osm_tags:
              - "power": 'tower'
@@ -2897,6 +2910,8 @@ layers:
              - "power": 'station'
              # or
              - "power": 'substation'
+             # or
+             - "power": 'sub_station'
             correlated_attributes:
               "aggtype": 'substation'
             description: 'A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines'
@@ -2931,10 +2946,12 @@ layers:
               "aggtype": 'power'
             description: 'All other types of power which is not defined as above'
   "utility_p": &layer_utility_p
-    attributes: 
+    attributes:
+      <<: *utility_a_p_attributes
       "type":
-        type: text
+        <<: *utility_a_p_attribute_type
         values:
+          <<: *utility_a_p_type_values
           "pole":
             osm_tags:
              - "power": 'pole'
