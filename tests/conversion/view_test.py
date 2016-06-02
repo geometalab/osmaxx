@@ -86,6 +86,7 @@ def test_conversion_job_detail_access_success(authenticated_api_client, conversi
     assert data['callback_url'] == conversion_job.callback_url
     assert data['parametrization'] == conversion_parametrization.id
     assert data['status'] == RECEIVED
+    assert data['resulting_file_path'] is None
 
 
 @pytest.mark.django_db()
