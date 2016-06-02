@@ -23,6 +23,7 @@ services:
       - frontend-data:/data
       - frontend-results:/results
       - frontend-media:/data/media
+      - worker-data:/data/media/job_result_files
     links:
       - frontenddatabase:database
       - mediator:conversion-service
