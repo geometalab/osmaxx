@@ -94,7 +94,8 @@ class ExportsListMixin:
 
     def get_user_exports(self):
         return self._filter_exports(
-            Export.objects.filter(extraction_order__orderer=self.request.user).defer('extraction_order__excerpt__bounding_geometry')
+            Export.objects.filter(extraction_order__orderer=self.request.user)
+            .defer('extraction_order__excerpt__bounding_geometry')
         ).order_by('-updated_at', '-finished_at')
 
     def _filter_exports(self, query):
@@ -126,13 +127,15 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
 
     def get_queryset(self):
         return sorted(
-            super().get_queryset().filter(pk__in=self.excerpt_ids).defer('bounding_geometry'), key=lambda x: self.excerpt_ids.index(x.pk)
+            super().get_queryset().filter(pk__in=self.excerpt_ids)
+            .defer('bounding_geometry'), key=lambda x: self.excerpt_ids.index(x.pk)
         )
 
     def _get_exports_for_excerpt(self, excerpt):
         return self.get_user_exports().\
             filter(extraction_order__excerpt=excerpt).\
-            select_related('extraction_order', 'extraction_order__excerpt', 'output_file').defer('extraction_order__excerpt__bounding_geometry')
+            select_related('extraction_order', 'extraction_order__excerpt', 'output_file')\
+            .defer('extraction_order__excerpt__bounding_geometry')
 export_list = ExportsListView.as_view()
 
 
