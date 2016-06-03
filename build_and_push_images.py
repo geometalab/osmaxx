@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import subprocess
+
 IMAGES = [
     dict(image_name='geometalab/osmaxx-mediator', dockerfile='Dockerfile.mediator'),
     dict(image_name='geometalab/osmaxx-worker', dockerfile='Dockerfile.worker'),
@@ -16,7 +18,6 @@ def docker_push(release, image_name, *args, **kwargs):
 
 
 if __name__ == '__main__':
-    import subprocess
     release = subprocess.check_output(["git", "describe", "--dirty"]).strip().decode()
     for image in IMAGES:
         docker_build(release=release, **image)

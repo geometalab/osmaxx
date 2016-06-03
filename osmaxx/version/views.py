@@ -8,6 +8,6 @@ def show_version_number(request):
     from osmaxx import __version__
     return render_to_response(template_name='version/show_version.html', context={
         'version_number': __version__,
-        'actual_version': subprocess.check_output(["git", "describe", "--dirty"]).strip().decode(),
+        'actual_version': subprocess.check_output(["git", "describe", "--dirty", "--always"]).strip().decode(),
         'DEBUG': settings.DEBUG,
     })
