@@ -204,8 +204,7 @@ Values of attribute type
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |admin_level1|`admin_level=1`+`boundary=administrative`|Efnahags-loegsaga(Exclusive Economic Zone) use in Iceland|
-|admin_level10|`admin_level=10`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
-|admin_level11|`admin_level=11`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|national|`admin_level=2`+`boundary=administrative`|National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country).|
 |admin_level3|`admin_level=3`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level4|`admin_level=4`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level5|`admin_level=5`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
@@ -213,8 +212,9 @@ Values of attribute type
 |admin_level7|`admin_level=7`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level8|`admin_level=8`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level9|`admin_level=9`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|admin_level10|`admin_level=10`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|admin_level11|`admin_level=11`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |administrative|`admin_level=*`|All empty or User input admin_level values to be placed under|
-|national|`admin_level=2`+`boundary=administrative`|National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country).|
 |national_park|`boundary=national_park`|A national park is a relatively large area of land declared by a government, to be set aside for human recreation and enjoyment, animal and environmental protection.|
 |protected_area|`boundary=protected_area`|Protected areas, such as for national-parks, water protection areas or indigenous areas.|
 
@@ -232,8 +232,7 @@ Values of attribute type
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |admin_level1|`admin_level=1`+`boundary=administrative`|Efnahags-loegsaga(Exclusive Economic Zone) use in Iceland|
-|admin_level10|`admin_level=10`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
-|admin_level11|`admin_level=11`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|national|`admin_level=2`+`boundary=administrative`|National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country).|
 |admin_level3|`admin_level=3`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level4|`admin_level=4`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level5|`admin_level=5`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
@@ -241,8 +240,9 @@ Values of attribute type
 |admin_level7|`admin_level=7`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level8|`admin_level=8`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |admin_level9|`admin_level=9`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|admin_level10|`admin_level=10`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
+|admin_level11|`admin_level=11`+`boundary=administrative`|Considered as subnational borders where it can be specified as parish, district, region, province and state|
 |administrative|`admin_level=*`|All empty or User input admin_level values to be placed under|
-|national|`admin_level=2`+`boundary=administrative`|National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country).|
 |national_park|`boundary=national_park`|A national park is a relatively large area of land declared by a government, to be set aside for human recreation and enjoyment, animal and environmental protection.|
 |protected_area|`boundary=protected_area`|Protected areas, such as for national-parks, water protection areas or indigenous areas.|
 
