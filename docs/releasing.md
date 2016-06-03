@@ -5,7 +5,7 @@ Note: We are not using PyPI (for now?) for making releases.
 ## Prerequisites
 
 - project setup complete (see [`README.md` > Docker container bootstrapping > Development](/README.md#development-2))
-- tests running (see [`testing.md` > Setup](testing.md#setup))
+- tests running (see [`testing.md` > Setup](testing.md#setup)) and tests **passing**  
 - git flow
 
 ## Steps
