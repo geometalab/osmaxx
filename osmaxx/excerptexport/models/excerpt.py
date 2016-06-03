@@ -38,7 +38,7 @@ class Excerpt(models.Model):
 
     def simplified_buffered(self):
         """
-        First simplifies, than buffers the bounding_geometry.
+        First simplifies, then buffers a copy of the self.bounding_geometry.
 
         It does include all points that were available before (Nyqist theorem).
 
