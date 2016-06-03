@@ -523,6 +523,8 @@ layers:
         values: !!omap
           - "P":
               osm_tags:
+                - "highway": 'proposed'
+                - "railway": 'proposed'
                 - "highway": 'planned'
                 - "railway": 'planned'
           - "C":
@@ -542,6 +544,7 @@ layers:
         values:
           "highway":
             osm_tags:
+              - "highway": 'proposed'
               - "highway": 'planned'
               - "highway": 'construction'
               - "highway": 'disused'
@@ -549,6 +552,7 @@ layers:
             description: 'Contains roads which are disused, planned, under constructions or abandoned. These type of features will be place in this table to keep the feature but display as not available'
           "railway":
             osm_tags:
+              - "railway": 'proposed'
               - "railway": 'planned'
               - "railway": 'construction'
               - "railway": 'disused'
@@ -558,10 +562,12 @@ layers:
         type: text
         description: "See attribute 'type' of layer road_l and railway_l, respectively."
         osm_tags:
+          - !!omap ["highway": "proposed", "proposed": "*"]
           - !!omap ["highway": "planned", "planned": "*"]
           - !!omap ["highway": "construction", "construction": "*"]
           - !!omap ["highway": "disused", "disused": "*"]
           - !!omap ["highway": 'abandoned', "abandoned": "*"]
+          - !!omap ["railway": "proposed", "proposed": "*"]
           - !!omap ["railway": "planned", "planned": "*"]
           - !!omap ["railway": "construction", "construction": "*"]
           - !!omap ["railway": "disused", "disused": "*"]
