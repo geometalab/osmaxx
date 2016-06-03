@@ -516,9 +516,20 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |ref|text|Reference number of this road unset for railways.|`ref=*`|
-|status|text|P for Planned; C for underconstruction; D for disused; A for abandoned; this is dependent on the values.| |
+|status|text| |(see table below)|
 |type|text| |(see table below)|
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one.|`layer=*`|
+
+
+Values of attribute status
+
+|values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
+|P|`highway=planned` or `railway=planned`| |
+|C|`highway=construction` or `railway=construction`| |
+|D|`highway=disused` or `railway=disused`| |
+|A|`highway=abandoned` or `railway=abandoned`| |
+
 
 
 Values of attribute type
