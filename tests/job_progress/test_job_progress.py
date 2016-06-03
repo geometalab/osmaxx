@@ -1,3 +1,4 @@
+import tempfile
 from unittest.mock import patch, ANY, call, Mock, sentinel
 
 import requests_mock
@@ -201,11 +202,16 @@ class CallbackHandlingTest(APITestCase):
             reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
             data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
         )
+
+        resulting_file = tempfile.NamedTemporaryFile()
+        resulting_file.write(b'dummy file')
+        resulting_file.seek(0)
+
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_job/1/',
             json=dict(
-                resulting_file='http://localhost:8901/api/conversion_job/1/conversion_result.zip'
+                resulting_file_path=resulting_file.name
             )
         )
         requests_mock.get(
@@ -234,16 +240,17 @@ class CallbackHandlingTest(APITestCase):
             reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
             data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
         )
+
+        resulting_file = tempfile.NamedTemporaryFile()
+        resulting_file.write(b'dummy file')
+        resulting_file.seek(0)
+
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_job/1/',
             json=dict(
-                resulting_file='http://localhost:8901/api/conversion_job/1/conversion_result.zip'
+                resulting_file_path=resulting_file.name
             )
-        )
-        requests_mock.get(
-            'http://localhost:8901/api/conversion_job/1/conversion_result.zip',
-            body=BytesIO('dummy file'.encode())
         )
 
         views.tracker(request, export_id=str(self.export.id))
