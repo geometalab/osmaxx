@@ -6,7 +6,7 @@
     {{- attribute['type'] }}|
     {{- attribute['description']|default(' ') }}|
     {%- for tag_combination in attribute['osm_tags'] -%}
-        {%- for key, value in tag_combination.items() -%}
+        {%- for key, value in tag_combination|dictsort -%}
             `{{ key }}={{ value }}`
         {%- endfor -%}
     {%- else -%}

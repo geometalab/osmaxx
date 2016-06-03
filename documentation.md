@@ -286,7 +286,7 @@ Values of attribute type
 |isolated_dwelling|`place=isolated_dweilling`|The smallest kind of settlement (1-2 households)|
 |locality|`place=locality`|A named place that has no population|
 |municipality|`place=municipality`|a town or district that has local government.|
-|named_place|`name=*`+`area=yes`|A place where is given a name with a given area but no specific type|
+|named_place|`area=yes`+`name=*`|A place where is given a name with a given area but no specific type|
 |neighbourhood|`place=neighbourhood`|A neighbourhood is a smaller named, geographically localised place within a suburb of a larger city or within a town or village|
 |place|`place=*`|Any other place type that are not sorted to any type above except for area without name.|
 |region|`place=region`|an area, especially part of a country or the world having definable characteristics but not always fixed boundaries.|
@@ -319,7 +319,7 @@ Values of attribute type
 |isolated_dwelling|`place=isolated_dweilling`|The smallest kind of settlement (1-2 households)|
 |locality|`place=locality`|A named place that has no population|
 |municipality|`place=municipality`|a town or district that has local government.|
-|named_place|`name=*`+`area=yes`|A place where is given a name with a given area but no specific type|
+|named_place|`area=yes`+`name=*`|A place where is given a name with a given area but no specific type|
 |neighbourhood|`place=neighbourhood`|A neighbourhood is a smaller named, geographically localised place within a suburb of a larger city or within a town or village|
 |place|`place=*`|Any other place type that are not sorted to any type above except for area without name.|
 |region|`place=region`|an area, especially part of a country or the world having definable characteristics but not always fixed boundaries.|
@@ -908,26 +908,26 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|christian|anglican|`religion=christian`+`denomination=anglican`|A christian place of worship with denomination|
-|christian|baptist|`religion=christian`+`denomination=baptist`|A christian place of worship with denomination|
+|christian|anglican|`denomination=anglican`+`religion=christian`|A christian place of worship with denomination|
+|christian|baptist|`denomination=baptist`+`religion=christian`|A christian place of worship with denomination|
 |buddhist|buddhist|`religion=buddhist`|A buddist place of worship|
-|christian|catholic|`religion=christian`+`denomination=catholic`|A christian place of worship with denomination|
-|christian|christian|`religion=christian`+`denomination=*`|A christian place of worship. This is a generalise christian type other then the specific denomination|
-|christian|evangelical|`religion=christian`+`denomination=evangelical`|A christian place of worship with denomination|
+|christian|catholic|`denomination=catholic`+`religion=christian`|A christian place of worship with denomination|
+|christian|christian|`denomination=*`+`religion=christian`|A christian place of worship. This is a generalise christian type other then the specific denomination|
+|christian|evangelical|`denomination=evangelical`+`religion=christian`|A christian place of worship with denomination|
 |hindu|hindu|`religion=hindu`|A hindu place of worship|
 |jewish|jewish|`religion=jewish`|A jewish place of worship|
-|christian|lutheran|`religion=christian`+`denomination=lutheran`|A christian place of worship with denomination|
-|christian|methodist|`religion=christian`+`denomination=methodist`|A christian place of worship with denomination|
-|christian|mormon|`religion=christian`+`denomination=mormon`|A christian place of worship with denomination|
-|muslim|muslim|`religion=muslim`+`denomination=*`|A muslim place of worship. This is a generalise muslim type other then the specific denomination|
-|christian|orthodox|`religion=christian`+`denomination=orthodox`|A christian place of worship with denomination|
+|christian|lutheran|`denomination=lutheran`+`religion=christian`|A christian place of worship with denomination|
+|christian|methodist|`denomination=methodist`+`religion=christian`|A christian place of worship with denomination|
+|christian|mormon|`denomination=mormon`+`religion=christian`|A christian place of worship with denomination|
+|muslim|muslim|`denomination=*`+`religion=muslim`|A muslim place of worship. This is a generalise muslim type other then the specific denomination|
+|christian|orthodox|`denomination=orthodox`+`religion=christian`|A christian place of worship with denomination|
 |place_of_worship|place_of_worship|`religion=*` or `amenity=place_of_worship`|A place of worship which is not tag to any of the above.|
-|christian|presbyterian|`religion=christian`+`denomination=presbyterian`|A christian place of worship with denomination|
-|christian|protestant|`religion=christian`+`denomination=protestant`|A christian place of worship with denomination|
-|muslim|shia|`religion=muslim`+`denomination=shia`|A muslim place of worship with denomination.|
+|christian|presbyterian|`denomination=presbyterian`+`religion=christian`|A christian place of worship with denomination|
+|christian|protestant|`denomination=protestant`+`religion=christian`|A christian place of worship with denomination|
+|muslim|shia|`denomination=shia`+`religion=muslim`|A muslim place of worship with denomination.|
 |shinto|shinto|`religion=shinto`|A shinto place of worship|
 |sikh|sikh|`religion=sikh`|A sikh place of worship|
-|muslim|sunni|`religion=muslim`+`denomination=sunni`|A muslim place of worship with denomination.|
+|muslim|sunni|`denomination=sunni`+`religion=muslim`|A muslim place of worship with denomination.|
 |taoist|taoist|`religion=taoist`|A taoist place of worship|
 
 
@@ -950,26 +950,26 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|christian|anglican|`religion=christian`+`denomination=anglican`|A christian place of worship with denomination|
-|christian|baptist|`religion=christian`+`denomination=baptist`|A christian place of worship with denomination|
+|christian|anglican|`denomination=anglican`+`religion=christian`|A christian place of worship with denomination|
+|christian|baptist|`denomination=baptist`+`religion=christian`|A christian place of worship with denomination|
 |buddhist|buddhist|`religion=buddhist`|A buddist place of worship|
-|christian|catholic|`religion=christian`+`denomination=catholic`|A christian place of worship with denomination|
-|christian|christian|`religion=christian`+`denomination=*`|A christian place of worship. This is a generalise christian type other then the specific denomination|
-|christian|evangelical|`religion=christian`+`denomination=evangelical`|A christian place of worship with denomination|
+|christian|catholic|`denomination=catholic`+`religion=christian`|A christian place of worship with denomination|
+|christian|christian|`denomination=*`+`religion=christian`|A christian place of worship. This is a generalise christian type other then the specific denomination|
+|christian|evangelical|`denomination=evangelical`+`religion=christian`|A christian place of worship with denomination|
 |hindu|hindu|`religion=hindu`|A hindu place of worship|
 |jewish|jewish|`religion=jewish`|A jewish place of worship|
-|christian|lutheran|`religion=christian`+`denomination=lutheran`|A christian place of worship with denomination|
-|christian|methodist|`religion=christian`+`denomination=methodist`|A christian place of worship with denomination|
-|christian|mormon|`religion=christian`+`denomination=mormon`|A christian place of worship with denomination|
-|muslim|muslim|`religion=muslim`+`denomination=*`|A muslim place of worship. This is a generalise muslim type other then the specific denomination|
-|christian|orthodox|`religion=christian`+`denomination=orthodox`|A christian place of worship with denomination|
+|christian|lutheran|`denomination=lutheran`+`religion=christian`|A christian place of worship with denomination|
+|christian|methodist|`denomination=methodist`+`religion=christian`|A christian place of worship with denomination|
+|christian|mormon|`denomination=mormon`+`religion=christian`|A christian place of worship with denomination|
+|muslim|muslim|`denomination=*`+`religion=muslim`|A muslim place of worship. This is a generalise muslim type other then the specific denomination|
+|christian|orthodox|`denomination=orthodox`+`religion=christian`|A christian place of worship with denomination|
 |place_of_worship|place_of_worship|`religion=*` or `amenity=place_of_worship`|A place of worship which is not tag to any of the above.|
-|christian|presbyterian|`religion=christian`+`denomination=presbyterian`|A christian place of worship with denomination|
-|christian|protestant|`religion=christian`+`denomination=protestant`|A christian place of worship with denomination|
-|muslim|shia|`religion=muslim`+`denomination=shia`|A muslim place of worship with denomination.|
+|christian|presbyterian|`denomination=presbyterian`+`religion=christian`|A christian place of worship with denomination|
+|christian|protestant|`denomination=protestant`+`religion=christian`|A christian place of worship with denomination|
+|muslim|shia|`denomination=shia`+`religion=muslim`|A muslim place of worship with denomination.|
 |shinto|shinto|`religion=shinto`|A shinto place of worship|
 |sikh|sikh|`religion=sikh`|A sikh place of worship|
-|muslim|sunni|`religion=muslim`+`denomination=sunni`|A muslim place of worship with denomination.|
+|muslim|sunni|`denomination=sunni`+`religion=muslim`|A muslim place of worship with denomination.|
 |taoist|taoist|`religion=taoist`|A taoist place of worship|
 
 
@@ -1070,33 +1070,33 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|roundabout|bridleway|`junction=roundabout`+`highway=bridleway`|For horses.|
-|junction|cycleway|`junction=roundabout`+`highway=cycleway`|Cycling infrastructure that is an inherent part of a road - particularly 'cycle lanes' which are a part of the road|
-|junction|footway|`junction=roundabout`+`highway=footway`|For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.|
-|track|grade1|`tracktype=grade1`+`junction=roundabout`+`highway=track`|Solid. Usually a paved or heavily compacted hardcore surface.|
-|junction|grade2|`tracktype=grade2`+`junction=roundabout`+`highway=track`|Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.|
-|roundabout|grade3|`tracktype=grade3`+`junction=roundabout`+`highway=track`|Even mixture of hard and soft materials. Almost always an unpaved track.|
-|roundabout|grade4|`tracktype=grade4`+`junction=roundabout`+`highway=track`|Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.|
-|roundabout|grade5|`tracktype=grade5`+`junction=roundabout`+`highway=track`|Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.|
-|roundabout|living_street|`junction=roundabout`+`highway=living_street`|For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.|
-|roundabout|motorway|`junction=roundabout`+`highway=motorway`|A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..|
-|roundabout|motorway_link|`junction=roundabout`+`highway=motorway_link`|The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.|
-|roundabout|path|`junction=roundabout`+`highway=path`|A non-specific path.|
-|roundabout|pedestrian|`junction=roundabout`+`highway=pedestrian`|For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian.|
-|roundabout|primary|`junction=roundabout`+`highway=primary`|The next most important roads in a country's system. (Often link larger towns.)|
-|roundabout|primary_link|`junction=roundabout`+`highway=primary_link`|The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.|
-|roundabout|residential|`junction=roundabout`+`highway=residential`|Roads which are primarily lined with and serve as an access to housing.|
-|unclassified|road|<code>roundabout<strong>&ne;\*</strong></code>+`highway=*`|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
-|roundabout|roundabout|`junction=roundabout`+<code>highway<strong>&ne;\*</strong></code>|This contains any other roundabout except the specifics above.|
-|roundabout|secondary|`junction=roundabout`+`highway=secondary`|The next most important roads in a country's system. (Often link smaller towns and villages.)|
-|roundabout|secondary_link|`junction=roundabout`+`highway=secondary_link`|The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.|
-|roundabout|service|`junction=roundabout`+`highway=service`|For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.|
-|roundabout|steps|`junction=roundabout`+`highway=steps`|For flights of steps (stairs) on footways.|
-|roundabout|tertiary|`junction=roundabout`+`highway=tertiary`|The next most important roads in a country's system.|
-|roundabout|track|<code>tracktype<strong>&ne;\*</strong></code>+`junction=roundabout`+`highway=track`|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present,|
-|roundabout|trunk|`junction=roundabout`+`highway=trunk`|The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)|
-|roundabout|trunk_link|`junction=roundabout`+`highway=trunk_link`|The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.|
-|roundabout|unclassified|`junction=roundabout`+`highway=unclassified`|The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)|
+|roundabout|bridleway|`highway=bridleway`+`junction=roundabout`|For horses.|
+|junction|cycleway|`highway=cycleway`+`junction=roundabout`|Cycling infrastructure that is an inherent part of a road - particularly 'cycle lanes' which are a part of the road|
+|junction|footway|`highway=footway`+`junction=roundabout`|For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.|
+|track|grade1|`highway=track`+`junction=roundabout`+`tracktype=grade1`|Solid. Usually a paved or heavily compacted hardcore surface.|
+|junction|grade2|`highway=track`+`junction=roundabout`+`tracktype=grade2`|Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.|
+|roundabout|grade3|`highway=track`+`junction=roundabout`+`tracktype=grade3`|Even mixture of hard and soft materials. Almost always an unpaved track.|
+|roundabout|grade4|`highway=track`+`junction=roundabout`+`tracktype=grade4`|Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.|
+|roundabout|grade5|`highway=track`+`junction=roundabout`+`tracktype=grade5`|Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.|
+|roundabout|living_street|`highway=living_street`+`junction=roundabout`|For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.|
+|roundabout|motorway|`highway=motorway`+`junction=roundabout`|A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..|
+|roundabout|motorway_link|`highway=motorway_link`+`junction=roundabout`|The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.|
+|roundabout|path|`highway=path`+`junction=roundabout`|A non-specific path.|
+|roundabout|pedestrian|`highway=pedestrian`+`junction=roundabout`|For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian.|
+|roundabout|primary|`highway=primary`+`junction=roundabout`|The next most important roads in a country's system. (Often link larger towns.)|
+|roundabout|primary_link|`highway=primary_link`+`junction=roundabout`|The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.|
+|roundabout|residential|`highway=residential`+`junction=roundabout`|Roads which are primarily lined with and serve as an access to housing.|
+|unclassified|road|`highway=*`+<code>roundabout<strong>&ne;\*</strong></code>|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
+|roundabout|roundabout|<code>highway<strong>&ne;\*</strong></code>+`junction=roundabout`|This contains any other roundabout except the specifics above.|
+|roundabout|secondary|`highway=secondary`+`junction=roundabout`|The next most important roads in a country's system. (Often link smaller towns and villages.)|
+|roundabout|secondary_link|`highway=secondary_link`+`junction=roundabout`|The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.|
+|roundabout|service|`highway=service`+`junction=roundabout`|For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.|
+|roundabout|steps|`highway=steps`+`junction=roundabout`|For flights of steps (stairs) on footways.|
+|roundabout|tertiary|`highway=tertiary`+`junction=roundabout`|The next most important roads in a country's system.|
+|roundabout|track|`highway=track`+`junction=roundabout`+<code>tracktype<strong>&ne;\*</strong></code>|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present,|
+|roundabout|trunk|`highway=trunk`+`junction=roundabout`|The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)|
+|roundabout|trunk_link|`highway=trunk_link`+`junction=roundabout`|The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.|
+|roundabout|unclassified|`highway=unclassified`+`junction=roundabout`|The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)|
 
 
 ## route_l
@@ -1229,7 +1229,7 @@ Values of attribute type
 |bus|bus_stop|`railway=bus_stop` or `bus=yes`+`public_transport=stop_position`|A bus stop is a place where public buses stop.|
 |water_traffic|ferry_terminal|`amenity=ferry_terminal`|Ferry terminal/stop. A place where people/cars/etc. can board and leave a ferry.|
 |air_traffic|helipad|`aeroway=helipad`|A place where helicopters can land.|
-|railway|railway_halt|`railway=halt` or `train=yes`+`public_transport=stop_position`|A small station, may not have a platform, trains may only stop on request.|
+|railway|railway_halt|`railway=halt` or `public_transport=stop_position`+`train=yes`|A small station, may not have a platform, trains may only stop on request.|
 |railway|railway_station|`railway=station`|Railway stations (including main line, light rail, subway, etc.) are places where customers can access railway services|
 |air_traffic|runway|`aeroway=runway`|Where airplanes take off and land|
 |public_transport|stop_position|`public_transport=stop_position`|Where public transports stop to pick up passengers|
@@ -1275,7 +1275,7 @@ Values of attribute type
 |bus|bus_stop|`railway=bus_stop` or `bus=yes`+`public_transport=stop_position`|A bus stop is a place where public buses stop.|
 |water_traffic|ferry_terminal|`amenity=ferry_terminal`|Ferry terminal/stop. A place where people/cars/etc. can board and leave a ferry.|
 |air_traffic|helipad|`aeroway=helipad`|A place where helicopters can land.|
-|railway|railway_halt|`railway=halt` or `train=yes`+`public_transport=stop_position`|A small station, may not have a platform, trains may only stop on request.|
+|railway|railway_halt|`railway=halt` or `public_transport=stop_position`+`train=yes`|A small station, may not have a platform, trains may only stop on request.|
 |railway|railway_station|`railway=station`|Railway stations (including main line, light rail, subway, etc.) are places where customers can access railway services|
 |air_traffic|runway|`aeroway=runway`|Where airplanes take off and land|
 |public_transport|stop_position|`public_transport=stop_position`|Where public transports stop to pick up passengers|
@@ -1300,7 +1300,7 @@ Values of attribute type
 |station|hydro|`generator:source=water`+`power=generator` or `power_source=hydro`|Hydroelectricity is the term referring to electricity generated by hydropower; the production of electrical power through the use of the gravitational force of falling or flowing water. It is the most widely used form of renewable energy.|
 |station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
 |power|power|`power=*`|All other types of power which is not defined as above|
-|station|solar|`generator:source=solar`+`power=generator` or `power_source=photovoltaic`+`power=generator`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
+|station|solar|`generator:source=solar`+`power=generator` or `power=generator`+`power_source=photovoltaic`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
 |station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
 |man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
 |substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
@@ -1352,7 +1352,7 @@ Values of attribute type
 |station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
 |pole|pole|`power=pole`|For single (often wooden or concrete) poles carrying medium/low voltage electricity cables.|
 |power|power|`power=*`|All other types of power which is not defined as above|
-|station|solar|`generator:source=solar`+`power=generator` or `power_source=photovoltaic`+`power=generator`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
+|station|solar|`generator:source=solar`+`power=generator` or `power=generator`+`power_source=photovoltaic`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
 |station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
 |man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
 |substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
