@@ -1,17 +1,12 @@
 from django.core.signals import request_finished
 from django.dispatch import receiver
+from functools import partial as work
 
 work_after_request_finished = []
 
 
 def postpone_work_until_request_finished(function, *args, **kwargs):
     work_after_request_finished.append(work(function, *args, **kwargs))
-
-
-def work(function, *args, **kwargs):
-    def do_work():
-        return function(*args, **kwargs)
-    return do_work
 
 
 @receiver(request_finished)
