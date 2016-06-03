@@ -9,7 +9,7 @@ Values of attribute {{ attribute_name }}
     | ------------------ {#  #}
 {%- endfor -%}
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-{% for value, definition in attribute_values.items() -%}
+{% for value, definition in attribute_values|dictsort -%}
     {% for attribute_name in correlated_attributes -%}
         |{{ definition['correlated_attributes'][attribute_name] -}}
     {%- endfor -%}
@@ -18,7 +18,7 @@ Values of attribute {{ attribute_name }}
     {%- for tag_combination in definition['osm_tags'] -%}
         {{- or_sep() -}}
         {%- set and_sep = joiner('+') -%}
-        {%- for key, value in tag_combination.items() -%}
+        {%- for key, value in tag_combination|dictsort -%}
             {{- and_sep() -}}
             {%- if value == '__ABSENT__' -%}
                 <code>{{ key }}<strong>&ne;\*</strong></code>
