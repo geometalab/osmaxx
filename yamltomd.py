@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
 from collections import OrderedDict
 from ruamel import yaml
 
-with open('templates/layer_attributes.md.jinja2') as f:
-    LAYER_ATTRIBUTES_TEMPLATE = Template(f.read())
-with open('templates/attribute_values.md.jinja2') as f:
-    ATTRIBUTE_VALUES_TEMPLATE = Template(f.read())
+env = Environment(loader=FileSystemLoader(searchpath='templates'))
+
+LAYER_ATTRIBUTES_TEMPLATE = env.get_template('layer_attributes.md.jinja2')
+ATTRIBUTE_VALUES_TEMPLATE = env.get_template('attribute_values.md.jinja2')
 
 
 def yaml_to_md(layer_name, layer_definition, out):
