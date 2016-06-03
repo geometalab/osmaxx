@@ -5,6 +5,11 @@ from django.utils.translation import gettext_lazy as _
 
 from osmaxx.utils.geometry_buffer_helper import with_metric_buffer
 
+EARTH_CIRCUMFERENCE_IN_METERS = 40075.017 * 1000
+DEGREES_PER_CIRCLE = 360
+DEGREES_PER_METERS_AT_EQUATOR = DEGREES_PER_CIRCLE / EARTH_CIRCUMFERENCE_IN_METERS
+NYQIST_FACTOR = 1 / 2
+
 
 class Excerpt(models.Model):
     EXCERPT_TYPE_USER_DEFINED = 'user-defined'
@@ -21,17 +26,34 @@ class Excerpt(models.Model):
     excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
 
     COUNTRY_SIMPLIFICATION_TOLERANCE = 0.01
+    BUFFER_METERS = 200
 
     def send_to_conversion_service(self):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
         api_client = ConversionApiClient()
         bounding_geometry = self.bounding_geometry
         if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
-            original_srid = self.bounding_geometry.srs
-            bounding_geometry = with_metric_buffer(self.bounding_geometry, buffer_meters=100, map_srid=original_srid)
-            if not isinstance(bounding_geometry, geos.MultiPolygon):
-                bounding_geometry = geos.MultiPolygon(bounding_geometry)
+            bounding_geometry = self.simplified_buffered()
         return api_client.create_boundary(bounding_geometry, name=self.name)
+
+    def simplified_buffered(self):
+        """
+        First simplifies, than buffers the bounding_geometry.
+
+        It does include all points that were available before (Nyqist theorem).
+
+        Returns: simplified, then buffered geometry
+        """
+        simplification_tolerance = DEGREES_PER_METERS_AT_EQUATOR * NYQIST_FACTOR * self.BUFFER_METERS
+        original_srid = self.bounding_geometry.srs
+        bounding_geometry = self.bounding_geometry.simplify(
+            tolerance=simplification_tolerance,
+            preserve_topology=True
+        )
+        bounding_geometry = with_metric_buffer(bounding_geometry, buffer_meters=self.BUFFER_METERS, map_srid=original_srid)
+        if not isinstance(bounding_geometry, geos.MultiPolygon):
+            bounding_geometry = geos.MultiPolygon(bounding_geometry)
+        return bounding_geometry
 
     @property
     def geometry(self):
