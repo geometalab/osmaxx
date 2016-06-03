@@ -40,9 +40,9 @@ class Excerpt(models.Model):
         """
         First simplifies, then buffers a copy of the self.bounding_geometry.
 
-        It does include all points that were available before (Nyqist theorem).
+        The resulting area completely includes the area enclosed by the bounding_geometry.
 
-        Returns: simplified, then buffered geometry
+        Returns: the resulting area
         """
         simplification_tolerance = DEGREES_PER_METERS_AT_EQUATOR * NYQIST_FACTOR * self.BUFFER_METERS
         original_srid = self.bounding_geometry.srs
