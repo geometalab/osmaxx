@@ -5,9 +5,17 @@
     {{- attribute_name }}|
     {{- attribute['type'] }}|
     {{- attribute['description']|default(' ') }}|
+    {%- set or_sep = joiner(' or ') -%}
     {%- for tag_combination in attribute['osm_tags'] -%}
+        {{- or_sep() -}}
+        {%- set and_sep = joiner('+') -%}
         {%- for key, value in tag_combination|dictsort_unless_ordered -%}
-            `{{ key }}={{ value }}`
+            {{- and_sep() -}}
+            {%- if value == '__ABSENT__' -%}
+                <code>{{ key }}<strong>&ne;\*</strong></code>
+            {%- else -%}
+                `{{ key }}={{ value }}`
+            {%- endif -%}
         {%- endfor -%}
     {%- else -%}
         {%- if 'values' in attribute -%}

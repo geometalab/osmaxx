@@ -517,6 +517,7 @@ Values of attribute type
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |ref|text|Reference number of this road unset for railways.|`ref=*`|
 |status|text| |(see table below)|
+|sub_type|text|See attribute 'type' of layer road_l and railway_l, respectively.|`highway=planned`+`planned=*` or `highway=construction`+`construction=*` or `highway=disused`+`disused=*` or `highway=abandoned`+`abandoned=*` or `railway=planned`+`planned=*` or `railway=construction`+`construction=*` or `railway=disused`+`disused=*` or `railway=abandoned`+`abandoned=*`|
 |type|text| |(see table below)|
 |z_order|smallint|The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one.|`layer=*`|
 

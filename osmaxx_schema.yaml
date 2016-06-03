@@ -554,6 +554,18 @@ layers:
               - "railway": 'disused'
               - "railway": 'abandoned'
             description: 'Contains railways which are disused, planned, under constructions or abandoned. These type of features will be place in this table to keep the feature but display as not available'
+      "sub_type":
+        type: text
+        description: "See attribute 'type' of layer road_l and railway_l, respectively."
+        osm_tags:
+          - !!omap ["highway": "planned", "planned": "*"]
+          - !!omap ["highway": "construction", "construction": "*"]
+          - !!omap ["highway": "disused", "disused": "*"]
+          - !!omap ["highway": 'abandoned', "abandoned": "*"]
+          - !!omap ["railway": "planned", "planned": "*"]
+          - !!omap ["railway": "construction", "construction": "*"]
+          - !!omap ["railway": "disused", "disused": "*"]
+          - !!omap ["railway": 'abandoned', "abandoned": "*"]
   "poi_p": &layer_poi_p
     attributes:
       "aggtype":
