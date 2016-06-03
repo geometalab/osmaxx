@@ -23,6 +23,7 @@ from osmaxx.contrib.auth.frontend_permissions import (
 from osmaxx.conversion_api import statuses
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
+from osmaxx.excerptexport.signals import postpone_work_after_request_finished
 from .models import Export
 
 
@@ -36,7 +37,7 @@ def execute_converters(extraction_order, request):
 class OrderFormViewMixin(FormMixin):
     def form_valid(self, form):
         extraction_order = form.save(self.request.user)
-        execute_converters(extraction_order, request=self.request)
+        postpone_work_after_request_finished(execute_converters, extraction_order, request=self.request)
         messages.info(
             self.request,
             _('Queued extraction order {id}. The conversion process will start soon.').format(
