@@ -25,7 +25,7 @@ class Excerpt(models.Model):
     bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'), null=True)
     excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
 
-    COUNTRY_SIMPLIFICATION_TOLERANCE = 0.01
+    COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES = 0.01
     BUFFER_METERS = 200
 
     def send_to_conversion_service(self):
@@ -59,7 +59,7 @@ class Excerpt(models.Model):
     def geometry(self):
         if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
             return self.bounding_geometry.simplify(
-                tolerance=self.COUNTRY_SIMPLIFICATION_TOLERANCE,
+                tolerance=self.COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES,
                 preserve_topology=True
             )
         return self.bounding_geometry
