@@ -203,15 +203,15 @@ class CallbackHandlingTest(APITestCase):
             data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
         )
 
-        resulting_file_path = tempfile.NamedTemporaryFile()
-        resulting_file_path.write(b'dummy file')
-        resulting_file_path.seek(0)
+        resulting_file = tempfile.NamedTemporaryFile()
+        resulting_file.write(b'dummy file')
+        resulting_file.seek(0)
 
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_job/1/',
             json=dict(
-                resulting_file_path=resulting_file_path.name
+                resulting_file_path=resulting_file.name
             )
         )
         requests_mock.get(
@@ -241,15 +241,15 @@ class CallbackHandlingTest(APITestCase):
             data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
         )
 
-        resulting_file_path = tempfile.NamedTemporaryFile()
-        resulting_file_path.write(b'dummy file')
-        resulting_file_path.seek(0)
+        resulting_file = tempfile.NamedTemporaryFile()
+        resulting_file.write(b'dummy file')
+        resulting_file.seek(0)
 
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_job/1/',
             json=dict(
-                resulting_file_path=resulting_file_path.name
+                resulting_file_path=resulting_file.name
             )
         )
 
