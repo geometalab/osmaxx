@@ -55,14 +55,6 @@ class Job(models.Model):
     def zip_file_relative_path(self):
         return job_directory_path(self, '{}.{}'.format(self._filename_prefix(), 'zip'))
 
-    def get_download_url(self):
-        if not self._has_file:
-            return None
-        base_uri = self.own_base_url
-        if base_uri.endswith('/'):
-            base_uri = base_uri[:-1]
-        return base_uri + reverse('conversion_job-download-zip', kwargs={'pk': self.id})
-
     def get_absolute_url(self):
         base_uri = self.own_base_url
         if base_uri.endswith('/'):

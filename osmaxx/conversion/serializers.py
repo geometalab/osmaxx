@@ -9,7 +9,6 @@ class ParametrizationSerializer(serializers.ModelSerializer):
 
 
 class JobSerializer(serializers.ModelSerializer):
-    resulting_file = serializers.URLField(source='get_download_url', read_only=True)
     resulting_file_path = serializers.URLField(source='get_absolute_file_path', read_only=True)
 
     def save(self, **kwargs):
@@ -22,5 +21,5 @@ class JobSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Job
-        fields = ['id', 'callback_url', 'parametrization', 'rq_job_id', 'status', 'resulting_file', 'resulting_file_path']
-        read_only_fields = ['rq_job_id', 'status', 'resulting_file', 'resulting_file_path']
+        fields = ['id', 'callback_url', 'parametrization', 'rq_job_id', 'status', 'resulting_file_path']
+        read_only_fields = ['rq_job_id', 'status', 'resulting_file_path']
