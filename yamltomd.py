@@ -1,23 +1,31 @@
 #!/usr/bin/env python3
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
 from collections import OrderedDict
 from ruamel import yaml
 
-with open('templates/layer_attributes.md.jinja2') as f:
-    LAYER_ATTRIBUTES_TEMPLATE = Template(f.read())
-with open('templates/attribute_values.md.jinja2') as f:
-    ATTRIBUTE_VALUES_TEMPLATE = Template(f.read())
+env = Environment(loader=FileSystemLoader(searchpath='templates'))
+
+
+def do_dictsort_unless_ordered(value):
+    if isinstance(value, OrderedDict):
+        return value.items()
+    else:
+        return sorted(value.items())
+
+env.filters['dictsort_unless_ordered'] = do_dictsort_unless_ordered
+
+LAYER_ATTRIBUTES_TEMPLATE = env.get_template('layer_attributes.md.jinja2')
+ATTRIBUTE_VALUES_TEMPLATE = env.get_template('attribute_values.md.jinja2')
 
 
 def yaml_to_md(layer_name, layer_definition, out):
     out.write('## ' + layer_name + '\n\n')
 
     attributes = layer_definition['attributes']
-    attributes = OrderedDict(sorted(attributes.items()))
 
     out.write(LAYER_ATTRIBUTES_TEMPLATE.render(attributes=attributes))
 
-    for attribute_name, attribute in attributes.items():
+    for attribute_name, attribute in do_dictsort_unless_ordered(attributes):
         try:
             values = attribute['values']
         except KeyError:
@@ -27,18 +35,16 @@ def yaml_to_md(layer_name, layer_definition, out):
             write_attribute_values_table(attribute_name, values, out)
 
 
-def write_attribute_values_table(attribute_name, sorted_values, out):
-    sorted_values = OrderedDict(sorted(sorted_values.items()))
-
+def write_attribute_values_table(attribute_name, attribute_values, out):
     correlated_attributes = set()
-    for definition in sorted_values.values():
+    for definition in attribute_values.values():
         for name, _ in definition.get('correlated_attributes', {}).items():
             correlated_attributes.add(name)
 
     out.write(
         ATTRIBUTE_VALUES_TEMPLATE.render(
             attribute_name=attribute_name,
-            attribute_values=sorted_values,
+            attribute_values=attribute_values,
             correlated_attributes=correlated_attributes,
         )
     )

@@ -3,74 +3,74 @@ layers:
     attributes:
       "type":
         type: text
-        values:
-          "admin_level1":
-            osm_tags:
-              - "boundary": 'administrative'
-                "admin_level": '1'
-            description: Efnahags-loegsaga(Exclusive Economic Zone) use in Iceland
-          "national":
-            osm_tags:
-              - "boundary": 'administrative'
-                "admin_level": '2'
-            description: "National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country)."
-          "admin_level3":
-            osm_tags:
-              - "boundary": 'administrative'
-                "admin_level": '3'
-            description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
-          "admin_level4":
-            osm_tags:
-              - "boundary": 'administrative'
-                "admin_level": '4'
-            description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
-          "admin_level5":
-            osm_tags:
-              - "boundary": 'administrative'
-                "admin_level": '5'
-            description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
-          "admin_level6":
-            osm_tags:
-              - "boundary": 'administrative'
-                "admin_level": '6'
-            description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
-          "admin_level7":
-            osm_tags:
-              - "boundary": 'administrative'
-                "admin_level": '7'
-            description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
-          "admin_level8":
-            osm_tags:
-              - "boundary": 'administrative'
-                "admin_level": '8'
-            description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
-          "admin_level9":
-            osm_tags:
-              - "boundary": 'administrative'
-                "admin_level": '9'
-            description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
-          "admin_level10":
-            osm_tags:
-              - "boundary": 'administrative'
-                "admin_level": '10'
-            description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
-          "admin_level11":
-            osm_tags:
-              - "boundary": 'administrative'
-                "admin_level": '11'
-            description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
-          "administrative":
-            osm_tags:
-              - "admin_level": '*'
-            description: 'All empty or User input admin_level values to be placed under'
-          "national_park":
-            osm_tags:
-              - "boundary": 'national_park'
-            description: 'A national park is a relatively large area of land declared by a government, to be set aside for human recreation and enjoyment, animal and environmental protection.'
-          "protected_area":
-            osm_tags:
-              - "boundary": 'protected_area'
-            description: 'Protected areas, such as for national-parks, water protection areas or indigenous areas.'
+        values: !!omap
+          - "admin_level1":
+              osm_tags:
+                - "boundary": 'administrative'
+                  "admin_level": '1'
+              description: Efnahags-loegsaga(Exclusive Economic Zone) use in Iceland
+          - "national":
+              osm_tags:
+                - "boundary": 'administrative'
+                  "admin_level": '2'
+              description: "National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country)."
+          - "admin_level3":
+              osm_tags:
+                - "boundary": 'administrative'
+                  "admin_level": '3'
+              description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+          - "admin_level4":
+              osm_tags:
+                - "boundary": 'administrative'
+                  "admin_level": '4'
+              description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+          - "admin_level5":
+              osm_tags:
+                - "boundary": 'administrative'
+                  "admin_level": '5'
+              description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+          - "admin_level6":
+              osm_tags:
+                - "boundary": 'administrative'
+                  "admin_level": '6'
+              description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+          - "admin_level7":
+              osm_tags:
+                - "boundary": 'administrative'
+                  "admin_level": '7'
+              description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+          - "admin_level8":
+              osm_tags:
+                - "boundary": 'administrative'
+                  "admin_level": '8'
+              description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+          - "admin_level9":
+              osm_tags:
+                - "boundary": 'administrative'
+                  "admin_level": '9'
+              description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+          - "admin_level10":
+              osm_tags:
+                - "boundary": 'administrative'
+                  "admin_level": '10'
+              description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+          - "admin_level11":
+              osm_tags:
+                - "boundary": 'administrative'
+                  "admin_level": '11'
+              description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+          - "administrative":
+              osm_tags:
+                - "admin_level": '*'
+              description: 'All empty or User input admin_level values to be placed under'
+          - "national_park":
+              osm_tags:
+                - "boundary": 'national_park'
+              description: 'A national park is a relatively large area of land declared by a government, to be set aside for human recreation and enjoyment, animal and environmental protection.'
+          - "protected_area":
+              osm_tags:
+                - "boundary": 'protected_area'
+              description: 'Protected areas, such as for national-parks, water protection areas or indigenous areas.'
   "boundary_l": *layer_adminarea_a
   "building_a":
     attributes:
