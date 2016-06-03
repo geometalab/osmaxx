@@ -6,7 +6,7 @@ from osmaxx.conversion_api.statuses import STARTED, FAILED, FINISHED
 
 
 @pytest.mark.django_db()
-def test_job_stati_for_jobs(started_conversion_job, failed_conversion_job, finished_conversion_job):
+def test_job_statuses_for_jobs(started_conversion_job, failed_conversion_job, finished_conversion_job):
     assert started_conversion_job.status == STARTED
     assert failed_conversion_job.status == FAILED
     assert finished_conversion_job.status == FINISHED
