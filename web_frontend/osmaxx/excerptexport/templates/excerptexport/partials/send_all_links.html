@@ -1,5 +1,0 @@
-{% load i18n %}
-
-<a href="mailto:?subject=Download%20map%20data%20of%20{{ extraction_order.excerpt_name }}&body={% for file in extraction_order.output_files.all %}{% if not file.deleted_on_filesystem %}{% include 'excerptexport/partials/content_file_type_description.html' with content_type=file.content_type %} ({{ file.content_type }}): http://{{ host_domain }}{% url 'excerptexport:download' uuid=file.public_identifier %}%0D%0A{% endif %}{% endfor %}">
-    <button>&#9993; {% trans 'Send all links' %}</button>
-</a>

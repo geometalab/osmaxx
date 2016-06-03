@@ -20,16 +20,6 @@ INSTALLED_APPS += (
     'raven.contrib.django.raven_compat',
 )
 
-# STORAGE CONFIGURATION
-# ------------------------------------------------------------------------------
-# Uploaded Media Files
-# ------------------------
-# See: http://django-storages.readthedocs.org/en/latest/index.html
-# we are prepared for this but aren't using it right now
-INSTALLED_APPS += (
-    # 'storages',
-)
-
 # Static Assets
 # ------------------------
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
@@ -53,8 +43,8 @@ if SENTRY_DSN:
         },
         'handlers': {
             'sentry': {
-                'level': 'ERROR',
-                'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler'
+                'level': 'WARNING',
+                'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
             },
             'console': {
                 'level': 'DEBUG',
@@ -65,7 +55,7 @@ if SENTRY_DSN:
         'loggers': {
             'django.db.backends': {
                 'level': 'ERROR',
-                'handlers': ['console'],
+                'handlers': ['console', 'sentry'],
                 'propagate': False,
             },
             'raven': {

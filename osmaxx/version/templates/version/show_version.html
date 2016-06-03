@@ -1,0 +1,20 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Osmaxx Version</title>
+</head>
+
+<body>
+<p>
+{% if DEBUG %}
+    <b style="color: #ff0000">DEBUG IS ON</b>
+{% else %}
+    <b style="color: #00ff00">DEBUG is off</b>
+{% endif %}
+</p>
+<h1>Version in use: {{ version_number }}</h1>
+<h2>Actual Version Running: {{ actual_version }}</h2>
+</body>
+</html>

@@ -5,17 +5,17 @@ import sys
 from setuptools import setup
 
 
-name = 'osmaxx-web-frontend'
-package = 'web_frontend'
-description = 'Osmaxx Frontend'
-url = 'https://github.com/geometalab/osmaxx'
-author = 'Raphael Das Gupta, Tobias Blaser, Nicola Jordan'
-author_email = 'dasg@hsr.ch, tblaser@hsr.ch, njordan.hsr@gmail.com'
+name = 'geometalab.osmaxx'
+package = 'osmaxx'
+description = 'conversion REST service API Frontend for Osmaxx'
+url = 'https://github.com/geometalab/osmaxx-conversion-service'
+author = 'Raphael Das Gupta, Nicola Jordan, Dhruv Sharma, Tobias Blaser, Eugene Phua, Bhavya Chandra, Benedita Tanabi'
+author_email = 'geometalab@hsr.ch'
 license = 'MIT'
 
 
 def get_requirements():
-    requirements_file_path = os.path.join(os.path.dirname(__file__), package, 'requirements', 'local.txt')
+    requirements_file_path = os.path.join(os.path.dirname(__file__), 'requirements.txt')
     # when using tox, requirements.txt doesn't exist in the temp dir created by tox
     if os.path.exists(requirements_file_path):
         from pip.req import parse_requirements
@@ -30,8 +30,7 @@ def get_version(package):
     """
     Return package version as listed in `__version__` in `init.py`.
     """
-    # TODO: move version to top level package
-    init_py = open(os.path.join(package, 'osmaxx', '__init__.py')).read()
+    init_py = open(os.path.join(package, '__init__.py')).read()
     return re.search("^__version__ = ['\"]([^'\"]+)['\"]",
                      init_py, re.MULTILINE).group(1)
 
@@ -96,6 +95,7 @@ setup(
         'Operating System :: OS Independent',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Topic :: Internet :: WWW/HTTP',
     ]

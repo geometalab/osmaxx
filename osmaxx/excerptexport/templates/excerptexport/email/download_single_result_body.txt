@@ -1,0 +1,4 @@
+{% load whitespace_cleanup navigation %}
+{% filter strip %}
+    {% include 'excerptexport/partials/content_file_type_description.html' with content_type=file.export.file_format %}
+{% endfilter %} ({{ file.content_type }}): {{ file.get_file_media_url_or_status_page | siteabsoluteurl:request }}

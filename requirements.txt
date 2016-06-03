@@ -1,0 +1,69 @@
+# Minimum Django and REST framework version
+Django>=1.9,<1.10
+djangorestframework>=3.2,<3.4
+djangorestframework-gis>=0.10,<0.11
+djangorestframework-jwt==1.7.2
+django-enumfield==1.3b2
+requests==2.8.1
+markdown
+django-filter
+rq==0.5.6
+django-rq==0.9.0
+django-environ==0.4.0
+django-extensions==1.5.9
+Werkzeug==0.10.4
+django-debug-toolbar==1.4
+whitenoise>=2.0,<3.0
+django-downloadview>=1.8,<2.0
+psycopg2>=2.6,<2.7
+SQLAlchemy>=1.0,<2.0
+SQLAlchemy-Utils>=0.31.6,<0.40
+sqlalchemy-views>=0.2.1,<0.3
+GeoAlchemy2>=0.2.0,<0.4
+
+# pbf estimation service
+geometalab.osm-pbf-file-size-estimation-service>=0.0.6,<1.0.0
+
+# Test requirements
+pytest-django==2.9.1
+pytest-cov==2.2.0
+pytest-mock==0.10.1
+pytest-selenium==1.2.1
+flake8==2.4.1
+
+# wheel for PyPI installs
+wheel==0.26.0
+
+# MkDocs for documentation previews/deploys
+mkdocs==0.14.0
+
+# Extended linting support (Prospector)
+prospector==0.10.2
+pyroma==1.8.2
+vulture==0.8.1
+
+coverage
+pyhamcrest==1.9.0
+vcrpy
+requests-mock
+
+django-model-utils==2.4
+django-secure==1.0.1
+django-stored-messages==1.4.0
+django-crispy-forms==1.5.2
+
+python-social-auth==0.2.12
+
+# WSGI Handler
+# needed for production and docker images
+# ------------------------------------------------
+gevent==1.0.2
+PyYAML>=3.11
+
+# production
+gunicorn>=19,<20
+
+# sentry error logging on production
+raven>=5.8,<6
+
+ipython

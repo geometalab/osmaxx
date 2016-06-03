@@ -2,10 +2,10 @@
 Django settings for osmaxx project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/1.8/topics/settings/
+https://docs.djangoproject.com/en/1.9/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.8/ref/settings/
+https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 # flake8: noqa
 import os
@@ -21,8 +21,6 @@ ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 APPS_DIR = ROOT_DIR.path('osmaxx')
 
 env = environ.Env()
-
-TEMPLATE_DIRS = ()
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -53,10 +51,14 @@ THIRD_PARTY_APPS = (
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'version',
+    'osmaxx.version',
 
+    'osmaxx.countries',
+    'osmaxx.conversion_api',
     'osmaxx.excerptexport',
+    'osmaxx.job_progress',
     'osmaxx.social_auth',
+    'osmaxx.core',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -72,6 +74,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'osmaxx.job_progress.middleware.ExportUpdaterMiddleware',
 )
 
 # MIGRATIONS CONFIGURATION
@@ -214,18 +217,16 @@ STATICFILES_FINDERS = (
 # data & media
 
 MEDIA_ROOT = env.str('DJANGO_MEDIA_ROOT', default=str(ROOT_DIR('..', 'media')))
-PRIVATE_MEDIA_ROOT = env.str('DJANGO_PRIVATE_MEDIA_ROOT', default=str(ROOT_DIR.path('..', 'private_media')))
-RESULT_MEDIA_ROOT = env.str('DJANGO_RESULT_MEDIA_ROOT', default=str(ROOT_DIR.path('..', 'results_media')))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
 
 # URL Configuration
 # ------------------------------------------------------------------------------
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'web_frontend.config.urls'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = 'web_frontend.config.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.open_id.OpenIdAuth',
@@ -306,7 +307,11 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': env.str('DJANGO_LOG_LEVEL', default='DEBUG'),
+            'level': env.str('DJANGO_LOG_LEVEL', default='INFO'),
+        },
+        'osmaxx': {
+            'handlers': ['console'],
+            'level': env.str('DJANGO_LOG_LEVEL', default='INFO'),
         },
     },
 }
@@ -375,8 +380,6 @@ MESSAGE_TAGS = {
 
 OSMAXX = {
     'download_file_name': '%(date)s-%(excerpt_name)s-%(id)s.%(content_type)s.%(file_extension)s',
-    'download_chunk_size': 8192,
-    'orders_history_number_of_items': 100,
     'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timezone.timedelta(
         hours=env.int('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=24)
     ),

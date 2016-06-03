@@ -1,0 +1,25 @@
+{% extends 'osmaxx/base.html' %}
+{% load staticfiles %}
+{% block extracss %}
+<link rel="stylesheet" type="text/css" href='{% static "excerptexport/libraries/leaflet/leaflet.css" %}' />
+{% endblock %}
+
+{% block main %}
+<div class="container-row">
+    <h2>Content</h2>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {# Helpers #}
+    <script type="text/javascript" src="{% static 'excerptexport/scripts/helperFunctions.js' %}"></script>
+
+    {# MAP SCRIPTS #}
+    <script src='{% static "excerptexport/libraries/leaflet/leaflet.js" %}'></script>
+    <script>L.Path.CLIP_PADDING = 1.0;</script>
+
+    {# Leaflet plugins #}
+    <script src='{% static "excerptexport/libraries/Leaflet.Spin/spin.min.js" %}'></script>
+    <script src='{% static "excerptexport/libraries/Leaflet.Spin/leaflet.spin.js" %}'></script>
+    <script src='{% static "excerptexport/libraries/leaflet-ajax/leaflet.ajax.min.js" %}'></script>
+{% endblock %}

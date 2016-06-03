@@ -1,0 +1,7 @@
+.cache/
+*.egg*/
+rq-dashboard/
+/html/
+
+.*
+!.git

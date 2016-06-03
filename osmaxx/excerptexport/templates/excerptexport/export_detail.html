@@ -1,0 +1,53 @@
+{% extends 'excerptexport/base.html' %}{% load i18n capture_as email_bodies static %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'excerptexport:export_list' %}">{% trans 'My Exports' %}</a></li>
+    <li class="active">{% trans 'Exports' %}{% if exports %}{% with excerpt=exports.0.extraction_order.excerpt %} {{ excerpt.name }}{% endwith %}{% endif %}</li>
+{% endblock %}
+
+
+{% block main %}
+    <div class="container-row content">
+        <div class="col-lg-10">
+            {% if exports %}
+                {% with excerpt=exports.0.extraction_order.excerpt %}
+                    <div class="row">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">{{ excerpt.name }}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-lg-6">
+                                    {% for export in exports %}
+                                        {% include 'excerptexport/partials/export_display.html' %}
+                                    {% endfor %}
+                                </div>
+                                <div class="col-lg-6">
+                                    {% with min_height=70 %}
+                                        {% include 'excerptexport/partials/minimap.html' %}
+                                    {% endwith %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endwith %}
+            {% else %}
+                {% comment %}
+                    This will also be shown when the user has no access to this export data,
+                    i.e. trying to access somebody else's data. Be friendly :-)
+                {% endcomment %}
+                {% include 'excerptexport/partials/no_exports_message.html' %}
+            {% endif %}
+        </div>
+        <div class="col-lg-2">
+            {% include 'excerptexport/partials/export_sidebar.html' %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ block.super }}
+    <script src='{% static "excerptexport/scripts/maps/excerpt_viewer.js" %}'></script>
+    <script src='{% static "excerptexport/scripts/maps/minimap.js" %}'></script>
+{% endblock %}

@@ -1,0 +1,92 @@
+version: '2'
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "8888:80"
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - ./osmaxx:/home/py/osmaxx
+      - ./web_frontend:/home/py/web_frontend
+      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+    ports:
+      - "8000:8000"
+    command: [honcho, -f, ./web_frontend/Procfile.django.dev, start]
+    environment:
+      - DJANGO_ALLOWED_HOSTS=*
+      - DJANGO_SECRET_KEY=insecure!1
+      - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.local
+      - DJANGO_DEBUG=true
+#      this is the most common used docker-ip connecting from localhost to docker network
+      - DJANGO_INTERNAL_IPS=172.19.0.1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 1M
+  mediator:
+    build:
+      context: .
+      dockerfile: Dockerfile.mediator
+    ports:
+      - "8901:8901"
+    volumes:
+      - ./osmaxx:/home/py/osmaxx
+      - ./web_frontend:/home/py/web_frontend
+      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.dev, start]
+    environment:
+      - DJANGO_SECRET_KEY=insecure!2
+      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 1M
+  worker:
+    extends:
+      file: docker-compose-common.yml
+      service: conversionbase
+    volumes:
+      - ./osmaxx:/home/py/osmaxx
+      - ./web_frontend:/home/py/web_frontend
+      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
+    environment:
+      - DJANGO_SECRET_KEY=insecure!3
+      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 1M
+  world-database:
+    command: postgres -B 1GB -F -N 512 -S 1GB --max_wal_size=1GB
+    ports:
+      - "5433:5432"
+  osm_importer:
+    command: >
+      sh -c "
+      mkdir -p /var/data/osm-planet/pbf &&
+      wget -O /tmp/monaco-latest.osm.pbf http://download.geofabrik.de/europe/monaco-latest.osm.pbf &&
+      wget -O /tmp/switzerland-latest.osm.pbf http://download.geofabrik.de/europe/switzerland-latest.osm.pbf &&
+      osmconvert /tmp/monaco-latest.osm.pbf -o=/tmp/monaco-latest.osm &&
+      osmconvert /tmp/switzerland-latest.osm.pbf -o=/tmp/switzerland-latest.osm &&
+      osmconvert /tmp/monaco-latest.osm /tmp/switzerland-latest.osm -o=/var/data/osm-planet/pbf/planet-latest.osm.pbf &&
+      osm2pgsql -c --number-processes 8 -H database -U gis -d gis --slim -C 2000 --prefix osm --hstore --latlon --style /root/styles/terminal.style --tag-transform-script /root/styles/tag_transform_style.lua /var/data/osm-planet/pbf/planet-latest.osm.pbf
+      "
+    environment:
+      - ram_cache=2000  # in megabytes
+      - num_processes=8
+      - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/switzerland-updates/
+      - osm_planet_mirror=http://download.geofabrik.de/
+      - osm_planet_path_relative_to_mirror=europe/switzerland-latest.osm.pbf
+  osmboundaries-database:
+    command: postgres -B 1GB -F -S 1GB
+    ports:
+      - "5442:5432"

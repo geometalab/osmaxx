@@ -1,0 +1,26 @@
+FROM geometalab/python3-gis
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y git
+
+ENV USER py
+
+ENV HOME /home/$USER
+
+WORKDIR $HOME
+
+# if you update your requirements, please update this to the actual date/time, 
+# otherwise docker uses the cache from the intermediate image build (not re-running pip3).
+ENV REQS_LAST_UPDATED 04-05-2016 8:50
+
+ADD ./requirements.txt $HOME/requirements.txt
+
+RUN pip3 install -r requirements.txt
+
+# TODO: this is just a temporary solution, use pip for production as soon as geometalab.osmaxx is published there
+ADD ./ $HOME
+
+RUN mkdir -p $HOME/docker_entrypoint/osmaxx/web_frontend $HOME/entrypoint
+COPY ./docker_entrypoint/osmaxx/web_frontend $HOME/entrypoint
+COPY ./docker_entrypoint/wait-for-it/wait-for-it.sh $HOME/entrypoint/wait-for-it.sh
+
+ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]

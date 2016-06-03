@@ -1,0 +1,27 @@
+interactions:
+- request:
+    body: !!binary |
+      eyJuZXh0IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODkwMS9hcGkvIiwgInBhc3N3b3JkIjogImludmFs
+      aWQiLCAidXNlcm5hbWUiOiAiZGV2In0=
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['80']
+      Content-Type: [application/json; charset=UTF-8]
+      Referer: ['http://localhost:8901/api/token-auth/']
+      User-Agent: [python-requests/2.8.1]
+    method: POST
+    uri: http://localhost:8901/api/token-auth/
+  response:
+    body: {string: '{"non_field_errors":["Unable to login with provided credentials."]}'}
+    headers:
+      Allow: ['POST, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 11 May 2016 10:04:12 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
+      Vary: [Accept]
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 400, message: Bad Request}
+version: 1

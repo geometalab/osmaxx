@@ -1,0 +1,39 @@
+{% extends "excerptexport/base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li>{% trans 'Home' %}</li>
+{% endblock %}
+
+
+{% block main %}
+    <div class="container-row content">
+        <h2>{% trans 'Overview' %}</h2>
+        <p>{% blocktrans %}Welcome to the <strong>OSM Arbitrary Excerpt Export</strong> service.{% endblocktrans %}
+            {% if not user.is_authenticated %}
+            <br />{% trans 'Please' %} <a href="{% url 'excerptexport:login' %}">{% trans 'login' %}</a> {% trans 'or' %}
+            <a href="http://www.clavid.ch" target="_blank">{% trans 'create an "OpenID" account' %}</a> {% trans 'to login.' %}
+            {% endif %}
+        </p>
+        <nav>
+            <ul>
+                <li>
+                    <span class="icon">&#x27bd;</span>&nbsp;
+                    <a href="{% url 'excerptexport:order_existing_excerpt' %}">{% trans 'Export existing excerpt or country' %}</a>
+                </li>
+                <li>
+                    <span class="icon">&#8983;</span>&nbsp;
+                    <a href="{% url 'excerptexport:order_new_excerpt' %}">{% trans 'Export new excerpt' %}</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li>
+                    <span class="icon">&#x2637;</span>&nbsp;
+                    <a href="{% url 'excerptexport:export_list' %}">{% trans 'My exports' %}</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endblock %}

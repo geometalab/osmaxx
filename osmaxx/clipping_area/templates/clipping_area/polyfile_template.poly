@@ -1,0 +1,5 @@
+{% if name %}{{ name }}{% else %}none{% endif %}{% for polygon in multipolygon %}{% with forloop.counter as polygon_count %}{% for polygon_ring in polygon %}
+{% if forloop.counter != 1 %}!{% endif %}{{ polygon_count }}-{% if forloop.counter != 1 %}inner-{{ forloop.counter0 }}{% else %}outer{% endif %}{% for x,y in polygon_ring %}
+  {{ x|stringformat:"E" }} {{ y|stringformat:"E" }}{% endfor %}
+END{% endfor %}{% endwith %}{% endfor %}
+END

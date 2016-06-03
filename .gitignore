@@ -1,10 +1,16 @@
-source/data
+*.pyc
+*.db
+*~
+.*
+compose-env/
 
-# Byte-compiled / optimized / DLL files
+# Documentation builds
+/html/
 __pycache__/
 *.py[cod]
-
-# C extensions
+# `coverage` reports
+htmlcov/
+coverage/
 *.so
 
 # Distribution / packaging
@@ -21,6 +27,7 @@ parts/
 sdist/
 var/
 *.egg-info/
+MANIFEST
 .installed.cfg
 *.egg
 
@@ -49,6 +56,9 @@ coverage.xml
 # Django stuff:
 *.log
 
+# Files of locally running osmaxx frontend instance:
+private_media/
+
 # Sphinx documentation
 docs/_build/
 
@@ -61,14 +71,21 @@ source/test_db.sqlite3
 # linux trash
 *.*~
 
-# vagrant
-.vagrant
+# venv
+bin/
+include/
+lib/
+local/
 
-# IDE trash
-.idea/*
 
-# ln -s docker-compose.yml compose-development.yml
-docker-compose.yml
+# Hidden by naming convention, but tracked anyway:
+!.dockerignore
+!.gitignore
+!.travis.yml
+!.coveragerc
+!osmaxx/conversion/converters/converter_garmin/command_line_utils/mkgmap/lib
+!osmaxx/conversion/converters/converter_garmin/command_line_utils/splitter/lib
+
 web_frontend/src/
 # ignore environment file for local production environment
 .env

@@ -1,18 +1,18 @@
+from django.conf import settings
 from django.conf.urls import include, url
+from django.conf.urls.static import static
 from django.contrib import admin
 
-from social.apps.django_app import urls as social_urls
-
-from osmaxx.excerptexport import urls as excerptexport_urls
-from version.urls import version_urls
-
 urlpatterns = [
-    url(r'', include(excerptexport_urls, namespace='excerptexport')),
+    url(r'', include('osmaxx.excerptexport.urls', namespace='excerptexport')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'', include(social_urls, namespace='social')),
-    url(r'^version/$', include(version_urls, namespace='version')),
+    url(r'', include('social.apps.django_app.urls', namespace='social')),
+    url(r'^version/', include('osmaxx.version.urls', namespace='version')),
     # browsable REST API
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('osmaxx.excerptexport.rest_api.urls', namespace='excerptexport_api')),
     url(r'^job_progress/', include('osmaxx.job_progress.urls', namespace='job_progress')),
-]
+    url(r'^pages/', include('osmaxx.core.urls', namespace='pages')),
+] + \
+    static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, show_indexes=True) + \
+    static(settings.STATIC_URL, document_root=settings.STATIC_ROOT, show_indexes=True)

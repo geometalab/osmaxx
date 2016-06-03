@@ -1,17 +1,12 @@
-# Osmaxx
+[![Build Status](https://travis-ci.org/geometalab/osmaxx-frontend.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx-frontend) ([branch `master`](https://github.com/geometalab/osmaxx-frontend/tree/master))
 
-[![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx) ([branch `master`](https://github.com/geometalab/osmaxx/tree/master))
+Django-based Web Frontend for **osmaxx**.
 
-Short project name for "<strong>O</strong>pen<strong>S</strong>treet<strong>M</strong>ap <strong>a</strong>rbitrary e<strong>x</strong>cerpt e<strong>x</strong>port".
-
-Cuts out OpenStreetMap data, processes it to geodata and converts it to typical GIS fileformats before being prepared for download.
-
-Website: http://osmaxx.hsr.ch/
-
+For deploying a complete **osmaxx** setup, see https://github.com/geometalab/osmaxx
 
 ## Development
 
-[![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx) ([branch `develop`](https://github.com/geometalab/osmaxx/tree/develop))
+[![Build Status](https://travis-ci.org/geometalab/osmaxx-frontend.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx-frontend) ([branch `develop`](https://github.com/geometalab/osmaxx-frontend/tree/develop))
 
 * [Project Repository (Git)](/docs/git-repository.md)
 * [Project Development Environment (Docker)](/docs/project-development-environment.md)
@@ -25,21 +20,42 @@ We do not recommend to run the application local on your machine but it's possib
 
 ### Prerequisites
 
-To run this project locally, you need **docker 1.9** and **docker-compose 1.5** installed
-(https://docs.docker.com/installation/ubuntulinux/ and https://docs.docker.com/compose/install/).
+To run this project locally, you need [sufficiently recent versions](/docs/project-development-environment.md#local-prerequisites) of [docker](/docs/project-development-environment.md#dependency_docker) and [docker-compose](/docs/project-development-environment.md#dependency_docker-compose) installed.
 
 
 ### Initialization
 
+#### Development
+
+Simply run
+
 ```shell
-# For development:
-ln -s compose-development.yml docker-compose.yml
+make local_dev_env
+```
+
+to set up `*.env` files suitable for local use of our docker-compose files. **Do not use this for production!** It will make use of insecure and hard coded passwords.
+
+#### Production
+
+Copy the environment folder `compose-env-dist` to `compose-env` and adapt the latter's content.
+
+```shell
+cp -r compose-env-dist compose-env
+# Then, edit compose-env/*.env
 ```
 
 ### Docker container bootstrapping
 
-Take a look at the script ```setup.development.sh```.
-These script will setup the container forest, run migrations and create a superuser (interactive).
+
+#### Development 
+
+For the rest of the readme, if in development:
+
+* set `DEPLOY_VERSION` to `local` (`export DEPLOY_VERSION=local`)
+* use `docker-compose -f docker-compose.yml -f docker-compose-dev.yml`
+
+or source the helper script `source activate_local_development`. This enables to use `docker-compose` without
+all the `-f` options and without needing to specify `DEPLOY_VERSION`.
 
 To setup all the containers and their dependencies by hand, run
 
@@ -47,16 +63,32 @@ To setup all the containers and their dependencies by hand, run
 docker-compose build
 ```
 
+#### Production
+
+In production, you should be setting `DEPLOY_VERSION=xxx` before running any of the commands below, where `xxx` is
+the version you'd like to deploy.
+
+
+#### Generic
+
+The rest of the documentation can be followed independently if on production or on development. 
+
+Update the containers
+
+```shell
+docker-compose pull
+```
+
 Then initiate the project defaults by running the following command:
 
 ```shell
-docker-compose run webapp /bin/bash -c './manage.py createsuperuser'
+docker-compose run frontend /bin/bash -c './manage.py createsuperuser'
 ```
 
 Alternative to this command, bootstrap the container and execute the commands inside the container by hand:
 
 ```shell
-docker-compose run webapp /bin/bash
+docker-compose run frontend /bin/bash
 ```
 
 Inside the container:
@@ -74,7 +106,7 @@ docker-compose up
 
 Unsure which version is running?
 
-Go to `<your_ip>:8000/version/`.
+Go to `<your_ip>:8888/version/`.
 
 where `<your_ip>` is your public IP.
 
@@ -111,4 +143,5 @@ and remove all images
 
 `docker rmi -f $(docker images -q)`
 
-*WARNING*: This removes all containers/images on the machine.
+*WARNING*: This removes all containers/images on the machine and is
+discouraged in production.

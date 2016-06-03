@@ -1,0 +1,206 @@
+interactions:
+- request:
+    body: !!binary |
+      eyJuZXh0IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODkwMS9hcGkvIiwgInBhc3N3b3JkIjogImRldiIs
+      ICJ1c2VybmFtZSI6ICJkZXYifQ==
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['76']
+      Content-Type: [application/json; charset=UTF-8]
+      Referer: ['http://localhost:8901/api/token-auth/']
+      User-Agent: [python-requests/2.8.1]
+    method: POST
+    uri: http://localhost:8901/api/token-auth/
+  response:
+    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjEzNTIsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.hdGsW2_JWxtvTgi_NKDjqzxxshDfByEQjvTihRm9jIo"}'}
+    headers:
+      Allow: ['POST, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 11 May 2016 10:04:12 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
+      Vary: [Accept]
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      eyJuYW1lIjogIk5ldmVybGFuZCIsICJjbGlwcGluZ19tdWx0aV9wb2x5Z29uIjogeyJjb29yZGlu
+      YXRlcyI6IFtbW1s4LjgxNTkzNTU1MjEyMDIwOSwgNDcuMjIyMjIwNDg2ODE3Njc2XSwgWzguODE1
+      OTM1NTUyMTIwMjA5LCA0Ny4yMjQwMjc1MjMxMTUwNV0sIFs4LjgxODk4MjU0MTU2MTEyNywgNDcu
+      MjI0MDI3NTIzMTE1MDVdLCBbOC44MTg5ODI1NDE1NjExMjcsIDQ3LjIyMjIyMDQ4NjgxNzY3Nl0s
+      IFs4LjgxNTkzNTU1MjEyMDIwOSwgNDcuMjIyMjIwNDg2ODE3Njc2XV1dXSwgInR5cGUiOiAiTXVs
+      dGlQb2x5Z29uIn19
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjEzNTIsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.hdGsW2_JWxtvTgi_NKDjqzxxshDfByEQjvTihRm9jIo]
+      Connection: [keep-alive]
+      Content-Length: ['297']
+      Content-Type: [application/json; charset=UTF-8]
+      User-Agent: [python-requests/2.8.1]
+    method: POST
+    uri: http://localhost:8901/api/clipping_area/
+  response:
+    body: {string: '{"id":9,"name":"Neverland","clipping_multi_polygon":{"type":"MultiPolygon","coordinates":[[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]]}}'}
+    headers:
+      Allow: ['GET, POST, HEAD, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 11 May 2016 10:04:12 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
+      Vary: ['Accept, Cookie']
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 201, message: Created}
+- request:
+    body: !!binary |
+      eyJuZXh0IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODkwMS9hcGkvIiwgInBhc3N3b3JkIjogImRldiIs
+      ICJ1c2VybmFtZSI6ICJkZXYifQ==
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['76']
+      Content-Type: [application/json; charset=UTF-8]
+      Referer: ['http://localhost:8901/api/token-auth/']
+      User-Agent: [python-requests/2.8.1]
+    method: POST
+    uri: http://localhost:8901/api/token-auth/
+  response:
+    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjEzNTIsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.hdGsW2_JWxtvTgi_NKDjqzxxshDfByEQjvTihRm9jIo"}'}
+    headers:
+      Allow: ['POST, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 11 May 2016 10:04:12 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
+      Vary: [Accept]
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      eyJvdXRfc3JzIjogIjQzMjYiLCAib3V0X2Zvcm1hdCI6ICJmZ2RiIiwgImNsaXBwaW5nX2FyZWEi
+      OiA5fQ==
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjEzNTIsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.hdGsW2_JWxtvTgi_NKDjqzxxshDfByEQjvTihRm9jIo]
+      Connection: [keep-alive]
+      Content-Length: ['61']
+      Content-Type: [application/json; charset=UTF-8]
+      User-Agent: [python-requests/2.8.1]
+    method: POST
+    uri: http://localhost:8901/api/conversion_parametrization/
+  response:
+    body: {string: '{"id":13,"out_format":"fgdb","out_srs":4326,"clipping_area":9}'}
+    headers:
+      Allow: ['GET, POST, HEAD, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 11 May 2016 10:04:12 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
+      Vary: ['Accept, Cookie']
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 201, message: Created}
+- request:
+    body: !!binary |
+      eyJwYXJhbWV0cml6YXRpb24iOiAxMywgImNhbGxiYWNrX3VybCI6ICJodHRwOi8vdGhlLWhvc3Qu
+      ZXhhbXBsZS5jb20vb3JkZXJzL25ldy9uZXdfZXhjZXJwdC8ifQ==
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjEzNTIsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.hdGsW2_JWxtvTgi_NKDjqzxxshDfByEQjvTihRm9jIo]
+      Connection: [keep-alive]
+      Content-Length: ['94']
+      Content-Type: [application/json; charset=UTF-8]
+      User-Agent: [python-requests/2.8.1]
+    method: POST
+    uri: http://localhost:8901/api/conversion_job/
+  response:
+    body: {string: '{"id":13,"callback_url":"http://the-host.example.com/orders/new/new_excerpt/","parametrization":13,"rq_job_id":"feea04ff-591e-476c-905b-0f11dc0a6396","status":"received","resulting_file":null}'}
+    headers:
+      Allow: ['GET, POST, HEAD, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 11 May 2016 10:04:12 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
+      Vary: ['Accept, Cookie']
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 201, message: Created}
+- request:
+    body: !!binary |
+      eyJuZXh0IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODkwMS9hcGkvIiwgInBhc3N3b3JkIjogImRldiIs
+      ICJ1c2VybmFtZSI6ICJkZXYifQ==
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['76']
+      Content-Type: [application/json; charset=UTF-8]
+      Referer: ['http://localhost:8901/api/token-auth/']
+      User-Agent: [python-requests/2.8.1]
+    method: POST
+    uri: http://localhost:8901/api/token-auth/
+  response:
+    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjEzNTIsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.hdGsW2_JWxtvTgi_NKDjqzxxshDfByEQjvTihRm9jIo"}'}
+    headers:
+      Allow: ['POST, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 11 May 2016 10:04:12 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
+      Vary: [Accept]
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      eyJvdXRfc3JzIjogIjQzMjYiLCAib3V0X2Zvcm1hdCI6ICJzcGF0aWFsaXRlIiwgImNsaXBwaW5n
+      X2FyZWEiOiA5fQ==
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjEzNTIsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.hdGsW2_JWxtvTgi_NKDjqzxxshDfByEQjvTihRm9jIo]
+      Connection: [keep-alive]
+      Content-Length: ['67']
+      Content-Type: [application/json; charset=UTF-8]
+      User-Agent: [python-requests/2.8.1]
+    method: POST
+    uri: http://localhost:8901/api/conversion_parametrization/
+  response:
+    body: {string: '{"id":14,"out_format":"spatialite","out_srs":4326,"clipping_area":9}'}
+    headers:
+      Allow: ['GET, POST, HEAD, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 11 May 2016 10:04:12 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
+      Vary: ['Accept, Cookie']
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 201, message: Created}
+- request:
+    body: !!binary |
+      eyJwYXJhbWV0cml6YXRpb24iOiAxNCwgImNhbGxiYWNrX3VybCI6ICJodHRwOi8vdGhlLWhvc3Qu
+      ZXhhbXBsZS5jb20vb3JkZXJzL25ldy9uZXdfZXhjZXJwdC8ifQ==
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjEzNTIsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.hdGsW2_JWxtvTgi_NKDjqzxxshDfByEQjvTihRm9jIo]
+      Connection: [keep-alive]
+      Content-Length: ['94']
+      Content-Type: [application/json; charset=UTF-8]
+      User-Agent: [python-requests/2.8.1]
+    method: POST
+    uri: http://localhost:8901/api/conversion_job/
+  response:
+    body: {string: '{"id":14,"callback_url":"http://the-host.example.com/orders/new/new_excerpt/","parametrization":14,"rq_job_id":"5e751a99-51ad-4c01-834c-380c76b2bd4b","status":"received","resulting_file":null}'}
+    headers:
+      Allow: ['GET, POST, HEAD, OPTIONS']
+      Connection: [close]
+      Content-Type: [application/json]
+      Date: ['Wed, 11 May 2016 10:04:12 GMT']
+      Server: [Werkzeug/0.10.4 Python/3.4.2]
+      Vary: ['Accept, Cookie']
+      X-Frame-Options: [SAMEORIGIN]
+    status: {code: 201, message: Created}
+version: 1

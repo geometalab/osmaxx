@@ -1,0 +1,224 @@
+version: '2'
+services:
+  nginx:
+    image: geometalab/osmaxx-nginx:${DEPLOY_VERSION}
+    volumes:
+      - frontend-media:/data/frontend/media
+    depends_on:
+      - frontend
+    networks:
+      - osmaxx-internal
+  # if you change the names of the containers, please remember
+  # that you need to adapt REAMDE.md
+  ##### frontend START ########
+  frontend:
+    image: geometalab/osmaxx-frontend:${DEPLOY_VERSION}
+    extends:
+      file: docker-compose-common.yml
+      service: frontendbase
+    expose:
+      - "8000"
+    command: [honcho, -f, ./web_frontend/Procfile.django.prod, start]
+    volumes:
+      - frontend-data:/data
+      - frontend-results:/results
+      - frontend-media:/data/media
+    links:
+      - frontenddatabase:database
+      - mediator:conversion-service
+    env_file:
+      - ./compose-env/common.env
+      - ./compose-env/frontend.env
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_PORT=5432
+      - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+      - NUM_WORKERS=5
+    depends_on:
+      - frontenddatabase
+      - mediator
+    networks:
+      - osmaxx-internal
+  frontenddatabase:
+    image: geometalab/postgis:9.4
+    volumes:
+      - frontend-database-data:/database/data
+    environment:
+      - PGDATA=/database/data
+    networks:
+      - osmaxx-internal
+  ##### frontend END ########
+  ##### CONVERSION SERVICE START ########
+  mediator:
+    image: geometalab/osmaxx-mediator:${DEPLOY_VERSION}
+    extends:
+      file: docker-compose-common.yml
+      service: conversionbase
+    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.prod, start]
+    expose:
+      - "8901"
+    volumes:
+      - worker-data:/data/media/job_result_files
+    links:
+      - conversionserviceredis:redis
+      - mediatordatabase:database
+    env_file:
+      - ./compose-env/common.env
+      - ./compose-env/mediator.env
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      # comma separated list, no brackets, e.g. localhost,dev.myhost.com
+      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.production
+      - NUM_WORKERS=5
+    depends_on:
+      - conversionserviceredis
+      - mediatordatabase
+    networks:
+      - osmaxx-internal
+  worker:
+    image: geometalab/osmaxx-worker:${DEPLOY_VERSION}
+    extends:
+      file: docker-compose-common.yml
+      service: conversionbase
+    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
+    volumes:
+      - osm_data:/var/data/osm-planet
+      - worker-data:/data/media/job_result_files
+    links:
+      - conversionserviceredis:redis
+      - world-database
+      - osmboundaries-database
+    env_file:
+      - ./compose-env/worker.env
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
+    depends_on:
+      - conversionserviceredis
+      - world-database
+      - osmboundaries-database
+    networks:
+      - osm-world
+      - osmboundaries
+      - osmaxx-internal
+  conversionserviceredis:
+    image: redis
+    networks:
+      - osmaxx-internal
+  mediatordatabase:
+    image: geometalab/postgis:9.4
+    volumes:
+      - mediator-database-data:/database/data
+    environment:
+      - PGDATA=/database/data
+    networks:
+      - osmaxx-internal
+  ##### CONVERSION SERVICE END ########
+  ##### WORLD-DB START ########
+  world-database:
+    # to limit scaling to exactly 1, we need to specify the container name
+    container_name: osmworlddb_postgis
+    image: geometalab/osm_world_postgis
+    volumes:
+      - database-postgis-data:/var/lib/postgresql
+    command: postgres -B 12GB -F -N 512 -S 20GB --max_wal_size=5GB
+    environment:
+      - POSTGRES_DB=gis
+      - POSTGRES_USER=gis
+      - POSTGRES_PASSWORD=gis
+    networks:
+      - osm-world-internal
+      - osm-world
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50k
+  osm_importer:
+    # to limit scaling to exactly 1, we need to specify the container name
+    container_name: osmworlddb_osm_importer
+    image: geometalab/continuous-osm2pgsql:latest
+    command: /root/run.sh
+    links:
+      - world-database:database
+    depends_on:
+      - world-database
+    volumes:
+      - osm_data:/var/data/osm-planet
+      - osm_cache:/var/cache/osm-cache
+    environment:
+      - num_processes=16
+    networks:
+      - osm-world-internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50k
+  ##### WORLD-DB END ########
+  ##### OSM-BOUNDARIES START ######
+  osmboundaries-database:
+    # to limit scaling to exactly 1, we need to specify the container name
+    container_name: osmboundaries_postgis
+    image: geometalab/postgis:9.5
+    volumes:
+      - osmboundaries-postgis-data:/var/lib/postgresql
+    command: postgres -B 2GB -F -N 512 -S 2GB
+    environment:
+      - POSTGRES_DB=osmboundaries
+      - POSTGRES_USER=osmboundaries
+      - POSTGRES_PASSWORD=osmboundaries
+    networks:
+      - osmboundaries-internal
+      - osmboundaries
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50k
+  osmboundaries_importer:
+    # to limit scaling to exactly 1, we need to specify the container name
+    container_name: osmboundaries_importer
+    image: geometalab/osmboundaries:latest
+    depends_on:
+      - osmboundaries-database
+    environment:
+        # the same as the ones in the database above
+        - POSTGRES_DB=osmboundaries
+        - POSTGRES_USER=osmboundaries
+        - POSTGRES_PASSWORD=osmboundaries
+        # same as the link name/depends_on
+        - POSTGRES_HOST=osmboundaries-database
+    networks:
+      - osmboundaries-internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50k
+  ##### OSM-BOUNDARIES END ######
+volumes:
+  # osmaxx
+  frontend-database-data: {}
+  frontend-data: {}
+  frontend-media: {}
+  frontend-results: {}
+  mediator-database-data: {}
+  worker-data: {}
+  osmplanet-data: {}
+  # osm-world-db
+  osm_data: {}
+  osm_cache: {}
+  database-postgis-data: {}
+  osmboundaries-postgis-data: {}
+networks:
+  osmaxx-internal:
+    driver: bridge
+  osm-world:
+    driver: bridge
+  osm-world-internal:
+    driver: bridge
+  osmboundaries:
+    driver: bridge
+  osmboundaries-internal:
+    driver: bridge
