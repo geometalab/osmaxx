@@ -4,7 +4,7 @@ from django.dispatch import receiver
 work_after_request_finished = []
 
 
-def postpone_work_after_request_finished(function, *args, **kwargs):
+def postpone_work_until_request_finished(function, *args, **kwargs):
     work_after_request_finished.append(work(function, *args, **kwargs))
 
 
