@@ -55,14 +55,6 @@ class Job(models.Model):
     def zip_file_relative_path(self):
         return job_directory_path(self, '{}.{}'.format(self._filename_prefix(), 'zip'))
 
-    def get_download_url(self):
-        if not self.resulting_file.name:
-            return None
-        base_uri = self.own_base_url
-        if base_uri.endswith('/'):
-            base_uri = base_uri[:-1]
-        return base_uri + reverse('conversion_job-download-zip', kwargs={'pk': self.id})
-
     def get_absolute_url(self):
         base_uri = self.own_base_url
         if base_uri.endswith('/'):
@@ -77,6 +69,12 @@ class Job(models.Model):
         os.makedirs(os.path.dirname(complete_zip_file_path), exist_ok=True)
         return complete_zip_file_path
 
+    @property
+    def get_absolute_file_path(self):
+        if self._has_file:
+            return self.resulting_file.path
+        return None
+
     def _filename_prefix(self):
         return '{}-{}_{}'.format(
             time.strftime("%Y%m%d"),
@@ -84,8 +82,12 @@ class Job(models.Model):
             self.parametrization.out_format
         )
 
+    @property
+    def _has_file(self):
+        return bool(self.resulting_file)
+
     def delete(self, *args, **kwargs):
-        if self.resulting_file.name:
+        if self._has_file:
             os.unlink(self.resulting_file.path)
         return super().delete(args, kwargs)
 

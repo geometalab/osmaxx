@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-03 14:43+0200\n"
+"POT-Creation-Date: 2016-06-03 15:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgid "Clipping Geometry"
 msgstr ""
 
 #: osmaxx/clipping_area/models.py:8 osmaxx/countries/models.py:8
-#: osmaxx/excerptexport/models/excerpt.py:16
+#: osmaxx/excerptexport/models/excerpt.py:21
 msgid "name"
 msgstr ""
 
@@ -89,7 +89,7 @@ msgstr ""
 msgid "the url from which this job is reachable"
 msgstr ""
 
-#: osmaxx/conversion/models.py:93
+#: osmaxx/conversion/models.py:95
 msgid "job {} with rq_id {} ({})"
 msgstr ""
 
@@ -255,27 +255,27 @@ msgstr ""
 msgid "Extraction options"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:13
+#: osmaxx/excerptexport/models/excerpt.py:18
 msgid "user defined"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:14
+#: osmaxx/excerptexport/models/excerpt.py:19
 msgid "country"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:17
+#: osmaxx/excerptexport/models/excerpt.py:22
 msgid "is public"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:18
+#: osmaxx/excerptexport/models/excerpt.py:23
 msgid "is active"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:19
+#: osmaxx/excerptexport/models/excerpt.py:24
 msgid "owner"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:20
+#: osmaxx/excerptexport/models/excerpt.py:25
 msgid "bounding geometry"
 msgstr ""
 
@@ -488,16 +488,16 @@ msgstr ""
 msgid "New excerpt export"
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:42
+#: osmaxx/excerptexport/views.py:43
 #, python-brace-format
 msgid "Queued extraction order {id}. The conversion process will start soon."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:179 osmaxx/excerptexport/views.py:210
+#: osmaxx/excerptexport/views.py:183 osmaxx/excerptexport/views.py:214
 msgid "Sending of access request failed. Please contact an administrator."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:203
+#: osmaxx/excerptexport/views.py:207
 msgid ""
 "Your access request has been sent successfully. You will receive an email "
 "when your account is ready."
