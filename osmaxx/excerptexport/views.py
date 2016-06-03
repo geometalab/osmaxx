@@ -23,6 +23,7 @@ from osmaxx.contrib.auth.frontend_permissions import (
 from osmaxx.conversion_api import statuses
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
+from osmaxx.excerptexport.signals import postpone_work_until_request_finished
 from .models import Export
 
 
@@ -36,7 +37,7 @@ def execute_converters(extraction_order, request):
 class OrderFormViewMixin(FormMixin):
     def form_valid(self, form):
         extraction_order = form.save(self.request.user)
-        execute_converters(extraction_order, request=self.request)
+        postpone_work_until_request_finished(execute_converters, extraction_order, request=self.request)
         messages.info(
             self.request,
             _('Queued extraction order {id}. The conversion process will start soon.').format(
@@ -94,6 +95,7 @@ class ExportsListMixin:
     def get_user_exports(self):
         return self._filter_exports(
             Export.objects.filter(extraction_order__orderer=self.request.user)
+            .defer('extraction_order__excerpt__bounding_geometry')
         ).order_by('-updated_at', '-finished_at')
 
     def _filter_exports(self, query):
@@ -125,13 +127,15 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
 
     def get_queryset(self):
         return sorted(
-            super().get_queryset().filter(pk__in=self.excerpt_ids), key=lambda x: self.excerpt_ids.index(x.pk)
+            super().get_queryset().filter(pk__in=self.excerpt_ids)
+            .defer('bounding_geometry'), key=lambda x: self.excerpt_ids.index(x.pk)
         )
 
     def _get_exports_for_excerpt(self, excerpt):
         return self.get_user_exports().\
             filter(extraction_order__excerpt=excerpt).\
-            select_related('extraction_order', 'extraction_order__excerpt', 'output_file')
+            select_related('extraction_order', 'extraction_order__excerpt', 'output_file')\
+            .defer('extraction_order__excerpt__bounding_geometry')
 export_list = ExportsListView.as_view()
 
 
