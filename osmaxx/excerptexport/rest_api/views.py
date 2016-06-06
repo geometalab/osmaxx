@@ -2,6 +2,7 @@ import json
 
 from django.http import HttpResponse
 from rest_framework import viewsets
+from rest_framework_extensions.etag.mixins import ETAGMixin
 
 from osmaxx.api_client import ConversionApiClient
 from osmaxx.contrib.auth.frontend_permissions import AuthenticatedAndAccessPermission, HasExcerptAccessPermission
@@ -9,7 +10,7 @@ from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.rest_api.serializers import ExcerptGeometrySerializer
 
 
-class ExcerptViewSet(viewsets.mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class ExcerptViewSet(ETAGMixin, viewsets.mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     permission_classes = (
         HasExcerptAccessPermission,
         AuthenticatedAndAccessPermission,
