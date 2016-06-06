@@ -4,7 +4,12 @@
 {% for attribute_name, attribute in attributes|dictsort_unless_ordered -%}|
     {{- attribute_name }}|
     {{- attribute['type'] }}|
-    {{- attribute['description']|default(' ') }}|
+    {%- with -%}
+        {%- if 'values' in attribute -%}
+            {%- set reference_to_value_table = '(see table below)' -%}
+        {%- endif -%}
+        {{- [attribute['description'], reference_to_value_table]|reject('undefined')|join(' ')|default(' ') -}}
+    {%- endwith %}|
     {%- set or_sep = joiner(' or ') -%}
     {%- for tag_combination in attribute['osm_tags'] -%}
         {{- or_sep() -}}
@@ -18,11 +23,7 @@
             {%- endif -%}
         {%- endfor -%}
     {%- else -%}
-        {%- if 'values' in attribute -%}
-            (see table below)
-        {%- else -%}
-            {{ ' ' }}
-        {%- endif -%}
+        {{ ' ' }}
     {%- endfor %}|
 {% endfor %}
 {% endif -%}
