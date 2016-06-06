@@ -26,8 +26,8 @@ Values of attribute {{ attribute_name }}
                 `{{ key }}={{ value }}`
             {%- endif -%}
         {%- endfor -%}
-    {% else %}
+    {%- else -%}
         {{ ' ' }}
-    {%- endfor -%}|
+    {%- endfor %}|
     {{- definition['description']|default(' ') }}|
 {% endfor -%}
