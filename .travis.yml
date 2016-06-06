@@ -11,6 +11,12 @@ env:
     - TOX_ENV=py34-django1.8-drf3.3
     - TOX_ENV=py34-django1.9-drf3.3
     - TOX_ENV=py34-slow-tests
+    - TOX_ENV=py35-flake8
+    - TOX_ENV=py35-django1.8-drf3.2
+    - TOX_ENV=py35-django1.9-drf3.2
+    - TOX_ENV=py35-django1.8-drf3.3
+    - TOX_ENV=py35-django1.9-drf3.3
+    - TOX_ENV=py35-slow-tests
 
 matrix:
   fast_finish: true
