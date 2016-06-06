@@ -3,7 +3,12 @@ from jinja2 import Environment, FileSystemLoader
 from collections import OrderedDict
 from ruamel import yaml
 
-env = Environment(loader=FileSystemLoader(searchpath='templates'))
+env = Environment(
+    loader=FileSystemLoader(searchpath='templates'),
+    extensions=[
+        'jinja2.ext.with_',
+    ],
+)
 
 
 def do_dictsort_unless_ordered(value):
