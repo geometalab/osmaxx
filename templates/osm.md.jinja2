@@ -1,0 +1,17 @@
+{% macro tag_combinations(osm_tags) -%}
+    {% set or_sep = joiner(' or ') -%}
+    {%- for tag_combination in osm_tags -%}
+        {{- or_sep() -}}
+        {%- set and_sep = joiner('+') -%}
+        {%- for key, value in tag_combination|dictsort_unless_ordered -%}
+            {{- and_sep() -}}
+            {%- if value == '__ABSENT__' -%}
+                <code>{{ key }}<strong>&ne;\*</strong></code>
+            {%- else -%}
+                `{{ key }}={{ value }}`
+            {%- endif -%}
+        {%- endfor -%}
+    {%- else -%}
+        {{ ' ' }}
+    {%- endfor %}
+{%- endmacro %}
