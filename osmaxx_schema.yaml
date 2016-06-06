@@ -2364,10 +2364,6 @@ layers:
             osm_tags:
               - "route": 'bus'
             description: 'The route of a bus service'
-          "inline_skates":
-            osm_tags:
-              - "route": 'inline_skates'
-            description: 'Inline skate routes are named or numbered or otherwise signed routes. May go along roads, footways or other suitable paths.'
           "campe":
             osm_tags:
               - "route": 'canoe'
@@ -2388,6 +2384,10 @@ layers:
             osm_tags:
               - "route": 'horse'
             description: 'A route that horses can walk on'
+          "inline_skates":
+            osm_tags:
+              - "route": 'inline_skates'
+            description: 'Inline skate routes are named or numbered or otherwise signed routes. May go along roads, footways or other suitable paths.'
           "light_rail":
             osm_tags:
               - "route": 'light_rail'
