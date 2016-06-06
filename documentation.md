@@ -1139,11 +1139,11 @@ Values of attribute type
 |power|`route=power`|where power lines use the same towers (the same way) most likely in utility_l (power)|
 |railway|`route=railway`|All forms of transport using metal rails, including mainline services, subways, heritage lines and trams|
 |road|`route=road`|Map various road routes/long roads.|
-|route|`route=*`|This contains any other route except the specifics above.|
 |running|`route=running`|For running (jogging) routes.|
 |ski|`route=ski`|For ski tracks|
 |train|`route=train`|Train services|
 |tram|`route=tram`|Trams services|
+|route|`route=*`|This contains any other route except the specifics above.|
 
 
 ## traffic_a
