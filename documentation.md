@@ -1143,7 +1143,7 @@ Values of attribute type
 |ski|`route=ski`|For ski tracks|
 |train|`route=train`|Train services|
 |tram|`route=tram`|Trams services|
-|route|`route=*`|This contains any other route except the specifics above.|
+|route|`route=*`|Any route not specified above.|
 
 
 ## traffic_a

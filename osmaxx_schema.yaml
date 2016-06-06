@@ -2439,7 +2439,7 @@ layers:
           - "route":
               osm_tags:
                 - "route": '*'
-              description: 'This contains any other route except the specifics above.'
+              description: 'Any route not specified above.'
   "traffic_a": &layer_traffic_a
     attributes:
       "aggtype":
