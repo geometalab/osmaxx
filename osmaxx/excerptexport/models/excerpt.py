@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.gis import geos
 from django.contrib.gis.db import models
+from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
 
 from osmaxx.utils.geometry_buffer_helper import with_metric_buffer
@@ -25,8 +26,10 @@ class Excerpt(models.Model):
     bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'), null=True)
     excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
 
-    COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES = 0.01
+    COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES = 0.001
     BUFFER_METERS = 200
+
+    CACHE_TIMEOUT_IN_SECONDS = None  # cache forever
 
     def send_to_conversion_service(self):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
@@ -44,6 +47,12 @@ class Excerpt(models.Model):
 
         Returns: the resulting area
         """
+        cache_key = 'excerpt-buffered-{}'.format(self.pk)
+
+        geometry = cache.get(cache_key)
+        if geometry:
+            return geometry
+
         simplification_tolerance = DEGREES_PER_METERS_AT_EQUATOR * NYQIST_FACTOR * self.BUFFER_METERS
         original_srid = self.bounding_geometry.srs
         bounding_geometry = self.bounding_geometry.simplify(
@@ -53,12 +62,13 @@ class Excerpt(models.Model):
         bounding_geometry = with_metric_buffer(bounding_geometry, buffer_meters=self.BUFFER_METERS, map_srid=original_srid)
         if not isinstance(bounding_geometry, geos.MultiPolygon):
             bounding_geometry = geos.MultiPolygon(bounding_geometry)
+        cache.set(cache_key, bounding_geometry, self.CACHE_TIMEOUT_IN_SECONDS)
         return bounding_geometry
 
     @property
     def geometry(self):
         if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
-            return self.bounding_geometry.simplify(
+            return self.simplified_buffered().simplify(
                 tolerance=self.COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES,
                 preserve_topology=True
             )
