@@ -1,15 +1,19 @@
+{% macro tag_combination(osm_tag_combination, combination_separator) -%}
+    {{ combination_separator() -}}
+    {%- set and_sep = joiner('+') -%}
+    {%- for key, value in osm_tag_combination|dictsort_unless_ordered -%}
+        {{- and_sep() -}}
+        {%- if value == '__ABSENT__' -%}
+            <code>{{ key }}<strong>&ne;\*</strong></code>
+        {%- else -%}
+            `{{ key }}={{ value }}`
+        {%- endif -%}
+    {%- endfor %}
+{%- endmacro %}
+
 {% macro tag_combinations(osm_tag_combinations) -%}
     {% set or_sep = joiner(' or ') -%}
-    {%- for tag_combination in osm_tag_combinations -%}
-        {{- or_sep() -}}
-        {%- set and_sep = joiner('+') -%}
-        {%- for key, value in tag_combination|dictsort_unless_ordered -%}
-            {{- and_sep() -}}
-            {%- if value == '__ABSENT__' -%}
-                <code>{{ key }}<strong>&ne;\*</strong></code>
-            {%- else -%}
-                `{{ key }}={{ value }}`
-            {%- endif -%}
-        {%- endfor -%}
+    {%- for osm_tag_combination in osm_tag_combinations -%}
+        {{ tag_combination(osm_tag_combination, or_sep) }}
     {%- endfor %}
 {%- endmacro %}
