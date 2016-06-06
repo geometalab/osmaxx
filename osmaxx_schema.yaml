@@ -2364,7 +2364,7 @@ layers:
               osm_tags:
                 - "route": 'bus'
               description: 'The route of a bus service'
-          - "campe":
+          - "canoe":
               osm_tags:
                 - "route": 'canoe'
               description: 'Route for canoeing through a waterway.'

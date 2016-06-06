@@ -1125,7 +1125,7 @@ Values of attribute type
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |bicycle|`route=bicycle`|Cycle routes or bicycle route are named or numbered or otherwise signed routes. May go along roads, trails or dedicated cycle paths.|
 |bus|`route=bus`|The route of a bus service|
-|campe|`route=canoe`|Route for canoeing through a waterway.|
+|canoe|`route=canoe`|Route for canoeing through a waterway.|
 |detour|`route=detour`|A detour is a named and permanent route you can take if there is a traffic jam on the main route.|
 |ferry|`route=ferry`|Displays the route of a ferry on sea.|
 |hiking|`route=hiking`|Hiking route is a distinct path that a person may take to walk which is usually often used.|
