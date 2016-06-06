@@ -1,4 +1,4 @@
-{% macro tag_combinations(osm_tags, default='') -%}
+{% macro tag_combinations(osm_tags) -%}
     {% set or_sep = joiner(' or ') -%}
     {%- for tag_combination in osm_tags -%}
         {{- or_sep() -}}
@@ -11,7 +11,5 @@
                 `{{ key }}={{ value }}`
             {%- endif -%}
         {%- endfor -%}
-    {%- else -%}
-        {{ default }}
     {%- endfor %}
 {%- endmacro %}
