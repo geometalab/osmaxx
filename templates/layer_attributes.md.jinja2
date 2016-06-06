@@ -11,6 +11,6 @@
         {%- endif -%}
         {{- [attribute['description'], reference_to_value_table]|reject('undefined')|join(' ')|default(' ') -}}
     {%- endwith %}|
-    {{- osm.tag_combinations(attribute['osm_tags']) }}|
+    {{- osm.tag_combinations(attribute['osm_tags'], default=' ') }}|
 {% endfor %}
 {% endif -%}

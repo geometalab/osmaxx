@@ -14,6 +14,6 @@ Values of attribute {{ attribute_name }}
         |{{ definition['correlated_attributes'][attribute_name] -}}
     {%- endfor -%}
     |{{ value }}|
-    {{- osm.tag_combinations(definition['osm_tags']) }}|
+    {{- osm.tag_combinations(definition['osm_tags'], default=' ') }}|
     {{- definition['description']|default(' ') }}|
 {% endfor -%}
