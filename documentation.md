@@ -86,9 +86,9 @@ This OSM id is mapped to attribute osm_id (see chapter “Common Attributes”).
 stable but often the only one, one can work with. During transformation I can happen that thie
 osm_id is being changed or duplicated:
 
-* osm2pgsql generates areas/polygons out of ways and relations. These objects get negative
+* `osm2pgsql` generates areas/polygons out of ways and relations. These objects get negative
   values of the way or the relation.
-* osm2pgsql splits ways which are too long
+* `osm2pgsql` splits ways which are too long
 * tags can contain many values separated by semicolon (e.g. “shop-a;b”); this object may
   be split into two for each shop-value (“shop-a” and “shop-b”) while the osm_id os
   maintained.
@@ -134,7 +134,7 @@ These attributes are common to all tables (except maybe tables from external sou
 
 |Attribute   |Data Type         |Description                                   |Osm Tags       |
 | ---------- | ---------------- | -------------------------------------------- | ------------- |
-|osm_id|bigint|The ID of the OSM element (node, way or relationship) corresponding to the feature. The uniqueness is only within an OSM element. OSM does not guarantee uniqueness. But it's often the only ID one can get from the origin.  osm2pgsql generates negative osm_ids when areas are created from relations. And osm2pgsql creates sometimes duplicates by splitting large ways.|`osm_id=*`|
+|osm_id|bigint|The ID of the OSM element (node, way or relationship) corresponding to the feature. The uniqueness is only within an OSM element. OSM does not guarantee uniqueness. But it's often the only ID one can get from the origin. `osm2pgsql` generates negative osm_ids when areas are created from relations. And `osm2pgsql` creates sometimes duplicates by splitting large ways.|`osm_id=*`|
 |lastchange |timestamp without time zone |The timestamp of the last time the feature was changed (UTC)|`osm_lastchange=*`|
 |geomtype|varchar(1)|This will define whether it is a node (“N”), a way (“W”) or a relation (“R”). Self derivitive not from OSM database.|(n/a)|
 |geom|geometry(geometry, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON|`way=*`|
