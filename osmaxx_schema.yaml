@@ -2352,94 +2352,95 @@ layers:
               "aggtype": 'roundabout'
             description: 'This contains any other roundabout except the specifics above.'
   "route_l": &layer_route_l
+    description: Various types of "routes" (customary or regular lines of passage or travel, often predetermined and publicized), from bus lines to hiking trails. Not suitable for "routing" (navigation)!
     attributes:
       "type":
         type: text
-        values:
-          "bicycle":
-            osm_tags:
-              - "route": 'bicycle'
-            description: 'Cycle routes or bicycle route are named or numbered or otherwise signed routes. May go along roads, trails or dedicated cycle paths.'
-          "bus":
-            osm_tags:
-              - "route": 'bus'
-            description: 'The route of a bus service'
-          "inline_skates":
-            osm_tags:
-              - "route": 'inline_skates'
-            description: 'Inline skate routes are named or numbered or otherwise signed routes. May go along roads, footways or other suitable paths.'
-          "campe":
-            osm_tags:
-              - "route": 'canoe'
-            description: 'Route for canoeing through a waterway.'
-          "detour":
-            osm_tags:
-              - "route": 'detour'
-            description: 'A detour is a named and permanent route you can take if there is a traffic jam on the main route.'
-          "ferry":
-            osm_tags:
-              - "route": 'ferry'
-            description: 'Displays the route of a ferry on sea.'
-          "hiking":
-            osm_tags:
-              - "route": 'hiking'
-            description: 'Hiking route is a distinct path that a person may take to walk which is usually often used.'
-          "horse":
-            osm_tags:
-              - "route": 'horse'
-            description: 'A route that horses can walk on'
-          "light_rail":
-            osm_tags:
-              - "route": 'light_rail'
-            description: 'Light rail or light rail transit (LRT) is typically an urban form of public transport often using rolling stock similar to a tramway, but operating primarily along exclusive rights-of-way and having vehicles capable of operating as a single tramcar or as multiple units coupled together to form a train.'
-          "mtb":
-            osm_tags:
-              - "route": 'mtb'
-            description: 'Mountainbiking route'
-          "nordic_walking":
-            osm_tags:
-              - "route": 'nordic_walking'
-            description: 'Nordic walking routes are named or numbered or otherwise signed routes.'
-          "pipeline":
-            osm_tags:
-              - "route": 'pipeline'
-            description: 'For pipelines, pipeline markers, and pipeline stations.'
-          "piste":
-            osm_tags:
-              - "route": 'piste'
-            description: "Route of a piste (e.g., snowshoe or XC-Ski trails) in a winter sport area."
-          "power":
-            osm_tags:
-              - "route": 'power'
-            description: 'where power lines use the same towers (the same way) most likely in utility_l (power)'
-          "railway":
-            osm_tags:
-              - "route": 'railway'
-            description: 'All forms of transport using metal rails, including mainline services, subways, heritage lines and trams'
-          "road":
-            osm_tags:
-              - "route": 'road'
-            description: 'Map various road routes/long roads.'
-          "running":
-            osm_tags:
-              - "route": 'running'
-            description: 'For running (jogging) routes.'
-          "ski":
-            osm_tags:
-              - "route": 'ski'
-            description: 'For ski tracks'
-          "train":
-            osm_tags:
-              - "route": 'train'
-            description: 'Train services'
-          "tram":
-            osm_tags:
-              - "route": 'tram'
-            description: 'Trams services'
-          "route":
-            osm_tags:
-              - "route": '*'
-            description: 'This contains any other route except the specifics above.'
+        values: !!omap
+          - "bicycle":
+              osm_tags:
+                - "route": 'bicycle'
+              description: 'Cycle routes or bicycle route are named or numbered or otherwise signed routes. May go along roads, trails or dedicated cycle paths.'
+          - "bus":
+              osm_tags:
+                - "route": 'bus'
+              description: 'The route of a bus service'
+          - "canoe":
+              osm_tags:
+                - "route": 'canoe'
+              description: 'Route for canoeing through a waterway.'
+          - "detour":
+              osm_tags:
+                - "route": 'detour'
+              description: 'A detour is a named and permanent route you can take if there is a traffic jam on the main route.'
+          - "ferry":
+              osm_tags:
+                - "route": 'ferry'
+              description: 'Displays the route of a ferry on sea.'
+          - "hiking":
+              osm_tags:
+                - "route": 'hiking'
+              description: 'Hiking route is a distinct path that a person may take to walk which is usually often used.'
+          - "horse":
+              osm_tags:
+                - "route": 'horse'
+              description: 'A route that horses can walk on'
+          - "inline_skates":
+              osm_tags:
+                - "route": 'inline_skates'
+              description: 'Inline skate routes are named or numbered or otherwise signed routes. May go along roads, footways or other suitable paths.'
+          - "light_rail":
+              osm_tags:
+                - "route": 'light_rail'
+              description: 'Light rail or light rail transit (LRT) is typically an urban form of public transport often using rolling stock similar to a tramway, but operating primarily along exclusive rights-of-way and having vehicles capable of operating as a single tramcar or as multiple units coupled together to form a train.'
+          - "mtb":
+              osm_tags:
+                - "route": 'mtb'
+              description: 'Mountainbiking route'
+          - "nordic_walking":
+              osm_tags:
+                - "route": 'nordic_walking'
+              description: 'Nordic walking routes are named or numbered or otherwise signed routes.'
+          - "pipeline":
+              osm_tags:
+                - "route": 'pipeline'
+              description: 'For pipelines, pipeline markers, and pipeline stations.'
+          - "piste":
+              osm_tags:
+                - "route": 'piste'
+              description: "Route of a piste (e.g., snowshoe or XC-Ski trails) in a winter sport area."
+          - "power":
+              osm_tags:
+                - "route": 'power'
+              description: 'where power lines use the same towers (the same way) most likely in utility_l (power)'
+          - "railway":
+              osm_tags:
+                - "route": 'railway'
+              description: 'All forms of transport using metal rails, including mainline services, subways, heritage lines and trams'
+          - "road":
+              osm_tags:
+                - "route": 'road'
+              description: 'Map various road routes/long roads.'
+          - "running":
+              osm_tags:
+                - "route": 'running'
+              description: 'For running (jogging) routes.'
+          - "ski":
+              osm_tags:
+                - "route": 'ski'
+              description: 'For ski tracks'
+          - "train":
+              osm_tags:
+                - "route": 'train'
+              description: 'Train services'
+          - "tram":
+              osm_tags:
+                - "route": 'tram'
+              description: 'Trams services'
+          - "route":
+              osm_tags:
+                - "route": '*'
+              description: 'Any route not specified above.'
   "traffic_a": &layer_traffic_a
     attributes:
       "aggtype":

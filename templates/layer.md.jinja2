@@ -1,0 +1,6 @@
+## {{ layer_name }}
+
+{% if 'description' in layer_definition -%}
+    {{ '\n' }}{{ layer_definition['description'] }}
+{% endif %}
+{% include 'layer_attributes.md.jinja2' %}

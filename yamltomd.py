@@ -19,16 +19,19 @@ def do_dictsort_unless_ordered(value):
 
 env.filters['dictsort_unless_ordered'] = do_dictsort_unless_ordered
 
-LAYER_ATTRIBUTES_TEMPLATE = env.get_template('layer_attributes.md.jinja2')
+LAYER_TEMPLATE = env.get_template('layer.md.jinja2')
 ATTRIBUTE_VALUES_TEMPLATE = env.get_template('attribute_values.md.jinja2')
 
 
 def yaml_to_md(layer_name, layer_definition, out):
-    out.write('## ' + layer_name + '\n\n')
+    out.write(
+        LAYER_TEMPLATE.render(
+            layer_name=layer_name,
+            layer_definition=layer_definition,
+        )
+    )
 
     attributes = layer_definition['attributes']
-
-    out.write(LAYER_ATTRIBUTES_TEMPLATE.render(attributes=attributes))
 
     for attribute_name, attribute in do_dictsort_unless_ordered(attributes):
         try:
