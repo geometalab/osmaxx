@@ -96,7 +96,6 @@ def pytest_configure():
 
             # web_frontend apps
             'osmaxx.core',
-            'osmaxx.countries',
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
             'osmaxx.social_auth',
