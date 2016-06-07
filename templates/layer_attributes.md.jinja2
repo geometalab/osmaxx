@@ -1,5 +1,5 @@
 {% import 'osm.md.jinja2' as osm -%}
-{% if layer_definition['attributes'] %}
+{% if layer_definition['attributes'] -%}
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 {% for attribute_name, attribute in layer_definition['attributes']|dictsort_unless_ordered -%}|
