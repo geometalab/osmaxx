@@ -2352,6 +2352,7 @@ layers:
               "aggtype": 'roundabout'
             description: 'This contains any other roundabout except the specifics above.'
   "route_l": &layer_route_l
+    description: Various types of "routes" (customary or regular lines of passage or travel, often predetermined and publicized), from bus lines to hiking trails. Not suitable for "routing" (navigation)!
     attributes:
       "type":
         type: text

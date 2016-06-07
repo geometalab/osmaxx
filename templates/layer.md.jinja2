@@ -1,3 +1,5 @@
 ## {{ layer_name }}
 
-
+{% if 'description' in layer_definition %}
+{{ layer_definition['description'] }}
+{% endif %}
