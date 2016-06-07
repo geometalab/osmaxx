@@ -1,4 +1,5 @@
 import logging
+from collections import OrderedDict
 
 from django.conf import settings
 from django.contrib import messages
@@ -8,6 +9,7 @@ from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
+from django.utils.datastructures import OrderedSet
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
@@ -18,7 +20,10 @@ from osmaxx.contrib.auth.frontend_permissions import (
     LoginRequiredMixin,
     FrontendAccessRequiredMixin
 )
+from osmaxx.conversion_api import statuses
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
+from osmaxx.excerptexport.models import Excerpt
+from osmaxx.excerptexport.signals import postpone_work_until_request_finished
 from .models import Export
 
 
@@ -32,7 +37,7 @@ def execute_converters(extraction_order, request):
 class OrderFormViewMixin(FormMixin):
     def form_valid(self, form):
         extraction_order = form.save(self.request.user)
-        execute_converters(extraction_order, request=self.request)
+        postpone_work_until_request_finished(execute_converters, extraction_order, request=self.request)
         messages.info(
             self.request,
             _('Queued extraction order {id}. The conversion process will start soon.').format(
@@ -69,31 +74,90 @@ class OwnershipRequiredMixin(SingleObjectMixin):
         return o
 
 
-class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ListView):
+class ExportsListMixin:
+    _filterable_statuses = frozenset({statuses.FINISHED, statuses.FAILED})
+
+    @property
+    def excerpt_ids(self):
+        if not hasattr(self, '_excerpt_ids'):
+            self._excerpt_ids = list(
+                OrderedSet(
+                    self.get_user_exports()
+                    .values_list('extraction_order__excerpt', flat=True)
+                )
+            )
+        return self._excerpt_ids
+
+    @property
+    def status_choices(self):
+        return [choice for choice in Export.STATUS_CHOICES if choice[0] in self._filterable_statuses]
+
+    def get_user_exports(self):
+        return self._filter_exports(
+            Export.objects.filter(extraction_order__orderer=self.request.user)
+            .defer('extraction_order__excerpt__bounding_geometry')
+        ).order_by('-updated_at', '-finished_at')
+
+    def _filter_exports(self, query):
+        status_filter = self.request.GET.get('status', None)
+        if status_filter in self._filterable_statuses:
+            return query.filter(status=status_filter)
+        return query
+
+    def _get_extra_context_data(self):
+        return dict(
+            status_choices=self.status_choices,
+            status_filter=self.request.GET.get('status', None),
+        )
+
+
+class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_list.html'
-    context_object_name = 'exports'
-    model = Export
-    ordering = ['-extraction_order__excerpt', '-status']
+    context_object_name = 'excerpts'
+    model = Excerpt
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data.update(self._get_extra_context_data())
+        context_data['excerpt_list_with_exports'] = OrderedDict(
+            (excerpt, self._get_exports_for_excerpt(excerpt)) for excerpt in context_data[self.context_object_name]
+        )
+        return context_data
 
     def get_queryset(self):
-        return super().get_queryset().filter(extraction_order__orderer=self.request.user)\
-            .select_related('extraction_order', 'extraction_order__excerpt', 'output_file')
+        return sorted(
+            super().get_queryset().filter(pk__in=self.excerpt_ids)
+            .defer('bounding_geometry'), key=lambda x: self.excerpt_ids.index(x.pk)
+        )
+
+    def _get_exports_for_excerpt(self, excerpt):
+        return self.get_user_exports().\
+            filter(extraction_order__excerpt=excerpt).\
+            select_related('extraction_order', 'extraction_order__excerpt', 'output_file')\
+            .defer('extraction_order__excerpt__bounding_geometry')
 export_list = ExportsListView.as_view()
 
 
-class ExportsDetailView(ExportsListView):
+class ExportsDetailView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_detail.html'
     context_object_name = 'exports'
     model = Export
     pk_url_kwarg = 'id'
-    ordering = ['-status']
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data.update(self._get_extra_context_data())
+        return context_data
 
     def get_queryset(self):
         pk = self.kwargs.get(self.pk_url_kwarg)
         if pk is None:
             raise AttributeError("ExportsDetailView must be called with an Excerpt pk.")
-        queryset = super().get_queryset()
-        queryset = queryset.filter(extraction_order__excerpt__pk=pk)
+        queryset = self.get_user_exports()\
+            .select_related('extraction_order', 'extraction_order__excerpt', 'output_file')\
+            .filter(extraction_order__excerpt__pk=pk)
         return queryset
 export_detail = ExportsDetailView.as_view()
 

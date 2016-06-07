@@ -1,9 +1,15 @@
 from django.contrib.auth.models import User
 from django.contrib.gis import geos
 from django.contrib.gis.db import models
+from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
 
 from osmaxx.utils.geometry_buffer_helper import with_metric_buffer
+
+EARTH_CIRCUMFERENCE_IN_METERS = 40075.017 * 1000
+DEGREES_PER_CIRCLE = 360
+DEGREES_PER_METERS_AT_EQUATOR = DEGREES_PER_CIRCLE / EARTH_CIRCUMFERENCE_IN_METERS
+NYQIST_FACTOR = 1 / 2
 
 
 class Excerpt(models.Model):
@@ -20,22 +26,50 @@ class Excerpt(models.Model):
     bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'), null=True)
     excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
 
-    COUNTRY_SIMPLIFICATION_TOLERANCE = 0.01
+    COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES = 0.001
+    BUFFER_METERS = 200
+
+    CACHE_TIMEOUT_IN_SECONDS = None  # cache forever
 
     def send_to_conversion_service(self):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
         api_client = ConversionApiClient()
         bounding_geometry = self.bounding_geometry
         if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
-            original_srid = self.bounding_geometry.srs
-            bounding_geometry = geos.MultiPolygon(with_metric_buffer(self.bounding_geometry, buffer_meters=500, map_srid=original_srid))
+            bounding_geometry = self.simplified_buffered()
         return api_client.create_boundary(bounding_geometry, name=self.name)
+
+    def simplified_buffered(self):
+        """
+        First simplifies, then buffers a copy of the self.bounding_geometry.
+
+        The resulting area completely includes the area enclosed by the bounding_geometry.
+
+        Returns: the resulting area
+        """
+        cache_key = 'excerpt-buffered-{}'.format(self.pk)
+
+        geometry = cache.get(cache_key)
+        if geometry:
+            return geometry
+
+        simplification_tolerance = DEGREES_PER_METERS_AT_EQUATOR * NYQIST_FACTOR * self.BUFFER_METERS
+        original_srid = self.bounding_geometry.srs
+        bounding_geometry = self.bounding_geometry.simplify(
+            tolerance=simplification_tolerance,
+            preserve_topology=True
+        )
+        bounding_geometry = with_metric_buffer(bounding_geometry, buffer_meters=self.BUFFER_METERS, map_srid=original_srid)
+        if not isinstance(bounding_geometry, geos.MultiPolygon):
+            bounding_geometry = geos.MultiPolygon(bounding_geometry)
+        cache.set(cache_key, bounding_geometry, self.CACHE_TIMEOUT_IN_SECONDS)
+        return bounding_geometry
 
     @property
     def geometry(self):
         if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
-            return self.bounding_geometry.simplify(
-                tolerance=self.COUNTRY_SIMPLIFICATION_TOLERANCE,
+            return self.simplified_buffered().simplify(
+                tolerance=self.COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES,
                 preserve_topology=True
             )
         return self.bounding_geometry

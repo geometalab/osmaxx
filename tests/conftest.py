@@ -1,9 +1,12 @@
 # pylint: disable=C0111
 import os
 import tempfile
+from collections import Mapping
 from datetime import timedelta
 
 import pytest
+
+from osmaxx.utils.frozendict import frozendict
 
 test_data_dir = os.path.join(os.path.dirname(__file__), 'test_data')
 
@@ -74,6 +77,7 @@ def pytest_configure():
             'django.contrib.sites',
             'django.contrib.messages',
             'django.contrib.staticfiles',
+            'django.contrib.gis',
 
             'rest_framework',
             'rest_framework_gis',
@@ -82,6 +86,9 @@ def pytest_configure():
             'stored_messages',
 
             'tests',
+
+            # version app
+            'osmaxx.version',
 
             # conversion service apps
             'osmaxx.clipping_area',
@@ -293,3 +300,26 @@ polygon-1
 END
 END
 '''
+
+
+class TagCombination(Mapping):
+    def __init__(self, *args, **kwargs):
+        tags = dict(osm_id=id(self))
+        tags.update(*args, **kwargs)
+        self.__tags = frozendict(tags)
+        self.__hash = hash(frozenset(self.items()))
+
+    def __getitem__(self, item):
+        return self.__tags[item]
+
+    def __iter__(self):
+        return iter(self.__tags)
+
+    def __len__(self):
+        return len(self.__tags)
+
+    def __str__(self):
+        return ' '.join("{key}={value}".format(key=key, value=value) for key, value in self.items())
+
+    def __hash__(self):
+        return self.__hash

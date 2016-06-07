@@ -1,26 +1,20 @@
 from django.contrib import admin
-from django.utils.safestring import mark_safe
+from django.contrib.admin import widgets
+from django.contrib.gis.db import models
 
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, OutputFile, Export
 
 
 @admin.register(Excerpt)
 class ExcerptAdmin(admin.ModelAdmin):
-    list_display = ['name', 'is_public', 'is_active', 'owner', 'bounding_geometry']
-    fields = ('name', ('bounding_geometry',))
-
-    def bounding_geometry_subclass_instance_edit_link(self, excerpt):
-        admin_link = excerpt.bounding_geometry.subclass_instance.get_admin_url()
-        return mark_safe(
-            '<a href="{}">'
-            '<img src="/static/admin/img/icon_changelink.gif" alt="Change" height="10" width="10"></img> Edit {} {}'
-            '</a>'.format(
-                admin_link,
-                type(excerpt.bounding_geometry.subclass_instance).__name__,
-                excerpt.bounding_geometry.subclass_instance.id,
-            ),
-        )
-    bounding_geometry_subclass_instance_edit_link.short_description = 'Boundary'
+    formfield_overrides = {
+        models.GeometryField: {'widget': widgets.AdminTextareaWidget}
+    }
+    list_display = ['name', 'is_public', 'is_active', 'owner']
+    fields = ('name', ('bounding_geometry',), 'owner')
+    list_per_page = 20
+    search_fields = ['name', 'owner__username']
+    list_filter = ['is_active', 'is_public', 'excerpt_type']
 
 
 @admin.register(ExtractionOrder)

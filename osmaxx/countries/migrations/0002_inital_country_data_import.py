@@ -6,7 +6,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     def import_countries(apps, schema_editor):  # noqa
-        # not doing anything to let the migrations pass on new installations
+        # no import should happen anymore in new installations
         pass
 
     def remove_countries(apps, schema_editor):  # noqa

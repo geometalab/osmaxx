@@ -1,21 +1,31 @@
 import logging
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
-from osmaxx.conversion_api import statuses
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
-from osmaxx.conversion_api.statuses import FAILED, FINAL_STATUSES, FINISHED
-
-INITIAL = 'initial'
-INITIAL_CHOICE = (INITIAL, _('initial'))
-STATUS_CHOICES = (INITIAL_CHOICE,) + statuses.STATUS_CHOICES
 
 logger = logging.getLogger(__name__)
 
 
-class Export(models.Model):
+class TimeStampModelMixin(models.Model):
+    created_at = models.DateTimeField(_('created at'), default=timezone.now, blank=True, editable=False)
+    updated_at = models.DateTimeField(_('updated at'), default=None, blank=True, editable=False, null=True)
+
+    def save(self, *args, **kwargs):
+        now = timezone.now()
+        if self.id is None:
+            self.created_at = now
+        self.updated_at = now
+        super().save(*args, **kwargs)
+
+    class Meta:
+        abstract = True
+
+
+class Export(TimeStampModelMixin, models.Model):
     """
     Frontend-side representation of both, a export procedure in progress (or concluded) *and* the result of exporting.
 
@@ -27,11 +37,17 @@ class Export(models.Model):
     - the transformation of the data from the data sources' schemata (e.g. ``osm2pgsql`` schema) to the OSMaxx schema
     - the actual export to one specific GIS or navigation file format with one specific set of parameters
     """
+    from osmaxx.conversion_api.statuses import RECEIVED, QUEUED, FINISHED, FAILED, STARTED, DEFERRED, FINAL_STATUSES, STATUS_CHOICES  # noqa
+    INITIAL = 'initial'
+    INITIAL_CHOICE = (INITIAL, _('initial'))
+    STATUS_CHOICES = (INITIAL_CHOICE,) + STATUS_CHOICES
+
     extraction_order = models.ForeignKey('excerptexport.ExtractionOrder', related_name='exports',
                                          verbose_name=_('extraction order'))
     file_format = models.CharField(choices=FORMAT_CHOICES, verbose_name=_('file format / data format'), max_length=10)
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
     status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
+    finished_at = models.DateTimeField(_('finished at'), default=None, blank=True, editable=False, null=True)
 
     def send_to_conversion_service(self, clipping_area_json, incoming_request):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
@@ -54,7 +70,7 @@ class Export(models.Model):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
 
     def set_and_handle_new_status(self, new_status, *, incoming_request):
-        assert new_status in dict(STATUS_CHOICES)
+        assert new_status in dict(self.STATUS_CHOICES)
         if self.status != new_status:
             self.status = new_status
             self.save()
@@ -64,9 +80,9 @@ class Export(models.Model):
         from osmaxx.utilities.shortcuts import Emissary
         emissary = Emissary(recipient=self.extraction_order.orderer)
         status_changed_message = self._get_export_status_changed_message()
-        if self.status == FAILED:
+        if self.status == self.FAILED:
             emissary.error(status_changed_message)
-        elif self.status == FINISHED:
+        elif self.status == self.FINISHED:
             from osmaxx.api_client.conversion_api_client import ResultFileNotAvailableError
             try:
                 self._fetch_result_file()
@@ -87,7 +103,7 @@ class Export(models.Model):
         ).strip()
 
     def _get_job_finished_but_result_file_missing_log_message(self):
-        return 'Export {export_id}: Job {job_id} finished, but file not available.'.format(
+        return 'Export {export_id}: Job {job_id} finished_at, but file not available.'.format(
             export_id=self.id,
             job_id=self.conversion_service_job_id,
         )
@@ -97,6 +113,7 @@ class Export(models.Model):
         from . import OutputFile
         api_client = ConversionApiClient()
         file_content = api_client.get_result_file(self.conversion_service_job_id)
+        now = timezone.now()
         of = OutputFile.objects.create(
             export=self,
             mime_type='application/zip',
@@ -106,10 +123,12 @@ class Export(models.Model):
             of.download_file_name,
             file_content,
         )
+        self.finished_at = now
+        self.save()
 
     @property
     def is_status_final(self):
-        return self.status in FINAL_STATUSES
+        return self.status in self.FINAL_STATUSES
 
     @property
     def css_status_class(self):
@@ -121,11 +140,11 @@ class Export(models.Model):
         default_class = 'default'
 
         status_map = {
-            statuses.RECEIVED: 'info',
-            statuses.QUEUED: 'info',
-            statuses.FINISHED: 'success',
-            statuses.FAILED: 'danger',
-            statuses.STARTED: 'info',
-            statuses.DEFERRED: 'default',
+            self.RECEIVED: 'info',
+            self.QUEUED: 'info',
+            self.FINISHED: 'success',
+            self.FAILED: 'danger',
+            self.STARTED: 'info',
+            self.DEFERRED: 'default',
         }
         return status_map.get(self.status, default_class)
