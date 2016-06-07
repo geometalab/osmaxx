@@ -549,10 +549,9 @@ Values of attribute type
 |access|text|The legal accessibility of a element.|`access=*`|
 |aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |brand|text|The identity of a specific product, service, or business. Often trademarks|`brand=*`|
-|contact_phone|text|Phone number|`contact:phone=*`|
 |cuisine|text|The type of food served at an eating place.|`cuisine=*`|
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
-|phone|text|A telephone number associated with the object.|`phone=*`|
+|phone|text|A telephone number associated with the object.|`phone=*` or `contact:phone=*`|
 |tower_type|text|The type of tower|`tower:type=*`|
 |type|text|(see table below)| |
 |website|text|Specifying the link to the official website for a feature.|`website=*`|
@@ -729,10 +728,9 @@ Values of attribute type
 |access|text|The legal accessibility of a element.|`access=*`|
 |aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
 |brand|text|The identity of a specific product, service, or business. Often trademarks|`brand=*`|
-|contact_phone|text|Phone number|`contact:phone=*`|
 |cuisine|text|The type of food served at an eating place.|`cuisine=*`|
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
-|phone|text|A telephone number associated with the object.|`phone=*`|
+|phone|text|A telephone number associated with the object.|`phone=*` or `contact:phone=*`|
 |tower_type|text|The type of tower|`tower:type=*`|
 |type|text|(see table below)| |
 |website|text|Specifying the link to the official website for a feature.|`website=*`|
@@ -908,9 +906,8 @@ Values of attribute type
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
 |aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
-|contact_phone|text|Phone number|`contact:phone=*`|
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
-|phone|text|A telephone number associated with the object.|`phone=*`|
+|phone|text|A telephone number associated with the object.|`phone=*` or `contact:phone=*`|
 |type|text|(see table below)| |
 |website|text|Specifying the link to the official website for a feature.|`website=*`|
 |wikipedia|text|Provide a reference to an article in Wikipedia about the feature.|`wikipedia=*`|
@@ -950,9 +947,8 @@ Values of attribute type
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
 |aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
-|contact_phone|text|Phone number|`contact:phone=*`|
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
-|phone|text|A telephone number associated with the object.|`phone=*`|
+|phone|text|A telephone number associated with the object.|`phone=*` or `contact:phone=*`|
 |type|text|(see table below)| |
 |website|text|Specifying the link to the official website for a feature.|`website=*`|
 |wikipedia|text|Provide a reference to an article in Wikipedia about the feature.|`wikipedia=*`|
