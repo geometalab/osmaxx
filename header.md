@@ -134,7 +134,7 @@ These attributes are common to all tables (except maybe tables from external sou
 
 |Attribute   |Data Type         |Description                                   |Osm Tags       |
 | ---------- | ---------------- | -------------------------------------------- | ------------- |
-|osm_id|bigint|The id taken over from OSM elements node, way or relationship. The uniqueness is only within an OSM element. OSM does not guarantee uniqueness. But its often the only id one can get from the origin.  osm2pgsql generates negative osm_ids when areas are created from relations. And osm2pgsql creates sometimes duplicates by splitting large ways.|`osm_id=*`|
+|osm_id|bigint|The ID of the OSM element (node, way or relationship) corresponding to the feature. The uniqueness is only within an OSM element. OSM does not guarantee uniqueness. But it's often the only ID one can get from the origin.  osm2pgsql generates negative osm_ids when areas are created from relations. And osm2pgsql creates sometimes duplicates by splitting large ways.|`osm_id=*`|
 |lastchange |timestamp without time zone |The timestamp of the last time the feature was changed (UTC)|`osm_lastchange=*`|
 |geomtype|varchar(1)|This will define whether it is a node (“N”), a way (“W”) or a relation (“R”). Self derivitive not from OSM database.|(n/a)|
 |geom|geometry(geometry, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON|`way=*`|
