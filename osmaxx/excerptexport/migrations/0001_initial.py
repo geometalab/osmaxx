@@ -20,9 +20,6 @@ class PrivateFileSystemStorage(FileSystemStorage):
 
 
 class Migration(migrations.Migration):
-
-    replaces = [('excerptexport', '0001_initial'), ('excerptexport', '0002_auto_20150729_1053'), ('excerptexport', '0003_auto_20150729_1059'), ('excerptexport', '0004_auto_20150819_1417'), ('excerptexport', '0005_auto_20150824_1408'), ('excerptexport', '0006_auto_20150918_1244'), ('excerptexport', '0007_auto_20151016_1112'), ('excerptexport', '0008_extractionorder_process_id'), ('excerptexport', '0009_auto_20151130_1414'), ('excerptexport', '0010_extractionorder_progress_url'), ('excerptexport', '0011_remove_extractionorder_process_start_date'), ('excerptexport', '0012_outputfile_file_status'), ('excerptexport', '0013_auto_20151207_1743'), ('excerptexport', '0014_auto_20151209_0957'), ('excerptexport', '0015_auto_20151211_1508'), ('excerptexport', '0016_extractionorder_process_start_time')]
-
     initial = True
 
     dependencies = [
