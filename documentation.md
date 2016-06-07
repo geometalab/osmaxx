@@ -141,6 +141,7 @@ These attributes are common to all tables (eventually except table from external
 |type|text(Enum)|This will define the feature type| |
 |name|text|The name shich is in general use (which means cyrillic, arabic etc.)|`name=*`|
 |name_intl|text|The name which is written in english, international|`Coalesce(name:en, int_name, name:fr,name:es,name:de, name)`|
+|name_en|text|The name which is written in english|`name:en=*`|
 |name_fr|text|The name which is written in french|`name:fr=*`|
 |name_es|text|The name which is written in spanish|`name:es=*`|
 |name_de|text|The name which is written in german|`name:de=*`|
