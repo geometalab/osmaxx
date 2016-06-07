@@ -129,7 +129,7 @@ example: osm_building_a_gen1_v01.gpkg
 
 ## Common Attributes
 
-These attributes are common to all tables (eventually except table from external sources).
+These attributes are common to all tables (except maybe tables from external sources).
 
 
 |Attribute   |Data Type         |Description                                   |Osm Tags       |
