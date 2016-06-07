@@ -1,8 +1,8 @@
 {% import 'osm.md.jinja2' as osm -%}
-{% if attributes %}
+{% if layer_definition['attributes'] %}
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-{% for attribute_name, attribute in attributes|dictsort_unless_ordered -%}|
+{% for attribute_name, attribute in layer_definition['attributes']|dictsort_unless_ordered -%}|
     {{- attribute_name }}|
     {{- attribute['type'] }}|
     {%- with -%}

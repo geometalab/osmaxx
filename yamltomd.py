@@ -34,8 +34,6 @@ def yaml_to_md(layer_name, layer_definition, out):
 
     attributes = layer_definition['attributes']
 
-    out.write(LAYER_ATTRIBUTES_TEMPLATE.render(attributes=attributes))
-
     for attribute_name, attribute in do_dictsort_unless_ordered(attributes):
         try:
             values = attribute['values']
