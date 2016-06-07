@@ -592,10 +592,6 @@ layers:
         description: 'A telephone number associated with the object.'
         osm_tags:
           - "phone": '*'
-      "contact_phone":
-        type: text
-        description: 'Phone number'
-        osm_tags:
           - "contact:phone": '*'
       "opening_hours":
         type: text
@@ -1608,10 +1604,6 @@ layers:
         description: 'A telephone number associated with the object.'
         osm_tags:
           - "phone": '*'
-      "contact_phone":
-        type: text
-        description: 'Phone number'
-        osm_tags:
           - "contact:phone": '*'
       "opening_hours":
         type: text
