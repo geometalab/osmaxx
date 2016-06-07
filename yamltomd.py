@@ -20,7 +20,6 @@ def do_dictsort_unless_ordered(value):
 env.filters['dictsort_unless_ordered'] = do_dictsort_unless_ordered
 
 LAYER_TEMPLATE = env.get_template('layer.md.jinja2')
-LAYER_ATTRIBUTES_TEMPLATE = env.get_template('layer_attributes.md.jinja2')
 ATTRIBUTE_VALUES_TEMPLATE = env.get_template('attribute_values.md.jinja2')
 
 
