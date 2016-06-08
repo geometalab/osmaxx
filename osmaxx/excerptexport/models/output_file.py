@@ -38,10 +38,14 @@ class OutputFile(models.Model):
 
     @property
     def file_extension(self):
-        if bool(self.file):
+        if self._has_file:
             _discarded, file_extension = os.path.splitext(self.file)
             return file_extension
         return 'zip'
+
+    @property
+    def _has_file(self):
+        return bool(self.file)
 
     def __str__(self):
         return \
