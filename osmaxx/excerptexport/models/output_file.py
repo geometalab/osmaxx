@@ -10,7 +10,7 @@ from osmaxx.excerptexport.models.export import Export
 
 def uuid_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/osmaxx/<public_uuid>/<filename>
-    return os.path.join('osmaxx', 'outputfiles', str(instance.public_identifier), filename)
+    return os.path.join('osmaxx', 'outputfiles', str(instance.public_identifier), os.path.basename(filename))
 
 
 class OutputFile(models.Model):

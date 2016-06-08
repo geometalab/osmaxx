@@ -2,7 +2,6 @@ import json
 import logging
 
 from django.conf import settings
-from django.core.files import File
 from requests import HTTPError
 
 from osmaxx.api_client.API_client import JWTClient, reasons_for
@@ -63,12 +62,11 @@ class ConversionApiClient(JWTClient):
         response = self.authorized_post(url='conversion_job/', json_data=json_payload)
         return response.json()
 
-    def get_result_file(self, job_id):
+    def get_result_file_path(self, job_id):
         file_path = self._get_result_file_path(job_id)
         if file_path:
-            return File(open(file_path, 'rb'))
-        else:
-            raise ResultFileNotAvailableError
+            return file_path
+        raise ResultFileNotAvailableError
 
     def _get_result_file_path(self, job_id):
         job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)

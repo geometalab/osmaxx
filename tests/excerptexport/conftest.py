@@ -1,3 +1,6 @@
+import os
+import tempfile
+
 import pytest
 
 from osmaxx.conversion_api import formats
@@ -47,6 +50,19 @@ def output_file_filename():
 @pytest.fixture
 def output_file_content():
     return b"some content"
+
+
+@pytest.yield_fixture
+def some_fake_zip_file(request, output_file_content):
+    tmpfile = tempfile.NamedTemporaryFile(suffix='.zip', delete=False)
+
+    try:
+        tmpfile.write(output_file_content)
+        tmpfile.seek(0)
+        yield tmpfile
+    finally:
+        if os.path.exists(tmpfile.name):
+            os.remove(tmpfile.name)
 
 
 @pytest.fixture
