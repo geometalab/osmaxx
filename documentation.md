@@ -86,9 +86,9 @@ This OSM id is mapped to attribute osm_id (see chapter “Common Attributes”).
 stable but often the only one, one can work with. During transformation I can happen that thie
 osm_id is being changed or duplicated:
 
-* osm2pgsql generates areas/polygons out of ways and relations. These objects get negative
+* `osm2pgsql` generates areas/polygons out of ways and relations. These objects get negative
   values of the way or the relation.
-* osm2pgsql splits ways which are too long
+* `osm2pgsql` splits ways which are too long
 * tags can contain many values separated by semicolon (e.g. “shop-a;b”); this object may
   be split into two for each shop-value (“shop-a” and “shop-b”) while the osm_id os
   maintained.
@@ -129,26 +129,50 @@ example: osm_building_a_gen1_v01.gpkg
 
 ## Common Attributes
 
-These attributes are common to all tables (eventually except table from external sources).
+These attributes are common to all tables (except maybe tables from external sources).
 
 
-|Attribute   |Data Type         |Description                                   |Osm Tags       |
-| ---------- | ---------------- | -------------------------------------------- | ------------- |
-|osm_id|bigint|The id taken over from OSM elements node, way or relationship. The uniqueness is only within an OSM element. OSM does not guarantee uniqueness. But its often the only id one can get from the origin.  osm2pgsql generates negative osm_ids when areas are created from relations. And osm2pgsql creates sometimes duplicates by splitting large ways.|`osm_id=*`|
-|lastchange |timestamp without time zone |The timestamp of the last time the feature was changed (UTC)|`osm_lastchange=*`|
-|geomtype|varchar(1)|This will define weather it is a node (“N”), a way (“W”) or a relation (“R”). Self derivitive not from OSM database.|(n/a)|
-|geom|geometry(geometry, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON|`way=*`|
+|Attribute   |Data Type         |Description                                   |Osm Tags       |osm2pgsql column |
+| ---------- | ---------------- | -------------------------------------------- | ------------- | --------------- |
+|osm_id|bigint|The ID of the OSM element (node, way or relationship) corresponding to the feature. The uniqueness is only within an OSM element. OSM does not guarantee uniqueness. But it's often the only ID one can get from the origin. `osm2pgsql` generates negative osm_ids when areas are created from relations. And `osm2pgsql` creates sometimes duplicates by splitting large ways.| |`osm_id`|
+|lastchange |timestamp without time zone |The timestamp of the last time the feature was changed (UTC)|`osm_lastchange=*`| |
+|geomtype|varchar(1)|This will define whether it is a node (“N”), a way (“W”) or a relation (“R”).|(n/a)| |
+|geom|geometry(geometry, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON| |`way`|
 |type|text(Enum)|This will define the feature type| |
-|name|text|The name shich is in general use (which means cyrillic, arabic etc.)|`name=*`|
-|name_intl|text|The name which is written in english, international|`Coalesce(name:en, int_name, name:fr,name:es,name:de, name)`|
-|name_fr|text|The name which is written in french|`name:fr=*`|
-|name_es|text|The name which is written in spanish|`name:es=*`|
-|name_de|text|The name which is written in german|`name:de=*`|
-|name_int|text|The international name of the feature|`int_name=*`|
-|label|text|Translated name through transliterated| |
+|name|text|The feature's (locally or regionally) common default name i.e. the one usually displayed on street signs. May be in a non-Latin script (cyrillic, arabic etc.)|`name=*`| |
+|name_intl|text| |`Coalesce(name:en, int_name, name:fr,name:es,name:de, name)`| |
+|name_en|text|The feature's English name|`name:en=*`| |
+|name_fr|text|The feature's French name|`name:fr=*`| |
+|name_es|text|The feature's Spanish name|`name:es=*`| |
+|name_de|text|The feature's German|`name:de=*`| |
+|name_int|text|The international name of the feature|`int_name=*`| |
+|label|text|A name of the feature readable by those only knowing Latin script. See [below](#attribute-label) for details.| | |
+|tags|text|Additional OSM tags in form `"<key>"=>"<value>"`, separated by `, `, e.g. `"network"=>"RMV", "note:de"=>"RB34 ist das Teilstück Stockheim bis Bad Vilbel"` or `"name:ca"=>"Frankfurt del Main", "name:ru"=>"Франкфурт-на-Майне", "de:place"=>"city", "wikidata"=>"Q1794", "short_name"=>"Frankfurt", "name:prefix"=>"Stadt", "de:regionalschluessel"=>"064120000000", "TMC:cid_58:tabcd_1:Class"=>"Area", "TMC:cid_58:tabcd_1:LCLversion"=>"9.00", "TMC:cid_58:tabcd_1:LocationCode"=>"414", "de:amtlicher_gemeindeschluessel"=>"06412000"`| |`tags`|
 
 
+### Attribute `label`
 
+The intended audience of a map you create from OSMaxx data
+might not (only) be the regional population in or near the mapped area.
+A feature's or place's common name might thus be in a script
+that is hard to (re-)recognize and remember, let alone pronounce
+by members of your audience.
+As a convenience when producing maps for non-local audiences,
+OSMaxx provides a feature name suitable for such audiences
+(under the assumption that they do know Latin script)
+in the attribute `label`
+according to the following logic:
+
+1. The feature's common name (OSM tag `name=*`) is used if it already is is in Latin script.
+2. Else, the feature's English, French, Spanish or German name (in this precedence) is used,
+   if known to OSM (tag `name:<language>=*`).
+3. Else, the feature's common name (`name=*`) is transliterated to Latin and the result is used.
+
+Note that a transliteration is not a transcription. In contrast to a transcription it
+
+* doesn't generally give the right idea about the name's correct pronunciation.
+* might contain non-pronunciation-related diacritics and punctuation
+  that allows for lossless back-transliteration to the origianl script.
 
 ## Layer Overview
 
