@@ -40,7 +40,6 @@ class CallbackHandlingTest(APITestCase):
             extraction_configuration={
                 'gis_options': {
                     'coordinate_reference_system': '4326',
-                    'detail_level': 1
                 }
             },
         )

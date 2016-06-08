@@ -25,7 +25,7 @@ class ExtractionOrderTestCase(TestCase):
             )
         )
         self.extraction_configuration = frozendict(
-            gis_options={'detail_level': 'standard'},
+            coordinate_reference_system=4326,
         )
 
     def test_create_extraction_order_with_extraction_configuration_and_retrieve_extraction_configuration(self):

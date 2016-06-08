@@ -21,7 +21,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             'is_public': 'True',
             'bounding_geometry': '{"type":"Polygon","coordinates":[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]}',
             'formats': ['fgdb'],
-            'detail_level': 'verbatim',
         }
         self.existing_own_excerpt = Excerpt.objects.create(
             name='Some old Excerpt',
@@ -49,7 +48,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             'formats': ['fgdb'],
         }
         self.existing_excerpt_extraction_options = {
-            'gis_options': {'coordinate_reference_system': '4326', 'detail_level': 1}
+            'gis_options': {'coordinate_reference_system': '4326'}
         }
 
     def test_new_when_not_logged_in(self):

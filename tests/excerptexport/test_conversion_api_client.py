@@ -83,7 +83,6 @@ def extraction_order(excerpt, user, db):
     extraction_order.extraction_configuration = {
         'gis_options': {
             'coordinate_reference_system': '4326',
-            'detail_level': 1
         }
     }
     return extraction_order

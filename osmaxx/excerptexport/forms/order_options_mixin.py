@@ -10,7 +10,6 @@ def get_export_options():
     return {
         'gis_options': {
             "coordinate_reference_system": "4326",
-            "detail_level": 1,
         },
     }
 
