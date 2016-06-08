@@ -159,7 +159,8 @@ that is hard to (re-)recognize and remember, let alone pronounce
 by members of your audience.
 As a convenience when producing maps for non-local audiences,
 OSMaxx provides a feature name suitable for such audiences
-under the assumption that they do know Latin script,
+(under the assumption that they do know Latin script)
+in the attribute `label`
 according to the following logic:
 
 1. The feature's common name (OSM tag `name=*`) is used if it already is is in Latin script.
