@@ -10,7 +10,7 @@ import osmaxx.excerptexport.models.extraction_order
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('excerptexport', '0016_extractionorder_process_start_time'),
+        ('excerptexport', '0001_initial'),
     ]
 
     operations = [
