@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from django_enumfield import enum
 
+from osmaxx.conversion_api import coordinate_reference_systems as crs
 from osmaxx.excerptexport.models.output_file import OutputFile
 from .excerpt import Excerpt
 
@@ -50,6 +51,9 @@ class ExtractionOrder(models.Model):
     )
 
     state = enum.EnumField(ExtractionOrderState, default=ExtractionOrderState.INITIALIZED, verbose_name=_('state'))
+    coordinate_reference_system = models.IntegerField(
+        verbose_name=_('CRS'), choices=crs.CRS_CHOICES, default=crs.WGS_84
+    )
     _extraction_configuration = models.TextField(
         blank=True, null=True, default='', verbose_name=_('extraction options')
     )

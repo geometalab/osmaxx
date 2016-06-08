@@ -1,11 +1,19 @@
 from django.utils.translation import gettext as _
 
+# most common reference systems
+
+WGS_84 = '4326'
+WGS_72 = '4322'
+PSEUDO_MERKATOR = '3857'
+NAD_83 = '4629'
+OSGB_36 = '4277'
+
 GLOBAL_CRS = (
-    ('4326', _('WGS 84')),
-    ('3857', _('Pseudo-Merkator')),
-    ('4322', _('WGS 72')),
-    ('4629', _('NAD 83')),
-    ('4277', _('OSGB 36')),
+    (WGS_84, _('WGS 84')),
+    (PSEUDO_MERKATOR, _('Pseudo-Merkator')),
+    (WGS_72, _('WGS 72')),
+    (NAD_83, _('NAD 83')),
+    (OSGB_36, _('OSGB 36')),
 )
 
 UTM_ZONES = (
