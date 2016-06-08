@@ -1,5 +1,6 @@
 import logging
 import os
+import shutil
 
 from django.conf import settings
 from django.db import models
@@ -127,7 +128,7 @@ class Export(TimeStampModelMixin, models.Model):
         of.file.name = new_file_name
 
         os.makedirs(os.path.dirname(new_file_path), exist_ok=True)
-        os.rename(file_path, new_file_path)
+        shutil.move(file_path, new_file_path)
         of.save()
 
         self.finished_at = now
