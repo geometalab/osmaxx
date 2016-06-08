@@ -1,7 +1,7 @@
 from .excerpt import Excerpt
 from .export import Export
 from .extraction_order import ExtractionOrder, ExtractionOrderState
-from .output_file import OutputFile, uuid_directory_path
+from .output_file import OutputFile
 
 __all__ = [
     "Excerpt",
@@ -9,5 +9,4 @@ __all__ = [
     "ExtractionOrder",
     "ExtractionOrderState",
     "OutputFile",
-    "uuid_directory_path",
 ]

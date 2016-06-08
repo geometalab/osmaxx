@@ -113,7 +113,8 @@ class Export(TimeStampModelMixin, models.Model):
 
     def _fetch_result_file(self):
         from osmaxx.api_client import ConversionApiClient
-        from . import OutputFile, uuid_directory_path
+        from . import OutputFile
+        from osmaxx.excerptexport.models.output_file import uuid_directory_path
         api_client = ConversionApiClient()
         file_path = api_client.get_result_file_path(self.conversion_service_job_id)
         now = timezone.now()

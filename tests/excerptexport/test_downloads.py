@@ -33,6 +33,6 @@ def test_successful_file_attaching_removes_original_file(mocker, some_fake_zip_f
     assert bool(export.output_file.file)
     assert not os.path.exists(some_fake_zip_file.name)
     assert os.path.exists(export.output_file.file.path)
-    from osmaxx.excerptexport.models import uuid_directory_path
+    from osmaxx.excerptexport.models.output_file import uuid_directory_path
     from django.conf import settings
     assert export.output_file.file.path == os.path.join(settings.MEDIA_ROOT, uuid_directory_path(export.output_file, some_fake_zip_file.name))
