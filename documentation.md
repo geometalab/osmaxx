@@ -132,22 +132,22 @@ example: osm_building_a_gen1_v01.gpkg
 These attributes are common to all tables (except maybe tables from external sources).
 
 
-|Attribute   |Data Type         |Description                                   |Osm Tags       |
-| ---------- | ---------------- | -------------------------------------------- | ------------- |
-|osm_id|bigint|The ID of the OSM element (node, way or relationship) corresponding to the feature. The uniqueness is only within an OSM element. OSM does not guarantee uniqueness. But it's often the only ID one can get from the origin. `osm2pgsql` generates negative osm_ids when areas are created from relations. And `osm2pgsql` creates sometimes duplicates by splitting large ways.|`osm_id=*`|
-|lastchange |timestamp without time zone |The timestamp of the last time the feature was changed (UTC)|`osm_lastchange=*`|
-|geomtype|varchar(1)|This will define whether it is a node (“N”), a way (“W”) or a relation (“R”).|(n/a)|
-|geom|geometry(geometry, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON|`way=*`|
+|Attribute   |Data Type         |Description                                   |Osm Tags       |osm2pgsql column |
+| ---------- | ---------------- | -------------------------------------------- | ------------- | --------------- |
+|osm_id|bigint|The ID of the OSM element (node, way or relationship) corresponding to the feature. The uniqueness is only within an OSM element. OSM does not guarantee uniqueness. But it's often the only ID one can get from the origin. `osm2pgsql` generates negative osm_ids when areas are created from relations. And `osm2pgsql` creates sometimes duplicates by splitting large ways.| |`osm_id`|
+|lastchange |timestamp without time zone |The timestamp of the last time the feature was changed (UTC)|`osm_lastchange=*`| |
+|geomtype|varchar(1)|This will define whether it is a node (“N”), a way (“W”) or a relation (“R”).|(n/a)| |
+|geom|geometry(geometry, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON| |`way`|
 |type|text(Enum)|This will define the feature type| |
-|name|text|The name which is in general use (which means cyrillic, arabic etc.)|`name=*`|
-|name_intl|text|The name which is written in english, international|`Coalesce(name:en, int_name, name:fr,name:es,name:de, name)`|
-|name_en|text|The name which is written in english|`name:en=*`|
-|name_fr|text|The name which is written in french|`name:fr=*`|
-|name_es|text|The name which is written in spanish|`name:es=*`|
-|name_de|text|The name which is written in german|`name:de=*`|
-|name_int|text|The international name of the feature|`int_name=*`|
-|label|text|Translated name through transliterated| |
-|tags|text|Additional OSM tags in form `"<key>"=>"<value>"`, separated by `, `, e.g. `"network"=>"RMV", "note:de"=>"RB34 ist das Teilstück Stockheim bis Bad Vilbel"` or `"name:ca"=>"Frankfurt del Main", "name:ru"=>"Франкфурт-на-Майне", "de:place"=>"city", "wikidata"=>"Q1794", "short_name"=>"Frankfurt", "name:prefix"=>"Stadt", "de:regionalschluessel"=>"064120000000", "TMC:cid_58:tabcd_1:Class"=>"Area", "TMC:cid_58:tabcd_1:LCLversion"=>"9.00", "TMC:cid_58:tabcd_1:LocationCode"=>"414", "de:amtlicher_gemeindeschluessel"=>"06412000"`| |
+|name|text|The name which is in general use (which means cyrillic, arabic etc.)|`name=*`| |
+|name_intl|text|The name which is written in english, international|`Coalesce(name:en, int_name, name:fr,name:es,name:de, name)`| |
+|name_en|text|The name which is written in english|`name:en=*`| |
+|name_fr|text|The name which is written in french|`name:fr=*`| |
+|name_es|text|The name which is written in spanish|`name:es=*`| |
+|name_de|text|The name which is written in german|`name:de=*`| |
+|name_int|text|The international name of the feature|`int_name=*`| |
+|label|text|Translated name through transliterated| | |
+|tags|text|Additional OSM tags in form `"<key>"=>"<value>"`, separated by `, `, e.g. `"network"=>"RMV", "note:de"=>"RB34 ist das Teilstück Stockheim bis Bad Vilbel"` or `"name:ca"=>"Frankfurt del Main", "name:ru"=>"Франкфурт-на-Майне", "de:place"=>"city", "wikidata"=>"Q1794", "short_name"=>"Frankfurt", "name:prefix"=>"Stadt", "de:regionalschluessel"=>"064120000000", "TMC:cid_58:tabcd_1:Class"=>"Area", "TMC:cid_58:tabcd_1:LCLversion"=>"9.00", "TMC:cid_58:tabcd_1:LocationCode"=>"414", "de:amtlicher_gemeindeschluessel"=>"06412000"`| |`tags`|
 
 
 ## Layer Overview
