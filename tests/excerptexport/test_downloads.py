@@ -31,7 +31,7 @@ def test_successful_file_attaching_removes_original_file(mocker, some_fake_zip_f
     )
     assert os.path.exists(some_fake_zip_file.name)
     export._fetch_result_file()
-    assert export.output_file.file
+    assert export.output_file.has_file
     assert not os.path.exists(some_fake_zip_file.name)
     assert os.path.exists(export.output_file.file.path)
     from osmaxx.excerptexport.models.output_file import uuid_directory_path
