@@ -146,13 +146,13 @@ def pytest_configure():
         },
         _OSMAXX_POLYFILE_LOCATION=os.path.join(test_data_dir, 'polyfiles'),
         OSMAXX_TEST_SETTINGS={
-            'download_file_name': '%(excerpt_name)s-%(content_type)s-%(id)s.%(file_extension)s',
+            'download_file_name': '%(excerpt_name)s-%(date)s.%(content_type)s.%(file_extension)s',
             'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
         },
         OSMAXX={
-            'download_file_name': '%(date)s-%(excerpt_name)s-%(id)s.%(content_type)s.%(file_extension)s',
+            'download_file_name': '%(excerpt_name)s-%(date)s.%(content_type)s.%(file_extension)s',
             'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timedelta(hours=24),
             # The email adress of this user will be used to generate the mailto link for users
             # to request access to osmaxx (access_denied page)
