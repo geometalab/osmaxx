@@ -1,3 +1,4 @@
+import tempfile
 from unittest.mock import patch, ANY, call, Mock, sentinel
 
 import requests_mock
@@ -201,11 +202,16 @@ class CallbackHandlingTest(APITestCase):
             reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
             data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
         )
+
+        resulting_file = tempfile.NamedTemporaryFile()
+        resulting_file.write(b'dummy file')
+        resulting_file.seek(0)
+
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_job/1/',
             json=dict(
-                resulting_file='http://localhost:8901/api/conversion_job/1/conversion_result.zip'
+                resulting_file_path=resulting_file.name
             )
         )
         requests_mock.get(
@@ -234,16 +240,17 @@ class CallbackHandlingTest(APITestCase):
             reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
             data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
         )
+
+        resulting_file = tempfile.NamedTemporaryFile()
+        resulting_file.write(b'dummy file')
+        resulting_file.seek(0)
+
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_job/1/',
             json=dict(
-                resulting_file='http://localhost:8901/api/conversion_job/1/conversion_result.zip'
+                resulting_file_path=resulting_file.name
             )
-        )
-        requests_mock.get(
-            'http://localhost:8901/api/conversion_job/1/conversion_result.zip',
-            body=BytesIO('dummy file'.encode())
         )
 
         views.tracker(request, export_id=str(self.export.id))
@@ -252,7 +259,7 @@ class CallbackHandlingTest(APITestCase):
             [
                 'The extraction order #{order_id} "Neverland" has been processed.',
                 'Results available for download:',
-                '- ESRI File Geodatabase',  # TODO: download link
+                '- ESRI File Geodatabase (http://testserver{download_url})',
                 '',
                 'The following exports have failed:',
                 '- SpatiaLite',
@@ -261,7 +268,10 @@ class CallbackHandlingTest(APITestCase):
                 '',
                 'View the complete order at http://testserver/exports/',
             ]
-        ).format(order_id=self.export.extraction_order.id)
+        ).format(
+            order_id=self.export.extraction_order.id,
+            download_url=self.export.output_file.file.url,
+        )
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.success(

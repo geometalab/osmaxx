@@ -73,7 +73,16 @@ services:
     ports:
       - "5433:5432"
   osm_importer:
-    command: [sh, -c, "wget -O /var/data/osm-planet/pbf/planet-latest.osm.pbf --continue http://download.geofabrik.de/europe/switzerland-latest.osm.pbf && osm2pgsql -c --number-processes 8 -H database -U gis -d gis --slim -C 2000 --prefix osm --hstore --latlon --style /root/styles/terminal.style --tag-transform-script /root/styles/tag_transform_style.lua /var/data/osm-planet/pbf/planet-latest.osm.pbf"]
+    command: >
+      sh -c "
+      mkdir -p /var/data/osm-planet/pbf &&
+      wget -O /tmp/monaco-latest.osm.pbf http://download.geofabrik.de/europe/monaco-latest.osm.pbf &&
+      wget -O /tmp/switzerland-latest.osm.pbf http://download.geofabrik.de/europe/switzerland-latest.osm.pbf &&
+      osmconvert /tmp/monaco-latest.osm.pbf -o=/tmp/monaco-latest.osm &&
+      osmconvert /tmp/switzerland-latest.osm.pbf -o=/tmp/switzerland-latest.osm &&
+      osmconvert /tmp/monaco-latest.osm /tmp/switzerland-latest.osm -o=/var/data/osm-planet/pbf/planet-latest.osm.pbf &&
+      osm2pgsql -c --number-processes 8 -H database -U gis -d gis --slim -C 2000 --prefix osm --hstore --latlon --style /root/styles/terminal.style --tag-transform-script /root/styles/tag_transform_style.lua /var/data/osm-planet/pbf/planet-latest.osm.pbf
+      "
     environment:
       - ram_cache=2000  # in megabytes
       - num_processes=8

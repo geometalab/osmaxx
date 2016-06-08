@@ -1,0 +1,26 @@
+{% load i18n capture_as %}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">{% trans 'Filter' %}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="btn-group" role="group" aria-label="status-filter-button-group">
+            <a class="btn btn-default{% if not status_filter or status_filter == "all" %} active{% endif %}" role="button" href=".">{% trans 'Show All' %}</a>
+            {% for status, display in status_choices %}
+                <a class="btn btn-default{% if status_filter == status %} active{% endif %}" role="button" href="?status={{ status }}">{{ display|capfirst }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% if is_paginated %}
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">{% trans 'See more' %}</h3>
+        </div>
+        <div class="panel-body">
+            {% firstof status_filter "all" as status %}
+            {% capture_as url_opts %}?status={{ status }}&{% end_capture_as %}
+            {% include 'excerptexport/partials/pagination.html' %}
+        </div>
+    </div>
+{% endif %}

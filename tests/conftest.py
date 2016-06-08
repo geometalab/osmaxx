@@ -1,9 +1,12 @@
 # pylint: disable=C0111
 import os
 import tempfile
+from collections import Mapping
 from datetime import timedelta
 
 import pytest
+
+from osmaxx.utils.frozendict import frozendict
 
 test_data_dir = os.path.join(os.path.dirname(__file__), 'test_data')
 
@@ -74,6 +77,7 @@ def pytest_configure():
             'django.contrib.sites',
             'django.contrib.messages',
             'django.contrib.staticfiles',
+            'django.contrib.gis',
 
             'rest_framework',
             'rest_framework_gis',
@@ -83,13 +87,15 @@ def pytest_configure():
 
             'tests',
 
+            # version app
+            'osmaxx.version',
+
             # conversion service apps
             'osmaxx.clipping_area',
             'osmaxx.conversion',
 
             # web_frontend apps
             'osmaxx.core',
-            'osmaxx.countries',
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
             'osmaxx.social_auth',
@@ -139,13 +145,13 @@ def pytest_configure():
         },
         _OSMAXX_POLYFILE_LOCATION=os.path.join(test_data_dir, 'polyfiles'),
         OSMAXX_TEST_SETTINGS={
-            'download_file_name': '%(excerpt_name)s-%(content_type)s-%(id)s.%(file_extension)s',
+            'download_file_name': '%(excerpt_name)s-%(date)s.%(content_type)s.%(file_extension)s',
             'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
         },
         OSMAXX={
-            'download_file_name': '%(date)s-%(excerpt_name)s-%(id)s.%(content_type)s.%(file_extension)s',
+            'download_file_name': '%(excerpt_name)s-%(date)s.%(content_type)s.%(file_extension)s',
             'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timedelta(hours=24),
             # The email adress of this user will be used to generate the mailto link for users
             # to request access to osmaxx (access_denied page)
@@ -293,3 +299,26 @@ polygon-1
 END
 END
 '''
+
+
+class TagCombination(Mapping):
+    def __init__(self, *args, **kwargs):
+        tags = dict(osm_id=id(self))
+        tags.update(*args, **kwargs)
+        self.__tags = frozendict(tags)
+        self.__hash = hash(frozenset(self.items()))
+
+    def __getitem__(self, item):
+        return self.__tags[item]
+
+    def __iter__(self):
+        return iter(self.__tags)
+
+    def __len__(self):
+        return len(self.__tags)
+
+    def __str__(self):
+        return ' '.join("{key}={value}".format(key=key, value=value) for key, value in self.items())
+
+    def __hash__(self):
+        return self.__hash

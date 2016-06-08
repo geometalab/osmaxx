@@ -3,6 +3,7 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
     this.currentLayer = null;
 
     this.map = L.map(mapElementID).setView([0, 0], 2);
+
     L.control.scale().addTo(this.map);
     // add an OpenStreetMap tile layer
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -34,5 +35,16 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
         }.bind(this)).on('data:loaded', function(){
             this.map.spin(false);
         }.bind(this));
+    }.bind(this);
+
+    this.disableZoom = function(){
+        this.map.dragging.disable();
+        this.map.touchZoom.disable();
+        this.map.doubleClickZoom.disable();
+        this.map.scrollWheelZoom.disable();
+        this.map.keyboard.disable();
+        if (this.map.tap) {
+            this.map.tap.disable();
+        }
     }.bind(this);
 };

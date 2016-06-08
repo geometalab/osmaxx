@@ -35,6 +35,7 @@ class BootStrapperTest(TestCase):
                 'sql/filter/natural/020_setup-drop_and_recreate_table_natural_p.sql',
                 'sql/filter/natural/030_natural_p.sql',
                 'sql/filter/nonop/000_setup-drop_and_recreate_table_nonop.sql',
+                'sql/filter/nonop/005_lifecycle_view.sql',
                 'sql/filter/nonop/010_nonop.sql',
                 'sql/filter/geoname/000_setup-geoname_table.sql',
                 'sql/filter/geoname/010_geoname_l.sql',

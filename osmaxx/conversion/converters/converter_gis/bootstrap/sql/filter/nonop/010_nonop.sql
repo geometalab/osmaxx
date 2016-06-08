@@ -1,18 +1,39 @@
 INSERT INTO osmaxx.nonop_l
-  SELECT osm_id as osm_id,
+  SELECT osm_line.osm_id as osm_id,
     osm_timestamp as lastchange ,
 -- R=Relation & W=Way --
     CASE
-     WHEN osm_id<0 THEN 'R' -- Relation
-     ELSE 'W'               -- Way
+     WHEN osm_line.osm_id<0 THEN 'R' -- Relation
+     ELSE 'W'                        -- Way
     END AS geomtype,
 
     ST_Multi(way) AS geom,
 -- Differentiating between Highway and Railway --
     case
-    when highway is not null then 'highway'
-    when railway is not null then 'railway'
+    when osmaxx.lifecycle_l.highway is not null then 'highway'
+    when osmaxx.lifecycle_l.railway is not null then 'railway'
     end as type,
+    case
+      when osmaxx.lifecycle_l.highway is not null then
+        case
+          when osmaxx.lifecycle_l.highway='track' then
+            case
+              when tracktype in ('grade1','grade2','grade3','grade4','grade5') then tracktype
+              else 'track'
+            end
+          when osmaxx.lifecycle_l.highway in ('motorway','trunk','primary','secondary','tertiary',
+                'unclassified','residential','living_street','pedestrian',
+                'motorway_link','trunk_link','primary_link','secondary_link',
+                'service','track','bridleway','cycleway','footway',
+                'path','steps') then osmaxx.lifecycle_l.highway
+          else 'road'
+        end
+      when osmaxx.lifecycle_l.railway is not null then
+        case
+          when osmaxx.lifecycle_l.railway in ('rail','light_rail','subway','tram','monorail','narrow_gauge','miniature','funicular','rack') then osmaxx.lifecycle_l.railway
+          else 'railway'
+        end
+    end as sub_type,
     name as name,
     "name:en" as name_en,
     "name:fr" as name_fr,
@@ -42,13 +63,6 @@ INSERT INTO osmaxx.nonop_l
     end as tunnel,
 
     z_order as z_order,
--- Differentiating the different types of transport --
-    case
-     when highway='planned' or railway='planned' then 'P'
-     when highway='disused'  or railway='disused' then 'D'
-     when highway='construction'  or railway='construction' then 'C'
-     when highway='abandoned'  or railway='abandoned' then 'A'
-     end as status
+    status AS status
  FROM osm_line
- WHERE highway='planned' or  highway='disused' or highway='construction' or highway='abandoned' or
-    railway='planned' or  railway='disused' or railway='construction' or railway='abandoned' ;
+   JOIN osmaxx.lifecycle_l ON osm_line.osm_id = osmaxx.lifecycle_l.osm_id;

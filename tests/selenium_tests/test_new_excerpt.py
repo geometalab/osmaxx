@@ -1,8 +1,10 @@
+from urllib.parse import urljoin
+
 import pytest
 import requests
 from selenium.webdriver.common.keys import Keys
 
-from tests.selenium_tests.conftest import skip_selenium_tests
+from tests.selenium_tests.conftest import skip_selenium_tests, first_panel_on_excerpts_export_overview_xpath
 from tests.selenium_tests.new_excerpt import new_excerpt
 
 
@@ -26,10 +28,11 @@ def test_new_excerpt(base_url, login, file_name, file_format, selenium, reload_u
     create.send_keys(Keys.RETURN)
 
     # wait until download link appears
-    selenium.find_element_by_link_text('↻ Reload')
-    element = reload_until_condition(selenium.find_element_by_class_name, "form-control")
+    selenium.find_element_by_xpath(first_panel_on_excerpts_export_overview_xpath + "div[1]/h3")
+    first_a = first_panel_on_excerpts_export_overview_xpath + "div[2]/div[1]/div[1]/div[2]/div/div[1]/p/a"
+    element = reload_until_condition(selenium.find_element_by_xpath, first_a)
 
     # check if the download link is a valid link
-    url = element.text
+    url = urljoin(base_url, element.get_attribute('href'))
     r = requests.head(url)
     assert r.status_code == requests.codes.ok

@@ -38,6 +38,7 @@ DJANGO_APPS = (
 
     # Admin
     'django.contrib.admin',
+    'django.contrib.gis',
 )
 THIRD_PARTY_APPS = (
     'social.apps.django_app.default',
@@ -53,7 +54,6 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'osmaxx.version',
 
-    'osmaxx.countries',
     'osmaxx.conversion_api',
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
@@ -384,7 +384,7 @@ MESSAGE_TAGS = {
 }
 
 OSMAXX = {
-    'download_file_name': '%(date)s-%(excerpt_name)s-%(id)s.%(content_type)s.%(file_extension)s',
+    'download_file_name': '%(excerpt_name)s-%(date)s.%(content_type)s.%(file_extension)s',
     'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timezone.timedelta(
         hours=env.int('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=24)
     ),
