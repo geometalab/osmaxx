@@ -26,12 +26,20 @@ class OrderOptionsMixin(forms.Form):
 
     def form_layout(self):
         return Div(
-            Fieldset(
-                _('Extraction options'),
-                'formats',
+            Div(
+                Fieldset(
+                    _('Export options'),
+                    'formats',
+
+                ),
+                css_class="col-md-6",
             ),
-            Fieldset(
-                _('Coordinate system'),
-                'coordinate_reference_system',
+            Div(
+                Fieldset(
+                    _('GIS Options (ignored for garmin)'),
+                    'coordinate_reference_system',
+                ),
+                css_class="col-md-6",
             ),
+            css_class="row",
         )
