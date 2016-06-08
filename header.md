@@ -139,16 +139,33 @@ These attributes are common to all tables (except maybe tables from external sou
 |geomtype|varchar(1)|This will define whether it is a node (“N”), a way (“W”) or a relation (“R”).|(n/a)| |
 |geom|geometry(geometry, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON| |`way`|
 |type|text(Enum)|This will define the feature type| |
-|name|text|The name which is in general use (which means cyrillic, arabic etc.)|`name=*`| |
+|name|text|The feature's (locally or regionally) common default name i.e. the one usually displayed on street signs. May be in a non-Latin script (cyrillic, arabic etc.)|`name=*`| |
 |name_intl|text|The name which is written in english, international|`Coalesce(name:en, int_name, name:fr,name:es,name:de, name)`| |
-|name_en|text|The name which is written in english|`name:en=*`| |
-|name_fr|text|The name which is written in french|`name:fr=*`| |
-|name_es|text|The name which is written in spanish|`name:es=*`| |
-|name_de|text|The name which is written in german|`name:de=*`| |
+|name_en|text|The feature's English name|`name:en=*`| |
+|name_fr|text|The feature's French name|`name:fr=*`| |
+|name_es|text|The feature's Spanish name|`name:es=*`| |
+|name_de|text|The feature's German|`name:de=*`| |
 |name_int|text|The international name of the feature|`int_name=*`| |
-|label|text|Translated name through transliterated| | |
+|label|text|A name of the feature readable by those only knowing Latin script. See [below](#attribute-label) for details.| | |
 |tags|text|Additional OSM tags in form `"<key>"=>"<value>"`, separated by `, `, e.g. `"network"=>"RMV", "note:de"=>"RB34 ist das Teilstück Stockheim bis Bad Vilbel"` or `"name:ca"=>"Frankfurt del Main", "name:ru"=>"Франкфурт-на-Майне", "de:place"=>"city", "wikidata"=>"Q1794", "short_name"=>"Frankfurt", "name:prefix"=>"Stadt", "de:regionalschluessel"=>"064120000000", "TMC:cid_58:tabcd_1:Class"=>"Area", "TMC:cid_58:tabcd_1:LCLversion"=>"9.00", "TMC:cid_58:tabcd_1:LocationCode"=>"414", "de:amtlicher_gemeindeschluessel"=>"06412000"`| |`tags`|
 
+
+### Attribute `label`
+
+The intended audience of a map you create from OSMaxx data
+might not (only) be the regional population in or near the mapped area.
+A feature's or place's common name might thus be in a script
+that is hard to (re-)recognize and remember, let alone pronounce
+by members of your audience.
+As a convenience when producing maps for non-local audiences,
+OSMaxx provides a feature name suitable for such audiences
+under the assumption that they do know Latin script,
+according to the following logic:
+
+1. The feature's common name (OSM tag `name=*`) is used if it already is is in Latin script.
+2. Else, the feature's English, French, Spanish or German name (in this precedence) is used,
+   if known to OSM (tag `name:<language>=*`).
+3. Else, the feature's common name (`name=*`) is transliterated to Latin and the result is used.
 
 ## Layer Overview
 
