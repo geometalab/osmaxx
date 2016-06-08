@@ -1,5 +1,3 @@
-import json
-
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
@@ -54,9 +52,6 @@ class ExtractionOrder(models.Model):
     coordinate_reference_system = models.IntegerField(
         verbose_name=_('CRS'), choices=crs.CRS_CHOICES, default=crs.WGS_84
     )
-    _extraction_configuration = models.TextField(
-        blank=True, null=True, default='', verbose_name=_('extraction options')
-    )
     process_id = models.TextField(blank=True, null=True, verbose_name=_('process link'))
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True)
@@ -106,22 +101,6 @@ class ExtractionOrder(models.Model):
     @property
     def are_downloads_ready(self):
         return self.state == ExtractionOrderState.FINISHED
-
-    @property
-    def extraction_configuration(self):
-        if self._extraction_configuration and not self._extraction_configuration == '':
-            return json.loads(self._extraction_configuration)
-        else:
-            return None
-
-    @extraction_configuration.setter
-    def extraction_configuration(self, value):
-        if not value:
-            value = {}
-        else:
-            value = dict(value)
-        assert 'gis_formats' not in value
-        self._extraction_configuration = json.dumps(value)
 
     @property
     def extraction_formats(self):

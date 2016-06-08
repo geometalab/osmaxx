@@ -22,7 +22,6 @@ def excerpt(user, bounding_geometry, db):
 @pytest.fixture
 def extraction_order(excerpt, user, db):
     extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
-    extraction_order.extraction_configuration = {}
     return extraction_order
 
 

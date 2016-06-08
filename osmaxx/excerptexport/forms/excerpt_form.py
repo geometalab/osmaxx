@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, Submit
 
-from .order_options_mixin import OrderOptionsMixin, get_export_options
+from .order_options_mixin import OrderOptionsMixin
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from osmaxx.utilities.dict_helpers import select_keys
 
@@ -69,7 +69,7 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
 
     def save(self, user):
         extraction_order = ExtractionOrder(orderer=user)
-        extraction_order.extraction_configuration = get_export_options()
+        extraction_order.coordinate_reference_system = self.cleaned_data['coordinate_reference_system']
         extraction_order.extraction_formats = self.cleaned_data['formats']
         excerpt_dict = select_keys(self.cleaned_data, ['name', 'is_public', 'bounding_geometry'])
         excerpt = Excerpt(

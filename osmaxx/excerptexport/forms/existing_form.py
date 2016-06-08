@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_user_excerpts, \
     other_users_public_excerpts
-from .order_options_mixin import OrderOptionsMixin, get_export_options
+from .order_options_mixin import OrderOptionsMixin
 
 
 def get_country_choices():
@@ -78,7 +78,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
 
     def save(self, user):
         extraction_order = ExtractionOrder(orderer=user)
-        extraction_order.extraction_configuration = get_export_options()
+        extraction_order.coordinate_reference_system = self.cleaned_data['coordinate_reference_system']
         extraction_order.extraction_formats = self.cleaned_data['formats']
 
         existing_key = self.cleaned_data['existing_excerpts']
