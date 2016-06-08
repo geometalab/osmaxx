@@ -167,6 +167,12 @@ according to the following logic:
    if known to OSM (tag `name:<language>=*`).
 3. Else, the feature's common name (`name=*`) is transliterated to Latin and the result is used.
 
+Note that a transliteration is not a transcription. In contrast to a transcription it
+
+* doesn't generally give the right idea about the name's correct pronunciation.
+* might contain non-pronunciation-related diacritics and punctuation
+  that allows for lossless back-transliteration to the origianl script.
+
 ## Layer Overview
 
 See file name conventions above about the meaning of “_a” etc.
