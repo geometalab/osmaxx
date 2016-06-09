@@ -46,8 +46,7 @@ def yaml_to_md(layer_name, layer_definition, out):
 def write_attribute_values_table(attribute_name, attribute_values, out):
     correlated_attributes = set()
     for definition in attribute_values.values():
-        for name in definition.get('correlated_attributes', {}):
-            correlated_attributes.add(name)
+        correlated_attributes |= definition.get('correlated_attributes', {}).keys()
 
     out.write(
         ATTRIBUTE_VALUES_TEMPLATE.render(
