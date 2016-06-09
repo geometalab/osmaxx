@@ -80,12 +80,7 @@ def excerpt(user, bounding_geometry, db):
 def extraction_order(excerpt, user, db):
     extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user, id=23)
     extraction_order.extraction_formats = [FGDB, SPATIALITE]
-    extraction_order.extraction_configuration = {
-        'gis_options': {
-            'coordinate_reference_system': '4326',
-            'detail_level': 1
-        }
-    }
+    extraction_order.coordinate_reference_system = 4326
     return extraction_order
 
 
@@ -108,7 +103,7 @@ def test_extraction_order_forward_to_conversion_service(
     result = extraction_order.forward_to_conversion_service(incoming_request=request)
 
     ConversionApiClient.create_boundary.assert_called_once_with(bounding_geometry, name=excerpt.name)
-    srs = extraction_order.extraction_configuration['gis_options']['coordinate_reference_system']
+    srs = extraction_order.coordinate_reference_system
     assert_that(
         ConversionApiClient.create_parametrization.mock_calls, contains_inanyorder(
             mock.call(boundary=ConversionApiClient.create_boundary.return_value, out_format=FGDB, out_srs=srs),

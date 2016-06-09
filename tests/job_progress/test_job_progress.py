@@ -37,12 +37,7 @@ class CallbackHandlingTest(APITestCase):
             orderer=self.user,
             process_id='53880847-faa9-43eb-ae84-dd92f3803a28',
             extraction_formats=['fgdb', 'spatialite'],
-            extraction_configuration={
-                'gis_options': {
-                    'coordinate_reference_system': '4326',
-                    'detail_level': 1
-                }
-            },
+            coordinate_reference_system=4326,
         )
         self.export = extraction_order.exports.get(file_format='fgdb')
         self.nonexistant_export_id = 999
