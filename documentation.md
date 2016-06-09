@@ -1102,33 +1102,33 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|no_large_vehicle|bridleway|`highway=bridleway`|For horses.|
-|no_large_vehicle|cycleway|`highway=cycleway`|Cycling infrastructure that is an inherent part of a road - particularly 'cycle lanes' which are a part of the road|
-|no_large_vehicle|footway|`highway=footway`|For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.|
+|major_road|motorway|`highway=motorway`|A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..|
+|major_road|trunk|`highway=trunk`|The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)|
+|major_road|primary|`highway=primary`|The next most important roads in a country's system. (Often link larger towns.)|
+|major_road|secondary|`highway=secondary`|The next most important roads in a country's system. (Often link smaller towns and villages.)	|
+|major_road|tertiary|`highway=tertiary`|The next most important roads in a country's system.|
+|minor_road|unclassified|`highway=unclassified`|The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)	|
+|minor_road|residential|`highway=residential`|Roads which are primarily lined with and serve as an access to housing.|
+|minor_road|living_street|`highway=living_street`|For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.	|
+|minor_road|pedestrian|`highway=pedestrian`|For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian.|
+|highway_links|motorway_link|`highway=motorway_link`|The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.|
+|highway_links|trunk_link|`highway=trunk_link`|The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.|
+|highway_links|primary_link|`highway=primary_link`|The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.|
+|highway_links|secondary_link|`highway=secondary_link`|The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.|
+|small_road|service|`highway=service`|For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.|
+|track|track|`highway=track`+<code>tracktype<strong>&ne;\*</strong></code>|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present|
 |track|grade1|`highway=track`+`tracktype=grade1`|Solid. Usually a paved or heavily compacted hardcore surface.|
 |track|grade2|`highway=track`+`tracktype=grade2`|Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.|
 |track|grade3|`highway=track`+`tracktype=grade3`|Even mixture of hard and soft materials. Almost always an unpaved track.|
 |track|grade4|`highway=track`+`tracktype=grade4`|Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.|
 |track|grade5|`highway=track`+`tracktype=grade5`|Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.|
-|minor_road|living_street|`highway=living_street`|For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.	|
-|major_road|motorway|`highway=motorway`|A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..|
-|highway_links|motorway_link|`highway=motorway_link`|The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.|
+|no_large_vehicle|bridleway|`highway=bridleway`|For horses.|
+|no_large_vehicle|cycleway|`highway=cycleway`|Cycling infrastructure that is an inherent part of a road - particularly 'cycle lanes' which are a part of the road|
+|no_large_vehicle|footway|`highway=footway`|For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.|
 |no_large_vehicle|path|`highway=path`|A non-specific path.|
-|minor_road|pedestrian|`highway=pedestrian`|For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian.|
-|major_road|primary|`highway=primary`|The next most important roads in a country's system. (Often link larger towns.)|
-|highway_links|primary_link|`highway=primary_link`|The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.|
-|minor_road|residential|`highway=residential`|Roads which are primarily lined with and serve as an access to housing.|
+|no_large_vehicle|steps|`highway=steps`|For flights of steps (stairs) on footways.|
 |unclassified|road|`highway=*`+<code>roundabout<strong>&ne;\*</strong></code>|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
 |roundabout|roundabout|<code>highway<strong>&ne;\*</strong></code>+`junction=roundabout`|This contains any other roundabout except the specifics above.|
-|major_road|secondary|`highway=secondary`|The next most important roads in a country's system. (Often link smaller towns and villages.)	|
-|highway_links|secondary_link|`highway=secondary_link`|The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.|
-|small_road|service|`highway=service`|For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.|
-|no_large_vehicle|steps|`highway=steps`|For flights of steps (stairs) on footways.|
-|major_road|tertiary|`highway=tertiary`|The next most important roads in a country's system.|
-|track|track|`highway=track`+<code>tracktype<strong>&ne;\*</strong></code>|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present|
-|major_road|trunk|`highway=trunk`|The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)|
-|highway_links|trunk_link|`highway=trunk_link`|The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.|
-|minor_road|unclassified|`highway=unclassified`|The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)	|
 
 
 ## route_l
