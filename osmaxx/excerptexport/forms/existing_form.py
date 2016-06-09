@@ -52,9 +52,22 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
             Fieldset(
                 _('Excerpt'),
                 HTML('''
-                    <div class="form-group has-feedback">
-                        <input id="excerptListFilterField" class="form-control" type="search" placeholder="Filter excerpts …" autocomplete="off"/>
-                        <span id="excerptListFilterFieldClearer" class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group has-feedback">
+                                <label for="opt_group_filter" class="control-label">Filter by Word</label>
+                                <input id="excerptListFilterField" class="form-control" type="search" placeholder="Filter excerpts …" autocomplete="off"/>
+                                <span id="excerptListFilterFieldClearer" class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="opt_group_filter_div" class="hidden">
+                                <div class="form-group">
+                                    <label for="opt_group_filter" class="control-label">Filter by Group</label>
+                                    <select class="select form-control" name="opt_group_filter" id="opt_group_filter"></select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     '''  # noqa: line too long ignored
                 ),
