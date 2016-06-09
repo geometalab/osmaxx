@@ -30,7 +30,6 @@ class OrderOptionsMixin(forms.Form):
                 Fieldset(
                     _('Export options'),
                     'formats',
-
                 ),
                 css_class="col-md-6",
             ),
