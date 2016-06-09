@@ -151,12 +151,6 @@ UTM_ZONES = (
 )
 
 CRS_CHOICES = (
-    (
-        _('Global coordinate reference systems'),
-        GLOBAL_CRS,
-    ),
-    (
-        _('UTM zones'),
-        UTM_ZONES,
-    ),
+    (_('Global coordinate reference systems'), GLOBAL_CRS),
+    (_('UTM zones'), UTM_ZONES),
 )
