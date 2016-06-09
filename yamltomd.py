@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from jinja2 import Environment, FileSystemLoader
-from collections import OrderedDict
+from collections import OrderedDict, ChainMap
 from ruamel import yaml
 
 env = Environment(
@@ -44,9 +44,9 @@ def yaml_to_md(layer_name, layer_definition, out):
 
 
 def write_attribute_values_table(attribute_name, attribute_values, out):
-    correlated_attributes = set()
-    for definition in attribute_values.values():
-        correlated_attributes |= definition.get('correlated_attributes', {}).keys()
+    correlated_attributes = ChainMap(
+        *(definition.get('correlated_attributes', {}) for definition in attribute_values.values())
+    )
 
     out.write(
         ATTRIBUTE_VALUES_TEMPLATE.render(
