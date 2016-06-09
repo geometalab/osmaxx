@@ -170,12 +170,11 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.add_permissions_to_user()
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
-        response = self.client.post(
+        self.client.post(
             reverse('excerptexport:order_existing_excerpt'),
             self.existing_excerpt_post_data,
             HTTP_HOST='thehost.example.com'
         )
-        print(response)
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
