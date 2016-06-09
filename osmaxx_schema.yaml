@@ -1995,84 +1995,112 @@ layers:
           - "motorway":
               osm_tags:
                 - "highway": 'motorway'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'major_road'
               description: 'A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..'
           - "trunk":
               osm_tags:
                 - "highway": 'trunk'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'major_road'
               description: "The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)"
           - "primary":
               osm_tags:
                 - "highway": 'primary'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'major_road'
               description: "The next most important roads in a country's system. (Often link larger towns.)"
           - "secondary":
               osm_tags:
                 - "highway": 'secondary'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'major_road'
               description: "The next most important roads in a country's system. (Often link smaller towns and villages.)	"
           - "tertiary":
               osm_tags:
                 - "highway": 'tertiary'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'major_road'
               description: "The next most important roads in a country's system."
           - "unclassified":
               osm_tags:
                 - "highway": 'unclassified'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'minor_road'
               description: "The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)	"
           - "residential":
               osm_tags:
                 - "highway": 'residential'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'minor_road'
               description: 'Roads which are primarily lined with and serve as an access to housing.'
           - "living_street":
               osm_tags:
                 - "highway": 'living_street'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'minor_road'
               description: 'For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.	'
           - "pedestrian":
               osm_tags:
                 - "highway": 'pedestrian'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'minor_road'
               description: "For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian."
           - "motorway_link":
               osm_tags:
                 - "highway": 'motorway_link'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'highway_links'
               description: 'The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.'
           - "trunk_link":
               osm_tags:
                 - "highway": 'trunk_link'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'highway_links'
               description: 'The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.'
           - "primary_link":
               osm_tags:
                 - "highway": 'primary_link'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'highway_links'
               description: 'The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.'
           - "secondary_link":
               osm_tags:
                 - "highway": 'secondary_link'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'highway_links'
               description: 'The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.'
           - "service":
               osm_tags:
                 - "highway": 'service'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'small_road'
               description: 'For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.'
@@ -2080,6 +2108,8 @@ layers:
               osm_tags:
                 - "highway": 'track'
                   "tracktype": '__ABSENT__'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'track'
               description: 'Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present'
@@ -2087,6 +2117,8 @@ layers:
               osm_tags:
                 - "highway": 'track'
                   "tracktype": 'grade1'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'track'
               description: 'Solid. Usually a paved or heavily compacted hardcore surface.'
@@ -2094,6 +2126,8 @@ layers:
               osm_tags:
                 - "highway": 'track'
                   "tracktype": 'grade2'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'track'
               description: 'Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.'
@@ -2101,6 +2135,8 @@ layers:
               osm_tags:
                 - "highway": 'track'
                   "tracktype": 'grade3'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'track'
               description: 'Even mixture of hard and soft materials. Almost always an unpaved track.'
@@ -2108,6 +2144,8 @@ layers:
               osm_tags:
                 - "highway": 'track'
                   "tracktype": 'grade4'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'track'
               description: 'Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.'
@@ -2115,36 +2153,48 @@ layers:
               osm_tags:
                 - "highway": 'track'
                   "tracktype": 'grade5'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'track'
               description: 'Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.'
           - "bridleway":
               osm_tags:
                 - "highway": 'bridleway'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'no_large_vehicle'
               description: 'For horses.'
           - "cycleway":
               osm_tags:
                 - "highway": 'cycleway'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'no_large_vehicle'
               description: "Cycling infrastructure that is an inherent part of a road - particularly 'cycle lanes' which are a part of the road"
           - "footway":
               osm_tags:
                 - "highway": 'footway'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'no_large_vehicle'
               description: 'For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.'
           - "path":
               osm_tags:
                 - "highway": 'path'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'no_large_vehicle'
               description: 'A non-specific path.'
           - "steps":
               osm_tags:
                 - "highway": 'steps'
+                  [not]:
+                    "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'no_large_vehicle'
               description: 'For flights of steps (stairs) on footways.'

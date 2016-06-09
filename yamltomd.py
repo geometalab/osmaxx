@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from jinja2 import Environment, FileSystemLoader
-from collections import OrderedDict
+from collections import OrderedDict, ChainMap
 from ruamel import yaml
 
 env = Environment(
@@ -17,7 +17,22 @@ def do_dictsort_unless_ordered(value):
     else:
         return sorted(value.items())
 
+
+def do_included(d):
+    dict_t = type(d)
+    return dict_t((k, v) for k, v in d.items() if not _is_excluded(k))
+
+
+def do_excluded(d):
+    return ChainMap(*(v for k, v in d.items() if _is_excluded(k)))
+
+
+def _is_excluded(k):
+    return len(k) == 1 and k[0] == 'not'
+
 env.filters['dictsort_unless_ordered'] = do_dictsort_unless_ordered
+env.filters['included'] = do_included
+env.filters['excluded'] = do_excluded
 
 LAYER_TEMPLATE = env.get_template('layer.md.jinja2')
 ATTRIBUTE_VALUES_TEMPLATE = env.get_template('attribute_values.md.jinja2')
