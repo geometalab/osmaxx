@@ -1,5 +1,8 @@
 import logging
+import os
+import shutil
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -111,18 +114,24 @@ class Export(TimeStampModelMixin, models.Model):
     def _fetch_result_file(self):
         from osmaxx.api_client import ConversionApiClient
         from . import OutputFile
+        from osmaxx.excerptexport.models.output_file import uuid_directory_path
         api_client = ConversionApiClient()
-        file_content = api_client.get_result_file(self.conversion_service_job_id)
+        file_path = api_client.get_result_file_path(self.conversion_service_job_id)
         now = timezone.now()
         of = OutputFile.objects.create(
             export=self,
             mime_type='application/zip',
             file_extension='zip',
         )
-        of.file.save(
-            of.download_file_name,
-            file_content,
-        )
+        new_file_name = uuid_directory_path(of, file_path)
+        new_file_path = os.path.join(settings.MEDIA_ROOT, new_file_name)
+
+        of.file.name = new_file_name
+
+        os.makedirs(os.path.dirname(new_file_path), exist_ok=True)
+        shutil.move(file_path, new_file_path)
+        of.save()
+
         self.finished_at = now
         self.save()
 

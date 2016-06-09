@@ -71,7 +71,7 @@ class Job(models.Model):
 
     @property
     def get_absolute_file_path(self):
-        if self._has_file:
+        if self.has_file:
             return self.resulting_file.path
         return None
 
@@ -83,11 +83,11 @@ class Job(models.Model):
         )
 
     @property
-    def _has_file(self):
+    def has_file(self):
         return bool(self.resulting_file)
 
     def delete(self, *args, **kwargs):
-        if self._has_file:
+        if self.has_file:
             os.unlink(self.resulting_file.path)
         return super().delete(args, kwargs)
 

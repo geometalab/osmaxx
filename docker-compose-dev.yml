@@ -22,8 +22,10 @@ services:
       - DJANGO_SECRET_KEY=insecure!1
       - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.local
       - DJANGO_DEBUG=true
-#      this is the most common used docker-ip connecting from localhost to docker network
-      - DJANGO_INTERNAL_IPS=172.19.0.1
+#     Allow access from any private-use IP, since docker assigns "random" IPs.
+#     172.*.*.* is actually allowing too much, but this docker-compose file should
+#     only ever be used on local development machine, anyway!
+      - DJANGO_INTERNAL_IPS=172.*.*.*,10.*.*.*,192.168.*.*,127.0.0.1
     logging:
       driver: "json-file"
       options:

@@ -10,7 +10,7 @@ from osmaxx.excerptexport.models.export import Export
 
 def uuid_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/osmaxx/<public_uuid>/<filename>
-    return os.path.join('osmaxx', 'outputfiles', str(instance.public_identifier), filename)
+    return os.path.join('osmaxx', 'outputfiles', str(instance.public_identifier), os.path.basename(filename))
 
 
 class OutputFile(models.Model):
@@ -38,10 +38,14 @@ class OutputFile(models.Model):
 
     @property
     def file_extension(self):
-        if bool(self.file):
+        if self.has_file:
             _discarded, file_extension = os.path.splitext(self.file)
             return file_extension
         return 'zip'
+
+    @property
+    def has_file(self):
+        return bool(self.file)
 
     def __str__(self):
         return \
