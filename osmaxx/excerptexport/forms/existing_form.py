@@ -71,7 +71,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
             required=True,
             choices=get_existing_excerpt_choices(user),
             widget=forms.Select(
-                attrs={'size': 10, 'required': True},
+                attrs={'size': 10, 'required': True, 'class': 'resizable'},
             ),
         )
         return cls
