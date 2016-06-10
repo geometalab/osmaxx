@@ -18,7 +18,7 @@
      * filter listed excerpts by the filter word from the filter bar
      */
     jQuery(document).ready(function() {
-            var optGroupFilter = function() {
+        var optGroupFilter = function() {
             var selectionBox = jQuery("#opt_group_filter");
             jQuery("#opt_group_filter_div").attr('class', '');
             jQuery(selectionBox).append('<option value="">Show All</option>');
