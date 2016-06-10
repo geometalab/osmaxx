@@ -99,6 +99,17 @@ def sql_scripts_filter():
 
 
 @pytest.fixture
+def sql_scripts_filter_level_60(sql_scripts_filter):
+    sql_scripts_filter_leveled = sql_scripts_filter
+    replacements = [
+        ('sql/filter/road/010_road.sql', 'sql/filter/road/level-60/010_road.sql')
+    ]
+    for needle, replacement in replacements:
+        sql_scripts_filter_leveled[sql_scripts_filter_leveled.index(needle)] = replacement
+    return sql_scripts_filter_leveled
+
+
+@pytest.fixture
 def sql_scripts_create_view_level_60():
     return [
         'sql/create_view/view_adminarea_a.sql',
