@@ -1991,7 +1991,7 @@ layers:
         description: 'A tunnel is an underground passage for a road or similar.'
       "type":
         type: text
-        values: !!omap
+        values: !!pairs
           - "motorway":
               osm_tags:
                 - "highway": 'motorway'
