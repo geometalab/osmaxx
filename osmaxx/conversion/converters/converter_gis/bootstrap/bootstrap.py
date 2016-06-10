@@ -79,7 +79,14 @@ class BootStrapper:
 
     def _create_views(self):
         create_view_sql_script_folder = os.path.join(self._script_base_dir, 'sql', 'create_view')
-        self._execute_sql_scripts_in_folder(create_view_sql_script_folder)
+
+        def filter_script_names(sql_file_path):
+            file_name = os.path.basename(sql_file_path)
+            if any(table_name in file_name for table_name in self._tables):
+                return True
+            return False
+
+        self._execute_sql_scripts_in_folder(create_view_sql_script_folder, filter_function=filter_script_names)
 
     def _execute_sql_scripts_in_folder(self, folder_path, *, filter_function=lambda x: x):
         sql_scripts_in_folder = filter(filter_function, glob.glob(os.path.join(folder_path, '*.sql')))
