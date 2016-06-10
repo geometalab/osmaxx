@@ -99,6 +99,32 @@ def sql_scripts_filter():
 
 
 @pytest.fixture
+def sql_scripts_create_view_level_60():
+    return [
+        'sql/create_view/view_adminarea_a.sql',
+        'sql/create_view/view_boundary_l.sql',
+        'sql/create_view/view_geoname_l.sql',
+        'sql/create_view/view_geoname_p.sql',
+        'sql/create_view/view_landuse_a.sql',
+        'sql/create_view/view_military_a.sql',
+        'sql/create_view/view_military_p.sql',
+        'sql/create_view/view_misc_l.sql',
+        'sql/create_view/view_natural_a.sql',
+        'sql/create_view/view_natural_p.sql',
+        'sql/create_view/view_poi_p.sql',
+        'sql/create_view/view_pow_p.sql',
+        'sql/create_view/view_railway_l.sql',
+        'sql/create_view/view_road_l.sql',
+        'sql/create_view/view_route_l.sql',
+        'sql/create_view/view_transport_l.sql',
+        'sql/create_view/view_utility_p.sql',
+        'sql/create_view/view_water_a.sql',
+        'sql/create_view/view_water_l.sql',
+        'sql/create_view/view_water_p.sql',
+    ]
+
+
+@pytest.fixture
 def sql_scripts_create_view():
     return [
         'sql/create_view/view_address_p.sql',
