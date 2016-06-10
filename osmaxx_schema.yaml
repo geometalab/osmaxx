@@ -2391,8 +2391,6 @@ layers:
           - "roundabout":
               osm_tags:
                 - "junction": 'roundabout'
-                  [not]:
-                    "highway": "*"
               correlated_attributes:
                 "aggtype": 'roundabout'
               description: 'This contains any other roundabout except the specifics above.'
