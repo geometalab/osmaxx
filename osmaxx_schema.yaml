@@ -2206,6 +2206,188 @@ layers:
               correlated_attributes:
                 "aggtype": 'unclassified'
               description: 'A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed'
+          - "motorway":
+              osm_tags:
+                - "highway": 'motorway'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a motorway"
+          - "trunk":
+              osm_tags:
+                - "highway": 'trunk'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a trunk road"
+          - "primary":
+              osm_tags:
+                - "highway": 'primary'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a primary road"
+          - "secondary":
+              osm_tags:
+                - "highway": 'secondary'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a secondary road"
+          - "tertiary":
+              osm_tags:
+                - "highway": 'tertiary'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a tertiary road"
+          - "unclassified":
+              osm_tags:
+                - "highway": 'unclassified'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a minor public roads (typically at the lowest level of the interconnecting grid network)"
+          - "residential":
+              osm_tags:
+                - "highway": 'residential'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a residential road"
+          - "living_street":
+              osm_tags:
+                - "highway": 'living_street'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a living street"
+          - "pedestrian":
+              osm_tags:
+                - "highway": 'pedestrian'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A pedestrian roundabout"
+          - "motorway_link":
+              osm_tags:
+                - "highway": 'motorway_link'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a link road (sliproad/ramp) leading to/from a motorway from/to a motorway or lower class road"
+          - "trunk_link":
+              osm_tags:
+                - "highway": 'trunk_link'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a link road (sliproad/ramp) leading to/from a trunk road from/to a trunk road or lower class road"
+          - "primary_link":
+              osm_tags:
+                - "highway": 'primary_link'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a link road (sliproad/ramp) leading to/from a primary road from/to a primary road or lower class road"
+          - "secondary_link":
+              osm_tags:
+                - "highway": 'secondary_link'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a link road (sliproad/ramp) leading to/from a secondary road from/to a secondary road or lower class road"
+          - "service":
+              osm_tags:
+                - "highway": 'service'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a service road"
+          - "track":
+              osm_tags:
+                - "highway": 'track'
+                  [not]:
+                    "tracktype": "*"
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a track"
+          - "grade1":
+              osm_tags:
+                - "highway": 'track'
+                  "tracktype": 'grade1'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a grade 1 track"
+          - "grade2":
+              osm_tags:
+                - "highway": 'track'
+                  "tracktype": 'grade2'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a grade 2 track"
+          - "grade3":
+              osm_tags:
+                - "highway": 'track'
+                  "tracktype": 'grade3'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a grade 3 track"
+          - "grade4":
+              osm_tags:
+                - "highway": 'track'
+                  "tracktype": 'grade4'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a grade 4 track"
+          - "grade5":
+              osm_tags:
+                - "highway": 'track'
+                  "tracktype": 'grade5'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a grade 5 track"
+          - "bridleway":
+              osm_tags:
+                - "highway": 'bridleway'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a bridleway"
+          - "cycleway":
+              osm_tags:
+                - "highway": 'cycleway'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a cycleway"
+          - "footway":
+              osm_tags:
+                - "highway": 'footway'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a designated footpath"
+          - "path":
+              osm_tags:
+                - "highway": 'path'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a non-specific path"
+          - "steps":
+              osm_tags:
+                - "highway": 'steps'
+                  "junction": "roundabout"
+              correlated_attributes:
+                "aggtype": "roundabout"
+              description: "A roundabout on a flights of steps (stairs) on a footway"
           - "roundabout":
               osm_tags:
                 - "junction": 'roundabout'

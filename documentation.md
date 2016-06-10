@@ -1128,6 +1128,31 @@ Values of attribute type
 |no_large_vehicle|path|`highway=path`+**`junction≠roundabout`**|A non-specific path.|
 |no_large_vehicle|steps|`highway=steps`+**`junction≠roundabout`**|For flights of steps (stairs) on footways.|
 |unclassified|road|`highway=*`+**`roundabout≠*`**|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
+|roundabout|motorway|`highway=motorway`+`junction=roundabout`|A roundabout on a motorway|
+|roundabout|trunk|`highway=trunk`+`junction=roundabout`|A roundabout on a trunk road|
+|roundabout|primary|`highway=primary`+`junction=roundabout`|A roundabout on a primary road|
+|roundabout|secondary|`highway=secondary`+`junction=roundabout`|A roundabout on a secondary road|
+|roundabout|tertiary|`highway=tertiary`+`junction=roundabout`|A roundabout on a tertiary road|
+|roundabout|unclassified|`highway=unclassified`+`junction=roundabout`|A roundabout on a minor public roads (typically at the lowest level of the interconnecting grid network)|
+|roundabout|residential|`highway=residential`+`junction=roundabout`|A roundabout on a residential road|
+|roundabout|living_street|`highway=living_street`+`junction=roundabout`|A roundabout on a living street|
+|roundabout|pedestrian|`highway=pedestrian`+`junction=roundabout`|A pedestrian roundabout|
+|roundabout|motorway_link|`highway=motorway_link`+`junction=roundabout`|A roundabout on a link road (sliproad/ramp) leading to/from a motorway from/to a motorway or lower class road|
+|roundabout|trunk_link|`highway=trunk_link`+`junction=roundabout`|A roundabout on a link road (sliproad/ramp) leading to/from a trunk road from/to a trunk road or lower class road|
+|roundabout|primary_link|`highway=primary_link`+`junction=roundabout`|A roundabout on a link road (sliproad/ramp) leading to/from a primary road from/to a primary road or lower class road|
+|roundabout|secondary_link|`highway=secondary_link`+`junction=roundabout`|A roundabout on a link road (sliproad/ramp) leading to/from a secondary road from/to a secondary road or lower class road|
+|roundabout|service|`highway=service`+`junction=roundabout`|A roundabout on a service road|
+|roundabout|track|`highway=track`+`junction=roundabout`+**`tracktype≠*`**|A roundabout on a track|
+|roundabout|grade1|`highway=track`+`junction=roundabout`+`tracktype=grade1`|A roundabout on a grade 1 track|
+|roundabout|grade2|`highway=track`+`junction=roundabout`+`tracktype=grade2`|A roundabout on a grade 2 track|
+|roundabout|grade3|`highway=track`+`junction=roundabout`+`tracktype=grade3`|A roundabout on a grade 3 track|
+|roundabout|grade4|`highway=track`+`junction=roundabout`+`tracktype=grade4`|A roundabout on a grade 4 track|
+|roundabout|grade5|`highway=track`+`junction=roundabout`+`tracktype=grade5`|A roundabout on a grade 5 track|
+|roundabout|bridleway|`highway=bridleway`+`junction=roundabout`|A roundabout on a bridleway|
+|roundabout|cycleway|`highway=cycleway`+`junction=roundabout`|A roundabout on a cycleway|
+|roundabout|footway|`highway=footway`+`junction=roundabout`|A roundabout on a designated footpath|
+|roundabout|path|`highway=path`+`junction=roundabout`|A roundabout on a non-specific path|
+|roundabout|steps|`highway=steps`+`junction=roundabout`|A roundabout on a flights of steps (stairs) on a footway|
 |roundabout|roundabout|`junction=roundabout`+**`highway≠*`**|This contains any other roundabout except the specifics above.|
 
 
