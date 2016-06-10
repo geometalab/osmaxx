@@ -4,6 +4,7 @@ import os
 from osmaxx.conversion.converters.converter_gis.helper.default_postgres import get_default_postgres_wrapper
 from osmaxx.conversion.converters.converter_gis.helper.osm_importer import OSMImporter
 from osmaxx.conversion.converters import detail_levels
+from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_TABLES
 from osmaxx.utils import polyfile_helpers
 
 
@@ -19,7 +20,7 @@ class BootStrapper:
         self._terminal_style_path = os.path.join(self._script_base_dir, 'styles', 'terminal.style')
         self._style_path = os.path.join(self._script_base_dir, 'styles', 'style.lua')
         self._extent = polyfile_helpers.parse_poly_string(area_polyfile_string)
-        self._tables = detail_levels.DETAIL_LEVEL_TABLES[detail_level]['tables']
+        self._detail_level = DETAIL_LEVEL_TABLES[detail_level]
 
     def bootstrap(self):
         self._reset_database()
@@ -82,13 +83,13 @@ class BootStrapper:
 
         def filter_script_names(sql_file_path):
             file_name = os.path.basename(sql_file_path)
-            if any(table_name in file_name for table_name in self._tables):
+            if any(table_name in file_name for table_name in self._detail_level['included_layers']):
                 return True
             return False
 
         self._execute_sql_scripts_in_folder(create_view_sql_script_folder, filter_function=filter_script_names)
 
-    def _execute_sql_scripts_in_folder(self, folder_path, *, filter_function=lambda x: x):
+    def _execute_sql_scripts_in_folder(self, folder_path, *, filter_function=lambda x: True):
         sql_scripts_in_folder = filter(filter_function, glob.glob(os.path.join(folder_path, '*.sql')))
         for script_path in sorted(sql_scripts_in_folder, key=os.path.basename):
             self._postgres.execute_sql_file(script_path)

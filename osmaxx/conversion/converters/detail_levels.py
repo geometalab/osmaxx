@@ -12,15 +12,15 @@ DETAIL_LEVEL_CHOICES = (
 
 DETAIL_LEVEL_TABLES = {
     DETAIL_LEVEL_ALL: dict(
-        tables=VIEW_NAMES,
-        specialized_sql_file_ending=None,
+        included_layers=VIEW_NAMES,
+        level_folder_name=None,
     ),
     DETAIL_LEVEL_REDUCED: dict(
-        tables=[
+        included_layers=[
             'adminarea_a', 'boundary_l', 'geoname_l', 'geoname_p', 'landuse_a', 'military_a', 'military_p', 'misc_l',
             'natural_a', 'natural_p', 'poi_p', 'pow_p', 'railway_l', 'road_l', 'route_l', 'utility_p', 'water_a',
             'water_p', 'water_l', 'transport_l', 'coastline_l', 'landmass_a', 'ocean_a',
         ],
-        specialized_sql_file_ending=str(DETAIL_LEVEL_REDUCED),
+        level_folder_name='level-{}'.format(str(DETAIL_LEVEL_REDUCED)),
     ),
 }
