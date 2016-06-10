@@ -60,16 +60,18 @@ INSERT INTO osmaxx.road_l
     when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector','teilweise', 'viaduct', 'tunnel', 'yes') then TRUE
     else FALSE
     end as tunnel
-     FROM osm_line
-     WHERE
-      highway not in (
-         'abandoned', 'construction', 'planned', 'proposed', 'disused',
-          -- simplification: exclude small ways
-         'bridleway', 'cycleway', 'footway', 'living_street', 'pedestrian', 'residential', 'service', 'steps',
-         -- simplification: exclude unspecified paths
-         'path'
+    FROM osm_line
+    WHERE
+      (
+        highway not in (
+          'abandoned', 'construction', 'planned', 'proposed', 'disused',
+           -- simplification: exclude small ways
+          'bridleway', 'cycleway', 'footway', 'living_street', 'pedestrian', 'residential', 'service', 'steps',
+          -- simplification: exclude unspecified paths
+          'path'
+        )
+        OR junction not in ('roundabout')
       )
-      OR junction not in ('roundabout')
       AND tracktype not in ('grade3', 'grade4', 'grade5')
 UNION
 (
@@ -147,13 +149,15 @@ UNION
 
      FROM osm_single_polygon
      WHERE
-       highway not in (
-         'abandoned', 'construction', 'planned', 'proposed', 'disused',
-          -- simplification: exclude small ways
-         'bridleway', 'cycleway', 'footway', 'living_street', 'pedestrian', 'residential', 'service', 'steps',
-         -- simplification: exclude unspecified paths
-         'path'
+       (
+         highway not in (
+           'abandoned', 'construction', 'planned', 'proposed', 'disused',
+            -- simplification: exclude small ways
+           'bridleway', 'cycleway', 'footway', 'living_street', 'pedestrian', 'residential', 'service', 'steps',
+           -- simplification: exclude unspecified paths
+           'path'
+         )
+         OR junction not in ('roundabout')
        )
-       OR junction not in ('roundabout')
        AND tracktype not in ('grade3', 'grade4', 'grade5')
 );
