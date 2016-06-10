@@ -1,6 +1,6 @@
 "use strict";
 
-(function() {
+(function () {
     // borrowed from http://codepen.io/gapcode/pen/vEJNZN, condensed
     function detectIE() {
         var ua = window.navigator.userAgent;
@@ -10,15 +10,15 @@
     /**
      * add case insensitive contains expression to jQuery
      */
-    jQuery.expr[':'].containsCI = function(a, i, m) {
+    jQuery.expr[':'].containsCI = function (a, i, m) {
         return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
     };
 
     /**
      * filter listed excerpts by the filter word from the filter bar
      */
-    jQuery(document).ready(function() {
-        var wordFilter = function() {
+    jQuery(document).ready(function () {
+        var wordFilter = function () {
             var excerptListFilterField = jQuery('input#excerptListFilterField');
             var excerptListFilterFieldClearer = jQuery('span#excerptListFilterFieldClearer');
             var excerptListFieldOptions = jQuery('select#id_existing_excerpts > optgroup > option');
@@ -90,7 +90,7 @@
                 filterOptions(excerptListFilterField);
             }
         };
-        var optGroupFilter = function() {
+        var optGroupFilter = function () {
             var selectionBox = jQuery("#opt_group_filter");
             jQuery("#opt_group_filter_div").attr('class', '');
             jQuery(selectionBox).append('<option value="">Show All</option>');
@@ -100,7 +100,9 @@
                     jQuery(selectionBox).append('<option value="' + label + '">' + label + '</option>');
                 }
             );
-            jQuery('#id_existing_excerpts').filterGroups({groupSelector: '#opt_group_filter'});
+            jQuery('#id_existing_excerpts').filterGroups({
+                groupSelector: '#opt_group_filter'
+            });
             selectionBox.on('change', wordFilter);
         };
         optGroupFilter();
