@@ -18,21 +18,6 @@
      * filter listed excerpts by the filter word from the filter bar
      */
     jQuery(document).ready(function() {
-            var optGroupFilter = function() {
-            var selectionBox = jQuery("#opt_group_filter");
-            jQuery("#opt_group_filter_div").attr('class', '');
-            jQuery(selectionBox).append('<option value="">Show All</option>');
-            jQuery("#id_existing_excerpts").children('optgroup').each(
-                    function(count, el){
-                        var label = jQuery(el).attr('label');
-                        jQuery(selectionBox).append('<option value="' + label + '">' + label + '</option>');
-                    }
-            );
-            $('#id_existing_excerpts').filterGroups({groupSelector: '#opt_group_filter'});
-            selectionBox.on('change', function(){
-                wordFilter();
-            });
-        };
         var wordFilter = function() {
             var excerptListFilterField = jQuery('input#excerptListFilterField');
             var excerptListFilterFieldClearer = jQuery('span#excerptListFilterFieldClearer');
@@ -53,11 +38,11 @@
                 showAllElements = function () {
                     excerptListFieldOptions.each(function (index, val) {
                         if (this.nodeName.toUpperCase() === 'OPTION') {
-                            var span = $(this).parent();
+                            var span = jQuery(this).parent();
                             var opt = this;
-                            if ($(this).parent().is('span')) {
-                                $(opt).show();
-                                $(span).replaceWith(opt);
+                            if (jQuery(this).parent().is('span')) {
+                                jQuery(opt).show();
+                                jQuery(span).replaceWith(opt);
                             }
                         }
                     });
@@ -67,17 +52,17 @@
                 hideElements = function (filterWord) {
                     excerptListFieldOptions.each(function (index, val) {
                         // wrap all
-                        if ($(this).is('option') && (!$(this).parent().is('span'))) {
-                            $(this).wrap('<span>');
+                        if (jQuery(this).is('option') && (!jQuery(this).parent().is('span'))) {
+                            jQuery(this).wrap('<span>');
                         }
                     });
                     var selectIEOptions = jQuery('select#id_existing_excerpts > optgroup > span > option');
                     // unwrap matching ones
                     selectIEOptions.filter(':containsCI(' + filterWord + ')').each(function () {
-                        var elem = $(this);
+                        var elem = jQuery(this);
                         var span = elem.parent();
-                        $(elem).show();
-                        $(span).replaceWith(elem);
+                        jQuery(elem).show();
+                        jQuery(span).replaceWith(elem);
                     });
                 };
             }
@@ -104,6 +89,19 @@
                 // execute filter for the first time -> may be there will be a filter word inside the filed after reload entered by the browser
                 filterOptions(excerptListFilterField);
             }
+        };
+        var optGroupFilter = function() {
+            var selectionBox = jQuery("#opt_group_filter");
+            jQuery("#opt_group_filter_div").attr('class', '');
+            jQuery(selectionBox).append('<option value="">Show All</option>');
+            jQuery("#id_existing_excerpts").children('optgroup').each(
+                function (count, el) {
+                    var label = jQuery(el).attr('label');
+                    jQuery(selectionBox).append('<option value="' + label + '">' + label + '</option>');
+                }
+            );
+            jQuery('#id_existing_excerpts').filterGroups({groupSelector: '#opt_group_filter'});
+            selectionBox.on('change', wordFilter);
         };
         optGroupFilter();
         wordFilter();
