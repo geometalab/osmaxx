@@ -11,7 +11,7 @@ from osmaxx.conversion.converters.utils import zip_folders_relative
 
 
 class GISConverter:
-    def __init__(self, *, conversion_format, out_zip_file_path, base_file_name, out_srs, polyfile_string):
+    def __init__(self, *, conversion_format, out_zip_file_path, base_file_name, out_srs, polyfile_string, detail_level):
         """
         Converts a specified pbf into the specified format.
 
@@ -29,9 +29,10 @@ class GISConverter:
         self._conversion_format = conversion_format
         self._out_srs = out_srs
         self._static_directory = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static')
+        self._detail_level = detail_level
 
     def create_gis_export(self):
-        bootstrap.boostrap(self._polyfile_string)
+        bootstrap.boostrap(self._polyfile_string, detail_level=self._detail_level)
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             data_dir = os.path.join(tmp_dir, 'data')

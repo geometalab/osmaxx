@@ -6,6 +6,7 @@ import pytest
 from django.conf import settings
 
 import osmaxx.conversion_api.formats
+from osmaxx.conversion.converters import detail_levels
 from osmaxx.conversion_api.statuses import STARTED, FAILED, FINISHED
 
 format_list = osmaxx.conversion_api.formats.FORMAT_DEFINITIONS.keys()
@@ -29,6 +30,11 @@ def output_zip_file_path():
 @pytest.fixture()
 def filename_prefix():
     return 'test_prefix_for_this_example'
+
+
+@pytest.fixture(params=detail_levels.DETAIL_LEVEL_CHOICES)
+def detail_level(request):
+    return request.param[0]
 
 
 @pytest.fixture()
