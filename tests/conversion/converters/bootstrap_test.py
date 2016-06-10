@@ -8,6 +8,7 @@ from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
 
 class BootStrapperTest(TestCase):
     def test_scripts_are_executed_in_correct_order(self, *args, **kwargs):
+        self.maxDiff = None
         bootstrapper = bootstrap.BootStrapper(area_polyfile_string=area_polyfile_string())
         with mock.patch.object(bootstrapper, '_postgres') as postgres_mock:
             bootstrapper._filter_data()
@@ -106,10 +107,10 @@ class BootStrapperTest(TestCase):
                 'sql/filter/water/010_water_a_insert_table.sql',
                 'sql/filter/water/020_water_b_insert_table.sql',
                 'sql/filter/water/030_water_l_insert_table.sql',
-                'sql/create_view/view_address.sql',
-                'sql/create_view/view_adminarea.sql',
-                'sql/create_view/view_boundary.sql',
-                'sql/create_view/view_building.sql',
+                'sql/create_view/view_address_p.sql',
+                'sql/create_view/view_adminarea_a.sql',
+                'sql/create_view/view_boundary_l.sql',
+                'sql/create_view/view_building_a.sql',
                 'sql/create_view/view_geoname_l.sql',
                 'sql/create_view/view_geoname_p.sql',
                 'sql/create_view/view_landuse_a.sql',
