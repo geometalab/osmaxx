@@ -11,7 +11,7 @@ def test_start_format_extraction(conversion_format, area_name, simple_osmosis_li
         output_zip_file_path=output_zip_file_path,
         filename_prefix=filename_prefix,
         detail_level=detail_level,
-        out_srs=out_srs,
+        out_srs='EPSG:{}'.format(out_srs),
     )
     conversion.start_format_extraction()
     assert gis_converter_mock_create.call_count + garmin_converter_mock_create.call_count == 1
@@ -27,7 +27,7 @@ def test_convert_returns_id_when_use_worker_is_true(conversion_format, area_name
         output_zip_file_path=output_zip_file_path,
         filename_prefix=filename_prefix,
         detail_level=detail_level,
-        out_srs=out_srs,
+        out_srs='EPSG:{}'.format(out_srs),
         use_worker=True,
     )
     assert convert_return_value == 42
@@ -42,7 +42,7 @@ def test_convert_starts_conversion(conversion_format, area_name, simple_osmosis_
         output_zip_file_path=output_zip_file_path,
         filename_prefix=filename_prefix,
         detail_level=detail_level,
-        out_srs=out_srs,
+        out_srs='EPSG:{}'.format(out_srs),
         use_worker=False,
     )
     assert convert_return_value is None
