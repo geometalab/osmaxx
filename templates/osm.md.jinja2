@@ -1,6 +1,6 @@
 {% macro tag(key, value) -%}
     {% if value == '__ABSENT__' -%}
-        **`{{ key }}≠*`**
+        {{ not_tag(key, '*') }}
     {%- else -%}
         `{{ key }}={{ value }}`
     {%- endif %}
