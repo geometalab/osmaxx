@@ -2,6 +2,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, HTML
 from django import forms
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
@@ -51,26 +52,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
         self.helper.layout = Layout(
             Fieldset(
                 _('Excerpt'),
-                HTML('''
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group has-feedback">
-                                <label for="opt_group_filter" class="control-label">Filter by Word</label>
-                                <input id="excerptListFilterField" class="form-control" type="search" placeholder="Filter excerpts …" autocomplete="off"/>
-                                <span id="excerptListFilterFieldClearer" class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div id="opt_group_filter_div" class="hidden">
-                                <div class="form-group">
-                                    <label for="opt_group_filter" class="control-label">Filter by Group</label>
-                                    <select class="select form-control" name="opt_group_filter" id="opt_group_filter"></select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    '''  # noqa: line too long ignored
-                ),
+                HTML(render_to_string('excerptexport/forms/partials/existing_form_filter.html')),
                 'existing_excerpts',
             ),
             OrderOptionsMixin(self).form_layout(),
