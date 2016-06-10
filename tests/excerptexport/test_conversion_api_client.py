@@ -104,10 +104,11 @@ def test_extraction_order_forward_to_conversion_service(
 
     ConversionApiClient.create_boundary.assert_called_once_with(bounding_geometry, name=excerpt.name)
     srs = extraction_order.coordinate_reference_system
+    detail_level = extraction_order.detail_level
     assert_that(
         ConversionApiClient.create_parametrization.mock_calls, contains_inanyorder(
-            mock.call(boundary=ConversionApiClient.create_boundary.return_value, out_format=FGDB, out_srs=srs),
-            mock.call(boundary=ConversionApiClient.create_boundary.return_value, out_format=SPATIALITE, out_srs=srs),
+            mock.call(boundary=ConversionApiClient.create_boundary.return_value, out_format=FGDB, detail_level=detail_level, out_srs=srs),
+            mock.call(boundary=ConversionApiClient.create_boundary.return_value, out_format=SPATIALITE, detail_level=detail_level, out_srs=srs),
         )
     )
     assert_that(

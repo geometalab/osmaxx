@@ -75,6 +75,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
         extraction_order = ExtractionOrder(orderer=user)
         extraction_order.coordinate_reference_system = self.cleaned_data['coordinate_reference_system']
         extraction_order.extraction_formats = self.cleaned_data['formats']
+        extraction_order.detail_level = self.cleaned_data['detail_level']
 
         existing_key = self.cleaned_data['existing_excerpts']
         excerpt = Excerpt.objects.get(pk=int(existing_key))

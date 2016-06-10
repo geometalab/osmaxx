@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
+from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_ALL
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from tests.excerptexport.permission_test_helper import PermissionHelperMixin
 from tests.test_helpers import vcr_explicit_path as vcr
@@ -17,6 +18,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         other_user = User.objects.create_user('other_user', 'o_u@example.com', 'o_pw')
 
         self.coordinate_reference_system = 4326
+        self.detail_level = DETAIL_LEVEL_ALL
 
         self.new_excerpt_post_data = {
             'name': 'A very interesting region',
@@ -24,6 +26,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             'bounding_geometry': '{"type":"Polygon","coordinates":[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]}',
             'formats': ['fgdb'],
             'coordinate_reference_system': self.coordinate_reference_system,
+            'detail_level': self.detail_level,
         }
         self.existing_own_excerpt = Excerpt.objects.create(
             name='Some old Excerpt',
@@ -50,6 +53,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
             'existing_excerpts': self.existing_own_excerpt.id,
             'formats': ['fgdb'],
             'coordinate_reference_system': self.coordinate_reference_system,
+            'detail_level': self.detail_level,
         }
 
     def test_new_when_not_logged_in(self):
@@ -158,6 +162,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
         self.assertEqual(newly_created_order.coordinate_reference_system, self.coordinate_reference_system)
+        self.assertEqual(newly_created_order.detail_level, self.detail_level)
         assert_that(newly_created_order.extraction_formats, contains_in_any_order('fgdb'))
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'A very interesting region')
@@ -181,6 +186,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
         self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
         self.assertEqual(newly_created_order.coordinate_reference_system, self.coordinate_reference_system)
+        self.assertEqual(newly_created_order.detail_level, self.detail_level)
         assert_that(newly_created_order.extraction_formats, contains_in_any_order('fgdb'))
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'Some old Excerpt')

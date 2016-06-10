@@ -33,7 +33,7 @@ class ConversionApiClient(JWTClient):
         response = self.authorized_post(url='clipping_area/', json_data=json_payload)
         return response.json()
 
-    def create_parametrization(self, *, boundary, out_format, out_srs):
+    def create_parametrization(self, *, boundary, out_format, detail_level, out_srs):
         """
 
         Args:
@@ -44,7 +44,7 @@ class ConversionApiClient(JWTClient):
         Returns:
             A dictionary representing the payload of the service's response
         """
-        json_payload = dict(clipping_area=boundary['id'], out_format=out_format, out_srs=out_srs)
+        json_payload = dict(clipping_area=boundary['id'], out_format=out_format, detail_level=detail_level, out_srs=out_srs)
         response = self.authorized_post(url='conversion_parametrization/', json_data=json_payload)
         return response.json()
 
