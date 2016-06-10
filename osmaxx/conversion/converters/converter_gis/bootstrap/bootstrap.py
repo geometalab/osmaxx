@@ -27,6 +27,7 @@ class BootStrapper:
         self._setup_db_functions()
         self._harmonize_database()
         self._filter_data()
+        self._create_views()
 
     def _reset_database(self):
         self._postgres.drop_db()
@@ -75,7 +76,6 @@ class BootStrapper:
         for script_folder in filter_sql_script_folders:
             script_folder_path = os.path.join(base_dir, script_folder)
             self._execute_sql_scripts_in_folder(script_folder_path)
-        self._create_views()
 
     def _create_views(self):
         create_view_sql_script_folder = os.path.join(self._script_base_dir, 'sql', 'create_view')

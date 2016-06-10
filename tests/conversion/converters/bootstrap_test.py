@@ -11,6 +11,7 @@ class BootStrapperTest(TestCase):
         bootstrapper = bootstrap.BootStrapper(area_polyfile_string=area_polyfile_string())
         with mock.patch.object(bootstrapper, '_postgres') as postgres_mock:
             bootstrapper._filter_data()
+            bootstrapper._create_views()
 
             base_path_to_bootstrap = os.path.dirname(bootstrap.__file__)
             expected_script_order = [
