@@ -1,6 +1,6 @@
 {% macro tag(key, value) -%}
     {% if value == '__ABSENT__' -%}
-        <strong><code>{{ key }}≠\*</code></strong>
+        **`{{ key }}≠*`**
     {%- else -%}
         `{{ key }}={{ value }}`
     {%- endif %}

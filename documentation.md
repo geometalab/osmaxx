@@ -1116,7 +1116,7 @@ Values of attribute type
 |highway_links|primary_link|`highway=primary_link`+**`junction≠roundabout`**|The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.|
 |highway_links|secondary_link|`highway=secondary_link`+**`junction≠roundabout`**|The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.|
 |small_road|service|`highway=service`+**`junction≠roundabout`**|For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.|
-|track|track|`highway=track`+<strong><code>tracktype≠\*</code></strong>+**`junction≠roundabout`**|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present|
+|track|track|`highway=track`+**`tracktype≠*`**+**`junction≠roundabout`**|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present|
 |track|grade1|`highway=track`+`tracktype=grade1`+**`junction≠roundabout`**|Solid. Usually a paved or heavily compacted hardcore surface.|
 |track|grade2|`highway=track`+`tracktype=grade2`+**`junction≠roundabout`**|Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.|
 |track|grade3|`highway=track`+`tracktype=grade3`+**`junction≠roundabout`**|Even mixture of hard and soft materials. Almost always an unpaved track.|
@@ -1127,8 +1127,8 @@ Values of attribute type
 |no_large_vehicle|footway|`highway=footway`+**`junction≠roundabout`**|For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.|
 |no_large_vehicle|path|`highway=path`+**`junction≠roundabout`**|A non-specific path.|
 |no_large_vehicle|steps|`highway=steps`+**`junction≠roundabout`**|For flights of steps (stairs) on footways.|
-|unclassified|road|`highway=*`+<strong><code>roundabout≠\*</code></strong>|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
-|roundabout|roundabout|<strong><code>highway≠\*</code></strong>+`junction=roundabout`|This contains any other roundabout except the specifics above.|
+|unclassified|road|`highway=*`+**`roundabout≠*`**|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
+|roundabout|roundabout|**`highway≠*`**+`junction=roundabout`|This contains any other roundabout except the specifics above.|
 
 
 ## route_l
