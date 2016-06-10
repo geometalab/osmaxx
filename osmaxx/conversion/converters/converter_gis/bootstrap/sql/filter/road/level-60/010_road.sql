@@ -72,7 +72,7 @@ INSERT INTO osmaxx.road_l
         )
         OR junction not in ('roundabout')
       )
-      AND tracktype not in ('grade3', 'grade4', 'grade5')
+      AND (tracktype not in ('grade3', 'grade4', 'grade5') OR highway != 'track')
 UNION
 (
   WITH osm_single_polygon AS (
@@ -159,5 +159,5 @@ UNION
          )
          OR junction not in ('roundabout')
        )
-       AND tracktype not in ('grade3', 'grade4', 'grade5')
+       AND (tracktype not in ('grade3', 'grade4', 'grade5') OR highway != 'track')
 );

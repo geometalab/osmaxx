@@ -145,7 +145,6 @@ def pytest_configure():
         },
         _OSMAXX_POLYFILE_LOCATION=os.path.join(test_data_dir, 'polyfiles'),
         OSMAXX_TEST_SETTINGS={
-            'download_file_name': '%(excerpt_name)s-%(date)s.%(content_type)s.%(file_extension)s',
             'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',

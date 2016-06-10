@@ -25,6 +25,7 @@ class Statistics:
         self._stats = []
 
     def gather_all(self):
+        # TODO: react on simplification!
         self._retrieve_sorted_statistic_part('adminarea_a', osm_groups.BOUNDARIES)
 
         self._retrieve_sorted_statistic_part('boundary_l', osm_groups.BOUNDARIES)
