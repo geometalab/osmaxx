@@ -89,7 +89,18 @@ class BootStrapper:
 
         self._execute_sql_scripts_in_folder(create_view_sql_script_folder, filter_function=filter_script_names)
 
+    def _level_adapted_script_path(self, script_path):
+        script_directory = os.path.dirname(script_path)
+        script_name = os.path.basename(script_path)
+        level_folder_name = self._detail_level['level_folder_name']
+        if level_folder_name:
+            level_script_path = os.path.join(script_directory, level_folder_name, script_name)
+            if os.path.exists(level_script_path):
+                return level_script_path
+        return script_path
+
     def _execute_sql_scripts_in_folder(self, folder_path, *, filter_function=lambda x: True):
         sql_scripts_in_folder = filter(filter_function, glob.glob(os.path.join(folder_path, '*.sql')))
         for script_path in sorted(sql_scripts_in_folder, key=os.path.basename):
+            script_path = self._level_adapted_script_path(script_path)
             self._postgres.execute_sql_file(script_path)
