@@ -6,6 +6,27 @@ var draw_controls = function (map) {
     var editableLayers = new L.FeatureGroup();
     map.addLayer(editableLayers);
 
+    var SelectCurrentExtentControl = L.Control.extend({
+        options: {
+            position: 'topright'
+            //control position - allowed: 'topleft', 'topright', 'bottomleft', 'bottomright'
+        },
+        initialize: function (text, options) {
+            L.Util.setOptions(this, options);
+            this.container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-current-extent');
+            this.container.innerHTML = text;
+        },
+        onAdd: function (map) {
+            this.container.style.backgroundColor = 'white';
+            this.container.onclick = function(){
+                var rectangle = L.rectangle(map.getBounds());
+                map.zoomOut();
+                map.fire('draw:created', { layer: rectangle, layerType: 'rectangle' });
+            };
+            return this.container;
+        }
+    });
+
     var draw_enabled = {
         polyline: false,
         circle: false, // Turns off this drawing tool
@@ -42,8 +63,9 @@ var draw_controls = function (map) {
 
     var drawControlEnabled = new L.Control.Draw(options);
     var drawControlDisabled = new L.Control.Draw(optionsDisabled);
-
+    var ourCustomControl = new SelectCurrentExtentControl('Select current extent');
     drawControlEnabled.addTo(map);
+    ourCustomControl.addTo(map);
     function updateGeoJSON (layer){
         geoJSON_element.value = JSON.stringify(layer.toGeoJSON()['geometry']);
     }
@@ -62,11 +84,13 @@ var draw_controls = function (map) {
 
         estimateSize(layer).done(function (data) {
             function formatBytes(bytes) {
-               if(bytes == 0) return '0 Byte';
-               var k = 1000;
-               var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-               var i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
-               return parseFloat((bytes / Math.pow(k, i)).toFixed()) + ' ' + sizes[i];
+                if (bytes == 0) {
+                    return '0 Byte';
+                }
+                var k = 1000;
+                var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+                var i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
+                return parseFloat((bytes / Math.pow(k, i)).toFixed()) + ' ' + sizes[i];
             }
 
             var estimatedFileSize = Number(data['estimated_file_size_in_bytes']);
@@ -93,6 +117,7 @@ var draw_controls = function (map) {
     map.on('draw:created', function (e) {
         drawControlDisabled.addTo(map);
         drawControlEnabled.removeFrom(map);
+        ourCustomControl.removeFrom(map);
         var layer = e.layer;
         if (layer !== undefined) {
             showSizeOfLayer(layer);
@@ -118,6 +143,7 @@ var draw_controls = function (map) {
         if (editableLayers.getLayers().length === 0) {
             drawControlEnabled.addTo(map);
             drawControlDisabled.removeFrom(map);
+            ourCustomControl.addTo(map);
         }
     });
 };
