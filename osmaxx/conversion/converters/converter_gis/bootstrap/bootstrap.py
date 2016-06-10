@@ -8,8 +8,8 @@ from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_TABLES
 from osmaxx.utils import polyfile_helpers
 
 
-def boostrap(area_polyfile_string):
-    bootstrapper = BootStrapper(area_polyfile_string)
+def boostrap(area_polyfile_string, detail_level=detail_levels.DETAIL_LEVEL_ALL):
+    bootstrapper = BootStrapper(area_polyfile_string, detail_level=detail_level)
     bootstrapper.bootstrap()
 
 
