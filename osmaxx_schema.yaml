@@ -2107,8 +2107,8 @@ layers:
           - "track":
               osm_tags:
                 - "highway": 'track'
-                  "tracktype": '__ABSENT__'
                   [not]:
+                    "tracktype": "*"
                     "junction": "roundabout"
               correlated_attributes:
                 "aggtype": 'track'
@@ -2201,14 +2201,16 @@ layers:
           - "road":
               osm_tags:
                 - "highway": '*'
-                  "roundabout": '__ABSENT__'
+                  [not]:
+                    "roundabout": "*"
               correlated_attributes:
                 "aggtype": 'unclassified'
               description: 'A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed'
           - "roundabout":
               osm_tags:
-                - "highway": '__ABSENT__'
-                  "junction": 'roundabout'
+                - "junction": 'roundabout'
+                  [not]:
+                    "highway": "*"
               correlated_attributes:
                 "aggtype": 'roundabout'
               description: 'This contains any other roundabout except the specifics above.'
