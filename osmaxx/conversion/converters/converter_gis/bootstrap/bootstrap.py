@@ -3,6 +3,7 @@ import os
 
 from osmaxx.conversion.converters.converter_gis.helper.default_postgres import get_default_postgres_wrapper
 from osmaxx.conversion.converters.converter_gis.helper.osm_importer import OSMImporter
+from osmaxx.conversion.converters import detail_levels
 from osmaxx.utils import polyfile_helpers
 
 
@@ -12,12 +13,13 @@ def boostrap(area_polyfile_string):
 
 
 class BootStrapper:
-    def __init__(self, area_polyfile_string):
+    def __init__(self, area_polyfile_string, *, detail_level=detail_levels.DETAIL_LEVEL_ALL):
         self._postgres = get_default_postgres_wrapper()
         self._script_base_dir = os.path.abspath(os.path.dirname(__file__))
         self._terminal_style_path = os.path.join(self._script_base_dir, 'styles', 'terminal.style')
         self._style_path = os.path.join(self._script_base_dir, 'styles', 'style.lua')
         self._extent = polyfile_helpers.parse_poly_string(area_polyfile_string)
+        self._tables = detail_levels.DETAIL_LEVEL_TABLES[detail_level]['tables']
 
     def bootstrap(self):
         self._reset_database()
@@ -68,14 +70,18 @@ class BootStrapper:
             'traffic',
             'utility',
             'water',
-            'create_view',
         ]
         base_dir = os.path.join(self._script_base_dir, 'sql', 'filter')
         for script_folder in filter_sql_script_folders:
             script_folder_path = os.path.join(base_dir, script_folder)
             self._execute_sql_scripts_in_folder(script_folder_path)
+        self._create_views()
 
-    def _execute_sql_scripts_in_folder(self, folder_path):
-        sql_scripts_in_folder = glob.glob(os.path.join(folder_path, '*.sql'))
+    def _create_views(self):
+        create_view_sql_script_folder = os.path.join(self._script_base_dir, 'sql', 'create_view')
+        self._execute_sql_scripts_in_folder(create_view_sql_script_folder)
+
+    def _execute_sql_scripts_in_folder(self, folder_path, *, filter_function=lambda x: x):
+        sql_scripts_in_folder = filter(filter_function, glob.glob(os.path.join(folder_path, '*.sql')))
         for script_path in sorted(sql_scripts_in_folder, key=os.path.basename):
             self._postgres.execute_sql_file(script_path)
