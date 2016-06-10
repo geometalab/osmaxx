@@ -1153,7 +1153,7 @@ Values of attribute type
 |roundabout|footway|`highway=footway`+`junction=roundabout`|A roundabout on a designated footpath|
 |roundabout|path|`highway=path`+`junction=roundabout`|A roundabout on a non-specific path|
 |roundabout|steps|`highway=steps`+`junction=roundabout`|A roundabout on a flights of steps (stairs) on a footway|
-|roundabout|roundabout|`junction=roundabout`|This contains any other roundabout except the specifics above.|
+|roundabout|roundabout|`junction=roundabout`|A roundabout on a road of other or unkown classification|
 
 
 ## route_l
