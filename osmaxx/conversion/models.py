@@ -9,6 +9,7 @@ from rest_framework.reverse import reverse
 
 from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
+from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
 from osmaxx.conversion_api.statuses import STATUS_CHOICES, RECEIVED
 
@@ -21,6 +22,7 @@ class Parametrization(models.Model):
     out_format = models.CharField(verbose_name=_("out format"), choices=FORMAT_CHOICES, max_length=100)
     out_srs = models.IntegerField(verbose_name=_("output SRS"), help_text=_("EPSG code of the output spatial reference system"), null=True, blank=True, default=4326)  # noqa: linelength
     clipping_area = models.ForeignKey(ClippingArea, verbose_name=_('Clipping Area'))
+    detail_level = models.IntegerField(verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL)
 
     def __str__(self):
         return _("{}: {} as EPSG:{}").format(self.id, self.get_out_format_display(), self.out_srs)
@@ -47,17 +49,11 @@ class Job(models.Model):
             osmosis_polygon_file_string=self.parametrization.clipping_area.osmosis_polygon_file_string,
             output_zip_file_path=self._out_zip_path(),
             filename_prefix=self._filename_prefix(),
-            detail_level=self.detail_level,
+            detail_level=self.parametrization.detail_level,
             out_srs=self.parametrization.epsg,
             use_worker=use_worker,
         )
         self.save()
-
-    @property
-    def detail_level(self):
-        # TODO: remove this temporary property and add a field for this on the parametrization
-        from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_ALL
-        return DETAIL_LEVEL_ALL
 
     def zip_file_relative_path(self):
         return job_directory_path(self, '{}.{}'.format(self._filename_prefix(), 'zip'))
