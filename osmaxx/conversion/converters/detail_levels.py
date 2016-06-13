@@ -1,6 +1,6 @@
 from django.utils.translation import ugettext as _
 
-from osmaxx.conversion.converters.converter_gis.sql_tables import OUTPUT_LAYER_NAMES
+from osmaxx.conversion.converters.converter_gis.layers import OUTPUT_LAYER_NAMES
 
 DETAIL_LEVEL_ALL = 120
 DETAIL_LEVEL_REDUCED = 60
