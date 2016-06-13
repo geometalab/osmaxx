@@ -39,6 +39,7 @@ class ConversionApiClient(JWTClient):
         Args:
             boundary: A dictionary as returned by create_boundary
             out_format: A string identifying the output format
+            detail_level: An integer identifying the level of detail of the output
             out_srs: A string identifying the spatial reference system of the output
 
         Returns:
