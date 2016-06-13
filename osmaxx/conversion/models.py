@@ -79,11 +79,11 @@ class Job(models.Model):
         return None
 
     def _filename_prefix(self):
-        return '{}-{}_{}_{}'.format(
-            slugify(self.parametrization.clipping_area.name),
-            time.strftime("%Y-%m-%d"),
-            self.parametrization.out_format,
-            slugify(self.parametrization.get_detail_level_display()),
+        return '{basename}-{date}_{out_format}_{detail_level}'.format(
+            basename=slugify(self.parametrization.clipping_area.name),
+            date=time.strftime("%Y-%m-%d"),
+            out_format=self.parametrization.out_format,
+            detail_level=slugify(self.parametrization.get_detail_level_display()),
         )
 
     @property
