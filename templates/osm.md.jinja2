@@ -1,17 +1,22 @@
 {% macro tag(key, value) -%}
-    {% if value == '__ABSENT__' -%}
-        <code>{{ key }}<strong>&ne;\*</strong></code>
-    {%- else -%}
-        `{{ key }}={{ value }}`
-    {%- endif %}
+    `{{ key }}={{ value }}`
+{%- endmacro %}
+
+
+{% macro not_tag(key, value) -%}
+    **`{{ key }}≠{{ value }}`**
 {%- endmacro %}
 
 {% macro tag_combination(osm_tag_combination, combination_separator) -%}
     {{ combination_separator() -}}
     {%- set and_sep = joiner('+') -%}
-    {%- for key, value in osm_tag_combination|dictsort_unless_ordered -%}
+    {%- for key, value in osm_tag_combination|included|dictsort_unless_ordered -%}
         {{- and_sep() -}}
         {{- tag(key, value) -}}
+    {%- endfor %}
+    {%- for key, value in osm_tag_combination|excluded|dictsort_unless_ordered -%}
+        {{- and_sep() -}}
+        {{- not_tag(key, value) -}}
     {%- endfor %}
 {%- endmacro %}
 
