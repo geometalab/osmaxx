@@ -3,6 +3,7 @@ from django import forms
 
 from crispy_forms.layout import Fieldset, Div
 
+from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_CHOICES
 from osmaxx.conversion_api import formats, coordinate_reference_systems as crs
 
 
@@ -16,6 +17,11 @@ class OrderOptionsMixin(forms.Form):
     coordinate_reference_system = forms.ChoiceField(
         label=_('Coordinate system'),
         choices=crs.CRS_CHOICES,
+        required=True,
+    )
+    detail_level = forms.ChoiceField(
+        label=_('Detail level'),
+        choices=DETAIL_LEVEL_CHOICES,
         required=True,
     )
 
@@ -37,6 +43,7 @@ class OrderOptionsMixin(forms.Form):
                 Fieldset(
                     _('GIS Options (ignored for garmin)'),
                     'coordinate_reference_system',
+                    'detail_level',
                 ),
                 css_class="col-md-6",
             ),

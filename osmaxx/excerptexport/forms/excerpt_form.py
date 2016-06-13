@@ -71,6 +71,8 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
         extraction_order = ExtractionOrder(orderer=user)
         extraction_order.coordinate_reference_system = self.cleaned_data['coordinate_reference_system']
         extraction_order.extraction_formats = self.cleaned_data['formats']
+        extraction_order.detail_level = self.cleaned_data['detail_level']
+
         excerpt_dict = select_keys(self.cleaned_data, ['name', 'is_public', 'bounding_geometry'])
         excerpt = Excerpt(
             is_active=True,

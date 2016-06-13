@@ -2,11 +2,14 @@
 <div class="panel panel-{{ export.css_status_class }}">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-4 col-md-4">
                 {{ export.get_file_format_display }}
             </div>
             <div class="col-md-2 col-lg-2">
-                {{ export.file_format }}
+                {{ export.extraction_order.get_coordinate_reference_system_display }}
+            </div>
+            <div class="col-md-2 col-lg-2">
+                {{ export.extraction_order.get_detail_level_display }}
             </div>
             <div class="col-md-4 col-lg-4">
                 {{ export.status }} at {% firstof export.finished_at|date:"Y-m-d H:i:s" export.updated_at|date:"Y-m-d H:i:s" %}

@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from django_enumfield import enum
 
+from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
 from osmaxx.conversion_api import coordinate_reference_systems as crs
 from osmaxx.excerptexport.models.output_file import OutputFile
 from .excerpt import Excerpt
@@ -51,6 +52,9 @@ class ExtractionOrder(models.Model):
     state = enum.EnumField(ExtractionOrderState, default=ExtractionOrderState.INITIALIZED, verbose_name=_('state'))
     coordinate_reference_system = models.IntegerField(
         verbose_name=_('CRS'), choices=crs.CRS_CHOICES, default=crs.WGS_84
+    )
+    detail_level = models.IntegerField(
+        verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL
     )
     process_id = models.TextField(blank=True, null=True, verbose_name=_('process link'))
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
