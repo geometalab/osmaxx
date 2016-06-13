@@ -10,6 +10,7 @@ from rest_framework.reverse import reverse
 from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
 from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
+from osmaxx.conversion_api.coordinate_reference_systems import CRS_CHOICES
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
 from osmaxx.conversion_api.statuses import STATUS_CHOICES, RECEIVED
 
@@ -20,7 +21,10 @@ def job_directory_path(instance, filename):
 
 class Parametrization(models.Model):
     out_format = models.CharField(verbose_name=_("out format"), choices=FORMAT_CHOICES, max_length=100)
-    out_srs = models.IntegerField(verbose_name=_("output SRS"), help_text=_("EPSG code of the output spatial reference system"), null=True, blank=True, default=4326)  # noqa: linelength
+    out_srs = models.IntegerField(
+        verbose_name=_("output SRS"), help_text=_("EPSG code of the output spatial reference system"),
+        null=True, blank=True, default=4326, choices=CRS_CHOICES
+    )
     clipping_area = models.ForeignKey(ClippingArea, verbose_name=_('Clipping Area'))
     detail_level = models.IntegerField(verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL)
 
@@ -79,8 +83,9 @@ class Job(models.Model):
         return None
 
     def _filename_prefix(self):
-        return '{basename}-{date}_{out_format}_{detail_level}'.format(
+        return '{basename}_{srs}_{date}_{out_format}_{detail_level}'.format(
             basename=slugify(self.parametrization.clipping_area.name),
+            srs=slugify(self.parametrization.get_out_srs_display()),
             date=time.strftime("%Y-%m-%d"),
             out_format=self.parametrization.out_format,
             detail_level=slugify(self.parametrization.get_detail_level_display()),
