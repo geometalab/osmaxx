@@ -1,6 +1,6 @@
 from django.utils.translation import ugettext as _
 
-from osmaxx.conversion.converters.converter_gis.sql_tables import VIEW_NAMES
+from osmaxx.conversion.converters.converter_gis.sql_tables import OUTPUT_LAYER_NAMES
 
 DETAIL_LEVEL_ALL = 120
 DETAIL_LEVEL_REDUCED = 60
@@ -12,7 +12,7 @@ DETAIL_LEVEL_CHOICES = (
 
 DETAIL_LEVEL_TABLES = {
     DETAIL_LEVEL_ALL: dict(
-        included_layers=VIEW_NAMES,
+        included_layers=OUTPUT_LAYER_NAMES,
         level_folder_name=None,
     ),
     DETAIL_LEVEL_REDUCED: dict(

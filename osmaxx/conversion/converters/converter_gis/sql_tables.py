@@ -1,4 +1,4 @@
-VIEW_NAMES = [
+OUTPUT_LAYER_NAMES = [
     'address_p',
     'adminarea_a',
     'boundary_l',
