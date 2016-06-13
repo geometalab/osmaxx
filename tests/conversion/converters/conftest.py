@@ -1,8 +1,16 @@
+import os
+
 import pytest
 
 
 @pytest.fixture
-def sql_scripts_filter():
+def bootstrap_module_path():
+    from osmaxx.conversion.converters.converter_gis import bootstrap
+    return os.path.abspath(os.path.dirname(bootstrap.__file__))
+
+
+@pytest.fixture
+def relative_sql_script_paths():
     return [
         'sql/filter/address/000_setup-drop_and_recreate_table.sql',
         'sql/filter/address/010_address.sql',
@@ -99,74 +107,96 @@ def sql_scripts_filter():
 
 
 @pytest.fixture
-def sql_scripts_filter_level_60(sql_scripts_filter):
-    sql_scripts_filter_leveled = sql_scripts_filter
+def sql_scripts_filter(bootstrap_module_path, relative_sql_script_paths):
+    return [os.path.join(bootstrap_module_path, script_path) for script_path in relative_sql_script_paths]
+
+
+@pytest.fixture
+def sql_scripts_filter_level_60(bootstrap_module_path, relative_sql_script_paths):
+    sql_scripts_filter_leveled = relative_sql_script_paths
     replacements = [
         ('sql/filter/road/010_road.sql', 'sql/filter/road/level-60/010_road.sql')
     ]
     for needle, replacement in replacements:
         sql_scripts_filter_leveled[sql_scripts_filter_leveled.index(needle)] = replacement
-    return sql_scripts_filter_leveled
+    return [os.path.join(bootstrap_module_path, script_path) for script_path in sql_scripts_filter_leveled]
 
 
 @pytest.fixture
-def sql_scripts_create_view_level_60():
+def sql_scripts_create_view_level_60(bootstrap_module_path):
     return [
-        'sql/create_view/view_adminarea_a.sql',
-        'sql/create_view/view_boundary_l.sql',
-        'sql/create_view/view_geoname_l.sql',
-        'sql/create_view/view_geoname_p.sql',
-        'sql/create_view/view_landuse_a.sql',
-        'sql/create_view/view_military_a.sql',
-        'sql/create_view/view_military_p.sql',
-        'sql/create_view/view_misc_l.sql',
-        'sql/create_view/view_natural_a.sql',
-        'sql/create_view/view_natural_p.sql',
-        'sql/create_view/view_poi_p.sql',
-        'sql/create_view/view_pow_p.sql',
-        'sql/create_view/view_railway_l.sql',
-        'sql/create_view/view_road_l.sql',
-        'sql/create_view/view_route_l.sql',
-        'sql/create_view/view_transport_l.sql',
-        'sql/create_view/view_utility_p.sql',
-        'sql/create_view/view_water_a.sql',
-        'sql/create_view/view_water_l.sql',
-        'sql/create_view/view_water_p.sql',
+        os.path.join(bootstrap_module_path, script_path) for script_path in [
+            'sql/create_view/view_adminarea_a.sql',
+            'sql/create_view/view_boundary_l.sql',
+            'sql/create_view/view_geoname_l.sql',
+            'sql/create_view/view_geoname_p.sql',
+            'sql/create_view/view_landuse_a.sql',
+            'sql/create_view/view_military_a.sql',
+            'sql/create_view/view_military_p.sql',
+            'sql/create_view/view_misc_l.sql',
+            'sql/create_view/view_natural_a.sql',
+            'sql/create_view/view_natural_p.sql',
+            'sql/create_view/view_poi_p.sql',
+            'sql/create_view/view_pow_p.sql',
+            'sql/create_view/view_railway_l.sql',
+            'sql/create_view/view_road_l.sql',
+            'sql/create_view/view_route_l.sql',
+            'sql/create_view/view_transport_l.sql',
+            'sql/create_view/view_utility_p.sql',
+            'sql/create_view/view_water_a.sql',
+            'sql/create_view/view_water_l.sql',
+            'sql/create_view/view_water_p.sql',
+        ]
     ]
 
 
 @pytest.fixture
-def sql_scripts_create_view():
+def sql_scripts_create_view(bootstrap_module_path):
     return [
-        'sql/create_view/view_address_p.sql',
-        'sql/create_view/view_adminarea_a.sql',
-        'sql/create_view/view_boundary_l.sql',
-        'sql/create_view/view_building_a.sql',
-        'sql/create_view/view_geoname_l.sql',
-        'sql/create_view/view_geoname_p.sql',
-        'sql/create_view/view_landuse_a.sql',
-        'sql/create_view/view_military_a.sql',
-        'sql/create_view/view_military_p.sql',
-        'sql/create_view/view_misc_l.sql',
-        'sql/create_view/view_natural_a.sql',
-        'sql/create_view/view_natural_p.sql',
-        'sql/create_view/view_nonop_l.sql',
-        'sql/create_view/view_poi_a.sql',
-        'sql/create_view/view_poi_p.sql',
-        'sql/create_view/view_pow_a.sql',
-        'sql/create_view/view_pow_p.sql',
-        'sql/create_view/view_railway_l.sql',
-        'sql/create_view/view_road_l.sql',
-        'sql/create_view/view_route_l.sql',
-        'sql/create_view/view_traffic_a.sql',
-        'sql/create_view/view_traffic_p.sql',
-        'sql/create_view/view_transport_a.sql',
-        'sql/create_view/view_transport_l.sql',
-        'sql/create_view/view_transport_p.sql',
-        'sql/create_view/view_utility_a.sql',
-        'sql/create_view/view_utility_l.sql',
-        'sql/create_view/view_utility_p.sql',
-        'sql/create_view/view_water_a.sql',
-        'sql/create_view/view_water_l.sql',
-        'sql/create_view/view_water_p.sql',
+        os.path.join(bootstrap_module_path, script_path) for script_path in [
+            'sql/create_view/view_address_p.sql',
+            'sql/create_view/view_adminarea_a.sql',
+            'sql/create_view/view_boundary_l.sql',
+            'sql/create_view/view_building_a.sql',
+            'sql/create_view/view_geoname_l.sql',
+            'sql/create_view/view_geoname_p.sql',
+            'sql/create_view/view_landuse_a.sql',
+            'sql/create_view/view_military_a.sql',
+            'sql/create_view/view_military_p.sql',
+            'sql/create_view/view_misc_l.sql',
+            'sql/create_view/view_natural_a.sql',
+            'sql/create_view/view_natural_p.sql',
+            'sql/create_view/view_nonop_l.sql',
+            'sql/create_view/view_poi_a.sql',
+            'sql/create_view/view_poi_p.sql',
+            'sql/create_view/view_pow_a.sql',
+            'sql/create_view/view_pow_p.sql',
+            'sql/create_view/view_railway_l.sql',
+            'sql/create_view/view_road_l.sql',
+            'sql/create_view/view_route_l.sql',
+            'sql/create_view/view_traffic_a.sql',
+            'sql/create_view/view_traffic_p.sql',
+            'sql/create_view/view_transport_a.sql',
+            'sql/create_view/view_transport_l.sql',
+            'sql/create_view/view_transport_p.sql',
+            'sql/create_view/view_utility_a.sql',
+            'sql/create_view/view_utility_l.sql',
+            'sql/create_view/view_utility_p.sql',
+            'sql/create_view/view_water_a.sql',
+            'sql/create_view/view_water_l.sql',
+            'sql/create_view/view_water_p.sql',
+        ]
+    ]
+
+
+@pytest.fixture
+def sql_scripts_create_functions(bootstrap_module_path):
+    return [
+        os.path.join(bootstrap_module_path, script_path) for script_path in [
+            'sql/functions/0010_cast_to_positive_integer.sql',
+            'sql/functions/0020_building_height.sql',
+            'sql/functions/0030_transliterate.sql',
+            'sql/functions/0040_interpolate_addresses.sql',
+            'sql/functions/0050_cast_to_int.sql',
+        ]
     ]
