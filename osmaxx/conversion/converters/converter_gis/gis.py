@@ -6,7 +6,6 @@ import shutil
 
 from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
 from osmaxx.conversion.converters.converter_gis.extract.db_to_format.extract import extract_to
-from osmaxx.conversion.converters.converter_gis.extract.statistics.statistics import gather_statistics
 from osmaxx.conversion.converters.utils import zip_folders_relative
 
 
@@ -39,7 +38,6 @@ class GISConverter:
             static_dir = os.path.join(tmp_dir, 'static')
             os.makedirs(data_dir)
             shutil.copytree(self._static_directory, static_dir)
-            gather_statistics(os.path.join(tmp_dir, self._base_file_name + '_STATISTICS.csv'))
             extract_to(
                 to_format=self._conversion_format,
                 output_dir=data_dir,
