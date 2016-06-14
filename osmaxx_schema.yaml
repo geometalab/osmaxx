@@ -1,4 +1,11 @@
 layers:
+  "address_p":
+    attributes: !!omap
+      - "street": {}
+      - "housenumber": {}
+      - "postcode": {}
+      - "city": {}
+      - "country": {}
   "adminarea_a": &layer_adminarea_a
     attributes:
       "type":

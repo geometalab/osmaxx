@@ -215,6 +215,17 @@ See file name conventions above about the meaning of “_a” etc.
 
 # Layers Specification
 
+## address_p
+
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|street| | | |
+|housenumber| | | |
+|postcode| | | |
+|city| | | |
+|country| | | |
+
 ## adminarea_a
 
 
