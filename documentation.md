@@ -233,7 +233,7 @@ Values of attribute type
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |i|`addr:interpolation=even` or `addr:interpolation=odd` or `addr:interpolation=all`|Interpolated Entrances along interpolated addresses without nodes|
-|e| |General Entrance with entrance node|
+|e|`building=entrance`+`addr:street=*` or `building=entrance`+`addr:housenumber=*` or `building=entrance`+`addr:place=*` or `entrance=*`+`addr:street=*` or `entrance=*`+`addr:housenumber=*` or `entrance=*`+`addr:place=*`|General Entrance with entrance node|
 |b| |Entrance to a building without entrance node|
 |p| |All other entrances with entrance node|
 

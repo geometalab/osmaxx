@@ -12,6 +12,25 @@ layers:
                   - "addr:interpolation": "all"
             - "e":
                 description: "General Entrance with entrance node"
+                osm_tags:
+                  - !!omap
+                    - "building": "entrance"
+                    - "addr:street": "*"
+                  - !!omap
+                    - "building": "entrance"
+                    - "addr:housenumber": "*"
+                  - !!omap
+                    - "building": "entrance"
+                    - "addr:place": "*"
+                  - !!omap
+                    - "entrance": "*"
+                    - "addr:street": "*"
+                  - !!omap
+                    - "entrance": "*"
+                    - "addr:housenumber": "*"
+                  - !!omap
+                    - "entrance": "*"
+                    - "addr:place": "*"
             - "b":
                 description: "Entrance to a building without entrance node"
             - "p":
