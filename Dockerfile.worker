@@ -113,6 +113,13 @@ RUN mkdir src &&\
 
 ENV CODE /code
 WORKDIR $CODE
+
+# Install dependencies
+RUN wget -O libutf8proc-dev.deb http://ftp.ch.debian.org/debian/pool/main/u/utf8proc/libutf8proc-dev_1.3.1-2_amd64.deb
+RUN wget -O libutf8proc1.deb http://ftp.ch.debian.org/debian/pool/main/u/utf8proc/libutf8proc1_1.3.1-2_amd64.deb
+RUN dpkg --install libutf8proc1.deb libutf8proc-dev.deb
+RUN rm libutf8proc1.deb libutf8proc-dev.deb
+
 RUN git clone https://github.com/giggls/mapnik-german-l10n.git mapnik-german-l10n
 
 WORKDIR $CODE/mapnik-german-l10n/utf8translit
