@@ -50,7 +50,7 @@ layers:
                       "entrance": "*"
                     "addr:place": "*"
             - "p":
-                description: "All other entrances with entrance node"
+                description: "All other address nodes"
                 osm_tags:
                   - [not]:
                       "building": "*"
