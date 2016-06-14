@@ -1,6 +1,17 @@
 layers:
   "address_p":
     attributes: !!omap
+      - "type":
+          type: "text"
+          values: !!omap
+            - "i":
+                description: "Interpolated Entrances along interpolated addresses without nodes"
+            - "e":
+                description: "General Entrance with entrance node"
+            - "b":
+                description: "Entrance to a building without entrance node"
+            - "p":
+                description: "All other entrances with entrance node"
       - "street":
           type: "text"
           osm_tags:

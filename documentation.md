@@ -220,11 +220,23 @@ See file name conventions above about the meaning of “_a” etc.
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|text|(see table below)| |
 |street|text| |`addr:street=*` or `addr:place=*`|
 |housenumber|text| |`addr:housenumber=*` or `addr:interpolation=even`+`addr:housenumber=*` or `addr:interpolation=odd`+`addr:housenumber=*` or `addr:interpolation=all`+`addr:housenumber=*`|
 |postcode|text| |`addr:postcode=*`|
 |city|text| |`addr:place=*`|
 |country|text| |`addr:country=*`|
+
+
+Values of attribute type
+
+|values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
+|i| |Interpolated Entrances along interpolated addresses without nodes|
+|e| |General Entrance with entrance node|
+|b| |Entrance to a building without entrance node|
+|p| |All other entrances with entrance node|
+
 
 ## adminarea_a
 
