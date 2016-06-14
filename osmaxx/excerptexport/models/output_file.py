@@ -22,6 +22,16 @@ class OutputFile(models.Model):
     public_identifier = models.UUIDField(primary_key=False, default=uuid.uuid4, verbose_name=_('public identifier'))
     export = models.OneToOneField(Export, related_name='output_file', verbose_name=_('export'))
 
+    def __str__(self):
+        return \
+            '[' + str(self.id) + '] ' \
+            + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
+            + 'identifier: ' + str(self.public_identifier)
+
+    def delete(self, *args, **kwargs):
+        self._remove_file()
+        super().delete(*args, **kwargs)
+
     @property
     def content_type(self):
         return self.export.file_format
@@ -55,12 +65,6 @@ class OutputFile(models.Model):
 
         """
         self._remove_file(save=True)
-
-    def __str__(self):
-        return \
-            '[' + str(self.id) + '] ' \
-            + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
-            + 'identifier: ' + str(self.public_identifier)
 
     def get_filename_display(self):
         if self.file:
