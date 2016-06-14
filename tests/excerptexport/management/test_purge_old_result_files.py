@@ -67,15 +67,13 @@ def test_cleanup_old_result_files_when_existing_file_has_been_removed_by_someone
 
     assert output_file_with_file_too_old.file
 
-    not_expected_output = "removed {}".format(file_path)
-    expected_output = "file already removed, deleting reference".format(file_path)
+    expected_output = "removed {}".format(file_path)
     out = StringIO()
     call_command('purge_old_result_files', stdout=out)
 
     output_file_with_file_too_old.refresh_from_db()
 
     assert not os.path.exists(file_path)
-    assert not_expected_output not in out.getvalue()
     assert expected_output in out.getvalue()
     assert not output_file_with_file_too_old.file
 

@@ -1,4 +1,5 @@
 import os
+import shutil
 import uuid
 
 from django.db import models
@@ -35,6 +36,25 @@ class OutputFile(models.Model):
     @property
     def has_file(self):
         return bool(self.file)
+
+    def _remove_file(self, save=False):
+        if self.file:
+            file_path = self.file.path
+            file_directory = os.path.dirname(file_path)
+            if os.path.exists(file_directory):
+                shutil.rmtree(file_directory)
+            self.file = None
+        if save:
+            self.save()
+
+    def remove_file(self):
+        """
+        Removes the file and its directory.
+
+        Returns: None
+
+        """
+        self._remove_file(save=True)
 
     def __str__(self):
         return \

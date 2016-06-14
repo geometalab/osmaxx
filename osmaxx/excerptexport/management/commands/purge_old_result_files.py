@@ -1,8 +1,6 @@
 import logging
 import time
 
-import os
-import shutil
 from datetime import datetime
 
 from django.core.management.base import BaseCommand
@@ -53,16 +51,9 @@ class Command(BaseCommand):
             old_files = OutputFile.objects.filter(export__updated_at__lt=too_old)
             if len(old_files) > 0:
                 for old_file in old_files:
-                    if old_file.file:
-                        file_path = old_file.file.path
-                        file_directory = os.path.dirname(file_path)
-                        if os.path.exists(file_directory):
-                            shutil.rmtree(file_directory)
-                            self._success("removed {}".format(file_path))
-                        else:
-                            self._success("file already removed, deleting reference")
-                        old_file.file = None
-                        old_file.save()
+                    file_path = old_file.file.path
+                    old_file.remove_file()
+                    self._success("removed {}".format(file_path))
 
         except Exception as e:
             logger.exception(e)
