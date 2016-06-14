@@ -455,21 +455,21 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|barrier|avalanche_protection|`barrier=avalanche_protection`|A variety of linear structures which are placed on steep slopes to hold snow in place.|
 |barrier|barrier|`barrier=*`|A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.|
-|traffic_calming|bump|`traffic_calming=bump`|Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.|
-|traffic_calming|chicane|`traffic_calming=chicane`|Hazards on the street you have to drive round|
-|barrier|city_wall|`barrier=city_wall`|A fortification used to defend a city or settlement from potential aggressors. From ancient to modern times, they are used to enclose settlements|
-|natural|cliff|`natural=cliff`|A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.|
-|traffic_calming|cushion|`traffic_calming=cushion`|A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.|
-|barrier|fence|`barrier=fence`|A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.|
 |barrier|gate|`barrier=gate`|An entrance that can be opened or closed to get through the barrier.|
+|barrier|city_wall|`barrier=city_wall`|A fortification used to defend a city or settlement from potential aggressors. From ancient to modern times, they are used to enclose settlements|
 |barrier|hedge|`barrier=hedge`|A line of closely spaced shrubs and bushes, planted and trained in such a way as to form a barrier or to mark the boundary of an area.|
-|traffic_calming|hump|`traffic_calming=hump`|Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)|
+|barrier|fence|`barrier=fence`|A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.|
 |barrier|retaining_wall|`barrier=retaining_wall`|Retaining walls serve to retain the lateral pressure of soil. Right side is bottom, left side is top.|
-|traffic_calming|table|`traffic_calming=table`|Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.|
-|traffic_calming|traffic_calming|`traffic_calming=*`|Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.|
 |barrier|wall|`barrier=wall`|A freestanding solid structure designed to restrict or prevent movement across a boundary. Usually made from solid brick, concrete or stone and almost always built so that it is opaque to vision.|
+|barrier|avalanche_protection|`barrier=avalanche_protection`|A variety of linear structures which are placed on steep slopes to hold snow in place.|
+|natural|cliff|`natural=cliff`|A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.|
+|traffic_calming|traffic_calming|`traffic_calming=*`|Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.|
+|traffic_calming|hump|`traffic_calming=hump`|Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)|
+|traffic_calming|bump|`traffic_calming=bump`|Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.|
+|traffic_calming|table|`traffic_calming=table`|Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.|
+|traffic_calming|chicane|`traffic_calming=chicane`|Hazards on the street you have to drive round|
+|traffic_calming|cushion|`traffic_calming=cushion`|A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.|
 
 
 ## natural_a

@@ -336,101 +336,101 @@ layers:
     attributes:
       "type":
         type: text
-        values:
-          "barrier":
-            osm_tags:
-              - "barrier": '*'
-            correlated_attributes:
-              # key: attribute name, value: attribute value
-              "aggtype": 'barrier'
-            description: A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.
-          "gate":
-            osm_tags:
-              - "barrier": 'gate'
-            correlated_attributes:
-              # key: attribute name, value: attribute value
-              "aggtype": 'barrier'
-            description: An entrance that can be opened or closed to get through the barrier.
-          "city_wall":
-            osm_tags:
-              - "barrier": 'city_wall'
-            correlated_attributes:
-              # key: attribute name, value: attribute value
-              "aggtype": 'barrier'
-            description: 'A fortification used to defend a city or settlement from potential aggressors. From ancient to modern times, they are used to enclose settlements'
-          "hedge":
-            osm_tags:
-              - "barrier": 'hedge'
-            correlated_attributes:
-              # key: attribute name, value: attribute value
-              "aggtype": 'barrier'
-            description: 'A line of closely spaced shrubs and bushes, planted and trained in such a way as to form a barrier or to mark the boundary of an area.'
-          "fence":
-            osm_tags:
-              - "barrier": 'fence'
-            correlated_attributes:
-              "aggtype": 'barrier'
-            description: 'A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.'
-          "retaining_wall":
-            osm_tags:
-              - "barrier": 'retaining_wall'
-            correlated_attributes:
-              "aggtype": 'barrier'
-            description: 'Retaining walls serve to retain the lateral pressure of soil. Right side is bottom, left side is top.'
-          "wall":
-            osm_tags:
-              - "barrier": 'wall'
-            correlated_attributes:
-              "aggtype": 'barrier'
-            description: 'A freestanding solid structure designed to restrict or prevent movement across a boundary. Usually made from solid brick, concrete or stone and almost always built so that it is opaque to vision.'
-          "avalanche_protection":
-            osm_tags:
-              - "barrier": 'avalanche_protection'
-            correlated_attributes:
-              "aggtype": 'barrier'
-            description: 'A variety of linear structures which are placed on steep slopes to hold snow in place.'
-          "cliff":
-            osm_tags:
-              - "natural": 'cliff'
-            correlated_attributes:
-              "aggtype": 'natural'
-            description: 'A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.'
-          "traffic_calming":
-            osm_tags:
-              - "traffic_calming": '*'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.'
-          "hump":
-            osm_tags:
-              - "traffic_calming": 'hump'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)'
-          "bump":
-            osm_tags:
-              - "traffic_calming": 'bump'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.'
-          "table":
-            osm_tags:
-              - "traffic_calming": 'table'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.'
-          "chicane":
-            osm_tags:
-              - "traffic_calming": 'chicane'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'Hazards on the street you have to drive round'
-          "cushion":
-            osm_tags:
-              - "traffic_calming": 'cushion'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.'
+        values: !!omap
+          - "barrier":
+              osm_tags:
+                - "barrier": '*'
+              correlated_attributes:
+                # key: attribute name, value: attribute value
+                "aggtype": 'barrier'
+              description: A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.
+          - "gate":
+              osm_tags:
+                - "barrier": 'gate'
+              correlated_attributes:
+                # key: attribute name, value: attribute value
+                "aggtype": 'barrier'
+              description: An entrance that can be opened or closed to get through the barrier.
+          - "city_wall":
+              osm_tags:
+                - "barrier": 'city_wall'
+              correlated_attributes:
+                # key: attribute name, value: attribute value
+                "aggtype": 'barrier'
+              description: 'A fortification used to defend a city or settlement from potential aggressors. From ancient to modern times, they are used to enclose settlements'
+          - "hedge":
+              osm_tags:
+                - "barrier": 'hedge'
+              correlated_attributes:
+                # key: attribute name, value: attribute value
+                "aggtype": 'barrier'
+              description: 'A line of closely spaced shrubs and bushes, planted and trained in such a way as to form a barrier or to mark the boundary of an area.'
+          - "fence":
+              osm_tags:
+                - "barrier": 'fence'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.'
+          - "retaining_wall":
+              osm_tags:
+                - "barrier": 'retaining_wall'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'Retaining walls serve to retain the lateral pressure of soil. Right side is bottom, left side is top.'
+          - "wall":
+              osm_tags:
+                - "barrier": 'wall'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A freestanding solid structure designed to restrict or prevent movement across a boundary. Usually made from solid brick, concrete or stone and almost always built so that it is opaque to vision.'
+          - "avalanche_protection":
+              osm_tags:
+                - "barrier": 'avalanche_protection'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A variety of linear structures which are placed on steep slopes to hold snow in place.'
+          - "cliff":
+              osm_tags:
+                - "natural": 'cliff'
+              correlated_attributes:
+                "aggtype": 'natural'
+              description: 'A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.'
+          - "traffic_calming":
+              osm_tags:
+                - "traffic_calming": '*'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.'
+          - "hump":
+              osm_tags:
+                - "traffic_calming": 'hump'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)'
+          - "bump":
+              osm_tags:
+                - "traffic_calming": 'bump'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.'
+          - "table":
+              osm_tags:
+                - "traffic_calming": 'table'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.'
+          - "chicane":
+              osm_tags:
+                - "traffic_calming": 'chicane'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Hazards on the street you have to drive round'
+          - "cushion":
+              osm_tags:
+                - "traffic_calming": 'cushion'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.'
   "natural_a": &layer_natural_a
     attributes:
       "type":
