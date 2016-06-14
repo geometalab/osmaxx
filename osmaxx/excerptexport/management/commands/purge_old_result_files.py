@@ -55,11 +55,12 @@ class Command(BaseCommand):
                 for old_file in old_files:
                     if old_file.file:
                         file_path = old_file.file.path
-                        if os.path.exists(file_path):
-                            shutil.rmtree(os.path.dirname(file_path))
+                        file_directory = os.path.dirname(file_path)
+                        if os.path.exists(file_directory):
+                            shutil.rmtree(file_directory)
                             self._success("removed {}".format(file_path))
                         else:
-                            self._success("file already removed, deleting reference to {}".format(file_path))
+                            self._success("file already removed, deleting reference")
                         old_file.file = None
                         old_file.save()
 

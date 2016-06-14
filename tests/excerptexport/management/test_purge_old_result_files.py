@@ -43,9 +43,12 @@ def test_purge_old_result_files_with_existing_files_leaves_it_be_when_younger(db
     out = StringIO()
     call_command('purge_old_result_files', stdout=out)
     assert output_file_with_file.file
+    assert os.path.exists(output_file_with_file.file.path)
 
 
 def test_purge_old_result_files_with_existing_files_removes_it_be_when_older(output_file_with_file_too_old):
+    assert output_file_with_file_too_old.file
+
     file_path = output_file_with_file_too_old.file.path
     expected_output = "removed {}".format(file_path)
     out = StringIO()
@@ -62,8 +65,10 @@ def test_cleanup_old_result_files_when_existing_file_has_been_removed_by_someone
     file_path = output_file_with_file_too_old.file.path
     shutil.rmtree(os.path.dirname(file_path))
 
+    assert output_file_with_file_too_old.file
+
     not_expected_output = "removed {}".format(file_path)
-    expected_output = "file already removed, deleting reference to {}".format(file_path)
+    expected_output = "file already removed, deleting reference".format(file_path)
     out = StringIO()
     call_command('purge_old_result_files', stdout=out)
 
@@ -71,5 +76,23 @@ def test_cleanup_old_result_files_when_existing_file_has_been_removed_by_someone
 
     assert not os.path.exists(file_path)
     assert not_expected_output not in out.getvalue()
+    assert expected_output in out.getvalue()
+    assert not output_file_with_file_too_old.file
+
+
+def test_old_result_files_directory_is_being_removed_when_existing_file_has_been_removed_by_someone_else(output_file_with_file_too_old):
+    file_path = output_file_with_file_too_old.file.path
+    os.remove(file_path)
+
+    assert output_file_with_file_too_old.file
+
+    expected_output = "removed {}".format(file_path)
+    out = StringIO()
+    call_command('purge_old_result_files', stdout=out)
+
+    output_file_with_file_too_old.refresh_from_db()
+
+    assert not os.path.exists(file_path)
+    assert not os.path.exists(os.path.dirname(file_path))
     assert expected_output in out.getvalue()
     assert not output_file_with_file_too_old.file
