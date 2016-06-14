@@ -1,4 +1,99 @@
 layers:
+  "address_p":
+    attributes: !!omap
+      - "type":
+          type: "text"
+          values: !!omap
+            - "i":
+                description: "Interpolated Entrances along interpolated addresses without nodes"
+                osm_tags:
+                  - "addr:interpolation": "even"
+                  - "addr:interpolation": "odd"
+                  - "addr:interpolation": "all"
+            - "e":
+                description: "General Entrance with entrance node"
+                osm_tags:
+                  - !!omap
+                    - "building": "entrance"
+                    - "addr:street": "*"
+                  - !!omap
+                    - "building": "entrance"
+                    - "addr:housenumber": "*"
+                  - !!omap
+                    - "building": "entrance"
+                    - "addr:place": "*"
+                  - !!omap
+                    - "entrance": "*"
+                    - "addr:street": "*"
+                  - !!omap
+                    - "entrance": "*"
+                    - "addr:housenumber": "*"
+                  - !!omap
+                    - "entrance": "*"
+                    - "addr:place": "*"
+            - "b":
+                description: "Entrance to a building without entrance node"
+                osm_tags:
+                  - "building": "*"
+                    [not]:
+                      "building": "entrance"
+                      "entrance": "*"
+                    "addr:street": "*"
+                  - "building": "*"
+                    [not]:
+                      "building": "entrance"
+                      "entrance": "*"
+                    "addr:housenumber": "*"
+                  - "building": "*"
+                    [not]:
+                      "building": "entrance"
+                      "entrance": "*"
+                    "addr:place": "*"
+            - "p":
+                description: "All other address nodes"
+                osm_tags:
+                  - [not]:
+                      "building": "*"
+                      "entrance": "*"
+                    "addr:street": "*"
+                  - [not]:
+                      "building": "*"
+                      "entrance": "*"
+                    "addr:housenumber": "*"
+                  - [not]:
+                      "building": "*"
+                      "entrance": "*"
+                    "addr:place": "*"
+      - "street":
+          type: "text"
+          osm_tags:
+            - "addr:street": "*"
+            - "addr:place": "*"
+      - "housenumber":
+          type: "text"
+          osm_tags:
+            - "addr:housenumber": "*"
+            - !!omap
+              - "addr:interpolation": "even"
+              - "addr:housenumber": "*"
+            - !!omap
+              - "addr:interpolation": "odd"
+              - "addr:housenumber": "*"
+            - !!omap
+              - "addr:interpolation": "all"
+              - "addr:housenumber": "*"
+      - "postcode":
+          type: "text"
+          osm_tags:
+            - "addr:postcode": "*"
+      - "city":
+          type: "text"
+          osm_tags:
+            - "addr:place": "*"
+      - "country":
+          type: "text"
+          osm_tags:
+            - "addr:country": "*"
   "adminarea_a": &layer_adminarea_a
     attributes:
       "type":
@@ -336,101 +431,101 @@ layers:
     attributes:
       "type":
         type: text
-        values:
-          "barrier":
-            osm_tags:
-              - "barrier": '*'
-            correlated_attributes:
-              # key: attribute name, value: attribute value
-              "aggtype": 'barrier'
-            description: A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.
-          "gate":
-            osm_tags:
-              - "barrier": 'gate'
-            correlated_attributes:
-              # key: attribute name, value: attribute value
-              "aggtype": 'barrier'
-            description: An entrance that can be opened or closed to get through the barrier.
-          "city_wall":
-            osm_tags:
-              - "barrier": 'city_wall'
-            correlated_attributes:
-              # key: attribute name, value: attribute value
-              "aggtype": 'barrier'
-            description: 'A fortification used to defend a city or settlement from potential aggressors. From ancient to modern times, they are used to enclose settlements'
-          "hedge":
-            osm_tags:
-              - "barrier": 'hedge'
-            correlated_attributes:
-              # key: attribute name, value: attribute value
-              "aggtype": 'barrier'
-            description: 'A line of closely spaced shrubs and bushes, planted and trained in such a way as to form a barrier or to mark the boundary of an area.'
-          "fence":
-            osm_tags:
-              - "barrier": 'fence'
-            correlated_attributes:
-              "aggtype": 'barrier'
-            description: 'A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.'
-          "retaining_wall":
-            osm_tags:
-              - "barrier": 'retaining_wall'
-            correlated_attributes:
-              "aggtype": 'barrier'
-            description: 'Retaining walls serve to retain the lateral pressure of soil. Right side is bottom, left side is top.'
-          "wall":
-            osm_tags:
-              - "barrier": 'wall'
-            correlated_attributes:
-              "aggtype": 'barrier'
-            description: 'A freestanding solid structure designed to restrict or prevent movement across a boundary. Usually made from solid brick, concrete or stone and almost always built so that it is opaque to vision.'
-          "avalanche_protection":
-            osm_tags:
-              - "barrier": 'avalanche_protection'
-            correlated_attributes:
-              "aggtype": 'barrier'
-            description: 'A variety of linear structures which are placed on steep slopes to hold snow in place.'
-          "cliff":
-            osm_tags:
-              - "natural": 'cliff'
-            correlated_attributes:
-              "aggtype": 'natural'
-            description: 'A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.'
-          "traffic_calming":
-            osm_tags:
-              - "traffic_calming": '*'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.'
-          "hump":
-            osm_tags:
-              - "traffic_calming": 'hump'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)'
-          "bump":
-            osm_tags:
-              - "traffic_calming": 'bump'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.'
-          "table":
-            osm_tags:
-              - "traffic_calming": 'table'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.'
-          "chicane":
-            osm_tags:
-              - "traffic_calming": 'chicane'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'Hazards on the street you have to drive round'
-          "cushion":
-            osm_tags:
-              - "traffic_calming": 'cushion'
-            correlated_attributes:
-              "aggtype": 'traffic_calming'
-            description: 'A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.'
+        values: !!omap
+          - "barrier":
+              osm_tags:
+                - "barrier": '*'
+              correlated_attributes:
+                # key: attribute name, value: attribute value
+                "aggtype": 'barrier'
+              description: A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.
+          - "gate":
+              osm_tags:
+                - "barrier": 'gate'
+              correlated_attributes:
+                # key: attribute name, value: attribute value
+                "aggtype": 'barrier'
+              description: An entrance that can be opened or closed to get through the barrier.
+          - "city_wall":
+              osm_tags:
+                - "barrier": 'city_wall'
+              correlated_attributes:
+                # key: attribute name, value: attribute value
+                "aggtype": 'barrier'
+              description: 'A fortification used to defend a city or settlement from potential aggressors. From ancient to modern times, they are used to enclose settlements'
+          - "hedge":
+              osm_tags:
+                - "barrier": 'hedge'
+              correlated_attributes:
+                # key: attribute name, value: attribute value
+                "aggtype": 'barrier'
+              description: 'A line of closely spaced shrubs and bushes, planted and trained in such a way as to form a barrier or to mark the boundary of an area.'
+          - "fence":
+              osm_tags:
+                - "barrier": 'fence'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.'
+          - "retaining_wall":
+              osm_tags:
+                - "barrier": 'retaining_wall'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'Retaining walls serve to retain the lateral pressure of soil. Right side is bottom, left side is top.'
+          - "wall":
+              osm_tags:
+                - "barrier": 'wall'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A freestanding solid structure designed to restrict or prevent movement across a boundary. Usually made from solid brick, concrete or stone and almost always built so that it is opaque to vision.'
+          - "avalanche_protection":
+              osm_tags:
+                - "barrier": 'avalanche_protection'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A variety of linear structures which are placed on steep slopes to hold snow in place.'
+          - "cliff":
+              osm_tags:
+                - "natural": 'cliff'
+              correlated_attributes:
+                "aggtype": 'natural'
+              description: 'A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.'
+          - "traffic_calming":
+              osm_tags:
+                - "traffic_calming": '*'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.'
+          - "hump":
+              osm_tags:
+                - "traffic_calming": 'hump'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)'
+          - "bump":
+              osm_tags:
+                - "traffic_calming": 'bump'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.'
+          - "table":
+              osm_tags:
+                - "traffic_calming": 'table'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.'
+          - "chicane":
+              osm_tags:
+                - "traffic_calming": 'chicane'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Hazards on the street you have to drive round'
+          - "cushion":
+              osm_tags:
+                - "traffic_calming": 'cushion'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.'
   "natural_a": &layer_natural_a
     attributes:
       "type":
@@ -2886,111 +2981,123 @@ layers:
         description: "Grouping several different 'type' to a common 'type' (aka enmu)"
       "type": &utility_a_p_attribute_type
         type: text
-        values: &utility_a_p_type_values
-          "tower":
-            osm_tags:
-             - "power": 'tower'
-            correlated_attributes:
-              "aggtype": 'tower'
-            description: 'For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.'
-          "station":
-            osm_tags:
-             - "power": 'generator'
-            correlated_attributes:
-              "aggtype": 'station'
-            description: 'A device used to convert power from one form to another. This contain all other power except the specifics below.'
-          "nuclear":
-            osm_tags:
-             - "power": 'generator'
-               "generator:source": 'nuclear'
-            correlated_attributes:
-              "aggtype": 'station'
-            description: 'A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.'
-          "solar":
-            osm_tags:
-             - "power": 'generator'
-               "generator:source": 'solar'
-             - "power": 'generator'
-               "power_source": 'photovoltaic'
-            correlated_attributes:
-              "aggtype": 'station'
-            description: 'Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).'
-          "fossil":
-            osm_tags:
-             - "power": 'generator'
-               "generator:source": 'gas'
-             - "power": 'generator'
-               "generator:source": 'coal'
-            correlated_attributes:
-              "aggtype": 'station'
-            description: 'Using the combustion of fuels to heat the water to in turn spin the generators turbine '
-          "hydro":
-            osm_tags:
-             - "power": 'generator'
-               "generator:source": 'water'
-             - "power_source": 'hydro'
-            correlated_attributes:
-              "aggtype": 'station'
-            description: 'Hydroelectricity is the term referring to electricity generated by hydropower; the production of electrical power through the use of the gravitational force of falling or flowing water. It is the most widely used form of renewable energy.'
-          "wind":
-            osm_tags:
-             - "power": 'generator'
-               "generator:source": 'wind'
-             - "power_source": 'wind'
-            correlated_attributes:
-              "aggtype": 'station'
-            description: 'A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.'
-          "substation":
-            osm_tags:
-             - "power": 'station'
-             - "power": 'substation'
-             - "power": 'sub_station'
-            correlated_attributes:
-              "aggtype": 'substation'
-            description: 'A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines'
-          "transformer":
-            osm_tags:
-             - "power": 'transformer'
-            correlated_attributes:
-              "aggtype": 'transformer'
-            description: 'A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.'
-          "water_works":
-            osm_tags:
-             - "man_made": 'water_works'
-            correlated_attributes:
-              "aggtype": 'man_made'
-            description: 'Place where drinking water is found and applied to the local waterpipes network.'
-          "wastewater_plant":
-            osm_tags:
-             - "man_made": 'wastewater_plant'
-            correlated_attributes:
-              "aggtype": 'man_made'
-            description: 'Facilities used to treat wastewater'
-          "storage_tank":
-            osm_tags:
-             - "man_made": 'storage_tank'
-            correlated_attributes:
-              "aggtype": 'man_made'
-            description: 'A large holding tank, typically cylindrical.'
-          "power":
-            osm_tags:
-             - "power": '*'
-            correlated_attributes:
-              "aggtype": 'power'
-            description: 'All other types of power which is not defined as above'
+        values: !!omap
+          - "tower": &utility_a_p_type_tower
+              osm_tags:
+               - "power": 'tower'
+              correlated_attributes:
+                "aggtype": 'tower'
+              description: 'For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.'
+          - "station": &utility_a_p_type_station
+              osm_tags:
+               - "power": 'generator'
+              correlated_attributes:
+                "aggtype": 'station'
+              description: 'A device used to convert power from one form to another. This contain all other power except the specifics below.'
+          - "nuclear": &utility_a_p_type_nuclear
+              osm_tags:
+               - "power": 'generator'
+                 "generator:source": 'nuclear'
+              correlated_attributes:
+                "aggtype": 'station'
+              description: 'A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.'
+          - "solar": &utility_a_p_type_solar
+              osm_tags:
+               - "power": 'generator'
+                 "generator:source": 'solar'
+               - "power": 'generator'
+                 "power_source": 'photovoltaic'
+              correlated_attributes:
+                "aggtype": 'station'
+              description: 'Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).'
+          - "fossil": &utility_a_p_type_fossil
+              osm_tags:
+               - "power": 'generator'
+                 "generator:source": 'gas'
+               - "power": 'generator'
+                 "generator:source": 'coal'
+              correlated_attributes:
+                "aggtype": 'station'
+              description: 'Using the combustion of fuels to heat the water to in turn spin the generators turbine '
+          - "hydro": &utility_a_p_type_hydro
+              osm_tags:
+               - "power": 'generator'
+                 "generator:source": 'water'
+               - "power_source": 'hydro'
+              correlated_attributes:
+                "aggtype": 'station'
+              description: 'Hydroelectricity is the term referring to electricity generated by hydropower; the production of electrical power through the use of the gravitational force of falling or flowing water. It is the most widely used form of renewable energy.'
+          - "wind": &utility_a_p_type_wind
+              osm_tags:
+               - "power": 'generator'
+                 "generator:source": 'wind'
+               - "power_source": 'wind'
+              correlated_attributes:
+                "aggtype": 'station'
+              description: 'A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.'
+          - "substation": &utility_a_p_type_substation
+              osm_tags:
+               - "power": 'station'
+               - "power": 'substation'
+               - "power": 'sub_station'
+              correlated_attributes:
+                "aggtype": 'substation'
+              description: 'A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines'
+          - "transformer": &utility_a_p_type_transformer
+              osm_tags:
+               - "power": 'transformer'
+              correlated_attributes:
+                "aggtype": 'transformer'
+              description: 'A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.'
+          - "water_works": &utility_a_p_type_water_works
+              osm_tags:
+               - "man_made": 'water_works'
+              correlated_attributes:
+                "aggtype": 'man_made'
+              description: 'Place where drinking water is found and applied to the local waterpipes network.'
+          - "wastewater_plant": &utility_a_p_type_wastewater_plant
+              osm_tags:
+               - "man_made": 'wastewater_plant'
+              correlated_attributes:
+                "aggtype": 'man_made'
+              description: 'Facilities used to treat wastewater'
+          - "storage_tank": &utility_a_p_type_storage_tank
+              osm_tags:
+               - "man_made": 'storage_tank'
+              correlated_attributes:
+                "aggtype": 'man_made'
+              description: 'A large holding tank, typically cylindrical.'
+          - "power": &utility_a_p_type_power
+              osm_tags:
+               - "power": '*'
+              correlated_attributes:
+                "aggtype": 'power'
+              description: 'All other types of power which is not defined as above'
   "utility_p": &layer_utility_p
     attributes:
       <<: *utility_a_p_attributes
       "type":
         <<: *utility_a_p_attribute_type
-        values:
-          <<: *utility_a_p_type_values
-          "pole":
-            osm_tags:
-             - "power": 'pole'
-            correlated_attributes:
-              "aggtype": 'pole'
-            description: 'For single (often wooden or concrete) poles carrying medium/low voltage electricity cables.'
+        values: !!omap
+          - "tower": *utility_a_p_type_tower
+          - "station": *utility_a_p_type_station
+          - "nuclear": *utility_a_p_type_nuclear
+          - "solar": *utility_a_p_type_solar
+          - "fossil": *utility_a_p_type_fossil
+          - "hydro": *utility_a_p_type_hydro
+          - "wind": *utility_a_p_type_wind
+          - "substation": *utility_a_p_type_substation
+          - "transformer": *utility_a_p_type_transformer
+          - "water_works": *utility_a_p_type_water_works
+          - "wastewater_plant": *utility_a_p_type_wastewater_plant
+          - "storage_tank": *utility_a_p_type_storage_tank
+          - "pole":
+              osm_tags:
+               - "power": 'pole'
+              correlated_attributes:
+                "aggtype": 'pole'
+              description: 'For single (often wooden or concrete) poles carrying medium/low voltage electricity cables.'
+          - "power": *utility_a_p_type_power
   "utility_l": &layer_utility_l
     attributes:
       "operator":

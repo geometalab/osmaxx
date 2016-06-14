@@ -215,6 +215,29 @@ See file name conventions above about the meaning of “_a” etc.
 
 # Layers Specification
 
+## address_p
+
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|text|(see table below)| |
+|street|text| |`addr:street=*` or `addr:place=*`|
+|housenumber|text| |`addr:housenumber=*` or `addr:interpolation=even`+`addr:housenumber=*` or `addr:interpolation=odd`+`addr:housenumber=*` or `addr:interpolation=all`+`addr:housenumber=*`|
+|postcode|text| |`addr:postcode=*`|
+|city|text| |`addr:place=*`|
+|country|text| |`addr:country=*`|
+
+
+Values of attribute type
+
+|values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
+|i|`addr:interpolation=even` or `addr:interpolation=odd` or `addr:interpolation=all`|Interpolated Entrances along interpolated addresses without nodes|
+|e|`building=entrance`+`addr:street=*` or `building=entrance`+`addr:housenumber=*` or `building=entrance`+`addr:place=*` or `entrance=*`+`addr:street=*` or `entrance=*`+`addr:housenumber=*` or `entrance=*`+`addr:place=*`|General Entrance with entrance node|
+|b|`addr:street=*`+`building=*`+**`building≠entrance`**+**`entrance≠*`** or `addr:housenumber=*`+`building=*`+**`building≠entrance`**+**`entrance≠*`** or `addr:place=*`+`building=*`+**`building≠entrance`**+**`entrance≠*`**|Entrance to a building without entrance node|
+|p|`addr:street=*`+**`building≠*`**+**`entrance≠*`** or `addr:housenumber=*`+**`building≠*`**+**`entrance≠*`** or `addr:place=*`+**`building≠*`**+**`entrance≠*`**|All other address nodes|
+
+
 ## adminarea_a
 
 
@@ -358,7 +381,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|type||(see table below)| |
+|type| |(see table below)| |
 
 
 Values of attribute type
@@ -455,21 +478,21 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|barrier|avalanche_protection|`barrier=avalanche_protection`|A variety of linear structures which are placed on steep slopes to hold snow in place.|
 |barrier|barrier|`barrier=*`|A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.|
-|traffic_calming|bump|`traffic_calming=bump`|Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.|
-|traffic_calming|chicane|`traffic_calming=chicane`|Hazards on the street you have to drive round|
-|barrier|city_wall|`barrier=city_wall`|A fortification used to defend a city or settlement from potential aggressors. From ancient to modern times, they are used to enclose settlements|
-|natural|cliff|`natural=cliff`|A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.|
-|traffic_calming|cushion|`traffic_calming=cushion`|A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.|
-|barrier|fence|`barrier=fence`|A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.|
 |barrier|gate|`barrier=gate`|An entrance that can be opened or closed to get through the barrier.|
+|barrier|city_wall|`barrier=city_wall`|A fortification used to defend a city or settlement from potential aggressors. From ancient to modern times, they are used to enclose settlements|
 |barrier|hedge|`barrier=hedge`|A line of closely spaced shrubs and bushes, planted and trained in such a way as to form a barrier or to mark the boundary of an area.|
-|traffic_calming|hump|`traffic_calming=hump`|Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)|
+|barrier|fence|`barrier=fence`|A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.|
 |barrier|retaining_wall|`barrier=retaining_wall`|Retaining walls serve to retain the lateral pressure of soil. Right side is bottom, left side is top.|
-|traffic_calming|table|`traffic_calming=table`|Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.|
-|traffic_calming|traffic_calming|`traffic_calming=*`|Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.|
 |barrier|wall|`barrier=wall`|A freestanding solid structure designed to restrict or prevent movement across a boundary. Usually made from solid brick, concrete or stone and almost always built so that it is opaque to vision.|
+|barrier|avalanche_protection|`barrier=avalanche_protection`|A variety of linear structures which are placed on steep slopes to hold snow in place.|
+|natural|cliff|`natural=cliff`|A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.|
+|traffic_calming|traffic_calming|`traffic_calming=*`|Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.|
+|traffic_calming|hump|`traffic_calming=hump`|Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)|
+|traffic_calming|bump|`traffic_calming=bump`|Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.|
+|traffic_calming|table|`traffic_calming=table`|Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.|
+|traffic_calming|chicane|`traffic_calming=chicane`|Hazards on the street you have to drive round|
+|traffic_calming|cushion|`traffic_calming=cushion`|A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.|
 
 
 ## natural_a
@@ -1355,19 +1378,19 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
+|tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
+|station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
+|station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
+|station|solar|`generator:source=solar`+`power=generator` or `power=generator`+`power_source=photovoltaic`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
 |station|fossil|`generator:source=gas`+`power=generator` or `generator:source=coal`+`power=generator`|Using the combustion of fuels to heat the water to in turn spin the generators turbine |
 |station|hydro|`generator:source=water`+`power=generator` or `power_source=hydro`|Hydroelectricity is the term referring to electricity generated by hydropower; the production of electrical power through the use of the gravitational force of falling or flowing water. It is the most widely used form of renewable energy.|
-|station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
-|power|power|`power=*`|All other types of power which is not defined as above|
-|station|solar|`generator:source=solar`+`power=generator` or `power=generator`+`power_source=photovoltaic`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
-|station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
-|man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
-|substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
-|tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
-|transformer|transformer|`power=transformer`|A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
-|man_made|wastewater_plant|`man_made=wastewater_plant`|Facilities used to treat wastewater|
-|man_made|water_works|`man_made=water_works`|Place where drinking water is found and applied to the local waterpipes network.|
 |station|wind|`generator:source=wind`+`power=generator` or `power_source=wind`|A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.|
+|substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
+|transformer|transformer|`power=transformer`|A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
+|man_made|water_works|`man_made=water_works`|Place where drinking water is found and applied to the local waterpipes network.|
+|man_made|wastewater_plant|`man_made=wastewater_plant`|Facilities used to treat wastewater|
+|man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
+|power|power|`power=*`|All other types of power which is not defined as above|
 
 
 ## utility_l
@@ -1406,20 +1429,20 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
+|tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
+|station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
+|station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
+|station|solar|`generator:source=solar`+`power=generator` or `power=generator`+`power_source=photovoltaic`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
 |station|fossil|`generator:source=gas`+`power=generator` or `generator:source=coal`+`power=generator`|Using the combustion of fuels to heat the water to in turn spin the generators turbine |
 |station|hydro|`generator:source=water`+`power=generator` or `power_source=hydro`|Hydroelectricity is the term referring to electricity generated by hydropower; the production of electrical power through the use of the gravitational force of falling or flowing water. It is the most widely used form of renewable energy.|
-|station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
+|station|wind|`generator:source=wind`+`power=generator` or `power_source=wind`|A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.|
+|substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
+|transformer|transformer|`power=transformer`|A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
+|man_made|water_works|`man_made=water_works`|Place where drinking water is found and applied to the local waterpipes network.|
+|man_made|wastewater_plant|`man_made=wastewater_plant`|Facilities used to treat wastewater|
+|man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
 |pole|pole|`power=pole`|For single (often wooden or concrete) poles carrying medium/low voltage electricity cables.|
 |power|power|`power=*`|All other types of power which is not defined as above|
-|station|solar|`generator:source=solar`+`power=generator` or `power=generator`+`power_source=photovoltaic`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
-|station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
-|man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
-|substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
-|tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
-|transformer|transformer|`power=transformer`|A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
-|man_made|wastewater_plant|`man_made=wastewater_plant`|Facilities used to treat wastewater|
-|man_made|water_works|`man_made=water_works`|Place where drinking water is found and applied to the local waterpipes network.|
-|station|wind|`generator:source=wind`+`power=generator` or `power_source=wind`|A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.|
 
 
 ## water_a
