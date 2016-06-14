@@ -2987,7 +2987,7 @@ layers:
                 - "power": "plant"
               correlated_attributes:
                 "aggtype": "plant"
-              description: "The (usually fenced) site of a power plant a.k.a. power station, generating station, or powerhouse (an industrial facility for the generation of energy), enclosing one or more power generators."
+              description: "The (usually fenced) site of a power plant a.k.a. power station, generating station, or powerhouse (an industrial facility for the generation of energy), enclosing one or more power generators. The individual generators will have aggtype 'station' (see below)."
           - "tower": &utility_a_p_type_tower
               osm_tags:
                - "power": 'tower'
