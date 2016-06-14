@@ -1,7 +1,7 @@
 import logging
 import time
 
-from datetime import datetime
+from django.utils import timezone
 
 from django.core.management.base import BaseCommand
 
@@ -21,7 +21,7 @@ class Command(BaseCommand):
     can_import_settings = True
 
     def add_arguments(self, parser):
-        parser.add_argument('run_once', action='store_true')
+        parser.add_argument('--run_once', action='store_true')
 
     def handle(self, *args, **options):
         if options.get('run_once', False):
@@ -29,13 +29,13 @@ class Command(BaseCommand):
         else:
             while True:
                 self._run()
-                time.sleep(OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS)
+                time.sleep(OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS.total_seconds())
 
     def _run(self):
-        too_old = datetime.now() - PURGE_OLD_RESULT_FILES_AFTER
+        too_old = timezone.now() - PURGE_OLD_RESULT_FILES_AFTER
         self._success(
             "Removing old output files that are older than {}".format(
-                too_old.strftime("%Y-%m-%d %h:%i")
+                too_old.strftime("%Y-%m-%d %H:%M:%S")
             )
         )
         self._remove_old_files()
@@ -47,7 +47,7 @@ class Command(BaseCommand):
 
     def _remove_old_files(self):
         try:
-            too_old = datetime.now() - PURGE_OLD_RESULT_FILES_AFTER
+            too_old = timezone.now() - PURGE_OLD_RESULT_FILES_AFTER
             old_files = OutputFile.objects.filter(export__updated_at__lt=too_old)
             if len(old_files) > 0:
                 for old_file in old_files:

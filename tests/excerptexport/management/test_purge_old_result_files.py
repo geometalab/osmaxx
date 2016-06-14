@@ -33,7 +33,7 @@ def output_file_with_file_too_old(db, output_file_with_file, mocker):
 
 def test_purge_old_result_files_call_exists():
     out = StringIO()
-    call_command('purge_old_result_files', stdout=out)
+    call_command('purge_old_result_files', '--run_once', stdout=out)
     assert 'Removing old output files that are older than ' in out.getvalue()
 
 
@@ -41,7 +41,7 @@ def test_purge_old_result_files_with_existing_files_leaves_it_be_when_younger(db
     assert output_file_with_file.file
     output_file_with_file.save()  # we use the side-effect of the date being set to now() in case of saving
     out = StringIO()
-    call_command('purge_old_result_files', stdout=out)
+    call_command('purge_old_result_files', '--run_once', stdout=out)
 
     output_file_with_file.refresh_from_db()
 
@@ -55,7 +55,7 @@ def test_purge_old_result_files_with_existing_files_removes_it_be_when_older(out
     file_path = output_file_with_file_too_old.file.path
     expected_output = "removed {}".format(file_path)
     out = StringIO()
-    call_command('purge_old_result_files', stdout=out)
+    call_command('purge_old_result_files', '--run_once', stdout=out)
 
     output_file_with_file_too_old.refresh_from_db()
 
@@ -70,7 +70,7 @@ def test_cleanup_old_result_files_when_existing_file_has_been_removed_by_someone
 
     assert output_file_with_file_too_old.file
 
-    call_command('purge_old_result_files')
+    call_command('purge_old_result_files', '--run_once')
 
     output_file_with_file_too_old.refresh_from_db()
 
@@ -85,7 +85,7 @@ def test_old_result_files_directory_is_being_removed_when_existing_file_has_been
 
     assert output_file_with_file_too_old.file
 
-    call_command('purge_old_result_files')
+    call_command('purge_old_result_files', '--run_once')
 
     output_file_with_file_too_old.refresh_from_db()
 
