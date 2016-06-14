@@ -220,11 +220,11 @@ See file name conventions above about the meaning of “_a” etc.
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|street| | | |
-|housenumber| | | |
-|postcode| | | |
-|city| | | |
-|country| | | |
+|street|text| | |
+|housenumber|text| | |
+|postcode|text| | |
+|city|text| | |
+|country|text| | |
 
 ## adminarea_a
 
