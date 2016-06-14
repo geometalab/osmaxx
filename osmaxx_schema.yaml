@@ -3,14 +3,25 @@ layers:
     attributes: !!omap
       - "street":
           type: "text"
+          osm_tags:
+            - "addr:street": "*"
+            - "addr:place": "*"
       - "housenumber":
           type: "text"
+          osm_tags:
+            - "addr:housenumber": "*"
       - "postcode":
           type: "text"
+          osm_tags:
+            - "addr:postcode": "*"
       - "city":
           type: "text"
+          osm_tags:
+            - "addr:place": "*"
       - "country":
           type: "text"
+          osm_tags:
+            - "addr:country": "*"
   "adminarea_a": &layer_adminarea_a
     attributes:
       "type":
