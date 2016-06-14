@@ -1378,6 +1378,7 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
+|plant|plant|`power=plant`|The (usually fenced) site of a power plant a.k.a. power station, generating station, or powerhouse (an industrial facility for the generation of energy), enclosing one or more power generators.|
 |tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
 |station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
 |station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
@@ -1429,6 +1430,7 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
+|plant|plant|`power=plant`|The (usually fenced) site of a power plant a.k.a. power station, generating station, or powerhouse (an industrial facility for the generation of energy), enclosing one or more power generators.|
 |tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
 |station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
 |station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
