@@ -33,6 +33,22 @@ layers:
                     - "addr:place": "*"
             - "b":
                 description: "Entrance to a building without entrance node"
+                osm_tags:
+                  - "building": "*"
+                    [not]:
+                      "building": "entrance"
+                      "entrance": "*"
+                    "addr:street": "*"
+                  - "building": "*"
+                    [not]:
+                      "building": "entrance"
+                      "entrance": "*"
+                    "addr:housenumber": "*"
+                  - "building": "*"
+                    [not]:
+                      "building": "entrance"
+                      "entrance": "*"
+                    "addr:place": "*"
             - "p":
                 description: "All other entrances with entrance node"
       - "street":
