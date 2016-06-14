@@ -6,6 +6,10 @@ layers:
           values: !!omap
             - "i":
                 description: "Interpolated Entrances along interpolated addresses without nodes"
+                osm_tags:
+                  - "addr:interpolation": "even"
+                  - "addr:interpolation": "odd"
+                  - "addr:interpolation": "all"
             - "e":
                 description: "General Entrance with entrance node"
             - "b":
