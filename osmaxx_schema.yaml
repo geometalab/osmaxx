@@ -10,6 +10,15 @@ layers:
           type: "text"
           osm_tags:
             - "addr:housenumber": "*"
+            - !!omap
+              - "addr:interpolation": "even"
+              - "addr:housenumber": "*"
+            - !!omap
+              - "addr:interpolation": "odd"
+              - "addr:housenumber": "*"
+            - !!omap
+              - "addr:interpolation": "all"
+              - "addr:housenumber": "*"
       - "postcode":
           type: "text"
           osm_tags:

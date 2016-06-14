@@ -221,7 +221,7 @@ See file name conventions above about the meaning of “_a” etc.
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |street|text| |`addr:street=*` or `addr:place=*`|
-|housenumber|text| |`addr:housenumber=*`|
+|housenumber|text| |`addr:housenumber=*` or `addr:interpolation=even`+`addr:housenumber=*` or `addr:interpolation=odd`+`addr:housenumber=*` or `addr:interpolation=all`+`addr:housenumber=*`|
 |postcode|text| |`addr:postcode=*`|
 |city|text| |`addr:place=*`|
 |country|text| |`addr:country=*`|
