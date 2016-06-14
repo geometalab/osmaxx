@@ -235,7 +235,7 @@ Values of attribute type
 |i|`addr:interpolation=even` or `addr:interpolation=odd` or `addr:interpolation=all`|Interpolated Entrances along interpolated addresses without nodes|
 |e|`building=entrance`+`addr:street=*` or `building=entrance`+`addr:housenumber=*` or `building=entrance`+`addr:place=*` or `entrance=*`+`addr:street=*` or `entrance=*`+`addr:housenumber=*` or `entrance=*`+`addr:place=*`|General Entrance with entrance node|
 |b|`addr:street=*`+`building=*`+**`building≠entrance`**+**`entrance≠*`** or `addr:housenumber=*`+`building=*`+**`building≠entrance`**+**`entrance≠*`** or `addr:place=*`+`building=*`+**`building≠entrance`**+**`entrance≠*`**|Entrance to a building without entrance node|
-|p| |All other entrances with entrance node|
+|p|`addr:street=*`+**`building≠*`**+**`entrance≠*`** or `addr:housenumber=*`+**`building≠*`**+**`entrance≠*`** or `addr:place=*`+**`building≠*`**+**`entrance≠*`**|All other entrances with entrance node|
 
 
 ## adminarea_a

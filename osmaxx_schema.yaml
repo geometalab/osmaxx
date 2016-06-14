@@ -51,6 +51,19 @@ layers:
                     "addr:place": "*"
             - "p":
                 description: "All other entrances with entrance node"
+                osm_tags:
+                  - [not]:
+                      "building": "*"
+                      "entrance": "*"
+                    "addr:street": "*"
+                  - [not]:
+                      "building": "*"
+                      "entrance": "*"
+                    "addr:housenumber": "*"
+                  - [not]:
+                      "building": "*"
+                      "entrance": "*"
+                    "addr:place": "*"
       - "street":
           type: "text"
           osm_tags:
