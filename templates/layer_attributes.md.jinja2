@@ -4,7 +4,7 @@
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 {% for attribute_name, attribute in layer_definition['attributes']|dictsort_unless_ordered -%}|
     {{- attribute_name }}|
-    {{- attribute['type'] }}|
+    {{- attribute['type']|default(' ', boolean=True) }}|
     {%- with -%}
         {%- if 'values' in attribute -%}
             {%- set reference_to_value_table = '(see table below)' -%}

@@ -358,7 +358,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|type||(see table below)| |
+|type| |(see table below)| |
 
 
 Values of attribute type
