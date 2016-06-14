@@ -5,9 +5,10 @@ from rest_framework import viewsets
 from rest_framework_extensions.etag.mixins import ETAGMixin
 
 from osmaxx.api_client import ConversionApiClient
-from osmaxx.contrib.auth.frontend_permissions import AuthenticatedAndAccessPermission, HasExcerptAccessPermission
-from osmaxx.excerptexport.models import Excerpt
-from osmaxx.excerptexport.rest_api.serializers import ExcerptGeometrySerializer
+from osmaxx.contrib.auth.frontend_permissions import AuthenticatedAndAccessPermission, HasExcerptAccessPermission, \
+    HasOutputFileAccessPermission
+from osmaxx.excerptexport.models import Excerpt, OutputFile
+from osmaxx.excerptexport.rest_api.serializers import ExcerptGeometrySerializer, OutPutFileSerializer
 
 
 class ExcerptViewSet(ETAGMixin, viewsets.mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -18,6 +19,16 @@ class ExcerptViewSet(ETAGMixin, viewsets.mixins.RetrieveModelMixin, viewsets.Gen
     queryset = Excerpt.objects.all()
     serializer_class = ExcerptGeometrySerializer
 excerpt_detail = ExcerptViewSet.as_view({'get': 'retrieve'})
+
+
+class OutPutFileSerializerViewSet(viewsets.mixins.DestroyModelMixin, viewsets.GenericViewSet):
+    permission_classes = (
+        HasOutputFileAccessPermission,
+        AuthenticatedAndAccessPermission,
+    )
+    queryset = OutputFile.objects.all()
+    serializer_class = OutPutFileSerializer
+output_file_detail = OutPutFileSerializerViewSet.as_view({'delete': 'destroy'})
 
 
 def estimated_file_size(request):
