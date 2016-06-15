@@ -89,7 +89,7 @@ layers:
       - "city":
           type: "text"
           osm_tags:
-            - "addr:place": "*"
+            - "addr:city": "*"
       - "country":
           type: "text"
           osm_tags:
