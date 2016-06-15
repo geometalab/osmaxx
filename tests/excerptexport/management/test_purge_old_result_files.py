@@ -1,32 +1,23 @@
-import datetime
 import os
 import shutil
 
 import pytest
 from django.core.management import call_command
+from django.utils import timezone
 from django.utils.six import StringIO
-
-from osmaxx.excerptexport.models.export import TimeStampModelMixin
-
-
-def timestamp_model_mixin_save_side_effect(self, *args, **kwargs):
-    super(TimeStampModelMixin, self).save(*args, **kwargs)
 
 
 @pytest.fixture
 def output_file_with_file_too_old(db, output_file_with_file, mocker):
     from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
-    just_a_bit_too_old = datetime.datetime.now() - RESULT_FILE_AVAILABILITY_DURATION - datetime.timedelta(minutes=1)
+    just_a_bit_too_old = timezone.now() - RESULT_FILE_AVAILABILITY_DURATION - timezone.timedelta(minutes=1)
 
-    mocker.patch.object(TimeStampModelMixin, 'save', timestamp_model_mixin_save_side_effect)
-
-    export = output_file_with_file.export
-    export.updated_at = just_a_bit_too_old
-    export.save()
+    output_file_with_file.file_removal_at = just_a_bit_too_old
+    output_file_with_file.save()
 
     output_file_with_file.refresh_from_db()
 
-    assert output_file_with_file.export.updated_at == just_a_bit_too_old
+    assert output_file_with_file.file_removal_at == just_a_bit_too_old
 
     return output_file_with_file
 
@@ -34,12 +25,12 @@ def output_file_with_file_too_old(db, output_file_with_file, mocker):
 def test_purge_old_result_files_call_exists():
     out = StringIO()
     call_command('purge_old_result_files', '--run_once', stdout=out)
-    assert 'Removing old output files that are older than ' in out.getvalue()
+    assert 'Removing output files that expired before ' in out.getvalue()
 
 
 def test_purge_old_result_files_with_existing_files_leaves_it_be_when_younger(db, output_file_with_file):
     assert output_file_with_file.file
-    output_file_with_file.save()  # we use the side-effect of the date being set to now() in case of saving
+
     out = StringIO()
     call_command('purge_old_result_files', '--run_once', stdout=out)
 

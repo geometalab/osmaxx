@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
+from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
 
 logger = logging.getLogger(__name__)
 
@@ -135,6 +136,7 @@ class Export(TimeStampModelMixin, models.Model):
 
         os.makedirs(os.path.dirname(new_file_path), exist_ok=True)
         shutil.move(file_path, new_file_path)
+        of.file_removal_at = now + RESULT_FILE_AVAILABILITY_DURATION
         of.save()
 
         self.finished_at = now
@@ -142,9 +144,8 @@ class Export(TimeStampModelMixin, models.Model):
 
     @property
     def result_file_available_until(self):
-        from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
-        if self.finished_at:
-            return self.finished_at + RESULT_FILE_AVAILABILITY_DURATION
+        if hasattr(self, 'output_file'):
+            return self.output_file.file_removal_at
         return None
 
     @property
