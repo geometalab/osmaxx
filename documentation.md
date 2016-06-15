@@ -594,7 +594,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |brand|text|The identity of a specific product, service, or business. Often trademarks|`brand=*`|
 |cuisine|text|The type of food served at an eating place.|`cuisine=*`|
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
@@ -773,7 +773,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |brand|text|The identity of a specific product, service, or business. Often trademarks|`brand=*`|
 |cuisine|text|The type of food served at an eating place.|`cuisine=*`|
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
@@ -952,7 +952,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
 |phone|text|A telephone number associated with the object.|`phone=*` or `contact:phone=*`|
 |type|text|(see table below)| |
@@ -993,7 +993,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
 |phone|text|A telephone number associated with the object.|`phone=*` or `contact:phone=*`|
 |type|text|(see table below)| |
@@ -1033,7 +1033,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature. (see table below)| |
 |frequency|text|The electrical frequency that the electrified cable is running on|`frequency=*`|
 |tunnel|boolean|A tunnel is an underground passage for a road or similar. (see table below)| |
@@ -1093,7 +1093,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|"roundabout" for roundabouts, otherweise the general type/importance of the road or way. See the "type" attribute for a road's or way's specific type for both, roundabout and non-roundabout roads/ways.| |
 |bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature. (see table below)| |
 |maxspeed|smallint|Specifies the maximum legal speed limit on a road, railway or waterway|`maxspeed=*`|
 |oneway|boolean|Oneway streets are streets where you are only allowed to drive in one direction.|`oneway=*`|
@@ -1222,7 +1222,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text(later)|For describing the legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |type|text|(see table below)| |
 
 
@@ -1244,7 +1244,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text(later)|For describing the legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |type|text|(see table below)| |
 
 
@@ -1370,7 +1370,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Grouping several different 'type' to a common 'type' (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |type|text|(see table below)| |
 
 
@@ -1422,7 +1422,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Grouping several different 'type' to a common 'type' (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |type|text|(see table below)| |
 
 
