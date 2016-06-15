@@ -141,6 +141,13 @@ class Export(TimeStampModelMixin, models.Model):
         self.save()
 
     @property
+    def result_file_available_until(self):
+        from osmaxx.excerptexport._settings import PURGE_OLD_RESULT_FILES_AFTER
+        if self.finished_at:
+            return self.finished_at + PURGE_OLD_RESULT_FILES_AFTER
+        return None
+
+    @property
     def is_status_final(self):
         return self.status in self.FINAL_STATUSES
 

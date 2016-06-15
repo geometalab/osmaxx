@@ -13,10 +13,17 @@
             </div>
             <div class="col-md-4 col-lg-4">
                 <div class="col-xs-10">
-                    {{ export.status }} at {% firstof export.finished_at|date:"Y-m-d H:i:s" export.updated_at|date:"Y-m-d H:i:s" %}
+                    {% capture_as finished_date %}{% firstof export.finished_at|date:"Y-m-d H:i:s" export.updated_at|date:"Y-m-d H:i:s" %}{% end_capture_as %}
+                    {% capture_as state_display %}{{ export.status }} at {{ finished_date }}{% end_capture_as %}
+                    {% capture_as available_until %}{{ export.result_file_available_until|date:"Y-m-d H:i:s" }}{% end_capture_as %}
+                    {% if export.status == export.FINISHED %}
+                        {% blocktrans %}<span title="{{ state_display }}">available until {{ available_until }}</span>{% endblocktrans %}
+                    {% else %}
+                        {{ state_display }}
+                    {% endif %}
                 </div>
                 <div class="col-xs-2">
-                    {% if export.status in export.FINAL_STATUSES %}
+                    {% if export.is_status_final %}
                     <div id="delete-export-{{ export.id }}" class="hidden">
                         <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                     </div>
@@ -39,7 +46,7 @@
                 <div class="col-md-3 col-lg-3">
                     <p>
                         {% capture_as subject %}Download {{ export.get_file_format_display }} map data of {{ export.extraction_order.excerpt.name }}{% end_capture_as %}
-                        {% capture_as body %}{% email_body_with_single_result_link export.output_file %}{% end_capture_as %}
+                        {% capture_as body %}{% email_body_with_single_result_link export.output_file available_until %}{% end_capture_as %}
                         <a href="mailto:?subject={% filter urlencode %}{{ subject }}{% endfilter %}&body={% filter urlencode %}{{ body }}{% endfilter %}">
                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                             Send Link as Email
