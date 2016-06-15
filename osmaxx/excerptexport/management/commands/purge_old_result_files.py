@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from django.core.management.base import BaseCommand
 
-from osmaxx.excerptexport._settings import OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL
+from osmaxx.excerptexport._settings import OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL, OSMAXX_DATETIME_STRFTIME_FORMAT
 from osmaxx.excerptexport.models import OutputFile
 
 logging.basicConfig()
@@ -32,12 +32,15 @@ class Command(BaseCommand):
                 time.sleep(OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL.total_seconds())
 
     def _run(self):
-        self._success(
+        self._info(
             "Removing output files that expired before {}".format(
-                (timezone.now()).strftime("%Y-%m-%d %H:%M:%S")
+                (timezone.now()).strftime(OSMAXX_DATETIME_STRFTIME_FORMAT)
             )
         )
         self._remove_old_files()
+
+    def _info(self, message):
+        self.stdout.write(message)
 
     def _success(self, message):
         self.stdout.write(

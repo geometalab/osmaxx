@@ -7,6 +7,8 @@ POLYFILE_LOCATION = os.path.abspath(os.path.join(os.path.dirname(__file__), 'dat
 OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL = timedelta(hours=1)  # default every hour
 RESULT_FILE_AVAILABILITY_DURATION = timedelta(days=14)  # default to two weeks
 
+OSMAXX_DATETIME_STRFTIME_FORMAT = "%F %T"
+
 if hasattr(settings, 'OSMAXX'):
     if hasattr(settings.OSMAXX, 'OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL'):
         OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL = settings.OSMAXX['OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL']
