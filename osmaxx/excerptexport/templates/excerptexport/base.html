@@ -21,6 +21,9 @@
 
     {# Helpers #}
     <script type="text/javascript" src="{% static 'excerptexport/scripts/helperFunctions.js' %}"></script>
+    {# cookie getter, as per Django docs: https://docs.djangoproject.com/en/1.9/ref/csrf/#ajax #}
+    <script type="text/javascript" src='{% static "excerptexport/libraries/django/js.cookie-2.1.2.min.js" %}'></script>
+    <script type="text/javascript" src='{% static "excerptexport/scripts/add_delete_button_to_exports.js" %}'></script>
 
     {# MAP SCRIPTS #}
     <script src='{% static "excerptexport/libraries/leaflet/leaflet.js" %}'></script>

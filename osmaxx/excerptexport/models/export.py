@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
+from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
 
 logger = logging.getLogger(__name__)
 
@@ -51,6 +52,11 @@ class Export(TimeStampModelMixin, models.Model):
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
     status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
     finished_at = models.DateTimeField(_('finished at'), default=None, blank=True, editable=False, null=True)
+
+    def delete(self, *args, **kwargs):
+        if hasattr(self, 'output_file'):
+            self.output_file.delete()
+        super().delete(*args, **kwargs)
 
     def send_to_conversion_service(self, clipping_area_json, incoming_request):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
@@ -130,10 +136,17 @@ class Export(TimeStampModelMixin, models.Model):
 
         os.makedirs(os.path.dirname(new_file_path), exist_ok=True)
         shutil.move(file_path, new_file_path)
+        of.file_removal_at = now + RESULT_FILE_AVAILABILITY_DURATION
         of.save()
 
         self.finished_at = now
         self.save()
+
+    @property
+    def result_file_available_until(self):
+        if hasattr(self, 'output_file'):
+            return self.output_file.file_removal_at
+        return None
 
     @property
     def is_status_final(self):

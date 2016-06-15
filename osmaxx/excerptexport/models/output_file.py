@@ -1,4 +1,5 @@
 import os
+import shutil
 import uuid
 
 from django.db import models
@@ -20,6 +21,17 @@ class OutputFile(models.Model):
     deleted_on_filesystem = models.BooleanField(default=False, verbose_name=_('deleted on filesystem'))
     public_identifier = models.UUIDField(primary_key=False, default=uuid.uuid4, verbose_name=_('public identifier'))
     export = models.OneToOneField(Export, related_name='output_file', verbose_name=_('export'))
+    file_removal_at = models.DateTimeField(_('file removal date'), default=None, blank=True, editable=False, null=True)
+
+    def __str__(self):
+        return \
+            '[' + str(self.id) + '] ' \
+            + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
+            + 'identifier: ' + str(self.public_identifier)
+
+    def delete(self, *args, **kwargs):
+        self._remove_file()
+        super().delete(*args, **kwargs)
 
     @property
     def content_type(self):
@@ -36,11 +48,25 @@ class OutputFile(models.Model):
     def has_file(self):
         return bool(self.file)
 
-    def __str__(self):
-        return \
-            '[' + str(self.id) + '] ' \
-            + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
-            + 'identifier: ' + str(self.public_identifier)
+    def _remove_file(self, save=False):
+        if self.file:
+            file_path = self.file.path
+            file_directory = os.path.dirname(file_path)
+            if os.path.exists(file_directory):
+                assert len(os.listdir(file_directory)) <= 1
+                shutil.rmtree(file_directory)
+            self.file = None
+        if save:
+            self.save()
+
+    def remove_file(self):
+        """
+        Removes the file and its directory.
+
+        Returns: None
+
+        """
+        self._remove_file(save=True)
 
     def get_filename_display(self):
         if self.file:
