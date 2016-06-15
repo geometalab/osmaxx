@@ -32,10 +32,9 @@ class Command(BaseCommand):
                 time.sleep(OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS.total_seconds())
 
     def _run(self):
-        too_old = timezone.now() - PURGE_OLD_RESULT_FILES_AFTER
         self._success(
             "Removing old output files that are older than {}".format(
-                too_old.strftime("%Y-%m-%d %H:%M:%S")
+                (timezone.now() - PURGE_OLD_RESULT_FILES_AFTER).strftime("%Y-%m-%d %H:%M:%S")
             )
         )
         self._remove_old_files()
@@ -47,8 +46,7 @@ class Command(BaseCommand):
 
     def _remove_old_files(self):
         try:
-            too_old = timezone.now() - PURGE_OLD_RESULT_FILES_AFTER
-            old_files = OutputFile.objects.filter(export__updated_at__lt=too_old)
+            old_files = OutputFile.objects.filter(export__updated_at__lt=timezone.now() - PURGE_OLD_RESULT_FILES_AFTER)
             for old_file in old_files:
                 file_path = old_file.file.path
                 old_file.remove_file()
