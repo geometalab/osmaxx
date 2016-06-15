@@ -52,6 +52,11 @@ class Export(TimeStampModelMixin, models.Model):
     status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
     finished_at = models.DateTimeField(_('finished at'), default=None, blank=True, editable=False, null=True)
 
+    def delete(self, *args, **kwargs):
+        if hasattr(self, 'output_file'):
+            self.output_file.delete()
+        super().delete(*args, **kwargs)
+
     def send_to_conversion_service(self, clipping_area_json, incoming_request):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
         api_client = ConversionApiClient()
