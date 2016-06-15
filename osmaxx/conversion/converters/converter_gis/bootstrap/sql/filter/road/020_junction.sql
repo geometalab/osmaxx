@@ -54,7 +54,7 @@ INSERT INTO osmaxx.road_l
     end as tunnel
 
      FROM osm_line
-     WHERE junction='roundabout'
+     WHERE (highway IS NULL OR highway NOT IN ('abandoned','construction','planned','proposed','disused')) AND junction = 'roundabout'
 UNION
 (
   WITH osm_single_polygon AS (
@@ -119,5 +119,5 @@ UNION
     else FALSE
     end as tunnel
      FROM osm_single_polygon
-     WHERE junction='roundabout'
+     WHERE (highway IS NULL OR highway NOT IN ('abandoned','construction','planned','proposed','disused')) AND junction = 'roundabout'
 );
