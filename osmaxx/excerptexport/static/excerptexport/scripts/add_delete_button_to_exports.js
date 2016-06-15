@@ -7,8 +7,8 @@
             var delete_button = jQuery(elem);
             delete_button.attr('class', '');
             delete_button.on('click', function (e, element) {
-                var panel_container = delete_button.parent().parent().parent().parent().parent(),
-                    export_id = elem.id.replace(html_id, '');
+                var export_id = elem.id.replace(html_id, ''),
+                    panel_container = jQuery("#export-panel-" + export_id);
 
                 if (confirm('Are you sure you want to delete this?')) {
                     var csrftoken = Cookies.get('csrftoken');
