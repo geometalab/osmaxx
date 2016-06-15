@@ -52,6 +52,7 @@ class OutputFile(models.Model):
             file_path = self.file.path
             file_directory = os.path.dirname(file_path)
             if os.path.exists(file_directory):
+                assert len(os.listdir(file_directory)) <= 1
                 shutil.rmtree(file_directory)
             self.file = None
         if save:
