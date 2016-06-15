@@ -12,7 +12,16 @@
                 {{ export.extraction_order.get_detail_level_display }}
             </div>
             <div class="col-md-4 col-lg-4">
-                {{ export.status }} at {% firstof export.finished_at|date:"Y-m-d H:i:s" export.updated_at|date:"Y-m-d H:i:s" %}
+                <div class="col-xs-10">
+                    {{ export.status }} at {% firstof export.finished_at|date:"Y-m-d H:i:s" export.updated_at|date:"Y-m-d H:i:s" %}
+                </div>
+                <div class="col-xs-2">
+                    {% if export.status in export.FINAL_STATUSES %}
+                    <div id="delete-export-{{ export.id }}" class="hidden">
+                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
@@ -24,9 +33,9 @@
                         <a href="{{ export.output_file.file.url }}">{{ export.output_file.get_filename_display }}</a>
                     </p>
                 </div>
-            <div class="col-md-1 col-lg-1">
-                {{ export.output_file.file.size|filesizeformat }}
-            </div>
+                <div class="col-md-1 col-lg-1">
+                    {{ export.output_file.file.size|filesizeformat }}
+                </div>
                 <div class="col-md-3 col-lg-3">
                     <p>
                         {% capture_as subject %}Download {{ export.get_file_format_display }} map data of {{ export.extraction_order.excerpt.name }}{% end_capture_as %}
