@@ -1093,7 +1093,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
+|aggtype|text|"roundabout" for roundabouts, otherweise the general type/importance of the road or way. See the "type" attribute for a road's or way's specific type for both, roundabout and non-roundabout roads/ways.| |
 |bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature. (see table below)| |
 |maxspeed|smallint|Specifies the maximum legal speed limit on a road, railway or waterway|`maxspeed=*`|
 |oneway|boolean|Oneway streets are streets where you are only allowed to drive in one direction.|`oneway=*`|

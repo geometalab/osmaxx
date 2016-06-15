@@ -2042,7 +2042,7 @@ layers:
     attributes:
       "aggtype":
         type: text
-        description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
+        description: "\"roundabout\" for roundabouts, otherweise the general type/importance of the road or way. See the \"type\" attribute for a road's or way's specific type for both, roundabout and non-roundabout roads/ways."
       "ref":
         type: text
         description: 'Used for reference numbers or codes. Common for roads, highway exits, routes, etc.'
