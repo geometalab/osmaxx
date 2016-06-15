@@ -5,7 +5,7 @@ from django.conf import settings
 
 POLYFILE_LOCATION = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data', 'polyfiles'))
 OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS = timedelta(hours=1)  # default every hour
-PURGE_OLD_RESULT_FILES_AFTER = timedelta(14)  # default to two weeks
+PURGE_OLD_RESULT_FILES_AFTER = timedelta(days=14)  # default to two weeks
 
 if hasattr(settings, 'OSMAXX'):
     if hasattr(settings.OSMAXX, 'OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS'):
