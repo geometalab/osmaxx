@@ -671,7 +671,7 @@ layers:
     attributes:
       "aggtype":
         type: text
-        description: "Grouping several different 'type' to a common 'type'. (aka enum)"
+        description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
       "website":
         type: text 
         description: 'Specifying the link to the official website for a feature.'
@@ -1683,7 +1683,7 @@ layers:
     attributes:
       "aggtype":
         type: text
-        description: "Grouping several different 'type' to a common 'type'. (aka enum)"
+        description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
       "website":
         type: text 
         description: 'Specifying the link to the official website for a feature.'
@@ -1859,7 +1859,7 @@ layers:
     attributes:
       "aggtype":
         type: text
-        description: "Grouping several different 'type' to a common 'type'. (aka enum)"
+        description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
       "z_order":
         type: smallint
         osm_tags: 
@@ -2042,7 +2042,7 @@ layers:
     attributes:
       "aggtype":
         type: text
-        description: "Grouping several different 'type' to a common 'type'. (aka enum)"
+        description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
       "ref":
         type: text
         description: 'Used for reference numbers or codes. Common for roads, highway exits, routes, etc.'
@@ -2583,7 +2583,7 @@ layers:
     attributes:
       "aggtype":
         type: text
-        description: "Grouping several different 'type' to a common 'type'. (aka enum)"
+        description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
       "access":
         type: text(later)
         description: 'For describing the legal accessibility of a element.'
@@ -2636,7 +2636,7 @@ layers:
     attributes:
       "aggtype":
         type: text
-        description: "Grouping several different 'type' to a common 'type'. (aka enum)"
+        description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
       "access":
         type: text(later)
         description: 'For describing the legal accessibility of a element.'
@@ -2978,7 +2978,7 @@ layers:
     attributes: &utility_a_p_attributes
       "aggtype":
         type: text
-        description: "Grouping several different 'type' to a common 'type' (aka enum)"
+        description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
       "type": &utility_a_p_attribute_type
         type: text
         values: !!omap
