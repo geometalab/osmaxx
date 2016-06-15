@@ -15,8 +15,8 @@ def timestamp_model_mixin_save_side_effect(self, *args, **kwargs):
 
 @pytest.fixture
 def output_file_with_file_too_old(db, output_file_with_file, mocker):
-    from osmaxx.excerptexport._settings import PURGE_OLD_RESULT_FILES_AFTER
-    just_a_bit_too_old = datetime.datetime.now() - PURGE_OLD_RESULT_FILES_AFTER - datetime.timedelta(minutes=1)
+    from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
+    just_a_bit_too_old = datetime.datetime.now() - RESULT_FILE_AVAILABILITY_DURATION - datetime.timedelta(minutes=1)
 
     mocker.patch.object(TimeStampModelMixin, 'save', timestamp_model_mixin_save_side_effect)
 

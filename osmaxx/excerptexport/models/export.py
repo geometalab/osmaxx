@@ -142,9 +142,9 @@ class Export(TimeStampModelMixin, models.Model):
 
     @property
     def result_file_available_until(self):
-        from osmaxx.excerptexport._settings import PURGE_OLD_RESULT_FILES_AFTER
+        from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
         if self.finished_at:
-            return self.finished_at + PURGE_OLD_RESULT_FILES_AFTER
+            return self.finished_at + RESULT_FILE_AVAILABILITY_DURATION
         return None
 
     @property

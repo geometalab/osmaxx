@@ -382,9 +382,11 @@ OSMAXX = {
     'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timezone.timedelta(
         hours=env.int('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=24)
     ),
-    'OLD_RESULT_FILES_REMOVAL_DAYS': env.int('DJANGO_OSMAXX_OLD_RESULT_FILES_REMOVAL_DAYS', default=14),
+    'RESULT_FILE_AVAILABILITY_DURATION': timezone.timedelta(
+        days=env.int('DJANGO_OSMAXX_RESULT_FILE_AVAILABILITY_DURATION_DAYS', default=14)
+    ),
     'OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL': timezone.timedelta(
-        hours=env.int('DJANGO_OSMAXX_OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL', default=1)
+        hours=env.int('DJANGO_OSMAXX_OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS', default=1)
     ),
     # The email adress of this user will be used to generate the mailto link for users
     # to request access to osmaxx (access_denied page)
