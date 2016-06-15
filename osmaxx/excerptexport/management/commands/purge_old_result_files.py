@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from django.core.management.base import BaseCommand
 
-from osmaxx.excerptexport._settings import OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS, PURGE_OLD_RESULT_FILES_AFTER
+from osmaxx.excerptexport._settings import OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL, PURGE_OLD_RESULT_FILES_AFTER
 from osmaxx.excerptexport.models import OutputFile
 
 logging.basicConfig()
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
     help = 'removes old output-files from exports after the specified interval' \
            ' "PURGE_OLD_RESULT_FILES_AFTER" setting' \
-           ' - runs until interrupted every "OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS" unless' \
+           ' - runs until interrupted every "OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL" unless' \
            '--run_once option is given'
 
     can_import_settings = True
@@ -29,7 +29,7 @@ class Command(BaseCommand):
         else:
             while True:
                 self._run()
-                time.sleep(OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS.total_seconds())
+                time.sleep(OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL.total_seconds())
 
     def _run(self):
         self._success(
