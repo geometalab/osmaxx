@@ -21,6 +21,7 @@ CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS = frozendict(
         TagCombination(highway='track'): 'track',
         TagCombination(highway='track', tracktype='grade3'): 'grade3',
         TagCombination(highway='footway'): 'footway',
+        TagCombination(highway='secondary', junction='roundabout'): 'secondary',
         TagCombination(railway='rail'): 'rail',
         TagCombination(railway='platform'): 'railway',
     },
