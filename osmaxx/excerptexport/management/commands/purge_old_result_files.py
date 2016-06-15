@@ -49,11 +49,10 @@ class Command(BaseCommand):
         try:
             too_old = timezone.now() - PURGE_OLD_RESULT_FILES_AFTER
             old_files = OutputFile.objects.filter(export__updated_at__lt=too_old)
-            if len(old_files) > 0:
-                for old_file in old_files:
-                    file_path = old_file.file.path
-                    old_file.remove_file()
-                    self._success("removed {}".format(file_path))
+            for old_file in old_files:
+                file_path = old_file.file.path
+                old_file.remove_file()
+                self._success("removed {}".format(file_path))
 
         except Exception as e:
             logger.exception(e)
