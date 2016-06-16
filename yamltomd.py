@@ -84,7 +84,7 @@ def yaml_to_md(layer_name, layer_definition, out):
 def write_attribute_values_table(attribute_name, attribute_values, out):
     correlated_attributes = ChainMap(
         *(definition.get('correlated_attributes', {}) for definition in do_multimapify(attribute_values).values())
-    )
+    ).keys()
 
     out.write(
         ATTRIBUTE_VALUES_TEMPLATE.render(
