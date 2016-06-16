@@ -59,7 +59,6 @@ class ExtractionOrder(models.Model):
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True)
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
-    process_start_time = models.DateTimeField(verbose_name=_('process start time'), null=True, blank=True)
 
     def forward_to_conversion_service(self, *, incoming_request):
         clipping_area_json = self.excerpt.send_to_conversion_service()
