@@ -60,11 +60,6 @@ class ExtractionOrder(models.Model):
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True)
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
     process_start_time = models.DateTimeField(verbose_name=_('process start time'), null=True, blank=True)
-    download_status = models.IntegerField(
-        _('file status'),
-        choices=DOWNLOAD_STATUSES,
-        default=DOWNLOAD_STATUS_NOT_DOWNLOADED
-    )
 
     def forward_to_conversion_service(self, *, incoming_request):
         clipping_area_json = self.excerpt.send_to_conversion_service()

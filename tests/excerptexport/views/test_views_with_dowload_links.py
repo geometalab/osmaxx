@@ -26,7 +26,6 @@ def order(excerpt, db):
         orderer=excerpt.owner,
         excerpt=excerpt,
         state=ExtractionOrderState.FINISHED,
-        download_status=ExtractionOrder.DOWNLOAD_STATUS_AVAILABLE,
     )
 
 
