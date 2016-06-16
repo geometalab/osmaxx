@@ -119,11 +119,6 @@ class ExtractionOrder(models.Model):
         if self.id is not None:
             attach_new_formats(self.__class__, instance=self)
 
-    @property
-    def process_due_time(self):
-        from django.conf import settings  # import locally, so migrations can't depend on settings
-        return self.process_start_time + settings.OSMAXX.get('EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA')
-
     def set_status_from_conversion_progress(self, job_overall_progress):
         if self.state not in [ExtractionOrderState.FINISHED, ExtractionOrderState.FAILED]:
             self.state = get_order_status_from_conversion_progress(job_overall_progress)
