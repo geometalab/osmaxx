@@ -11,6 +11,11 @@ from tests.inside_worker_test.declarative_schema import osm_models
 
 MAJOR_KEYS = frozenset({'highway', 'railway'})
 
+DEFAULT_EXPECTED_FALLBACK_SUBTYPE_FOR_MAJOR_KEY = frozendict(
+    highway='road',
+    railway='railway'
+)
+
 CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS = frozendict(
     {
         TagCombination(highway='track'): 'track',
@@ -95,13 +100,9 @@ def railway_l():
 
 @pytest.fixture
 def expected_fallback_subtype(major_tag_key, incomplete_lifecycle_osm_tags):
-    if major_tag_key == 'highway':
-        if incomplete_lifecycle_osm_tags.pop('junction', None) == 'roundabout':
-            return 'roundabout'
-        return 'road'
-    if major_tag_key == 'railway':
-        return 'railway'
-    raise ValueError
+    if major_tag_key == 'highway' and incomplete_lifecycle_osm_tags.pop('junction', None) == 'roundabout':
+        return 'roundabout'
+    return DEFAULT_EXPECTED_FALLBACK_SUBTYPE_FOR_MAJOR_KEY[major_tag_key]
 
 
 @pytest.yield_fixture
