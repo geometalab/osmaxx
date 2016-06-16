@@ -76,7 +76,6 @@ class ExtractionOrder(models.Model):
                     orderer_name=self.orderer.get_username(),
                 ),
                 'excerpt: {}'.format(str(self.excerpt_name)),
-                'state: {}'.format(self.get_state_display()),
             ]
         )
 
@@ -90,10 +89,6 @@ class ExtractionOrder(models.Model):
         """
         if self.excerpt:
             return self.excerpt.name
-
-    @property
-    def are_downloads_ready(self):
-        return self.state == ExtractionOrderState.FINISHED
 
     @property
     def extraction_formats(self):
