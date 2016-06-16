@@ -8,7 +8,6 @@ from django_enumfield import enum
 
 from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
 from osmaxx.conversion_api import coordinate_reference_systems as crs
-from osmaxx.excerptexport.models.output_file import OutputFile
 from .excerpt import Excerpt
 
 
@@ -97,10 +96,6 @@ class ExtractionOrder(models.Model):
         """
         if self.excerpt:
             return self.excerpt.name
-
-    @property
-    def output_files(self):
-        return OutputFile.objects.filter(export__extraction_order=self)
 
     @property
     def are_downloads_ready(self):
