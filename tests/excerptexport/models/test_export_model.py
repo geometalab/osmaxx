@@ -66,3 +66,12 @@ def test_set_and_handle_new_status_when_not_outdated_isnt_marked_as_failed(db, m
     mocker.patch.object(export, '_handle_changed_status')
     export.set_and_handle_new_status(export.status, incoming_request=None)
     assert export.status != export.FAILED
+
+
+def test_set_and_handle_new_status_when_outdated_isnt_marked_as_failed_when_status_is_failed(db, mocker, export_stale_status):
+    export_stale_status.status = export_stale_status.FINISHED
+    export_stale_status.save()
+
+    mocker.patch.object(export_stale_status, '_handle_changed_status')
+    export_stale_status.set_and_handle_new_status(export_stale_status.status, incoming_request=None)
+    assert export_stale_status.status == export_stale_status.FINISHED

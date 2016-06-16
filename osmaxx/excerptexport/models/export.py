@@ -80,7 +80,7 @@ class Export(TimeStampModelMixin, models.Model):
 
     def set_and_handle_new_status(self, new_status, *, incoming_request):
         assert new_status in dict(self.STATUS_CHOICES)
-        if self.status == new_status and self.last_update_overdue():
+        if self.status == new_status and self.update_overdue():
             new_status = self.FAILED
 
         if self.status != new_status:
@@ -88,7 +88,9 @@ class Export(TimeStampModelMixin, models.Model):
             self.save()
             self._handle_changed_status(incoming_request=incoming_request)
 
-    def last_update_overdue(self):
+    def update_overdue(self):
+        if self.status in self.FINAL_STATUSES:
+            return False
         return (self.updated_at + EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA) < timezone.now()
 
     def _handle_changed_status(self, *, incoming_request):
