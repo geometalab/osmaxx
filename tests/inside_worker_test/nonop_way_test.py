@@ -11,17 +11,13 @@ from tests.inside_worker_test.declarative_schema import osm_models
 
 MAJOR_KEYS = frozenset({'highway', 'railway'})
 
-EXPECTED_FALLBACK_SUBTYPE_FOR_MAJOR_KEY = frozendict(
-    highway='road',
-    railway='railway'
-)
-
 CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS = frozendict(
     {
         TagCombination(highway='track'): 'track',
         TagCombination(highway='track', tracktype='grade3'): 'grade3',
         TagCombination(highway='footway'): 'footway',
         TagCombination(highway='secondary', junction='roundabout'): 'secondary',
+        TagCombination(highway='some bogus type of road', junction='roundabout'): 'roundabout',
         TagCombination(railway='rail'): 'rail',
         TagCombination(railway='platform'): 'railway',
     },
@@ -67,7 +63,8 @@ def test_osm_object_with_status_ends_up_in_nonop_with_correct_attribute_values(
 
 @slow
 def test_osm_object_with_status_without_details_ends_up_in_nonop_with_correct_status(
-        incomplete_lifecycle_data_import, nonop_l, road_l, railway_l, expected_osmaxx_status, major_tag_key):
+        incomplete_lifecycle_data_import, nonop_l, road_l, railway_l, expected_osmaxx_status,
+        expected_fallback_subtype):
     engine = incomplete_lifecycle_data_import
     with closing(engine.execute(sqlalchemy.select('*').select_from(road_l))) as road_result:
         assert road_result.rowcount == 0
@@ -78,7 +75,7 @@ def test_osm_object_with_status_without_details_ends_up_in_nonop_with_correct_st
         row = result.fetchone()
         assert row['status'] == expected_osmaxx_status
         assert row['tags'] is None
-        assert row['sub_type'] == EXPECTED_FALLBACK_SUBTYPE_FOR_MAJOR_KEY[major_tag_key]
+        assert row['sub_type'] == expected_fallback_subtype
 
 
 @pytest.fixture
@@ -94,6 +91,17 @@ def road_l():
 @pytest.fixture
 def railway_l():
     return DbTable('railway_l', osm_models.metadata, schema='view_osmaxx')
+
+
+@pytest.fixture
+def expected_fallback_subtype(major_tag_key, incomplete_lifecycle_osm_tags):
+    if major_tag_key == 'highway':
+        if incomplete_lifecycle_osm_tags.pop('junction', None) == 'roundabout':
+            return 'roundabout'
+        return 'road'
+    if major_tag_key == 'railway':
+        return 'railway'
+    raise ValueError
 
 
 @pytest.yield_fixture
