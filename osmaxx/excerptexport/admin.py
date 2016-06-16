@@ -19,7 +19,7 @@ class ExcerptAdmin(admin.ModelAdmin):
 
 @admin.register(ExtractionOrder)
 class ExtractionOrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'excerpt', 'orderer', 'state')
+    list_display = ('id', 'excerpt', 'orderer')
     list_display_links = ('id', 'excerpt')
     readonly_fields = ('process_id', 'coordinate_reference_system', 'progress_url')
 

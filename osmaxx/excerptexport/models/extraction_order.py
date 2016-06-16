@@ -4,51 +4,13 @@ from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
-from django_enumfield import enum
 
 from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
 from osmaxx.conversion_api import coordinate_reference_systems as crs
 from .excerpt import Excerpt
 
 
-# TODO: remove ExtractionOrderState,
-# TODO:   since this is obsolete and replaced with osmaxx.conversion_api.statuses.STATUS_CHOICES
-class ExtractionOrderState(enum.Enum):
-    UNDEFINED = 0
-    INITIALIZED = 1
-    QUEUED = 2
-    PROCESSING = 3
-    FINISHED = 4
-    FAILED = 6
-
-FINAL_STATES = {ExtractionOrderState.FINISHED, ExtractionOrderState.FAILED}
-
-
-CONVERSION_PROGRESS_TO_EXTRACTION_ORDER_STATE_MAPPING = {
-    'new': ExtractionOrderState.INITIALIZED,
-    'received': ExtractionOrderState.QUEUED,
-    'started': ExtractionOrderState.PROCESSING,
-    'successful': ExtractionOrderState.FINISHED,
-    'error': ExtractionOrderState.FAILED,
-}
-
-
-def get_order_status_from_conversion_progress(progress):
-    return CONVERSION_PROGRESS_TO_EXTRACTION_ORDER_STATE_MAPPING.get(progress, ExtractionOrderState.UNDEFINED)
-
-
 class ExtractionOrder(models.Model):
-    DOWNLOAD_STATUS_NOT_DOWNLOADED = 0
-    DOWNLOAD_STATUS_DOWNLOADING = 1
-    DOWNLOAD_STATUS_AVAILABLE = 2
-
-    DOWNLOAD_STATUSES = (
-        (DOWNLOAD_STATUS_NOT_DOWNLOADED, 'unknown'),
-        (DOWNLOAD_STATUS_DOWNLOADING, 'downloading'),
-        (DOWNLOAD_STATUS_AVAILABLE, 'received'),
-    )
-
-    state = enum.EnumField(ExtractionOrderState, default=ExtractionOrderState.INITIALIZED, verbose_name=_('state'))
     coordinate_reference_system = models.IntegerField(
         verbose_name=_('CRS'), choices=crs.CRS_CHOICES, default=crs.WGS_84
     )

@@ -7,7 +7,7 @@ from django.test.testcases import SimpleTestCase
 
 from osmaxx.conversion_api import formats
 from osmaxx.excerptexport.models.excerpt import Excerpt
-from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
+from osmaxx.excerptexport.models.extraction_order import ExtractionOrder
 from osmaxx.excerptexport.models.output_file import OutputFile
 
 
@@ -25,7 +25,6 @@ def order(excerpt, db):
     return ExtractionOrder.objects.create(
         orderer=excerpt.owner,
         excerpt=excerpt,
-        state=ExtractionOrderState.FINISHED,
     )
 
 

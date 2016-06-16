@@ -159,8 +159,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
-        from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-        self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
         self.assertEqual(newly_created_order.coordinate_reference_system, self.coordinate_reference_system)
         self.assertEqual(newly_created_order.detail_level, self.detail_level)
         assert_that(newly_created_order.extraction_formats, contains_in_any_order('fgdb'))
@@ -183,8 +181,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
-        from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-        self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
         self.assertEqual(newly_created_order.coordinate_reference_system, self.coordinate_reference_system)
         self.assertEqual(newly_created_order.detail_level, self.detail_level)
         assert_that(newly_created_order.extraction_formats, contains_in_any_order('fgdb'))
