@@ -1,3 +1,6 @@
+import os
+
+
 def test_output_file_get_filename_display_returns_correct_string_without_file(output_file, db):
     assert output_file.get_filename_display() == ''
 
@@ -17,3 +20,17 @@ def test_output_file_get_absolute_url_returns_excerpt_detail_with_no_file(output
 
 def test_output_file_get_absolute_url_returns_file_download_url_with_file(output_file_with_file, db):
     assert output_file_with_file.get_file_media_url_or_status_page() == output_file_with_file.file.url
+
+
+def test_output_file_delete_removes_file_as_well(output_file_with_file, db):
+    file_path = output_file_with_file.file.path
+    file_directory = os.path.dirname(file_path)
+
+    assert output_file_with_file.file
+    assert os.path.exists(file_path)
+    assert os.path.exists(file_directory)
+
+    output_file_with_file.delete()
+
+    assert not os.path.exists(file_path)
+    assert not os.path.exists(file_directory)

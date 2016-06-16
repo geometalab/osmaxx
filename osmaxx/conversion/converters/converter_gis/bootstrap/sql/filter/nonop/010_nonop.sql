@@ -26,6 +26,7 @@ INSERT INTO osmaxx.nonop_l
                 'motorway_link','trunk_link','primary_link','secondary_link',
                 'service','track','bridleway','cycleway','footway',
                 'path','steps') then osmaxx.lifecycle_l.highway
+          when junction = 'roundabout' then 'roundabout'
           else 'road'
         end
       when osmaxx.lifecycle_l.railway is not null then

@@ -37,12 +37,7 @@ class CallbackHandlingTest(APITestCase):
             orderer=self.user,
             process_id='53880847-faa9-43eb-ae84-dd92f3803a28',
             extraction_formats=['fgdb', 'spatialite'],
-            extraction_configuration={
-                'gis_options': {
-                    'coordinate_reference_system': '4326',
-                    'detail_level': 1
-                }
-            },
+            coordinate_reference_system=4326,
         )
         self.export = extraction_order.exports.get(file_format='fgdb')
         self.nonexistant_export_id = 999
@@ -259,7 +254,7 @@ class CallbackHandlingTest(APITestCase):
             [
                 'The extraction order #{order_id} "Neverland" has been processed.',
                 'Results available for download:',
-                '- ESRI File Geodatabase',  # TODO: download link
+                '- ESRI File Geodatabase (http://testserver{download_url})',
                 '',
                 'The following exports have failed:',
                 '- SpatiaLite',
@@ -268,7 +263,10 @@ class CallbackHandlingTest(APITestCase):
                 '',
                 'View the complete order at http://testserver/exports/',
             ]
-        ).format(order_id=self.export.extraction_order.id)
+        ).format(
+            order_id=self.export.extraction_order.id,
+            download_url=self.export.output_file.file.url,
+        )
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.success(

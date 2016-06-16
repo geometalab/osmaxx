@@ -20,7 +20,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('excerptexport', '0029_remove_extractionorder_country_id'),
-        ('countries', '0003_auto_20160310_1124'),
     ]
 
     operations = [

@@ -11,7 +11,7 @@ from django.core.management.base import BaseCommand
 
 from osmaxx.conversion import models as conversion_models
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
-from osmaxx.conversion_api.statuses import FINAL_STATUSES, FINISHED
+from osmaxx.conversion_api.statuses import FINAL_STATUSES, FINISHED, FAILED
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -50,10 +50,13 @@ class Command(BaseCommand):
             return
 
         if job is None:  # already processed by someone else
+            conversion_job.refresh_from_db()
             if conversion_job.status not in FINAL_STATUSES:
                 logger.warning("job {} not found in queue but status is {} on database.".format(
                     job_id, conversion_job.status
                 ))
+                conversion_job.status = FAILED
+                conversion_job.save()
             return
 
         logger.info('updating job %d', job_id)

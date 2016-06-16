@@ -9,6 +9,8 @@ from rest_framework.reverse import reverse
 
 from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
+from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
+from osmaxx.conversion_api.coordinate_reference_systems import CRS_CHOICES
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
 from osmaxx.conversion_api.statuses import STATUS_CHOICES, RECEIVED
 
@@ -19,8 +21,12 @@ def job_directory_path(instance, filename):
 
 class Parametrization(models.Model):
     out_format = models.CharField(verbose_name=_("out format"), choices=FORMAT_CHOICES, max_length=100)
-    out_srs = models.IntegerField(verbose_name=_("output SRS"), help_text=_("EPSG code of the output spatial reference system"), null=True, blank=True, default=4326)  # noqa: linelength
+    out_srs = models.IntegerField(
+        verbose_name=_("output SRS"), help_text=_("EPSG code of the output spatial reference system"),
+        null=True, blank=True, default=4326, choices=CRS_CHOICES
+    )
     clipping_area = models.ForeignKey(ClippingArea, verbose_name=_('Clipping Area'))
+    detail_level = models.IntegerField(verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL)
 
     def __str__(self):
         return _("{}: {} as EPSG:{}").format(self.id, self.get_out_format_display(), self.out_srs)
@@ -47,6 +53,7 @@ class Job(models.Model):
             osmosis_polygon_file_string=self.parametrization.clipping_area.osmosis_polygon_file_string,
             output_zip_file_path=self._out_zip_path(),
             filename_prefix=self._filename_prefix(),
+            detail_level=self.parametrization.detail_level,
             out_srs=self.parametrization.epsg,
             use_worker=use_worker,
         )
@@ -71,23 +78,25 @@ class Job(models.Model):
 
     @property
     def get_absolute_file_path(self):
-        if self._has_file:
+        if self.has_file:
             return self.resulting_file.path
         return None
 
     def _filename_prefix(self):
-        return '{}-{}_{}'.format(
-            time.strftime("%Y%m%d"),
-            slugify(self.parametrization.clipping_area.name),
-            self.parametrization.out_format
+        return '{basename}_{srs}_{date}_{out_format}_{detail_level}'.format(
+            basename=slugify(self.parametrization.clipping_area.name),
+            srs=slugify(self.parametrization.get_out_srs_display()),
+            date=time.strftime("%Y-%m-%d"),
+            out_format=self.parametrization.out_format,
+            detail_level=slugify(self.parametrization.get_detail_level_display()),
         )
 
     @property
-    def _has_file(self):
+    def has_file(self):
         return bool(self.resulting_file)
 
     def delete(self, *args, **kwargs):
-        if self._has_file:
+        if self.has_file:
             os.unlink(self.resulting_file.path)
         return super().delete(args, kwargs)
 

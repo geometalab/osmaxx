@@ -8,20 +8,6 @@ COUNTRY_TYPE = 'country'
 USER_DEFINED_TYPE = 'user-defined'
 
 
-def set_correct_type(apps, schema_editor):
-    Excerpt = apps.get_model('excerptexport', 'Excerpt')  # noqa
-    for excerpt in Excerpt.objects.filter(bounding_geometry__isnull=True):
-        excerpt.excerpt_type = COUNTRY_TYPE
-        excerpt.save()
-
-
-def reset_type_to_default(apps, schema_editor):
-    Excerpt = apps.get_model('excerptexport', 'Excerpt')  # noqa
-    for excerpt in Excerpt.objects.filter(bounding_geometry__isnull=True):
-        excerpt.excerpt_type = USER_DEFINED_TYPE
-        excerpt.save()
-
-
 class Migration(migrations.Migration):
     dependencies = [
         ('excerptexport', '0030_remove_empty_exports_20160519_1134'),
@@ -33,7 +19,4 @@ class Migration(migrations.Migration):
             name='excerpt_type',
             field=models.CharField(choices=[(USER_DEFINED_TYPE, 'user defined'), (COUNTRY_TYPE, 'country')], default=USER_DEFINED_TYPE, max_length=40),
         ),
-        migrations.RunPython(
-            set_correct_type, reset_type_to_default
-        )
     ]
