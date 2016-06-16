@@ -9,7 +9,7 @@ Values of attribute {{ attribute_name }}
     | ------------------ {#  #}
 {%- endfor -%}
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-{% for value, definition in attribute_values|dictsort_unless_ordered -%}
+{% for value, definition in attribute_values|multimapify|dictsort_unless_ordered -%}
     {% for attribute_name in correlated_attributes -%}
         |{{ definition['correlated_attributes'][attribute_name] -}}
     {%- endfor -%}

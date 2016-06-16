@@ -4,12 +4,12 @@
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 {% for attribute_name, attribute in layer_definition['attributes']|dictsort_unless_ordered -%}|
     {{- attribute_name }}|
-    {{- attribute['type'] }}|
+    {{- attribute['type']|default(' ', boolean=True) }}|
     {%- with -%}
         {%- if 'values' in attribute -%}
             {%- set reference_to_value_table = '(see table below)' -%}
         {%- endif -%}
-        {{- [attribute['description'], reference_to_value_table]|reject('undefined')|join(' ')|default(' ') -}}
+        {{- [attribute['description'], reference_to_value_table]|reject('undefined')|join(' ')|default(' ', boolean=True) -}}
     {%- endwith %}|
     {{- osm.tag_combinations(attribute['osm_tags'])|default(' ', boolean=True) }}|
 {% endfor %}

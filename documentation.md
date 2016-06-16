@@ -215,6 +215,29 @@ See file name conventions above about the meaning of “_a” etc.
 
 # Layers Specification
 
+## address_p
+
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|type|text|(see table below)| |
+|street|text| |`addr:street=*` or `addr:place=*`|
+|housenumber|text| |`addr:housenumber=*` or `addr:interpolation=even`+`addr:housenumber=*` or `addr:interpolation=odd`+`addr:housenumber=*` or `addr:interpolation=all`+`addr:housenumber=*`|
+|postcode|text| |`addr:postcode=*`|
+|city|text| |`addr:city=*`|
+|country|text| |`addr:country=*`|
+
+
+Values of attribute type
+
+|values              |osm_tags            |description                                                           |
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
+|i|`addr:interpolation=even` or `addr:interpolation=odd` or `addr:interpolation=all`|Interpolated Entrances along interpolated addresses without nodes|
+|e|`building=entrance`+`addr:street=*` or `building=entrance`+`addr:housenumber=*` or `building=entrance`+`addr:place=*` or `entrance=*`+`addr:street=*` or `entrance=*`+`addr:housenumber=*` or `entrance=*`+`addr:place=*`|General Entrance with entrance node|
+|b|`addr:street=*`+`building=*`+**`building≠entrance`**+**`entrance≠*`** or `addr:housenumber=*`+`building=*`+**`building≠entrance`**+**`entrance≠*`** or `addr:place=*`+`building=*`+**`building≠entrance`**+**`entrance≠*`**|Entrance to a building without entrance node|
+|p|`addr:street=*`+**`building≠*`**+**`entrance≠*`** or `addr:housenumber=*`+**`building≠*`**+**`entrance≠*`** or `addr:place=*`+**`building≠*`**+**`entrance≠*`**|All other address nodes|
+
+
 ## adminarea_a
 
 
@@ -358,7 +381,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|type||(see table below)| |
+|type| |(see table below)| |
 
 
 Values of attribute type
@@ -455,21 +478,21 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|barrier|avalanche_protection|`barrier=avalanche_protection`|A variety of linear structures which are placed on steep slopes to hold snow in place.|
 |barrier|barrier|`barrier=*`|A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.|
-|traffic_calming|bump|`traffic_calming=bump`|Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.|
-|traffic_calming|chicane|`traffic_calming=chicane`|Hazards on the street you have to drive round|
-|barrier|city_wall|`barrier=city_wall`|A fortification used to defend a city or settlement from potential aggressors. From ancient to modern times, they are used to enclose settlements|
-|natural|cliff|`natural=cliff`|A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.|
-|traffic_calming|cushion|`traffic_calming=cushion`|A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.|
-|barrier|fence|`barrier=fence`|A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.|
 |barrier|gate|`barrier=gate`|An entrance that can be opened or closed to get through the barrier.|
+|barrier|city_wall|`barrier=city_wall`|A fortification used to defend a city or settlement from potential aggressors. From ancient to modern times, they are used to enclose settlements|
 |barrier|hedge|`barrier=hedge`|A line of closely spaced shrubs and bushes, planted and trained in such a way as to form a barrier or to mark the boundary of an area.|
-|traffic_calming|hump|`traffic_calming=hump`|Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)|
+|barrier|fence|`barrier=fence`|A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.|
 |barrier|retaining_wall|`barrier=retaining_wall`|Retaining walls serve to retain the lateral pressure of soil. Right side is bottom, left side is top.|
-|traffic_calming|table|`traffic_calming=table`|Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.|
-|traffic_calming|traffic_calming|`traffic_calming=*`|Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.|
 |barrier|wall|`barrier=wall`|A freestanding solid structure designed to restrict or prevent movement across a boundary. Usually made from solid brick, concrete or stone and almost always built so that it is opaque to vision.|
+|barrier|avalanche_protection|`barrier=avalanche_protection`|A variety of linear structures which are placed on steep slopes to hold snow in place.|
+|natural|cliff|`natural=cliff`|A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.|
+|traffic_calming|traffic_calming|`traffic_calming=*`|Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.|
+|traffic_calming|hump|`traffic_calming=hump`|Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)|
+|traffic_calming|bump|`traffic_calming=bump`|Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.|
+|traffic_calming|table|`traffic_calming=table`|Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.|
+|traffic_calming|chicane|`traffic_calming=chicane`|Hazards on the street you have to drive round|
+|traffic_calming|cushion|`traffic_calming=cushion`|A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.|
 
 
 ## natural_a
@@ -571,7 +594,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |brand|text|The identity of a specific product, service, or business. Often trademarks|`brand=*`|
 |cuisine|text|The type of food served at an eating place.|`cuisine=*`|
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
@@ -750,7 +773,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |brand|text|The identity of a specific product, service, or business. Often trademarks|`brand=*`|
 |cuisine|text|The type of food served at an eating place.|`cuisine=*`|
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
@@ -929,7 +952,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
 |phone|text|A telephone number associated with the object.|`phone=*` or `contact:phone=*`|
 |type|text|(see table below)| |
@@ -970,7 +993,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |opening_hours|text|The timing of when something is open or close|`opening_hours=*`|
 |phone|text|A telephone number associated with the object.|`phone=*` or `contact:phone=*`|
 |type|text|(see table below)| |
@@ -1010,7 +1033,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature. (see table below)| |
 |frequency|text|The electrical frequency that the electrified cable is running on|`frequency=*`|
 |tunnel|boolean|A tunnel is an underground passage for a road or similar. (see table below)| |
@@ -1070,7 +1093,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|"roundabout" for roundabouts, otherweise the general type/importance of the road or way. See the "type" attribute for a road's or way's specific type for both, roundabout and non-roundabout roads/ways.| |
 |bridge|boolean|A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature. (see table below)| |
 |maxspeed|smallint|Specifies the maximum legal speed limit on a road, railway or waterway|`maxspeed=*`|
 |oneway|boolean|Oneway streets are streets where you are only allowed to drive in one direction.|`oneway=*`|
@@ -1102,33 +1125,58 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|roundabout|bridleway|`highway=bridleway`+`junction=roundabout`|For horses.|
-|junction|cycleway|`highway=cycleway`+`junction=roundabout`|Cycling infrastructure that is an inherent part of a road - particularly 'cycle lanes' which are a part of the road|
-|junction|footway|`highway=footway`+`junction=roundabout`|For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.|
-|track|grade1|`highway=track`+`junction=roundabout`+`tracktype=grade1`|Solid. Usually a paved or heavily compacted hardcore surface.|
-|junction|grade2|`highway=track`+`junction=roundabout`+`tracktype=grade2`|Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.|
-|roundabout|grade3|`highway=track`+`junction=roundabout`+`tracktype=grade3`|Even mixture of hard and soft materials. Almost always an unpaved track.|
-|roundabout|grade4|`highway=track`+`junction=roundabout`+`tracktype=grade4`|Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.|
-|roundabout|grade5|`highway=track`+`junction=roundabout`+`tracktype=grade5`|Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.|
-|roundabout|living_street|`highway=living_street`+`junction=roundabout`|For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.|
-|roundabout|motorway|`highway=motorway`+`junction=roundabout`|A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..|
-|roundabout|motorway_link|`highway=motorway_link`+`junction=roundabout`|The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.|
-|roundabout|path|`highway=path`+`junction=roundabout`|A non-specific path.|
-|roundabout|pedestrian|`highway=pedestrian`+`junction=roundabout`|For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian.|
-|roundabout|primary|`highway=primary`+`junction=roundabout`|The next most important roads in a country's system. (Often link larger towns.)|
-|roundabout|primary_link|`highway=primary_link`+`junction=roundabout`|The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.|
-|roundabout|residential|`highway=residential`+`junction=roundabout`|Roads which are primarily lined with and serve as an access to housing.|
-|unclassified|road|`highway=*`+<code>roundabout<strong>&ne;\*</strong></code>|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
-|roundabout|roundabout|<code>highway<strong>&ne;\*</strong></code>+`junction=roundabout`|This contains any other roundabout except the specifics above.|
-|roundabout|secondary|`highway=secondary`+`junction=roundabout`|The next most important roads in a country's system. (Often link smaller towns and villages.)|
-|roundabout|secondary_link|`highway=secondary_link`+`junction=roundabout`|The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.|
-|roundabout|service|`highway=service`+`junction=roundabout`|For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.|
-|roundabout|steps|`highway=steps`+`junction=roundabout`|For flights of steps (stairs) on footways.|
-|roundabout|tertiary|`highway=tertiary`+`junction=roundabout`|The next most important roads in a country's system.|
-|roundabout|track|`highway=track`+`junction=roundabout`+<code>tracktype<strong>&ne;\*</strong></code>|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present,|
-|roundabout|trunk|`highway=trunk`+`junction=roundabout`|The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)|
-|roundabout|trunk_link|`highway=trunk_link`+`junction=roundabout`|The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.|
-|roundabout|unclassified|`highway=unclassified`+`junction=roundabout`|The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)|
+|major_road|motorway|`highway=motorway`+**`junction≠roundabout`**|A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..|
+|major_road|trunk|`highway=trunk`+**`junction≠roundabout`**|The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)|
+|major_road|primary|`highway=primary`+**`junction≠roundabout`**|The next most important roads in a country's system. (Often link larger towns.)|
+|major_road|secondary|`highway=secondary`+**`junction≠roundabout`**|The next most important roads in a country's system. (Often link smaller towns and villages.)	|
+|major_road|tertiary|`highway=tertiary`+**`junction≠roundabout`**|The next most important roads in a country's system.|
+|minor_road|unclassified|`highway=unclassified`+**`junction≠roundabout`**|The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)	|
+|minor_road|residential|`highway=residential`+**`junction≠roundabout`**|Roads which are primarily lined with and serve as an access to housing.|
+|minor_road|living_street|`highway=living_street`+**`junction≠roundabout`**|For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.	|
+|minor_road|pedestrian|`highway=pedestrian`+**`junction≠roundabout`**|For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian.|
+|highway_links|motorway_link|`highway=motorway_link`+**`junction≠roundabout`**|The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.|
+|highway_links|trunk_link|`highway=trunk_link`+**`junction≠roundabout`**|The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.|
+|highway_links|primary_link|`highway=primary_link`+**`junction≠roundabout`**|The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.|
+|highway_links|secondary_link|`highway=secondary_link`+**`junction≠roundabout`**|The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.|
+|small_road|service|`highway=service`+**`junction≠roundabout`**|For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.|
+|track|track|`highway=track`+**`junction≠roundabout`**+**`tracktype≠*`**|Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present|
+|track|grade1|`highway=track`+`tracktype=grade1`+**`junction≠roundabout`**|Solid. Usually a paved or heavily compacted hardcore surface.|
+|track|grade2|`highway=track`+`tracktype=grade2`+**`junction≠roundabout`**|Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.|
+|track|grade3|`highway=track`+`tracktype=grade3`+**`junction≠roundabout`**|Even mixture of hard and soft materials. Almost always an unpaved track.|
+|track|grade4|`highway=track`+`tracktype=grade4`+**`junction≠roundabout`**|Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.|
+|track|grade5|`highway=track`+`tracktype=grade5`+**`junction≠roundabout`**|Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.|
+|no_large_vehicle|bridleway|`highway=bridleway`+**`junction≠roundabout`**|For horses.|
+|no_large_vehicle|cycleway|`highway=cycleway`+**`junction≠roundabout`**|Cycling infrastructure that is an inherent part of a road - particularly 'cycle lanes' which are a part of the road|
+|no_large_vehicle|footway|`highway=footway`+**`junction≠roundabout`**|For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.|
+|no_large_vehicle|path|`highway=path`+**`junction≠roundabout`**|A non-specific path.|
+|no_large_vehicle|steps|`highway=steps`+**`junction≠roundabout`**|For flights of steps (stairs) on footways.|
+|unclassified|road|`highway=*`+**`roundabout≠*`**|A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed|
+|roundabout|motorway|`highway=motorway`+`junction=roundabout`|A roundabout on a motorway|
+|roundabout|trunk|`highway=trunk`+`junction=roundabout`|A roundabout on a trunk road|
+|roundabout|primary|`highway=primary`+`junction=roundabout`|A roundabout on a primary road|
+|roundabout|secondary|`highway=secondary`+`junction=roundabout`|A roundabout on a secondary road|
+|roundabout|tertiary|`highway=tertiary`+`junction=roundabout`|A roundabout on a tertiary road|
+|roundabout|unclassified|`highway=unclassified`+`junction=roundabout`|A roundabout on a minor public roads (typically at the lowest level of the interconnecting grid network)|
+|roundabout|residential|`highway=residential`+`junction=roundabout`|A roundabout on a residential road|
+|roundabout|living_street|`highway=living_street`+`junction=roundabout`|A roundabout on a living street|
+|roundabout|pedestrian|`highway=pedestrian`+`junction=roundabout`|A pedestrian roundabout|
+|roundabout|motorway_link|`highway=motorway_link`+`junction=roundabout`|A roundabout on a link road (sliproad/ramp) leading to/from a motorway from/to a motorway or lower class road|
+|roundabout|trunk_link|`highway=trunk_link`+`junction=roundabout`|A roundabout on a link road (sliproad/ramp) leading to/from a trunk road from/to a trunk road or lower class road|
+|roundabout|primary_link|`highway=primary_link`+`junction=roundabout`|A roundabout on a link road (sliproad/ramp) leading to/from a primary road from/to a primary road or lower class road|
+|roundabout|secondary_link|`highway=secondary_link`+`junction=roundabout`|A roundabout on a link road (sliproad/ramp) leading to/from a secondary road from/to a secondary road or lower class road|
+|roundabout|service|`highway=service`+`junction=roundabout`|A roundabout on a service road|
+|roundabout|track|`highway=track`+`junction=roundabout`+**`tracktype≠*`**|A roundabout on a track|
+|roundabout|grade1|`highway=track`+`junction=roundabout`+`tracktype=grade1`|A roundabout on a grade 1 track|
+|roundabout|grade2|`highway=track`+`junction=roundabout`+`tracktype=grade2`|A roundabout on a grade 2 track|
+|roundabout|grade3|`highway=track`+`junction=roundabout`+`tracktype=grade3`|A roundabout on a grade 3 track|
+|roundabout|grade4|`highway=track`+`junction=roundabout`+`tracktype=grade4`|A roundabout on a grade 4 track|
+|roundabout|grade5|`highway=track`+`junction=roundabout`+`tracktype=grade5`|A roundabout on a grade 5 track|
+|roundabout|bridleway|`highway=bridleway`+`junction=roundabout`|A roundabout on a bridleway|
+|roundabout|cycleway|`highway=cycleway`+`junction=roundabout`|A roundabout on a cycleway|
+|roundabout|footway|`highway=footway`+`junction=roundabout`|A roundabout on a designated footpath|
+|roundabout|path|`highway=path`+`junction=roundabout`|A roundabout on a non-specific path|
+|roundabout|steps|`highway=steps`+`junction=roundabout`|A roundabout on a flights of steps (stairs) on a footway|
+|roundabout|roundabout|`junction=roundabout`|A roundabout on a road of other or unkown classification|
 
 
 ## route_l
@@ -1174,7 +1222,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text(later)|For describing the legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |type|text|(see table below)| |
 
 
@@ -1196,7 +1244,7 @@ Values of attribute type
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text(later)|For describing the legal accessibility of a element.|`access=*`|
-|aggtype|text|Grouping several different 'type' to a common 'type'. (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |type|text|(see table below)| |
 
 
@@ -1322,7 +1370,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Grouping several different 'type' to a common 'type' (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |type|text|(see table below)| |
 
 
@@ -1330,19 +1378,20 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
+|plant|plant|`power=plant`|The (usually fenced) site of a power plant a.k.a. power station, generating station, or powerhouse (an industrial facility for the generation of energy), enclosing one or more power generators. The individual generators will have aggtype 'station' (see below).|
+|tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
+|station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
+|station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
+|station|solar|`generator:source=solar`+`power=generator` or `power=generator`+`power_source=photovoltaic`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
 |station|fossil|`generator:source=gas`+`power=generator` or `generator:source=coal`+`power=generator`|Using the combustion of fuels to heat the water to in turn spin the generators turbine |
 |station|hydro|`generator:source=water`+`power=generator` or `power_source=hydro`|Hydroelectricity is the term referring to electricity generated by hydropower; the production of electrical power through the use of the gravitational force of falling or flowing water. It is the most widely used form of renewable energy.|
-|station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
-|power|power|`power=*`|All other types of power which is not defined as above|
-|station|solar|`generator:source=solar`+`power=generator` or `power=generator`+`power_source=photovoltaic`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
-|station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
-|man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
-|substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
-|tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
-|transformer|transformer|`power=transformer`|A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
-|man_made|wastewater_plant|`man_made=wastewater_plant`|Facilities used to treat wastewater|
-|man_made|water_works|`man_made=water_works`|Place where drinking water is found and applied to the local waterpipes network.|
 |station|wind|`generator:source=wind`+`power=generator` or `power_source=wind`|A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.|
+|substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
+|transformer|transformer|`power=transformer`|A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
+|man_made|water_works|`man_made=water_works`|Place where drinking water is found and applied to the local waterpipes network.|
+|man_made|wastewater_plant|`man_made=wastewater_plant`|Facilities used to treat wastewater|
+|man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
+|power|power|`power=*`|All other types of power which is not defined as above|
 
 
 ## utility_l
@@ -1373,7 +1422,7 @@ Values of attribute type
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
-|aggtype|text|Grouping several different 'type' to a common 'type' (aka enmu)| |
+|aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
 |type|text|(see table below)| |
 
 
@@ -1381,20 +1430,21 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
+|plant|plant|`power=plant`|The (usually fenced) site of a power plant a.k.a. power station, generating station, or powerhouse (an industrial facility for the generation of energy), enclosing one or more power generators. The individual generators will have aggtype 'station' (see below).|
+|tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
+|station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
+|station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
+|station|solar|`generator:source=solar`+`power=generator` or `power=generator`+`power_source=photovoltaic`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
 |station|fossil|`generator:source=gas`+`power=generator` or `generator:source=coal`+`power=generator`|Using the combustion of fuels to heat the water to in turn spin the generators turbine |
 |station|hydro|`generator:source=water`+`power=generator` or `power_source=hydro`|Hydroelectricity is the term referring to electricity generated by hydropower; the production of electrical power through the use of the gravitational force of falling or flowing water. It is the most widely used form of renewable energy.|
-|station|nuclear|`generator:source=nuclear`+`power=generator`|A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.|
+|station|wind|`generator:source=wind`+`power=generator` or `power_source=wind`|A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.|
+|substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
+|transformer|transformer|`power=transformer`|A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
+|man_made|water_works|`man_made=water_works`|Place where drinking water is found and applied to the local waterpipes network.|
+|man_made|wastewater_plant|`man_made=wastewater_plant`|Facilities used to treat wastewater|
+|man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
 |pole|pole|`power=pole`|For single (often wooden or concrete) poles carrying medium/low voltage electricity cables.|
 |power|power|`power=*`|All other types of power which is not defined as above|
-|station|solar|`generator:source=solar`+`power=generator` or `power=generator`+`power_source=photovoltaic`|Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).|
-|station|station|`power=generator`|A device used to convert power from one form to another. This contain all other power except the specifics below.|
-|man_made|storage_tank|`man_made=storage_tank`|A large holding tank, typically cylindrical.|
-|substation|substation|`power=station` or `power=substation` or `power=sub_station`|A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines|
-|tower|tower|`power=tower`|For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.|
-|transformer|transformer|`power=transformer`|A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.|
-|man_made|wastewater_plant|`man_made=wastewater_plant`|Facilities used to treat wastewater|
-|man_made|water_works|`man_made=water_works`|Place where drinking water is found and applied to the local waterpipes network.|
-|station|wind|`generator:source=wind`+`power=generator` or `power_source=wind`|A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.|
 
 
 ## water_a
