@@ -1,8 +1,11 @@
 import logging
 from datetime import timedelta
 
+import requests
+from requests import HTTPError
+
 from osmaxx.api_client import ConversionApiClient
-from osmaxx.conversion_api.statuses import FINAL_STATUSES
+from osmaxx.conversion_api.statuses import FINAL_STATUSES, FAILED
 from osmaxx.excerptexport.models import Export
 from osmaxx.utilities.shortcuts import get_cached_or_set
 
@@ -39,6 +42,14 @@ def update_exports_of_request_user(request):
     for export in pending_exports:
         try:
             update_export_if_stale(export, request=request)
+        except HTTPError as e:
+            if hasattr(e.response, 'status_code'):
+                if e.response.status_code == requests.codes['not_found']:
+                    logger.exception("Export #%s doesn't exist on the conversion service.", export.id)
+                    export.status = FAILED
+                    export.save()
+                else:
+                    logger.exception("Failed to update status of pending export #%s.", export.id)
         except:  # noqa:
             # Intentionally catching all non-system-exiting exceptions here, so that the loop can continue
             # and (try) to update the other pending exports.
