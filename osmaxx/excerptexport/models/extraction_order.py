@@ -4,52 +4,13 @@ from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
-from django_enumfield import enum
 
 from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
 from osmaxx.conversion_api import coordinate_reference_systems as crs
-from osmaxx.excerptexport.models.output_file import OutputFile
 from .excerpt import Excerpt
 
 
-# TODO: remove ExtractionOrderState,
-# TODO:   since this is obsolete and replaced with osmaxx.conversion_api.statuses.STATUS_CHOICES
-class ExtractionOrderState(enum.Enum):
-    UNDEFINED = 0
-    INITIALIZED = 1
-    QUEUED = 2
-    PROCESSING = 3
-    FINISHED = 4
-    FAILED = 6
-
-FINAL_STATES = {ExtractionOrderState.FINISHED, ExtractionOrderState.FAILED}
-
-
-CONVERSION_PROGRESS_TO_EXTRACTION_ORDER_STATE_MAPPING = {
-    'new': ExtractionOrderState.INITIALIZED,
-    'received': ExtractionOrderState.QUEUED,
-    'started': ExtractionOrderState.PROCESSING,
-    'successful': ExtractionOrderState.FINISHED,
-    'error': ExtractionOrderState.FAILED,
-}
-
-
-def get_order_status_from_conversion_progress(progress):
-    return CONVERSION_PROGRESS_TO_EXTRACTION_ORDER_STATE_MAPPING.get(progress, ExtractionOrderState.UNDEFINED)
-
-
 class ExtractionOrder(models.Model):
-    DOWNLOAD_STATUS_NOT_DOWNLOADED = 0
-    DOWNLOAD_STATUS_DOWNLOADING = 1
-    DOWNLOAD_STATUS_AVAILABLE = 2
-
-    DOWNLOAD_STATUSES = (
-        (DOWNLOAD_STATUS_NOT_DOWNLOADED, 'unknown'),
-        (DOWNLOAD_STATUS_DOWNLOADING, 'downloading'),
-        (DOWNLOAD_STATUS_AVAILABLE, 'received'),
-    )
-
-    state = enum.EnumField(ExtractionOrderState, default=ExtractionOrderState.INITIALIZED, verbose_name=_('state'))
     coordinate_reference_system = models.IntegerField(
         verbose_name=_('CRS'), choices=crs.CRS_CHOICES, default=crs.WGS_84
     )
@@ -60,12 +21,6 @@ class ExtractionOrder(models.Model):
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True)
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
-    process_start_time = models.DateTimeField(verbose_name=_('process start time'), null=True, blank=True)
-    download_status = models.IntegerField(
-        _('file status'),
-        choices=DOWNLOAD_STATUSES,
-        default=DOWNLOAD_STATUS_NOT_DOWNLOADED
-    )
 
     def forward_to_conversion_service(self, *, incoming_request):
         clipping_area_json = self.excerpt.send_to_conversion_service()
@@ -83,7 +38,6 @@ class ExtractionOrder(models.Model):
                     orderer_name=self.orderer.get_username(),
                 ),
                 'excerpt: {}'.format(str(self.excerpt_name)),
-                'state: {}'.format(self.get_state_display()),
             ]
         )
 
@@ -99,14 +53,6 @@ class ExtractionOrder(models.Model):
             return self.excerpt.name
 
     @property
-    def output_files(self):
-        return OutputFile.objects.filter(export__extraction_order=self)
-
-    @property
-    def are_downloads_ready(self):
-        return self.state == ExtractionOrderState.FINISHED
-
-    @property
     def extraction_formats(self):
         return self.exports.values_list('file_format', flat=True)
 
@@ -118,15 +64,6 @@ class ExtractionOrder(models.Model):
         self._new_formats = new_formats  # Will be collected and cleaned up by attach_new_formats.
         if self.id is not None:
             attach_new_formats(self.__class__, instance=self)
-
-    @property
-    def process_due_time(self):
-        from django.conf import settings  # import locally, so migrations can't depend on settings
-        return self.process_start_time + settings.OSMAXX.get('EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA')
-
-    def set_status_from_conversion_progress(self, job_overall_progress):
-        if self.state not in [ExtractionOrderState.FINISHED, ExtractionOrderState.FAILED]:
-            self.state = get_order_status_from_conversion_progress(job_overall_progress)
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse

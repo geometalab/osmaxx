@@ -43,13 +43,12 @@ def update_exports_of_request_user(request):
         try:
             update_export_if_stale(export, request=request)
         except HTTPError as e:
-            if hasattr(e.response, 'status_code'):
-                if e.response.status_code == requests.codes['not_found']:
-                    logger.exception("Export #%s doesn't exist on the conversion service.", export.id)
-                    export.status = FAILED
-                    export.save()
-                else:
-                    logger.exception("Failed to update status of pending export #%s.", export.id)
+            if e.response.status_code == requests.codes['not_found']:
+                logger.exception("Export #%s doesn't exist on the conversion service.", export.id)
+                export.status = FAILED
+                export.save()
+            else:
+                logger.exception("Failed to update status of pending export #%s.", export.id)
         except:  # noqa:
             # Intentionally catching all non-system-exiting exceptions here, so that the loop can continue
             # and (try) to update the other pending exports.

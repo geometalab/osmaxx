@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
 from osmaxx.conversion_api.formats import FORMAT_CHOICES
-from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
+from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION, EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA
 
 logger = logging.getLogger(__name__)
 
@@ -80,10 +80,18 @@ class Export(TimeStampModelMixin, models.Model):
 
     def set_and_handle_new_status(self, new_status, *, incoming_request):
         assert new_status in dict(self.STATUS_CHOICES)
+        if self.status == new_status and self.update_overdue():
+            new_status = self.FAILED
+
         if self.status != new_status:
             self.status = new_status
             self.save()
             self._handle_changed_status(incoming_request=incoming_request)
+
+    def update_overdue(self):
+        if self.status in self.FINAL_STATUSES:
+            return False
+        return (self.updated_at + EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA) < timezone.now()
 
     def _handle_changed_status(self, *, incoming_request):
         from osmaxx.utilities.shortcuts import Emissary
