@@ -9,7 +9,7 @@ class OSMImporter:
     def __init__(self):
         self._osm_derived_tables = ['osm_point', 'osm_line', 'osm_polygon', 'osm_roads']
         self._osm_base_tables = ['osm_ways', 'osm_nodes']
-        self._osm_boundaries_tables = ['coastlines', 'land_polygons', 'water_polygons']
+        self._osm_boundaries_tables = ['coastline_l', 'landmass_a', 'sea_a']
 
         _world_db_connection_parameters = dict(
             username='gis',
@@ -90,9 +90,9 @@ class OSMImporter:
         multipolygon_cast = Geometry(geometry_type='MULTIPOLYGON', srid=4326)
         multilinestring_cast = Geometry(geometry_type='MULTILINESTRING', srid=4326)
         table_casts = {
-            'land_polygons': multipolygon_cast,
-            'water_polygons': multipolygon_cast,
-            'coastlines': multilinestring_cast,
+            'sea_a': multipolygon_cast,
+            'landmass_a': multipolygon_cast,
+            'coastline_l': multilinestring_cast,
         }
         for table_name in self._osm_boundaries_tables:
             source_table_meta = self._table_metas[table_name]
