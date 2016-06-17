@@ -33,6 +33,12 @@ class PseudoMultiMap:
         return tuple(v for _, v in self._items)
 
 
+def do_collect_correlated_attributes(attribute_values):
+    return ChainMap(
+        *(definition.get('correlated_attributes', {}) for definition in do_multimapify(attribute_values).values())
+    ).keys()
+
+
 def do_dictsort_unless_ordered(value):
     if isinstance(value, OrderedDict) or isinstance(value, PseudoMultiMap):
         return value.items()
@@ -52,6 +58,7 @@ def do_excluded(d):
 def _is_excluded(k):
     return len(k) == 1 and k[0] == 'not'
 
+env.filters['collect_correlated_attributes'] = do_collect_correlated_attributes
 env.filters['multimapify'] = do_multimapify
 env.filters['dictsort_unless_ordered'] = do_dictsort_unless_ordered
 env.filters['included'] = do_included
@@ -82,15 +89,10 @@ def yaml_to_md(layer_name, layer_definition, out):
 
 
 def write_attribute_values_table(attribute_name, attribute_values, out):
-    correlated_attributes = ChainMap(
-        *(definition.get('correlated_attributes', {}) for definition in do_multimapify(attribute_values).values())
-    ).keys()
-
     out.write(
         ATTRIBUTE_VALUES_TEMPLATE.render(
             attribute_name=attribute_name,
             attribute_values=attribute_values,
-            correlated_attributes=correlated_attributes,
         )
     )
     out.write('\n\n')

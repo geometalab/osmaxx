@@ -1,4 +1,5 @@
 {% import 'osm.md.jinja2' as osm %}
+{%- set correlated_attributes = attribute_values|collect_correlated_attributes %}
 Values of attribute {{ attribute_name }}
 
 {% for attribute_name in correlated_attributes -%}
