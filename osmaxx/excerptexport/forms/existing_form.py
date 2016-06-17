@@ -2,12 +2,13 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, HTML
 from django import forms
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_user_excerpts, \
     other_users_public_excerpts
-from .order_options_mixin import OrderOptionsMixin, get_export_options
+from .order_options_mixin import OrderOptionsMixin
 
 
 def get_country_choices():
@@ -51,13 +52,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
         self.helper.layout = Layout(
             Fieldset(
                 _('Excerpt'),
-                HTML('''
-                    <div class="form-group has-feedback">
-                        <input id="excerptListFilterField" class="form-control" type="search" placeholder="Filter excerpts …" autocomplete="off"/>
-                        <span id="excerptListFilterFieldClearer" class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span>
-                    </div>
-                    '''  # noqa: line too long ignored
-                ),
+                HTML(render_to_string('excerptexport/forms/partials/existing_form_filter.html')),
                 'existing_excerpts',
             ),
             OrderOptionsMixin(self).form_layout(),
@@ -71,15 +66,16 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
             required=True,
             choices=get_existing_excerpt_choices(user),
             widget=forms.Select(
-                attrs={'size': 10, 'required': True},
+                attrs={'size': 10, 'required': True, 'class': 'resizable'},
             ),
         )
         return cls
 
     def save(self, user):
         extraction_order = ExtractionOrder(orderer=user)
-        extraction_order.extraction_configuration = get_export_options()
+        extraction_order.coordinate_reference_system = self.cleaned_data['coordinate_reference_system']
         extraction_order.extraction_formats = self.cleaned_data['formats']
+        extraction_order.detail_level = self.cleaned_data['detail_level']
 
         existing_key = self.cleaned_data['existing_excerpts']
         excerpt = Excerpt.objects.get(pk=int(existing_key))

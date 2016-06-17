@@ -1,16 +1,16 @@
 import os
+import shutil
 import uuid
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
 
 from osmaxx.excerptexport.models.export import Export
 
 
 def uuid_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/osmaxx/<public_uuid>/<filename>
-    return os.path.join('osmaxx', 'outputfiles', str(instance.public_identifier), filename)
+    return os.path.join('osmaxx', 'outputfiles', str(instance.public_identifier), os.path.basename(filename))
 
 
 class OutputFile(models.Model):
@@ -21,16 +21,17 @@ class OutputFile(models.Model):
     deleted_on_filesystem = models.BooleanField(default=False, verbose_name=_('deleted on filesystem'))
     public_identifier = models.UUIDField(primary_key=False, default=uuid.uuid4, verbose_name=_('public identifier'))
     export = models.OneToOneField(Export, related_name='output_file', verbose_name=_('export'))
+    file_removal_at = models.DateTimeField(_('file removal date'), default=None, blank=True, editable=False, null=True)
 
-    @property
-    def download_file_name(self):
-        return settings.OSMAXX['download_file_name'] % {
-            'name': os.path.basename(self.file.name) if self.file else None,
-            'date': self.creation_date.strftime("%F"),
-            'excerpt_name': self.export.extraction_order.excerpt_name.replace(" ", ""),
-            'content_type': self.content_type if self.content_type else 'file',
-            'file_extension': self.file_extension
-        }
+    def __str__(self):
+        return \
+            '[' + str(self.id) + '] ' \
+            + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
+            + 'identifier: ' + str(self.public_identifier)
+
+    def delete(self, *args, **kwargs):
+        self._remove_file()
+        super().delete(*args, **kwargs)
 
     @property
     def content_type(self):
@@ -38,16 +39,34 @@ class OutputFile(models.Model):
 
     @property
     def file_extension(self):
-        if bool(self.file):
+        if self.has_file:
             _discarded, file_extension = os.path.splitext(self.file)
             return file_extension
         return 'zip'
 
-    def __str__(self):
-        return \
-            '[' + str(self.id) + '] ' \
-            + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
-            + 'identifier: ' + str(self.public_identifier)
+    @property
+    def has_file(self):
+        return bool(self.file)
+
+    def _remove_file(self, save=False):
+        if self.file:
+            file_path = self.file.path
+            file_directory = os.path.dirname(file_path)
+            if os.path.exists(file_directory):
+                assert len(os.listdir(file_directory)) <= 1
+                shutil.rmtree(file_directory)
+            self.file = None
+        if save:
+            self.save()
+
+    def remove_file(self):
+        """
+        Removes the file and its directory.
+
+        Returns: None
+
+        """
+        self._remove_file(save=True)
 
     def get_filename_display(self):
         if self.file:

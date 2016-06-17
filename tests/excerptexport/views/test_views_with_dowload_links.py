@@ -7,7 +7,7 @@ from django.test.testcases import SimpleTestCase
 
 from osmaxx.conversion_api import formats
 from osmaxx.excerptexport.models.excerpt import Excerpt
-from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
+from osmaxx.excerptexport.models.extraction_order import ExtractionOrder
 from osmaxx.excerptexport.models.output_file import OutputFile
 
 
@@ -25,8 +25,6 @@ def order(excerpt, db):
     return ExtractionOrder.objects.create(
         orderer=excerpt.owner,
         excerpt=excerpt,
-        state=ExtractionOrderState.FINISHED,
-        download_status=ExtractionOrder.DOWNLOAD_STATUS_AVAILABLE,
     )
 
 
@@ -67,7 +65,6 @@ def test_send_all_links_mailto_link(_, authorized_client, db, downloads, view_wi
         <button>&#9993; Send all links</button>
     </a>"""  # noqa
     actual_response_content = response.content.decode()
-    print(actual_response_content)
     dummy = SimpleTestCase()
     dummy.assertInHTML(expected_send_all_links_link, actual_response_content)
 
@@ -109,8 +106,6 @@ def test_send_link_mailto_links(_, authorized_client, db, downloads, view_with_m
 
     actual_response_content = response.content.decode()
     dummy = SimpleTestCase()
-
-    print(actual_response_content)
 
     dummy.assertInHTML(
         expected_html,

@@ -2,7 +2,6 @@ import json
 import logging
 
 from django.conf import settings
-from django.core.files import File
 from requests import HTTPError
 
 from osmaxx.api_client.API_client import JWTClient, reasons_for
@@ -34,18 +33,19 @@ class ConversionApiClient(JWTClient):
         response = self.authorized_post(url='clipping_area/', json_data=json_payload)
         return response.json()
 
-    def create_parametrization(self, *, boundary, out_format, out_srs):
+    def create_parametrization(self, *, boundary, out_format, detail_level, out_srs):
         """
 
         Args:
             boundary: A dictionary as returned by create_boundary
             out_format: A string identifying the output format
+            detail_level: An integer identifying the level of detail of the output
             out_srs: A string identifying the spatial reference system of the output
 
         Returns:
             A dictionary representing the payload of the service's response
         """
-        json_payload = dict(clipping_area=boundary['id'], out_format=out_format, out_srs=out_srs)
+        json_payload = dict(clipping_area=boundary['id'], out_format=out_format, detail_level=detail_level, out_srs=out_srs)
         response = self.authorized_post(url='conversion_parametrization/', json_data=json_payload)
         return response.json()
 
@@ -63,12 +63,11 @@ class ConversionApiClient(JWTClient):
         response = self.authorized_post(url='conversion_job/', json_data=json_payload)
         return response.json()
 
-    def get_result_file(self, job_id):
+    def get_result_file_path(self, job_id):
         file_path = self._get_result_file_path(job_id)
         if file_path:
-            return File(open(file_path, 'rb'))
-        else:
-            raise ResultFileNotAvailableError
+            return file_path
+        raise ResultFileNotAvailableError
 
     def _get_result_file_path(self, job_id):
         job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)

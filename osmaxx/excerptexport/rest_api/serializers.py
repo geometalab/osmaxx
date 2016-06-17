@@ -1,7 +1,8 @@
+from rest_framework import serializers
 from rest_framework_gis import serializers as gis_serializers
 from rest_framework_gis.fields import GeometrySerializerMethodField
 
-from osmaxx.excerptexport.models import Excerpt
+from osmaxx.excerptexport.models import Excerpt, Export
 
 
 class ExcerptGeometrySerializer(gis_serializers.GeoFeatureModelSerializer):
@@ -18,3 +19,9 @@ class ExcerptGeometrySerializer(gis_serializers.GeoFeatureModelSerializer):
         model = Excerpt
         fields = ['id', 'excerpt_type', 'color']
         auto_bbox = True
+
+
+class ExportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Export
+        fields = ['id', 'status']

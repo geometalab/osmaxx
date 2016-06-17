@@ -145,7 +145,6 @@ def pytest_configure():
         },
         _OSMAXX_POLYFILE_LOCATION=os.path.join(test_data_dir, 'polyfiles'),
         OSMAXX_TEST_SETTINGS={
-            'download_file_name': '%(excerpt_name)s-%(date)s.%(content_type)s.%(file_extension)s',
             'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
@@ -249,6 +248,16 @@ def authenticated_api_client(api_client, user):
     Returns:
         Authenticated Client
     """
+    return authenticated_client(api_client, user)
+
+
+@pytest.fixture
+def frontend_accessible_authenticated_api_client(api_client, user):
+    from django.conf import settings
+    from django.contrib.auth.models import Group
+
+    group = Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP)
+    user.groups.add(group)
     return authenticated_client(api_client, user)
 
 

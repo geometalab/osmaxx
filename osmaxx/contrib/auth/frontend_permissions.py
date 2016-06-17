@@ -16,6 +16,10 @@ def _may_user_access_this_excerpt(user, excerpt):
     return excerpt.is_public or excerpt.owner == user
 
 
+def _may_user_access_this_export(user, export):
+    return export.extraction_order.orderer == user
+
+
 def frontend_access_required(function=None):
     """
     Decorator for views that checks that the user has the correct access rights,
@@ -70,3 +74,10 @@ class HasExcerptAccessPermission(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return _may_user_access_this_excerpt(request.user, obj)
+
+
+class HasExportAccessPermission(permissions.BasePermission):
+    message = 'Accessing this export is not allowed.'
+
+    def has_object_permission(self, request, view, obj):
+        return _may_user_access_this_export(request.user, obj)

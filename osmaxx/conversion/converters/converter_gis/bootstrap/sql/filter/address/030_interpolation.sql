@@ -37,7 +37,7 @@ INSERT INTO osmaxx.address_p
     temp_tbl.addr_street as street,
     temp_tbl.housenr as housenumber,
     osm_line."addr:postcode" as postcode,
-    osm_line."addr:place" as city,
+    osm_line."addr:city" as city,
     osm_line."addr:country" as country
  FROM temp_tbl
  INNER JOIN osm_line

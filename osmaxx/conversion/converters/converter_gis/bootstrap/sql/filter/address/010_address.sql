@@ -32,7 +32,7 @@ INSERT INTO osmaxx.address_p
     end  as street,
     "addr:housenumber" as housenumber,
     "addr:postcode" as postcode,
-    "addr:place" as city,
+    "addr:city" as city,
     "addr:country" as country
   FROM osm_point
 where building !='entrance' and entrance is null and ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='')
@@ -70,7 +70,7 @@ UNION
     end  as street,
     "addr:housenumber" as housenumber,
     "addr:postcode" as postcode,
-    "addr:place" as city,
+    "addr:city" as city,
     "addr:country" as country
   FROM osm_polygon
 where building !='entrance' and entrance is null and ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='');

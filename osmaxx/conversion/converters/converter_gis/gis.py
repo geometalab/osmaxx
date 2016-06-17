@@ -6,12 +6,11 @@ import shutil
 
 from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
 from osmaxx.conversion.converters.converter_gis.extract.db_to_format.extract import extract_to
-from osmaxx.conversion.converters.converter_gis.extract.statistics.statistics import gather_statistics
 from osmaxx.conversion.converters.utils import zip_folders_relative
 
 
 class GISConverter:
-    def __init__(self, *, conversion_format, out_zip_file_path, base_file_name, out_srs, polyfile_string):
+    def __init__(self, *, conversion_format, out_zip_file_path, base_file_name, out_srs, polyfile_string, detail_level):
         """
         Converts a specified pbf into the specified format.
 
@@ -29,16 +28,16 @@ class GISConverter:
         self._conversion_format = conversion_format
         self._out_srs = out_srs
         self._static_directory = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static')
+        self._detail_level = detail_level
 
     def create_gis_export(self):
-        bootstrap.boostrap(self._polyfile_string)
+        bootstrap.boostrap(self._polyfile_string, detail_level=self._detail_level)
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             data_dir = os.path.join(tmp_dir, 'data')
             static_dir = os.path.join(tmp_dir, 'static')
             os.makedirs(data_dir)
             shutil.copytree(self._static_directory, static_dir)
-            gather_statistics(os.path.join(tmp_dir, self._base_file_name + '_STATISTICS.csv'))
             extract_to(
                 to_format=self._conversion_format,
                 output_dir=data_dir,

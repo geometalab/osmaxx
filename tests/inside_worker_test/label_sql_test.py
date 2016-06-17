@@ -897,6 +897,25 @@ def test_label_road(osmaxx_schemas, label_input):
 
 
 @slow
+def test_label_road_level_60(osmaxx_schemas, label_input):
+    engine = osmaxx_schemas
+    address_script_setup = 'sql/filter/road/000_setup-drop_and_recreate_table_road.sql'
+    engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script_setup)).execution_options(autocommit=True))
+
+    expected_label = label_input.pop('expected_label')
+    label_input.update({'highway': 'some'})
+
+    engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
+
+    address_script = 'sql/filter/road/level-60/010_road.sql'
+    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
+    assert result.rowcount == 1
+
+    result = engine.execute(sqlalchemy.text("select label from osmaxx.road_l").execution_options(autocommit=True))
+    assert result.fetchone()['label'] == expected_label
+
+
+@slow
 def test_label_junction(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/road/000_setup-drop_and_recreate_table_road.sql'

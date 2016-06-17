@@ -35,7 +35,7 @@ INSERT INTO osmaxx.address_p
     end  as street,
     "addr:housenumber" as housenumber,
     "addr:postcode" as postcode,
-    "addr:place" as city,
+    "addr:city" as city,
     "addr:country" as country
   FROM osm_point
   where ("addr:street" !='' OR "addr:housenumber"!='' OR "addr:place"!='');

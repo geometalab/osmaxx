@@ -7,9 +7,10 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def email_body_with_single_result_link(context, output_file):
+def email_body_with_single_result_link(context, output_file, available_until):
     view_context = {
         'file': output_file,
+        'available_until': available_until,
     }
     return mark_safe(render_to_string(
         'excerptexport/email/download_single_result_body.txt',
