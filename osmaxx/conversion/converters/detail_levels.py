@@ -24,3 +24,5 @@ DETAIL_LEVEL_TABLES = {
         level_folder_name='level-{}'.format(str(DETAIL_LEVEL_REDUCED)),
     ),
 }
+
+assert set(DETAIL_LEVEL_TABLES[DETAIL_LEVEL_REDUCED]).issubset(DETAIL_LEVEL_TABLES[DETAIL_LEVEL_ALL])
