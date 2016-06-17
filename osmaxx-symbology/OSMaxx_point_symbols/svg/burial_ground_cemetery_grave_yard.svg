@@ -7,35 +7,13 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
    width="352.78mm"
    height="352.78mm"
    viewBox="0 0 1250.0079 1250.0079"
-   id="svg4030"
-   version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="amenity_burial_ground.svg">
+   id="svg4030">
   <defs
      id="defs4032" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="80"
-     inkscape:cy="520"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1018"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
   <metadata
      id="metadata4035">
     <rdf:RDF>
@@ -49,14 +27,11 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,197.64569)">
+     transform="translate(0,197.64569)"
+     id="layer1">
     <path
-       id="path8034"
-       inkscape:connector-curvature="0"
        d="m 623.31545,176.42982 c -78.287,0 -141.752,67.65 -141.752,151.092 0,2.137 0.061,4.256 0.15,6.371 l -17.361,308.637 315.068,0 -14.494,-309.041 c 0.061,-1.977 0.143,-3.963 0.143,-5.971 0,-83.44 -63.466,-151.088 -141.754,-151.088 z m -199.805,470.806 0,31.051 402.987,0 0,-31.051 -402.987,0 z"
+       id="path8034"
        style="fill:#8c6e3c;fill-opacity:1" />
   </g>
 </svg>

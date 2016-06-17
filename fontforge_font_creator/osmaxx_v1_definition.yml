@@ -28,7 +28,7 @@ osmaxx_v1:
       filename: "accomodation_shelter.svg"
       element: "path3-2"
     "0xe009":
-      filename: "amenity_burial_ground.svg"
+      filename: "burial_ground_cemetery_grave_yard.svg"
       element: "path8034"
     "0xe00a":
       filename: "catering_bar.svg"
