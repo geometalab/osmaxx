@@ -34,8 +34,9 @@ class PseudoMultiMap:
 
 
 def do_collect_correlated_attributes(attribute_values):
+    attribute_value_definitions = attribute_values.values()
     return ChainMap(
-        *(definition.get('correlated_attributes', {}) for definition in attribute_values.values())
+        *(definition.get('correlated_attributes', {}) for definition in attribute_value_definitions)
     ).keys()
 
 
