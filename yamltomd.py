@@ -66,8 +66,6 @@ env.filters['included'] = do_included
 env.filters['excluded'] = do_excluded
 
 LAYER_TEMPLATE = env.get_template('layer.md.jinja2')
-ATTRIBUTE_VALUES_TEMPLATE = env.get_template('attribute_values.md.jinja2')
-
 
 def yaml_to_md(layer_name, layer_definition, out):
     out.write(
@@ -76,27 +74,6 @@ def yaml_to_md(layer_name, layer_definition, out):
             layer_definition=layer_definition,
         )
     )
-
-    attributes = layer_definition['attributes']
-
-    for attribute_name, attribute in do_dictsort_unless_ordered(attributes):
-        try:
-            values = attribute['values']
-        except KeyError:
-            # This is fine. Attributes for which no values are specified will not be documented in a table of their own.
-            continue
-        else:
-            write_attribute_values_table(attribute_name, values, out)
-
-
-def write_attribute_values_table(attribute_name, attribute_values, out):
-    out.write(
-        ATTRIBUTE_VALUES_TEMPLATE.render(
-            attribute_name=attribute_name,
-            attribute_values=attribute_values,
-        )
-    )
-    out.write('\n\n')
 
 
 with open("osmaxx_schema.yaml", 'r') as in_file:

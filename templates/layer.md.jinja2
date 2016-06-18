@@ -3,4 +3,8 @@
 {% if 'description' in layer_definition -%}
     {{ '\n' }}{{ layer_definition['description'] }}
 {% endif %}
-{% include 'layer_attributes.md.jinja2' %}
+{% include 'layer_attributes.md.jinja2' -%}
+{% for attribute_name, attribute in layer_definition['attributes']|dictsort_unless_ordered if 'values' in attribute -%}
+    {% set attribute_values = attribute['values'] -%}
+    {% include 'attribute_values.md.jinja2' %}
+{%- endfor -%}

@@ -17,4 +17,6 @@ Values of attribute {{ attribute_name }}
     |{{ value }}|
     {{- osm.tag_combinations(definition['osm_tags'])|default(' ', boolean=True) }}|
     {{- definition['description']|default(' ') }}|
-{% endfor -%}
+{% endfor %}
+
+
