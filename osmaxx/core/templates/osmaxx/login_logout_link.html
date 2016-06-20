@@ -5,15 +5,17 @@
         <img class="menu_icon" src='{% static "osmaxx/images/icon-logout.png" %}' alt="Logout" />
         {% trans 'Logout' %}
     </a>
+{% else %}
+    <a href="{% url 'excerptexport:login' %}?next={% url 'excerptexport:index' %}">
+        <img class="menu_icon" src='{% static "osmaxx/images/icon-login.png" %}' alt="Login" />
+        {% trans 'Login' %}
+    </a>
+{% endif %}
 </li>
+{% if user.is_authenticated %}
 <li role="presentation" class="col-lg-push-1 col-md-push-1">
     <a href="{% url 'profile:edit_view' %}">
         <strong>{{ user.username }}</strong>
     </a>
-{% else %}
-<a href="{% url 'excerptexport:login' %}?next={% url 'excerptexport:index' %}">
-    <img class="menu_icon" src='{% static "osmaxx/images/icon-login.png" %}' alt="Login" />
-    {% trans 'Login' %}
-</a>
-{% endif %}
 </li>
+{% endif %}
