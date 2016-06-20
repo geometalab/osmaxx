@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
+import os
+
 from jinja2 import Environment, FileSystemLoader
 from collections import OrderedDict, ChainMap, Mapping
 from ruamel import yaml
 
+schema_source_dir = os.path.dirname(__file__)
+schema_markdown_dir = os.path.dirname(schema_source_dir)
+
 env = Environment(
-    loader=FileSystemLoader(searchpath='templates'),
+    loader=FileSystemLoader(searchpath=os.path.join(schema_source_dir, 'templates')),
     extensions=[
         'jinja2.ext.with_',
     ],
@@ -76,12 +81,12 @@ def yaml_to_md(layer_name, layer_definition, out):
     )
 
 
-with open("osmaxx_schema.yaml", 'r') as in_file:
+with open(os.path.join(schema_source_dir, "osmaxx_schema.yaml"), 'r') as in_file:
     data = yaml.load(in_file)
 layers = data['layers']
-with open('header.md', 'r') as h:
+with open(os.path.join(schema_source_dir, 'header.md'), 'r') as h:
     header_doc = h.read()
-with open("osmaxx_data_schema.md", 'w') as out_file:
+with open(os.path.join(schema_markdown_dir, "osmaxx_data_schema.md"), 'w') as out_file:
     out_file.write(header_doc)
     for layer_name, layer_definition in sorted(layers.items()):
         yaml_to_md(layer_name, layer_definition, out=out_file)
