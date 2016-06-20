@@ -24,7 +24,7 @@ or simply
 ./runtests.py --webapp-tests
 ```
 
-More about testing can be found in the [Testing](/docs/testing.md) documentation.
+More about testing can be found in the [Testing](testing.md) documentation.
 
 ## Use backend
 
