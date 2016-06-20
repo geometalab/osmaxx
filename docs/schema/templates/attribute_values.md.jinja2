@@ -1,0 +1,22 @@
+{% import 'osm.md.jinja2' as osm %}
+{%- set correlated_attributes = attribute_values|multimapify|collect_correlated_attributes %}
+Values of attribute {{ attribute_name }}
+
+{% for attribute_name in correlated_attributes -%}
+    |{{ attribute_name }}             {#  #}
+{%- endfor -%}
+|values              |osm_tags            |description                                                           |
+{% for _ in correlated_attributes -%}
+    | ------------------ {#  #}
+{%- endfor -%}
+| ------------------ | ------------------ | -------------------------------------------------------------------- |
+{% for value, definition in attribute_values|multimapify|dictsort_unless_ordered -%}
+    {% for attribute_name in correlated_attributes -%}
+        |{{ definition['correlated_attributes'][attribute_name] -}}
+    {%- endfor -%}
+    |{{ value }}|
+    {{- osm.tag_combinations(definition['osm_tags'])|default(' ', boolean=True) }}|
+    {{- definition['description']|default(' ') }}|
+{% endfor %}
+
+
