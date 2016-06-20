@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/geometalab/osmaxx-frontend.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx-frontend) ([branch `master`](https://github.com/geometalab/osmaxx-frontend/tree/master))
+[![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx) ([branch `master`](https://github.com/geometalab/osmaxx/tree/master))
 
 Django-based Web Frontend for **osmaxx**.
 
@@ -6,7 +6,7 @@ For deploying a complete **osmaxx** setup, see https://github.com/geometalab/osm
 
 ## Development
 
-[![Build Status](https://travis-ci.org/geometalab/osmaxx-frontend.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx-frontend) ([branch `develop`](https://github.com/geometalab/osmaxx-frontend/tree/develop))
+[![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx) ([branch `develop`](https://github.com/geometalab/osmaxx/tree/develop))
 
 * [Project Repository (Git)](/docs/git-repository.md)
 * [Project Development Environment (Docker)](/docs/project-development-environment.md)
