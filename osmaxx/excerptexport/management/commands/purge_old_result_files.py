@@ -49,11 +49,15 @@ class Command(BaseCommand):
 
     def _remove_old_files(self):
         try:
-            old_files = OutputFile.objects.filter(export__output_file__file_removal_at__lt=timezone.now())
+            old_files = OutputFile.objects.filter(
+                export__output_file__file_removal_at__lt=timezone.now(),
+                export__output_file__file__isnull=False,
+            )
             for old_file in old_files:
-                file_path = old_file.file.path
-                old_file.remove_file()
-                self._success("removed {}".format(file_path))
+                path = old_file.file.path
+                pk = old_file.id
+                old_file.delete()
+                self._success("Output File #{}: {} removed".format(pk, path))
 
         except Exception as e:
             logger.exception(e)
