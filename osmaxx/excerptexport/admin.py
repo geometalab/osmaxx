@@ -23,6 +23,18 @@ class ExtractionOrderAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'excerpt')
     readonly_fields = ('process_id', 'coordinate_reference_system', 'progress_url')
 
-admin.site.register(OutputFile)
 
-admin.site.register(Export)
+@admin.register(OutputFile)
+class OutputFileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'mime_type', 'file', 'creation_date', 'file_removal_at')
+    list_display_links = ('id', )
+    list_filter = ['file_removal_at']
+    fields = ['mime_type', 'file']
+    readonly_fields = ['creation_date', 'file_removal_at']
+
+
+@admin.register(Export)
+class ExportAdmin(admin.ModelAdmin):
+    list_display = ('id', 'file_format', 'conversion_service_job_id', 'status', 'finished_at')
+    list_display_links = ('id', )
+    list_filter = ['finished_at', 'created_at', 'updated_at']
