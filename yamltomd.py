@@ -101,7 +101,7 @@ with open("osmaxx_schema.yaml", 'r') as in_file:
 layers = data['layers']
 with open('header.md', 'r') as h:
     header_doc = h.read()
-with open("documentation.md", 'w') as out_file:
+with open("osmaxx_data_schema.md", 'w') as out_file:
     out_file.write(header_doc)
     for layer_name, layer_definition in sorted(layers.items()):
         yaml_to_md(layer_name, layer_definition, out=out_file)
