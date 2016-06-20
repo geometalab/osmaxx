@@ -22,7 +22,7 @@ services:
       - DJANGO_SECRET_KEY=insecure!1
       - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.local
       - DJANGO_DEBUG=true
-      # set these if you want to be able to login using OSM
+      # set these if you want to be able to log in using OSM
       - SOCIAL_AUTH_OPENSTREETMAP_KEY=
       - SOCIAL_AUTH_OPENSTREETMAP_SECRET=
 #     Allow access from any private-use IP, since docker assigns "random" IPs.
