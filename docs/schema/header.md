@@ -204,6 +204,7 @@ See file name conventions above about the meaning of “_a” etc.
 |traffic_a|MULTIPOLYGON|See traffic_p|
 |traffic_p|POINT|It contains information regarding the rules of the road. Which allow better flow of traffic. E.g. Road signs, traffic calming, etc.|
 |transport_a|MULTIPOLYGON|See transport_p|
+|transport_l|MULTILINESTRING|Linear features involved in transporting anyone from one place to another, e.g. runways at airports|
 |transport_p|POINT|Features which mark out points or location where it enable transporting anyone from one place to another. E.g. Bus stops, train station, etc.|
 |utility_a|MULTIPOLYGON|See utility_l|
 |utility_l|MULTILINESTRING|All features which are part of the utility body. E.g. Power structure (powerlines, power building), pipelines (oil, water, gas etc.),  etc..|
