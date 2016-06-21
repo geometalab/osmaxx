@@ -213,5 +213,3 @@ See file name conventions above about the meaning of “_a” etc.
 |water_l|MULTILINESTRING|All features which are part of the waterbody. E.g. Dams, river, etc. |
 
 
-# Layers Specification
-

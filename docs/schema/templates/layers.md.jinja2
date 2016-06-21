@@ -1,0 +1,5 @@
+# Layers Specification
+
+{% for layer_name, layer_definition in layers|dictsort_unless_ordered -%}
+    {% include 'layer.md.jinja2' -%}
+{%- endfor %}

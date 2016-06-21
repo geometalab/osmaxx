@@ -70,16 +70,7 @@ env.filters['dictsort_unless_ordered'] = do_dictsort_unless_ordered
 env.filters['included'] = do_included
 env.filters['excluded'] = do_excluded
 
-LAYER_TEMPLATE = env.get_template('layer.md.jinja2')
-
-def yaml_to_md(layer_name, layer_definition, out):
-    out.write(
-        LAYER_TEMPLATE.render(
-            layer_name=layer_name,
-            layer_definition=layer_definition,
-        )
-    )
-
+LAYERS_TEMPLATE = env.get_template('layers.md.jinja2')
 
 with open(os.path.join(schema_source_dir, "osmaxx_schema.yaml"), 'r') as in_file:
     data = yaml.load(in_file)
@@ -88,5 +79,8 @@ with open(os.path.join(schema_source_dir, 'header.md'), 'r') as h:
     header_doc = h.read()
 with open(os.path.join(schema_markdown_dir, "osmaxx_data_schema.md"), 'w') as out_file:
     out_file.write(header_doc)
-    for layer_name, layer_definition in sorted(layers.items()):
-        yaml_to_md(layer_name, layer_definition, out=out_file)
+    out_file.write(
+        LAYERS_TEMPLATE.render(
+            layers=layers,
+        )
+    )
