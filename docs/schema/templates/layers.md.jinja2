@@ -9,13 +9,7 @@ See file name conventions above about the meaning of “_a” etc.
     |
     {{- layer_name -}}
     |
-    {%- if layer_name.endswith('_a') -%}
-        MULTIPOLYGON
-    {%- elif layer_name.endswith('_l') -%}
-        MULTILINESTRING
-    {%- elif layer_name.endswith('_p') -%}
-        POINT
-    {%- endif -%}
+    {{- layer_name|layer_geometry_type -}}
     |
     {{- layer_definition['summary'] -}}
     |

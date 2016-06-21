@@ -16,6 +16,14 @@ env = Environment(
 )
 
 
+def do_layer_geometry_type(layer_name):
+    return dict(
+        _a='MultiPolygon',
+        _l='MultiLineString',
+        _p='Point',
+    )[layer_name[-2:]].upper()
+
+
 def do_multimapify(value):
     if isinstance(value, Mapping):
         return value
@@ -64,6 +72,7 @@ def do_excluded(d):
 def _is_excluded(k):
     return len(k) == 1 and k[0] == 'not'
 
+env.filters['layer_geometry_type'] = do_layer_geometry_type
 env.filters['collect_correlated_attributes'] = do_collect_correlated_attributes
 env.filters['multimapify'] = do_multimapify
 env.filters['dictsort_unless_ordered'] = do_dictsort_unless_ordered
