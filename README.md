@@ -6,10 +6,10 @@ Django-based Web Frontend for **osmaxx**.
 
 [![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=develop)](https://travis-ci.org/geometalab/osmaxx) ([branch `develop`](https://github.com/geometalab/osmaxx/tree/develop))
 
-* [Project Repository (Git)](/docs/git-repository.md)
-* [Project Development Environment (Docker)](/docs/project-development-environment.md)
-* [Commonly used commands for development](/docs/useful-commands.md)
-* [Testing](/docs/testing.md)
+* [Project Repository (Git)](/docs/development/git-repository.md)
+* [Project Development Environment (Docker)](/docs/development/project-development-environment.md)
+* [Commonly used commands for development](/docs/development/useful-commands.md)
+* [Testing](/docs/development/testing.md)
 
 We do not recommend to run the application local on your machine but it's possible. We recommend to use the development docker containers.
 
@@ -17,7 +17,7 @@ We do not recommend to run the application local on your machine but it's possib
 
 ### Prerequisites
 
-To run this project locally, you need [sufficiently recent versions](/docs/project-development-environment.md#local-prerequisites) of [docker](/docs/project-development-environment.md#dependency_docker) and [docker-compose](/docs/project-development-environment.md#dependency_docker-compose) installed.
+To run this project locally, you need [sufficiently recent versions](/docs/development/project-development-environment.md#local-prerequisites) of [docker](/docs/development/project-development-environment.md#dependency_docker) and [docker-compose](/docs/development/project-development-environment.md#dependency_docker-compose) installed.
 
 
 ### Initialization
@@ -109,7 +109,7 @@ where `<your_ip>` is your public IP.
 
 ### Testing
 
-Can be found under [Testing](/docs/testing.md).
+Can be found under [Testing](/docs/development/testing.md).
 
 
 ### Documentation
