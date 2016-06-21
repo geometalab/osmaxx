@@ -181,7 +181,7 @@ See file name conventions above about the meaning of “_a” etc.
 
 |Tables        |Geometry Type        |Description                                              |
 | ------------ | ------------------- | ------------------------------------------------------- |
-|address_p|POINT|Stores a point type of entrances and address information |
+|address_p|POINT|Stores a point type of entrances and address information|
 |adminarea_a|MULTIPOLYGON|Administrative boundaries range from large groups of nation states right down to small administrative districts and suburbs, with an indication of this size/level of importance.|
 |boundary_l|MULTILINESTRING|The boundary is used to mark the borders of areas, mostly political, but possibly also of other administrative area|
 |building_a|MULTIPOLYGON|To mark the outline of the area of buildings|
@@ -194,8 +194,8 @@ See file name conventions above about the meaning of “_a” etc.
 |natural_a|MULTIPOLYGON|see natural_p|
 |natural_p|POINT|Used to describes natural physical land features, including small modification by humans. E.g glacier, volcano, mud, etc.|
 |nonop_l|MULTILINESTRING|non-op./planned infrastructure not usable for traffic or transport|
-|poi_a|MULTIPOLYGON|Points of interest features of a generic place, like shops, amenities,  leisure, accomondation, pitches etc.|
-|poi_p|POINT |Points of interest features of a generic place, like shops, amenities, leisure, accomondation, etc.    |
+|poi_a|MULTIPOLYGON|Points of interest features of a generic place, like shops, amenities, leisure, accomondation, pitches etc.|
+|poi_p|POINT|Points of interest features of a generic place, like shops, amenities, leisure, accomondation, etc.|
 |pow_a|MULTIPOLYGON|See pow_p|
 |pow_p|POINT|This it a place of worship where people of different religion can go. e.g. church, temples(buddist, taoist, etc.), mosque(muslims)|
 |railway_l|MULTILINESTRING|All forms of transport using metal rails, including mainline services, subways, heritage lines and trams.|
@@ -204,13 +204,14 @@ See file name conventions above about the meaning of “_a” etc.
 |traffic_a|MULTIPOLYGON|See traffic_p|
 |traffic_p|POINT|It contains information regarding the rules of the road. Which allow better flow of traffic. E.g. Road signs, traffic calming, etc.|
 |transport_a|MULTIPOLYGON|See transport_p|
+|transport_l|MULTILINESTRING|Linear features involved in transporting anyone from one place to another, e.g. runways at airports|
 |transport_p|POINT|Features which mark out points or location where it enable transporting anyone from one place to another. E.g. Bus stops, train station, etc.|
 |utility_a|MULTIPOLYGON|See utility_l|
+|utility_l|MULTILINESTRING|All features which are part of the utility body. E.g. Power structure (powerlines, power building), pipelines (oil, water, gas etc.), etc..|
 |utility_p|POINT|See utility_l|
-|utility_l|MULTILINESTRING|All features which are part of the utility body. E.g. Power structure (powerlines, power building), pipelines (oil, water, gas etc.),  etc..|
 |water_a|MULTIPOLYGON|See water_l|
+|water_l|MULTILINESTRING|All features which are part of the waterbody. E.g. Dams, river, etc.|
 |water_p|POINT|See water_l|
-|water_l|MULTILINESTRING|All features which are part of the waterbody. E.g. Dams, river, etc. |
 
 
 # Layers Specification

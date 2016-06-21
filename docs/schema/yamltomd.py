@@ -16,6 +16,14 @@ env = Environment(
 )
 
 
+def do_layer_geometry_type(layer_name):
+    return dict(
+        _a='MultiPolygon',
+        _l='MultiLineString',
+        _p='Point',
+    )[layer_name[-2:]].upper()
+
+
 def do_multimapify(value):
     if isinstance(value, Mapping):
         return value
@@ -64,22 +72,14 @@ def do_excluded(d):
 def _is_excluded(k):
     return len(k) == 1 and k[0] == 'not'
 
+env.filters['layer_geometry_type'] = do_layer_geometry_type
 env.filters['collect_correlated_attributes'] = do_collect_correlated_attributes
 env.filters['multimapify'] = do_multimapify
 env.filters['dictsort_unless_ordered'] = do_dictsort_unless_ordered
 env.filters['included'] = do_included
 env.filters['excluded'] = do_excluded
 
-LAYER_TEMPLATE = env.get_template('layer.md.jinja2')
-
-def yaml_to_md(layer_name, layer_definition, out):
-    out.write(
-        LAYER_TEMPLATE.render(
-            layer_name=layer_name,
-            layer_definition=layer_definition,
-        )
-    )
-
+LAYERS_TEMPLATE = env.get_template('layers.md.jinja2')
 
 with open(os.path.join(schema_source_dir, "osmaxx_schema.yaml"), 'r') as in_file:
     data = yaml.load(in_file)
@@ -88,5 +88,8 @@ with open(os.path.join(schema_source_dir, 'header.md'), 'r') as h:
     header_doc = h.read()
 with open(os.path.join(schema_markdown_dir, "osmaxx_data_schema.md"), 'w') as out_file:
     out_file.write(header_doc)
-    for layer_name, layer_definition in sorted(layers.items()):
-        yaml_to_md(layer_name, layer_definition, out=out_file)
+    out_file.write(
+        LAYERS_TEMPLATE.render(
+            layers=layers,
+        )
+    )
