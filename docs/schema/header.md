@@ -206,10 +206,10 @@ See file name conventions above about the meaning of “_a” etc.
 |transport_a|MULTIPOLYGON|See transport_p|
 |transport_p|POINT|Features which mark out points or location where it enable transporting anyone from one place to another. E.g. Bus stops, train station, etc.|
 |utility_a|MULTIPOLYGON|See utility_l|
-|utility_p|POINT|See utility_l|
 |utility_l|MULTILINESTRING|All features which are part of the utility body. E.g. Power structure (powerlines, power building), pipelines (oil, water, gas etc.),  etc..|
+|utility_p|POINT|See utility_l|
 |water_a|MULTIPOLYGON|See water_l|
-|water_p|POINT|See water_l|
 |water_l|MULTILINESTRING|All features which are part of the waterbody. E.g. Dams, river, etc. |
+|water_p|POINT|See water_l|
 
 
