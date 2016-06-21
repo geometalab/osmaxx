@@ -1,5 +1,6 @@
 layers:
   "address_p":
+    summary: "Stores a point type of entrances and address information"
     attributes: !!omap
       - "type":
           type: "text"
@@ -95,6 +96,7 @@ layers:
           osm_tags:
             - "addr:country": "*"
   "adminarea_a": &layer_adminarea_a
+    summary: "Administrative boundaries range from large groups of nation states right down to small administrative districts and suburbs, with an indication of this size/level of importance."
     attributes:
       "type":
         type: text
@@ -166,8 +168,11 @@ layers:
               osm_tags:
                 - "boundary": 'protected_area'
               description: 'Protected areas, such as for national-parks, water protection areas or indigenous areas.'
-  "boundary_l": *layer_adminarea_a
+  "boundary_l":
+    <<: *layer_adminarea_a
+    summary: "The boundary is used to mark the borders of areas, mostly political, but possibly also of other administrative area"
   "building_a":
+    summary: "To mark the outline of the area of buildings"
     attributes:
       "height":
         type: text
@@ -182,6 +187,7 @@ layers:
               - "building": '*'
             description: This marks out the size and area of a building.
   "geoname_p": &layer_geoname_p
+    summary: "It is to mark the centre of a named settlement and the specific type of settlement. Eg. City, town, village, etc"
     attributes:
       "population":
         type: int
@@ -265,8 +271,11 @@ layers:
             osm_tags:
               - "place": 'municipality'
             description: a town or district that has local government.
-  "geoname_l": *layer_geoname_p
+  "geoname_l":
+    <<: *layer_geoname_p
+    summary: "The boarder of a settlement which is marked around the node and to mark the specific type of settlement. Eg. City, town, village, etc"
   "landuse_a": &layer_landuse_a
+    summary: "Landuse describes the human use of land, for example fields and pastures."
     attributes:
       "type":
         values:
@@ -378,6 +387,7 @@ layers:
               - "landuse": '*'
             description: 'Get all landuse that is not classified in any table'
   "military_p": &layer_military_p
+    summary: "The military is for buildings and area used by the military."
     attributes:
       "type":
         type: text
@@ -426,8 +436,11 @@ layers:
             osm_tags:
               - "military": '*'
             description: 'Any other military type that are not sorted to any type above'
-  "military_a": *layer_military_p
+  "military_a":
+    <<: *layer_military_p
+    summary: "See military_p"
   "misc_l": &layer_misc_l
+    summary: "This contains elements could not be categorized into specific tables. E.g barrier and cliffs."
     attributes:
       "type":
         type: text
@@ -527,6 +540,7 @@ layers:
                 "aggtype": 'traffic_calming'
               description: 'A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.'
   "natural_a": &layer_natural_a
+    summary: "see natural_p"
     attributes:
       "type":
         type: text
@@ -600,8 +614,11 @@ layers:
             osm_tags:
               - "natural": '*'
             description: 'Any other natural type that are not sorted to any type above'
-  "natural_p": *layer_natural_a
+  "natural_p":
+    <<: *layer_natural_a
+    summary: "Used to describes natural physical land features, including small modification by humans. E.g glacier, volcano, mud, etc."
   "nonop_l": &layer_nonop_l
+    summary: "non-op./planned infrastructure not usable for traffic or transport"
     attributes:
       "ref":
         type: text
@@ -668,6 +685,7 @@ layers:
           - !!omap ["railway": "disused", "disused": "*"]
           - !!omap ["railway": 'abandoned', "abandoned": "*"]
   "poi_p": &layer_poi_p
+    summary: "Points of interest features of a generic place, like shops, amenities, leisure, accomondation, etc."
     attributes:
       "aggtype":
         type: text
@@ -1678,8 +1696,11 @@ layers:
               correlated_attributes:
                 "aggtype": 'amenity'
               description: 'All other types of amenity which is not defined as above'
-  "poi_a": *layer_poi_p
+  "poi_a":
+    <<: *layer_poi_p
+    summary: "Points of interest features of a generic place, like shops, amenities, leisure, accomondation, pitches etc."
   "pow_p": &layer_pow_p
+    summary: "This it a place of worship where people of different religion can go. e.g. church, temples(buddist, taoist, etc.), mosque(muslims)"
     attributes:
       "aggtype":
         type: text
@@ -1854,8 +1875,11 @@ layers:
             correlated_attributes:
               "aggtype": 'place_of_worship'
             description: 'A place of worship which is not tag to any of the above.'
-  "pow_a": *layer_pow_p
+  "pow_a":
+    <<: *layer_pow_p
+    summary: "See pow_p"
   "railway_l":
+    summary: "All forms of transport using metal rails, including mainline services, subways, heritage lines and trams."
     attributes:
       "aggtype":
         type: text
@@ -2039,6 +2063,7 @@ layers:
               "aggtype": 'aerialway'
             description: 'All other types of aerialways which is not defined as above'
   "road_l":
+    summary: "Any road, route, way, or thoroughfare on land which connects one location to another and has been paved or otherwise improved to allow travel by some conveyance, including motorised vehicles, cyclists, pedestrians, horse, riders, and others"
     attributes:
       "aggtype":
         type: text
@@ -2490,6 +2515,7 @@ layers:
                 "aggtype": 'roundabout'
               description: 'A roundabout on a road of other or unkown classification'
   "route_l": &layer_route_l
+    summary: "A route is a customary or regular line of passage or travel, often predetermined and publicized. Routes consist of paths taken repeatedly by people and vehicles."
     description: Various types of "routes" (customary or regular lines of passage or travel, often predetermined and publicized), from bus lines to hiking trails. Not suitable for "routing" (navigation)!
     attributes:
       "type":
@@ -2580,6 +2606,7 @@ layers:
                 - "route": '*'
               description: 'Any route not specified above.'
   "traffic_a": &layer_traffic_a
+    summary: "See traffic_p"
     attributes:
       "aggtype":
         type: text
@@ -2633,6 +2660,7 @@ layers:
               "aggtype": 'parking'
             description: 'A place where bicycles can park'
   "traffic_p": &layer_traffic_p
+    summary: "It contains information regarding the rules of the road. Which allow better flow of traffic. E.g. Road signs, traffic calming, etc."
     attributes:
       "aggtype":
         type: text
@@ -2866,6 +2894,7 @@ layers:
               "aggtype": 'parking'
             description: 'A place where bicycles can park'
   "transport_a": &layer_transport_a
+    summary: "See transport_p"
     attributes:
       "type":
         type: text
@@ -2965,8 +2994,11 @@ layers:
             correlated_attributes:
               "aggtype": 'public_transport'
             description: 'Where public transports stop to pick up passengers'
-  "transport_p": *layer_transport_a
+  "transport_p":
+    <<: *layer_transport_a
+    summary: "Features which mark out points or location where it enable transporting anyone from one place to another. E.g. Bus stops, train station, etc."
   "transport_l":
+    summary: "Linear features involved in transporting anyone from one place to another, e.g. runways at airports"
     attributes:
       "type":
         type: text
@@ -2975,6 +3007,7 @@ layers:
           "apron": *transport_type_apron
           "runway": *transport_type_runway
   "utility_a": &layer_utility_a
+    summary: "See utility_l"
     attributes: &utility_a_p_attributes
       "aggtype":
         type: text
@@ -3080,6 +3113,7 @@ layers:
                 "aggtype": 'power'
               description: 'All other types of power which is not defined as above'
   "utility_p": &layer_utility_p
+    summary: "See utility_l"
     attributes:
       <<: *utility_a_p_attributes
       "type":
@@ -3106,6 +3140,7 @@ layers:
               description: 'For single (often wooden or concrete) poles carrying medium/low voltage electricity cables.'
           - "power": *utility_a_p_type_power
   "utility_l": &layer_utility_l
+    summary: "All features which are part of the utility body. E.g. Power structure (powerlines, power building), pipelines (oil, water, gas etc.), etc.."
     attributes:
       "operator":
         type: text
@@ -3163,6 +3198,7 @@ layers:
               "aggtype": 'power'
             description: 'All other power line which is not specific.'
   "water_a": &layer_water_a
+    summary: "See water_l"
     attributes:
       "type":
         type: text
@@ -3208,6 +3244,7 @@ layers:
               - "waterway": '*'
             description: 'Rivers or other kind of waterways. This contains any other water traffic except the specifics below.'
   "water_p": &layer_water_p
+    summary: "See water_l"
     attributes:
       "type":
         type: text
@@ -3261,6 +3298,7 @@ layers:
               - "waterway": '*'
             description: 'Rivers or other kind of waterways. This contains any other water traffic except the specifics below.'
   "water_l": &layer_water_l
+    summary: "All features which are part of the waterbody. E.g. Dams, river, etc."
     attributes:
       "width":
         type: int
