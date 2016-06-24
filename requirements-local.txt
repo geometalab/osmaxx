@@ -5,10 +5,23 @@
 #    pip-compile --output-file requirements-local.txt requirements-local.in
 #
 
+backports.shutil-get-terminal-size==1.0.0  # via ipython
 click==6.6                # via pip-tools
+decorator==4.0.10         # via ipython, traitlets
 first==2.0.1              # via pip-tools
+ipython-genutils==0.1.0   # via traitlets
+ipython==4.2.0
 Jinja2==2.8
 MarkupSafe==0.23          # via jinja2
+pexpect==4.1.0            # via ipython
+pickleshare==0.7.2        # via ipython
 pip-tools==1.6.5
+ptyprocess==0.5.1         # via pexpect
 ruamel.yaml==0.11.11
+simplegeneric==0.8.1      # via ipython
 six==1.10.0               # via pip-tools
+traitlets==4.2.1          # via ipython
+
+# The following packages are commented out because they are
+# considered to be unsafe in a requirements file:
+# setuptools                # via ipython
