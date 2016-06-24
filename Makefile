@@ -45,6 +45,19 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 
 PIP_TOOLS_SOURCE_SPEC_FILES := $(wildcard *requirements*.in)
 
+.PHONY: pip-upgrade
+pip-upgrade: $(PIP_TOOLS_SOURCE_SPEC_FILES)
+	$(MAKE) --always-make $(PIP_TOOLS_SOURCE_SPEC_FILES:.in=.txt)
+	@echo
+	@echo Updated compiled pip-tools spec files $<, but NOT INSTALLED, yet.
+	@echo Consider running
+	@echo "\t"make pip-sync-all
+	@echo or
+	@echo "\tpip-sync <compiled spec file> [<compiled spec file> ...]"
+	@echo e.g.
+	@echo "\t"pip-sync $(PIP_TOOLS_SOURCE_SPEC_FILES:.in=.txt)
+	@echo now.
+
 .PHONY: pip-sync-all
 pip-sync-all: $(PIP_TOOLS_SOURCE_SPEC_FILES:.in=.txt)
 	pip-sync $?
