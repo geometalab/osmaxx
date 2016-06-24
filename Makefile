@@ -45,7 +45,7 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 
 .PHONY: pip-sync-all
 pip-sync-all: requirements.txt requirements-local.txt
-	pip-sync requirements.txt requirements-local.txt
+	pip-sync $?
 
 %.txt: %.in
 	pip-compile --output-file $@ $<
