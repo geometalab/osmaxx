@@ -47,10 +47,7 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 pip-sync: requirements.txt requirements-local.txt
 	pip-sync requirements.txt requirements-local.txt
 
-requirements.txt: requirements.in
-	pip-compile --output-file $@ $<
-
-requirements-local.txt: requirements-local.in
+%.txt: %.in
 	pip-compile --output-file $@ $<
 
 compose-env/%.env: compose-env-dist/%.env
