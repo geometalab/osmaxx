@@ -43,8 +43,10 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 	    < $< \
 	    > $@
 
+PIP_TOOLS_SOURCE_SPEC_FILES := $(wildcard *requirements*.in)
+
 .PHONY: pip-sync-all
-pip-sync-all: $(patsubst %.in,%.txt,$(wildcard *requirements*.in))
+pip-sync-all: $(patsubst %.in,%.txt,$(PIP_TOOLS_SOURCE_SPEC_FILES))
 	pip-sync $?
 
 %.txt: %.in
