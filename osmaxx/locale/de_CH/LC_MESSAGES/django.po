@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-16 16:19+0200\n"
+"POT-Creation-Date: 2016-06-24 11:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -676,10 +676,11 @@ msgstr ""
 #: osmaxx/core/templates/osmaxx/login.html:18
 msgid ""
 "\n"
-"            Please use your <strong>Clavid OpenID account</strong> to "
+"            Please use your <strong>OpenStreetMap account</strong> to "
 "authenticate.\n"
 "            <br />If you don't have an account already, please <a href="
-"\"https://www.clavid.com/\">create a Clavid OpenID account</a> and log in.\n"
+"\"https://www.openstreetmap.org/user/new\">create an OpenStreetMap account</"
+"a> and log in.\n"
 "            <br /><br />If this is your <strong>first visit</strong> of "
 "Osmaxx: Please log in and request activation of your account for the Osmaxx "
 "application.\n"
@@ -978,7 +979,7 @@ msgid "or"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/index.html:17
-msgid "create an \"OpenID\" account"
+msgid "create an \"OpenStreetMap\" account"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/index.html:17
@@ -1011,6 +1012,14 @@ msgstr ""
 msgid ""
 "Your access request has been sent successfully. You will receive an email "
 "when your account is ready."
+msgstr ""
+
+#: osmaxx/profile/templates/profile/profile_edit.html:7
+msgid "Profile"
+msgstr ""
+
+#: osmaxx/profile/templates/profile/profile_edit.html:12
+msgid "Profile for"
 msgstr ""
 
 #: osmaxx/rest_api/apps.py:7
