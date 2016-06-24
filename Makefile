@@ -43,6 +43,16 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 	    < $< \
 	    > $@
 
+.PHONY: pip-sync
+pip-sync: requirements.txt requirements-local.txt
+	pip-sync requirements.txt requirements-local.txt
+
+requirements.txt: requirements.in
+	pip-compile --output-file requirements.txt requirements.in
+
+requirements-local.txt: requirements-local.in
+	pip-compile --output-file requirements.txt requirements.in
+
 compose-env/%.env: compose-env-dist/%.env
 	@mkdir -p $(@D)
 # We don't have to set DJANGO_SECRET_KEY here, as docker-compose-dev.yml sets it for local use.
