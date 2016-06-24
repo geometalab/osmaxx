@@ -1,5 +1,4 @@
 # for generating the output schema documentation
 Jinja2
 ruamel.yaml
-pip-tools
 ipython
