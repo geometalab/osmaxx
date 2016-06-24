@@ -44,7 +44,7 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 	    > $@
 
 .PHONY: pip-sync-all
-pip-sync-all: requirements.txt requirements-local.txt
+pip-sync-all: $(patsubst %.in,%.txt,$(wildcard *requirements*.in))
 	pip-sync $?
 
 %.txt: %.in
