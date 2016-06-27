@@ -10,7 +10,7 @@ IMAGES = [
 
 
 def docker_build(dockerfile, image_name, release, location='.'):
-    subprocess.check_call(['docker', 'build', '-f', dockerfile, '-t', '{}:{}'.format(image_name, release), location])
+    subprocess.check_call(['docker', 'build', '--pull', '-f', dockerfile, '-t', '{}:{}'.format(image_name, release), location])
 
 
 def docker_push(release, image_name, *args, **kwargs):
