@@ -1,6 +1,6 @@
 FROM geometalab/python3-gis
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y git
+RUN apt-get clean && DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y git
 
 ENV USER py
 
