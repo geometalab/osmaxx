@@ -77,6 +77,10 @@ var draw_controls = function (map) {
         var nameField = document.getElementById('id_name');
         var detailLevelID = '#id_detail_level';
 
+        jQuery( detailLevelID ).change(function() {
+            showSizeOfLayer(layer);
+        });
+
         var e = document.getElementById('error_size_estimation_too_large');
         if (!e) {
             e = document.createElement('span');
@@ -135,7 +139,7 @@ var draw_controls = function (map) {
 
             var message_html = '';
             if (isExtentTooLarge(estimatedFileSize)) {
-                var howMuchTooLarge = estimatedFileSize ? Math.ceil(estimatedFileSize * 100 / allowedMaxSize - 100) + '% ' : '';
+                var howMuchTooLarge = estimatedFileSize ? Math.ceil(estimatedFileSize * 100 / getAllowedMaxSize() - 100) + '% ' : '';
                 var message = 'Excerpt {percent}too large!'.replace('{percent}', howMuchTooLarge);
 
                 if (!isSimplifiedChosen()) {
