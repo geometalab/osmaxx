@@ -72,6 +72,7 @@ var draw_controls = function (map) {
 
     function showSizeOfLayer(layer) {
         var allowedMaxSize = 1024 * 1024 * 1024;  // 1 GB in bytes, approx. 1/5 of Germany, estimation of the PBF size
+        var allowedMaxSizeSimplified = 3 * allowedMaxSize;  // 3 GB in bytes, approx. 1/2 of Germany, estimation of the PBF size
         var nameField = document.getElementById('id_name');
 
         var e = document.getElementById('error_size_estimation_too_large');
@@ -80,6 +81,15 @@ var draw_controls = function (map) {
             e.className = 'help-block';
             e.id = 'error_size_estimation_too_large';
             nameField.parentNode.appendChild(e);
+        }
+
+        function getAllowedMaxSize(){
+            var selectedDetailLevel = jQuery('#id_detail_level');
+            var selectedValue = selectedDetailLevel.find(":selected").attr('value');
+            if (parseInt(selectedValue) === 60) {
+                return allowedMaxSizeSimplified;
+            }
+            return allowedMaxSize;
         }
 
         estimateSize(layer).done(function (data) {
@@ -96,7 +106,7 @@ var draw_controls = function (map) {
             var estimatedFileSize = Number(data['estimated_file_size_in_bytes']);
 
             var message_html = '';
-            if (estimatedFileSize > allowedMaxSize) {
+            if (estimatedFileSize > getAllowedMaxSize()) {
                 var howMuchTooLarge = estimatedFileSize ? Math.ceil(estimatedFileSize * 100 / allowedMaxSize - 100) + '% ' : '';
                 var message = 'Excerpt {percent}too large!'.replace('{percent}', howMuchTooLarge);
                 message_html = '<strong>' + message + '<br />';
@@ -108,7 +118,7 @@ var draw_controls = function (map) {
             if (isNaN(estimatedFileSize)) {
                 e.innerHTML = '<strong>Invalid Area selected.</strong>';
             } else {
-                e.innerHTML = message_html + '<strong>(Rough) Estimated File Size: ' + formatBytes(estimatedFileSize) + '</strong>';
+                e.innerHTML = message_html;
             }
 
         });
