@@ -73,6 +73,7 @@ var draw_controls = function (map) {
     function showSizeOfLayer(layer) {
         var allowedMaxSize = 1024 * 1024 * 1024;  // 1 GB in bytes, approx. 1/5 of Germany, estimation of the PBF size
         var allowedMaxSizeSimplified = 3 * allowedMaxSize;  // 3 GB in bytes, approx. 1/2 of Germany, estimation of the PBF size
+        var simplifiedSelectValue = "60";
         var nameField = document.getElementById('id_name');
 
         var e = document.getElementById('error_size_estimation_too_large');
@@ -92,6 +93,30 @@ var draw_controls = function (map) {
             return allowedMaxSize;
         }
 
+        function switchToLowerDetails() {
+            var divID = '#id_detail_level';
+            var selectedDetailLevel = jQuery(divID).find(":selected").attr('value');
+            if (selectedDetailLevel !== simplifiedSelectValue) {
+                jQuery(divID).val(simplifiedSelectValue);
+                jQuery(divID).animate({
+                  backgroundColor: "#F8D568",
+                  color: "#B7410E"
+                }, 500 );
+                jQuery(divID).animate({
+                  backgroundColor: "#fff",
+                  color: "#000"
+                }, 500 );
+            }
+        }
+
+        function isExtentTooLarge(estimatedFileSize) {
+            var sizeExceeded = estimatedFileSize > getAllowedMaxSize();
+            if (sizeExceeded) {
+                switchToLowerDetails();
+            }
+            return estimatedFileSize > getAllowedMaxSize();
+        }
+
         estimateSize(layer).done(function (data) {
             function formatBytes(bytes) {
                 if (bytes == 0) {
@@ -106,7 +131,7 @@ var draw_controls = function (map) {
             var estimatedFileSize = Number(data['estimated_file_size_in_bytes']);
 
             var message_html = '';
-            if (estimatedFileSize > getAllowedMaxSize()) {
+            if (isExtentTooLarge(estimatedFileSize)) {
                 var howMuchTooLarge = estimatedFileSize ? Math.ceil(estimatedFileSize * 100 / allowedMaxSize - 100) + '% ' : '';
                 var message = 'Excerpt {percent}too large!'.replace('{percent}', howMuchTooLarge);
                 message_html = '<strong>' + message + '<br />';
