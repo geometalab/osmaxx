@@ -32,6 +32,63 @@ cd <osmaxx-repo-root>
 ln -s ../../hooks/pre-commit .git/hooks/pre-commit
 ```
 
+### Python package management
+
+We use [`pip-tools`](https://github.com/nvie/pip-tools#readme) to manage the PyPI packages we depend on.
+It shouldn't matter whether you install `pip-tools` globally or within the `osmaxx` virtualenv.
+
+Once `pip-tools` is installed, try running `pip-sync` in your `osmaxx` virtualenv.
+If it tells you to upgrade or downgrade `pip` do as instructed (also in the virtualenv)
+and repeat until `pip-sync` doesn't complain anymore.
+(You can ignore warnings about a newer pip version being available.)
+
+#### Syncing installed python packages
+
+`pip-tools` implicitly pins package versions, so they are synchronous between developers.
+The thusly fixed versions are tracked in the `*requirements*.txt` files.
+Running
+```bash
+pip-sync *requirements*.txt
+```
+in your virtualenv will install, uninstall, up- and downgrade packages
+as neccessary to make your virtualenv match the packages listed in _all_ these files.
+You'll want to do this, whenever the `*.txt*` files have changed,
+e.g. due to pulling in commits or switching branches.
+
+Note that in staging and production,
+only the content of `requirements.txt` (not of `requirements-local.txt`) should be installed.
+(The [docker containers](#using-the-project-docker-setup) already take care of that.)
+
+#### Changing requirements
+
+We track top-level requirements and explicitly pinned versions in `*requirements*.in` files.
+If you've changed one of those, run
+```bash
+pip-compile <the changed *.in file>
+```
+e.g.
+```bash
+pip-compile requirements-local.in
+```
+to update the corresponding `*.txt` file.
+This will also upgrade the versions listed in that `*.txt` file to the greatest ones available on PyPI
+(within the range allowed in the `*requirements*.in` file). 
+
+To compile the `*requirements*.txt` files for _all changed_ `*requirements*.in`
+**and** sync the new versions to your virtualenv in one go,
+you may use our handy GNU make target:
+```bash
+make pip-sync-all
+```
+
+#### Upgrade package versions
+
+To upgrade the implicitly pinned versions of all dependencies to the greatest ones available on PyPI
+(within the range allowed in the `*requirements*.in` files)
+run
+```bash
+make pip-upgrade
+```
 
 ## Using the project docker setup
 
