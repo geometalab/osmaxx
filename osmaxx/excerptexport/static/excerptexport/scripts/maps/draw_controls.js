@@ -75,6 +75,7 @@ var draw_controls = function (map) {
         var allowedMaxSizeSimplified = 3 * allowedMaxSize;  // 3 GB in bytes, approx. 1/2 of Germany, estimation of the PBF size
         var simplifiedSelectValue = "60";
         var nameField = document.getElementById('id_name');
+        var detailLevelID = '#id_detail_level';
 
         var e = document.getElementById('error_size_estimation_too_large');
         if (!e) {
@@ -93,16 +94,18 @@ var draw_controls = function (map) {
             return allowedMaxSize;
         }
 
-        function switchToLowerDetails() {
-            var divID = '#id_detail_level';
-            var selectedDetailLevel = jQuery(divID).find(":selected").attr('value');
-            if (selectedDetailLevel !== simplifiedSelectValue) {
-                jQuery(divID).val(simplifiedSelectValue);
-                jQuery(divID).animate({
+        function isSimplifiedChosen() {
+            var selectedDetailLevel = jQuery(detailLevelID).find(":selected").attr('value');
+            return selectedDetailLevel === simplifiedSelectValue;
+        }
+
+        function animateUserToSwitchToLowerDetails() {
+            if (!isSimplifiedChosen()) {
+                jQuery(detailLevelID).animate({
                   backgroundColor: "#F8D568",
                   color: "#B7410E"
                 }, 500 );
-                jQuery(divID).animate({
+                jQuery(detailLevelID).animate({
                   backgroundColor: "#fff",
                   color: "#000"
                 }, 500 );
@@ -112,7 +115,7 @@ var draw_controls = function (map) {
         function isExtentTooLarge(estimatedFileSize) {
             var sizeExceeded = estimatedFileSize > getAllowedMaxSize();
             if (sizeExceeded) {
-                switchToLowerDetails();
+                animateUserToSwitchToLowerDetails();
             }
             return estimatedFileSize > getAllowedMaxSize();
         }
@@ -134,6 +137,10 @@ var draw_controls = function (map) {
             if (isExtentTooLarge(estimatedFileSize)) {
                 var howMuchTooLarge = estimatedFileSize ? Math.ceil(estimatedFileSize * 100 / allowedMaxSize - 100) + '% ' : '';
                 var message = 'Excerpt {percent}too large!'.replace('{percent}', howMuchTooLarge);
+
+                if (!isSimplifiedChosen()) {
+                    message += ' Switching to the simplified data-model allows larger extends.';
+                }
                 message_html = '<strong>' + message + '<br />';
                 nameField.setCustomValidity(message);
             } else {
