@@ -1,3 +1,4 @@
+import random
 from contextlib import closing
 
 import pytest
@@ -81,7 +82,11 @@ class UniversalTransverseMercatorZone:
 def hemisphere(request):
     return request.param
 
+utm_zone_numbers = range(1, 60 + 1)
+if not pytest.config.getoption("--all-utm-zones"):
+    utm_zone_numbers = random.sample(utm_zone_numbers, 3)
 
-@pytest.fixture(params=range(1, 60 + 1))
+
+@pytest.fixture(params=utm_zone_numbers)
 def utm_zone_number(request):
     return request.param
