@@ -103,7 +103,7 @@ var draw_controls = function (map) {
             return selectedDetailLevel === simplifiedSelectValue;
         }
 
-        function animateUserToSwitchToLowerDetails() {
+        function encourageUserToSwitchToLowerDetails() {
             if (!isSimplifiedChosen()) {
                 jQuery(detailLevelID).animate({
                   backgroundColor: "#F8D568",
@@ -119,7 +119,7 @@ var draw_controls = function (map) {
         function isExtentTooLarge(estimatedFileSize) {
             var sizeExceeded = estimatedFileSize > getAllowedMaxSize();
             if (sizeExceeded) {
-                animateUserToSwitchToLowerDetails();
+                encourageUserToSwitchToLowerDetails();
             }
             return estimatedFileSize > getAllowedMaxSize();
         }
