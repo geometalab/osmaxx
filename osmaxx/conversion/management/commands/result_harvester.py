@@ -41,6 +41,10 @@ class Command(BaseCommand):
             self._update_job(job_id=job_id, queue=queue)
 
     def _update_job(self, job_id, queue):
+        if job_id is None:
+            logger.exception("job_id is None, None is not a valid id!")
+            return
+
         job = queue.fetch_job(job_id)
 
         try:
