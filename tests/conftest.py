@@ -299,7 +299,7 @@ def geos_geometry_can_be_created_from_geojson_string():
 
 @pytest.fixture
 def area_polyfile_string():
-    return ''''none
+    return '''none
 polygon-1
     7.495679855346679 43.75782881091782
     7.38581657409668 43.75782881091782
