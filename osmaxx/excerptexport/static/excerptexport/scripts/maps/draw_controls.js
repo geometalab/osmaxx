@@ -105,13 +105,15 @@ var draw_controls = function (map) {
 
         function encourageUserToSwitchToLowerDetails() {
             if (!isSimplifiedChosen()) {
+                var originalBGColor = jQuery(detailLevelID).css("background-color");
+                var originalTextColor = jQuery(detailLevelID).css("color");
                 jQuery(detailLevelID).animate({
                   backgroundColor: "#F8D568",
                   color: "#B7410E"
                 }, 500 );
                 jQuery(detailLevelID).animate({
-                  backgroundColor: "#fff",
-                  color: "#000"
+                  backgroundColor: originalBGColor,
+                  color: originalTextColor
                 }, 500 );
             }
         }
