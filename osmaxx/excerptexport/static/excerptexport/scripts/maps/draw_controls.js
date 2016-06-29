@@ -86,9 +86,12 @@ var draw_controls = function (map) {
             nameField.parentNode.appendChild(e);
         }
 
+        function _getSelectedDetailLevel() {
+            return jQuery(detailLevelID).find(":selected").attr('value');
+        }
+
         function getAllowedMaxSize(){
-            var selectedDetailLevel = jQuery(detailLevelID);
-            var selectedValue = selectedDetailLevel.find(":selected").attr('value');
+            var selectedValue = _getSelectedDetailLevel();
             if (parseInt(selectedValue) === 60) {
                 return allowedMaxSizeSimplified;
             }
@@ -96,7 +99,7 @@ var draw_controls = function (map) {
         }
 
         function isSimplifiedChosen() {
-            var selectedDetailLevel = jQuery(detailLevelID).find(":selected").attr('value');
+            var selectedDetailLevel = _getSelectedDetailLevel();
             return selectedDetailLevel === simplifiedSelectValue;
         }
 
