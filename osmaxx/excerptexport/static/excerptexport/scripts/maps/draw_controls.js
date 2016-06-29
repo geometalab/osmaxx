@@ -117,10 +117,6 @@ var draw_controls = function (map) {
         }
 
         function isExtentTooLarge(estimatedFileSize) {
-            var sizeExceeded = estimatedFileSize > getAllowedMaxSize();
-            if (sizeExceeded) {
-                encourageUserToSwitchToLowerDetails();
-            }
             return estimatedFileSize > getAllowedMaxSize();
         }
 
@@ -139,6 +135,7 @@ var draw_controls = function (map) {
 
             var message_html = '';
             if (isExtentTooLarge(estimatedFileSize)) {
+                encourageUserToSwitchToLowerDetails();
                 var howMuchTooLarge = estimatedFileSize ? Math.ceil(estimatedFileSize * 100 / getAllowedMaxSize() - 100) + '% ' : '';
                 var message = 'Excerpt {percent}too large!'.replace('{percent}', howMuchTooLarge);
 
