@@ -9,7 +9,7 @@ from sqlalchemy.engine.url import URL as DBURL
 from sqlalchemy import select, func
 
 from osmaxx.conversion_api.coordinate_reference_systems import WGS_84
-from tests.inside_worker_test.conftest import slow
+from tests.utils import slow
 
 MAX_LONGITUDE_OFFSET = 90.0 - 9.9e-14
 

@@ -2,7 +2,8 @@ import pytest
 import sqlalchemy
 
 from tests.conftest import TagCombination
-from tests.inside_worker_test.conftest import sql_from_bootstrap_relative_location, slow
+from tests.inside_worker_test.conftest import sql_from_bootstrap_relative_location
+from tests.utils import slow
 from tests.inside_worker_test.declarative_schema import osm_models
 
 xeno = "大洲南部広域農道"
