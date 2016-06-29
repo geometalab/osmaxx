@@ -3,6 +3,8 @@ var draw_controls = function (map) {
     var geoJSON_element = document.getElementById('id_bounding_geometry');
     geoJSON_element.parentNode.parentNode.className = "hidden";
 
+    var detailLevelID = '#id_detail_level';
+
     var editableLayers = new L.FeatureGroup();
     map.addLayer(editableLayers);
 
@@ -75,11 +77,6 @@ var draw_controls = function (map) {
         var allowedMaxSizeSimplified = 3 * allowedMaxSize;  // 3 GB in bytes, approx. 1/2 of Germany, estimation of the PBF size
         var simplifiedSelectValue = "60";
         var nameField = document.getElementById('id_name');
-        var detailLevelID = '#id_detail_level';
-
-        jQuery( detailLevelID ).change(function() {
-            showSizeOfLayer(layer);
-        });
 
         var e = document.getElementById('error_size_estimation_too_large');
         if (!e) {
@@ -166,6 +163,9 @@ var draw_controls = function (map) {
         ourCustomControl.removeFrom(map);
         var layer = e.layer;
         if (layer !== undefined) {
+            jQuery( detailLevelID ).change(function() {
+                    showSizeOfLayer(layer);
+            });
             showSizeOfLayer(layer);
             editableLayers.addLayer(layer);
             map.fitBounds(layer.getBounds());
@@ -185,6 +185,7 @@ var draw_controls = function (map) {
     });
 
     map.on('draw:deleted', function () {
+        jQuery( detailLevelID ).off( "change" );
         geoJSON_element.value = '';
         if (editableLayers.getLayers().length === 0) {
             drawControlEnabled.addTo(map);
