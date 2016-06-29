@@ -87,7 +87,7 @@ var draw_controls = function (map) {
         }
 
         function getAllowedMaxSize(){
-            var selectedDetailLevel = jQuery('#id_detail_level');
+            var selectedDetailLevel = jQuery(detailLevelID);
             var selectedValue = selectedDetailLevel.find(":selected").attr('value');
             if (parseInt(selectedValue) === 60) {
                 return allowedMaxSizeSimplified;
