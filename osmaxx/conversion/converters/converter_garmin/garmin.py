@@ -2,10 +2,12 @@ import subprocess
 
 import os
 import tempfile
+from django.utils import timezone
+from rq import get_current_job
 
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
 
-from osmaxx.conversion.converters.utils import zip_folders_relative
+from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize
 
 _path_to_commandline_utils = os.path.join(os.path.dirname(__file__), 'command_line_utils')
 
@@ -53,11 +55,19 @@ class Garmin:
         output_dir = ['--output-dir={0}'.format(out_dir)]
         config = ['--read-config={0}'.format(config_file_path)]
 
+        start_time = timezone.now()
         subprocess.check_call(
             mkg_map_command +
             output_dir +
             config
         )
+        end_time = timezone.now()
+
+        job = get_current_job()
+        if job:
+            job.meta['duration'] = end_time - start_time
+            job.meta['unzipped_result_size'] = recursive_getsize(output_dir)
+            job.save()
 
     def _create_zip(self, data_dir):
         zip_folders_relative([data_dir], self._resulting_zip_file_path)

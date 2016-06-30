@@ -67,6 +67,7 @@ class Command(BaseCommand):
         conversion_job.status = job.status
         if job.status == FINISHED:
             add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
+            add_meta_data_to_job(conversion_job=conversion_job, rq_job=job)
         conversion_job.save()
         self._notify(conversion_job)
         if job.status in FINAL_STATUSES:
@@ -89,3 +90,16 @@ def add_file_to_job(*, conversion_job, result_zip_file):
         os.makedirs(new_directory_path, exist_ok=True)
     shutil.move(result_zip_file, new_path)
     return new_path
+
+
+def add_meta_data_to_job(*, conversion_job, rq_job):
+    from pbf_file_size_estimation.app_settings import PBF_FILE_SIZE_ESTIMATION_CVS_FILE_PATH
+    from pbf_file_size_estimation.estimate_size import estimate_size_of_extent
+    west, south, east, north = conversion_job.parametrization.clipping_area.clipping_multi_polygon.extent
+    estimated_pbf_size = estimate_size_of_extent(
+        PBF_FILE_SIZE_ESTIMATION_CVS_FILE_PATH, west, south, east, north
+    )
+
+    conversion_job.unzipped_result_size = rq_job.meta['unzipped_result_size']
+    conversion_job.extraction_duration = rq_job.meta['duration']
+    conversion_job.estimated_pbf_size = estimated_pbf_size

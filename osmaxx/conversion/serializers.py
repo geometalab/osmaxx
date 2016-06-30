@@ -21,5 +21,7 @@ class JobSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Job
-        fields = ['id', 'callback_url', 'parametrization', 'rq_job_id', 'status', 'resulting_file_path']
-        read_only_fields = ['rq_job_id', 'status', 'resulting_file_path']
+        fields = ['id', 'callback_url', 'parametrization', 'rq_job_id', 'status', 'resulting_file_path',
+                  'estimated_pbf_size', 'unzipped_result_size', 'extraction_duration']
+        read_only_fields = ['rq_job_id', 'status', 'resulting_file_path',
+                            'estimated_pbf_size', 'unzipped_result_size', 'extraction_duration']
