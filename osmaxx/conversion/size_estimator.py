@@ -1,0 +1,46 @@
+import scipy.stats
+
+from osmaxx.conversion_api import formats
+from osmaxx.conversion.converters import detail_levels
+
+
+PRE_DATA = {
+    formats.GARMIN: {
+        'pbf_predicted': [25, 44, 96, 390],
+        detail_levels.DETAIL_LEVEL_ALL: [11, 18, 42, 95],
+        detail_levels.DETAIL_LEVEL_REDUCED: [11, 18, 42, 95],
+    },
+    formats.FGDB: {
+        'pbf_predicted': [25, 44, 96, 390],
+        detail_levels.DETAIL_LEVEL_ALL: [46, 101, 309, 676],
+        detail_levels.DETAIL_LEVEL_REDUCED: [21, 27, 107, 250],
+    },
+    formats.GPKG: {
+        'pbf_predicted': [25, 44, 96, 390],
+        detail_levels.DETAIL_LEVEL_ALL: [109, 210, 690, 1500],
+        detail_levels.DETAIL_LEVEL_REDUCED: [49, 58, 252, 599],
+    },
+    formats.SHAPEFILE: {
+        'pbf_predicted': [25, 44, 96, 390],
+        detail_levels.DETAIL_LEVEL_ALL: [255, 638, 2000, 4400],
+        detail_levels.DETAIL_LEVEL_REDUCED: [100, 138, 652, 1600],
+    },
+    formats.SPATIALITE: {
+        'pbf_predicted': [25, 44, 96, 390],
+        detail_levels.DETAIL_LEVEL_ALL: [115, 216, 719, 1600],
+        detail_levels.DETAIL_LEVEL_REDUCED: [55, 66, 269, 635],
+    },
+}
+
+
+def size_estimation_for_format(format_type, detail_level, predicted_pbf_size):
+    assert format_type in formats.FORMAT_DEFINITIONS.keys()
+    assert detail_level in [level[0] for level in detail_levels.DETAIL_LEVEL_CHOICES]
+    x, y = get_data(format_type, detail_level)
+    regression = scipy.stats.linregress(x=x, y=y)
+    print("slope: {}, intercept: {}".format(regression.slope, regression.intercept))
+    return predicted_pbf_size * regression.slope + regression.intercept
+
+
+def get_data(format_type, detail_level):
+    return PRE_DATA[format_type]['pbf_predicted'], PRE_DATA[format_type][detail_level]
