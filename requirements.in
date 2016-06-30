@@ -23,7 +23,7 @@ GeoAlchemy2
 # fallback for python < 2.5
 scandir
 
-# pandas for calculating statistics
+# scipy for calculating statistics
 scipy
 numpy
 
