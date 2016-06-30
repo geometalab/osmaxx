@@ -9,7 +9,9 @@ RUN apt-get clean && DEBIAN_FRONTEND=noninteractive apt-get update && \
 \
     libgeos-dev \
     libgeos++-dev \
-    python3-pip
+    python3-pip \
+    liblapack-dev \
+    gfortran
 
 # Install required Python packages:
 ENV HOME /home/py

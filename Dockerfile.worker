@@ -96,7 +96,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     debhelper \
 \
     default-jre \
-    libkakasi2-dev
+    libkakasi2-dev \
+    liblapack-dev \
+    gfortran
 
 WORKDIR /root/osm2pgsql
 

@@ -20,6 +20,8 @@ SQLAlchemy
 SQLAlchemy-Utils
 sqlalchemy-views
 GeoAlchemy2
+# fallback for python < 2.5
+scandir
 
 # pandas for calculating statistics
 scipy
