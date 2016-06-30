@@ -12,8 +12,6 @@ from osmaxx.conversion_api.coordinate_reference_systems import WGS_84
 from osmaxx.geodesy.coordinate_reference_system import UniversalTransverseMercatorZone as UTMZone
 from tests.utils import slow
 
-MAX_LONGITUDE_OFFSET = 90.0 - 9.9e-14
-
 
 def test_transformation_to_utm_with_geodjango_geos(transformable_point, utm_zone):
     transformable_point.transform(utm_zone.srid)
@@ -41,7 +39,7 @@ def transformable_point(transformable_point_longitude_degrees, transformable_poi
     return Point(transformable_point_longitude_degrees, transformable_point_latitude_degrees, srid=WGS_84)
 
 
-@pytest.fixture(params=[-MAX_LONGITUDE_OFFSET, -23.0, 0, MAX_LONGITUDE_OFFSET])
+@pytest.fixture(params=[-UTMZone.MAX_LONGITUDE_OFFSET, -23.0, 0, UTMZone.MAX_LONGITUDE_OFFSET])
 def transformable_point_longitude_degrees(request, utm_zone):
     return utm_zone.central_meridian_longitude_degrees + request.param
 

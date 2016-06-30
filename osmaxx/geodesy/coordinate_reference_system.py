@@ -5,6 +5,7 @@ class UniversalTransverseMercatorZone:
     )
     NUMBER_OF_ZONES_PER_HEMISPHERE = 60
     ZONE_WIDTH_DEGREES = 360 / NUMBER_OF_ZONES_PER_HEMISPHERE
+    MAX_LONGITUDE_OFFSET = 90.0 - 9.9e-14
 
     def __init__(self, hemisphere, utm_zone_number):
         assert hemisphere in self.HEMISPHERE_PREFIXES.keys()
