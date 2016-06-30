@@ -9,7 +9,7 @@ from sqlalchemy import select, func
 from sqlalchemy.engine.url import URL as DBURL
 
 from osmaxx.conversion_api.coordinate_reference_systems import WGS_84
-from osmaxx.geodesy.coordinate_reference_system import UniversalTransverseMercatorZone
+from osmaxx.geodesy.coordinate_reference_system import UniversalTransverseMercatorZone as UTMZone
 from tests.utils import slow
 
 MAX_LONGITUDE_OFFSET = 90.0 - 9.9e-14
@@ -53,10 +53,10 @@ def transformable_point_latitude_degrees(request):
 
 @pytest.fixture
 def utm_zone(hemisphere, utm_zone_number):
-    return UniversalTransverseMercatorZone(hemisphere=hemisphere, utm_zone_number=utm_zone_number)
+    return UTMZone(hemisphere=hemisphere, utm_zone_number=utm_zone_number)
 
 
-@pytest.fixture(params=UniversalTransverseMercatorZone.HEMISPHERE_PREFIXES.keys())
+@pytest.fixture(params=UTMZone.HEMISPHERE_PREFIXES.keys())
 def hemisphere(request):
     return request.param
 
