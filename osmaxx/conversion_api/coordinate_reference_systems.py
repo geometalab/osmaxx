@@ -10,7 +10,7 @@ OSGB_36 = 4277
 
 GLOBAL_CRS = (
     (WGS_84, _('WGS 84')),
-    (PSEUDO_MERCATOR, _('Pseudo-Merkator')),
+    (PSEUDO_MERCATOR, _('Pseudo-Mercator')),
     (WGS_72, _('WGS 72')),
     (NAD_83, _('NAD 83')),
     (OSGB_36, _('OSGB 36')),
