@@ -21,6 +21,10 @@ SQLAlchemy-Utils
 sqlalchemy-views
 GeoAlchemy2
 
+# pandas for calculating statistics
+scipy
+numpy
+
 # pbf estimation service
 geometalab.osm-pbf-file-size-estimation-service>=0.0.6,<1.0.0
 
