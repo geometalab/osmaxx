@@ -1,3 +1,6 @@
+from osmaxx.conversion_api.coordinate_reference_systems import WGS_84
+
+
 class UniversalTransverseMercatorZone:
     HEMISPHERE_PREFIXES = dict(
         north=326,
@@ -14,6 +17,7 @@ class UniversalTransverseMercatorZone:
         self.utm_zone_number = utm_zone_number
 
     def can_represent(self, point):
+        assert point.srid == WGS_84
         longitude_offset = wrap_longitude_degrees(point.x - self.central_meridian_longitude_degrees)
         return -self.MAX_LONGITUDE_OFFSET <= longitude_offset <= self.MAX_LONGITUDE_OFFSET
 
