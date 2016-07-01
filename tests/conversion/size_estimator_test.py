@@ -28,7 +28,7 @@ range_for_format_and_level = {
 }
 
 
-@pytest.fixture(params=[10, 25, 44, 96, 390, 500, 1000])
+@pytest.fixture(params=[10000, 25000, 44000, 96000, 390000, 500000, 1000000])
 def pbf_size(request):
     return request.param
 

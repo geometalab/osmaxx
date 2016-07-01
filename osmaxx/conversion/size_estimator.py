@@ -1,5 +1,3 @@
-import scipy.stats
-
 from osmaxx.conversion.models import Job
 from osmaxx.conversion_api import formats
 from osmaxx.conversion.converters import detail_levels
@@ -7,34 +5,35 @@ from osmaxx.conversion.converters import detail_levels
 
 PRE_DATA = {
     formats.GARMIN: {
-        'pbf_predicted': [25, 44, 96, 390],
-        detail_levels.DETAIL_LEVEL_ALL: [11, 18, 42, 95],
-        detail_levels.DETAIL_LEVEL_REDUCED: [11, 18, 42, 95],
+        'pbf_predicted': [25000, 44000, 96000, 390000],
+        detail_levels.DETAIL_LEVEL_ALL: [11000, 18000, 42000, 95000],
+        detail_levels.DETAIL_LEVEL_REDUCED: [11000, 18000, 42000, 95000],
     },
     formats.FGDB: {
-        'pbf_predicted': [25, 44, 96, 390],
-        detail_levels.DETAIL_LEVEL_ALL: [46, 101, 309, 676],
-        detail_levels.DETAIL_LEVEL_REDUCED: [21, 27, 107, 250],
+        'pbf_predicted': [25000, 44000, 96000, 390000],
+        detail_levels.DETAIL_LEVEL_ALL: [46000, 101000, 309000, 676000],
+        detail_levels.DETAIL_LEVEL_REDUCED: [21000, 27000, 107000, 250000],
     },
     formats.GPKG: {
-        'pbf_predicted': [25, 44, 96, 390],
-        detail_levels.DETAIL_LEVEL_ALL: [109, 210, 690, 1500],
-        detail_levels.DETAIL_LEVEL_REDUCED: [49, 58, 252, 599],
+        'pbf_predicted': [25000, 44000, 96000, 390000],
+        detail_levels.DETAIL_LEVEL_ALL: [109000, 210000, 690000, 1500000],
+        detail_levels.DETAIL_LEVEL_REDUCED: [49000, 58000, 252000, 599000],
     },
     formats.SHAPEFILE: {
-        'pbf_predicted': [25, 44, 96, 390],
-        detail_levels.DETAIL_LEVEL_ALL: [255, 638, 2000, 4400],
-        detail_levels.DETAIL_LEVEL_REDUCED: [100, 138, 652, 1600],
+        'pbf_predicted': [25000, 44000, 96000, 390000],
+        detail_levels.DETAIL_LEVEL_ALL: [255000, 638000, 2000000, 4400000],
+        detail_levels.DETAIL_LEVEL_REDUCED: [100000, 138000, 652000, 1600000],
     },
     formats.SPATIALITE: {
-        'pbf_predicted': [25, 44, 96, 390],
-        detail_levels.DETAIL_LEVEL_ALL: [115, 216, 719, 1600],
-        detail_levels.DETAIL_LEVEL_REDUCED: [55, 66, 269, 635],
+        'pbf_predicted': [25000, 44000, 96000, 390000],
+        detail_levels.DETAIL_LEVEL_ALL: [115000, 216000, 719000, 1600000],
+        detail_levels.DETAIL_LEVEL_REDUCED: [55000, 66000, 269000, 635000],
     },
 }
 
 
 def size_estimation_for_format(format_type, detail_level, predicted_pbf_size):
+    import scipy.stats
     assert format_type in formats.FORMAT_DEFINITIONS.keys()
     assert detail_level in [level[0] for level in detail_levels.DETAIL_LEVEL_CHOICES]
     x, y = get_data(format_type, detail_level)
