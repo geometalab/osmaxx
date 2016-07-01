@@ -96,9 +96,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     debhelper \
 \
     default-jre \
-    libkakasi2-dev \
-    liblapack-dev \
-    gfortran
+    libkakasi2-dev
 
 WORKDIR /root/osm2pgsql
 
@@ -155,11 +153,8 @@ RUN chmod a+rx $CODE
 
 WORKDIR $HOME
 
-ENV REQS_LAST_UPDATED 04-05-2016 8:50
-ADD ./requirements.txt $HOME/requirements.txt
-
 RUN pip3 install honcho
-
+ADD ./requirements.txt $HOME/requirements.txt
 RUN pip3 install -r requirements.txt
 
 # TODO: this is just a temporary solution, use pip for production as soon as geometalab.osmaxx is published there

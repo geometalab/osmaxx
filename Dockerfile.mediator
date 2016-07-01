@@ -18,11 +18,10 @@ ENV HOME /home/py
 
 WORKDIR $HOME
 
-ENV REQS_LAST_UPDATED 04-05-2016 8:50
-ADD ./requirements.txt $HOME/
-
 RUN pip3 install honcho
-
+ADD ./requirements-mediator.txt $HOME/
+ADD ./requirements.txt $HOME/
+RUN pip3 install -r requirements-mediator.txt
 RUN pip3 install -r requirements.txt
 
 # TODO: this is just a temporary solution, use pip for production as soon as geometalab.osmaxx is published there

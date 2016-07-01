@@ -23,10 +23,6 @@ GeoAlchemy2
 # fallback for python < 2.5
 scandir
 
-# scipy for calculating statistics
-scipy
-numpy
-
 # pbf estimation service
 geometalab.osm-pbf-file-size-estimation-service>=0.0.6,<1.0.0
 
