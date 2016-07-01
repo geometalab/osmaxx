@@ -29,6 +29,20 @@ class UniversalTransverseMercatorZone:
     def central_meridian_longitude_degrees(self):
         return -180 + (self.utm_zone_number - 0.5) * self.ZONE_WIDTH_DEGREES
 
+    def __eq__(self, other):
+        return self.hemisphere, self.utm_zone_number == other.hemisphere, other.utm_zone_number
+
+    def __hash__(self):
+        return hash((self.hemisphere, self.utm_zone_number))
+
+_UTMZone = UniversalTransverseMercatorZone
+ALL_UTM_ZONES = frozenset(_UTMZone(hs, nr) for hs in _UTMZone.HEMISPHERE_PREFIXES for nr in range(1, 60 + 1))
+
+
+def utm_zones_for_representing(point):
+    assert point.srid == WGS_84
+    return frozenset(zone for zone in ALL_UTM_ZONES if zone.can_represent(point))
+
 
 def wrap_longitude_degrees(longitude_degrees):
     wrapped_longitude_degrees = (longitude_degrees + 180) % 360 - 180

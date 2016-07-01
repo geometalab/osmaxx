@@ -10,8 +10,16 @@ from sqlalchemy.engine.url import URL as DBURL
 
 from osmaxx.conversion_api.coordinate_reference_systems import WGS_84
 from osmaxx.geodesy.coordinate_reference_system import UniversalTransverseMercatorZone as UTMZone, \
-    wrap_longitude_degrees
+    wrap_longitude_degrees, utm_zones_for_representing
 from tests.utils import slow
+
+
+def test_naive_zone_of_point_amongst_zones_to_represent_the_point(transformable_point, utm_zone):
+    assert utm_zone in utm_zones_for_representing(transformable_point)
+
+
+def test_naive_antipodal_zone_of_point_not_amongst_zones_to_represent_the_point(untransformable_point, utm_zone):
+    assert utm_zone not in utm_zones_for_representing(untransformable_point)
 
 
 def test_utm_zone_treats_transformable_point_as_representable(transformable_point, utm_zone):
