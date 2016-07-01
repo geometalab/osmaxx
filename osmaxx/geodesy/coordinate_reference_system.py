@@ -20,3 +20,9 @@ class UniversalTransverseMercatorZone:
     @property
     def central_meridian_longitude_degrees(self):
         return -180 + (self.utm_zone_number - 0.5) * self.ZONE_WIDTH_DEGREES
+
+
+def wrap_longitude_degrees(longitude_degrees):
+    wrapped_longitude_degrees = (longitude_degrees + 180) % 360 - 180
+    assert -180 <= wrapped_longitude_degrees <= 180
+    return wrapped_longitude_degrees
