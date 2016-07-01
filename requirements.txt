@@ -32,7 +32,7 @@ dodgy==0.1.9              # via prospector
 drf-extensions==0.2.8
 flake8==2.4.1
 GeoAlchemy2==0.3.0
-geometalab.osm-pbf-file-size-estimation-service==0.0.6
+geometalab.osm-pbf-file-size-estimation-service==0.0.7
 gevent==1.0.2
 greenlet==0.4.10          # via gevent
 gunicorn==19.6.0
