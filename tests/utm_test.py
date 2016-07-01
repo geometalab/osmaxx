@@ -41,13 +41,13 @@ def transformable_point(transformable_point_longitude_degrees, transformable_poi
 
 @pytest.fixture(params=[-UTMZone.MAX_LONGITUDE_OFFSET, -23.0, 0, UTMZone.MAX_LONGITUDE_OFFSET])
 def transformable_point_longitude_degrees(request, utm_zone):
-    longitude_degrees = wrap_longitude_degrees(utm_zone.central_meridian_longitude_degrees + request.param)
-    assert -180 <= longitude_degrees <= 180
-    return longitude_degrees
+    return wrap_longitude_degrees(utm_zone.central_meridian_longitude_degrees + request.param)
 
 
 def wrap_longitude_degrees(longitude_degrees):
-    return (longitude_degrees + 180) % 360 - 180
+    wrapped_longitude_degrees = (longitude_degrees + 180) % 360 - 180
+    assert -180 <= wrapped_longitude_degrees <= 180
+    return wrapped_longitude_degrees
 
 
 @pytest.fixture(params=[-90, -5, 0, 90])
