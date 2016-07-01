@@ -21,7 +21,6 @@
         }.bind(this);
     };
 
-
     window.addEventListener('load', function() {
         if(document.getElementById('existingExcerptForm')) {
             var exportFormatCheckboxes = document.querySelectorAll('#div_id_formats input[type="checkbox"]');
