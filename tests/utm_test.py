@@ -14,6 +14,14 @@ from osmaxx.geodesy.coordinate_reference_system import UniversalTransverseMercat
 from tests.utils import slow
 
 
+def test_utm_zone_treats_transformable_point_as_representable(transformable_point, utm_zone):
+    assert utm_zone.can_represent(transformable_point)
+
+
+def test_utm_zone_treats_untransformable_point_as_unrepresentable(untransformable_point, utm_zone):
+    assert not utm_zone.can_represent(untransformable_point)
+
+
 def test_transformation_to_utm_with_geodjango_geos(transformable_point, utm_zone):
     transformable_point.transform(utm_zone.srid)
 
@@ -33,6 +41,16 @@ def test_transformation_to_utm_with_geoalchemy2(transformable_point, utm_zone):
     query = select([func.ST_Transform(func.ST_GeomFromText(transformable_point.ewkt), utm_zone.srid)])
     with closing(engine.execute(query)) as result:
         assert result.rowcount == 1
+
+
+@pytest.fixture
+def untransformable_point(transformable_point):
+    # antipodal point of a transformable point
+    return Point(
+        x=wrap_longitude_degrees(transformable_point.x + 180),
+        y=-transformable_point.y,
+        srid=WGS_84,
+    )
 
 
 @pytest.fixture

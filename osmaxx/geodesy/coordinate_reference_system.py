@@ -13,6 +13,10 @@ class UniversalTransverseMercatorZone:
         self.hemisphere = hemisphere
         self.utm_zone_number = utm_zone_number
 
+    def can_represent(self, point):
+        longitude_offset = wrap_longitude_degrees(point.x - self.central_meridian_longitude_degrees)
+        return -self.MAX_LONGITUDE_OFFSET <= longitude_offset <= self.MAX_LONGITUDE_OFFSET
+
     @property
     def srid(self):
         return self.HEMISPHERE_PREFIXES[self.hemisphere] * 100 + self.utm_zone_number
