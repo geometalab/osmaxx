@@ -33,7 +33,7 @@ def pbf_size(request):
     return request.param
 
 
-def test_size_estimation_for_format_without_base_data_returns_values_in_expected_range(conversion_format, detail_level, pbf_size):
+def test_size_estimation_for_format_without_base_data_returns_values_in_expected_range(db, conversion_format, detail_level, pbf_size):
     expected_range = range_for_format_and_level[conversion_format][detail_level]
     actual_prediction = size_estimation_for_format(
         format_type=conversion_format, predicted_pbf_size=pbf_size, detail_level=detail_level
