@@ -1,3 +1,6 @@
+from django.contrib.gis.geos.collections import MultiPolygon
+from django.contrib.gis.geos.polygon import Polygon
+
 from osmaxx.conversion_api.coordinate_reference_systems import WGS_84
 
 
@@ -16,10 +19,25 @@ class UniversalTransverseMercatorZone:
         self.hemisphere = hemisphere
         self.utm_zone_number = utm_zone_number
 
-    def can_represent(self, point):
-        assert point.srid == WGS_84
-        longitude_offset = wrap_longitude_degrees(point.x - self.central_meridian_longitude_degrees)
-        return -self.MAX_LONGITUDE_OFFSET <= longitude_offset <= self.MAX_LONGITUDE_OFFSET
+    def can_represent(self, geom):
+        return self.domain.prepared.covers(geom)
+
+    @property
+    def domain(self):
+        xmin, ymin, xmax, ymax = (
+            wrap_longitude_degrees(self.central_meridian_longitude_degrees - self.MAX_LONGITUDE_OFFSET),
+            -90,
+            wrap_longitude_degrees(self.central_meridian_longitude_degrees + self.MAX_LONGITUDE_OFFSET),
+            90,
+        )
+        if xmin <= xmax:
+            return Polygon.from_bbox((xmin, ymin, xmax, ymax))
+        else:
+            # cut at idealized international date line
+            return MultiPolygon(
+                Polygon.from_bbox((xmin, ymin, 180, ymax)),
+                Polygon.from_bbox((-180, ymin, xmax, ymax)),
+            )
 
     @property
     def srid(self):
@@ -39,9 +57,9 @@ _UTMZone = UniversalTransverseMercatorZone
 ALL_UTM_ZONES = frozenset(_UTMZone(hs, nr) for hs in _UTMZone.HEMISPHERE_PREFIXES for nr in range(1, 60 + 1))
 
 
-def utm_zones_for_representing(point):
-    assert point.srid == WGS_84
-    return frozenset(zone for zone in ALL_UTM_ZONES if zone.can_represent(point))
+def utm_zones_for_representing(geom):
+    assert geom.srid == WGS_84
+    return frozenset(zone for zone in ALL_UTM_ZONES if zone.can_represent(geom))
 
 
 def wrap_longitude_degrees(longitude_degrees):

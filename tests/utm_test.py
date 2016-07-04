@@ -5,6 +5,7 @@ import pytest
 import sqlalchemy
 from django.conf import settings
 from django.contrib.gis.geos import Point
+from django.contrib.gis.geos.collections import GeometryCollection
 from sqlalchemy import select, func
 from sqlalchemy.engine.url import URL as DBURL
 
@@ -14,28 +15,28 @@ from osmaxx.geodesy.coordinate_reference_system import UniversalTransverseMercat
 from tests.utils import slow
 
 
-def test_naive_zone_of_point_amongst_zones_to_represent_the_point(transformable_point, utm_zone):
-    assert utm_zone in utm_zones_for_representing(transformable_point)
+def test_naive_zone_of_geom_amongst_zones_to_represent_the_geom(transformable_geom, utm_zone):
+    assert utm_zone in utm_zones_for_representing(transformable_geom)
 
 
-def test_naive_antipodal_zone_of_point_not_amongst_zones_to_represent_the_point(untransformable_point, utm_zone):
-    assert utm_zone not in utm_zones_for_representing(untransformable_point)
+def test_naive_antipodal_zone_of_geom_not_amongst_zones_to_represent_the_geom(untransformable_geom, utm_zone):
+    assert utm_zone not in utm_zones_for_representing(untransformable_geom)
 
 
-def test_utm_zone_treats_transformable_point_as_representable(transformable_point, utm_zone):
-    assert utm_zone.can_represent(transformable_point)
+def test_utm_zone_treats_transformable_geom_as_representable(transformable_geom, utm_zone):
+    assert utm_zone.can_represent(transformable_geom)
 
 
-def test_utm_zone_treats_untransformable_point_as_unrepresentable(untransformable_point, utm_zone):
-    assert not utm_zone.can_represent(untransformable_point)
+def test_utm_zone_treats_untransformable_geom_as_unrepresentable(untransformable_geom, utm_zone):
+    assert not utm_zone.can_represent(untransformable_geom)
 
 
-def test_transformation_to_utm_with_geodjango_geos(transformable_point, utm_zone):
-    transformable_point.transform(utm_zone.srid)
+def test_transformation_to_utm_with_geodjango_geos(transformable_geom, utm_zone):
+    transformable_geom.transform(utm_zone.srid)
 
 
 @slow
-def test_transformation_to_utm_with_geoalchemy2(transformable_point, utm_zone):
+def test_transformation_to_utm_with_geoalchemy2(transformable_geom, utm_zone):
     django_db_config = settings.DATABASES['default']
     db_config = dict(
         username=django_db_config['USER'],
@@ -46,9 +47,27 @@ def test_transformation_to_utm_with_geoalchemy2(transformable_point, utm_zone):
     )
     engine = sqlalchemy.create_engine(DBURL('postgres', **db_config))
 
-    query = select([func.ST_Transform(func.ST_GeomFromText(transformable_point.ewkt), utm_zone.srid)])
+    query = select([func.ST_Transform(func.ST_GeomFromText(transformable_geom.ewkt), utm_zone.srid)])
     with closing(engine.execute(query)) as result:
         assert result.rowcount == 1
+
+
+@pytest.fixture(params=['collection', 'point'])
+def untransformable_geom(request, untransformable_point):
+    wrapper = dict(
+        collection=GeometryCollection,
+        point=lambda p, srid: p,
+    )
+    return wrapper[request.param](untransformable_point, srid=untransformable_point.srid)
+
+
+@pytest.fixture(params=['collection', 'point'])
+def transformable_geom(request, transformable_point):
+    wrapper = dict(
+        collection=GeometryCollection,
+        point=lambda p, srid: p,
+    )
+    return wrapper[request.param](transformable_point, srid=transformable_point.srid)
 
 
 @pytest.fixture
