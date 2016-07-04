@@ -18,12 +18,19 @@ class UniversalTransverseMercatorZone:
         assert utm_zone_number - 1 in range(60)
         self.hemisphere = hemisphere
         self.utm_zone_number = utm_zone_number
+        self._prepared_domain = None  # Will be lazily set by self.domain
 
     def can_represent(self, geom):
-        return self.domain.prepared.covers(geom)
+        return self.domain.covers(geom)
 
     @property
     def domain(self):
+        if self._prepared_domain is None:
+            self._prepared_domain = self._computed_domain.prepared
+        return self._prepared_domain
+
+    @property
+    def _computed_domain(self):
         xmin, ymin, xmax, ymax = (
             wrap_longitude_degrees(self.central_meridian_longitude_degrees - self.MAX_LONGITUDE_OFFSET),
             -90,
