@@ -5,4 +5,4 @@
 --     Moskvá
 ---------------------------------------------------------------------------------------
 CREATE EXTENSION IF NOT EXISTS postgis;
-CREATE OR REPLACE EXTENSION osml10n;
+CREATE EXTENSION IF NOT EXISTS osml10n;
