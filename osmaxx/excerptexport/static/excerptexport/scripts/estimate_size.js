@@ -15,15 +15,6 @@
             });
     };
 
-    window.estimateSizeForFormats = function (pbfSize, detailLevel) {
-        return jQuery.getJSON(
-            '/api/format_size_estimation/',
-            {
-                'estimated_pbf_file_size_in_bytes': pbfSize,
-                'detail_level': detailLevel
-            });
-    };
-
     window.formatBytes = function (bytes) {
         if (bytes == 0) {
             return '0 Byte';
@@ -51,6 +42,14 @@
     }
 
     window.addSizeEstimationToCheckboxes = function(layer){
+        var estimateSizeForFormats = function (pbfSize, detailLevel) {
+            return jQuery.getJSON(
+                '/api/format_size_estimation/',
+                {
+                    'estimated_pbf_file_size_in_bytes': pbfSize,
+                    'detail_level': detailLevel
+                });
+        };
         estimateSize(layer).done(function(data){
             var pbfSize = data['estimated_file_size_in_bytes'];
             var detailLevel = jQuery("#id_detail_level").find(":selected").attr('value');
