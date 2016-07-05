@@ -21,24 +21,24 @@ class Garmin:
         self._osmosis_polygon_file.flush()
         self._polyfile_path = self._osmosis_polygon_file.name
         self._start_time = None
+        self._unzipped_result_size = None
 
     def create_garmin_export(self):
         self._start_time = timezone.now()
-        unzipped_result_size = self._to_garmin()
+        self._to_garmin()
         self._osmosis_polygon_file.close()
         job = get_current_job()
         if job:
             job.meta['duration'] = timezone.now() - self._start_time
-            job.meta['unzipped_result_size'] = unzipped_result_size
+            job.meta['unzipped_result_size'] = self._unzipped_result_size
             job.save()
 
     def _to_garmin(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             tmp_out_dir = os.path.join(tmp_dir, 'garmin')
             config_file_path = self._split(tmp_dir)
-            unzipped_result_size = self._produce_garmin(config_file_path, tmp_out_dir)
+            self._produce_garmin(config_file_path, tmp_out_dir)
             self._create_zip(tmp_out_dir)
-        return unzipped_result_size
 
     def _split(self, workdir):
         _splitter_path = os.path.abspath(os.path.join(_path_to_commandline_utils, 'splitter', 'splitter.jar'))
@@ -67,8 +67,7 @@ class Garmin:
             output_dir +
             config
         )
-        unzipped_result_size = recursive_getsize(out_dir)
-        return unzipped_result_size
+        self._unzipped_result_size = recursive_getsize(out_dir)
 
     def _create_zip(self, data_dir):
         zip_folders_relative([data_dir], self._resulting_zip_file_path)
