@@ -42,9 +42,12 @@ def size_estimation_for_format(format_type, detail_level, predicted_pbf_size):
 
 
 def get_data(format_type, detail_level):
-    data_points = Job.objects.filter(parametrization__out_format=format_type, parametrization__detail_level=detail_level). \
-        filter(unzipped_result_size__isnull=False, estimated_pbf_size__isnull=False). \
-        values_list('estimated_pbf_size', 'unzipped_result_size')
+    data_points = Job.objects.filter(
+        parametrization__out_format=format_type,
+        parametrization__detail_level=detail_level,
+        unzipped_result_size__isnull=False,
+        estimated_pbf_size__isnull=False
+    ).values_list('estimated_pbf_size', 'unzipped_result_size')
     if len(data_points) >= 4:
         pbf_size_prediction, actual_result_size = zip(*data_points)
         return pbf_size_prediction, actual_result_size
