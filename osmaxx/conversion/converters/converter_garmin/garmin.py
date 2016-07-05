@@ -33,9 +33,6 @@ class Garmin:
             config_file_path = self._split(tmp_dir)
             self._produce_garmin(config_file_path, tmp_out_dir)
             resulting_zip_file_path = self._create_zip(tmp_out_dir)
-            shutil.copy(copying_notice, tmp_out_dir)
-            shutil.copy(odb_license, tmp_out_dir)
-            shutil.copy(creative_commons_license, tmp_out_dir)
         return resulting_zip_file_path
 
     def _split(self, workdir):
@@ -57,6 +54,10 @@ class Garmin:
     def _produce_garmin(self, config_file_path, out_dir):
         out_dir = os.path.join(out_dir, 'garmin')  # hack to get a subdirectory in the zipfile.
         os.makedirs(out_dir, exist_ok=True)
+
+        shutil.copy(copying_notice, out_dir)
+        shutil.copy(odb_license, out_dir)
+        shutil.copy(creative_commons_license, out_dir)
 
         _mkgmap_path = os.path.abspath(os.path.join(_path_to_commandline_utils, 'mkgmap', 'mkgmap.jar'))
         mkg_map_command = ['java', '-jar', _mkgmap_path]

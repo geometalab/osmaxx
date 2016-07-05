@@ -38,8 +38,8 @@ class GISConverter:
             data_dir = os.path.join(tmp_dir, 'data')
             static_dir = os.path.join(tmp_dir, 'static')
             os.makedirs(data_dir)
-            shutil.copy(odb_license, static_dir)
             shutil.copytree(self._static_directory, static_dir)
+            shutil.copy(odb_license, static_dir)
             extract_to(
                 to_format=self._conversion_format,
                 output_dir=data_dir,
