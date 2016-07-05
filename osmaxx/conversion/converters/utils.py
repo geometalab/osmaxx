@@ -9,8 +9,6 @@ try:
     from os import scandir
 except ImportError:
     from scandir import scandir
-except:
-    pass
 
 
 def zip_folders_relative(folder_list, zip_out_file_path=None):
