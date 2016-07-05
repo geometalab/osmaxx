@@ -1,0 +1,3 @@
+-r requirements.txt
+-r requirements-mediator.txt
+-r requirements-local.txt
