@@ -98,7 +98,6 @@ def pytest_configure():
             'osmaxx.core',
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
-            'osmaxx.social_auth',
 
             # special model for testing only
             'tests.utilities.test_models',

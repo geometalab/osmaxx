@@ -13,7 +13,7 @@
 
             <h3>New account</h3>
             <p>
-                {% blocktrans %}If you logged in by a new Clavid account, please request its activation: {% endblocktrans %}<br />
+                {% blocktrans %}If you logged in by a new OpenStreetMap-account, please request its activation: {% endblocktrans %}<br />
                 <form method="post" action="{% url 'excerptexport:request_access' %}?next={% url 'excerptexport:access_denied' %}">
                     {% csrf_token %}
                     <button class="btn btn-primary"><span class="icon default">&#9911;</span> {% trans 'Request access' %}</button>
