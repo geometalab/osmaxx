@@ -8,6 +8,8 @@ from osmaxx.conversion._settings import CONVERSION_SETTINGS
 from osmaxx.conversion.converters.utils import zip_folders_relative
 
 _path_to_commandline_utils = os.path.join(os.path.dirname(__file__), 'command_line_utils')
+_path_to_bounds_zip = os.path.join(os.path.dirname(__file__), 'additional_data', 'bounds.zip')
+_path_to_sea_zip = os.path.join(os.path.dirname(__file__), 'additional_data', 'sea.zip')
 
 
 class Garmin:
@@ -53,7 +55,11 @@ class Garmin:
         _mkgmap_path = os.path.abspath(os.path.join(_path_to_commandline_utils, 'mkgmap', 'mkgmap.jar'))
         mkg_map_command = ['java', '-jar', _mkgmap_path]
         output_dir = ['--output-dir={0}'.format(out_dir)]
-        config = ['--read-config={0}'.format(config_file_path)]
+        config = [
+            '--bounds={0}'.format(_path_to_bounds_zip),
+            '--precomp-sea={0}'.format(_path_to_sea_zip),
+            '--read-config={0}'.format(config_file_path),
+        ]
 
         subprocess.check_call(
             mkg_map_command +
