@@ -36,8 +36,8 @@ def size_estimation_for_format(format_type, detail_level, predicted_pbf_size):
     import scipy.stats
     assert format_type in formats.FORMAT_DEFINITIONS.keys()
     assert detail_level in [level[0] for level in detail_levels.DETAIL_LEVEL_CHOICES]
-    x, y = get_data(format_type, detail_level)
-    regression = scipy.stats.linregress(x=x, y=y)
+    predicted_pbf_sizes, actual_measured_sizes = get_data(format_type, detail_level)
+    regression = scipy.stats.linregress(x=predicted_pbf_sizes, y=actual_measured_sizes)
     return predicted_pbf_size * regression.slope + regression.intercept
 
 
