@@ -8,8 +8,9 @@ from osmaxx.conversion._settings import CONVERSION_SETTINGS
 from osmaxx.conversion.converters.utils import zip_folders_relative
 
 _path_to_commandline_utils = os.path.join(os.path.dirname(__file__), 'command_line_utils')
-_path_to_bounds_zip = os.path.join(os.path.dirname(__file__), 'additional_data', 'bounds.zip')
-_path_to_sea_zip = os.path.join(os.path.dirname(__file__), 'additional_data', 'sea.zip')
+_path_to_bounds_zip = os.path.join(CONVERSION_SETTINGS['SEA_AND_BOUNDS_ZIP_DIRECTORY'], 'bounds.zip')
+_path_to_sea_zip = os.path.join(CONVERSION_SETTINGS['SEA_AND_BOUNDS_ZIP_DIRECTORY'], 'sea.zip')
+_path_to_geonames_zip = os.path.join(os.path.dirname(__file__), 'additional_data', 'cities1000.txt')
 
 
 class Garmin:
@@ -42,6 +43,7 @@ class Garmin:
             '-jar', _splitter_path,
             '--output-dir={0}'.format(workdir),
             '--description={0}'.format(self._map_description),
+            '--geonames-file={0}'.format(_path_to_geonames_zip),
             '--polygon-file={}'.format(self._polyfile_path),
             CONVERSION_SETTINGS.get('PBF_PLANET_FILE_PATH'),
         ])

@@ -4,6 +4,7 @@ from django.conf import settings
 CONVERSION_SETTINGS = {
     'result_harvest_interval_seconds': timedelta(minutes=1).total_seconds(),
     'PBF_PLANET_FILE_PATH': '/var/data/osm-planet/pbf/planet-latest.osm.pbf',
+    'SEA_AND_BOUNDS_ZIP_DIRECTORY': '/var/data/garmin/additional_data/',
     'RESULT_TTL': -1,  # never expire!
 }
 

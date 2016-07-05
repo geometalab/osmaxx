@@ -153,6 +153,10 @@ RUN chmod a+rx $CODE
 
 WORKDIR $HOME
 
+# Fetch required additional data for garmin
+RUN wget -O /var/data/garmin/additional_data/bounds.zip http://osm2.pleiades.uni-wuppertal.de/bounds/latest/bounds.zip
+RUN wget -O /var/data/garmin/additional_data/sea.zip http://osm2.pleiades.uni-wuppertal.de/bounds/latest/sea.zip
+
 ENV REQS_LAST_UPDATED 04-05-2016 8:50
 ADD ./requirements.txt $HOME/requirements.txt
 
