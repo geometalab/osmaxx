@@ -110,7 +110,7 @@ msgid "WGS 84"
 msgstr ""
 
 #: osmaxx/conversion_api/coordinate_reference_systems.py:13
-msgid "Pseudo-Merkator"
+msgid "Pseudo-Mercator"
 msgstr ""
 
 #: osmaxx/conversion_api/coordinate_reference_systems.py:14
