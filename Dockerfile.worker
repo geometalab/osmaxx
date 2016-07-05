@@ -158,7 +158,7 @@ RUN sed -i '1ilocal   all             all                                     tr
 RUN chmod a+rx $CODE
 
 WORKDIR /var/data/garmin/additional_data/
-# Fetch required additional data for garmin
+# Fetch required additional data for garmin as documented http://www.mkgmap.org.uk/download/mkgmap.html
 RUN wget -O /var/data/garmin/additional_data/bounds.zip http://osm2.pleiades.uni-wuppertal.de/bounds/latest/bounds.zip
 RUN wget -O /var/data/garmin/additional_data/sea.zip http://osm2.pleiades.uni-wuppertal.de/sea/latest/sea.zip
 
