@@ -40,7 +40,7 @@ class FormatSizeEstimationSerializer(serializers.Serializer):
         data.update(
             {
                 output_format: size_estimation_for_format(output_format, detail_level, estimated_pbf)
-                for output_format in formats.FORMAT_DEFINITIONS.keys()
+                for output_format in formats.FORMAT_DEFINITIONS
             }
         )
         return data

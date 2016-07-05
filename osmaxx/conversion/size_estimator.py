@@ -34,14 +34,14 @@ PRE_DATA = {
 
 def size_estimation_for_format(format_type, detail_level, predicted_pbf_size):
     import scipy.stats
-    assert format_type in formats.FORMAT_DEFINITIONS.keys()
-    assert detail_level in [level[0] for level in detail_levels.DETAIL_LEVEL_CHOICES]
     predicted_pbf_sizes, actual_measured_sizes = get_data(format_type, detail_level)
     regression = scipy.stats.linregress(x=predicted_pbf_sizes, y=actual_measured_sizes)
     return predicted_pbf_size * regression.slope + regression.intercept
 
 
 def get_data(format_type, detail_level):
+    assert format_type in formats.FORMAT_DEFINITIONS
+    assert detail_level in [level[0] for level in detail_levels.DETAIL_LEVEL_CHOICES]
     data_points = Job.objects.filter(
         parametrization__out_format=format_type,
         parametrization__detail_level=detail_level,
