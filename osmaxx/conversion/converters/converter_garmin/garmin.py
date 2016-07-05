@@ -33,12 +33,9 @@ class Garmin:
             config_file_path = self._split(tmp_dir)
             self._produce_garmin(config_file_path, tmp_out_dir)
             resulting_zip_file_path = self._create_zip(tmp_out_dir)
-            shutil.copyfile(copying_notice, os.path.join(tmp_out_dir, os.path.basename(copying_notice)))
-            shutil.copyfile(odb_license, os.path.join(tmp_out_dir, os.path.basename(odb_license)))
-            shutil.copyfile(
-                creative_commons_license,
-                os.path.join(tmp_out_dir, os.path.basename(creative_commons_license))
-            )
+            shutil.copy(copying_notice, tmp_out_dir)
+            shutil.copy(odb_license, tmp_out_dir)
+            shutil.copy(creative_commons_license, tmp_out_dir)
         return resulting_zip_file_path
 
     def _split(self, workdir):
