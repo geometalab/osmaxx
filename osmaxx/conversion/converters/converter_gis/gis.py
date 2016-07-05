@@ -4,6 +4,7 @@ import os
 
 import shutil
 
+from osmaxx.conversion._settings import odb_license
 from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
 from osmaxx.conversion.converters.converter_gis.extract.db_to_format.extract import extract_to
 from osmaxx.conversion.converters.utils import zip_folders_relative
@@ -37,6 +38,7 @@ class GISConverter:
             data_dir = os.path.join(tmp_dir, 'data')
             static_dir = os.path.join(tmp_dir, 'static')
             os.makedirs(data_dir)
+            shutil.copyfile(odb_license, os.path.join(static_dir, os.path.basename(odb_license)))
             shutil.copytree(self._static_directory, static_dir)
             extract_to(
                 to_format=self._conversion_format,

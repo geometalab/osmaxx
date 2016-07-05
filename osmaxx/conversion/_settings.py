@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 from django.conf import settings
 
@@ -17,3 +18,7 @@ CONVERSION_SETTINGS.update({
     'GIS_CONVERSION_DB_USER': 'postgres',
     'GIS_CONVERSION_DB_PASSWORD': 'postgres',
 })
+
+copying_notice = os.path.join(os.path.dirname(__file__), 'converters', 'licenses', 'COPYING')
+odb_license = os.path.join(os.path.dirname(__file__), 'converters', 'licenses', 'ODB_LICENSE')
+creative_commons_license = os.path.join(os.path.dirname(__file__), 'converters', 'licenses', 'CREATIVE_COMMONS_LICENSE')
