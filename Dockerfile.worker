@@ -5,7 +5,9 @@ USER root
 
 # make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
 RUN apt-get update && apt-get install -y apt-utils locales && rm -rf /var/lib/apt/lists/* \
-    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 ################## SETUP POSTGIS DATABASE with UTF8 support #############
 # explicitly set user/group IDs
@@ -19,7 +21,9 @@ RUN apt-get clean && apt-get update && apt-get install -y --no-install-recommend
     && gpg --verify /usr/local/bin/gosu.asc \
     && rm /usr/local/bin/gosu.asc \
     && chmod +x /usr/local/bin/gosu \
-    && apt-get purge -y --auto-remove ca-certificates wget
+    && apt-get purge -y --auto-remove ca-certificates wget \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /docker-entrypoint-initdb.d
 
@@ -40,6 +44,7 @@ RUN apt-get update \
         postgresql-${PG_MAJOR}-postgis-scripts \
         postgresql-server-dev-${PG_MAJOR} \
         postgresql-contrib-${PG_MAJOR} \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/run/postgresql && chown -R 999:999 /var/run/postgresql
@@ -96,7 +101,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     debhelper \
 \
     default-jre \
-    libkakasi2-dev
+    libkakasi2-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root/osm2pgsql
 
@@ -124,6 +131,7 @@ RUN rm libutf8proc1.deb libutf8proc-dev.deb
 RUN git clone https://github.com/giggls/mapnik-german-l10n.git mapnik-german-l10n
 
 WORKDIR $CODE/mapnik-german-l10n/utf8translit
+RUN echo $(ls -lah)
 RUN dpkg-buildpackage -uc -us -b
 
 WORKDIR $CODE/mapnik-german-l10n/kanjitranslit
