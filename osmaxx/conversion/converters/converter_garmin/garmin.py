@@ -32,9 +32,11 @@ class Garmin:
         return resulting_zip_file_path
 
     def _split(self, workdir):
+        memory_options = '-Xmx7000m'
         _splitter_path = os.path.abspath(os.path.join(_path_to_commandline_utils, 'splitter', 'splitter.jar'))
         subprocess.check_call([
             'java',
+            memory_options,
             '-jar', _splitter_path,
             '--output-dir={0}'.format(workdir),
             '--description={0}'.format(self._map_description),
