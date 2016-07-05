@@ -58,7 +58,7 @@ RUN pg_createcluster --locale=en_US.UTF-8 -d $PGDATA 9.4 main
 
 ################## END SETUP POSTGIS DATABASE with UTF8 support #############
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+RUN apt-get clean && apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y\
 \
     make \
@@ -128,18 +128,16 @@ RUN wget -O libutf8proc1.deb http://ftp.ch.debian.org/debian/pool/main/u/utf8pro
 RUN dpkg --install libutf8proc1.deb libutf8proc-dev.deb
 RUN rm libutf8proc1.deb libutf8proc-dev.deb
 
+RUN apt-get clean && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y pandoc \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN git clone https://github.com/giggls/mapnik-german-l10n.git mapnik-german-l10n
 
-WORKDIR $CODE/mapnik-german-l10n/utf8translit
-RUN echo $(ls -lah)
-RUN dpkg-buildpackage -uc -us -b
+WORKDIR $CODE/mapnik-german-l10n
 
-WORKDIR $CODE/mapnik-german-l10n/kanjitranslit
-RUN dpkg-buildpackage -uc -us -b
-
-WORKDIR $CODE/mapnik-german-l10n/
-RUN dpkg --install *utf8translit_*.deb
-RUN dpkg --install *kanjitranslit_*.deb
+RUN make && make install && make clean
 
 ENV HOME /home/py
 
@@ -159,11 +157,12 @@ RUN sed -i '1ilocal   all             all                                     tr
 
 RUN chmod a+rx $CODE
 
-WORKDIR $HOME
-
+WORKDIR /var/data/garmin/additional_data/
 # Fetch required additional data for garmin
 RUN wget -O /var/data/garmin/additional_data/bounds.zip http://osm2.pleiades.uni-wuppertal.de/bounds/latest/bounds.zip
-RUN wget -O /var/data/garmin/additional_data/sea.zip http://osm2.pleiades.uni-wuppertal.de/bounds/latest/sea.zip
+RUN wget -O /var/data/garmin/additional_data/sea.zip http://osm2.pleiades.uni-wuppertal.de/sea/latest/sea.zip
+
+WORKDIR $HOME
 
 ENV REQS_LAST_UPDATED 04-05-2016 8:50
 ADD ./requirements.txt $HOME/requirements.txt
