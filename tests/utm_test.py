@@ -121,10 +121,9 @@ def utm_zone(hemisphere, utm_zone_number):
 def hemisphere(request):
     return request.param
 
-utm_zone_numbers = UTM_ZONE_NUMBERS if pytest.config.getoption("--all-utm-zones") \
-    else random.sample(UTM_ZONE_NUMBERS, 3)
 
-
-@pytest.fixture(params=utm_zone_numbers)
+@pytest.fixture(
+    params=UTM_ZONE_NUMBERS if pytest.config.getoption("--all-utm-zones") else random.sample(UTM_ZONE_NUMBERS, 3),
+)
 def utm_zone_number(request):
     return request.param
