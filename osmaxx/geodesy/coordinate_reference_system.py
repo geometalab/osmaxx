@@ -66,6 +66,12 @@ class UniversalTransverseMercatorZone:
             hemisphere=self.hemisphere,
         )
 
+    def __repr__(self):
+        return "UTMZone({hemisphere}, {zone_number})".format(
+            zone_number=self.utm_zone_number,
+            hemisphere=repr(self.hemisphere),
+        )
+
 UTMZone = UniversalTransverseMercatorZone
 ALL_UTM_ZONES = frozenset(UTMZone(hs, nr) for hs in UTMZone.HEMISPHERE_PREFIXES for nr in range(1, 60 + 1))
 
