@@ -3,11 +3,14 @@ import tempfile
 import os
 
 import shutil
+from django.utils import timezone
+
+from rq import get_current_job
 
 from osmaxx.conversion._settings import odb_license
 from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
 from osmaxx.conversion.converters.converter_gis.extract.db_to_format.extract import extract_to
-from osmaxx.conversion.converters.utils import zip_folders_relative
+from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize
 
 
 class GISConverter:
@@ -30,8 +33,11 @@ class GISConverter:
         self._out_srs = out_srs
         self._static_directory = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static')
         self._detail_level = detail_level
+        self._start_time = None
 
     def create_gis_export(self):
+        self._start_time = timezone.now()
+
         bootstrap.boostrap(self._polyfile_string, detail_level=self._detail_level)
 
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -46,5 +52,13 @@ class GISConverter:
                 base_filename=self._base_file_name,
                 out_srs=self._out_srs
             )
+            unzipped_result_size = recursive_getsize(data_dir)
             zip_folders_relative([tmp_dir], zip_out_file_path=self._out_zip_file_path)
+
+        job = get_current_job()
+        if job:
+            total_duration = timezone.now() - self._start_time
+            job.meta['duration'] = total_duration
+            job.meta['unzipped_result_size'] = unzipped_result_size
+            job.save()
         return self._out_zip_file_path

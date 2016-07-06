@@ -164,11 +164,8 @@ RUN wget -O /var/data/garmin/additional_data/sea.zip http://osm2.pleiades.uni-wu
 
 WORKDIR $HOME
 
-ENV REQS_LAST_UPDATED 04-05-2016 8:50
-ADD ./requirements.txt $HOME/requirements.txt
-
 RUN pip3 install honcho
-
+ADD ./requirements.txt $HOME/requirements.txt
 RUN pip3 install -r requirements.txt
 
 # TODO: this is just a temporary solution, use pip for production as soon as geometalab.osmaxx is published there

@@ -3,10 +3,12 @@ import subprocess
 
 import os
 import tempfile
+from django.utils import timezone
+from rq import get_current_job
 
 from osmaxx.conversion._settings import CONVERSION_SETTINGS, odb_license, copying_notice, creative_commons_license
 
-from osmaxx.conversion.converters.utils import zip_folders_relative
+from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize
 
 _path_to_commandline_utils = os.path.join(os.path.dirname(__file__), 'command_line_utils')
 _path_to_bounds_zip = os.path.join(CONVERSION_SETTINGS['SEA_AND_BOUNDS_ZIP_DIRECTORY'], 'bounds.zip')
@@ -22,18 +24,25 @@ class Garmin:
         self._osmosis_polygon_file.write(polyfile_string)
         self._osmosis_polygon_file.flush()
         self._polyfile_path = self._osmosis_polygon_file.name
+        self._start_time = None
+        self._unzipped_result_size = None
 
     def create_garmin_export(self):
+        self._start_time = timezone.now()
         self._to_garmin()
         self._osmosis_polygon_file.close()
+        job = get_current_job()
+        if job:
+            job.meta['duration'] = timezone.now() - self._start_time
+            job.meta['unzipped_result_size'] = self._unzipped_result_size
+            job.save()
 
     def _to_garmin(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             tmp_out_dir = os.path.join(tmp_dir, 'garmin')
             config_file_path = self._split(tmp_dir)
             self._produce_garmin(config_file_path, tmp_out_dir)
-            resulting_zip_file_path = self._create_zip(tmp_out_dir)
-        return resulting_zip_file_path
+            self._create_zip(tmp_out_dir)
 
     def _split(self, workdir):
         memory_option = '-Xmx7000m'
@@ -73,7 +82,7 @@ class Garmin:
             output_dir +
             config
         )
+        self._unzipped_result_size = recursive_getsize(out_dir)
 
     def _create_zip(self, data_dir):
         zip_folders_relative([data_dir], self._resulting_zip_file_path)
-        return self._resulting_zip_file_path

@@ -17,6 +17,8 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
 
         this.currentLayer = layer;
         this.map.addLayer(layer);
+
+        window.addSizeEstimationToCheckboxes(layer);
     }.bind(this);
 
     this.showExcerptOnMap = function(ID) {

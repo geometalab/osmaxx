@@ -122,17 +122,8 @@ var draw_controls = function (map) {
             return estimatedFileSize > getAllowedMaxSize();
         }
 
+        addSizeEstimationToCheckboxes(layer);
         estimateSize(layer).done(function (data) {
-            function formatBytes(bytes) {
-                if (bytes == 0) {
-                    return '0 Byte';
-                }
-                var k = 1000;
-                var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-                var i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
-                return parseFloat((bytes / Math.pow(k, i)).toFixed()) + ' ' + sizes[i];
-            }
-
             var estimatedFileSize = Number(data['estimated_file_size_in_bytes']);
 
             var message_html = '';
@@ -196,4 +187,3 @@ var draw_controls = function (map) {
         }
     });
 };
-
