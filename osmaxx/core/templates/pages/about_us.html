@@ -1,5 +1,5 @@
 {% extends "osmaxx/base.html" %}
-{% load i18n %}
+{% load i18n static %}
 
 {% block main %}
 <div class="container-row content">
@@ -7,6 +7,12 @@
     <p>
         OSMaxx (short for "OpenStreetMap arbitrary excerpt export") cuts out OpenStreetMap data, processes it to
         geodata, converts it to typical GIS fileformats and offers those for download.
+    </p>
+    <h3>Documentation</h3>
+    <h4>Schema</h4>
+    <p>
+        You can find the online documentation of the schema on github:
+        <a href="https://github.com/geometalab/osmaxx-docs/blob/master/documentation.md">Export Schema Documentation</a>.
     </p>
 
     <h3>Useful links</h3>
