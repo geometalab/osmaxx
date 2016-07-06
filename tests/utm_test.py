@@ -10,7 +10,7 @@ from sqlalchemy import select, func
 from sqlalchemy.engine.url import URL as DBURL
 
 from osmaxx.conversion_api.coordinate_reference_systems import WGS_84
-from osmaxx.geodesy.coordinate_reference_system import UniversalTransverseMercatorZone as UTMZone, \
+from osmaxx.geodesy.coordinate_reference_system import UTMZone, \
     wrap_longitude_degrees, utm_zones_for_representing
 from tests.utils import slow
 
