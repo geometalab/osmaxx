@@ -66,8 +66,8 @@ class UniversalTransverseMercatorZone:
             hemisphere=self.hemisphere,
         )
 
-_UTMZone = UniversalTransverseMercatorZone
-ALL_UTM_ZONES = frozenset(_UTMZone(hs, nr) for hs in _UTMZone.HEMISPHERE_PREFIXES for nr in range(1, 60 + 1))
+UTMZone = UniversalTransverseMercatorZone
+ALL_UTM_ZONES = frozenset(UTMZone(hs, nr) for hs in UTMZone.HEMISPHERE_PREFIXES for nr in range(1, 60 + 1))
 
 
 def utm_zones_for_representing(geom):
