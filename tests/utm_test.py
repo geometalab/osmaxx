@@ -35,6 +35,11 @@ def test_transformation_to_utm_with_geodjango_geos(transformable_geom, utm_zone)
     transformable_geom.transform(utm_zone.srid)
 
 
+def test_utm_zone_str():
+    assert str(UTMZone('north', 5)) == "UTM Zone 5, northern hemisphere"
+    assert str(UTMZone('south', 23)) == "UTM Zone 23, southern hemisphere"
+
+
 @slow
 def test_transformation_to_utm_with_geoalchemy2(transformable_geom, utm_zone):
     django_db_config = settings.DATABASES['default']

@@ -60,6 +60,12 @@ class UniversalTransverseMercatorZone:
     def __hash__(self):
         return hash((self.hemisphere, self.utm_zone_number))
 
+    def __str__(self):
+        return "UTM Zone {zone_number}, {hemisphere}ern hemisphere".format(
+            zone_number=self.utm_zone_number,
+            hemisphere=self.hemisphere,
+        )
+
 _UTMZone = UniversalTransverseMercatorZone
 ALL_UTM_ZONES = frozenset(_UTMZone(hs, nr) for hs in _UTMZone.HEMISPHERE_PREFIXES for nr in range(1, 60 + 1))
 
