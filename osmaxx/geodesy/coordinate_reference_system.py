@@ -15,7 +15,7 @@ class UniversalTransverseMercatorZone:
 
     def __init__(self, hemisphere, utm_zone_number):
         assert hemisphere in self.HEMISPHERE_PREFIXES.keys()
-        assert utm_zone_number - 1 in range(60)
+        assert utm_zone_number in range(1, 60 + 1)
         self.hemisphere = hemisphere
         self.utm_zone_number = utm_zone_number
         self._prepared_domain = None  # Will be lazily set by self.domain
