@@ -26,9 +26,9 @@ services:
   - redis-server
 
 before_install:
-  - docker pull geometalab/postgis-with-translit
-  - docker run -d -p "127.0.0.1:65432:5432" -e POSTGRES_DB='osmaxx_db' --name pg_translit geometalab/postgis-with-translit
-  - docker run -d -p "127.0.0.1:54321:5432" -e POSTGRES_DB='postgres' --name pg_tests geometalab/postgis-with-translit
+  - docker pull geometalab/postgis-with-translit:old
+  - docker run -d -p "127.0.0.1:65432:5432" -e POSTGRES_DB='osmaxx_db' --name pg_translit geometalab/postgis-with-translit:old
+  - docker run -d -p "127.0.0.1:54321:5432" -e POSTGRES_DB='postgres' --name pg_tests geometalab/postgis-with-translit:old
   - docker ps -a
   - sleep 10
 
