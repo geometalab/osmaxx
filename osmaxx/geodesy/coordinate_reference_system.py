@@ -21,7 +21,7 @@ class UniversalTransverseMercatorZone:
         self._prepared_domain = None  # Will be lazily set by self.domain
 
     def can_represent(self, geom):
-        return self.domain.covers(geom)
+        return self.domain.covers(geom.transform(WGS_84, clone=True))
 
     @property
     def domain(self):
@@ -38,12 +38,15 @@ class UniversalTransverseMercatorZone:
             90,
         )
         if xmin <= xmax:
-            return Polygon.from_bbox((xmin, ymin, xmax, ymax))
+            domain = Polygon.from_bbox((xmin, ymin, xmax, ymax))
+            domain.srid = WGS_84
+            return domain
         else:
             # cut at idealized international date line
             return MultiPolygon(
                 Polygon.from_bbox((xmin, ymin, 180, ymax)),
                 Polygon.from_bbox((-180, ymin, xmax, ymax)),
+                srid=WGS_84,
             )
 
     @property
@@ -77,7 +80,6 @@ ALL_UTM_ZONES = frozenset(UTMZone(hs, nr) for hs in UTMZone.HEMISPHERE_PREFIXES 
 
 
 def utm_zones_for_representing(geom):
-    assert geom.srid == WGS_84
     return frozenset(zone for zone in ALL_UTM_ZONES if zone.can_represent(geom))
 
 

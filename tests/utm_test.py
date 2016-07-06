@@ -14,6 +14,13 @@ from osmaxx.geodesy.coordinate_reference_system import UTMZone, wrap_longitude_d
 from tests.utils import slow
 
 
+def test_coordinate_system_of_geom_does_not_matter():
+    # ... except for rounding/gimbal lock effects. Due to these effects, we cannot use transformable_geom fixture here.
+    geom_wgs84 = GeometryCollection(Point(5.0, 23.0), srid=WGS_84)
+    geom_utm31n = geom_wgs84.transform(UTMZone('north', 31).srid, clone=True)
+    assert utm_zones_for_representing(geom_wgs84) == utm_zones_for_representing(geom_utm31n)
+
+
 def test_naive_zone_of_geom_amongst_zones_to_represent_the_geom(transformable_geom, utm_zone):
     assert utm_zone in utm_zones_for_representing(transformable_geom)
 
