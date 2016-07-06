@@ -10,7 +10,8 @@ from sqlalchemy import select, func
 from sqlalchemy.engine.url import URL as DBURL
 
 from osmaxx.conversion_api.coordinate_reference_systems import WGS_84
-from osmaxx.geodesy.coordinate_reference_system import UTMZone, wrap_longitude_degrees, utm_zones_for_representing
+from osmaxx.geodesy.coordinate_reference_system import UTMZone, wrap_longitude_degrees, utm_zones_for_representing, \
+    UTM_ZONE_NUMBERS
 from tests.utils import slow
 
 
@@ -120,8 +121,8 @@ def utm_zone(hemisphere, utm_zone_number):
 def hemisphere(request):
     return request.param
 
-utm_zone_numbers = UTMZone.VALID_ZONE_NUMBERS if pytest.config.getoption("--all-utm-zones") \
-    else random.sample(UTMZone.VALID_ZONE_NUMBERS, 3)
+utm_zone_numbers = UTM_ZONE_NUMBERS if pytest.config.getoption("--all-utm-zones") \
+    else random.sample(UTM_ZONE_NUMBERS, 3)
 
 
 @pytest.fixture(params=utm_zone_numbers)
