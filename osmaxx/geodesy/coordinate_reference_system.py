@@ -10,12 +10,13 @@ class UniversalTransverseMercatorZone:
         south=327,
     )
     NUMBER_OF_ZONES_PER_HEMISPHERE = 60
+    VALID_ZONE_NUMBERS = range(1, 60 + 1)
     ZONE_WIDTH_DEGREES = 360 / NUMBER_OF_ZONES_PER_HEMISPHERE
     MAX_LONGITUDE_OFFSET = 90.0 - 9.9e-14
 
     def __init__(self, hemisphere, utm_zone_number):
         assert hemisphere in self.HEMISPHERE_PREFIXES.keys()
-        assert utm_zone_number in range(1, 60 + 1)
+        assert utm_zone_number in self.VALID_ZONE_NUMBERS
         self.hemisphere = hemisphere
         self.utm_zone_number = utm_zone_number
         self._prepared_domain = None  # Will be lazily set by self.domain
@@ -76,7 +77,7 @@ class UniversalTransverseMercatorZone:
         )
 
 UTMZone = UniversalTransverseMercatorZone
-ALL_UTM_ZONES = frozenset(UTMZone(hs, nr) for hs in UTMZone.HEMISPHERE_PREFIXES for nr in range(1, 60 + 1))
+ALL_UTM_ZONES = frozenset(UTMZone(hs, nr) for hs in UTMZone.HEMISPHERE_PREFIXES for nr in UTMZone.VALID_ZONE_NUMBERS)
 
 
 def utm_zones_for_representing(geom):
