@@ -36,3 +36,13 @@ def estimated_file_size(request):
     client = ConversionApiClient()
     response_content = json.dumps(client.estimated_file_size(**bbox))
     return HttpResponse(response_content, content_type="application/json")
+
+
+def format_size_estimation(request):
+    client = ConversionApiClient()
+    detail_level = request.GET['detail_level']
+    estimated_pbf_size = request.GET['estimated_pbf_file_size_in_bytes']
+    response_content = json.dumps(
+        client.format_size_estimation(detail_level=detail_level, estimated_pbf_size=estimated_pbf_size)
+    )
+    return HttpResponse(response_content, content_type="application/json")

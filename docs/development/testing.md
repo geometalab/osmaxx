@@ -23,7 +23,7 @@ For all tests, a redis-server instance is required.
 Install testing requirements.
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-all.txt
 ```
 
 Run the tests (using the makefile, which uses the underlying runtests.py), excluding the slow (&sum; > 1 minute) tests:

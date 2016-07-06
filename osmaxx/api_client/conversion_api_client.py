@@ -16,6 +16,7 @@ PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
 
 CONVERSION_JOB_URL = '/conversion_job/'
 ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
+FORMAT_SIZE_ESTIMATION_URL = '/format_size_estimation/'
 
 
 class ConversionApiClient(JWTClient):
@@ -99,6 +100,17 @@ class ConversionApiClient(JWTClient):
         }
         try:
             response = self.authorized_post(ESTIMATED_FILE_SIZE_URL, json_data=request_data)
+        except HTTPError as e:
+            return reasons_for(e)
+        return response.json()
+
+    def format_size_estimation(self, estimated_pbf_size, detail_level):
+        request_data = {
+            "estimated_pbf_file_size_in_bytes": estimated_pbf_size,
+            "detail_level": int(detail_level),
+        }
+        try:
+            response = self.authorized_post(FORMAT_SIZE_ESTIMATION_URL, json_data=request_data)
         except HTTPError as e:
             return reasons_for(e)
         return response.json()
