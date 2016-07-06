@@ -53,9 +53,11 @@
         estimateSize(layer).done(function(data){
             var pbfSize = data['estimated_file_size_in_bytes'];
             var detailLevel = jQuery("#id_detail_level").find(":selected").attr('value');
-            estimateSizeForFormats(pbfSize, detailLevel).done(function(data) {
-                _addToCheckboxes(data);
-            });
+            if (detailLevel != null) {
+                estimateSizeForFormats(pbfSize, detailLevel).done(function(data) {
+                    _addToCheckboxes(data);
+                });
+            }
         });
     };
 })();
