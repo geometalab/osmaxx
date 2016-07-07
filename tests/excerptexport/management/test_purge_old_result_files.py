@@ -11,8 +11,7 @@ from osmaxx.excerptexport.models import OutputFile
 
 @pytest.fixture
 def expired_output_file_with_file(db, output_file_with_file, mocker):
-    from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
-    just_a_bit_too_old = timezone.now() - RESULT_FILE_AVAILABILITY_DURATION - timezone.timedelta(minutes=1)
+    just_a_bit_too_old = timezone.now() - timezone.timedelta(minutes=1)
 
     output_file_with_file.file_removal_at = just_a_bit_too_old
     output_file_with_file.save()
@@ -26,8 +25,7 @@ def expired_output_file_with_file(db, output_file_with_file, mocker):
 
 @pytest.fixture
 def expired_output_file(db, output_file, mocker):
-    from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
-    just_a_bit_too_old = timezone.now() - RESULT_FILE_AVAILABILITY_DURATION - timezone.timedelta(minutes=1)
+    just_a_bit_too_old = timezone.now() - timezone.timedelta(minutes=1)
 
     output_file.file_removal_at = just_a_bit_too_old
     output_file.save()
