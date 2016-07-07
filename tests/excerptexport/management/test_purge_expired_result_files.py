@@ -37,17 +37,17 @@ def expired_output_file(db, output_file, mocker):
     return output_file
 
 
-def test_purge_old_result_files_call_exists():
+def test_purge_expired_result_files_call_exists():
     out = StringIO()
-    call_command('purge_old_result_files', '--run_once', stdout=out)
+    call_command('purge_expired_result_files', '--run_once', stdout=out)
     assert 'Removing output files that expired before ' in out.getvalue()
 
 
-def test_purge_old_result_files_with_existing_files_leaves_it_be_when_younger(db, output_file_with_file):
+def test_purge_expired_result_files_with_existing_files_leaves_it_be_when_younger(db, output_file_with_file):
     assert output_file_with_file.file
 
     out = StringIO()
-    call_command('purge_old_result_files', '--run_once', stdout=out)
+    call_command('purge_expired_result_files', '--run_once', stdout=out)
 
     output_file_with_file.refresh_from_db()
 
@@ -55,7 +55,7 @@ def test_purge_old_result_files_with_existing_files_leaves_it_be_when_younger(db
     assert os.path.exists(output_file_with_file.file.path)
 
 
-def test_purge_old_result_files_with_existing_files_removes_it_when_older(expired_output_file_with_file):
+def test_purge_expired_result_files_with_existing_files_removes_it_when_older(expired_output_file_with_file):
     assert expired_output_file_with_file.file
     old_id = expired_output_file_with_file.id
 
@@ -63,7 +63,7 @@ def test_purge_old_result_files_with_existing_files_removes_it_when_older(expire
     pk = expired_output_file_with_file.id
     expected_output = "Output File #{}: {} removed".format(pk, file_path)
     out = StringIO()
-    call_command('purge_old_result_files', '--run_once', stdout=out)
+    call_command('purge_expired_result_files', '--run_once', stdout=out)
 
     assert not os.path.exists(file_path)
     assert expected_output in out.getvalue()
@@ -77,7 +77,7 @@ def test_cleanup_old_result_files_when_existing_file_directory_has_been_removed_
     assert expired_output_file_with_file.file
     old_id = expired_output_file_with_file.id
 
-    call_command('purge_old_result_files', '--run_once')
+    call_command('purge_expired_result_files', '--run_once')
 
     assert not os.path.exists(file_path)
     assert not os.path.exists(os.path.dirname(file_path))
@@ -91,7 +91,7 @@ def test_old_result_files_directory_is_being_removed_when_existing_file_has_been
     assert expired_output_file_with_file.file
     old_id = expired_output_file_with_file.id
 
-    call_command('purge_old_result_files', '--run_once')
+    call_command('purge_expired_result_files', '--run_once')
 
     assert not os.path.exists(file_path)
     assert not os.path.exists(os.path.dirname(file_path))
@@ -99,6 +99,6 @@ def test_old_result_files_directory_is_being_removed_when_existing_file_has_been
 
 
 def test_old_result_file_without_associated_file_doesnt_raise(expired_output_file):
-    call_command('purge_old_result_files', '--run_once')
+    call_command('purge_expired_result_files', '--run_once')
     old_id = expired_output_file.id
     assert OutputFile.objects.filter(pk=old_id).count() == 0
