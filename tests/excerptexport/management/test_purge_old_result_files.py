@@ -24,6 +24,21 @@ def output_file_with_file_too_old(db, output_file_with_file, mocker):
     return output_file_with_file
 
 
+@pytest.fixture
+def output_file_too_old(db, output_file, mocker):
+    from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
+    just_a_bit_too_old = timezone.now() - RESULT_FILE_AVAILABILITY_DURATION - timezone.timedelta(minutes=1)
+
+    output_file.file_removal_at = just_a_bit_too_old
+    output_file.save()
+
+    output_file.refresh_from_db()
+
+    assert output_file.file_removal_at == just_a_bit_too_old
+
+    return output_file
+
+
 def test_purge_old_result_files_call_exists():
     out = StringIO()
     call_command('purge_old_result_files', '--run_once', stdout=out)
@@ -82,4 +97,10 @@ def test_old_result_files_directory_is_being_removed_when_existing_file_has_been
 
     assert not os.path.exists(file_path)
     assert not os.path.exists(os.path.dirname(file_path))
+    assert OutputFile.objects.filter(pk=old_id).count() == 0
+
+
+def test_old_result_file_without_associated_file_doesnt_raise(output_file_too_old):
+    call_command('purge_old_result_files', '--run_once')
+    old_id = output_file_too_old.id
     assert OutputFile.objects.filter(pk=old_id).count() == 0
