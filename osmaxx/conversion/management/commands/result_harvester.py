@@ -56,8 +56,8 @@ class Command(BaseCommand):
         if job is None:  # already processed by someone else
             conversion_job.refresh_from_db()
             if conversion_job.status not in FINAL_STATUSES:
-                logger.error("job {} not found in queue but status is {} on database.".format(
-                    job_id, conversion_job.status
+                logger.error("job {} of conversion job {} not found in queue but status is {} on database.".format(
+                    job_id, conversion_job.id, conversion_job.status
                 ))
                 conversion_job.status = FAILED
                 conversion_job.save()
