@@ -54,10 +54,13 @@ class Command(BaseCommand):
                 export__output_file__file__isnull=False,
             )
             for old_file in old_files:
-                path = old_file.file.path
                 pk = old_file.id
+                success_message = "Output File #{} removed".format(pk)
+                if old_file.file:
+                    path = old_file.file.path
+                    success_message = "Output File #{}: {} removed".format(pk, path)
                 old_file.delete()
-                self._success("Output File #{}: {} removed".format(pk, path))
+                self._success(success_message)
 
         except Exception as e:
             logger.exception(e)
