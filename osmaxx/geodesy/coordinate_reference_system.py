@@ -89,7 +89,11 @@ def utm_zones_for_representing(geom):
 
 
 def wrap_longitude_degrees(longitude_degrees):
-    modulus = MAX_LONGITUDE_DEGREES - MIN_LONGITUDE_DEGREES
-    wrapped_longitude_degrees = (longitude_degrees - MIN_LONGITUDE_DEGREES) % modulus + MIN_LONGITUDE_DEGREES
-    assert MIN_LONGITUDE_DEGREES <= wrapped_longitude_degrees <= MAX_LONGITUDE_DEGREES
-    return wrapped_longitude_degrees
+    return confine(longitude_degrees, MIN_LONGITUDE_DEGREES, MAX_LONGITUDE_DEGREES)
+
+
+def confine(value, lower_bound, upper_bound):
+    modulus = upper_bound - lower_bound
+    result = (value - lower_bound) % modulus + lower_bound
+    assert lower_bound <= result <= upper_bound
+    return result
