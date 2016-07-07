@@ -86,6 +86,7 @@ def utm_zones_for_representing(geom):
 
 
 def wrap_longitude_degrees(longitude_degrees):
-    wrapped_longitude_degrees = (longitude_degrees - -180) % 360 + -180
+    modulus = 360
+    wrapped_longitude_degrees = (longitude_degrees - -180) % modulus + -180
     assert -180 <= wrapped_longitude_degrees <= 180
     return wrapped_longitude_degrees
