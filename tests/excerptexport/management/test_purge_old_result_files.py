@@ -10,7 +10,7 @@ from osmaxx.excerptexport.models import OutputFile
 
 
 @pytest.fixture
-def output_file_with_file_too_old(db, output_file_with_file, mocker):
+def expired_output_file_with_file(db, output_file_with_file, mocker):
     from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
     just_a_bit_too_old = timezone.now() - RESULT_FILE_AVAILABILITY_DURATION - timezone.timedelta(minutes=1)
 
@@ -25,7 +25,7 @@ def output_file_with_file_too_old(db, output_file_with_file, mocker):
 
 
 @pytest.fixture
-def output_file_too_old(db, output_file, mocker):
+def expired_output_file(db, output_file, mocker):
     from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION
     just_a_bit_too_old = timezone.now() - RESULT_FILE_AVAILABILITY_DURATION - timezone.timedelta(minutes=1)
 
@@ -57,12 +57,12 @@ def test_purge_old_result_files_with_existing_files_leaves_it_be_when_younger(db
     assert os.path.exists(output_file_with_file.file.path)
 
 
-def test_purge_old_result_files_with_existing_files_removes_it_when_older(output_file_with_file_too_old):
-    assert output_file_with_file_too_old.file
-    old_id = output_file_with_file_too_old.id
+def test_purge_old_result_files_with_existing_files_removes_it_when_older(expired_output_file_with_file):
+    assert expired_output_file_with_file.file
+    old_id = expired_output_file_with_file.id
 
-    file_path = output_file_with_file_too_old.file.path
-    pk = output_file_with_file_too_old.id
+    file_path = expired_output_file_with_file.file.path
+    pk = expired_output_file_with_file.id
     expected_output = "Output File #{}: {} removed".format(pk, file_path)
     out = StringIO()
     call_command('purge_old_result_files', '--run_once', stdout=out)
@@ -72,12 +72,12 @@ def test_purge_old_result_files_with_existing_files_removes_it_when_older(output
     assert OutputFile.objects.filter(pk=old_id).count() == 0
 
 
-def test_cleanup_old_result_files_when_existing_file_directory_has_been_removed_by_someone_else(output_file_with_file_too_old):
-    file_path = output_file_with_file_too_old.file.path
+def test_cleanup_old_result_files_when_existing_file_directory_has_been_removed_by_someone_else(expired_output_file_with_file):
+    file_path = expired_output_file_with_file.file.path
     shutil.rmtree(os.path.dirname(file_path))
 
-    assert output_file_with_file_too_old.file
-    old_id = output_file_with_file_too_old.id
+    assert expired_output_file_with_file.file
+    old_id = expired_output_file_with_file.id
 
     call_command('purge_old_result_files', '--run_once')
 
@@ -86,12 +86,12 @@ def test_cleanup_old_result_files_when_existing_file_directory_has_been_removed_
     assert OutputFile.objects.filter(pk=old_id).count() == 0
 
 
-def test_old_result_files_directory_is_being_removed_when_existing_file_has_been_removed_by_someone_else(output_file_with_file_too_old):
-    file_path = output_file_with_file_too_old.file.path
+def test_old_result_files_directory_is_being_removed_when_existing_file_has_been_removed_by_someone_else(expired_output_file_with_file):
+    file_path = expired_output_file_with_file.file.path
     os.remove(file_path)
 
-    assert output_file_with_file_too_old.file
-    old_id = output_file_with_file_too_old.id
+    assert expired_output_file_with_file.file
+    old_id = expired_output_file_with_file.id
 
     call_command('purge_old_result_files', '--run_once')
 
@@ -100,7 +100,7 @@ def test_old_result_files_directory_is_being_removed_when_existing_file_has_been
     assert OutputFile.objects.filter(pk=old_id).count() == 0
 
 
-def test_old_result_file_without_associated_file_doesnt_raise(output_file_too_old):
+def test_old_result_file_without_associated_file_doesnt_raise(expired_output_file):
     call_command('purge_old_result_files', '--run_once')
-    old_id = output_file_too_old.id
+    old_id = expired_output_file.id
     assert OutputFile.objects.filter(pk=old_id).count() == 0
