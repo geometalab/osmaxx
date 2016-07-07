@@ -39,13 +39,20 @@ proxy_set_header Upgrade $http_upgrade;
 proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
+server {
+    server_name _; # This is just an invalid value which will never trigger on a real hostname.
+    listen 80;
+    access_log /var/log/nginx/access.log;
+    return 503;
+}
+
 upstream frontend {
     server frontend:8000;
 }
 
 server {
     listen 80;
-    server_name _;
+    server_name ${DOMAIN_NAMES};
 
     location = /favicon.ico { access_log off; log_not_found off; }
 
@@ -57,5 +64,4 @@ server {
         autoindex off;
         root /data/frontend/;
     }
-
 }
