@@ -55,8 +55,7 @@ class Command(BaseCommand):
             )
             for old_file in old_files:
                 pk = old_file.id
-                success_message = "Output File #{} removed".format(pk)  # default
-                # if a file has never been attached, but still is stale, remove the object.
+                success_message = "Output File #{} removed".format(pk)
                 if old_file.file:
                     path = old_file.file.path
                     success_message = "Output File #{}: {} removed".format(pk, path)
