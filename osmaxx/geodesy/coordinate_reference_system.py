@@ -3,6 +3,9 @@ from django.contrib.gis.geos.polygon import Polygon
 
 from osmaxx.conversion_api.coordinate_reference_systems import WGS_84
 
+MIN_LONGITUDE_DEGREES = -180
+MAX_LONGITUDE_DEGREES = +180
+
 
 class UniversalTransverseMercatorZone:
     HEMISPHERE_PREFIXES = dict(
@@ -45,8 +48,8 @@ class UniversalTransverseMercatorZone:
         else:
             # cut at idealized international date line
             return MultiPolygon(
-                Polygon.from_bbox((xmin, ymin, 180, ymax)),
-                Polygon.from_bbox((-180, ymin, xmax, ymax)),
+                Polygon.from_bbox((xmin, ymin, MAX_LONGITUDE_DEGREES, ymax)),
+                Polygon.from_bbox((MIN_LONGITUDE_DEGREES, ymin, xmax, ymax)),
                 srid=WGS_84,
             )
 
@@ -56,7 +59,7 @@ class UniversalTransverseMercatorZone:
 
     @property
     def central_meridian_longitude_degrees(self):
-        return -180 + (self.utm_zone_number - 0.5) * self.ZONE_WIDTH_DEGREES
+        return MIN_LONGITUDE_DEGREES + (self.utm_zone_number - 0.5) * self.ZONE_WIDTH_DEGREES
 
     def __eq__(self, other):
         return self.hemisphere, self.utm_zone_number == other.hemisphere, other.utm_zone_number
@@ -86,7 +89,7 @@ def utm_zones_for_representing(geom):
 
 
 def wrap_longitude_degrees(longitude_degrees):
-    modulus = 180 - -180
-    wrapped_longitude_degrees = (longitude_degrees - -180) % modulus + -180
-    assert -180 <= wrapped_longitude_degrees <= 180
+    modulus = MAX_LONGITUDE_DEGREES - MIN_LONGITUDE_DEGREES
+    wrapped_longitude_degrees = (longitude_degrees - MIN_LONGITUDE_DEGREES) % modulus + MIN_LONGITUDE_DEGREES
+    assert MIN_LONGITUDE_DEGREES <= wrapped_longitude_degrees <= MAX_LONGITUDE_DEGREES
     return wrapped_longitude_degrees
