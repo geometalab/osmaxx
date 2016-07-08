@@ -7,7 +7,10 @@ MIN_LONGITUDE_DEGREES = -180
 MAX_LONGITUDE_DEGREES = +180
 
 
-class UniversalTransverseMercatorZone:
+class UTMZone:
+    """
+    Universal Transverse Mercator (UTM) zone
+    """
     HEMISPHERE_PREFIXES = dict(north=326, south=327)
     NUMBER_OF_ZONES_PER_HEMISPHERE = 60
     VALID_ZONE_NUMBERS = range(1, NUMBER_OF_ZONES_PER_HEMISPHERE + 1)
@@ -74,12 +77,12 @@ class UniversalTransverseMercatorZone:
         )
 
     def __repr__(self):
-        return "UTMZone({hemisphere}, {zone_number})".format(
+        return "{cls}({hemisphere}, {zone_number})".format(
+            cls=type(self).__name__,
             zone_number=self.utm_zone_number,
             hemisphere=repr(self.hemisphere),
         )
 
-UTMZone = UniversalTransverseMercatorZone
 UTM_ZONE_NUMBERS = UTMZone.VALID_ZONE_NUMBERS
 ALL_UTM_ZONES = frozenset(
     UTMZone(hs, nr)
