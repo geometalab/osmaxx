@@ -2,3 +2,5 @@
 Jinja2
 ruamel.yaml
 ipython
+pydocverter
+pypandoc
