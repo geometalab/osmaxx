@@ -46,10 +46,7 @@ def prepare_for_release(release_version):
 
 
 def create_data_schema_documentation():
-    try:
-        import pypandoc as converter
-    except ImportError:
-        import pydocverter as converter
+    import pypandoc as converter
 
     module_folder = os.path.dirname(__file__)
     docs_folder = os.path.abspath(os.path.join(module_folder, 'docs'))
