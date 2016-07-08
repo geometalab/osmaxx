@@ -57,7 +57,6 @@ LOCAL_APPS = (
     'osmaxx.conversion_api',
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
-    'osmaxx.social_auth',
     'osmaxx.profile',
     'osmaxx.core',
 )
@@ -232,8 +231,6 @@ WSGI_APPLICATION = 'web_frontend.config.wsgi.application'
 AUTHENTICATION_BACKENDS = (
     'social.backends.open_id.OpenIdAuth',
     'social.backends.openstreetmap.OpenStreetMapOAuth',
-    'osmaxx.social_auth.backends.clavid_backend.ClavidChOpenId',
-    'osmaxx.social_auth.backends.clavid_backend.ClavidComOpenId',
     'django.contrib.auth.backends.ModelBackend',
 )
 

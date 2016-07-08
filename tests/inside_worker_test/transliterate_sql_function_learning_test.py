@@ -25,10 +25,10 @@ def international_text(request):
 
 
 @slow
-def test_transliterate_works_as_expected(osmaxx_functions, international_text):
+def test_osml10n_translit_works_as_expected(osmaxx_functions, international_text):
     engine = osmaxx_functions
     text_escaped = international_text['text']
-    result = engine.execute(sqlalchemy.text("select transliterate($${}$$) as label;".format(text_escaped)).execution_options(autocommit=True))
+    result = engine.execute(sqlalchemy.text("select osml10n_translit($${}$$) as label;".format(text_escaped)).execution_options(autocommit=True))
     assert result.rowcount == 1
     results = result.fetchall()
     assert len(results) == 1

@@ -41,6 +41,10 @@ class Command(BaseCommand):
             self._update_job(job_id=job_id, queue=queue)
 
     def _update_job(self, job_id, queue):
+        if job_id is None:
+            logger.error("job_id is None, None is not a valid id!")
+            return
+
         job = queue.fetch_job(job_id)
 
         try:
@@ -52,8 +56,8 @@ class Command(BaseCommand):
         if job is None:  # already processed by someone else
             conversion_job.refresh_from_db()
             if conversion_job.status not in FINAL_STATUSES:
-                logger.warning("job {} not found in queue but status is {} on database.".format(
-                    job_id, conversion_job.status
+                logger.error("job {} of conversion job {} not found in queue but status is {} on database.".format(
+                    job_id, conversion_job.id, conversion_job.status
                 ))
                 conversion_job.status = FAILED
                 conversion_job.save()
@@ -63,6 +67,7 @@ class Command(BaseCommand):
         conversion_job.status = job.status
         if job.status == FINISHED:
             add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
+            add_meta_data_to_job(conversion_job=conversion_job, rq_job=job)
         conversion_job.save()
         self._notify(conversion_job)
         if job.status in FINAL_STATUSES:
@@ -85,3 +90,16 @@ def add_file_to_job(*, conversion_job, result_zip_file):
         os.makedirs(new_directory_path, exist_ok=True)
     shutil.move(result_zip_file, new_path)
     return new_path
+
+
+def add_meta_data_to_job(*, conversion_job, rq_job):
+    from pbf_file_size_estimation.app_settings import PBF_FILE_SIZE_ESTIMATION_CSV_FILE_PATH
+    from pbf_file_size_estimation.estimate_size import estimate_size_of_extent
+    west, south, east, north = conversion_job.parametrization.clipping_area.clipping_multi_polygon.extent
+    estimated_pbf_size = estimate_size_of_extent(
+        PBF_FILE_SIZE_ESTIMATION_CSV_FILE_PATH, west, south, east, north
+    )
+
+    conversion_job.unzipped_result_size = rq_job.meta['unzipped_result_size']
+    conversion_job.extraction_duration = rq_job.meta['duration']
+    conversion_job.estimated_pbf_size = estimated_pbf_size

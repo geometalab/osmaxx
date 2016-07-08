@@ -17,12 +17,12 @@ INSERT INTO osmaxx.transport_l
     "name:de"          AS name_de,
     int_name           AS name_int,
     CASE
-      WHEN name IS NOT NULL AND name = transliterate(name) THEN name
+      WHEN name IS NOT NULL AND name = osml10n_translit(name) THEN name
       WHEN "name:en" IS NOT NULL THEN "name:en"
       WHEN "name:fr" IS NOT NULL THEN "name:fr"
       WHEN "name:es" IS NOT NULL THEN "name:es"
       WHEN "name:de" IS NOT NULL THEN "name:de"
-      WHEN name IS NOT NULL THEN transliterate(name)
+      WHEN name IS NOT NULL THEN osml10n_translit(name)
       ELSE NULL
     END                AS label,
     cast(tags AS TEXT) AS tags
@@ -67,12 +67,12 @@ UNION
       "name:de"          AS name_de,
       int_name           AS name_int,
       CASE
-        WHEN name IS NOT NULL AND name = transliterate(name) THEN name
+        WHEN name IS NOT NULL AND name = osml10n_translit(name) THEN name
         WHEN "name:en" IS NOT NULL THEN "name:en"
         WHEN "name:fr" IS NOT NULL THEN "name:fr"
         WHEN "name:es" IS NOT NULL THEN "name:es"
         WHEN "name:de" IS NOT NULL THEN "name:de"
-        WHEN name IS NOT NULL THEN transliterate(name)
+        WHEN name IS NOT NULL THEN osml10n_translit(name)
         ELSE NULL
       END                AS label,
       cast(tags AS TEXT) AS tags

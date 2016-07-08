@@ -8,6 +8,8 @@ services:
       - frontend
     networks:
       - osmaxx-internal
+    environment:
+      - VIRTUAL_HOST=localhost,127.0.0.1
   # if you change the names of the containers, please remember
   # that you need to adapt REAMDE.md
   ##### frontend START ########
