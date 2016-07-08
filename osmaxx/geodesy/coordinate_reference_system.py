@@ -8,10 +8,7 @@ MAX_LONGITUDE_DEGREES = +180
 
 
 class UniversalTransverseMercatorZone:
-    HEMISPHERE_PREFIXES = dict(
-        north=326,
-        south=327,
-    )
+    HEMISPHERE_PREFIXES = dict(north=326, south=327)
     NUMBER_OF_ZONES_PER_HEMISPHERE = 60
     VALID_ZONE_NUMBERS = range(1, NUMBER_OF_ZONES_PER_HEMISPHERE + 1)
     ZONE_WIDTH_DEGREES = 360 / NUMBER_OF_ZONES_PER_HEMISPHERE
