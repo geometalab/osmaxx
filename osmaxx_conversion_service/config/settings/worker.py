@@ -35,14 +35,20 @@ if SENTRY_DSN:
         },
         'handlers': {
             'sentry': {
-                'level': 'WARNING',
+                'level': 'ERROR',
                 'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler'
             },
             'console': {
                 'level': 'DEBUG',
                 'class': 'logging.StreamHandler',
                 'formatter': 'verbose'
-            }
+            },
+            "rq_console": {
+                "level": "DEBUG",
+                "class": "rq.utils.ColorizingStreamHandler",
+                "formatter": "rq_console",
+                "exclude": ["%(asctime)s"],
+            },
         },
         'loggers': {
             'django.db.backends': {
@@ -52,7 +58,7 @@ if SENTRY_DSN:
             },
             "rq.worker": {
                 "level": "WARNING",
-                "handlers": ["sentry"],
+                "handlers": ['rq_console', "sentry"],
             },
             'raven': {
                 'level': 'DEBUG',
