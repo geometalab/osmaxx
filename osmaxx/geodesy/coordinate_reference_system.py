@@ -15,7 +15,7 @@ class UniversalTransverseMercatorZone:
     MAX_LONGITUDE_OFFSET = 90.0 - 9.9e-14
 
     def __init__(self, hemisphere, utm_zone_number):
-        assert hemisphere in self.HEMISPHERE_PREFIXES.keys()
+        assert hemisphere in self.HEMISPHERE_PREFIXES
         assert utm_zone_number in self.VALID_ZONE_NUMBERS
         self.hemisphere = hemisphere
         self.utm_zone_number = utm_zone_number
