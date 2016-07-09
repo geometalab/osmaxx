@@ -14,10 +14,11 @@ MarkupSafe==0.23          # via jinja2
 pexpect==4.1.0            # via ipython
 pickleshare==0.7.2        # via ipython
 ptyprocess==0.5.1         # via pexpect
+pypandoc==1.1.3
 ruamel.yaml==0.11.11
 simplegeneric==0.8.1      # via ipython
 traitlets==4.2.1          # via ipython
 
 # The following packages are commented out because they are
 # considered to be unsafe in a requirements file:
-# setuptools                # via ipython
+# setuptools                # via ipython, pypandoc
