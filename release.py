@@ -67,7 +67,12 @@ def make_release_specific_changes(release_version):
         ["git", "commit", "-m", 'added makemessages output', 'osmaxx/locale'],
     ])
     create_data_schema_documentation()
-    execute(["git", "commit", "-m", 'updated schema documentation HTML', 'osmaxx/conversion/converters/converter_gis/static/doc/osmaxx_data_schema.html'])
+    execute(
+        [
+            "git", "commit", "-m", 'updated schema documentation HTML',
+            'osmaxx/conversion/converters/converter_gis/static/doc/osmaxx_data_schema.html',
+        ]
+    )
     version_file_path = os.path.join(os.path.dirname(__file__), 'osmaxx', '__init__.py')
     for line in fileinput.input(version_file_path, inplace=True):
         line = line.rstrip(os.linesep)
