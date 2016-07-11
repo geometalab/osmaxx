@@ -108,6 +108,35 @@ services:
       - osm-world
       - osmboundaries
       - osmaxx-internal
+  worker-high:
+    image: geometalab/osmaxx-worker:${DEPLOY_VERSION}
+    extends:
+      file: docker-compose-common.yml
+      service: conversionbase
+    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
+    volumes:
+      - osm_data:/var/data/osm-planet
+      - worker-data:/data/media/job_result_files
+    links:
+      - conversionserviceredis:redis
+      - world-database
+      - osmboundaries-database
+    env_file:
+      - ./compose-env/worker.env
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
+      # only listens for jobs in this specific queue
+      - WORKER_QUEUES=high
+    depends_on:
+      - conversionserviceredis
+      - world-database
+      - osmboundaries-database
+    networks:
+      - osm-world
+      - osmboundaries
+      - osmaxx-internal
   conversionserviceredis:
     image: redis
     networks:

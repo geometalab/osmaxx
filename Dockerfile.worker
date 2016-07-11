@@ -175,6 +175,7 @@ ADD ./osmaxx_conversion_service $HOME/osmaxx_conversion_service
 # expose modules
 ENV PYTHONPATH=PYTHONPATH:$HOME
 ENV DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
+ENV WORKER_QUEUES default high
 
 ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]
 

@@ -52,6 +52,10 @@ class Job(models.Model):
     own_base_url = models.CharField(
         _('own base url'), help_text=_('the url from which this job is reachable'), max_length=250
     )
+    queue_name = models.CharField(
+        _('queue name'), help_text=_('queue name for processing'), default='default',
+        max_length=50, choices=[(key, key) for key in settings.RQ_QUEUES]
+    )
 
     def start_conversion(self, *, use_worker=True):
         self.rq_job_id = convert(
@@ -63,6 +67,7 @@ class Job(models.Model):
             detail_level=self.parametrization.detail_level,
             out_srs=self.parametrization.epsg,
             use_worker=use_worker,
+            queue_name=self.queue_name,
         )
         self.save()
 
