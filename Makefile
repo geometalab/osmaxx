@@ -43,7 +43,7 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 	    < $< \
 	    > $@
 
-PIP_TOOLS_SOURCE_SPEC_FILES := $(wildcard *requirements*.in)
+PIP_TOOLS_SOURCE_SPEC_FILES := requirements-all.in requirements-local.in requirements-mediator.in
 PIP_TOOLS_COMPILED_SPEC_FILES := $(PIP_TOOLS_SOURCE_SPEC_FILES:.in=.txt)
 
 .PHONY: pip-upgrade
@@ -60,7 +60,7 @@ pip-upgrade: $(PIP_TOOLS_SOURCE_SPEC_FILES)
 	@echo now.
 
 .PHONY: pip-sync-all
-pip-sync-all: $(PIP_TOOLS_COMPILED_SPEC_FILES)
+pip-sync-all: requirements-all.txt
 	pip-sync $?
 
 %.txt: %.in
