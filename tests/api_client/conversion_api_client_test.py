@@ -119,55 +119,55 @@ def test_create_parametrization_returns_post_request_response_json_payload_as_di
     assert result == c.authorized_post.return_value.json.return_value
 
 
-def test_create_job_makes_authorized_post_with_json_payload(mocker):
+def test_create_job_makes_authorized_post_with_json_payload(mocker, user):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
     post_parametrization_reply = dict(id=sentinel.PARAMETRIZATION_ID)
-    c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL)
+    c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL, user=user)
     c.authorized_post.assert_called_once_with(url=ANY, json_data=ANY)
 
 
-def test_create_job_posts_to_conversion_job_resource(mocker):
+def test_create_job_posts_to_conversion_job_resource(mocker, user):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
     post_parametrization_reply = dict(id=sentinel.PARAMETRIZATION_ID)
-    c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL)
+    c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL, user=user)
     args, kwargs = c.authorized_post.call_args
     assert kwargs['url'] == 'conversion_job/'
 
 
-def test_create_job_posts_payload_with_structure_expected_by_conversion_servic_api(mocker):
+def test_create_job_posts_payload_with_structure_expected_by_conversion_servic_api(mocker, user):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
     post_parametrization_reply = dict(id=sentinel.PARAMETRIZATION_ID)
-    c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL)
+    c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL, user=user)
     args, kwargs = c.authorized_post.call_args
-    assert_that(kwargs['json_data'].keys(), contains_inanyorder('callback_url', 'parametrization'))
+    assert_that(kwargs['json_data'].keys(), contains_inanyorder('callback_url', 'parametrization', 'queue_name'))
 
 
-def test_create_job_posts_callback_url(mocker):
+def test_create_job_posts_callback_url(mocker, user):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
     post_parametrization_reply = dict(id=sentinel.PARAMETRIZATION_ID)
-    c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL)
+    c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL, user=user)
     args, kwargs = c.authorized_post.call_args
     assert kwargs['json_data']['callback_url'] == sentinel.CALLBACK_URL
 
 
-def test_create_job_posts_parametrization_id(mocker):
+def test_create_job_posts_parametrization_id(mocker, user):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
     post_parametrization_reply = dict(id=sentinel.PARAMETRIZATION_ID)
-    c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL)
+    c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL, user=user)
     args, kwargs = c.authorized_post.call_args
     assert kwargs['json_data']['parametrization'] == sentinel.PARAMETRIZATION_ID
 
 
-def test_create_job_returns_post_request_response_json_payload_as_dict(mocker):
+def test_create_job_returns_post_request_response_json_payload_as_dict(mocker, user):
     c = ConversionApiClient()
     mocker.patch.object(c, 'authorized_post', autospec=True)
     post_parametrization_reply = dict(id=sentinel.PARAMETRIZATION_ID)
-    result = c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL)
+    result = c.create_job(parametrization=post_parametrization_reply, callback_url=sentinel.CALLBACK_URL, user=user)
     assert result == c.authorized_post.return_value.json.return_value
 
 

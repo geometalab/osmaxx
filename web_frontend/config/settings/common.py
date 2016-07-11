@@ -396,6 +396,7 @@ OSMAXX = {
     'CONVERSION_SERVICE_URL': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_URL', default='http://localhost:8901/api/'),
     'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME', default='default_user'),
     'CONVERSION_SERVICE_PASSWORD': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD', default='default_password'),
+    'EXCLUSIVE_USER_GROUP': 'osmaxx_high_priority',  # high priority people
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

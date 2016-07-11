@@ -65,7 +65,9 @@ class Export(TimeStampModelMixin, models.Model):
         out_srs = self.extraction_order.coordinate_reference_system
         detail_level = self.extraction_order.detail_level
         parametrization_json = api_client.create_parametrization(boundary=clipping_area_json, out_format=extraction_format, detail_level=detail_level, out_srs=out_srs)
-        job_json = api_client.create_job(parametrization_json, self.get_full_status_update_uri(incoming_request))
+        job_json = api_client.create_job(
+            parametrization_json, self.get_full_status_update_uri(incoming_request), user=self.extraction_order.orderer
+        )
         self.conversion_service_job_id = job_json['id']
         self.status = job_json['status']
         self.save()

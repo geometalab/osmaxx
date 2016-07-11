@@ -110,8 +110,8 @@ def test_extraction_order_forward_to_conversion_service(
     )
     assert_that(
         ConversionApiClient.create_job.mock_calls, contains_inanyorder(
-            mock.call(sentinel.parametrization_1, ANY),
-            mock.call(sentinel.parametrization_2, ANY),
+            mock.call(sentinel.parametrization_1, ANY, user=ANY),
+            mock.call(sentinel.parametrization_2, ANY, user=ANY),
         )
     )
     fgdb_export = extraction_order.exports.get(file_format=FGDB)
@@ -120,8 +120,8 @@ def test_extraction_order_forward_to_conversion_service(
     spatialite_callback_uri_path = reverse('job_progress:tracker', kwargs=dict(export_id=spatialite_export.id))
     assert_that(
         ConversionApiClient.create_job.mock_calls, contains_inanyorder(
-            mock.call(ANY, 'http://' + the_host + fgdb_callback_uri_path),
-            mock.call(ANY, 'http://' + the_host + spatialite_callback_uri_path),
+            mock.call(ANY, 'http://' + the_host + fgdb_callback_uri_path, user=ANY),
+            mock.call(ANY, 'http://' + the_host + spatialite_callback_uri_path, user=ANY),
         )
     )
     assert_that(
