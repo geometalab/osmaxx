@@ -1,3 +1,5 @@
+import math
+
 from osmaxx.conversion.models import Job
 from osmaxx.conversion_api import formats
 from osmaxx.conversion.converters import detail_levels
@@ -36,7 +38,10 @@ def size_estimation_for_format(format_type, detail_level, predicted_pbf_size):
     import scipy.stats
     predicted_pbf_sizes, actual_measured_sizes = get_data(format_type, detail_level)
     regression = scipy.stats.linregress(x=predicted_pbf_sizes, y=actual_measured_sizes)
-    return predicted_pbf_size * regression.slope + regression.intercept
+    size_estimation = predicted_pbf_size * regression.slope + regression.intercept
+    if math.isnan(size_estimation):  # JSON Spec doesn't allow NaN in jquery
+        return "NaN"
+    return size_estimation
 
 
 def get_data(format_type, detail_level):
