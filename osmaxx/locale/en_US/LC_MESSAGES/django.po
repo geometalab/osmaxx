@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 
 #: osmaxx/conversion/converters/detail_levels.py:9
-msgid "Full Detail"
+msgid "Full detail"
 msgstr ""
 
 #: osmaxx/conversion/converters/detail_levels.py:10
@@ -769,7 +769,7 @@ msgid "Export options"
 msgstr ""
 
 #: osmaxx/excerptexport/forms/order_options_mixin.py:44
-msgid "GIS Options (ignored for garmin)"
+msgid "GIS options (ignored for garmin)"
 msgstr ""
 
 #: osmaxx/excerptexport/models/excerpt.py:19
@@ -911,7 +911,7 @@ msgid "Filter"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/export_sidebar.html:8
-msgid "Show All"
+msgid "Show all"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/export_sidebar.html:18
