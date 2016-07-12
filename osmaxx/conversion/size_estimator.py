@@ -52,7 +52,7 @@ def get_data(format_type, detail_level):
         parametrization__detail_level=detail_level,
         unzipped_result_size__isnull=False,
         estimated_pbf_size__isnull=False
-    ).values_list('estimated_pbf_size', 'unzipped_result_size')
+    ).distinct('estimated_pbf_size').values_list('estimated_pbf_size', 'unzipped_result_size')
     if len(data_points) >= 4:
         pbf_size_prediction, actual_result_size = zip(*data_points)
         return pbf_size_prediction, actual_result_size
