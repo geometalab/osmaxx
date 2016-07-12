@@ -7,7 +7,7 @@ from setuptools import setup
 
 name = 'geometalab.osmaxx'
 package = 'osmaxx'
-description = 'conversion REST service API Frontend for Osmaxx'
+description = 'conversion REST service API Frontend for OSMaxx'
 url = 'https://github.com/geometalab/osmaxx-conversion-service'
 author = 'Raphael Das Gupta, Nicola Jordan, Dhruv Sharma, Tobias Blaser, Eugene Phua, Bhavya Chandra, Benedita Tanabi'
 author_email = 'geometalab@hsr.ch'
