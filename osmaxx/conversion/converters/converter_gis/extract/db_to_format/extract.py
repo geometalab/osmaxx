@@ -16,7 +16,7 @@ FORMATS = {
         'extraction_options': [],
     },
     SHAPEFILE: {
-        'ogr_name': 'ESRI Shapefile',
+        'ogr_name': 'Esri Shapefile',
         'extension': '.shp',
         'extraction_options': [],
     },

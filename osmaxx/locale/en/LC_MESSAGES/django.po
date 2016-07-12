@@ -615,12 +615,12 @@ msgstr ""
 
 #: osmaxx/conversion_api/formats.py:46
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:11
-msgid "ESRI File Geodatabase"
+msgid "Esri File Geodatabase"
 msgstr ""
 
 #: osmaxx/conversion_api/formats.py:53
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:9
-msgid "ESRI Shapefile"
+msgid "Esri Shapefile"
 msgstr ""
 
 #: osmaxx/conversion_api/formats.py:60
