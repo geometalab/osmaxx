@@ -108,7 +108,7 @@ services:
       - osm-world
       - osmboundaries
       - osmaxx-internal
-  worker-high:
+  worker-exclusive:
     image: geometalab/osmaxx-worker:${DEPLOY_VERSION}
     extends:
       file: docker-compose-common.yml
