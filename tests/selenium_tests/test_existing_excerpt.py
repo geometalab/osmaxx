@@ -22,7 +22,7 @@ def test_existing_excerpt(base_url, prerequisite, file_format, selenium, reload_
     selenium.get('{0}/'.format(base_url))
 
     # go to existing excerpt menu
-    menu = selenium.find_element_by_link_text('➽ Existing excerpt / country')
+    menu = selenium.find_element_by_link_text('➽ Existing Excerpt / Country')
     menu.click()
 
     # select existing excerpt

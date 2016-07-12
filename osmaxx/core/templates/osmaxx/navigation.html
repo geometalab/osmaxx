@@ -4,19 +4,19 @@
     <ul class="nav nav-pills">
         <li role="presentation">
             <a href="{% url 'excerptexport:order_existing_excerpt' %}">
-                <span class="menu_icon">&#x27bd;</span>&nbsp;{% trans 'Existing excerpt / country' %}
+                <span class="menu_icon">&#x27bd;</span>&nbsp;{% trans 'Existing Excerpt / Country' %}
             </a>
         </li>
         <li role="presentation">
             <a href="{% url 'excerptexport:order_new_excerpt' %}">
-                <span class="menu_icon">&#8983;</span>&nbsp;{% trans 'New excerpt' %}
+                <span class="menu_icon">&#8983;</span>&nbsp;{% trans 'New Excerpt' %}
             </a>
         </li>
 
         {% if user.is_authenticated %}
         <li role="presentation">
             <a href="{% url 'excerptexport:export_list' %}">
-                <span class="menu_icon">&#x2637;</span>&nbsp;{% trans 'My exports' %}
+                <span class="menu_icon">&#x2637;</span>&nbsp;{% trans 'My Exports' %}
             </a>
         </li>
         <li role="presentation">

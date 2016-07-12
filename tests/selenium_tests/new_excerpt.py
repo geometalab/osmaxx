@@ -6,7 +6,7 @@ def new_excerpt(driver, base_url):
     driver.get('{0}/'.format(base_url))
 
     # go to new excerpt menu
-    new_excerpt = driver.find_element_by_link_text('⌗ New excerpt')
+    new_excerpt = driver.find_element_by_link_text('⌗ New Excerpt')
     new_excerpt.click()
     driver.execute_script("document.getElementById('div_id_bounding_geometry').className = '';")
 

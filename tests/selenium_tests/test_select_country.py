@@ -15,7 +15,7 @@ def test_select_country(base_url, login, file_format, selenium, reload_until_con
     selenium.get('{0}/'.format(base_url))
 
     # go to country menu
-    country_page = selenium.find_element_by_link_text('➽ Existing excerpt / country')
+    country_page = selenium.find_element_by_link_text('➽ Existing Excerpt / Country')
     country_page.click()
 
     # select monaco

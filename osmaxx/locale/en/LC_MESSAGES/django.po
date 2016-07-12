@@ -703,14 +703,17 @@ msgid "Home"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:7
-msgid "Existing excerpt / country"
+msgid "Existing Excerpt / Country"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:12
-msgid "New excerpt"
+msgid "New Excerpt"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:19
+msgid "My Exports"
+msgstr ""
+
 #: osmaxx/excerptexport/templates/excerptexport/templates/index.html:33
 msgid "My exports"
 msgstr ""
