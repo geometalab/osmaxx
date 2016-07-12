@@ -244,21 +244,16 @@ REST_FRAMEWORK = {
 }
 
 # RQ settings
+REDIS_CONNECTION = dict(
+    HOST=env.str('REDIS_HOST', default='localhost'),
+    PORT=env.str('REDIS_PORT', default=6379),
+    DB=0,
+    PASSWORD='',
+    DEFAULT_TIMEOUT=int(timedelta(days=1).total_seconds())
+)
 RQ_QUEUES = {
-    'default': {
-        'HOST': env.str('REDIS_HOST', default='localhost'),
-        'PORT': env.str('REDIS_PORT', default=6379),
-        'DB': 0,
-        'PASSWORD': '',
-        'DEFAULT_TIMEOUT': int(timedelta(days=1).total_seconds()),
-    },
-    'high': {
-        'HOST': env.str('REDIS_HOST', default='localhost'),
-        'PORT': env.str('REDIS_PORT', default=6379),
-        'DB': 0,
-        'PASSWORD': '',
-        'DEFAULT_TIMEOUT': int(timedelta(days=1).total_seconds()),
-    },
+    'default': REDIS_CONNECTION,
+    'high': REDIS_CONNECTION,
 }
 
 JWT_AUTH = {
