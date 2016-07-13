@@ -111,13 +111,13 @@ osm_tablename_g_vNN (example: osm_building_a_v01.gpkg)
 * vNN: Version of the data model
 
 For some roads and other tables of geometry type (Multi-)Linestring, there will be tables with
-generalized geometry, called _gen0, _gen1 as follows (gen- generalized):
+generalized geometry, called `_gen0`, `_gen1` as follows (gen- generalized):
 
-* _gen0: smoothed for highest zoom level
-* _gen1: simplified
-* _gen2: more simplified
+* `_gen0`: smoothed for highest zoom level
+* `_gen1`: simplified
+* `_gen2`: more simplified
 
-example: osm_building_a_gen1_v01.gpkg
+example: `osm_building_a_gen1_v01.gpkg`
 
 ## Layer Specification Headers
 
