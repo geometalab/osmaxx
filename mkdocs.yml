@@ -1,4 +1,4 @@
-site_name: osmaxx
-site_description: conversion service API Frontend for Osmaxx
-repo_url: https://github.com/geometalab/osmaxx-conversion-service
+site_name: OSMaxx
+site_description: OpenStreetMap arbitrary excerpt export
+repo_url: https://github.com/geometalab/osmaxx
 site_dir: html

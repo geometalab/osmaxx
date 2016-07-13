@@ -1,4 +1,4 @@
-titel               = "OpenStreetMap-Daten im Datenmodell Osmaxx v.2"
+titel               = "OpenStreetMap-Daten im Datenmodell OSMaxx v.2"
 abstract            = "OpenStreetMap-Daten aufbereitet zur Kartenerstellung, POI-Suche und Analyse"
 bezug               = "CH" 
 geodatentyp         = Vector

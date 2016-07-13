@@ -42,15 +42,15 @@ class OutputFormat:
 
 FORMAT_DEFINITIONS = OrderedDict([
     (FGDB, OutputFormat(
-        long_identifier='ESRI File Geodatabase',
-        verbose_name=_('ESRI File Geodatabase'),
+        long_identifier='Esri File Geodatabase',
+        verbose_name=_('Esri File Geodatabase'),
         archive_file_name_identifier='FileGDB',
         abbreviations=['FileGDB', 'FGDB'],
         is_white_box=True,
     )),
     (SHAPEFILE, OutputFormat(
-        long_identifier='ESRI Shapefile',
-        verbose_name=_('ESRI Shapefile'),
+        long_identifier='Esri Shapefile',
+        verbose_name=_('Esri Shapefile'),
         archive_file_name_identifier='Shapefile',
         abbreviations=[],
         is_white_box=True,
