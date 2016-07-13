@@ -52,9 +52,6 @@ services:
       options:
         max-size: 1M
   worker:
-    extends:
-      file: docker-compose-common.yml
-      service: conversionbase
     volumes:
       - ./osmaxx:/home/py/osmaxx
       - ./web_frontend:/home/py/web_frontend
@@ -62,18 +59,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.worker
-    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
     environment:
       - DJANGO_SECRET_KEY=insecure!3
-      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
     logging:
       driver: "json-file"
       options:
         max-size: 1M
   worker-exclusive:
-    extends:
-      file: docker-compose-common.yml
-      service: conversionbase
     volumes:
       - ./osmaxx:/home/py/osmaxx
       - ./web_frontend:/home/py/web_frontend
@@ -81,10 +73,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.worker
-    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
     environment:
       - DJANGO_SECRET_KEY=insecure!4
-      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
     logging:
       driver: "json-file"
       options:
