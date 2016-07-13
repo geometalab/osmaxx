@@ -54,7 +54,7 @@ class Job(models.Model):
     )
     queue_name = models.CharField(
         _('queue name'), help_text=_('queue name for processing'), default='default',
-        max_length=50, choices=[(key, key) for key in settings.RQ_QUEUES]
+        max_length=50, choices=[(key, key) for key in settings.RQ_QUEUE_NAMES]
     )
 
     def start_conversion(self, *, use_worker=True):
