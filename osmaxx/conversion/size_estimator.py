@@ -47,13 +47,15 @@ def size_estimation_for_format(format_type, detail_level, predicted_pbf_size):
 def get_data(format_type, detail_level):
     assert format_type in formats.FORMAT_DEFINITIONS
     assert detail_level in [level[0] for level in detail_levels.DETAIL_LEVEL_CHOICES]
-    data_points = Job.objects.filter(
+    base_query_set = Job.objects.filter(
         parametrization__out_format=format_type,
         parametrization__detail_level=detail_level,
         unzipped_result_size__isnull=False,
         estimated_pbf_size__isnull=False
-    ).distinct('estimated_pbf_size').values_list('estimated_pbf_size', 'unzipped_result_size')
-    if len(data_points) >= 4:
-        pbf_size_prediction, actual_result_size = zip(*data_points)
+    ).order_by('estimated_pbf_size')
+    if base_query_set.distinct('estimated_pbf_size').count() >= 4:
+        pbf_size_prediction, actual_result_size = zip(
+            *base_query_set.values_list('estimated_pbf_size', 'unzipped_result_size')
+        )
         return pbf_size_prediction, actual_result_size
     return PRE_DATA[format_type]['pbf_predicted'], PRE_DATA[format_type][detail_level]
