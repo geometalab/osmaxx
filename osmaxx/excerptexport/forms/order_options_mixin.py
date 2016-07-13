@@ -41,7 +41,7 @@ class OrderOptionsMixin(forms.Form):
             ),
             Div(
                 Fieldset(
-                    _('GIS Options (ignored for Garmin)'),
+                    _('GIS options (ignored for Garmin)'),
                     'coordinate_reference_system',
                     'detail_level',
                 ),

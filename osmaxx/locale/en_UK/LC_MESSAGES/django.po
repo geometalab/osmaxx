@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 
 #: osmaxx/conversion/converters/detail_levels.py:9
-msgid "Full Detail"
+msgid "Full detail"
 msgstr ""
 
 #: osmaxx/conversion/converters/detail_levels.py:10
@@ -703,14 +703,17 @@ msgid "Home"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:7
-msgid "Existing excerpt / country"
+msgid "Existing Excerpt / Country"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:12
-msgid "New excerpt"
+msgid "New Excerpt"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:19
+msgid "My Exports"
+msgstr ""
+
 #: osmaxx/excerptexport/templates/excerptexport/templates/index.html:33
 msgid "My exports"
 msgstr ""
@@ -769,7 +772,7 @@ msgid "Export options"
 msgstr ""
 
 #: osmaxx/excerptexport/forms/order_options_mixin.py:44
-msgid "GIS Options (ignored for Garmin)"
+msgid "GIS options (ignored for Garmin)"
 msgstr ""
 
 #: osmaxx/excerptexport/models/excerpt.py:19
@@ -911,7 +914,7 @@ msgid "Filter"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/export_sidebar.html:8
-msgid "Show All"
+msgid "Show all"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/export_sidebar.html:18

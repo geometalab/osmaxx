@@ -6,7 +6,7 @@ DETAIL_LEVEL_ALL = 120
 DETAIL_LEVEL_REDUCED = 60
 
 DETAIL_LEVEL_CHOICES = (
-    (DETAIL_LEVEL_ALL, _('Full Detail')),
+    (DETAIL_LEVEL_ALL, _('Full detail')),
     (DETAIL_LEVEL_REDUCED, _('Simplified')),
 )
 
