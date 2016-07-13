@@ -711,6 +711,8 @@ msgid "New Excerpt"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:19
+#: osmaxx/excerptexport/templates/excerptexport/export_detail.html:4
+#: osmaxx/excerptexport/templates/excerptexport/export_list.html:4
 msgid "My Exports"
 msgstr ""
 
@@ -877,11 +879,6 @@ msgstr ""
 
 #: osmaxx/excerptexport/models/output_file.py:24
 msgid "file removal date"
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/export_detail.html:4
-#: osmaxx/excerptexport/templates/excerptexport/export_list.html:4
-msgid "My Exports"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/export_detail.html:5
