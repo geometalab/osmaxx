@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-05 17:35+0200\n"
+"POT-Creation-Date: 2016-07-13 11:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,15 +93,43 @@ msgstr ""
 msgid "resulting file"
 msgstr ""
 
-#: osmaxx/conversion/models.py:46
+#: osmaxx/conversion/models.py:45
+msgid "estimated pbf size in bytes"
+msgstr ""
+
+#: osmaxx/conversion/models.py:47
+msgid "file size in bytes"
+msgstr ""
+
+#: osmaxx/conversion/models.py:47
+msgid "without the static files, only the conversion result"
+msgstr ""
+
+#: osmaxx/conversion/models.py:50
+msgid "extraction duration"
+msgstr ""
+
+#: osmaxx/conversion/models.py:50
+msgid "time needed to generate the extraction"
+msgstr ""
+
+#: osmaxx/conversion/models.py:53
 msgid "own base url"
 msgstr ""
 
-#: osmaxx/conversion/models.py:46
+#: osmaxx/conversion/models.py:53
 msgid "the url from which this job is reachable"
 msgstr ""
 
-#: osmaxx/conversion/models.py:104
+#: osmaxx/conversion/models.py:56
+msgid "queue name"
+msgstr ""
+
+#: osmaxx/conversion/models.py:56
+msgid "queue name for processing"
+msgstr ""
+
+#: osmaxx/conversion/models.py:116
 msgid "job {} with rq_id {} ({})"
 msgstr ""
 
@@ -716,10 +744,6 @@ msgstr ""
 msgid "My Exports"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:33
-msgid "My exports"
-msgstr ""
-
 #: osmaxx/core/templates/osmaxx/navigation.html:24
 msgid "Additional Downloads"
 msgstr ""
@@ -829,7 +853,7 @@ msgstr ""
 msgid "finished at"
 msgstr ""
 
-#: osmaxx/excerptexport/models/export.py:109
+#: osmaxx/excerptexport/models/export.py:111
 msgid "{} But the result file is not available."
 msgstr ""
 
@@ -927,7 +951,7 @@ msgid "You haven't exported anything, yet."
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:8
-msgid "Please contact your administrator or request access"
+msgid "Please Contact Your Administrator or Request Access"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:10
@@ -952,7 +976,7 @@ msgid "and try again."
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:24
-msgid "Please Login"
+msgid "Please Log In"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:25
@@ -993,6 +1017,10 @@ msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/index.html:28
 msgid "Export new excerpt"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:33
+msgid "My exports"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/order_existing_excerpt.html:6
