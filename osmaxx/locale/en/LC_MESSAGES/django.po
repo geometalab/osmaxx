@@ -615,12 +615,12 @@ msgstr ""
 
 #: osmaxx/conversion_api/formats.py:46
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:11
-msgid "ESRI File Geodatabase"
+msgid "Esri File Geodatabase"
 msgstr ""
 
 #: osmaxx/conversion_api/formats.py:53
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:9
-msgid "ESRI Shapefile"
+msgid "Esri Shapefile"
 msgstr ""
 
 #: osmaxx/conversion_api/formats.py:60
@@ -682,7 +682,7 @@ msgid ""
 "\"https://www.openstreetmap.org/user/new\">create an OpenStreetMap account</"
 "a> and log in.\n"
 "            <br /><br />If this is your <strong>first visit</strong> of "
-"Osmaxx: Please log in and request activation of your account for the Osmaxx "
+"OSMaxx: Please log in and request activation of your account for the OSMaxx "
 "application.\n"
 "            "
 msgstr ""
@@ -772,7 +772,7 @@ msgid "Export options"
 msgstr ""
 
 #: osmaxx/excerptexport/forms/order_options_mixin.py:44
-msgid "GIS options (ignored for garmin)"
+msgid "GIS options (ignored for Garmin)"
 msgstr ""
 
 #: osmaxx/excerptexport/models/excerpt.py:19

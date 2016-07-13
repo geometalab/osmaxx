@@ -9,7 +9,7 @@ The data referred to is from OpenStreetMap planet file licensed under ODbL 1.0.
 ## Goal, scope, and limits
 
 Notes regarding limits, quality and out of scope of the data model and the related datasets.
-Goal and scope: Das Osmaxx-Datenmodell ist zur möglichst breiten Nutzung ausgelegt
+Goal and scope: Das OSMaxx-Datenmodell ist zur möglichst breiten Nutzung ausgelegt
 (Kartendarstellung, Orientierung, POI-Suche und räumliche Analyse und später Routing). D.h. es
 wird versucht, so viele Informationen (Tabellen, Attribute und Wertebereiche) wie möglich aus OSM
 herauszuholen, die einigermassen konsistent erfasst werden bzw. die sich filtern („Cleansing“ und
