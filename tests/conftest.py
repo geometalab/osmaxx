@@ -156,6 +156,7 @@ def pytest_configure():
             'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
+            'EXCLUSIVE_USER_GROUP': 'dev',
         },
         OSMAXX_FRONTEND_USER_GROUP='osmaxx_frontend_users',
 

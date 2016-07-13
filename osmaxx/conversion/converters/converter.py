@@ -58,7 +58,7 @@ class Conversion(object):
 
 def convert(
         *, conversion_format, area_name, osmosis_polygon_file_string, output_zip_file_path, filename_prefix,
-        out_srs, detail_level, use_worker=False
+        out_srs, detail_level, use_worker=False, queue_name='default'
 ):
     params = dict(
         conversion_format=conversion_format,
@@ -69,11 +69,13 @@ def convert(
         detail_level=detail_level,
         out_srs=out_srs,
     )
+
     # TODO: find a cleaner way for this recursion magic!
     if use_worker:
         return rq_enqueue_with_settings(
             convert,
             use_worker=False,
+            queue_name=queue_name,
             **params
         ).id
     conversion = Conversion(**params)

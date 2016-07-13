@@ -50,7 +50,7 @@ class ConversionApiClient(JWTClient):
         response = self.authorized_post(url='conversion_parametrization/', json_data=json_payload)
         return response.json()
 
-    def create_job(self, parametrization, callback_url):
+    def create_job(self, parametrization, callback_url, user):
         """
 
         Args:
@@ -60,7 +60,9 @@ class ConversionApiClient(JWTClient):
         Returns:
             A dictionary representing the payload of the service's response
         """
-        json_payload = dict(parametrization=parametrization['id'], callback_url=callback_url)
+        json_payload = dict(
+            parametrization=parametrization['id'], callback_url=callback_url, queue_name=self._priority_queue_name(user)
+        )
         response = self.authorized_post(url='conversion_job/', json_data=json_payload)
         return response.json()
 
@@ -69,6 +71,11 @@ class ConversionApiClient(JWTClient):
         if file_path:
             return file_path
         raise ResultFileNotAvailableError
+
+    def _priority_queue_name(self, user):
+        if user.groups.filter(name=settings.OSMAXX['EXCLUSIVE_USER_GROUP']).exists():
+            return 'high'
+        return 'default'
 
     def _get_result_file_path(self, job_id):
         job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)
