@@ -1,4 +1,10 @@
 var draw_controls = function (map) {
+    L.drawLocal.draw.toolbar.buttons.polygon = 'Select freehand area';
+    L.drawLocal.draw.toolbar.buttons.rectangle = 'Select rectangular area';
+    L.drawLocal.edit.toolbar.buttons.edit = 'Edit selection';
+    L.drawLocal.edit.toolbar.buttons.editDisabled = 'No selection to edit';
+    L.drawLocal.edit.toolbar.buttons.remove = 'Delete selection';
+    L.drawLocal.edit.toolbar.buttons.removeDisabled = 'No selection to delete';
     // holds the geoJSON text representation
     var geoJSON_element = document.getElementById('id_bounding_geometry');
     geoJSON_element.parentNode.parentNode.className = "hidden";
