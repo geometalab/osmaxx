@@ -46,8 +46,7 @@ if SENTRY_DSN:
             "rq_console": {
                 "level": "DEBUG",
                 "class": "rq.utils.ColorizingStreamHandler",
-                "formatter": "rq_console",
-                "exclude": ["%(asctime)s"],
+                "formatter": "verbose",
             },
         },
         'loggers': {
