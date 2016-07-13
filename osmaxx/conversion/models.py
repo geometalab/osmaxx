@@ -42,8 +42,19 @@ class Job(models.Model):
     rq_job_id = models.CharField(_('rq job id'), max_length=250, null=True)
     status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=RECEIVED, max_length=20)
     resulting_file = models.FileField(_('resulting file'), upload_to=job_directory_path, null=True, max_length=250)
+    estimated_pbf_size = models.FloatField(_('estimated pbf size in bytes'), null=True)
+    unzipped_result_size = models.FloatField(
+        _('file size in bytes'), null=True, help_text=_("without the static files, only the conversion result")
+    )
+    extraction_duration = models.DurationField(
+        _('extraction duration'), help_text=_('time needed to generate the extraction'), null=True
+    )
     own_base_url = models.CharField(
         _('own base url'), help_text=_('the url from which this job is reachable'), max_length=250
+    )
+    queue_name = models.CharField(
+        _('queue name'), help_text=_('queue name for processing'), default='default',
+        max_length=50, choices=[(key, key) for key in settings.RQ_QUEUE_NAMES]
     )
 
     def start_conversion(self, *, use_worker=True):
@@ -56,6 +67,7 @@ class Job(models.Model):
             detail_level=self.parametrization.detail_level,
             out_srs=self.parametrization.epsg,
             use_worker=use_worker,
+            queue_name=self.queue_name,
         )
         self.save()
 

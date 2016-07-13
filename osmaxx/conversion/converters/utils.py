@@ -3,6 +3,13 @@ import zipfile
 
 import os
 
+# Use the built-in version of scandir if possible, otherwise
+# use the scandir module version
+try:
+    from os import scandir
+except ImportError:
+    from scandir import scandir
+
 
 def zip_folders_relative(folder_list, zip_out_file_path=None):
     """
@@ -25,3 +32,11 @@ def zip_folders_relative(folder_list, zip_out_file_path=None):
         finally:
             os.chdir(old_dir)
     return zip_out_file_path
+
+
+def recursive_getsize(path):
+    size = 0
+    for entry in scandir(path):
+        if not entry.name.startswith('.') and entry.is_file():
+            size += os.path.getsize(entry.path)
+    return size

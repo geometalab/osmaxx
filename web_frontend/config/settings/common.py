@@ -57,7 +57,6 @@ LOCAL_APPS = (
     'osmaxx.conversion_api',
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
-    'osmaxx.social_auth',
     'osmaxx.profile',
     'osmaxx.core',
 )
@@ -105,7 +104,7 @@ EMAIL_HOST = env.str('DJANGO_EMAIL_HOST', default='localhost')
 EMAIL_HOST_PASSWORD = env.str('DJANGO_EMAIL_HOST_PASSWORD', default='')
 EMAIL_HOST_USER = env.str('DJANGO_EMAIL_HOST_USER', default='')
 EMAIL_PORT = env.int('DJANGO_EMAIL_PORT', default=25)
-EMAIL_SUBJECT_PREFIX = env.str('DJANGO_EMAIL_SUBJECT_PREFIX', default='[Osmaxx] ')
+EMAIL_SUBJECT_PREFIX = env.str('DJANGO_EMAIL_SUBJECT_PREFIX', default='[OSMaxx] ')
 EMAIL_USE_TLS = env.bool('DJANGO_EMAIL_USE_TLS', default=False)
 EMAIL_USE_SSL = env.bool('DJANGO_EMAIL_USE_SSL', default=False)
 EMAIL_TIMEOUT = env.int('DJANGO_EMAIL_TIMEOUT', default=None)
@@ -232,8 +231,6 @@ WSGI_APPLICATION = 'web_frontend.config.wsgi.application'
 AUTHENTICATION_BACKENDS = (
     'social.backends.open_id.OpenIdAuth',
     'social.backends.openstreetmap.OpenStreetMapOAuth',
-    'osmaxx.social_auth.backends.clavid_backend.ClavidChOpenId',
-    'osmaxx.social_auth.backends.clavid_backend.ClavidComOpenId',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -399,6 +396,7 @@ OSMAXX = {
     'CONVERSION_SERVICE_URL': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_URL', default='http://localhost:8901/api/'),
     'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME', default='default_user'),
     'CONVERSION_SERVICE_PASSWORD': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD', default='default_password'),
+    'EXCLUSIVE_USER_GROUP': 'osmaxx_high_priority',  # high priority people
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-24 11:13+0200\n"
+"POT-Creation-Date: 2016-07-13 11:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 
 #: osmaxx/conversion/converters/detail_levels.py:9
-msgid "Full Detail"
+msgid "Full detail"
 msgstr ""
 
 #: osmaxx/conversion/converters/detail_levels.py:10
@@ -93,15 +93,43 @@ msgstr ""
 msgid "resulting file"
 msgstr ""
 
-#: osmaxx/conversion/models.py:46
+#: osmaxx/conversion/models.py:45
+msgid "estimated pbf size in bytes"
+msgstr ""
+
+#: osmaxx/conversion/models.py:47
+msgid "file size in bytes"
+msgstr ""
+
+#: osmaxx/conversion/models.py:47
+msgid "without the static files, only the conversion result"
+msgstr ""
+
+#: osmaxx/conversion/models.py:50
+msgid "extraction duration"
+msgstr ""
+
+#: osmaxx/conversion/models.py:50
+msgid "time needed to generate the extraction"
+msgstr ""
+
+#: osmaxx/conversion/models.py:53
 msgid "own base url"
 msgstr ""
 
-#: osmaxx/conversion/models.py:46
+#: osmaxx/conversion/models.py:53
 msgid "the url from which this job is reachable"
 msgstr ""
 
-#: osmaxx/conversion/models.py:104
+#: osmaxx/conversion/models.py:56
+msgid "queue name"
+msgstr ""
+
+#: osmaxx/conversion/models.py:56
+msgid "queue name for processing"
+msgstr ""
+
+#: osmaxx/conversion/models.py:116
 msgid "job {} with rq_id {} ({})"
 msgstr ""
 
@@ -110,7 +138,7 @@ msgid "WGS 84"
 msgstr ""
 
 #: osmaxx/conversion_api/coordinate_reference_systems.py:13
-msgid "Pseudo-Merkator"
+msgid "Pseudo-Mercator"
 msgstr ""
 
 #: osmaxx/conversion_api/coordinate_reference_systems.py:14
@@ -615,12 +643,12 @@ msgstr ""
 
 #: osmaxx/conversion_api/formats.py:46
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:11
-msgid "ESRI File Geodatabase"
+msgid "Esri File Geodatabase"
 msgstr ""
 
 #: osmaxx/conversion_api/formats.py:53
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:9
-msgid "ESRI Shapefile"
+msgid "Esri Shapefile"
 msgstr ""
 
 #: osmaxx/conversion_api/formats.py:60
@@ -682,7 +710,7 @@ msgid ""
 "\"https://www.openstreetmap.org/user/new\">create an OpenStreetMap account</"
 "a> and log in.\n"
 "            <br /><br />If this is your <strong>first visit</strong> of "
-"Osmaxx: Please log in and request activation of your account for the Osmaxx "
+"OSMaxx: Please log in and request activation of your account for the OSMaxx "
 "application.\n"
 "            "
 msgstr ""
@@ -703,16 +731,17 @@ msgid "Home"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:7
-msgid "Existing excerpt / country"
+msgid "Existing Excerpt / Country"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:12
-msgid "New excerpt"
+msgid "New Excerpt"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:19
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:33
-msgid "My exports"
+#: osmaxx/excerptexport/templates/excerptexport/export_detail.html:4
+#: osmaxx/excerptexport/templates/excerptexport/export_list.html:4
+msgid "My Exports"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:24
@@ -769,7 +798,7 @@ msgid "Export options"
 msgstr ""
 
 #: osmaxx/excerptexport/forms/order_options_mixin.py:44
-msgid "GIS Options (ignored for garmin)"
+msgid "GIS options (ignored for Garmin)"
 msgstr ""
 
 #: osmaxx/excerptexport/models/excerpt.py:19
@@ -824,7 +853,7 @@ msgstr ""
 msgid "finished at"
 msgstr ""
 
-#: osmaxx/excerptexport/models/export.py:109
+#: osmaxx/excerptexport/models/export.py:111
 msgid "{} But the result file is not available."
 msgstr ""
 
@@ -876,11 +905,6 @@ msgstr ""
 msgid "file removal date"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/export_detail.html:4
-#: osmaxx/excerptexport/templates/excerptexport/export_list.html:4
-msgid "My Exports"
-msgstr ""
-
 #: osmaxx/excerptexport/templates/excerptexport/export_detail.html:5
 msgid "Exports"
 msgstr ""
@@ -911,7 +935,7 @@ msgid "Filter"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/export_sidebar.html:8
-msgid "Show All"
+msgid "Show all"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/export_sidebar.html:18
@@ -927,7 +951,7 @@ msgid "You haven't exported anything, yet."
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:8
-msgid "Please contact your administrator or request access"
+msgid "Please Contact Your Administrator or Request Access"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:10
@@ -939,7 +963,8 @@ msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:16
 msgid ""
-"If you logged in by a new Clavid account, please request its activation: "
+"If you logged in by a new OpenStreetMap-account, please request its "
+"activation: "
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:19
@@ -951,7 +976,7 @@ msgid "and try again."
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:24
-msgid "Please Login"
+msgid "Please Log In"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:25
@@ -992,6 +1017,10 @@ msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/index.html:28
 msgid "Export new excerpt"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:33
+msgid "My exports"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/order_existing_excerpt.html:6

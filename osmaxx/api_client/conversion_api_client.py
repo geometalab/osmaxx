@@ -16,6 +16,7 @@ PASSWORD = settings.OSMAXX.get('CONVERSION_SERVICE_PASSWORD')
 
 CONVERSION_JOB_URL = '/conversion_job/'
 ESTIMATED_FILE_SIZE_URL = '/estimate_size_in_bytes/'
+FORMAT_SIZE_ESTIMATION_URL = '/format_size_estimation/'
 
 
 class ConversionApiClient(JWTClient):
@@ -49,7 +50,7 @@ class ConversionApiClient(JWTClient):
         response = self.authorized_post(url='conversion_parametrization/', json_data=json_payload)
         return response.json()
 
-    def create_job(self, parametrization, callback_url):
+    def create_job(self, parametrization, callback_url, user):
         """
 
         Args:
@@ -59,7 +60,9 @@ class ConversionApiClient(JWTClient):
         Returns:
             A dictionary representing the payload of the service's response
         """
-        json_payload = dict(parametrization=parametrization['id'], callback_url=callback_url)
+        json_payload = dict(
+            parametrization=parametrization['id'], callback_url=callback_url, queue_name=self._priority_queue_name(user)
+        )
         response = self.authorized_post(url='conversion_job/', json_data=json_payload)
         return response.json()
 
@@ -68,6 +71,11 @@ class ConversionApiClient(JWTClient):
         if file_path:
             return file_path
         raise ResultFileNotAvailableError
+
+    def _priority_queue_name(self, user):
+        if user.groups.filter(name=settings.OSMAXX['EXCLUSIVE_USER_GROUP']).exists():
+            return 'high'
+        return 'default'
 
     def _get_result_file_path(self, job_id):
         job_detail_url = CONVERSION_JOB_URL + '{}/'.format(job_id)
@@ -99,6 +107,17 @@ class ConversionApiClient(JWTClient):
         }
         try:
             response = self.authorized_post(ESTIMATED_FILE_SIZE_URL, json_data=request_data)
+        except HTTPError as e:
+            return reasons_for(e)
+        return response.json()
+
+    def format_size_estimation(self, estimated_pbf_size, detail_level):
+        request_data = {
+            "estimated_pbf_file_size_in_bytes": estimated_pbf_size,
+            "detail_level": int(detail_level),
+        }
+        try:
+            response = self.authorized_post(FORMAT_SIZE_ESTIMATION_URL, json_data=request_data)
         except HTTPError as e:
             return reasons_for(e)
         return response.json()

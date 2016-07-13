@@ -98,7 +98,6 @@ def pytest_configure():
             'osmaxx.core',
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
-            'osmaxx.social_auth',
 
             # special model for testing only
             'tests.utilities.test_models',
@@ -111,6 +110,7 @@ def pytest_configure():
             'django.contrib.auth.hashers.MD5PasswordHasher',
             'django.contrib.auth.hashers.CryptPasswordHasher',
         ),
+        RQ_QUEUE_NAMES=['default'],
         RQ_QUEUES={
             'default': {
                 'HOST': 'localhost',
@@ -157,6 +157,7 @@ def pytest_configure():
             'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
+            'EXCLUSIVE_USER_GROUP': 'dev',
         },
         OSMAXX_FRONTEND_USER_GROUP='osmaxx_frontend_users',
 
@@ -299,7 +300,8 @@ def geos_geometry_can_be_created_from_geojson_string():
 
 @pytest.fixture
 def area_polyfile_string():
-    return ''''none
+    return '''
+none
 polygon-1
     7.495679855346679 43.75782881091782
     7.38581657409668 43.75782881091782
@@ -307,7 +309,7 @@ polygon-1
     7.495679855346679 43.75782881091782
 END
 END
-'''
+'''.lstrip()
 
 
 class TagCombination(Mapping):

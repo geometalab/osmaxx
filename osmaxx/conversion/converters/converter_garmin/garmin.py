@@ -1,13 +1,19 @@
+import shutil
 import subprocess
 
 import os
 import tempfile
+from django.utils import timezone
+from rq import get_current_job
 
-from osmaxx.conversion._settings import CONVERSION_SETTINGS
+from osmaxx.conversion._settings import CONVERSION_SETTINGS, odb_license, copying_notice, creative_commons_license
 
-from osmaxx.conversion.converters.utils import zip_folders_relative
+from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize
 
 _path_to_commandline_utils = os.path.join(os.path.dirname(__file__), 'command_line_utils')
+_path_to_bounds_zip = os.path.join(CONVERSION_SETTINGS['SEA_AND_BOUNDS_ZIP_DIRECTORY'], 'bounds.zip')
+_path_to_sea_zip = os.path.join(CONVERSION_SETTINGS['SEA_AND_BOUNDS_ZIP_DIRECTORY'], 'sea.zip')
+_path_to_geonames_zip = os.path.join(os.path.dirname(__file__), 'additional_data', 'cities1000.txt')
 
 
 class Garmin:
@@ -18,26 +24,36 @@ class Garmin:
         self._osmosis_polygon_file.write(polyfile_string)
         self._osmosis_polygon_file.flush()
         self._polyfile_path = self._osmosis_polygon_file.name
+        self._start_time = None
+        self._unzipped_result_size = None
 
     def create_garmin_export(self):
+        self._start_time = timezone.now()
         self._to_garmin()
         self._osmosis_polygon_file.close()
+        job = get_current_job()
+        if job:
+            job.meta['duration'] = timezone.now() - self._start_time
+            job.meta['unzipped_result_size'] = self._unzipped_result_size
+            job.save()
 
     def _to_garmin(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             tmp_out_dir = os.path.join(tmp_dir, 'garmin')
             config_file_path = self._split(tmp_dir)
             self._produce_garmin(config_file_path, tmp_out_dir)
-            resulting_zip_file_path = self._create_zip(tmp_out_dir)
-        return resulting_zip_file_path
+            self._create_zip(tmp_out_dir)
 
     def _split(self, workdir):
+        memory_option = '-Xmx7000m'
         _splitter_path = os.path.abspath(os.path.join(_path_to_commandline_utils, 'splitter', 'splitter.jar'))
         subprocess.check_call([
             'java',
+            memory_option,
             '-jar', _splitter_path,
             '--output-dir={0}'.format(workdir),
             '--description={0}'.format(self._map_description),
+            '--geonames-file={0}'.format(_path_to_geonames_zip),
             '--polygon-file={}'.format(self._polyfile_path),
             CONVERSION_SETTINGS.get('PBF_PLANET_FILE_PATH'),
         ])
@@ -48,17 +64,25 @@ class Garmin:
         out_dir = os.path.join(out_dir, 'garmin')  # hack to get a subdirectory in the zipfile.
         os.makedirs(out_dir, exist_ok=True)
 
+        shutil.copy(copying_notice, out_dir)
+        shutil.copy(odb_license, out_dir)
+        shutil.copy(creative_commons_license, out_dir)
+
         _mkgmap_path = os.path.abspath(os.path.join(_path_to_commandline_utils, 'mkgmap', 'mkgmap.jar'))
         mkg_map_command = ['java', '-jar', _mkgmap_path]
         output_dir = ['--output-dir={0}'.format(out_dir)]
-        config = ['--read-config={0}'.format(config_file_path)]
+        config = [
+            '--bounds={0}'.format(_path_to_bounds_zip),
+            '--precomp-sea={0}'.format(_path_to_sea_zip),
+            '--read-config={0}'.format(config_file_path),
+        ]
 
         subprocess.check_call(
             mkg_map_command +
             output_dir +
             config
         )
+        self._unzipped_result_size = recursive_getsize(out_dir)
 
     def _create_zip(self, data_dir):
         zip_folders_relative([data_dir], self._resulting_zip_file_path)
-        return self._resulting_zip_file_path

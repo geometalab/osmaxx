@@ -8,7 +8,7 @@
 | <a name='dependency_docker-compose'>docker-compose</a> | 1.6 | Install system-wide via <a href='#dependency_pip'>`pip`</a> (**not** via `pip3`! `docker-compose` is implemented in Python 2.): <pre class="highlight highlight-source-shell">sudo pip install docker-compose</pre> |
 | <a name='dependency_pg_config'>pg_config</a> (required by psycopg2) |  | <pre class="highlight highlight-source-shell">sudo apt install libpq-dev</pre> |
 | <a name='dependency_python3'>Python 3</a> | 3.4 | Would be pulled in by `python3-gdal` or <a href='#dependency_python3-dev'>`python3-dev`</a>, but you should install it explicitly with <pre class="highlight highlight-source-shell">sudo apt install python3</pre> |
-| <a name='dependency_requirements.txt'>various PyPI packages</a> | See [`requirements.txt`](/requirements.txt) | Install in a Python 3 [virtual environment](#dependency_venv). Create one with e.g. <pre class="highlight highlight-source-shell">mkdir -p ~/.virtualenvs && \\<br />virtualenv ~/.virtualenvs/osmaxx -p python3</pre> activate it with <pre class="highlight highlight-source-shell">source ~/.virtualenvs/osmaxx/bin/activate</pre> Then, in the same shell session, use [`pip3`](#dependency_pip3) to install the packages: <pre class="highlight highlight-source-shell"># run from this repo's root dir<br />pip3 install -r requirements.txt</pre><hr>`virtualenvwrapper` users can perform all of the above in a single step: <pre class="highlight highlight-source-shell"># run from this repo's root dir<br />mkvirtualenv -a . -r requirements.txt -p python3 osmaxx</pre>The `-a .` will also [associate the repo root as the project directory](http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html#mkvirtualenv) of the new Python 3 virtual environemnt. |
+| <a name='dependency_requirements.txt'>various PyPI packages</a> | See [`requirements-all.txt`](/requirements-all.txt) | Install in a Python 3 [virtual environment](#dependency_venv). Create one with e.g. <pre class="highlight highlight-source-shell">mkdir -p ~/.virtualenvs && \\<br />virtualenv ~/.virtualenvs/osmaxx -p python3</pre> activate it with <pre class="highlight highlight-source-shell">source ~/.virtualenvs/osmaxx/bin/activate</pre> Then, in the same shell session, use [`pip3`](#dependency_pip3) to install the packages: <pre class="highlight highlight-source-shell"># run from this repo's root dir<br />pip3 install -r requirements-all.txt</pre><hr>`virtualenvwrapper` users can perform all of the above in a single step: <pre class="highlight highlight-source-shell"># run from this repo's root dir<br />mkvirtualenv -r requirements-all.txt \\<br />             -a . -p $(which python3) osmaxx</pre>The `-a .` will also [associate the repo root as the project directory](http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html#mkvirtualenv) of the new Python 3 virtual environemnt. |
 | <a name='dependency_pip3'>pip3</a> |  | Provided by <a href='#dependency_venv'>virtualenv</a> in the virtual Python environments it creates. |
 | <a name='dependency_venv'>virtualenv</a> (Python 2 and 3) |  | Install system-wide with <pre class="highlight highlight-source-shell">sudo apt install python-virtualenv</pre> |
 | <a name='dependency_python3-dev'>Python 3 C bindings</a> | 3.4 | Would be pulled in by `python3-gdal`, but you should install it explicitly with <pre class="highlight highlight-source-shell">sudo apt install python3-dev</pre> | 
@@ -32,6 +32,63 @@ cd <osmaxx-repo-root>
 ln -s ../../hooks/pre-commit .git/hooks/pre-commit
 ```
 
+### Python package management
+
+We use [`pip-tools`](https://github.com/nvie/pip-tools#readme) to manage the PyPI packages we depend on.
+It shouldn't matter whether you install `pip-tools` globally or within the `osmaxx` virtualenv.
+
+Once `pip-tools` is installed, try running `pip-sync` in your `osmaxx` virtualenv.
+If it tells you to upgrade or downgrade `pip` do as instructed (also in the virtualenv)
+and repeat until `pip-sync` doesn't complain anymore.
+(You can ignore warnings about a newer pip version being available.)
+
+#### Syncing installed python packages
+
+`pip-tools` implicitly pins package versions, so they are synchronous between developers.
+The thusly fixed versions are tracked in the `*requirements*.txt` files.
+Running
+```bash
+pip-sync *requirements*.txt
+```
+in your virtualenv will install, uninstall, up- and downgrade packages
+as neccessary to make your virtualenv match the packages listed in _all_ these files.
+You'll want to do this, whenever the `*.txt*` files have changed,
+e.g. due to pulling in commits or switching branches.
+
+Note that in staging and production,
+only the content of `requirements.txt` (not of `requirements-all.txt`) should be installed.
+(The [docker containers](#using-the-project-docker-setup) already take care of that.)
+
+#### Changing requirements
+
+We track top-level requirements and explicitly pinned versions in `*requirements*.in` files.
+If you've changed one of those, run
+```bash
+pip-compile <the changed *.in file>
+```
+e.g.
+```bash
+pip-compile requirements-local.in
+```
+to update the corresponding `*.txt` file.
+This will also upgrade the versions listed in that `*.txt` file to the greatest ones available on PyPI
+(within the range allowed in the `*requirements*.in` file). 
+
+To compile the `*requirements*.txt` files for _all changed_ `*requirements*.in`
+**and** sync the new versions to your virtualenv in one go,
+you may use our handy GNU make target:
+```bash
+make pip-sync-all
+```
+
+#### Upgrade package versions
+
+To upgrade the implicitly pinned versions of all dependencies to the greatest ones available on PyPI
+(within the range allowed in the `*requirements*.in` files)
+run
+```bash
+make pip-upgrade
+```
 
 ## Using the project docker setup
 

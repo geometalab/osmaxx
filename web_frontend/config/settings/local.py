@@ -25,6 +25,7 @@ DEBUG_TOOLBAR_CONFIG = {
     'DISABLE_PANELS': [
         'debug_toolbar.panels.redirects.RedirectsPanel',
     ],
+    'JQUERY_URL': '/static/osmaxx/libraries/jquery/jquery.min.js',
     'SHOW_TEMPLATE_CONTEXT': True,
 }
 

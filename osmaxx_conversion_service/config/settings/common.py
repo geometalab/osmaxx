@@ -78,7 +78,7 @@ EMAIL_HOST = env.str('DJANGO_EMAIL_HOST', default='localhost')
 EMAIL_HOST_PASSWORD = env.str('DJANGO_EMAIL_HOST_PASSWORD', default='')
 EMAIL_HOST_USER = env.str('DJANGO_EMAIL_HOST_USER', default='')
 EMAIL_PORT = env.int('DJANGO_EMAIL_PORT', default=25)
-EMAIL_SUBJECT_PREFIX = env.str('DJANGO_EMAIL_SUBJECT_PREFIX', default='[Osmaxx] ')
+EMAIL_SUBJECT_PREFIX = env.str('DJANGO_EMAIL_SUBJECT_PREFIX', default='[OSMaxx] ')
 EMAIL_USE_TLS = env.bool('DJANGO_EMAIL_USE_TLS', default=False)
 EMAIL_USE_SSL = env.bool('DJANGO_EMAIL_USE_SSL', default=False)
 EMAIL_TIMEOUT = env.int('DJANGO_EMAIL_TIMEOUT', default=None)
@@ -244,15 +244,15 @@ REST_FRAMEWORK = {
 }
 
 # RQ settings
-RQ_QUEUES = {
-    'default': {
-        'HOST': env.str('REDIS_HOST', default='localhost'),
-        'PORT': env.str('REDIS_PORT', default=6379),
-        'DB': 0,
-        'PASSWORD': '',
-        'DEFAULT_TIMEOUT': int(timedelta(days=1).total_seconds()),
-    },
-}
+REDIS_CONNECTION = dict(
+    HOST=env.str('REDIS_HOST', default='localhost'),
+    PORT=env.str('REDIS_PORT', default=6379),
+    DB=0,
+    PASSWORD='',
+    DEFAULT_TIMEOUT=int(timedelta(days=1).total_seconds())
+)
+RQ_QUEUE_NAMES = ['default', 'high']
+RQ_QUEUES = {name: REDIS_CONNECTION for name in RQ_QUEUE_NAMES}
 
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',

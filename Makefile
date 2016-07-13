@@ -43,6 +43,29 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 	    < $< \
 	    > $@
 
+PIP_TOOLS_SOURCE_SPEC_FILES := requirements-all.in requirements-local.in requirements-mediator.in
+PIP_TOOLS_COMPILED_SPEC_FILES := $(PIP_TOOLS_SOURCE_SPEC_FILES:.in=.txt)
+
+.PHONY: pip-upgrade
+pip-upgrade: $(PIP_TOOLS_SOURCE_SPEC_FILES)
+	$(MAKE) --always-make $(PIP_TOOLS_COMPILED_SPEC_FILES)
+	@echo
+	@echo Updated compiled pip-tools spec files $<, but NOT INSTALLED, yet.
+	@echo Consider running
+	@echo "\t"make pip-sync-all
+	@echo or
+	@echo "\tpip-sync <compiled spec file> [<compiled spec file> ...]"
+	@echo e.g.
+	@echo "\t"pip-sync $(PIP_TOOLS_COMPILED_SPEC_FILES)
+	@echo now.
+
+.PHONY: pip-sync-all
+pip-sync-all: requirements-all.txt
+	pip-sync $?
+
+%.txt: %.in
+	pip-compile --output-file $@ $<
+
 compose-env/%.env: compose-env-dist/%.env
 	@mkdir -p $(@D)
 # We don't have to set DJANGO_SECRET_KEY here, as docker-compose-dev.yml sets it for local use.

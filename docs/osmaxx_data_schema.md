@@ -9,7 +9,7 @@ The data referred to is from OpenStreetMap planet file licensed under ODbL 1.0.
 ## Goal, scope, and limits
 
 Notes regarding limits, quality and out of scope of the data model and the related datasets.
-Goal and scope: Das Osmaxx-Datenmodell ist zur möglichst breiten Nutzung ausgelegt
+Goal and scope: Das OSMaxx-Datenmodell ist zur möglichst breiten Nutzung ausgelegt
 (Kartendarstellung, Orientierung, POI-Suche und räumliche Analyse und später Routing). D.h. es
 wird versucht, so viele Informationen (Tabellen, Attribute und Wertebereiche) wie möglich aus OSM
 herauszuholen, die einigermassen konsistent erfasst werden bzw. die sich filtern („Cleansing“ und
@@ -111,13 +111,13 @@ osm_tablename_g_vNN (example: osm_building_a_v01.gpkg)
 * vNN: Version of the data model
 
 For some roads and other tables of geometry type (Multi-)Linestring, there will be tables with
-generalized geometry, called _gen0, _gen1 as follows (gen- generalized):
+generalized geometry, called `_gen0`, `_gen1` as follows (gen- generalized):
 
-* _gen0: smoothed for highest zoom level
-* _gen1: simplified
-* _gen2: more simplified
+* `_gen0`: smoothed for highest zoom level
+* `_gen1`: simplified
+* `_gen2`: more simplified
 
-example: osm_building_a_gen1_v01.gpkg
+example: `osm_building_a_gen1_v01.gpkg`
 
 ## Layer Specification Headers
 
