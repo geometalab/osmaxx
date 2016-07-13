@@ -1,7 +1,7 @@
 import pytest
 import sqlalchemy
 
-from tests.inside_worker_test.conftest import slow
+from tests.utils import slow
 
 international_text_strings = [
     ('ascii', 'some normal ascii', 'some normal ascii'),
