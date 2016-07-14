@@ -85,6 +85,7 @@ def osmaxx_functions(osm_tables):
         'sql/functions/0030_transliterate.sql',
         'sql/functions/0040_interpolate_addresses.sql',
         'sql/functions/0050_cast_to_int.sql',
+        'sql/functions/0060_cast_to_float_or_null.sql',
     ]
     engine = osm_tables
     for function_script in function_scripts:

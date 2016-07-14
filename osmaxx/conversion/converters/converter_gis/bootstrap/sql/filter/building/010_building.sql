@@ -23,6 +23,6 @@ INSERT INTO osmaxx.building_a
         else NULL
     end as label,
     cast(tags as text) as tags,
-    cast(nullif(height,'') as float) as height
+    cast_to_float_null_if_failed(height) as height
   FROM osm_polygon
   WHERE building is not null;

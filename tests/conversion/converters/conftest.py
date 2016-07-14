@@ -198,5 +198,6 @@ def sql_scripts_create_functions(bootstrap_module_path):
             'sql/functions/0030_transliterate.sql',
             'sql/functions/0040_interpolate_addresses.sql',
             'sql/functions/0050_cast_to_int.sql',
+            'sql/functions/0060_cast_to_float_or_null.sql',
         ]
     ]
