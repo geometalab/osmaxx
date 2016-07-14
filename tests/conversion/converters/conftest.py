@@ -3,13 +3,13 @@ import os
 import pytest
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def bootstrap_module_path():
     from osmaxx.conversion.converters.converter_gis import bootstrap
     return os.path.abspath(os.path.dirname(bootstrap.__file__))
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def relative_sql_script_paths():
     return [
         'sql/filter/address/000_setup-drop_and_recreate_table.sql',
@@ -106,12 +106,12 @@ def relative_sql_script_paths():
     ]
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def sql_scripts_filter(bootstrap_module_path, relative_sql_script_paths):
     return [os.path.join(bootstrap_module_path, script_path) for script_path in relative_sql_script_paths]
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def sql_scripts_filter_level_60(bootstrap_module_path, relative_sql_script_paths):
     sql_scripts_filter_leveled = relative_sql_script_paths
     replacements = [
@@ -122,7 +122,7 @@ def sql_scripts_filter_level_60(bootstrap_module_path, relative_sql_script_paths
     return [os.path.join(bootstrap_module_path, script_path) for script_path in sql_scripts_filter_leveled]
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def sql_scripts_create_view_level_60(bootstrap_module_path):
     return [
         os.path.join(bootstrap_module_path, script_path) for script_path in [
@@ -150,7 +150,7 @@ def sql_scripts_create_view_level_60(bootstrap_module_path):
     ]
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def sql_scripts_create_view(bootstrap_module_path):
     return [
         os.path.join(bootstrap_module_path, script_path) for script_path in [
@@ -189,7 +189,7 @@ def sql_scripts_create_view(bootstrap_module_path):
     ]
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def sql_scripts_create_functions(bootstrap_module_path):
     return [
         os.path.join(bootstrap_module_path, script_path) for script_path in [

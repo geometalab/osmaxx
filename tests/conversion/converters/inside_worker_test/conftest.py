@@ -81,7 +81,8 @@ def osm_tables(extensions, request):
 def osmaxx_functions(osm_tables, sql_scripts_create_functions):
     engine = osm_tables
     for function_script in sql_scripts_create_functions:
-        engine.execute(sqlalchemy.text(function_script).execution_options(autocommit=True))
+        with open(function_script, 'r') as script_content:
+            engine.execute(sqlalchemy.text(script_content.read()).execution_options(autocommit=True))
     return engine
 
 
