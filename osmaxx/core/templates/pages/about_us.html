@@ -5,52 +5,44 @@
 <div class="container-row content">
     <h2>About OSMaxx</h2>
     <p>
-        OSMaxx (short for "OpenStreetMap arbitrary excerpt export") cuts out OpenStreetMap data, processes it to
-        geodata, converts it to typical GIS fileformats and offers those for download.
+        OSMaxx (short for "OpenStreetMap Arbitrary Excerpt Export") cuts out OpenStreetMap (OSM) data, processes it to
+        geospatial data structures, converts it to typical GIS file formats and offers those for download.
     </p>
     <h3>Documentation</h3>
-    <h4>Schema</h4>
-    <p>
-        You can find the online documentation of the schema on GitHub:
+    <p> You can find the online documentation of the schema on GitHub:
         <a href="https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md">Export Schema Documentation</a>.
     </p>
 
     <h3>Useful links</h3>
-    <p>Can be found in our separate <a href="{% url 'pages:downloads' %}">downloads page</a></p>
+    <p>These can be found in our separate <a href="{% url 'pages:downloads' %}">downloads page</a>.</p>
 
     <h3>About us</h3>
     <p>
-        OSMaxx has been developed by the Geometalab at HSR Hochschule für Technik Rapperswil.
-        Geometalab can be reached via email: <a href="mailto:geometalab@hsr.ch">geometalab@hsr.ch</a>.
-    </p><p>
-        <strong>Geometalab</strong><br />
-        HSR Hochschule für Technik Rapperswil<br />
-        Institute for Software<br />
-        c/o Stefan Keller<br />
-        Oberseestrasse 10<br />
-        Postfach 1475<br />
-        CH-8640 Rapperswil<br />
+        OSMaxx has been developed by the Geometa Lab at the HSR University of 
+        Applied Sciences Rapperswil. The Geometa Lab team can be reached via email: <a href="mailto:geometalab@hsr.ch">geometalab@hsr.ch</a>.
     </p>
+    <address>
+        Geometa Lab c/o Prof. Stefan Keller<br />
+        Institute for Software<br />
+        HSR University for Applied Sciences<br />
+        Oberseestrasse 10<br />
+        CH-8640 Rapperswil (Switzerland)<br />
+    </address>
 
     <h3>Data sources</h3>
     <p>All data used by OSMaxx comes directly or indirectly from <a href='https://www.openstreetmap.org/'>OpenStreetMap</a>:</p>
-    <h4>Main data source</h4>
-    <p>
-        The bulk of our input data (everything not listed separately below) is verbatim OpenStreetMap data,
-        taken from our own regularly (about every two hours, depending on the current load)
-        synchronized database import of the <a href='http://planet.openstreetmap.org/'>OpenStreetMap planet</a>.
-    </p>
-    <h4>Additional data sources</h4>
-    <h5>Coastlines, Water-polygons and Landmasses</h5>
-    <p>
-        Coastlines, water-polygons and landmasses are from
-        OSM derived data provided by
-        <a href="http://openstreetmapdata.com/data/">openstreetmapdata.com</a>.
-    </p>
-    <h5>Country Boundaries</h5>
-    <p>
-        We are using the country boundaries that are based on OSM-Data,
-        cleaned and maintained by <a href="https://osm.wno-edv-service.de/boundaries/">Wambacher</a>.
-    </p>
+
+    <p>The bulk of our input data (everything not listed separately below) is verbatim 
+    OpenStreetMap data, taken from our own regularly (about every two hours, depending 
+    on the current load) synchronized database import of the 
+    <a href='http://planet.openstreetmap.org/'>OpenStreetMap planet</a>.
+
+    <p>Additional data sources</p>
+    <ul>
+      <li>Coastlines, Water-polygons and Landmasses: These are from OSM derived data 
+      provided by <a href="http://openstreetmapdata.com/data/">openstreetmapdata.com</a>.</li>
+      <li>Country boundaries: We are using the country boundaries that are based on 
+        OSM-Data, cleaned and maintained by <a href="https://osm.wno-edv-service.de/boundaries/">Wambachers-OSM.website</a>.</li>
+     </ul>
 </div>
 {% endblock %}

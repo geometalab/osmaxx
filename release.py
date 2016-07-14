@@ -67,12 +67,16 @@ def make_release_specific_changes(release_version):
         ["git", "commit", "-m", 'added makemessages output', 'osmaxx/locale'],
     ])
     create_data_schema_documentation()
-    execute(
-        [
-            "git", "commit", "-m", 'updated schema documentation HTML',
-            'osmaxx/conversion/converters/converter_gis/static/doc/osmaxx_data_schema.html',
-        ]
-    )
+    try:
+        execute(
+            [
+                "git", "commit", "-m", 'updated schema documentation HTML',
+                'osmaxx/conversion/converters/converter_gis/static/doc/osmaxx_data_schema.html',
+            ]
+        )
+    except subprocess.CalledProcessError as err:
+        print(err.output)
+        continue_or_stop('The error above happened. Do you wish to continue?')
     version_file_path = os.path.join(os.path.dirname(__file__), 'osmaxx', '__init__.py')
     for line in fileinput.input(version_file_path, inplace=True):
         line = line.rstrip(os.linesep)
@@ -80,18 +84,17 @@ def make_release_specific_changes(release_version):
             line = "__version__ = '{}'".format(release_version)
         print(line)
 
-    print("""Is the version file correct
+    print("""################### Updated VERSION file
     {}
-    ?
     """.format(execute("git diff osmaxx/__init__.py")))
+    continue_or_stop('Is the version file correct?')
     execute(["git", "commit", "-m", 'bump version to {}'.format(release_version), 'osmaxx/__init__.py'])
 
 
 def release_finish(release_version):
     execute_steps([
         ["git", "flow", "release", "finish", release_version, "-m", "'OSMaxx release {}'".format(release_version)],
-        "git push",
-        "git push --tags",
+        ["git", "push", "origin", "develop:develop", "master:master", release_version],
     ])
     build_and_push_images(release_version)
 
