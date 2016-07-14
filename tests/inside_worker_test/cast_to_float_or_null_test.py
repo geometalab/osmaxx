@@ -4,12 +4,12 @@ import sqlalchemy
 from tests.inside_worker_test.conftest import slow
 
 
-@pytest.fixture(params=[2, 2.2, 3.898986, "3.898986", "6", "0.2", 0.6])
+@pytest.fixture(params=[2, 2.2, 3.898986, 0.6, 0])
 def valid_float_representation(request):
     return request.param
 
 
-@pytest.fixture(params=["a2", "10b", "3.898986k", "3k.898986", "l6.9"])
+@pytest.fixture(params=["a2", "10b", "3.898986c", "3d.898986", "e6.9", "f0,9" "0,g9" "0,9h", "0,6", "123'456", "1 290", None])
 def invalid_floats(request):
     return request.param
 
