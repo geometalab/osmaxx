@@ -90,8 +90,7 @@ def make_release_specific_changes(release_version):
 def release_finish(release_version):
     execute_steps([
         ["git", "flow", "release", "finish", release_version, "-m", "'OSMaxx release {}'".format(release_version)],
-        "git push",
-        "git push --tags",
+        ["git", "push", "origin", "develop:develop", "master:master", release_version],
     ])
     build_and_push_images(release_version)
 
