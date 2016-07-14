@@ -6,8 +6,8 @@ from sqlalchemy.sql.schema import Table as DbTable
 
 from osmaxx.utils.frozendict import frozendict
 from tests.conftest import TagCombination
-from tests.inside_worker_test.conftest import slow
-from tests.inside_worker_test.declarative_schema import osm_models
+from tests.conversion.converters.inside_worker_test.conftest import slow
+from tests.conversion.converters.inside_worker_test.declarative_schema import osm_models
 
 MAJOR_KEYS = frozenset({'highway', 'railway'})
 

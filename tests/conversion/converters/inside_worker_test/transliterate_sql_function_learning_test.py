@@ -3,7 +3,7 @@ from contextlib import closing
 import pytest
 import sqlalchemy
 
-from tests.inside_worker_test.conftest import slow
+from tests.conversion.converters.inside_worker_test.conftest import slow
 
 international_text_strings = [
     ('ascii', 'some normal ascii', 'some normal ascii'),

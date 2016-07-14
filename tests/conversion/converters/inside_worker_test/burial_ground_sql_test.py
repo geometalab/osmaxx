@@ -4,8 +4,8 @@ import pytest
 import sqlalchemy
 from sqlalchemy.sql.schema import Table as DbTable
 
-from tests.inside_worker_test.conftest import slow
-from tests.inside_worker_test.declarative_schema import osm_models
+from tests.conversion.converters.inside_worker_test.conftest import slow
+from tests.conversion.converters.inside_worker_test.declarative_schema import osm_models
 
 
 @pytest.fixture(params=[osm_models.t_osm_polygon, osm_models.t_osm_point], ids=['osm_polygon', 'osm_point'])

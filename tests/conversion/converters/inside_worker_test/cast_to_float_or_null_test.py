@@ -3,7 +3,7 @@ from contextlib import closing
 import pytest
 import sqlalchemy
 
-from tests.inside_worker_test.conftest import slow
+from tests.conversion.converters.inside_worker_test.conftest import slow
 
 
 @pytest.fixture(params=[2, 2.2, 3.898986, 0.6, 0, -0.2, -2, -12.678543, -0])

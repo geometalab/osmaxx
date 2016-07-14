@@ -7,7 +7,7 @@ from sqlalchemy.engine.url import URL as DBURL
 from sqlalchemy_utils import functions as sql_alchemy_utils
 
 from tests.conftest import postgres_container_userland_port, area_polyfile_string
-from tests.inside_worker_test.declarative_schema import osm_models
+from tests.conversion.converters.inside_worker_test.declarative_schema import osm_models
 
 slow = pytest.mark.skipif(
     not pytest.config.getoption("--runslow"),
@@ -150,7 +150,7 @@ def sql_from_bootstrap_relative_location(file_name):
 
 @pytest.fixture()
 def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch):
-    from tests.inside_worker_test.conftest import cleanup_osmaxx_schemas
+    from tests.conversion.converters.inside_worker_test.conftest import cleanup_osmaxx_schemas
     from osmaxx.conversion.converters.converter_gis.bootstrap.bootstrap import BootStrapper
 
     assert osmaxx_schemas == clean_osm_tables  # same db-connection
