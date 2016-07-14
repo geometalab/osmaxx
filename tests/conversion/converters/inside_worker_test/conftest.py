@@ -78,18 +78,10 @@ def osm_tables(extensions, request):
 
 
 @pytest.fixture(scope='session')
-def osmaxx_functions(osm_tables):
-    function_scripts = [
-        'sql/functions/0010_cast_to_positive_integer.sql',
-        'sql/functions/0020_building_height.sql',
-        'sql/functions/0030_transliterate.sql',
-        'sql/functions/0040_interpolate_addresses.sql',
-        'sql/functions/0050_cast_to_int.sql',
-        'sql/functions/0060_cast_to_float_or_null.sql',
-    ]
+def osmaxx_functions(osm_tables, sql_scripts_create_functions):
     engine = osm_tables
-    for function_script in function_scripts:
-        engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(function_script)).execution_options(autocommit=True))
+    for function_script in sql_scripts_create_functions:
+        engine.execute(sqlalchemy.text(function_script).execution_options(autocommit=True))
     return engine
 
 
