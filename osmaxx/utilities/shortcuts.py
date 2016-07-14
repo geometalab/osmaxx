@@ -32,7 +32,7 @@ class Emissary:
         try:
             email_address = self.recipient.email
             mail.send_mail(
-                '[OSMaxx] ' + subject,
+                settings.EMAIL_SUBJECT_PREFIX + subject,
                 mail_body,
                 settings.DEFAULT_FROM_EMAIL,
                 [email_address]
