@@ -1,3 +1,5 @@
+from contextlib import closing
+
 import pytest
 import sqlalchemy
 
@@ -49,11 +51,11 @@ def test_label_addresses(osmaxx_schemas, label_input):
 
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
     address_script = 'sql/filter/address/010_address.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.address_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.address_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -68,11 +70,11 @@ def test_label_entrance(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/address/020_entrance.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.address_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.address_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -88,11 +90,11 @@ def test_label_interpolation(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/address/030_interpolation.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == -1  # result from drop table
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == -1  # result from drop table
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.address_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.address_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -107,11 +109,11 @@ def test_label_adminarea(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/adminarea_boundary/010_adminarea.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.adminarea_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.adminarea_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -126,11 +128,11 @@ def test_label_boundary(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/adminarea_boundary/030_boundary.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.boundary_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.boundary_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -145,11 +147,11 @@ def test_label_building(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/building/010_building.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.building_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.building_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -164,11 +166,11 @@ def test_label_geoname_l(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/geoname/010_geoname_l.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.geoname_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.geoname_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -183,11 +185,11 @@ def test_label_geoname_p(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/geoname/020_geoname_p.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.geoname_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.geoname_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -202,11 +204,11 @@ def test_label_landuse(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/landuse/010_landuse.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.landuse_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.landuse_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -221,11 +223,11 @@ def test_label_military_a(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/military/010_military_a.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.military_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.military_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -240,11 +242,11 @@ def test_label_military_p(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/military/030_military_p.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.military_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.military_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -259,11 +261,11 @@ def test_label_barrier(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/misc/010_barrier.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.misc_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.misc_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -278,11 +280,11 @@ def test_label_misc_natural(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/misc/020_natural.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.misc_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.misc_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -297,11 +299,11 @@ def test_label_traffic_calming(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/misc/030_traffic_calming.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.misc_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.misc_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -316,11 +318,11 @@ def test_label_air_traffic(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/transport/050_air_traffic.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.transport_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.transport_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -335,11 +337,11 @@ def test_label_natural_a(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/natural/010_natural_a.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.natural_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.natural_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -354,11 +356,11 @@ def test_label_natural_p(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/natural/030_natural_p.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.natural_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.natural_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -376,11 +378,11 @@ def test_label_nonop(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/nonop/010_nonop.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.nonop_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.nonop_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -395,11 +397,11 @@ def test_label_poi_amenity(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/010_poi_amenity.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -414,11 +416,11 @@ def test_label_poi_leisure(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/020_poi_leisure.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -433,11 +435,11 @@ def test_label_poi_man_made(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/030_poi_man_made.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -452,11 +454,11 @@ def test_label_poi_historic(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/040_poi_historic.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -471,11 +473,11 @@ def test_label_poi_shop(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/050_poi_shop.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -490,11 +492,11 @@ def test_label_poi_tourism(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/060_poi_tourism.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -509,11 +511,11 @@ def test_label_poi_sport(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/070_poi_sport.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -528,11 +530,11 @@ def test_label_poi_highway(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/080_poi_highway.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -547,11 +549,11 @@ def test_label_poi_emergency(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/090_poi_emergency.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -566,11 +568,11 @@ def test_label_poi_drinking_water(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/100_poi_drinking_water.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -585,11 +587,11 @@ def test_label_poi_office(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/110_poi_office.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -604,11 +606,11 @@ def test_label_poi_p_amenity(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/130_poi_p_amenity.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -623,11 +625,11 @@ def test_label_poi_p_leisure(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/140_poi_p_leisure.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -642,11 +644,11 @@ def test_label_poi_p_man_made(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/150_poi_p_man_made.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -661,11 +663,11 @@ def test_label_poi_p_historic(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/160_poi_p_historic.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -680,11 +682,11 @@ def test_label_poi_p_shop(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/170_poi_p_shop.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -699,11 +701,11 @@ def test_label_poi_p_tourism(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/180_poi_p_tourism.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -718,11 +720,11 @@ def test_label_poi_p_sport(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/190_poi_p_sport.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -737,11 +739,11 @@ def test_label_poi_p_highway(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/200_poi_p_highway.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -756,11 +758,11 @@ def test_label_poi_p_emergency(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/210_poi_p_emergency.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -775,11 +777,11 @@ def test_label_poi_p_drinking_water(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/220_poi_p_drinking_water.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -794,11 +796,11 @@ def test_label_poi_p_office(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/poi/230_poi_p_office.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.poi_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -813,11 +815,11 @@ def test_label_pow_a(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/pow/010_pow_a.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.pow_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.pow_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -832,11 +834,11 @@ def test_label_pow_p(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/pow/030_pow_p.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.pow_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.pow_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -851,11 +853,11 @@ def test_label_railway(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/railway/010_railway.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.railway_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.railway_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -870,11 +872,11 @@ def test_label_aerialway(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/railway/020_aerialway.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.railway_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.railway_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -889,11 +891,11 @@ def test_label_road(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/road/010_road.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.road_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.road_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -908,11 +910,11 @@ def test_label_road_level_60(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/road/level-60/010_road.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.road_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.road_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -927,11 +929,11 @@ def test_label_junction(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/road/020_junction.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.road_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.road_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -946,11 +948,11 @@ def test_label_route(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/route/010_route.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.route_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.route_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -965,11 +967,11 @@ def test_label_traffic_a(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/traffic/010_traffic_a.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.traffic_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.traffic_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -984,11 +986,11 @@ def test_label_traffic_p(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/traffic/030_traffic_p.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.traffic_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.traffic_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -1003,11 +1005,11 @@ def test_label_transport_a(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/transport/010_transport_a.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.transport_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.transport_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -1022,11 +1024,11 @@ def test_label_transport_p(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/transport/030_transport_p.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.transport_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.transport_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -1041,11 +1043,11 @@ def test_label_a_power(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/utility/010_utility_a_power.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.utility_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.utility_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -1060,11 +1062,11 @@ def test_label_a_man_made(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/utility/020_utility_a_man_made.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.utility_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.utility_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -1079,11 +1081,11 @@ def test_label_p_power(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/utility/040_utility_p_power.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.utility_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.utility_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -1098,11 +1100,11 @@ def test_label_p_man_made(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/utility/050_utility_p_man_made.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.utility_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.utility_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -1117,11 +1119,11 @@ def test_label_l_power(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/utility/070_utility_l_power.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.utility_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.utility_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -1136,11 +1138,11 @@ def test_label_l_man_made(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/utility/080_utility_l_man_made.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.utility_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.utility_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -1155,11 +1157,11 @@ def test_label_water_a(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/water/010_water_a_insert_table.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.water_a").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.water_a").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -1174,11 +1176,11 @@ def test_label_water_b(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/water/020_water_b_insert_table.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.water_p").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.water_p").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
 
 
 @slow
@@ -1193,8 +1195,8 @@ def test_label_water_l(osmaxx_schemas, label_input):
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
     address_script = 'sql/filter/water/030_water_l_insert_table.sql'
-    result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
-    assert result.rowcount == 1
+    with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
+        assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.water_l").execution_options(autocommit=True))
-    assert result.fetchone()['label'] == expected_label
+    with closing(engine.execute(sqlalchemy.text("select label from osmaxx.water_l").execution_options(autocommit=True))) as result:
+        assert result.fetchone()['label'] == expected_label
