@@ -185,8 +185,10 @@ See file name conventions above about the meaning of “_a” etc.
 |adminarea_a|MULTIPOLYGON|Administrative boundaries range from large groups of nation states right down to small administrative districts and suburbs, with an indication of this size/level of importance.|
 |boundary_l|MULTILINESTRING|The boundary is used to mark the borders of areas, mostly political, but possibly also of other administrative area|
 |building_a|MULTIPOLYGON|To mark the outline of the area of buildings|
+|coastline_l|MULTILINESTRING|Linestrings for coastlines. Long linestrings are split into smaller chunks (with no more than 100 points) that are easier and faster to work with.|
 |geoname_l|MULTILINESTRING|The boarder of a settlement which is marked around the node and to mark the specific type of settlement. Eg. City, town, village, etc|
 |geoname_p|POINT|It is to mark the centre of a named settlement and the specific type of settlement. Eg. City, town, village, etc|
+|landmass_a|MULTIPOLYGON|All land areas in the except, i.e. continents and islands.|
 |landuse_a|MULTIPOLYGON|Landuse describes the human use of land, for example fields and pastures.|
 |military_a|MULTIPOLYGON|See military_p|
 |military_p|POINT|The military is for buildings and area used by the military.|
@@ -201,6 +203,7 @@ See file name conventions above about the meaning of “_a” etc.
 |railway_l|MULTILINESTRING|All forms of transport using metal rails, including mainline services, subways, heritage lines and trams.|
 |road_l|MULTILINESTRING|Any road, route, way, or thoroughfare on land which connects one location to another and has been paved or otherwise improved to allow travel by some conveyance, including motorised vehicles, cyclists, pedestrians, horse, riders, and others|
 |route_l|MULTILINESTRING|A route is a customary or regular line of passage or travel, often predetermined and publicized. Routes consist of paths taken repeatedly by people and vehicles.|
+|sea_a|MULTIPOLYGON|Oceans, seas and large bodies of inland water. Polygons are split into smaller overlapping chunks that are easier and faster to work with.|
 |traffic_a|MULTIPOLYGON|See traffic_p|
 |traffic_p|POINT|It contains information regarding the rules of the road. Which allow better flow of traffic. E.g. Road signs, traffic calming, etc.|
 |transport_a|MULTIPOLYGON|See transport_p|
@@ -311,6 +314,14 @@ Values of attribute type
 |building|`building=*`|This marks out the size and area of a building.|
 
 
+## coastline_l
+
+Pre-processed data from [OpenStreetMapData 'Coastlines'](http://openstreetmapdata.com/data/coastlines)
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|fid|int| | |
+
 ## geoname_l
 
 
@@ -376,6 +387,14 @@ Values of attribute type
 |town|`place=town`|An important urban centre between a village and a city in size|
 |village|`place=village`|A settlement with between 1,000 and 10,000 inhabitants.|
 
+
+## landmass_a
+
+Pre-processed data from [OpenStreetMapData 'Land polygons'](http://openstreetmapdata.com/data/land-polygons)
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|fid|int| | |
 
 ## landuse_a
 
@@ -1216,6 +1235,14 @@ Values of attribute type
 |tram|`route=tram`|Trams services|
 |route|`route=*`|Any route not specified above.|
 
+
+## sea_a
+
+Pre-processed data from [OpenStreetMapData 'Water polygons'](http://openstreetmapdata.com/data/water-polygons)
+
+|Attributes          |type                |Description                                                           |osm_tags            |
+| ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
+|fid|int| | |
 
 ## traffic_a
 

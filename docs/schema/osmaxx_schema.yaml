@@ -3328,3 +3328,27 @@ layers:
             osm_tags:
               - "waterway": '*'
             description: 'Other waterways which is user-defined'
+  "landmass_a":
+    summary: "All land areas in the except, i.e. continents and islands."
+    source:
+      name: "OpenStreetMapData 'Land polygons'"
+      url: http://openstreetmapdata.com/data/land-polygons
+    attributes:
+      "fid":
+        type: int
+  "coastline_l":
+    summary: "Linestrings for coastlines. Long linestrings are split into smaller chunks (with no more than 100 points) that are easier and faster to work with."
+    source:
+      name: "OpenStreetMapData 'Coastlines'"
+      url: http://openstreetmapdata.com/data/coastlines
+    attributes:
+      "fid":
+        type: int
+  "sea_a":
+    summary: "Oceans, seas and large bodies of inland water. Polygons are split into smaller overlapping chunks that are easier and faster to work with."
+    source:
+      name: "OpenStreetMapData 'Water polygons'"
+      url: http://openstreetmapdata.com/data/water-polygons
+    attributes:
+      "fid":
+        type: int

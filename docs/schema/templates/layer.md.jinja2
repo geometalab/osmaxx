@@ -2,6 +2,9 @@
 
 {% if 'description' in layer_definition -%}
     {{ '\n' }}{{ layer_definition['description'] }}
+{% endif -%}
+{% if 'source' in layer_definition -%}
+    Pre-processed data from [{{ layer_definition['source']['name'] }}]({{ layer_definition['source']['url'] }})
 {% endif %}
 {% include 'layer_attributes.md.jinja2' -%}
 {% for attribute_name, attribute in layer_definition['attributes']|dictsort_unless_ordered if 'values' in attribute -%}

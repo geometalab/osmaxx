@@ -68,10 +68,6 @@
 <p>example: <code>osm_building_a_gen1_v01.gpkg</code></p>
 <h2 id="layer-specification-headers">Layer Specification Headers</h2>
 <table>
-<colgroup>
-<col style="width: 24%" />
-<col style="width: 75%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Headers</th>
@@ -95,14 +91,7 @@
 </table>
 <h2 id="common-attributes">Common Attributes</h2>
 <p>These attributes are common to all tables (except maybe tables from external sources).</p>
-<table style="width:100%;">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 16%" />
-<col style="width: 43%" />
-<col style="width: 13%" />
-<col style="width: 15%" />
-</colgroup>
+<table>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attribute</th>
@@ -227,11 +216,6 @@
 <h2 id="layer-overview">Layer Overview</h2>
 <p>See file name conventions above about the meaning of “_a” etc.</p>
 <table>
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 22%" />
-<col style="width: 62%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Tables</th>
@@ -261,14 +245,24 @@
 <td style="text-align: left;">To mark the outline of the area of buildings</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">coastline_l</td>
+<td style="text-align: left;">MULTILINESTRING</td>
+<td style="text-align: left;">Linestrings for coastlines. Long linestrings are split into smaller chunks (with no more than 100 points) that are easier and faster to work with.</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">geoname_l</td>
 <td style="text-align: left;">MULTILINESTRING</td>
 <td style="text-align: left;">The boarder of a settlement which is marked around the node and to mark the specific type of settlement. Eg. City, town, village, etc</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">geoname_p</td>
 <td style="text-align: left;">POINT</td>
 <td style="text-align: left;">It is to mark the centre of a named settlement and the specific type of settlement. Eg. City, town, village, etc</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">landmass_a</td>
+<td style="text-align: left;">MULTIPOLYGON</td>
+<td style="text-align: left;">All land areas in the except, i.e. continents and islands.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">landuse_a</td>
@@ -341,56 +335,61 @@
 <td style="text-align: left;">A route is a customary or regular line of passage or travel, often predetermined and publicized. Routes consist of paths taken repeatedly by people and vehicles.</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">sea_a</td>
+<td style="text-align: left;">MULTIPOLYGON</td>
+<td style="text-align: left;">Oceans, seas and large bodies of inland water. Polygons are split into smaller overlapping chunks that are easier and faster to work with.</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">traffic_a</td>
 <td style="text-align: left;">MULTIPOLYGON</td>
 <td style="text-align: left;">See traffic_p</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">traffic_p</td>
 <td style="text-align: left;">POINT</td>
 <td style="text-align: left;">It contains information regarding the rules of the road. Which allow better flow of traffic. E.g. Road signs, traffic calming, etc.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">transport_a</td>
 <td style="text-align: left;">MULTIPOLYGON</td>
 <td style="text-align: left;">See transport_p</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">transport_l</td>
 <td style="text-align: left;">MULTILINESTRING</td>
 <td style="text-align: left;">Linear features involved in transporting anyone from one place to another, e.g. runways at airports</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">transport_p</td>
 <td style="text-align: left;">POINT</td>
 <td style="text-align: left;">Features which mark out points or location where it enable transporting anyone from one place to another. E.g. Bus stops, train station, etc.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">utility_a</td>
 <td style="text-align: left;">MULTIPOLYGON</td>
 <td style="text-align: left;">See utility_l</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">utility_l</td>
 <td style="text-align: left;">MULTILINESTRING</td>
 <td style="text-align: left;">All features which are part of the utility body. E.g. Power structure (powerlines, power building), pipelines (oil, water, gas etc.), etc..</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">utility_p</td>
 <td style="text-align: left;">POINT</td>
 <td style="text-align: left;">See utility_l</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">water_a</td>
 <td style="text-align: left;">MULTIPOLYGON</td>
 <td style="text-align: left;">See water_l</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">water_l</td>
 <td style="text-align: left;">MULTILINESTRING</td>
 <td style="text-align: left;">All features which are part of the waterbody. E.g. Dams, river, etc.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">water_p</td>
 <td style="text-align: left;">POINT</td>
 <td style="text-align: left;">See water_l</td>
@@ -400,12 +399,6 @@
 <h1 id="layers-specification">Layers Specification</h1>
 <h2 id="address_p">address_p</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -455,11 +448,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -511,11 +499,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -617,11 +600,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -744,14 +722,28 @@
 </tr>
 </tbody>
 </table>
+<h2 id="coastline_l">coastline_l</h2>
+<p>Pre-processed data from <a href="http://openstreetmapdata.com/data/coastlines">OpenStreetMapData 'Coastlines'</a></p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attributes</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">osm_tags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">fid</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
 <h2 id="geoname_l">geoname_l</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -783,11 +775,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -885,12 +872,6 @@
 </table>
 <h2 id="geoname_p">geoname_p</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -922,11 +903,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -1022,6 +998,26 @@
 </tr>
 </tbody>
 </table>
+<h2 id="landmass_a">landmass_a</h2>
+<p>Pre-processed data from <a href="http://openstreetmapdata.com/data/land-polygons">OpenStreetMapData 'Land polygons'</a></p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attributes</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">osm_tags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">fid</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
 <h2 id="landuse_a">landuse_a</h2>
 <table>
 <thead>
@@ -1043,11 +1039,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -1209,11 +1200,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -1300,11 +1286,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -1391,12 +1372,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -1519,11 +1494,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -1640,11 +1610,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -1742,12 +1707,6 @@
 </table>
 <h2 id="nonop_l">nonop_l</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -1791,11 +1750,6 @@
 </table>
 <p>Values of attribute status</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -1828,11 +1782,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -1855,12 +1804,6 @@
 </table>
 <h2 id="poi_a">poi_a</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -1934,12 +1877,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -2889,12 +2826,6 @@
 </table>
 <h2 id="poi_p">poi_p</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -2968,12 +2899,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -3923,12 +3848,6 @@
 </table>
 <h2 id="pow_a">pow_a</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -3984,12 +3903,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -4129,12 +4042,6 @@
 </table>
 <h2 id="pow_p">pow_p</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -4190,12 +4097,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -4335,12 +4236,6 @@
 </table>
 <h2 id="railway_l">railway_l</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -4440,12 +4335,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -4591,12 +4480,6 @@
 </table>
 <h2 id="road_l">road_l</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -4702,12 +4585,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -5053,11 +4930,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -5173,14 +5045,28 @@
 </tr>
 </tbody>
 </table>
+<h2 id="sea_a">sea_a</h2>
+<p>Pre-processed data from <a href="http://openstreetmapdata.com/data/water-polygons">OpenStreetMapData 'Water polygons'</a></p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attributes</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">osm_tags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">fid</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
 <h2 id="traffic_a">traffic_a</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -5212,12 +5098,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -5267,12 +5147,6 @@
 </table>
 <h2 id="traffic_p">traffic_p</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -5304,12 +5178,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -5558,12 +5426,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -5686,12 +5548,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -5742,12 +5598,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -5851,12 +5701,6 @@
 </table>
 <h2 id="utility_a">utility_a</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -5882,12 +5726,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -6022,12 +5860,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -6077,12 +5909,6 @@
 </table>
 <h2 id="utility_p">utility_p</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -6108,12 +5934,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">aggtype</th>
@@ -6236,11 +6056,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -6303,12 +6118,6 @@
 </table>
 <h2 id="water_l">water_l</h2>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 54%" />
-<col style="width: 15%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Attributes</th>
@@ -6334,11 +6143,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -6395,11 +6199,6 @@
 </table>
 <p>Values of attribute type</p>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 64%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
