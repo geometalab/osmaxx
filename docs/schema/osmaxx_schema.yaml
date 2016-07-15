@@ -3329,7 +3329,7 @@ layers: !!omap
                 - "waterway": '*'
               description: 'Rivers or other kind of waterways. This contains any other water traffic except the specifics below.'
   - "landmass_a":
-      summary: "All land areas in the except, i.e. continents and islands."
+      summary: "All land areas in the excerpt, i.e. continents and islands."
       source:
         name: "OpenStreetMapData 'Land polygons'"
         url: http://openstreetmapdata.com/data/land-polygons

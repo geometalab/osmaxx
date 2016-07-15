@@ -212,7 +212,7 @@ See file name conventions above about the meaning of “_a” etc.
 |water_a|MULTIPOLYGON|See water_l|
 |water_l|MULTILINESTRING|All features which are part of the waterbody. E.g. Dams, river, etc.|
 |water_p|POINT|See water_l|
-|landmass_a|MULTIPOLYGON|All land areas in the except, i.e. continents and islands.|
+|landmass_a|MULTIPOLYGON|All land areas in the excerpt, i.e. continents and islands.|
 |coastline_l|MULTILINESTRING|Linestrings for coastlines. Long linestrings are split into smaller chunks (with no more than 100 points) that are easier and faster to work with.|
 |sea_a|MULTIPOLYGON|Oceans, seas and large bodies of inland water. Polygons are split into smaller overlapping chunks that are easier and faster to work with.|
 
