@@ -1,4 +1,14 @@
 {% import 'osm.md.jinja2' as osm -%}
+{% if 'common_attributes' not in layer_definition or layer_definition['common_attributes'] -%}
+    This layer has the [common attributes](#common-attributes)
+    {%- if layer_definition['attributes'] -%}
+        {{ ' ' }}as well as the following attributes:
+    {%- else -%}
+        .
+    {%- endif %}
+{% else -%}
+    This layer _only_ has the following attributes (it _doesn't_ feature the [common attributes](#common-attributes)):
+{% endif %}
 {% if layer_definition['attributes'] -%}
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |

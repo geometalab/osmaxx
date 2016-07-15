@@ -129,7 +129,7 @@ example: `osm_building_a_gen1_v01.gpkg`
 
 ## Common Attributes
 
-These attributes are common to all tables (except maybe tables from external sources).
+These attributes are common to all tables except the ones derived from OSM costline data processed by openstreetmapdata.com.
 
 
 |Attribute   |Data Type         |Description                                   |Osm Tags       |osm2pgsql column |
@@ -222,6 +222,8 @@ See file name conventions above about the meaning of “_a” etc.
 ## address_p
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |type|text|(see table below)| |
@@ -244,6 +246,8 @@ Values of attribute type
 
 ## adminarea_a
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -273,6 +277,8 @@ Values of attribute type
 ## boundary_l
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |type|text|(see table below)| |
@@ -301,6 +307,8 @@ Values of attribute type
 ## building_a
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |height|text|Stores the height of the building (Unit Meters)|`height=*`|
@@ -316,6 +324,8 @@ Values of attribute type
 
 ## geoname_l
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -350,6 +360,8 @@ Values of attribute type
 ## geoname_p
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |population|int|A rough number of citizens in a given place|`population=*`|
@@ -382,6 +394,8 @@ Values of attribute type
 
 ## landuse_a
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -423,6 +437,8 @@ Values of attribute type
 ## military_a
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |type|text|(see table below)| |
@@ -448,6 +464,8 @@ Values of attribute type
 ## military_p
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |type|text|(see table below)| |
@@ -472,6 +490,8 @@ Values of attribute type
 
 ## misc_l
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -501,6 +521,8 @@ Values of attribute type
 
 ## natural_a
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -533,6 +555,8 @@ Values of attribute type
 ## natural_p
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |type|text|(see table below)| |
@@ -564,6 +588,8 @@ Values of attribute type
 ## nonop_l
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |ref|text|Reference number of this road unset for railways.|`ref=*`|
@@ -594,6 +620,8 @@ Values of attribute type
 
 ## poi_a
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -774,6 +802,8 @@ Values of attribute type
 ## poi_p
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
@@ -953,6 +983,8 @@ Values of attribute type
 ## pow_a
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
@@ -994,6 +1026,8 @@ Values of attribute type
 ## pow_p
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text|The legal accessibility of a element.|`access=*`|
@@ -1034,6 +1068,8 @@ Values of attribute type
 
 ## railway_l
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -1094,6 +1130,8 @@ Values of attribute type
 
 ## road_l
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -1188,6 +1226,8 @@ Values of attribute type
 
 Various types of "routes" (customary or regular lines of passage or travel, often predetermined and publicized), from bus lines to hiking trails. Not suitable for "routing" (navigation)!
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |type|text|(see table below)| |
@@ -1223,6 +1263,8 @@ Values of attribute type
 ## traffic_a
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |access|text(later)|For describing the legal accessibility of a element.|`access=*`|
@@ -1244,6 +1286,8 @@ Values of attribute type
 
 ## traffic_p
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -1297,6 +1341,8 @@ Values of attribute type
 ## transport_a
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |type|text|(see table below)| |
@@ -1326,6 +1372,8 @@ Values of attribute type
 ## transport_l
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |type|text|(see table below)| |
@@ -1342,6 +1390,8 @@ Values of attribute type
 
 ## transport_p
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -1372,6 +1422,8 @@ Values of attribute type
 ## utility_a
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |aggtype|text|Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization.| |
@@ -1401,6 +1453,8 @@ Values of attribute type
 ## utility_l
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |frequency|text|The frequency level the power line is running on|`frequency=*`|
@@ -1423,6 +1477,8 @@ Values of attribute type
 
 ## utility_p
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -1454,6 +1510,8 @@ Values of attribute type
 ## water_a
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |type|text|(see table below)| |
@@ -1478,6 +1536,8 @@ Values of attribute type
 ## water_l
 
 
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |type|int|(see table below)| |
@@ -1497,6 +1557,8 @@ Values of attribute type
 
 ## water_p
 
+
+This layer has the [common attributes](#common-attributes) as well as the following attributes:
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
@@ -1525,6 +1587,8 @@ Values of attribute type
 
 Pre-processed data from [OpenStreetMapData 'Land polygons'](http://openstreetmapdata.com/data/land-polygons)
 
+This layer _only_ has the following attributes (it _doesn't_ feature the [common attributes](#common-attributes)):
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |fid|int| | |
@@ -1533,6 +1597,8 @@ Pre-processed data from [OpenStreetMapData 'Land polygons'](http://openstreetmap
 
 Pre-processed data from [OpenStreetMapData 'Coastlines'](http://openstreetmapdata.com/data/coastlines)
 
+This layer _only_ has the following attributes (it _doesn't_ feature the [common attributes](#common-attributes)):
+
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |
 |fid|int| | |
@@ -1540,6 +1606,8 @@ Pre-processed data from [OpenStreetMapData 'Coastlines'](http://openstreetmapdat
 ## sea_a
 
 Pre-processed data from [OpenStreetMapData 'Water polygons'](http://openstreetmapdata.com/data/water-polygons)
+
+This layer _only_ has the following attributes (it _doesn't_ feature the [common attributes](#common-attributes)):
 
 |Attributes          |type                |Description                                                           |osm_tags            |
 | ------------------ | ------------------ | -------------------------------------------------------------------- | ------------------ |

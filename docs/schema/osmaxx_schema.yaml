@@ -3333,6 +3333,7 @@ layers: !!omap
       source:
         name: "OpenStreetMapData 'Land polygons'"
         url: http://openstreetmapdata.com/data/land-polygons
+      common_attributes: no
       attributes:
         "fid":
           type: int
@@ -3341,6 +3342,7 @@ layers: !!omap
       source:
         name: "OpenStreetMapData 'Coastlines'"
         url: http://openstreetmapdata.com/data/coastlines
+      common_attributes: no
       attributes:
         "fid":
           type: int
@@ -3349,6 +3351,7 @@ layers: !!omap
       source:
         name: "OpenStreetMapData 'Water polygons'"
         url: http://openstreetmapdata.com/data/water-polygons
+      common_attributes: no
       attributes:
         "fid":
           type: int
