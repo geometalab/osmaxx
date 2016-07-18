@@ -6,7 +6,8 @@
     display: none;
 }
 
-.cursor {
+.hand-cursor {
+    /* defined twice for cross browser compatibility */
     cursor: pointer;
     cursor: hand;
 }
