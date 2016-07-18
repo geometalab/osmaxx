@@ -249,7 +249,7 @@ REDIS_CONNECTION = dict(
     PORT=env.str('REDIS_PORT', default=6379),
     DB=0,
     PASSWORD='',
-    DEFAULT_TIMEOUT=int(timedelta(days=1).total_seconds())
+    DEFAULT_TIMEOUT=int(timedelta(days=2).total_seconds())
 )
 RQ_QUEUE_NAMES = ['default', 'high']
 RQ_QUEUES = {name: REDIS_CONNECTION for name in RQ_QUEUE_NAMES}
