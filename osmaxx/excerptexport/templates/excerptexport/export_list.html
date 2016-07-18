@@ -7,8 +7,10 @@
 
 {% block main %}
     <div class="container-row content">
-        <div class="col-lg-12 last">
-            <h2>My Exports</h2>
+        <div class="row">
+            <div class="col-lg-12 last">
+                <h2>{% trans 'My Exports' %}&nbsp;&nbsp;&nbsp;<span class="small">{% include 'excerptexport/partials/refresh_export_message.html' %}</span></h2>
+            </div>
         </div>
         <div class="col-lg-10">
             {% for excerpt, exports in excerpt_list_with_exports.items %}
