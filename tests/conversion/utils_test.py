@@ -42,7 +42,7 @@ def directory_with_subdirectories(request):
         if index % 2 == 0:
             subdir = os.path.join(subdir, str(file_size))
             os.mkdir(subdir)
-        elif index != 0:
+        else:
             subdir = os.path.join(subdir, str(index))
             os.mkdir(subdir)
         file_path = os.path.join(subdir, 'example_{}.file'.format(str(file_size)))
