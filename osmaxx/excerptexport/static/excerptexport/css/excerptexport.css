@@ -5,3 +5,8 @@
 .asteriskField {
     display: none;
 }
+
+.cursor {
+    cursor: pointer;
+    cursor: hand;
+}
