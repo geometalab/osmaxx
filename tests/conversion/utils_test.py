@@ -32,6 +32,6 @@ def directory_with_subdirectories(request):
     return tempdir.name, expected_size
 
 
-def test_recursive_getsize_does_count_subdirectories(directory_with_subdirectories):
+def test_recursive_getsize_sums_up_sizes_correctly_with_subdirectories(directory_with_subdirectories):
     directory, expected_size = directory_with_subdirectories
     assert recursive_getsize(directory) == expected_size
