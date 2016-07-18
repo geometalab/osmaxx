@@ -12,22 +12,30 @@ def directory_with_subdirectories(request):
     """
     This creates the following file and directory structure
     <tmpdir>
-        └── 102
-            ├── 1
-            │   ├── 10
-            │   │   ├── 3
-            │   │   │   ├── 10
-            │   │   │   │   ├── 5
-            │   │   │   │   │   ├── 1667
-            │   │   │   │   │   │   ├── 7
-            │   │   │   │   │   │   │   └── example_1254.file
-            │   │   │   │   │   │   └── example_1667.file
-            │   │   │   │   │   └── example_678691.file
-            │   │   │   │   └── example_10.file
-            │   │   │   └── example_2000.file
-            │   │   └── example_10.file
-            │   └── example_304.file
-            └── example_102.file
+        ├── 102
+        │   ├── 304
+        │   │   ├── 10
+        │   │   │   ├── 2000
+        │   │   │   │   ├── 10
+        │   │   │   │   │   ├── 678691
+        │   │   │   │   │   │   ├── 1667
+        │   │   │   │   │   │   │   ├── 1254
+        │   │   │   │   │   │   │   │   └── example_1254.file
+        │   │   │   │   │   │   │   ├── empty_dir
+        │   │   │   │   │   │   │   └── example_1667.file
+        │   │   │   │   │   │   ├── empty_dir
+        │   │   │   │   │   │   └── example_678691.file
+        │   │   │   │   │   ├── empty_dir
+        │   │   │   │   │   └── example_10.file
+        │   │   │   │   ├── empty_dir
+        │   │   │   │   └── example_2000.file
+        │   │   │   ├── empty_dir
+        │   │   │   └── example_10.file
+        │   │   ├── empty_dir
+        │   │   └── example_304.file
+        │   ├── empty_dir
+        │   └── example_102.file
+        └── empty_dir
     """
     tempdir = tempfile.TemporaryDirectory()
 
@@ -38,13 +46,11 @@ def directory_with_subdirectories(request):
     file_sizes = [102, 304, 10, 2000, 10, 678691, 1667, 1254]
     expected_size = sum(file_sizes)
     subdir = tempdir.name
-    for index, file_size in enumerate(file_sizes):
-        if index % 2 == 0:
-            subdir = os.path.join(subdir, str(file_size))
-            os.mkdir(subdir)
-        else:
-            subdir = os.path.join(subdir, str(index))
-            os.mkdir(subdir)
+    for file_size in file_sizes:
+        os.mkdir(os.path.join(subdir, 'empty_dir'))
+        subdir = os.path.join(subdir, str(file_size))
+        os.mkdir(subdir)
+
         file_path = os.path.join(subdir, 'example_{}.file'.format(str(file_size)))
         with open(file_path, 'w') as file:
             file.truncate(file_size)
