@@ -9,6 +9,26 @@ from osmaxx.conversion.converters.utils import recursive_getsize
 
 @pytest.fixture
 def directory_with_subdirectories(request):
+    """
+    This creates the following file and directory structure
+    <tmpdir>
+        └── 102
+            ├── 1
+            │   ├── 10
+            │   │   ├── 3
+            │   │   │   ├── 10
+            │   │   │   │   ├── 5
+            │   │   │   │   │   ├── 1667
+            │   │   │   │   │   │   ├── 7
+            │   │   │   │   │   │   │   └── example_1254.file
+            │   │   │   │   │   │   └── example_1667.file
+            │   │   │   │   │   └── example_678691.file
+            │   │   │   │   └── example_10.file
+            │   │   │   └── example_2000.file
+            │   │   └── example_10.file
+            │   └── example_304.file
+            └── example_102.file
+    """
     tempdir = tempfile.TemporaryDirectory()
 
     def rm_tmpdir():
