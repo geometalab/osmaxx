@@ -129,7 +129,7 @@ example: `osm_building_a_gen1_v01.gpkg`
 
 ## Common Attributes
 
-These attributes are common to all tables (except maybe tables from external sources).
+These attributes are common to all tables except the ones derived from OSM costline data processed by openstreetmapdata.com.
 
 
 |Attribute   |Data Type         |Description                                   |Osm Tags       |osm2pgsql column |
