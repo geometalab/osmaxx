@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-14 13:44+0200\n"
+"POT-Creation-Date: 2016-07-19 07:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -741,6 +741,7 @@ msgstr ""
 #: osmaxx/core/templates/osmaxx/navigation.html:19
 #: osmaxx/excerptexport/templates/excerptexport/export_detail.html:4
 #: osmaxx/excerptexport/templates/excerptexport/export_list.html:4
+#: osmaxx/excerptexport/templates/excerptexport/export_list.html:12
 msgid "My Exports"
 msgstr ""
 
@@ -909,7 +910,7 @@ msgstr ""
 msgid "Exports"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/export_list.html:25
+#: osmaxx/excerptexport/templates/excerptexport/export_list.html:27
 msgid "see all your exports of this excerpt."
 msgstr ""
 
@@ -948,6 +949,10 @@ msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/partials/no_exports_message.html:4
 msgid "You haven't exported anything, yet."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/partials/refresh_export_message.html:2
+msgid "refresh page to see changes"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:8
