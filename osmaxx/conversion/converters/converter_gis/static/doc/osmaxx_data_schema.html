@@ -94,7 +94,7 @@
 </tbody>
 </table>
 <h2 id="common-attributes">Common Attributes</h2>
-<p>These attributes are common to all tables (except maybe tables from external sources).</p>
+<p>These attributes are common to all tables except the ones derived from OSM costline data processed by openstreetmapdata.com.</p>
 <table style="width:100%;">
 <colgroup>
 <col style="width: 10%" />
@@ -395,10 +395,26 @@
 <td style="text-align: left;">POINT</td>
 <td style="text-align: left;">See water_l</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;">landmass_a</td>
+<td style="text-align: left;">MULTIPOLYGON</td>
+<td style="text-align: left;">All land areas in the excerpt, i.e. continents and islands.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">coastline_l</td>
+<td style="text-align: left;">MULTILINESTRING</td>
+<td style="text-align: left;">Linestrings for coastlines. Long linestrings are split into smaller chunks (with no more than 100 points) that are easier and faster to work with.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sea_a</td>
+<td style="text-align: left;">MULTIPOLYGON</td>
+<td style="text-align: left;">Oceans, seas and large bodies of inland water. Polygons are split into smaller overlapping chunks that are easier and faster to work with.</td>
+</tr>
 </tbody>
 </table>
 <h1 id="layers-specification">Layers Specification</h1>
 <h2 id="address_p">address_p</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -491,6 +507,7 @@
 </tbody>
 </table>
 <h2 id="adminarea_a">adminarea_a</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -597,6 +614,7 @@
 </tbody>
 </table>
 <h2 id="boundary_l">boundary_l</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -703,6 +721,7 @@
 </tbody>
 </table>
 <h2 id="building_a">building_a</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -745,6 +764,7 @@
 </tbody>
 </table>
 <h2 id="geoname_l">geoname_l</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -884,6 +904,7 @@
 </tbody>
 </table>
 <h2 id="geoname_p">geoname_p</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -1023,6 +1044,7 @@
 </tbody>
 </table>
 <h2 id="landuse_a">landuse_a</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -1189,6 +1211,7 @@
 </tbody>
 </table>
 <h2 id="military_a">military_a</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -1280,6 +1303,7 @@
 </tbody>
 </table>
 <h2 id="military_p">military_p</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -1371,6 +1395,7 @@
 </tbody>
 </table>
 <h2 id="misc_l">misc_l</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -1499,6 +1524,7 @@
 </tbody>
 </table>
 <h2 id="natural_a">natural_a</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -1620,6 +1646,7 @@
 </tbody>
 </table>
 <h2 id="natural_p">natural_p</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -1741,6 +1768,7 @@
 </tbody>
 </table>
 <h2 id="nonop_l">nonop_l</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -1854,6 +1882,7 @@
 </tbody>
 </table>
 <h2 id="poi_a">poi_a</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -2888,6 +2917,7 @@
 </tbody>
 </table>
 <h2 id="poi_p">poi_p</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -3922,6 +3952,7 @@
 </tbody>
 </table>
 <h2 id="pow_a">pow_a</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -4128,6 +4159,7 @@
 </tbody>
 </table>
 <h2 id="pow_p">pow_p</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -4334,6 +4366,7 @@
 </tbody>
 </table>
 <h2 id="railway_l">railway_l</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -4590,6 +4623,7 @@
 </tbody>
 </table>
 <h2 id="road_l">road_l</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -5033,6 +5067,7 @@
 </table>
 <h2 id="route_l">route_l</h2>
 <p>Various types of &quot;routes&quot; (customary or regular lines of passage or travel, often predetermined and publicized), from bus lines to hiking trails. Not suitable for &quot;routing&quot; (navigation)!</p>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -5174,6 +5209,7 @@
 </tbody>
 </table>
 <h2 id="traffic_a">traffic_a</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -5266,6 +5302,7 @@
 </tbody>
 </table>
 <h2 id="traffic_p">traffic_p</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -5538,6 +5575,7 @@
 </tbody>
 </table>
 <h2 id="transport_a">transport_a</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -5666,6 +5704,7 @@
 </tbody>
 </table>
 <h2 id="transport_l">transport_l</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -5722,6 +5761,7 @@
 </tbody>
 </table>
 <h2 id="transport_p">transport_p</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -5850,6 +5890,7 @@
 </tbody>
 </table>
 <h2 id="utility_a">utility_a</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -5984,6 +6025,7 @@
 </tbody>
 </table>
 <h2 id="utility_l">utility_l</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -6076,6 +6118,7 @@
 </tbody>
 </table>
 <h2 id="utility_p">utility_p</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -6216,6 +6259,7 @@
 </tbody>
 </table>
 <h2 id="water_a">water_a</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -6302,6 +6346,7 @@
 </tbody>
 </table>
 <h2 id="water_l">water_l</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -6375,6 +6420,7 @@
 </tbody>
 </table>
 <h2 id="water_p">water_p</h2>
+<p>This layer has the <a href="#common-attributes">common attributes</a> as well as the following attributes:</p>
 <table>
 <thead>
 <tr class="header">
@@ -6467,6 +6513,69 @@
 <td style="text-align: left;">weir</td>
 <td style="text-align: left;"><code>waterway=weir</code></td>
 <td style="text-align: left;">A barrier built across a river, sometimes to divert water for industrial purposes. Water can still flow over the top.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="landmass_a">landmass_a</h2>
+<p>Pre-processed data from <a href="http://openstreetmapdata.com/data/land-polygons">OpenStreetMapData 'Land polygons'</a></p>
+<p>This layer <em>only</em> has the following attributes (it <em>doesn't</em> feature the <a href="#common-attributes">common attributes</a>):</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attributes</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">osm_tags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">fid</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="coastline_l">coastline_l</h2>
+<p>Pre-processed data from <a href="http://openstreetmapdata.com/data/coastlines">OpenStreetMapData 'Coastlines'</a></p>
+<p>This layer <em>only</em> has the following attributes (it <em>doesn't</em> feature the <a href="#common-attributes">common attributes</a>):</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attributes</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">osm_tags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">fid</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sea_a">sea_a</h2>
+<p>Pre-processed data from <a href="http://openstreetmapdata.com/data/water-polygons">OpenStreetMapData 'Water polygons'</a></p>
+<p>This layer <em>only</em> has the following attributes (it <em>doesn't</em> feature the <a href="#common-attributes">common attributes</a>):</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Attributes</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">osm_tags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">fid</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>

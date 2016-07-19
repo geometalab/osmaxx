@@ -37,6 +37,8 @@ def zip_folders_relative(folder_list, zip_out_file_path=None):
 def recursive_getsize(path):
     size = 0
     for entry in scandir(path):
-        if not entry.name.startswith('.') and entry.is_file():
+        if entry.is_file():
             size += os.path.getsize(entry.path)
+        elif entry.is_dir(follow_symlinks=False):
+            size += recursive_getsize(os.path.join(path, entry.path))
     return size

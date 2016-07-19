@@ -96,7 +96,9 @@ def release_finish(release_version):
         ["git", "flow", "release", "finish", release_version, "-m", "'OSMaxx release {}'".format(release_version)],
         ["git", "push", "origin", "develop:develop", "master:master", release_version],
     ])
+    execute(["git", "checkout", release_version])
     build_and_push_images(release_version)
+    execute(["git", "checkout", "develop"])
 
 
 def release_done():
