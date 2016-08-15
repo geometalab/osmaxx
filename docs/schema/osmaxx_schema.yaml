@@ -1922,140 +1922,140 @@ layers: !!omap
           description: 'The electrical frequency that the electrified cable is running on'
         "type":
           type: text
-          values:
-            "rail":
-              osm_tags:
-                - "railway": 'rail'
-              correlated_attributes:
-                "aggtype": 'railway'
-              description: 'Full sized passenger or freight trains in the standard gauge for the country or state.'
-            "light_rail":
-              osm_tags:
-                - "railway": 'light_rail'
-              correlated_attributes:
-                "aggtype": 'railway'
-              description: 'A higher-standard tram system, normally in its own right-of-way. Often it connects towns and thus reaches a considerable length (tens of kilometer).'
-            "subway":
-              osm_tags:
-                - "railway": 'subway'
-              correlated_attributes:
-                "aggtype": 'railway'
-              description: 'A city passenger rail service running mostly grade separated'
-            "tram":
-              osm_tags:
-                - "railway": 'tram'
-              correlated_attributes:
-                "aggtype": 'railway'
-              description: 'One or two carriage rail vehicles, usually sharing motor road'
-            "monorail":
-              osm_tags:
-                - "railway": 'monorail'
-              correlated_attributes:
-                "aggtype": 'railway'
-              description: 'A railway with only a single rail.'
-            "narrow_gauge":
-              osm_tags:
-                - "railway": 'narrow_gauge'
-              correlated_attributes:
-                "aggtype": 'railway'
-              description: 'Narrow-gauge passenger or freight trains.'
-            "miniature":
-              osm_tags:
-                - "railway": 'miniature'
-              correlated_attributes:
-                "aggtype": 'railway'
-              description: 'Miniature railways are narrower than narrow gauge and carry passengers. They can be found in parks.'
-            "funicular":
-              osm_tags:
-                - "railway": 'funicular'
-              correlated_attributes:
-                "aggtype": 'railway'
-              description: 'Cable driven inclined railways'
-            "railway":
-              osm_tags:
-                - "railway": '*'
-              correlated_attributes:
-                "aggtype": 'railway'
-              description: 'All other types of railways which is not defined as above'
-            "drag_lift":
-              osm_tags:
-                - "aerialway": 'drag_lift'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'an overhead tow-line for skiers and riders.'
-            "chair_lift":
-              osm_tags:
-                - "aerialway": 'chair_lift'
-                - "aerialway": 'high_speed_chair_lift'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'Looped cable with a series of single chairs (typically seating two or four people, but can be more). Exposed to the open air (can have a bubble).'
-            "cable_car":
-              osm_tags:
-                - "aerialway": 'cable_car'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'Just one or two large cars. The cable forms a loop, but the cars do not loop around, they just move up and down on their own side.'
-            "gondola":
-              osm_tags:
-                - "aerialway": 'gondola'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'Many cars on a looped cable.'
-            "goods":
-              osm_tags:
-                - "aerialway": 'goods'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'A cable/wire supported lift for goods. Passenger transport is usually not allowed.'
-            "platter":
-              osm_tags:
-                - "aerialway": 'platter'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'Platter lift (poma). Overhead tow-line for skiers and riders with platters.'
-            "t-bar":
-              osm_tags:
-                - "aerialway": 't-bar'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'T-bar lift. Overhead tow-line for skiers and riders with T-shaped carriers for two passengers.'
-            "j-bar":
-              osm_tags:
-                - "aerialway": 't-bar'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'J-bar lift or L-bar lift. Overhead tow-line for skiers and riders with carriers in J-shape.'
-            "magic_carpet":
-              osm_tags:
-                - "aerialway": 'magic_carpet'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'Ski lift for small children resembling a conveyor belt.'
-            "zip_line":
-              osm_tags:
-                - "aerialway": 'zip_line'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'Zip lines, Flying fox and similar'
-            "rope_tow":
-              osm_tags:
-                - "aerialway": 'rope_tow'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'Ski tow lift. Tow-line for skiers and riders where passenger hold by hand or use special tow grabbers.'
-            "mixed_lift":
-              osm_tags:
-                - "aerialway": 'mixed_lift'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'A lift mixed with gondola and chair_lift'
-            "aerialway":
-              osm_tags:
-                - "aerialway": '*'
-              correlated_attributes:
-                "aggtype": 'aerialway'
-              description: 'All other types of aerialways which is not defined as above'
+          values: !!omap
+            - "rail":
+                osm_tags:
+                  - "railway": 'rail'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'Full sized passenger or freight trains in the standard gauge for the country or state.'
+            - "light_rail":
+                osm_tags:
+                  - "railway": 'light_rail'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'A higher-standard tram system, normally in its own right-of-way. Often it connects towns and thus reaches a considerable length (tens of kilometer).'
+            - "subway":
+                osm_tags:
+                  - "railway": 'subway'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'A city passenger rail service running mostly grade separated'
+            - "tram":
+                osm_tags:
+                  - "railway": 'tram'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'One or two carriage rail vehicles, usually sharing motor road'
+            - "monorail":
+                osm_tags:
+                  - "railway": 'monorail'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'A railway with only a single rail.'
+            - "narrow_gauge":
+                osm_tags:
+                  - "railway": 'narrow_gauge'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'Narrow-gauge passenger or freight trains.'
+            - "miniature":
+                osm_tags:
+                  - "railway": 'miniature'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'Miniature railways are narrower than narrow gauge and carry passengers. They can be found in parks.'
+            - "funicular":
+                osm_tags:
+                  - "railway": 'funicular'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'Cable driven inclined railways'
+            - "railway":
+                osm_tags:
+                  - "railway": '*'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'All other types of railways which is not defined as above'
+            - "drag_lift":
+                osm_tags:
+                  - "aerialway": 'drag_lift'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'an overhead tow-line for skiers and riders.'
+            - "chair_lift":
+                osm_tags:
+                  - "aerialway": 'chair_lift'
+                  - "aerialway": 'high_speed_chair_lift'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Looped cable with a series of single chairs (typically seating two or four people, but can be more). Exposed to the open air (can have a bubble).'
+            - "cable_car":
+                osm_tags:
+                  - "aerialway": 'cable_car'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Just one or two large cars. The cable forms a loop, but the cars do not loop around, they just move up and down on their own side.'
+            - "gondola":
+                osm_tags:
+                  - "aerialway": 'gondola'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Many cars on a looped cable.'
+            - "goods":
+                osm_tags:
+                  - "aerialway": 'goods'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'A cable/wire supported lift for goods. Passenger transport is usually not allowed.'
+            - "platter":
+                osm_tags:
+                  - "aerialway": 'platter'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Platter lift (poma). Overhead tow-line for skiers and riders with platters.'
+            - "t-bar":
+                osm_tags:
+                  - "aerialway": 't-bar'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'T-bar lift. Overhead tow-line for skiers and riders with T-shaped carriers for two passengers.'
+            - "j-bar":
+                osm_tags:
+                  - "aerialway": 't-bar'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'J-bar lift or L-bar lift. Overhead tow-line for skiers and riders with carriers in J-shape.'
+            - "magic_carpet":
+                osm_tags:
+                  - "aerialway": 'magic_carpet'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Ski lift for small children resembling a conveyor belt.'
+            - "zip_line":
+                osm_tags:
+                  - "aerialway": 'zip_line'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Zip lines, Flying fox and similar'
+            - "rope_tow":
+                osm_tags:
+                  - "aerialway": 'rope_tow'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Ski tow lift. Tow-line for skiers and riders where passenger hold by hand or use special tow grabbers.'
+            - "mixed_lift":
+                osm_tags:
+                  - "aerialway": 'mixed_lift'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'A lift mixed with gondola and chair_lift'
+            - "aerialway":
+                osm_tags:
+                  - "aerialway": '*'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'All other types of aerialways which is not defined as above'
   - "road_l":
       summary: "Any road, route, way, or thoroughfare on land which connects one location to another and has been paved or otherwise improved to allow travel by some conveyance, including motorised vehicles, cyclists, pedestrians, horse, riders, and others"
       attributes:
