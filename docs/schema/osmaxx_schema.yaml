@@ -1953,12 +1953,6 @@ layers: !!omap
               correlated_attributes:
                 "aggtype": 'railway'
               description: 'A railway with only a single rail.'
-            "monorail":
-              osm_tags:
-                - "railway": 'monorail'
-              correlated_attributes:
-                "aggtype": 'railway'
-              description: 'A railway with only a single rail.'
             "narrow_gauge":
               osm_tags:
                 - "railway": 'narrow_gauge'
