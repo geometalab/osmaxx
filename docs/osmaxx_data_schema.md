@@ -1120,7 +1120,7 @@ Values of attribute type
 |aerialway|goods|`aerialway=goods`|A cable/wire supported lift for goods. Passenger transport is usually not allowed.|
 |aerialway|platter|`aerialway=platter`|Platter lift (poma). Overhead tow-line for skiers and riders with platters.|
 |aerialway|t-bar|`aerialway=t-bar`|T-bar lift. Overhead tow-line for skiers and riders with T-shaped carriers for two passengers.|
-|aerialway|j-bar|`aerialway=t-bar`|J-bar lift or L-bar lift. Overhead tow-line for skiers and riders with carriers in J-shape.|
+|aerialway|j-bar|`aerialway=j-bar`|J-bar lift or L-bar lift. Overhead tow-line for skiers and riders with carriers in J-shape.|
 |aerialway|magic_carpet|`aerialway=magic_carpet`|Ski lift for small children resembling a conveyor belt.|
 |aerialway|zip_line|`aerialway=zip_line`|Zip lines, Flying fox and similar|
 |aerialway|rope_tow|`aerialway=rope_tow`|Ski tow lift. Tow-line for skiers and riders where passenger hold by hand or use special tow grabbers.|

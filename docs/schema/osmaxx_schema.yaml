@@ -2022,7 +2022,7 @@ layers: !!omap
                 description: 'T-bar lift. Overhead tow-line for skiers and riders with T-shaped carriers for two passengers.'
             - "j-bar":
                 osm_tags:
-                  - "aerialway": 't-bar'
+                  - "aerialway": 'j-bar'
                 correlated_attributes:
                   "aggtype": 'aerialway'
                 description: 'J-bar lift or L-bar lift. Overhead tow-line for skiers and riders with carriers in J-shape.'
