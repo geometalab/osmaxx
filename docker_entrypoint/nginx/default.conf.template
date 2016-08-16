@@ -30,7 +30,7 @@ add_header X-XSS-Protection "1; mode=block";
 # http://www.html5rocks.com/en/tutorials/security/content-security-policy/
 # https://www.owasp.org/index.php/Content_Security_Policy
 # more: http://www.html5rocks.com/en/tutorials/security/content-security-policy/#inline-code-considered-harmful
-add_header Content-Security-Policy "default-src 'self'; script-src 'self'; img-src 'self' http://*.osm.org https://*.osm.org data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-src; object-src 'none'";
+add_header Content-Security-Policy "default-src 'self'; script-src 'self'; img-src 'self' http://*.osm.org https://*.openstreetmap.org data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-src; object-src 'none'";
 
 proxy_http_version 1.1;
 proxy_buffering off;
