@@ -12,7 +12,6 @@ django-model-utils
 django-secure
 django-stored-messages
 django-crispy-forms
-django-registration
 Werkzeug
 django-debug-toolbar
 whitenoise

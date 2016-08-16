@@ -19,7 +19,6 @@ django-environ==0.4.0
 django-extensions==1.5.9
 django-filter==0.13.0
 django-model-utils==2.4
-django-registration==2.1.2
 django-rq==0.9.0
 django-secure==1.0.1
 django-stored-messages==1.4.0
