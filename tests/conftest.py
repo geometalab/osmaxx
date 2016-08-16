@@ -53,6 +53,7 @@ def pytest_configure():
                         'django.template.context_processors.media',
                         'django.template.context_processors.static',
                         'django.template.context_processors.tz',
+                        'django.contrib.messages.context_processors.messages',
                         'django.template.context_processors.request',
                     ],
                     'loaders': [
@@ -98,6 +99,7 @@ def pytest_configure():
             'osmaxx.core',
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
+            'osmaxx.profile',
 
             # special model for testing only
             'tests.utilities.test_models',
