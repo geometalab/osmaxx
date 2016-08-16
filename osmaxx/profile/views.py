@@ -13,8 +13,7 @@ class ProfileView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'profile/profile_edit.html'
 
     def get_object(self, queryset=None):
-        if self.request.user:
-            return self.model.objects.get(pk=self.request.user.id)
+        return self.model.objects.get(pk=self.request.user.id)
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, 'Profile successfully updated')
