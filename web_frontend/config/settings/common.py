@@ -269,7 +269,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.associate_by_email',
 
     # Create a user account if we haven't found one yet.
-    'social.pipeline.user.create_user',
+    # 'social.pipeline.user.create_user',
+    'osmaxx.profile.pipeline_extensions.user.create_inactive_user',
 
     # Create the record that associated the social account with this user.
     'social.pipeline.social_auth.associate_user',
