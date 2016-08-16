@@ -269,8 +269,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.associate_by_email',
 
     # Create a user account if we haven't found one yet.
-    # 'social.pipeline.user.create_user',
-    'osmaxx.profile.pipeline_extensions.user.create_inactive_user',
+    'social.pipeline.user.create_user',
 
     # Create the record that associated the social account with this user.
     'social.pipeline.social_auth.associate_user',
@@ -366,6 +365,7 @@ MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
 
 # Do not alter this once migrations have been run, since these values are stored in the database.
 OSMAXX_FRONTEND_USER_GROUP = 'osmaxx_frontend_users'
+REGISTRATION_OPEN = True  # If True, verified users are automatically being added to OSMAXX_FRONTEND_USER_GROUP
 
 # message type mapping
 MESSAGE_TAGS = {
