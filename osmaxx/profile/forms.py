@@ -1,8 +1,9 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout
-from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django import forms
+
+from osmaxx.profile.models import Profile
 
 
 class ProfileForm(forms.ModelForm):
@@ -20,6 +21,5 @@ class ProfileForm(forms.ModelForm):
         )
 
     class Meta:
-        User = get_user_model()
-        model = User
+        model = Profile
         fields = ['email']
