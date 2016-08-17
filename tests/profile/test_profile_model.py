@@ -1,6 +1,8 @@
 import time
 from unittest.mock import patch
 
+from django.conf import settings
+
 
 def test_key_changes_at_different_times(valid_profile, unverified_email):
     now = time.time()
@@ -29,3 +31,12 @@ def test_key_validation_returns_expected_values(valid_profile):
 def test_key_validation_returns_none_when_tampered_with_signature(valid_profile):
     activation_key = valid_profile.activation_key() + 'm'
     assert valid_profile.validate_key(activation_key) is None
+
+
+def test_key_validation_returns_none_when_timed_out(valid_profile):
+    now = time.time()
+    delay = now - (settings.REGISTRATION_VERIFICATION_TIMEOUT_DAYS * 86400 + 10)
+    with patch.object(time, 'time', side_effect=[now - delay, now]):
+        activation_key = valid_profile.activation_key()
+        unsigned_value = valid_profile.validate_key(activation_key)
+        assert unsigned_value is None
