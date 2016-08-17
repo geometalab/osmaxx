@@ -1,9 +1,11 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.models import Group
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.template.defaultfilters import urlencode
 from django.utils import timezone
 from django.utils.translation import ugettext as _
@@ -96,4 +98,34 @@ class ProfileView(LoginRequiredMixin, generic.UpdateView):
 
 
 class ActivationView(LoginRequiredMixin, generic.UpdateView):
-    pass
+    error_msg = _('Verification token too old or invalid. Please resend the verification email and try again.')
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        token = request.GET.get('token', None)
+        if token:
+            data = user.profile.validate_key(activation_key=token)
+            if data:
+                user.email = data['email']
+                user.save()
+                self._set_group(user)
+                messages.add_message(self.request, messages.SUCCESS, _('Successfully verified your email.'))
+            else:
+                messages.add_message(self.request, messages.ERROR, self.error_msg)
+        else:
+            messages.add_message(self.request, messages.ERROR, self.error_msg)
+        return redirect(reverse('profile:edit_view'))
+
+    def _set_group(self, user):
+        if settings.REGISTRATION_OPEN and not self._user_in_frontend_group(user):
+            self._grant_user_access(user)
+        if self._user_in_frontend_group(user):
+            messages.add_message(self.request, messages.SUCCESS,
+                                 _('Your email address is now active.'))
+
+    def _user_in_frontend_group(self, user):
+        return user.groups.filter(name=settings.OSMAXX_FRONTEND_USER_GROUP).exists()
+
+    def _grant_user_access(self, user):
+        group = Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP)
+        group.user_set.add(user)
