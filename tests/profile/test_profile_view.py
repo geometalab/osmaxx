@@ -28,6 +28,21 @@ def test_new_registration_with_email_moves_email_address_correctly(authenticated
 
 
 @pytest.mark.django_db()
+def test_new_registration_without_email_primes_the_user_to_add_one(authenticated_client):
+    user = authenticated_client.user
+    user.email = ''
+    user.save()
+
+    response = authenticated_client.get(reverse('profile:edit_view'))
+
+    user.refresh_from_db()
+
+    assert response.status_code == 200
+    assert 'You have not set an email. You must set a valid email to use OSMaxx.' in response.content.decode()
+    assert user.email == ''
+
+
+@pytest.mark.django_db()
 def test_registration_with_email_doesnt_move_email_when_already_authorized(authorized_client):
     user = authorized_client.user
     original_email = user.email
