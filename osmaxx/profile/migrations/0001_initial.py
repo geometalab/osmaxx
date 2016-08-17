@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             name='Profile',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('unverified_email', models.EmailField(max_length=200, null=True, verbose_name='email')),
+                ('unverified_email', models.EmailField(max_length=200, null=True, verbose_name='unverified email')),
                 ('associated_user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='user')),
             ],
         ),
