@@ -3,18 +3,16 @@ from django.utils import timezone
 
 from osmaxx.profile.models import Profile
 
-unverified_email = 'test@example.com'
-
 
 @pytest.fixture
-def valid_profile(db, user):
+def valid_profile(db, user, unverified_email):
     profile = Profile.objects.create(
         associated_user=user, token_creation_time=timezone.now(), unverified_email=unverified_email
     )
     return profile
 
 
-def test_key_is_always_the_same(valid_profile):
+def test_key_is_always_the_same(valid_profile, unverified_email):
     activation_key = valid_profile.activation_key()
     valid_profile.unverified_email = unverified_email
     valid_profile.save(force_update=True)
