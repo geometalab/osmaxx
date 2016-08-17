@@ -1,5 +1,4 @@
 import pytest
-from django.utils import timezone
 
 from osmaxx.profile.models import Profile
 
@@ -12,6 +11,6 @@ def unverified_email():
 @pytest.fixture
 def valid_profile(db, user, unverified_email):
     profile = Profile.objects.create(
-        associated_user=user, token_creation_time=timezone.now(), unverified_email=unverified_email
+        associated_user=user, unverified_email=unverified_email
     )
     return profile

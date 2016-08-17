@@ -7,7 +7,6 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.defaultfilters import urlencode
-from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.views import generic
 
@@ -93,7 +92,7 @@ class ProfileView(LoginRequiredMixin, generic.UpdateView):
         try:
             profile = Profile.objects.get(associated_user=self.request.user)
         except ObjectDoesNotExist:
-            profile = Profile.objects.create(associated_user=self.request.user, token_creation_time=timezone.now())
+            profile = Profile.objects.create(associated_user=self.request.user)
         return profile
 
 
