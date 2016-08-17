@@ -160,9 +160,11 @@ def pytest_configure():
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
             'EXCLUSIVE_USER_GROUP': 'dev',
+            'ACCOUNT_MANAGER_EMAIL': 'accountmanager@example.com',
         },
         OSMAXX_FRONTEND_USER_GROUP='osmaxx_frontend_users',
-
+        REGISTRATION_OPEN=True,
+        REGISTRATION_VERIFICATION_TIMEOUT_DAYS=2,
         CACHES={
             'default': {
                 'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
