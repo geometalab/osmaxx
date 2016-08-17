@@ -10,11 +10,11 @@
 {% block main %}
     <div class="container-row content">
         <h2>{% trans 'Profile for' %} {{ request.user.username }}</h2>
-        <div class="col-lg-2">
+        <div class="col-lg-4">
             {% crispy form %}
         </div>
         <div class="col-lg-4">
-            <a href="#" class="btn btn-default btn-info">Resend Validation Email</a>
+            <a href="{% url 'profile:resend_verification' %}" class="btn btn-default btn-info">Resend Validation Email</a>
         </div>
     </div>
 {% endblock %}
