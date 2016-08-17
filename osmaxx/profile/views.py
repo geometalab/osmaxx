@@ -128,3 +128,12 @@ class ActivationView(LoginRequiredMixin, generic.UpdateView):
     def _grant_user_access(self, user):
         group = Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP)
         group.user_set.add(user)
+
+
+class ResendVerificationEmail(LoginRequiredMixin, generic.RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('profile:edit_view')
+
+    def get(self, request, *args, **kwargs):
+
+        return super().get(request, *args, **kwargs)

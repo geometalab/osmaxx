@@ -1,9 +1,15 @@
-def test_key_is_always_the_same(valid_profile, unverified_email):
-    activation_key = valid_profile.activation_key()
-    valid_profile.unverified_email = unverified_email
-    valid_profile.save(force_update=True)
-    valid_profile.refresh_from_db()
-    assert activation_key == valid_profile.activation_key()
+import time
+from unittest.mock import patch
+
+
+def test_key_changes_at_different_times(valid_profile, unverified_email):
+    now = time.time()
+    with patch.object(time, 'time', side_effect=[now, now - 10]):
+        activation_key = valid_profile.activation_key()
+        valid_profile.unverified_email = unverified_email
+        valid_profile.save(force_update=True)
+        valid_profile.refresh_from_db()
+        assert activation_key != valid_profile.activation_key()
 
 
 def test_key_changes_when_email_changes(valid_profile):
