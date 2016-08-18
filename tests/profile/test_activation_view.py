@@ -29,9 +29,6 @@ def test_activation_succeeds_with_valid_token(authenticated_client, valid_profil
     assert response.status_code == 200  # after redirect, since follow=True in request!
     assert 'Verification token too old or invalid. Please resend the verification email and try again.' not in content
     assert 'Successfully verified your email address.' in content
-    from django.conf import settings
-    if settings.REGISTRATION_OPEN:
-        assert 'Your email address is now active.' in content
 
 
 @pytest.mark.django_db()
@@ -43,6 +40,3 @@ def test_activation_fails_with_invalid_token(authenticated_client, valid_profile
     assert response.status_code == 200  # after redirect, since follow=True in request!
     assert 'Verification token too old or invalid. Please resend the verification email and try again.' in content
     assert 'Successfully verified your email address.' not in content
-    from django.conf import settings
-    if settings.REGISTRATION_OPEN:
-        assert 'Your email address is now active.' not in content

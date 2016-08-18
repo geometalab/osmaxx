@@ -122,9 +122,6 @@ class ActivationView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Upd
     def _set_group(self, user):
         if settings.REGISTRATION_OPEN and not self._user_in_frontend_group(user):
             self._grant_user_access(user)
-        if self._user_in_frontend_group(user):
-            messages.add_message(self.request, messages.SUCCESS,
-                                 _('Your email address is now active.'))
 
     def _user_in_frontend_group(self, user):
         return user.groups.filter(name=settings.OSMAXX_FRONTEND_USER_GROUP).exists()
