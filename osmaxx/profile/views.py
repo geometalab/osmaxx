@@ -68,7 +68,7 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
     def is_new_user(self):
         user = self.request.user
         profile_is_new = user.profile.unverified_email is None
-        user_has_already_access = user.groups.filter(name=settings.OSMAXX_FRONTEND_USER_GROUP).exists()
+        user_has_already_access = user_in_frontend_group(user)
         return profile_is_new and not user_has_already_access
 
     def post(self, *args, **kwargs):
@@ -120,11 +120,8 @@ class ActivationView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Upd
         return redirect(reverse('profile:edit_view'))
 
     def _set_group(self, user):
-        if settings.REGISTRATION_OPEN and not self._user_in_frontend_group(user):
+        if settings.REGISTRATION_OPEN and not user_in_frontend_group(user):
             self._grant_user_access(user)
-
-    def _user_in_frontend_group(self, user):
-        return user.groups.filter(name=settings.OSMAXX_FRONTEND_USER_GROUP).exists()
 
     def _grant_user_access(self, user):
         group = Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP)
@@ -139,3 +136,7 @@ class ResendVerificationEmail(SendVerificationEmailMixin, LoginRequiredMixin, ge
         profile = Profile.objects.get(associated_user=self.request.user)
         self._send_email_verification(profile=profile)
         return super().get(request, *args, **kwargs)
+
+
+def user_in_frontend_group(user):
+    return user.groups.filter(name=settings.OSMAXX_FRONTEND_USER_GROUP).exists()
