@@ -1,0 +1,5 @@
+{% load i18n %}{% blocktrans %}In order to verify your email address click the following link:
+{{ token_url }}
+
+If it wasn't you, just ignore this email.
+{% endblocktrans %}

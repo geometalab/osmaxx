@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.defaultfilters import urlencode
+from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views import generic
 
@@ -27,12 +28,12 @@ class SendVerificationEmailMixin(object):
             cache.set(profile.associated_user.id, 'dummy value', timeout=self.RATE_LIMIT_SECONDS)
             user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
             token = profile.activation_key()
-            subject = _('Verify your email address')
-            message = _('In order to verify your email address click the following link:\n'
-                        '{}?token={}'
-                        '\n'
-                        'If it wasn\'t you, just ignore this email.\n'
-                        .format(self.request.build_absolute_uri(reverse('profile:activation')), urlencode(token)))
+            token_url = '{}?token={}'.format(
+                self.request.build_absolute_uri(reverse('profile:activation')), urlencode(token)
+            )
+            subject = render_to_string('profile/verification_email/subject.txt', context={}).strip()
+            subject = ''.join(subject.splitlines())
+            message = render_to_string('profile/verification_email/body.txt', context={'token_url': token_url})
             send_mail(
                 subject=subject,
                 message=message,
