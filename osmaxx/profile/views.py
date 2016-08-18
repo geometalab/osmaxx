@@ -32,7 +32,15 @@ class SendVerificationEmailMixin(object):
             )
             subject = render_to_string('profile/verification_email/subject.txt', context={}).strip()
             subject = ''.join(subject.splitlines())
-            message = render_to_string('profile/verification_email/body.txt', context={'token_url': token_url})
+            message = render_to_string(
+                'profile/verification_email/body.txt',
+                context=dict(
+                    token_url=token_url,
+                    username=self.request.user.username,
+                    new_email_address=to_email,
+                    domain=self.request.get_host(),
+                )
+            )
             send_mail(
                 subject=subject,
                 message=message,
