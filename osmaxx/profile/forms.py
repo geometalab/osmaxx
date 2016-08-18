@@ -8,7 +8,7 @@ from osmaxx.profile.models import Profile
 
 
 class ProfileForm(forms.ModelForm):
-    unverified_email = forms.EmailField(max_length=200, required=True, label=_('email'))
+    unverified_email = forms.EmailField(max_length=200, required=True, label=_('email address'))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

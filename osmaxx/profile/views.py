@@ -28,7 +28,7 @@ class SendVerificationEmailMixin(object):
             user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
             token = profile.activation_key()
             subject = _('Verify your email address')
-            message = _('In order to verify your email-address click the following link:\n'
+            message = _('In order to verify your email address click the following link:\n'
                         '{}?token={}'
                         '\n'
                         'If it wasn\'t you, just ignore this email.\n'
@@ -55,7 +55,7 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
             messages.add_message(
                 self.request,
                 messages.WARNING,
-                _('You have not set an email. You must set a valid email to use OSMaxx.')
+                _('You have not set an email address. You must set a valid email address to use OSMaxx.')
             )
         if self.is_new_user():
             self._move_email_from_user_to_profile(user, profile)
@@ -116,7 +116,7 @@ class ActivationView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Upd
                 user.email = data['email']
                 user.save()
                 self._set_group(user)
-                messages.add_message(self.request, messages.SUCCESS, _('Successfully verified your email.'))
+                messages.add_message(self.request, messages.SUCCESS, _('Successfully verified your email address.'))
             else:
                 messages.add_message(self.request, messages.ERROR, self.error_msg)
         else:

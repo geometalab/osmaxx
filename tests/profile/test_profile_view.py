@@ -38,7 +38,7 @@ def test_new_registration_without_email_primes_the_user_to_add_one(authenticated
     user.refresh_from_db()
 
     assert response.status_code == 200
-    assert 'You have not set an email. You must set a valid email to use OSMaxx.' in response.content.decode()
+    assert 'You have not set an email address. You must set a valid email address to use OSMaxx.' in response.content.decode()
     assert user.email == ''
 
 
