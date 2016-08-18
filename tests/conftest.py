@@ -164,7 +164,6 @@ def pytest_configure():
         },
         OSMAXX_FRONTEND_USER_GROUP='osmaxx_frontend_users',
         REGISTRATION_OPEN=True,
-        REGISTRATION_VERIFICATION_TIMEOUT_DAYS=2,
         CACHES={
             'default': {
                 'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
