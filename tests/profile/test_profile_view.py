@@ -28,7 +28,7 @@ def test_new_registration_with_email_moves_email_address_correctly(authenticated
 
 
 @pytest.mark.django_db()
-def test_new_registration_without_email_primes_the_user_to_add_one(authenticated_client):
+def test_new_registration_without_email_prompts_the_user_to_add_one(authenticated_client):
     user = authenticated_client.user
     user.email = ''
     user.save()
