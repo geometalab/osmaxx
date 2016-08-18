@@ -22,7 +22,7 @@ def test_new_registration_with_email_moves_email_address_correctly(authenticated
     user.refresh_from_db()
 
     assert response.status_code == 200
-    assert 'To activate your email, click the link in the confirmation email.' in response.content.decode()
+    assert ACTIVATE_EMAIL_MESSAGE in response.content.decode()
     assert user.email == ''
     assert user.profile.unverified_email == original_email
 
@@ -38,7 +38,7 @@ def test_new_registration_without_email_primes_the_user_to_add_one(authenticated
     user.refresh_from_db()
 
     assert response.status_code == 200
-    assert 'You have not set an email address. You must set a valid email address to use OSMaxx.' in response.content.decode()
+    assert INVALID_EMAIL_MESSAGE in response.content.decode()
     assert user.email == ''
 
 
@@ -56,7 +56,7 @@ def test_registration_with_email_doesnt_move_email_when_already_authorized(autho
     assert response.status_code == 200
     assert user.email == original_email
     assert user.profile.unverified_email == original_email
-    assert 'To activate your email, click the link in the confirmation email.' not in response.content.decode()
+    assert ACTIVATE_EMAIL_MESSAGE not in response.content.decode()
 
 
 @pytest.mark.django_db()
@@ -73,7 +73,7 @@ def test_email_change(authorized_client):
     assert response.status_code == 200
     assert user.email == original_email
     assert user.profile.unverified_email == new_email
-    assert 'To activate your email, click the link in the confirmation email.' in response.content.decode()
+    assert ACTIVATE_EMAIL_MESSAGE in response.content.decode()
 
 
 @pytest.mark.django_db()
@@ -86,3 +86,6 @@ def test_mail_sent_only_once(authenticated_client):
         authenticated_client.get(reverse('profile:edit_view'))
         authenticated_client.get(reverse('profile:edit_view'))
         assert send_mail.call_count == 1
+
+INVALID_EMAIL_MESSAGE = 'You have not set an email address. You must set a valid email address to use OSMaxx.'
+ACTIVATE_EMAIL_MESSAGE = 'To activate your email, click the link in the confirmation email.'
