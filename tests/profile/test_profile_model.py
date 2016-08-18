@@ -4,7 +4,7 @@ from unittest.mock import patch
 from osmaxx.profile.models import Profile
 
 
-def test_key_changes_at_different_times(valid_profile, unverified_email):
+def test_key_changes_when_time_changes(valid_profile, unverified_email):
     now = time.time()
     with patch.object(time, 'time', side_effect=[now, now - 10]):
         activation_key = valid_profile.activation_key()
