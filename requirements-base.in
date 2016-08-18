@@ -8,6 +8,10 @@ rq
 django-rq
 django-environ
 django-extensions
+django-model-utils
+django-secure
+django-stored-messages
+django-crispy-forms
 Werkzeug
 django-debug-toolbar
 whitenoise
@@ -46,11 +50,6 @@ coverage
 pyhamcrest
 vcrpy
 requests-mock
-
-django-model-utils
-django-secure
-django-stored-messages
-django-crispy-forms
 
 python-social-auth
 

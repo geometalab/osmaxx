@@ -53,6 +53,7 @@ def pytest_configure():
                         'django.template.context_processors.media',
                         'django.template.context_processors.static',
                         'django.template.context_processors.tz',
+                        'django.contrib.messages.context_processors.messages',
                         'django.template.context_processors.request',
                     ],
                     'loaders': [
@@ -98,6 +99,7 @@ def pytest_configure():
             'osmaxx.core',
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
+            'osmaxx.profile',
 
             # special model for testing only
             'tests.utilities.test_models',
@@ -158,9 +160,10 @@ def pytest_configure():
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
             'EXCLUSIVE_USER_GROUP': 'dev',
+            'ACCOUNT_MANAGER_EMAIL': 'accountmanager@example.com',
         },
         OSMAXX_FRONTEND_USER_GROUP='osmaxx_frontend_users',
-
+        REGISTRATION_OPEN=True,
         CACHES={
             'default': {
                 'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
