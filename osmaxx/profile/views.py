@@ -75,7 +75,9 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
     def post(self, *args, **kwargs):
         response = super().post(*args, **kwargs)
         if isinstance(response, HttpResponseRedirect):  # successful form validation
-            self._send_email_verification(profile=Profile.objects.get(associated_user=self.request.user))
+            profile = Profile.objects.get(associated_user=self.request.user)
+            if profile.associated_user.email != profile.unverified_email:
+                self._send_email_verification(profile=profile)
         return response
 
     def _ensure_profile_has_email(self, profile, user):
