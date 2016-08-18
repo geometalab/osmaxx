@@ -81,7 +81,7 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
         return response
 
     def _ensure_profile_has_email(self, profile, user):
-        if profile.unverified_email in (None, ''):
+        if not profile.unverified_email:
             profile.unverified_email = user.email
             profile.save()
 
