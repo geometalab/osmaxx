@@ -9,13 +9,22 @@ def test_activation_page_redirects_when_called_with_logged_out_user(client):
     assert response.url == '/accounts/login/?next=/profile/activate/'
 
 
-def test_activation_redirects(authenticated_client, valid_profile):
+def test_activation_redirects_with_no_context_data(authenticated_client):
     response = authenticated_client.get(reverse('profile:activation'))
     assert response.status_code == 302
+
+
+def test_activation_redirects_with_valid_token(authenticated_client, valid_profile):
     response = authenticated_client.get(reverse('profile:activation'), data={'token': valid_profile.activation_key()})
     assert response.status_code == 302
+
+
+def test_activation_redirects_with_invalid_token(authenticated_client, valid_profile):
     response = authenticated_client.get(reverse('profile:activation'), data={'token': valid_profile.activation_key() + 'm'})
     assert response.status_code == 302
+
+
+def test_activation_redirects_with_garbage_data(authenticated_client):
     response = authenticated_client.get(reverse('profile:activation'), data={'something_else': 'data'})
     assert response.status_code == 302
 
