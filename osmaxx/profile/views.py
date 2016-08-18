@@ -68,9 +68,9 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
 
     def is_new_user(self):
         user = self.request.user
-        return not (
-            user.profile.unverified_email or user.groups.filter(name=settings.OSMAXX_FRONTEND_USER_GROUP).exists()
-        )
+        profile_is_new = user.profile.unverified_email is None
+        user_has_already_access = user.groups.filter(name=settings.OSMAXX_FRONTEND_USER_GROUP).exists()
+        return profile_is_new and not user_has_already_access
 
     def post(self, *args, **kwargs):
         response = super().post(*args, **kwargs)
