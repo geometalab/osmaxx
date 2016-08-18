@@ -35,8 +35,8 @@ def test_key_validation_returns_none_when_tampered_with_signature(valid_profile)
 
 def test_key_validation_returns_none_when_timed_out(valid_profile):
     now = time.time()
-    delay = now - (Profile.REGISTRATION_VERIFICATION_TIMEOUT_DAYS * 86400 + 10)
-    with patch.object(time, 'time', side_effect=[now - delay, now]):
+    two_days_and_ten_seconds_ago = now - (Profile.REGISTRATION_VERIFICATION_TIMEOUT_DAYS * 86400 + 10)
+    with patch.object(time, 'time', side_effect=[two_days_and_ten_seconds_ago, now]):
         activation_key = valid_profile.activation_key()
         unsigned_value = valid_profile.validate_key(activation_key)
         assert unsigned_value is None
