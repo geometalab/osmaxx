@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import Group
 from django.core.cache import cache
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -50,7 +49,7 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
     template_name = 'profile/profile_edit.html'
 
     def get(self, *args, **kwargs):
-        profile = self._get_or_create_profile()
+        profile = self.get_object()
         user = self.request.user
         if not (user.email or user.profile.unverified_email):
             messages.add_message(
@@ -93,18 +92,12 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
             user.save()
 
     def get_object(self, queryset=None):
-        return self._get_or_create_profile()
+        profile, _ = Profile.objects.get_or_create(associated_user=self.request.user)
+        return profile
 
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, _('Profile successfully updated'))
         return reverse('profile:edit_view')
-
-    def _get_or_create_profile(self):
-        try:
-            profile = Profile.objects.get(associated_user=self.request.user)
-        except ObjectDoesNotExist:
-            profile = Profile.objects.create(associated_user=self.request.user)
-        return profile
 
 
 class ActivationView(SendVerificationEmailMixin, LoginRequiredMixin, generic.UpdateView):
