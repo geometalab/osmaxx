@@ -109,7 +109,7 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
 
 
 class ActivationView(SendVerificationEmailMixin, LoginRequiredMixin, generic.UpdateView):
-    error_msg = _('Verification token too old or invalid. Please resend the verification email and try again.')
+    error_msg = _('Verification token too old or invalid. Please resend the confirmation email and try again.')
 
     def get(self, request, *args, **kwargs):
         user = request.user

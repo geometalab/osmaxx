@@ -51,5 +51,5 @@ def test_activation_fails_with_invalid_token(authenticated_client, valid_profile
     assert VERIFICATION_SUCCESS_MESSAGE not in content
 
 
-VERIFICATION_FAILED_MESSAGE = 'Verification token too old or invalid. Please resend the verification email and try again.'
+VERIFICATION_FAILED_MESSAGE = 'Verification token too old or invalid. Please resend the confirmation email and try again.'
 VERIFICATION_SUCCESS_MESSAGE = 'Successfully verified your email address.'

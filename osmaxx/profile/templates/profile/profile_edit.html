@@ -15,7 +15,7 @@
         </div>
         {% if request.user.email != request.user.profile.unverified_email %}
             <div class="col-lg-4">
-                <a href="{% url 'profile:resend_verification' %}" class="btn btn-default btn-info">Resend Validation Email</a>
+                <a href="{% url 'profile:resend_verification' %}" class="btn btn-default btn-info">Resend Confirmation Email</a>
             </div>
         {% endif %}
     </div>
