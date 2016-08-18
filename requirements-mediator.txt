@@ -4,6 +4,5 @@
 #
 #    pip-compile --output-file requirements-mediator.txt requirements-mediator.in
 #
-
 numpy==1.11.1
-scipy==0.17.1
+scipy==0.18.0
