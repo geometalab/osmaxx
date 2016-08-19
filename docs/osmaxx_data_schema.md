@@ -1104,28 +1104,28 @@ Values of attribute type
 
 |aggtype             |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|aerialway|aerialway|`aerialway=*`|All other types of aerialways which is not defined as above|
-|aerialway|cable_car|`aerialway=cable_car`|Just one or two large cars. The cable forms a loop, but the cars do not loop around, they just move up and down on their own side.|
-|aerialway|chair_lift|`aerialway=chair_lift` or `aerialway=high_speed_chair_lift`|Looped cable with a series of single chairs (typically seating two or four people, but can be more). Exposed to the open air (can have a bubble).|
-|aerialway|drag_lift|`aerialway=drag_lift`|an overhead tow-line for skiers and riders.|
-|railway|funicular|`railway=funicular`|Cable driven inclined railways|
-|aerialway|gondola|`aerialway=gondola`|Many cars on a looped cable.|
-|aerialway|goods|`aerialway=goods`|A cable/wire supported lift for goods. Passenger transport is usually not allowed.|
-|aerialway|j-bar|`aerialway=t-bar`|J-bar lift or L-bar lift. Overhead tow-line for skiers and riders with carriers in J-shape.|
+|railway|rail|`railway=rail`|Full sized passenger or freight trains in the standard gauge for the country or state.|
 |railway|light_rail|`railway=light_rail`|A higher-standard tram system, normally in its own right-of-way. Often it connects towns and thus reaches a considerable length (tens of kilometer).|
-|aerialway|magic_carpet|`aerialway=magic_carpet`|Ski lift for small children resembling a conveyor belt.|
-|railway|miniature|`railway=miniature`|Miniature railways are narrower than narrow gauge and carry passengers. They can be found in parks.|
-|aerialway|mixed_lift|`aerialway=mixed_lift`|A lift mixed with gondola and chair_lift|
+|railway|subway|`railway=subway`|A city passenger rail service running mostly grade separated|
+|railway|tram|`railway=tram`|One or two carriage rail vehicles, usually sharing motor road|
 |railway|monorail|`railway=monorail`|A railway with only a single rail.|
 |railway|narrow_gauge|`railway=narrow_gauge`|Narrow-gauge passenger or freight trains.|
-|aerialway|platter|`aerialway=platter`|Platter lift (poma). Overhead tow-line for skiers and riders with platters.|
-|railway|rail|`railway=rail`|Full sized passenger or freight trains in the standard gauge for the country or state.|
+|railway|miniature|`railway=miniature`|Miniature railways are narrower than narrow gauge and carry passengers. They can be found in parks.|
+|railway|funicular|`railway=funicular`|Cable driven inclined railways|
 |railway|railway|`railway=*`|All other types of railways which is not defined as above|
-|aerialway|rope_tow|`aerialway=rope_tow`|Ski tow lift. Tow-line for skiers and riders where passenger hold by hand or use special tow grabbers.|
-|railway|subway|`railway=subway`|A city passenger rail service running mostly grade separated|
+|aerialway|drag_lift|`aerialway=drag_lift`|an overhead tow-line for skiers and riders.|
+|aerialway|chair_lift|`aerialway=chair_lift` or `aerialway=high_speed_chair_lift`|Looped cable with a series of single chairs (typically seating two or four people, but can be more). Exposed to the open air (can have a bubble).|
+|aerialway|cable_car|`aerialway=cable_car`|Just one or two large cars. The cable forms a loop, but the cars do not loop around, they just move up and down on their own side.|
+|aerialway|gondola|`aerialway=gondola`|Many cars on a looped cable.|
+|aerialway|goods|`aerialway=goods`|A cable/wire supported lift for goods. Passenger transport is usually not allowed.|
+|aerialway|platter|`aerialway=platter`|Platter lift (poma). Overhead tow-line for skiers and riders with platters.|
 |aerialway|t-bar|`aerialway=t-bar`|T-bar lift. Overhead tow-line for skiers and riders with T-shaped carriers for two passengers.|
-|railway|tram|`railway=tram`|One or two carriage rail vehicles, usually sharing motor road|
+|aerialway|j-bar|`aerialway=j-bar`|J-bar lift or L-bar lift. Overhead tow-line for skiers and riders with carriers in J-shape.|
+|aerialway|magic_carpet|`aerialway=magic_carpet`|Ski lift for small children resembling a conveyor belt.|
 |aerialway|zip_line|`aerialway=zip_line`|Zip lines, Flying fox and similar|
+|aerialway|rope_tow|`aerialway=rope_tow`|Ski tow lift. Tow-line for skiers and riders where passenger hold by hand or use special tow grabbers.|
+|aerialway|mixed_lift|`aerialway=mixed_lift`|A lift mixed with gondola and chair_lift|
+|aerialway|aerialway|`aerialway=*`|All other types of aerialways which is not defined as above|
 
 
 ## road_l
