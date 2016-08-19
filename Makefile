@@ -142,11 +142,10 @@ up_local_db:
 
 .PHONY: up_local
 up_local: up_local_db
-	${COMPOSE} up -d ${LOCAL_RUN_ONCE_SERVICES}
+	${COMPOSE} up -d ${LOCAL_APPLICATION_STACK}
 
 .PHONY: up_local_all
 up_local_all: build_local up_local_db up_local_run_once up_local
-	${COMPOSE} up -d ${LOCAL_RUN_ONCE_SERVICES}
 
 .PHONY: build_local
 build_local:
