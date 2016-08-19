@@ -163,6 +163,10 @@ class Export(TimeStampModelMixin, models.Model):
         return self.status in self.FINAL_STATUSES
 
     @property
+    def can_be_deleted(self):
+        return self.is_status_final or self.update_overdue
+
+    @property
     def css_status_class(self):
         """
         based on the status, returns the bootstrap 3 class
