@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load staticfiles %}
+{% load staticfiles i18n %}
 
 <html>
 <head lang="en">
@@ -9,9 +9,17 @@
     {% block extra_head %}
     {% endblock %}
 
+    <!-- Begin Cookie Consent plugin styling by Silktide - http://silktide.com/cookieconsent -->
+    <link rel="stylesheet" href="{% static 'osmaxx/libraries/cookieconsent2/css/dark-top.css' %}" />
+    <!-- End Cookie Consent plugin -->
 </head>
 <body>
     {% block body %}
     {% endblock %}
+
+    <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+    <script type="text/javascript" src="{% static 'osmaxx/js/cookie_consent_options.js' %}"></script>
+    <script type="text/javascript" src="{% static 'osmaxx/libraries/cookieconsent2/js/cookieconsent.min.js' %}"></script>
+    <!-- End Cookie Consent plugin -->
 </body>
 </html>
