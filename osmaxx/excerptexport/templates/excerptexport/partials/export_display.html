@@ -23,9 +23,9 @@
                     {% endif %}
                 </div>
                 <div class="col-xs-2">
-                    {% if export.is_status_final %}
+                    {% if export.can_be_deleted %}
                         <div id="delete-export-{{ export.id }}" class="hidden">
-                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-remove-circle hand-cursor" aria-hidden="true"></span>
                         </div>
                     {% endif %}
                 </div>

@@ -29,9 +29,7 @@ INSERT INTO osmaxx.water_l
         else NULL
     end as label,
     cast(tags as text) as tags,
-    case
-     when width is not null then cast(nullif(width,'') as float)
-    end as width,
+    cast_to_float_null_if_failed(width) as width,
 -- Checks for Bridges --
     case
     when bridge in ('yes') then TRUE

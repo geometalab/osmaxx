@@ -45,12 +45,38 @@ def prepare_for_release(release_version):
     ])
 
 
+def create_data_schema_documentation():
+    import pypandoc as converter
+
+    module_folder = os.path.dirname(__file__)
+    docs_folder = os.path.abspath(os.path.join(module_folder, 'docs'))
+    output_file = os.path.abspath(os.path.join(
+        module_folder,
+        'osmaxx', 'conversion', 'converters', 'converter_gis', 'static', 'doc', 'osmaxx_data_schema.html')
+    )
+
+    html = converter.convert(os.path.join(docs_folder, 'osmaxx_data_schema.md'), 'html5')
+    with open(output_file, 'w') as output:
+        output.write(html)
+
+
 def make_release_specific_changes(release_version):
     execute_steps([
         "python ./web_frontend/manage.py makemessages -l de_CH -l en -l en_UK -l en_US",
         "python ./osmaxx_conversion_service/manage.py makemessages -l de_CH -l en -l en_UK -l en_US",
         ["git", "commit", "-m", 'added makemessages output', 'osmaxx/locale'],
     ])
+    create_data_schema_documentation()
+    try:
+        execute(
+            [
+                "git", "commit", "-m", 'updated schema documentation HTML',
+                'osmaxx/conversion/converters/converter_gis/static/doc/osmaxx_data_schema.html',
+            ]
+        )
+    except subprocess.CalledProcessError as err:
+        print(err.output)
+        continue_or_stop('The error above happened. Do you wish to continue?')
     version_file_path = os.path.join(os.path.dirname(__file__), 'osmaxx', '__init__.py')
     for line in fileinput.input(version_file_path, inplace=True):
         line = line.rstrip(os.linesep)
@@ -58,20 +84,21 @@ def make_release_specific_changes(release_version):
             line = "__version__ = '{}'".format(release_version)
         print(line)
 
-    print("""Is the version file correct
+    print("""################### Updated VERSION file
     {}
-    ?
     """.format(execute("git diff osmaxx/__init__.py")))
+    continue_or_stop('Is the version file correct?')
     execute(["git", "commit", "-m", 'bump version to {}'.format(release_version), 'osmaxx/__init__.py'])
 
 
 def release_finish(release_version):
     execute_steps([
         ["git", "flow", "release", "finish", release_version, "-m", "'OSMaxx release {}'".format(release_version)],
-        "git push",
-        "git push --tags",
+        ["git", "push", "origin", "develop:develop", "master:master", release_version],
     ])
+    execute(["git", "checkout", release_version])
     build_and_push_images(release_version)
+    execute(["git", "checkout", "develop"])
 
 
 def release_done():

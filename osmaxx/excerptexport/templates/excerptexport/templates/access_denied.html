@@ -5,7 +5,7 @@
 {% block main %}
     <div class="container-row content">
         {% if user.is_authenticated %}
-            <h2>{% trans 'Please contact your administrator or request access' %}</h2>
+            <h2>{% trans 'Please Contact Your Administrator or Request Access' %}</h2>
             <p>
                 {% blocktrans %}You do not appear to have the proper access rights. Please contact your
                 supervisor/administrator and ask for the needed access rights.{% endblocktrans %}
@@ -21,7 +21,7 @@
                 {% blocktrans %}and try again.{% endblocktrans %}
             </p>
         {% else %}
-            <h2>{% trans 'Please Login' %}</h2>
+            <h2>{% trans 'Please Log In' %}</h2>
             <p>{% trans 'This site has pages, which are protected. Please login and try again.' %}</p>
             <a href="{% url 'excerptexport:login' %}?next={% url 'excerptexport:index' %}">{% trans 'Login' %}</a>
         {% endif %}

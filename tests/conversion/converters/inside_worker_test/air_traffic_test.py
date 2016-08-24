@@ -5,7 +5,7 @@ import sqlalchemy
 from sqlalchemy.sql.schema import Table as DbTable
 
 from tests.utils import slow
-from tests.inside_worker_test.declarative_schema import osm_models
+from tests.conversion.converters.inside_worker_test.declarative_schema import osm_models
 
 
 @pytest.fixture(params=[osm_models.t_osm_line, osm_models.t_osm_polygon], ids=['osm_line', 'osm_polygon'])

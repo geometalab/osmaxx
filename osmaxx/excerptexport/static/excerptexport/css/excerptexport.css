@@ -5,3 +5,9 @@
 .asteriskField {
     display: none;
 }
+
+.hand-cursor {
+    /* defined twice for cross browser compatibility */
+    cursor: pointer;
+    cursor: hand;
+}

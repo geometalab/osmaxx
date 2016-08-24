@@ -4,7 +4,7 @@
 
 | dependency | supported versions | Installation recommendation for Ubuntu 14.04 |
 | ---------- | ------------------ | ---------------------------------------------|
-| <a name='dependency_docker'>docker</a> | 1.10 (1.9 may still work, too) | Follow [the official Docker installation instructions for Linux](https://docs.docker.com/linux/step_one/) |
+| <a name='dependency_docker'>docker</a> | 1.10 (1.9 may still work, too) | Follow [the official Docker installation instructions for Ubuntu Linux](https://docs.docker.com/engine/installation/linux/ubuntulinux/) |
 | <a name='dependency_docker-compose'>docker-compose</a> | 1.6 | Install system-wide via <a href='#dependency_pip'>`pip`</a> (**not** via `pip3`! `docker-compose` is implemented in Python 2.): <pre class="highlight highlight-source-shell">sudo pip install docker-compose</pre> |
 | <a name='dependency_pg_config'>pg_config</a> (required by psycopg2) |  | <pre class="highlight highlight-source-shell">sudo apt install libpq-dev</pre> |
 | <a name='dependency_python3'>Python 3</a> | 3.4 | Would be pulled in by `python3-gdal` or <a href='#dependency_python3-dev'>`python3-dev`</a>, but you should install it explicitly with <pre class="highlight highlight-source-shell">sudo apt install python3</pre> |
@@ -216,7 +216,7 @@ The following list ist supported:
     - DJANGO_EMAIL_HOST_PASSWORD=''
     - DJANGO_EMAIL_HOST_USER=''
     - DJANGO_EMAIL_PORT=25
-    - DJANGO_EMAIL_SUBJECT_PREFIX='[OSMAXX-DEV] '
+    - DJANGO_EMAIL_SUBJECT_PREFIX='[OSMaxx-dev] '
     - DJANGO_EMAIL_USE_TLS=False
     - DJANGO_EMAIL_USE_SSL=False
     - DJANGO_EMAIL_TIMEOUT=None

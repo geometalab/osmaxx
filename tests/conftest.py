@@ -53,6 +53,7 @@ def pytest_configure():
                         'django.template.context_processors.media',
                         'django.template.context_processors.static',
                         'django.template.context_processors.tz',
+                        'django.contrib.messages.context_processors.messages',
                         'django.template.context_processors.request',
                     ],
                     'loaders': [
@@ -98,6 +99,7 @@ def pytest_configure():
             'osmaxx.core',
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
+            'osmaxx.profile',
 
             # special model for testing only
             'tests.utilities.test_models',
@@ -110,6 +112,7 @@ def pytest_configure():
             'django.contrib.auth.hashers.MD5PasswordHasher',
             'django.contrib.auth.hashers.CryptPasswordHasher',
         ),
+        RQ_QUEUE_NAMES=['default'],
         RQ_QUEUES={
             'default': {
                 'HOST': 'localhost',
@@ -150,15 +153,17 @@ def pytest_configure():
         },
         OSMAXX={
             'download_file_name': '%(excerpt_name)s-%(date)s.%(content_type)s.%(file_extension)s',
-            'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timedelta(hours=24),
+            'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timedelta(hours=48),
             # The email adress of this user will be used to generate the mailto link for users
             # to request access to osmaxx (access_denied page)
             'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
+            'EXCLUSIVE_USER_GROUP': 'dev',
+            'ACCOUNT_MANAGER_EMAIL': 'accountmanager@example.com',
         },
         OSMAXX_FRONTEND_USER_GROUP='osmaxx_frontend_users',
-
+        REGISTRATION_OPEN=True,
         CACHES={
             'default': {
                 'BACKEND': 'django.core.cache.backends.dummy.DummyCache',

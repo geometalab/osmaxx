@@ -43,7 +43,7 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 	    < $< \
 	    > $@
 
-PIP_TOOLS_SOURCE_SPEC_FILES := $(wildcard *requirements*.in)
+PIP_TOOLS_SOURCE_SPEC_FILES := requirements-all.in requirements-local.in requirements-mediator.in
 PIP_TOOLS_COMPILED_SPEC_FILES := $(PIP_TOOLS_SOURCE_SPEC_FILES:.in=.txt)
 
 .PHONY: pip-upgrade
@@ -60,7 +60,7 @@ pip-upgrade: $(PIP_TOOLS_SOURCE_SPEC_FILES)
 	@echo now.
 
 .PHONY: pip-sync-all
-pip-sync-all: $(PIP_TOOLS_COMPILED_SPEC_FILES)
+pip-sync-all: requirements-all.txt
 	pip-sync $?
 
 %.txt: %.in
@@ -125,3 +125,28 @@ down-pg_translit:
 clean: down-redis down-pg_translit down-pg
 	find . -name __pycache__ -exec rm -rf {} +
 	find . -name "*.pyc" -exec rm -rf {} +
+
+LOCAL_RUN_ONCE_SERVICES := osmboundaries_importer osm_importer
+LOCAL_DB_SERVICES := frontenddatabase mediatordatabase world-database osmboundaries-database
+LOCAL_APPLICATION_STACK := nginx frontend mediator worker worker-exclusive conversionserviceredis
+LOCAL_DEPLOY_VERSION := latest
+COMPOSE := DEPLOY_VERSION=${LOCAL_DEPLOY_VERSION} docker-compose -f docker-compose.yml -f docker-compose-dev.yml
+
+.PHONY: up_local_run_once
+up_local_run_once: up_local_db
+	${COMPOSE} up -d ${LOCAL_RUN_ONCE_SERVICES}
+
+.PHONY: up_local_db
+up_local_db:
+	${COMPOSE} up -d ${LOCAL_DB_SERVICES}
+
+.PHONY: up_local
+up_local: up_local_db
+	${COMPOSE} up -d ${LOCAL_APPLICATION_STACK}
+
+.PHONY: up_local_all
+up_local_all: build_local up_local_db up_local_run_once up_local
+
+.PHONY: build_local
+build_local:
+	${COMPOSE} build --pull

@@ -72,7 +72,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_new_excerpt'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Order new excerpt')
+        self.assertContains(response, 'Order New Excerpt')
 
     @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_existing_own_excerpt.yml')
     def test_new_offers_existing_own_excerpt(self):

@@ -16,7 +16,7 @@
     };
 
     window.formatBytes = function (bytes) {
-        if (bytes == 0) {
+        if (bytes === 0) {
             return '0 Byte';
         }
         var k = 1000;

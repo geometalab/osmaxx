@@ -186,7 +186,7 @@ def request_access(request):
         email_message = (  # Intentionally untranslated, as this goes to the administrator(s), not the user.
             '''Hi Admin!
             User '{username}' ({identification_description}) claims to be {first_name} {last_name} ({email})
-            and requests access for Osmaxx.
+            and requests access for OSMaxx.
             If {username} shall be granted access, go to {admin_url} and add {username} to group '{frontend_group}'.
             '''
         ).format(
@@ -200,7 +200,7 @@ def request_access(request):
         )
 
         try:
-            send_mail('Request access for Osmaxx', email_message, settings.DEFAULT_FROM_EMAIL,
+            send_mail('Request access for OSMaxx', email_message, settings.DEFAULT_FROM_EMAIL,
                       [user_administrator_email], fail_silently=True)
             messages.success(
                 request,

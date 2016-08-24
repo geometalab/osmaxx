@@ -4,7 +4,7 @@ from datetime import timedelta
 from django.conf import settings
 
 POLYFILE_LOCATION = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data', 'polyfiles'))
-EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA = timedelta(hours=24)  # default to 24h
+EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA = timedelta(hours=48)  # default to 48h
 OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL = timedelta(hours=1)  # default every hour
 RESULT_FILE_AVAILABILITY_DURATION = timedelta(days=14)  # default to two weeks
 

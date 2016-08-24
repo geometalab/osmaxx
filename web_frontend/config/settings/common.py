@@ -104,7 +104,7 @@ EMAIL_HOST = env.str('DJANGO_EMAIL_HOST', default='localhost')
 EMAIL_HOST_PASSWORD = env.str('DJANGO_EMAIL_HOST_PASSWORD', default='')
 EMAIL_HOST_USER = env.str('DJANGO_EMAIL_HOST_USER', default='')
 EMAIL_PORT = env.int('DJANGO_EMAIL_PORT', default=25)
-EMAIL_SUBJECT_PREFIX = env.str('DJANGO_EMAIL_SUBJECT_PREFIX', default='[Osmaxx] ')
+EMAIL_SUBJECT_PREFIX = env.str('DJANGO_EMAIL_SUBJECT_PREFIX', default='[OSMaxx] ')
 EMAIL_USE_TLS = env.bool('DJANGO_EMAIL_USE_TLS', default=False)
 EMAIL_USE_SSL = env.bool('DJANGO_EMAIL_USE_SSL', default=False)
 EMAIL_TIMEOUT = env.int('DJANGO_EMAIL_TIMEOUT', default=None)
@@ -365,6 +365,7 @@ MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
 
 # Do not alter this once migrations have been run, since these values are stored in the database.
 OSMAXX_FRONTEND_USER_GROUP = 'osmaxx_frontend_users'
+REGISTRATION_OPEN = True  # If True, verified users are automatically being added to OSMAXX_FRONTEND_USER_GROUP
 
 # message type mapping
 MESSAGE_TAGS = {
@@ -382,7 +383,7 @@ MESSAGE_TAGS = {
 
 OSMAXX = {
     'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timezone.timedelta(
-        hours=env.int('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=24)
+        hours=env.int('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=48)
     ),
     'RESULT_FILE_AVAILABILITY_DURATION': timezone.timedelta(
         days=env.int('DJANGO_OSMAXX_RESULT_FILE_AVAILABILITY_DURATION_DAYS', default=14)
@@ -396,6 +397,7 @@ OSMAXX = {
     'CONVERSION_SERVICE_URL': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_URL', default='http://localhost:8901/api/'),
     'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME', default='default_user'),
     'CONVERSION_SERVICE_PASSWORD': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD', default='default_password'),
+    'EXCLUSIVE_USER_GROUP': 'osmaxx_high_priority',  # high priority people
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

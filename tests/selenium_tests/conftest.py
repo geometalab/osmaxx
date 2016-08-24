@@ -1,7 +1,7 @@
 import pytest
 import time
 
-from decorator import contextmanager
+from contextlib import contextmanager
 
 skip_selenium_tests = pytest.mark.skipif(
     not pytest.config.getoption("--driver"),

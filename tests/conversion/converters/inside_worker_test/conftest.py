@@ -7,7 +7,7 @@ from sqlalchemy.engine.url import URL as DBURL
 from sqlalchemy_utils import functions as sql_alchemy_utils
 
 from tests.conftest import postgres_container_userland_port, area_polyfile_string
-from tests.inside_worker_test.declarative_schema import osm_models
+from tests.conversion.converters.inside_worker_test.declarative_schema import osm_models
 
 db_name = 'osmaxx_db'
 
@@ -73,17 +73,11 @@ def osm_tables(extensions, request):
 
 
 @pytest.fixture(scope='session')
-def osmaxx_functions(osm_tables):
-    function_scripts = [
-        'sql/functions/0010_cast_to_positive_integer.sql',
-        'sql/functions/0020_building_height.sql',
-        'sql/functions/0030_transliterate.sql',
-        'sql/functions/0040_interpolate_addresses.sql',
-        'sql/functions/0050_cast_to_int.sql',
-    ]
+def osmaxx_functions(osm_tables, sql_scripts_create_functions):
     engine = osm_tables
-    for function_script in function_scripts:
-        engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(function_script)).execution_options(autocommit=True))
+    for function_script in sql_scripts_create_functions:
+        with open(function_script, 'r') as script_content:
+            engine.execute(sqlalchemy.text(script_content.read()).execution_options(autocommit=True))
     return engine
 
 
@@ -144,7 +138,7 @@ def sql_from_bootstrap_relative_location(file_name):
 
 @pytest.fixture()
 def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch):
-    from tests.inside_worker_test.conftest import cleanup_osmaxx_schemas
+    from tests.conversion.converters.inside_worker_test.conftest import cleanup_osmaxx_schemas
     from osmaxx.conversion.converters.converter_gis.bootstrap.bootstrap import BootStrapper
 
     assert osmaxx_schemas == clean_osm_tables  # same db-connection

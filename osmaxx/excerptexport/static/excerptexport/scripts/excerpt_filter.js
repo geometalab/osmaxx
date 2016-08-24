@@ -93,7 +93,7 @@
         var optGroupFilter = function () {
             var selectionBox = jQuery("#opt_group_filter");
             jQuery("#opt_group_filter_div").attr('class', '');
-            jQuery(selectionBox).append('<option value="">Show All</option>');
+            jQuery(selectionBox).append('<option value="">Show all</option>');
             jQuery("#id_existing_excerpts").children('optgroup').each(
                 function (count, el) {
                     var label = jQuery(el).attr('label');
