@@ -19,6 +19,7 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
         this.map.addLayer(layer);
 
         window.addSizeEstimationToCheckboxes(layer);
+        window.filterUTMZones(layer);
     }.bind(this);
 
     this.showExcerptOnMap = function(ID) {
