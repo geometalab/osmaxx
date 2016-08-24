@@ -11,6 +11,7 @@ urlpatterns = [
     # browsable REST API
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('osmaxx.excerptexport.rest_api.urls', namespace='excerptexport_api')),
+    url(r'^api/geodesy/', include('osmaxx.geodesy.urls', namespace='geodesy_api')),
     url(r'^job_progress/', include('osmaxx.job_progress.urls', namespace='job_progress')),
     url(r'^pages/', include('osmaxx.core.urls', namespace='pages')),
     url(r'^profile/', include('osmaxx.profile.urls', namespace='profile')),
