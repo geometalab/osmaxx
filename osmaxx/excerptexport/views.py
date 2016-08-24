@@ -11,9 +11,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.utils.datastructures import OrderedSet
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, GenericViewError
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin, DeleteView
 from django.views.generic.list import ListView
 
 from osmaxx.contrib.auth.frontend_permissions import (
@@ -225,3 +225,36 @@ def _social_identification_description(user):
         )
     else:
         return "not identified by any social identity providers"
+
+
+class ExcerptManageListView(ListView):
+    model = Excerpt
+    context_object_name = 'excerpts'
+    template_name = 'excerptexport/excerpt_manage_list.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(owner=self.request.user, is_public=False)
+manage_own_excerpts = ExcerptManageListView.as_view()
+
+
+class DeleteExcerptView(DeleteView):
+    model = Excerpt
+    context_object_name = 'excerpt'
+    template_name = 'excerptexport/excerpt_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse('excerptexport:manage_own_excerpts')
+
+    def delete(self, request, *args, **kwargs):
+        excerpt = self.get_object()
+        if self.request.user != excerpt.owner:
+            raise GenericViewError("User doesn't match the excerpt's owner.")
+        if excerpt.is_public:
+            raise GenericViewError("No self-defined public excerpts can be deleted.")
+        if excerpt.has_running_exports:
+            logger.error('Deletion not allowed during an active extraction.')
+            messages.error(self.request, _('Exports are currently running for this excerpt.'
+                                           ' Please try deleting again, when these are finished.'))
+            return HttpResponseRedirect(self.get_success_url())
+        return super(DeleteExcerptView, self).delete(request, *args, **kwargs)
+delete_excerpt = DeleteExcerptView.as_view()

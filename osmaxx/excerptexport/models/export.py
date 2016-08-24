@@ -164,7 +164,7 @@ class Export(TimeStampModelMixin, models.Model):
 
     @property
     def can_be_deleted(self):
-        return self.is_status_final or self.update_overdue
+        return self.is_status_final or self.update_overdue()
 
     @property
     def css_status_class(self):

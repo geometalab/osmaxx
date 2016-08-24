@@ -1,0 +1,54 @@
+{% extends 'excerptexport/base.html' %}{% load i18n capture_as static export_count_for_user %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'Excerpt Deletion' %}</li>
+{% endblock %}
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 last">
+                <h2>{% trans 'Delete excerpt and dependent data' %}</h2>
+                <h3>{{ excerpt.name }}</h3>
+                {% export_count_for_user user=request.user excerpt=excerpt as export_count %}
+                <p>This will also delete the following Extraction Orders:</p>
+                <ul>
+                    {% if export_count != 0 %}
+                        {% for extraction_order in excerpt.extraction_orders.all %}
+                            <li>{{ extraction_order.get_coordinate_reference_system_display }}/{{ extraction_order.get_detail_level_display }}
+                                <ul>
+                                    {% for export in extraction_order.exports.all %}
+                                        <li>
+                                            {{ export.get_file_format_display }} /
+                                            {% capture_as finished_date %}{% firstof export.finished_at|date:"Y-m-d H:i:s" export.updated_at|date:"Y-m-d H:i:s" %}{% end_capture_as %}
+                                            {% capture_as state_display %}{{ export.status }} at {{ finished_date }}{% end_capture_as %}
+                                            {% capture_as available_until %}{{ export.result_file_available_until|date:"Y-m-d H:i:s" }}{% end_capture_as %}
+                                            {% if export.status == export.FINISHED and export.result_file_available_until %}
+                                                {% blocktrans %}<span title="{{ state_display }}">available until {{ available_until }}</span>{% endblocktrans %} /
+                                            {% else %}
+                                                {{ state_display }}
+                                            {% endif %}
+                                            {% if export.output_file.file %}({{ export.output_file.get_filename_display }}){% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% empty %}
+                            <li>{% trans 'No Extraction Orders attached.' %}</li>
+                        {% endfor %}
+                    {% else %}
+                        <li>{% trans 'No Extraction Orders attached.' %}</li>
+                    {% endif %}
+                </ul>
+                <div class="col-xs-6">
+                    <a href="{% url 'excerptexport:manage_own_excerpts' %}" class="btn btn-success">No</a>
+                </div>
+                <div class="col-xs-6 last">
+                    <form href="{% url 'excerptexport:delete_excerpt' pk=excerpt.id %}" method="post">
+                        {% csrf_token %}
+                        <input class="btn btn-danger" type="submit" value="Yes" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

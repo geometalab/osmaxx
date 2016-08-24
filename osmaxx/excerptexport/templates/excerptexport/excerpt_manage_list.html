@@ -1,0 +1,36 @@
+{% extends 'excerptexport/base.html' %}{% load i18n static export_count_for_user %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'Excerpt List' %}</li>
+{% endblock %}
+
+
+{% block main %}
+    <div class="container-row content">
+        <div class="col-lg-12">
+            {% for excerpt in excerpts %}
+                <div class="col-md-4">
+                    {% export_count_for_user user=request.user excerpt=excerpt as export_count %}
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3>{{ excerpt.name }}</h3>
+                        </div>
+                        <div class="panel-body">
+                            {% blocktrans %}Contains {{ export_count }} export(s).{% endblocktrans %}<br />
+                            <a href="{% url 'excerptexport:export_detail' id=excerpt.id %}">{% trans 'See your exports.' %}</a>
+                        </div>
+                        <div class="panel-footer">
+                            {% if excerpt.has_running_exports %}
+                                {% trans 'You have running exports for this excerpt. It is not possible to delete during extraction.' %}
+                            {% else %}
+                                <a class="btn btn-danger" href="{% url 'excerptexport:delete_excerpt' pk=excerpt.id %}">{% trans 'Delete this excerpt and all attached data' %}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <h2>{% trans 'You have no personal, non-public excerpts.' %}</h2>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
