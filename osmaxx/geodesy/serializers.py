@@ -13,7 +13,10 @@ class UTMZoneSerializer(serializers.Serializer):
         if hasattr(instance['geometry'], 'srid') or instance['geometry'].srid is None:
             instance['geometry'].srid = WGS_84
         representation = super().to_representation(instance=instance)
-        representation['utm_zones'] = [str(zone) for zone in utm_zones_for_representing(instance['geometry'])]
+        representation['utm_zones'] = [
+            dict(srid=zone.srid, name=str(zone))
+            for zone in utm_zones_for_representing(instance['geometry'])
+        ]
         return representation
 
     def create(self, validated_data, *args, **kwargs):
