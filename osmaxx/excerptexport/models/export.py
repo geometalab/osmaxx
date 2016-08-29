@@ -82,7 +82,7 @@ class Export(TimeStampModelMixin, models.Model):
 
     def set_and_handle_new_status(self, new_status, *, incoming_request):
         assert new_status in dict(self.STATUS_CHOICES)
-        if self.status == new_status and self.update_overdue():
+        if self.status == new_status and self.update_is_overdue:
             new_status = self.FAILED
 
         if self.status != new_status:
@@ -90,7 +90,8 @@ class Export(TimeStampModelMixin, models.Model):
             self.save()
             self._handle_changed_status(incoming_request=incoming_request)
 
-    def update_overdue(self):
+    @property
+    def update_is_overdue(self):
         if self.status in self.FINAL_STATUSES:
             return False
         return (self.updated_at + EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA) < timezone.now()
@@ -164,7 +165,7 @@ class Export(TimeStampModelMixin, models.Model):
 
     @property
     def can_be_deleted(self):
-        return self.is_status_final or self.update_overdue()
+        return self.is_status_final or self.update_is_overdue
 
     @property
     def css_status_class(self):
