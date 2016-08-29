@@ -9,11 +9,6 @@ from sqlalchemy_utils import functions as sql_alchemy_utils
 from tests.conftest import postgres_container_userland_port, area_polyfile_string
 from tests.conversion.converters.inside_worker_test.declarative_schema import osm_models
 
-slow = pytest.mark.skipif(
-    not pytest.config.getoption("--runslow"),
-    reason="need --runslow option to run"
-)
-
 db_name = 'osmaxx_db'
 
 gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name, host='127.0.0.1', port=postgres_container_userland_port)

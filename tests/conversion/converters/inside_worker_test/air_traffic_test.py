@@ -4,7 +4,7 @@ import pytest
 import sqlalchemy
 from sqlalchemy.sql.schema import Table as DbTable
 
-from tests.conversion.converters.inside_worker_test.conftest import slow
+from tests.utils import slow
 from tests.conversion.converters.inside_worker_test.declarative_schema import osm_models
 
 

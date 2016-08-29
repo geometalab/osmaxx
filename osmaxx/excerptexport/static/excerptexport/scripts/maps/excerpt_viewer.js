@@ -19,6 +19,11 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
         this.map.addLayer(layer);
 
         window.addSizeEstimationToCheckboxes(layer);
+
+        // WARNING: simplification in action here!
+        // in case we have multiple features on one layer, ie. more than one polygon, this will return only the valid
+        // UTM-Regions for the first one and ignore the others!
+        window.filterUTMZones(layer.getLayers()[0]);
     }.bind(this);
 
     this.showExcerptOnMap = function(ID) {
