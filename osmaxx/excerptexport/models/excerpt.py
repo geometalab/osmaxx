@@ -87,7 +87,11 @@ class Excerpt(models.Model):
 
     @property
     def has_running_exports(self):
-        return any(not i.can_be_deleted for es in self.extraction_orders.all() for i in es.exports.all())
+        return any(
+            not export.can_be_deleted
+            for extraction_order in self.extraction_orders.all()
+            for export in extraction_order.exports.all()
+        )
 
     def attached_export_count(self, user):
         return self.extraction_orders.filter(orderer=user).aggregate(Count('exports'))['exports__count']
