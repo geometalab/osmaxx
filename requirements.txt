@@ -29,7 +29,7 @@ dodgy==0.1.9              # via prospector
 drf-extensions==0.2.8
 flake8==3.0.4
 GeoAlchemy2==0.3.0
-geometalab.drf-utm-zone-info==0.0.3
+geometalab.drf-utm-zone-info==0.1.0
 geometalab.osm-pbf-file-size-estimation-service==1.0.0
 gevent==1.1.2
 greenlet==0.4.10          # via gevent
