@@ -1,4 +1,4 @@
-{% extends 'excerptexport/base.html' %}{% load i18n capture_as static export_count_for_user %}
+{% extends 'excerptexport/base.html' %}{% load i18n capture_as static %}
 {% block breadcrumb %}
     {{ block.super }}
     <li class="active">{% trans 'Excerpt Deletion' %}</li>
@@ -9,7 +9,6 @@
             <div class="col-xs-12 last">
                 <h2>{% trans 'Delete excerpt and dependent data' %}</h2>
                 <h3>{{ excerpt.name }}</h3>
-                {% export_count_for_user user=request.user excerpt=excerpt as export_count %}
                 <p>This will also delete the following Exports:</p>
                 <ul>
                     {% for export in exports %}
