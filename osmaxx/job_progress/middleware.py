@@ -32,10 +32,22 @@ class ExportUpdaterMiddleware(object):
             logger.exception("Failed to update statuses of pending requests.")
 
 
+def handle_unsent_exports(user):
+    for export in Export.objects.\
+            exclude(status__in=FINAL_STATUSES).\
+            filter(extraction_order__orderer=user, conversion_service_job_id__isnull=True):
+        if export.update_is_overdue:
+            export.status = export.FAILED
+            export.save()
+
+
 def update_exports_of_request_user(request):
     current_user = request.user
     if current_user.is_anonymous():
         return
+
+    handle_unsent_exports(user=current_user)
+
     pending_exports = Export.objects.\
         exclude(status__in=FINAL_STATUSES).\
         filter(extraction_order__orderer=current_user, conversion_service_job_id__isnull=False)
