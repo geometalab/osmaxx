@@ -235,7 +235,7 @@ class ExcerptManageListView(ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return set(super().get_queryset().filter(owner=user, is_public=False, extraction_orders__orderer=user))
+        return super().get_queryset().filter(owner=user, is_public=False, extraction_orders__orderer=user).distinct()
 manage_own_excerpts = ExcerptManageListView.as_view()
 
 
