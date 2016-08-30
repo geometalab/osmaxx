@@ -1,6 +1,7 @@
 {% extends 'excerptexport/base.html' %}{% load i18n static export_count_for_user %}
 {% block breadcrumb %}
     {{ block.super }}
+    / <a href="{% url 'excerptexport:order_existing_excerpt' %}">Existing excerpt Export</a> /
     <li class="active">{% trans 'Excerpt List' %}</li>
 {% endblock %}
 

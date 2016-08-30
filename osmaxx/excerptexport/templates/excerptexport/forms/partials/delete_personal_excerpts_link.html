@@ -1,0 +1,7 @@
+{% load i18n %}
+<div class="col-lg-12">
+    {% url 'excerptexport:manage_own_excerpts' as excerpt_management %}
+    {% blocktrans %}
+        To delete your own non-public excerpts go to <a href="{{ excerpt_management }}">excerpt management</a>.
+    {% endblocktrans %}
+</div>

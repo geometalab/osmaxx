@@ -54,6 +54,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
                 _('Excerpt'),
                 HTML(render_to_string('excerptexport/forms/partials/existing_form_filter.html')),
                 'existing_excerpts',
+                HTML(render_to_string('excerptexport/forms/partials/delete_personal_excerpts_link.html'))
             ),
             OrderOptionsMixin(self).form_layout(),
             Submit('submit', 'Submit'),
