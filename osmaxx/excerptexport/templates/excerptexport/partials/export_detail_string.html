@@ -8,3 +8,4 @@
     {{ state_display }}
 {% endif %}
 {% if export.output_file.file %}({{ export.output_file.get_filename_display }}){% endif %}
+[{{ export.extraction_order.get_coordinate_reference_system_display }}/{{ export.extraction_order.get_detail_level_display }}]

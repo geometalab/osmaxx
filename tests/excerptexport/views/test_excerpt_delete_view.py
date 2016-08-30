@@ -1,11 +1,13 @@
 import pytest
 
 from django.core.urlresolvers import reverse
+from django.contrib.auth import get_user_model
 from django.views import generic
 
 from osmaxx.conversion_api import formats
 from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.models import Export
+from osmaxx.excerptexport.models import ExtractionOrder
 
 
 def test_delete_works_when_no_exports_are_attached(authorized_client, user, bounding_geometry):
@@ -49,9 +51,7 @@ def test_delete_raises_when_excerpt_is_public(authorized_client, user, bounding_
 
 
 def test_delete_raises_when_excerpt_belongs_to_someone_else(authorized_client, user, bounding_geometry):
-    from django.contrib.auth import get_user_model
-    User = get_user_model()  # noqa: ignore Lowercase warning
-    another_user = User.objects.create(
+    another_user = get_user_model().objects.create(
         username=user.username + '2', email='{}@example.com'.format(user.username + '2'), password='test'
     )
     excerpt = Excerpt.objects.create(
@@ -62,4 +62,20 @@ def test_delete_raises_when_excerpt_belongs_to_someone_else(authorized_client, u
     with pytest.raises(generic.GenericViewError) as excinfo:
         authorized_client.post(deletion_url)
     assert "User doesn't match the excerpt's owner." in str(excinfo.value)
+    assert Excerpt.objects.get(id=excerpt_id) == excerpt
+
+
+def test_delete_raises_when_excerpt_has_exports_belonging_to_someone_else(authorized_client, user, bounding_geometry):
+    excerpt = Excerpt.objects.create(
+        name='Neverland', is_active=True, is_public=False, owner=user, bounding_geometry=bounding_geometry
+    )
+    another_user = get_user_model().objects.create(
+        username=user.username + '2', email='{}@example.com'.format(user.username + '2'), password='test'
+    )
+    ExtractionOrder.objects.create(orderer=another_user, excerpt=excerpt)
+    excerpt_id = excerpt.id
+    deletion_url = reverse('excerptexport:delete_excerpt', kwargs=dict(pk=excerpt_id))
+    with pytest.raises(generic.GenericViewError) as excinfo:
+        authorized_client.post(deletion_url)
+    assert "Others' exports reference this excerpt." in str(excinfo.value)
     assert Excerpt.objects.get(id=excerpt_id) == excerpt

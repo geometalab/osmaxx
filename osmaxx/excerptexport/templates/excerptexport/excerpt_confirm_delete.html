@@ -10,25 +10,15 @@
                 <h2>{% trans 'Delete excerpt and dependent data' %}</h2>
                 <h3>{{ excerpt.name }}</h3>
                 {% export_count_for_user user=request.user excerpt=excerpt as export_count %}
-                <p>This will also delete the following Extraction Orders:</p>
+                <p>This will also delete the following Exports:</p>
                 <ul>
-                    {% if export_count != 0 %}
-                        {% for extraction_order in excerpt.extraction_orders.all %}
-                            <li>{{ extraction_order.get_coordinate_reference_system_display }}/{{ extraction_order.get_detail_level_display }}
-                                <ul>
-                                    {% for export in extraction_order.exports.all %}
-                                        <li>
-                                            {% include 'excerptexport/partials/export_detail_string.html' %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </li>
-                        {% empty %}
-                            <li>{% trans 'No Extraction Orders attached.' %}</li>
-                        {% endfor %}
-                    {% else %}
-                        <li>{% trans 'No Extraction Orders attached.' %}</li>
-                    {% endif %}
+                    {% for export in exports %}
+                        <li>
+                            {% include 'excerptexport/partials/export_detail_string.html' %}
+                        </li>
+                    {% empty %}
+                        <li>{% trans 'No Exports attached.' %}</li>
+                    {% endfor %}
                 </ul>
                 <div class="col-xs-6">
                     <a href="{% url 'excerptexport:manage_own_excerpts' %}" class="btn btn-success">No</a>
