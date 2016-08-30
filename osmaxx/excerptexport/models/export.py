@@ -92,7 +92,7 @@ class Export(TimeStampModelMixin, models.Model):
 
     @property
     def update_is_overdue(self):
-        if self.status in self.FINAL_STATUSES:
+        if self.is_status_final:
             return False
         return (self.updated_at + EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA) < timezone.now()
 
@@ -169,14 +169,12 @@ class Export(TimeStampModelMixin, models.Model):
 
     @property
     def is_running(self):
-        if self.is_status_final:
-            return False
         if self.update_is_overdue:
             now = timezone.now()
             self.status = self.FAILED
             self.finished_at = now
             self.save()
-        return not (self.is_status_final or self.update_is_overdue)
+        return not self.is_status_final
 
     @property
     def css_status_class(self):
