@@ -165,7 +165,18 @@ class Export(TimeStampModelMixin, models.Model):
 
     @property
     def can_be_deleted(self):
-        return self.is_status_final or self.update_is_overdue
+        return not self.is_running
+
+    @property
+    def is_running(self):
+        if self.is_status_final:
+            return False
+        if self.update_is_overdue:
+            now = timezone.now()
+            self.status = self.FAILED
+            self.finished_at = now
+            self.save()
+        return not (self.is_status_final or self.update_is_overdue)
 
     @property
     def css_status_class(self):

@@ -88,7 +88,7 @@ class Excerpt(models.Model):
     @property
     def has_running_exports(self):
         return any(
-            not export.can_be_deleted
+            export.is_running
             for extraction_order in self.extraction_orders.all()
             for export in extraction_order.exports.all()
         )
