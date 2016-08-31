@@ -10,8 +10,7 @@ jQuery(document).ready(function(){
             getUTMZones(leafletGeometry).done(function(data){
                 var srids = data["utm_zone_srids"].sort(),
                     options_html = srids.map(function(srid){
-                        var original_text = utm_zone_optgroup_original.find('option[value=' + srid + ']').text();
-                        return _optionHTML(srid, original_text);
+                        return utm_zone_optgroup_original.find('option[value=' + srid + ']').prop('outerHTML');
                     }).join('');
                 utm_zone_optgroup.html(options_html);
             }).fail(console.log);
@@ -31,11 +30,6 @@ jQuery(document).ready(function(){
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                 }
             });
-        }
-
-        function _optionHTML(srid, name) {
-            return '<option value="' + srid + '">' + name + '</option>';
-
         }
     };
 
