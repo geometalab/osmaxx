@@ -11,9 +11,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.utils.datastructures import OrderedSet
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, GenericViewError
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin, DeleteView
 from django.views.generic.list import ListView
 
 from osmaxx.contrib.auth.frontend_permissions import (
@@ -23,6 +23,7 @@ from osmaxx.contrib.auth.frontend_permissions import (
 from osmaxx.conversion_api import statuses
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
+from osmaxx.excerptexport.models import ExtractionOrder
 from osmaxx.excerptexport.signals import postpone_work_until_request_finished
 from .models import Export
 
@@ -225,3 +226,47 @@ def _social_identification_description(user):
         )
     else:
         return "not identified by any social identity providers"
+
+
+class ExcerptManageListView(ListView):
+    model = Excerpt
+    context_object_name = 'excerpts'
+    template_name = 'excerptexport/excerpt_manage_list.html'
+
+    def get_queryset(self):
+        user = self.request.user
+        return super().get_queryset().filter(owner=user, is_public=False, extraction_orders__orderer=user).distinct()
+manage_own_excerpts = ExcerptManageListView.as_view()
+
+
+class DeleteExcerptView(DeleteView):
+    model = Excerpt
+    context_object_name = 'excerpt'
+    template_name = 'excerptexport/excerpt_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse('excerptexport:manage_own_excerpts')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        excerpt = context_data[self.context_object_name]
+        context_data['exports'] = Export.objects.filter(extraction_order__excerpt=excerpt)
+        return context_data
+
+    def delete(self, request, *args, **kwargs):
+        excerpt = self.get_object()
+        user = self.request.user
+        if user != excerpt.owner:
+            raise GenericViewError("User doesn't match the excerpt's owner.")
+        if excerpt.is_public:
+            raise GenericViewError("No self-defined public excerpts can be deleted.")
+        if ExtractionOrder.objects.exclude(orderer=user).count() > 0:
+            raise GenericViewError("Others' exports reference this excerpt.")
+        if excerpt.has_running_exports:
+            logger.error('Deletion not allowed during an active extraction.')
+            messages.error(self.request, _('Exports are currently running for this excerpt.'
+                                           ' Please try deleting again, when these are finished.'))
+            return HttpResponseRedirect(self.get_success_url())
+
+        return super(DeleteExcerptView, self).delete(request, *args, **kwargs)
+delete_excerpt = DeleteExcerptView.as_view()

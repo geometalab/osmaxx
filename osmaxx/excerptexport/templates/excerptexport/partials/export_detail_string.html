@@ -1,0 +1,11 @@
+{% load i18n capture_as %}{{ export.get_file_format_display }} /
+{% firstof export.finished_at|date:"Y-m-d H:i:s" export.updated_at|date:"Y-m-d H:i:s" as finished_date %}
+{% capture_as state_display %}{{ export.status }} at {{ finished_date }}{% end_capture_as %}
+{% capture_as available_until %}{{ export.result_file_available_until|date:"Y-m-d H:i:s" }}{% end_capture_as %}
+{% if export.status == export.FINISHED and export.result_file_available_until %}
+    {% blocktrans %}<span title="{{ state_display }}">available until {{ available_until }}</span>{% endblocktrans %} /
+{% else %}
+    {{ state_display }}
+{% endif %}
+{% if export.output_file.file %}({{ export.output_file.get_filename_display }}){% endif %}
+[{{ export.extraction_order.get_coordinate_reference_system_display }}/{{ export.extraction_order.get_detail_level_display }}]

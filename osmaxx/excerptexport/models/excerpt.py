@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.gis import geos
 from django.contrib.gis.db import models
 from django.core.cache import cache
+from django.db.models import Count
 from django.utils.translation import gettext_lazy as _
 
 from osmaxx.utils.geometry_buffer_helper import with_metric_buffer
@@ -83,6 +84,17 @@ class Excerpt(models.Model):
     @property
     def extent(self):
         return self.bounding_geometry.extent
+
+    @property
+    def has_running_exports(self):
+        return any(
+            export.is_running
+            for extraction_order in self.extraction_orders.all()
+            for export in extraction_order.exports.all()
+        )
+
+    def attached_export_count(self, user):
+        return self.extraction_orders.filter(orderer=user).aggregate(Count('exports'))['exports__count']
 
     def __str__(self):
         return self.name
