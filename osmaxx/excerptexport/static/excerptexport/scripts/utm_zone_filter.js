@@ -15,9 +15,7 @@ jQuery(document).ready(function(){
                     options_html += _optionHTML(srid, original_text);
                 });
                 utm_zone_optgroup.html(options_html);
-            }).error(function(data, other, other2, other3){
-                console.log(data, other, other2, other3);
-            });
+            }).error(console.log);
         }
 
         function getUTMZones(leafletGeometry) {
