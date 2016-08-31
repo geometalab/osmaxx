@@ -7,13 +7,7 @@ jQuery(document).ready(function(){
 
         if (utm_zone_optgroup !== null) {
             utm_zone_optgroup.html("");
-            getUTMZones(leafletGeometry).done(function(data){
-                var srids = data["utm_zone_srids"].sort(),
-                    options_html = srids.map(function(srid){
-                        return utm_zone_optgroup_original.find('option[value=' + srid + ']').prop('outerHTML');
-                    }).join('');
-                utm_zone_optgroup.html(options_html);
-            }).fail(console.log);
+            getUTMZones(leafletGeometry).done(offerUTMZones).fail(console.log);
         }
 
         function getUTMZones(leafletGeometry) {
@@ -30,6 +24,14 @@ jQuery(document).ready(function(){
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                 }
             });
+        }
+        
+        function offerUTMZones(data) {
+            var srids = data["utm_zone_srids"].sort(),
+                options_html = srids.map(function(srid){
+                    return utm_zone_optgroup_original.find('option[value=' + srid + ']').prop('outerHTML');
+                }).join('');
+            utm_zone_optgroup.html(options_html);
         }
     };
 
