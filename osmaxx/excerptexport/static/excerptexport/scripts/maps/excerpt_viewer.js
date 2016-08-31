@@ -20,9 +20,9 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
 
         window.addSizeEstimationToCheckboxes(layer);
 
-        // WARNING: simplification in action here!
-        // in case we have multiple features on one layer, ie. more than one polygon, this will return only the valid
-        // UTM-Regions for the first one and ignore the others!
+        // WARNING: Simplification in action here!
+        // If there are multiple features on one layer, i.e. more than one polygon, this will return only the valid
+        // UTM-Regions for the first feature/polygon and ignore the other features!
         window.filterUTMZones(layer.getLayers()[0]);
     }.bind(this);
 
