@@ -18,7 +18,7 @@ jQuery(document).ready(function(){
                 url: '/api/utm-zone-info/',
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
-                method: "POST",
+                method: 'POST',
                 data: JSON.stringify({"geom": geometry, "srid": srid}),
                 beforeSend: function(xhr) {
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
