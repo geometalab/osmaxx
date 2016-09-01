@@ -27,6 +27,8 @@ scandir
 # pbf estimation service
 geometalab.osm-pbf-file-size-estimation-service>=1.0.0,<2.0.0
 
+geometalab.drf-utm-zone-info>=0.1.0,<1.0.0
+
 # Test requirements
 pytest-django
 pytest-cov
