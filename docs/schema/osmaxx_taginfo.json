@@ -1,0 +1,5114 @@
+{
+    "data_format": 1,
+    "data_updated": "",
+    "data_url": "https://raw.githubusercontent.com/geometalab/osmaxx-docs/master/osmaxx.json",
+    "project": {
+        "contact_email": "sfkeller@hsr.ch",
+        "contact_name": "Stefan Keller",
+        "description": "OSM Arbitrary Excerpt Export - The source of worldwide data for interactive and printed maps and for geospatial data analysis",
+        "doc_url": "http://giswiki.hsr.ch/OSMaxx#Documentation",
+        "icon_url": "http://giswiki.hsr.ch/images/2/21/Osmaxx_Logo_16x16.png",
+        "name": "OSMaxx",
+        "project_url": "http://osmaxx.hsr.ch/"
+    },
+    "tags": [
+        {
+            "description": "attribute \"street\" on layer \"address_p\"",
+            "key": "addr:street"
+        },
+        {
+            "description": "attribute \"street\" on layer \"address_p\"",
+            "key": "addr:place"
+        },
+        {
+            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "key": "addr:housenumber"
+        },
+        {
+            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "key": "addr:interpolation",
+            "value": "even"
+        },
+        {
+            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "key": "addr:housenumber"
+        },
+        {
+            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "key": "addr:interpolation",
+            "value": "odd"
+        },
+        {
+            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "key": "addr:housenumber"
+        },
+        {
+            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "key": "addr:interpolation",
+            "value": "all"
+        },
+        {
+            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "key": "addr:housenumber"
+        },
+        {
+            "description": "attribute \"postcode\" on layer \"address_p\"",
+            "key": "addr:postcode"
+        },
+        {
+            "description": "attribute \"city\" on layer \"address_p\"",
+            "key": "addr:city"
+        },
+        {
+            "description": "attribute \"country\" on layer \"address_p\"",
+            "key": "addr:country"
+        },
+        {
+            "description": "attribute \"height\" on layer \"building_a\"",
+            "key": "height"
+        },
+        {
+            "description": "attribute \"population\" on layer \"geoname_l\"",
+            "key": "population"
+        },
+        {
+            "description": "attribute \"wikipedia\" on layer \"geoname_l\"",
+            "key": "wikipedia"
+        },
+        {
+            "description": "attribute \"population\" on layer \"geoname_p\"",
+            "key": "population"
+        },
+        {
+            "description": "attribute \"wikipedia\" on layer \"geoname_p\"",
+            "key": "wikipedia"
+        },
+        {
+            "description": "attribute \"ref\" on layer \"nonop_l\"",
+            "key": "ref"
+        },
+        {
+            "description": "attribute \"z_order\" on layer \"nonop_l\"",
+            "key": "layer"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "proposed"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "proposed"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "planned"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "planned"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "construction"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "construction"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "disused"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "disused"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "abandoned"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "abandoned"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "proposed"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "proposed"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "planned"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "planned"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "construction"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "construction"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "disused"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "disused"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "abandoned"
+        },
+        {
+            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "key": "abandoned"
+        },
+        {
+            "description": "attribute \"cuisine\" on layer \"poi_a\"",
+            "key": "cuisine"
+        },
+        {
+            "description": "attribute \"access\" on layer \"poi_a\"",
+            "key": "access"
+        },
+        {
+            "description": "attribute \"brand\" on layer \"poi_a\"",
+            "key": "brand"
+        },
+        {
+            "description": "attribute \"website\" on layer \"poi_a\"",
+            "key": "website"
+        },
+        {
+            "description": "attribute \"phone\" on layer \"poi_a\"",
+            "key": "phone"
+        },
+        {
+            "description": "attribute \"phone\" on layer \"poi_a\"",
+            "key": "contact:phone"
+        },
+        {
+            "description": "attribute \"tower_type\" on layer \"poi_a\"",
+            "key": "tower:type"
+        },
+        {
+            "description": "attribute \"opening_hours\" on layer \"poi_a\"",
+            "key": "opening_hours"
+        },
+        {
+            "description": "attribute \"wikipedia\" on layer \"poi_a\"",
+            "key": "wikipedia"
+        },
+        {
+            "description": "attribute \"cuisine\" on layer \"poi_p\"",
+            "key": "cuisine"
+        },
+        {
+            "description": "attribute \"access\" on layer \"poi_p\"",
+            "key": "access"
+        },
+        {
+            "description": "attribute \"brand\" on layer \"poi_p\"",
+            "key": "brand"
+        },
+        {
+            "description": "attribute \"website\" on layer \"poi_p\"",
+            "key": "website"
+        },
+        {
+            "description": "attribute \"phone\" on layer \"poi_p\"",
+            "key": "phone"
+        },
+        {
+            "description": "attribute \"phone\" on layer \"poi_p\"",
+            "key": "contact:phone"
+        },
+        {
+            "description": "attribute \"tower_type\" on layer \"poi_p\"",
+            "key": "tower:type"
+        },
+        {
+            "description": "attribute \"opening_hours\" on layer \"poi_p\"",
+            "key": "opening_hours"
+        },
+        {
+            "description": "attribute \"wikipedia\" on layer \"poi_p\"",
+            "key": "wikipedia"
+        },
+        {
+            "description": "attribute \"phone\" on layer \"pow_a\"",
+            "key": "phone"
+        },
+        {
+            "description": "attribute \"phone\" on layer \"pow_a\"",
+            "key": "contact:phone"
+        },
+        {
+            "description": "attribute \"access\" on layer \"pow_a\"",
+            "key": "access"
+        },
+        {
+            "description": "attribute \"website\" on layer \"pow_a\"",
+            "key": "website"
+        },
+        {
+            "description": "attribute \"opening_hours\" on layer \"pow_a\"",
+            "key": "opening_hours"
+        },
+        {
+            "description": "attribute \"wikipedia\" on layer \"pow_a\"",
+            "key": "wikipedia"
+        },
+        {
+            "description": "attribute \"phone\" on layer \"pow_p\"",
+            "key": "phone"
+        },
+        {
+            "description": "attribute \"phone\" on layer \"pow_p\"",
+            "key": "contact:phone"
+        },
+        {
+            "description": "attribute \"access\" on layer \"pow_p\"",
+            "key": "access"
+        },
+        {
+            "description": "attribute \"website\" on layer \"pow_p\"",
+            "key": "website"
+        },
+        {
+            "description": "attribute \"opening_hours\" on layer \"pow_p\"",
+            "key": "opening_hours"
+        },
+        {
+            "description": "attribute \"wikipedia\" on layer \"pow_p\"",
+            "key": "wikipedia"
+        },
+        {
+            "description": "attribute \"voltage\" on layer \"railway_l\"",
+            "key": "voltage"
+        },
+        {
+            "description": "attribute \"z_order\" on layer \"railway_l\"",
+            "key": "layer"
+        },
+        {
+            "description": "attribute \"frequency\" on layer \"railway_l\"",
+            "key": "frequency"
+        },
+        {
+            "description": "attribute \"maxspeed\" on layer \"road_l\"",
+            "key": "maxspeed"
+        },
+        {
+            "description": "attribute \"oneway\" on layer \"road_l\"",
+            "key": "oneway"
+        },
+        {
+            "description": "attribute \"ref\" on layer \"road_l\"",
+            "key": "ref"
+        },
+        {
+            "description": "attribute \"z_order\" on layer \"road_l\"",
+            "key": "layer"
+        },
+        {
+            "description": "attribute \"access\" on layer \"traffic_a\"",
+            "key": "access"
+        },
+        {
+            "description": "attribute \"access\" on layer \"traffic_p\"",
+            "key": "access"
+        },
+        {
+            "description": "attribute \"frequency\" on layer \"utility_l\"",
+            "key": "frequency"
+        },
+        {
+            "description": "attribute \"operator\" on layer \"utility_l\"",
+            "key": "operator"
+        },
+        {
+            "description": "attribute \"voltage\" on layer \"utility_l\"",
+            "key": "voltage"
+        },
+        {
+            "description": "attribute \"width\" on layer \"water_l\"",
+            "key": "width"
+        },
+        {
+            "description": "attribute \"type\" with value \"i\" on layer \"address_p\"",
+            "key": "addr:interpolation",
+            "value": "even"
+        },
+        {
+            "description": "attribute \"type\" with value \"i\" on layer \"address_p\"",
+            "key": "addr:interpolation",
+            "value": "odd"
+        },
+        {
+            "description": "attribute \"type\" with value \"i\" on layer \"address_p\"",
+            "key": "addr:interpolation",
+            "value": "all"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "building",
+            "value": "entrance"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "addr:street"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "building",
+            "value": "entrance"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "addr:housenumber"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "building",
+            "value": "entrance"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "addr:place"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "entrance"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "addr:street"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "entrance"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "addr:housenumber"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "entrance"
+        },
+        {
+            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "key": "addr:place"
+        },
+        {
+            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "key": "building"
+        },
+        {
+            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "key": "addr:street"
+        },
+        {
+            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "key": "building"
+        },
+        {
+            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "key": "addr:housenumber"
+        },
+        {
+            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "key": "building"
+        },
+        {
+            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "key": "addr:place"
+        },
+        {
+            "description": "attribute \"type\" with value \"p\" on layer \"address_p\"",
+            "key": "addr:street"
+        },
+        {
+            "description": "attribute \"type\" with value \"p\" on layer \"address_p\"",
+            "key": "addr:housenumber"
+        },
+        {
+            "description": "attribute \"type\" with value \"p\" on layer \"address_p\"",
+            "key": "addr:place"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level1\" on layer \"adminarea_a\"",
+            "key": "admin_level",
+            "value": "1"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level1\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"national\" on layer \"adminarea_a\"",
+            "key": "admin_level",
+            "value": "2"
+        },
+        {
+            "description": "attribute \"type\" with value \"national\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level3\" on layer \"adminarea_a\"",
+            "key": "admin_level",
+            "value": "3"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level3\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level4\" on layer \"adminarea_a\"",
+            "key": "admin_level",
+            "value": "4"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level4\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level5\" on layer \"adminarea_a\"",
+            "key": "admin_level",
+            "value": "5"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level5\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level6\" on layer \"adminarea_a\"",
+            "key": "admin_level",
+            "value": "6"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level6\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level7\" on layer \"adminarea_a\"",
+            "key": "admin_level",
+            "value": "7"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level7\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level8\" on layer \"adminarea_a\"",
+            "key": "admin_level",
+            "value": "8"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level8\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level9\" on layer \"adminarea_a\"",
+            "key": "admin_level",
+            "value": "9"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level9\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level10\" on layer \"adminarea_a\"",
+            "key": "admin_level",
+            "value": "10"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level10\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level11\" on layer \"adminarea_a\"",
+            "key": "admin_level",
+            "value": "11"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level11\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"administrative\" on layer \"adminarea_a\"",
+            "key": "admin_level"
+        },
+        {
+            "description": "attribute \"type\" with value \"national_park\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "national_park"
+        },
+        {
+            "description": "attribute \"type\" with value \"protected_area\" on layer \"adminarea_a\"",
+            "key": "boundary",
+            "value": "protected_area"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level1\" on layer \"boundary_l\"",
+            "key": "admin_level",
+            "value": "1"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level1\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"national\" on layer \"boundary_l\"",
+            "key": "admin_level",
+            "value": "2"
+        },
+        {
+            "description": "attribute \"type\" with value \"national\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level3\" on layer \"boundary_l\"",
+            "key": "admin_level",
+            "value": "3"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level3\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level4\" on layer \"boundary_l\"",
+            "key": "admin_level",
+            "value": "4"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level4\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level5\" on layer \"boundary_l\"",
+            "key": "admin_level",
+            "value": "5"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level5\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level6\" on layer \"boundary_l\"",
+            "key": "admin_level",
+            "value": "6"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level6\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level7\" on layer \"boundary_l\"",
+            "key": "admin_level",
+            "value": "7"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level7\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level8\" on layer \"boundary_l\"",
+            "key": "admin_level",
+            "value": "8"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level8\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level9\" on layer \"boundary_l\"",
+            "key": "admin_level",
+            "value": "9"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level9\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level10\" on layer \"boundary_l\"",
+            "key": "admin_level",
+            "value": "10"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level10\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level11\" on layer \"boundary_l\"",
+            "key": "admin_level",
+            "value": "11"
+        },
+        {
+            "description": "attribute \"type\" with value \"admin_level11\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "administrative"
+        },
+        {
+            "description": "attribute \"type\" with value \"administrative\" on layer \"boundary_l\"",
+            "key": "admin_level"
+        },
+        {
+            "description": "attribute \"type\" with value \"national_park\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "national_park"
+        },
+        {
+            "description": "attribute \"type\" with value \"protected_area\" on layer \"boundary_l\"",
+            "key": "boundary",
+            "value": "protected_area"
+        },
+        {
+            "description": "attribute \"type\" with value \"building\" on layer \"building_a\"",
+            "key": "building"
+        },
+        {
+            "description": "attribute \"type\" with value \"hamlet\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "hamlet"
+        },
+        {
+            "description": "attribute \"type\" with value \"municipality\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "municipality"
+        },
+        {
+            "description": "attribute \"type\" with value \"city\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "city"
+        },
+        {
+            "description": "attribute \"type\" with value \"region\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "region"
+        },
+        {
+            "description": "attribute \"type\" with value \"islet\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "islet"
+        },
+        {
+            "description": "attribute \"type\" with value \"state\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "state"
+        },
+        {
+            "description": "attribute \"type\" with value \"locality\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "locality"
+        },
+        {
+            "description": "attribute \"type\" with value \"town\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "town"
+        },
+        {
+            "description": "attribute \"type\" with value \"village\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "village"
+        },
+        {
+            "description": "attribute \"type\" with value \"island\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "island"
+        },
+        {
+            "description": "attribute \"type\" with value \"farm\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "farm"
+        },
+        {
+            "description": "attribute \"type\" with value \"suburb\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "suburb"
+        },
+        {
+            "description": "attribute \"type\" with value \"place\" on layer \"geoname_l\"",
+            "key": "place"
+        },
+        {
+            "description": "attribute \"type\" with value \"isolated_dwelling\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "isolated_dweilling"
+        },
+        {
+            "description": "attribute \"type\" with value \"named_place\" on layer \"geoname_l\"",
+            "key": "area",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"named_place\" on layer \"geoname_l\"",
+            "key": "name"
+        },
+        {
+            "description": "attribute \"type\" with value \"county\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "county"
+        },
+        {
+            "description": "attribute \"type\" with value \"neighbourhood\" on layer \"geoname_l\"",
+            "key": "place",
+            "value": "neighbourhood"
+        },
+        {
+            "description": "attribute \"type\" with value \"hamlet\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "hamlet"
+        },
+        {
+            "description": "attribute \"type\" with value \"municipality\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "municipality"
+        },
+        {
+            "description": "attribute \"type\" with value \"city\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "city"
+        },
+        {
+            "description": "attribute \"type\" with value \"region\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "region"
+        },
+        {
+            "description": "attribute \"type\" with value \"islet\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "islet"
+        },
+        {
+            "description": "attribute \"type\" with value \"state\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "state"
+        },
+        {
+            "description": "attribute \"type\" with value \"locality\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "locality"
+        },
+        {
+            "description": "attribute \"type\" with value \"town\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "town"
+        },
+        {
+            "description": "attribute \"type\" with value \"village\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "village"
+        },
+        {
+            "description": "attribute \"type\" with value \"island\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "island"
+        },
+        {
+            "description": "attribute \"type\" with value \"farm\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "farm"
+        },
+        {
+            "description": "attribute \"type\" with value \"suburb\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "suburb"
+        },
+        {
+            "description": "attribute \"type\" with value \"place\" on layer \"geoname_p\"",
+            "key": "place"
+        },
+        {
+            "description": "attribute \"type\" with value \"isolated_dwelling\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "isolated_dweilling"
+        },
+        {
+            "description": "attribute \"type\" with value \"named_place\" on layer \"geoname_p\"",
+            "key": "area",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"named_place\" on layer \"geoname_p\"",
+            "key": "name"
+        },
+        {
+            "description": "attribute \"type\" with value \"county\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "county"
+        },
+        {
+            "description": "attribute \"type\" with value \"neighbourhood\" on layer \"geoname_p\"",
+            "key": "place",
+            "value": "neighbourhood"
+        },
+        {
+            "description": "attribute \"type\" with value \"reservoir\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "reservoir"
+        },
+        {
+            "description": "attribute \"type\" with value \"military\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "military"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "railway"
+        },
+        {
+            "description": "attribute \"type\" with value \"orchard\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "orchard"
+        },
+        {
+            "description": "attribute \"type\" with value \"fishfarm\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "fishfarm"
+        },
+        {
+            "description": "attribute \"type\" with value \"retail\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "retail"
+        },
+        {
+            "description": "attribute \"type\" with value \"meadow\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "forest"
+        },
+        {
+            "description": "attribute \"type\" with value \"greenhouse\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "greenhouse_horticulture"
+        },
+        {
+            "description": "attribute \"type\" with value \"plant_nursery\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "plant_nursery"
+        },
+        {
+            "description": "attribute \"type\" with value \"landuse\" on layer \"landuse_a\"",
+            "key": "landuse"
+        },
+        {
+            "description": "attribute \"type\" with value \"industrial\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "industrial"
+        },
+        {
+            "description": "attribute \"type\" with value \"residential\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "residential"
+        },
+        {
+            "description": "attribute \"type\" with value \"farm\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "farm"
+        },
+        {
+            "description": "attribute \"type\" with value \"farm\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "farmland"
+        },
+        {
+            "description": "attribute \"type\" with value \"quarry\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "quarry"
+        },
+        {
+            "description": "attribute \"type\" with value \"farmyard\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "farmyard"
+        },
+        {
+            "description": "attribute \"type\" with value \"grass\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "grass"
+        },
+        {
+            "description": "attribute \"type\" with value \"forest\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "forest"
+        },
+        {
+            "description": "attribute \"type\" with value \"nature_reserve\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "nature_reserve"
+        },
+        {
+            "description": "attribute \"type\" with value \"port\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "port"
+        },
+        {
+            "description": "attribute \"type\" with value \"recreation_ground\" on layer \"landuse_a\"",
+            "key": "leisure",
+            "value": "recreation_ground"
+        },
+        {
+            "description": "attribute \"type\" with value \"recreation_ground\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "recreation_ground"
+        },
+        {
+            "description": "attribute \"type\" with value \"park\" on layer \"landuse_a\"",
+            "key": "leisure",
+            "value": "park"
+        },
+        {
+            "description": "attribute \"type\" with value \"park\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "village_green"
+        },
+        {
+            "description": "attribute \"type\" with value \"allotments\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "allotments"
+        },
+        {
+            "description": "attribute \"type\" with value \"vineyard\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "vineyard"
+        },
+        {
+            "description": "attribute \"type\" with value \"landfill\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "landfill"
+        },
+        {
+            "description": "attribute \"type\" with value \"basin\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "basin"
+        },
+        {
+            "description": "attribute \"type\" with value \"commercial\" on layer \"landuse_a\"",
+            "key": "landuse",
+            "value": "commercial"
+        },
+        {
+            "description": "attribute \"type\" with value \"obstacle_course\" on layer \"military_a\"",
+            "key": "military",
+            "value": "obstacle_course"
+        },
+        {
+            "description": "attribute \"type\" with value \"military\" on layer \"military_a\"",
+            "key": "military"
+        },
+        {
+            "description": "attribute \"type\" with value \"training_area\" on layer \"military_a\"",
+            "key": "military",
+            "value": "training_area"
+        },
+        {
+            "description": "attribute \"type\" with value \"danger_area\" on layer \"military_a\"",
+            "key": "military",
+            "value": "danger_area"
+        },
+        {
+            "description": "attribute \"type\" with value \"range\" on layer \"military_a\"",
+            "key": "military",
+            "value": "range"
+        },
+        {
+            "description": "attribute \"type\" with value \"nuclear_site\" on layer \"military_a\"",
+            "key": "military",
+            "value": "nuclear_explosion_site"
+        },
+        {
+            "description": "attribute \"type\" with value \"bunker\" on layer \"military_a\"",
+            "key": "military",
+            "value": "bunker"
+        },
+        {
+            "description": "attribute \"type\" with value \"barracks\" on layer \"military_a\"",
+            "key": "military",
+            "value": "barracks"
+        },
+        {
+            "description": "attribute \"type\" with value \"naval_base\" on layer \"military_a\"",
+            "key": "military",
+            "value": "naval_base"
+        },
+        {
+            "description": "attribute \"type\" with value \"checkpoint\" on layer \"military_a\"",
+            "key": "military",
+            "value": "checkpoint"
+        },
+        {
+            "description": "attribute \"type\" with value \"airfield\" on layer \"military_a\"",
+            "key": "military",
+            "value": "airfield"
+        },
+        {
+            "description": "attribute \"type\" with value \"obstacle_course\" on layer \"military_p\"",
+            "key": "military",
+            "value": "obstacle_course"
+        },
+        {
+            "description": "attribute \"type\" with value \"military\" on layer \"military_p\"",
+            "key": "military"
+        },
+        {
+            "description": "attribute \"type\" with value \"training_area\" on layer \"military_p\"",
+            "key": "military",
+            "value": "training_area"
+        },
+        {
+            "description": "attribute \"type\" with value \"danger_area\" on layer \"military_p\"",
+            "key": "military",
+            "value": "danger_area"
+        },
+        {
+            "description": "attribute \"type\" with value \"range\" on layer \"military_p\"",
+            "key": "military",
+            "value": "range"
+        },
+        {
+            "description": "attribute \"type\" with value \"nuclear_site\" on layer \"military_p\"",
+            "key": "military",
+            "value": "nuclear_explosion_site"
+        },
+        {
+            "description": "attribute \"type\" with value \"bunker\" on layer \"military_p\"",
+            "key": "military",
+            "value": "bunker"
+        },
+        {
+            "description": "attribute \"type\" with value \"barracks\" on layer \"military_p\"",
+            "key": "military",
+            "value": "barracks"
+        },
+        {
+            "description": "attribute \"type\" with value \"naval_base\" on layer \"military_p\"",
+            "key": "military",
+            "value": "naval_base"
+        },
+        {
+            "description": "attribute \"type\" with value \"checkpoint\" on layer \"military_p\"",
+            "key": "military",
+            "value": "checkpoint"
+        },
+        {
+            "description": "attribute \"type\" with value \"airfield\" on layer \"military_p\"",
+            "key": "military",
+            "value": "airfield"
+        },
+        {
+            "description": "attribute \"type\" with value \"barrier\" on layer \"misc_l\"",
+            "key": "barrier"
+        },
+        {
+            "description": "attribute \"type\" with value \"gate\" on layer \"misc_l\"",
+            "key": "barrier",
+            "value": "gate"
+        },
+        {
+            "description": "attribute \"type\" with value \"city_wall\" on layer \"misc_l\"",
+            "key": "barrier",
+            "value": "city_wall"
+        },
+        {
+            "description": "attribute \"type\" with value \"hedge\" on layer \"misc_l\"",
+            "key": "barrier",
+            "value": "hedge"
+        },
+        {
+            "description": "attribute \"type\" with value \"fence\" on layer \"misc_l\"",
+            "key": "barrier",
+            "value": "fence"
+        },
+        {
+            "description": "attribute \"type\" with value \"retaining_wall\" on layer \"misc_l\"",
+            "key": "barrier",
+            "value": "retaining_wall"
+        },
+        {
+            "description": "attribute \"type\" with value \"wall\" on layer \"misc_l\"",
+            "key": "barrier",
+            "value": "wall"
+        },
+        {
+            "description": "attribute \"type\" with value \"avalanche_protection\" on layer \"misc_l\"",
+            "key": "barrier",
+            "value": "avalanche_protection"
+        },
+        {
+            "description": "attribute \"type\" with value \"cliff\" on layer \"misc_l\"",
+            "key": "natural",
+            "value": "cliff"
+        },
+        {
+            "description": "attribute \"type\" with value \"traffic_calming\" on layer \"misc_l\"",
+            "key": "traffic_calming"
+        },
+        {
+            "description": "attribute \"type\" with value \"hump\" on layer \"misc_l\"",
+            "key": "traffic_calming",
+            "value": "hump"
+        },
+        {
+            "description": "attribute \"type\" with value \"bump\" on layer \"misc_l\"",
+            "key": "traffic_calming",
+            "value": "bump"
+        },
+        {
+            "description": "attribute \"type\" with value \"table\" on layer \"misc_l\"",
+            "key": "traffic_calming",
+            "value": "table"
+        },
+        {
+            "description": "attribute \"type\" with value \"chicane\" on layer \"misc_l\"",
+            "key": "traffic_calming",
+            "value": "chicane"
+        },
+        {
+            "description": "attribute \"type\" with value \"cushion\" on layer \"misc_l\"",
+            "key": "traffic_calming",
+            "value": "cushion"
+        },
+        {
+            "description": "attribute \"type\" with value \"bare_rock\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "bare_rock"
+        },
+        {
+            "description": "attribute \"type\" with value \"stone\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "stone"
+        },
+        {
+            "description": "attribute \"type\" with value \"scree\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "scree"
+        },
+        {
+            "description": "attribute \"type\" with value \"glacier\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "glacier"
+        },
+        {
+            "description": "attribute \"type\" with value \"fell\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "fell"
+        },
+        {
+            "description": "attribute \"type\" with value \"grassland\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "grassland"
+        },
+        {
+            "description": "attribute \"type\" with value \"natural\" on layer \"natural_a\"",
+            "key": "natural"
+        },
+        {
+            "description": "attribute \"type\" with value \"moor\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "moor"
+        },
+        {
+            "description": "attribute \"type\" with value \"sand\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "sand"
+        },
+        {
+            "description": "attribute \"type\" with value \"wood\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "wood"
+        },
+        {
+            "description": "attribute \"type\" with value \"wetland\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "wetland"
+        },
+        {
+            "description": "attribute \"type\" with value \"beach\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "beach"
+        },
+        {
+            "description": "attribute \"type\" with value \"mud\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "mud"
+        },
+        {
+            "description": "attribute \"type\" with value \"sinkhole\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "sinkhole"
+        },
+        {
+            "description": "attribute \"type\" with value \"heath\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "heath"
+        },
+        {
+            "description": "attribute \"type\" with value \"scrub\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "scrub"
+        },
+        {
+            "description": "attribute \"type\" with value \"scrub\" on layer \"natural_a\"",
+            "key": "landuse",
+            "value": "scrub"
+        },
+        {
+            "description": "attribute \"type\" with value \"cave_entrance\" on layer \"natural_a\"",
+            "key": "natural",
+            "value": "cave_entrance"
+        },
+        {
+            "description": "attribute \"type\" with value \"bare_rock\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "bare_rock"
+        },
+        {
+            "description": "attribute \"type\" with value \"stone\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "stone"
+        },
+        {
+            "description": "attribute \"type\" with value \"scree\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "scree"
+        },
+        {
+            "description": "attribute \"type\" with value \"glacier\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "glacier"
+        },
+        {
+            "description": "attribute \"type\" with value \"fell\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "fell"
+        },
+        {
+            "description": "attribute \"type\" with value \"grassland\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "grassland"
+        },
+        {
+            "description": "attribute \"type\" with value \"natural\" on layer \"natural_p\"",
+            "key": "natural"
+        },
+        {
+            "description": "attribute \"type\" with value \"moor\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "moor"
+        },
+        {
+            "description": "attribute \"type\" with value \"sand\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "sand"
+        },
+        {
+            "description": "attribute \"type\" with value \"wood\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "wood"
+        },
+        {
+            "description": "attribute \"type\" with value \"wetland\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "wetland"
+        },
+        {
+            "description": "attribute \"type\" with value \"beach\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "beach"
+        },
+        {
+            "description": "attribute \"type\" with value \"mud\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "mud"
+        },
+        {
+            "description": "attribute \"type\" with value \"sinkhole\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "sinkhole"
+        },
+        {
+            "description": "attribute \"type\" with value \"heath\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "heath"
+        },
+        {
+            "description": "attribute \"type\" with value \"scrub\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "scrub"
+        },
+        {
+            "description": "attribute \"type\" with value \"scrub\" on layer \"natural_p\"",
+            "key": "landuse",
+            "value": "scrub"
+        },
+        {
+            "description": "attribute \"type\" with value \"cave_entrance\" on layer \"natural_p\"",
+            "key": "natural",
+            "value": "cave_entrance"
+        },
+        {
+            "description": "attribute \"status\" with value \"P\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "proposed"
+        },
+        {
+            "description": "attribute \"status\" with value \"P\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "proposed"
+        },
+        {
+            "description": "attribute \"status\" with value \"P\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "planned"
+        },
+        {
+            "description": "attribute \"status\" with value \"P\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "planned"
+        },
+        {
+            "description": "attribute \"status\" with value \"C\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "construction"
+        },
+        {
+            "description": "attribute \"status\" with value \"C\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "construction"
+        },
+        {
+            "description": "attribute \"status\" with value \"D\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "disused"
+        },
+        {
+            "description": "attribute \"status\" with value \"D\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "disused"
+        },
+        {
+            "description": "attribute \"status\" with value \"A\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "abandoned"
+        },
+        {
+            "description": "attribute \"status\" with value \"A\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "abandoned"
+        },
+        {
+            "description": "attribute \"type\" with value \"highway\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "proposed"
+        },
+        {
+            "description": "attribute \"type\" with value \"highway\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "planned"
+        },
+        {
+            "description": "attribute \"type\" with value \"highway\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "construction"
+        },
+        {
+            "description": "attribute \"type\" with value \"highway\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "disused"
+        },
+        {
+            "description": "attribute \"type\" with value \"highway\" on layer \"nonop_l\"",
+            "key": "highway",
+            "value": "abandoned"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "proposed"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "planned"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "construction"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "disused"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway\" on layer \"nonop_l\"",
+            "key": "railway",
+            "value": "abandoned"
+        },
+        {
+            "description": "attribute \"type\" with value \"caravan_site\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "caravan_site"
+        },
+        {
+            "description": "attribute \"type\" with value \"waste_basket\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "waste_backet"
+        },
+        {
+            "description": "attribute \"type\" with value \"wastewater_plant\" on layer \"poi_a\"",
+            "key": "man_made",
+            "value": "wastewater_plant"
+        },
+        {
+            "description": "attribute \"type\" with value \"dog_park\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "dog_park"
+        },
+        {
+            "description": "attribute \"type\" with value \"community_centre\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "community_centre"
+        },
+        {
+            "description": "attribute \"type\" with value \"veterinary\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "veterinary"
+        },
+        {
+            "description": "attribute \"type\" with value \"information\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "information"
+        },
+        {
+            "description": "attribute \"type\" with value \"restaurant\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "restaurant"
+        },
+        {
+            "description": "attribute \"type\" with value \"beauty\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "beauty"
+        },
+        {
+            "description": "attribute \"type\" with value \"hostel\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "hostel"
+        },
+        {
+            "description": "attribute \"type\" with value \"hotel\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "hotel"
+        },
+        {
+            "description": "attribute \"type\" with value \"books\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "books"
+        },
+        {
+            "description": "attribute \"type\" with value \"car_sharing\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "car_sharing"
+        },
+        {
+            "description": "attribute \"type\" with value \"garden_centre\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "garden_centre"
+        },
+        {
+            "description": "attribute \"type\" with value \"newsagent\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "newsagent"
+        },
+        {
+            "description": "attribute \"type\" with value \"fire_station\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "fire_station"
+        },
+        {
+            "description": "attribute \"type\" with value \"golf_course\" on layer \"poi_a\"",
+            "key": "leisure",
+            "value": "golf_course"
+        },
+        {
+            "description": "attribute \"type\" with value \"butcher\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "butcher"
+        },
+        {
+            "description": "attribute \"type\" with value \"general_reclycling\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "recycling"
+        },
+        {
+            "description": "attribute \"type\" with value \"theme_park\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "theme_park"
+        },
+        {
+            "description": "attribute \"type\" with value \"sport_centre\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "sport_centre"
+        },
+        {
+            "description": "attribute \"type\" with value \"prison\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "prison"
+        },
+        {
+            "description": "attribute \"type\" with value \"fountain\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "fountain"
+        },
+        {
+            "description": "attribute \"type\" with value \"pitch\" on layer \"poi_a\"",
+            "key": "leisure",
+            "value": "pitch"
+        },
+        {
+            "description": "attribute \"type\" with value \"fast_food\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "fast_food"
+        },
+        {
+            "description": "attribute \"type\" with value \"toilet\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "toilets"
+        },
+        {
+            "description": "attribute \"type\" with value \"clinic\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "clinic"
+        },
+        {
+            "description": "attribute \"type\" with value \"convenience\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "convenience"
+        },
+        {
+            "description": "attribute \"type\" with value \"archaeological_site\" on layer \"poi_a\"",
+            "key": "historic",
+            "value": "archaeological_site"
+        },
+        {
+            "description": "attribute \"type\" with value \"water_works\" on layer \"poi_a\"",
+            "key": "man_made",
+            "value": "water_works"
+        },
+        {
+            "description": "attribute \"type\" with value \"historic\" on layer \"poi_a\"",
+            "key": "historic"
+        },
+        {
+            "description": "attribute \"type\" with value \"arts_centre\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "arts_centre"
+        },
+        {
+            "description": "attribute \"type\" with value \"bar\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "bar"
+        },
+        {
+            "description": "attribute \"type\" with value \"courthouse\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "courthouse"
+        },
+        {
+            "description": "attribute \"type\" with value \"embassy\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "embassy"
+        },
+        {
+            "description": "attribute \"type\" with value \"soccer_pitch\" on layer \"poi_a\"",
+            "key": "sport",
+            "value": "soccer"
+        },
+        {
+            "description": "attribute \"type\" with value \"bench\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "bench"
+        },
+        {
+            "description": "attribute \"type\" with value \"computer\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "computer"
+        },
+        {
+            "description": "attribute \"type\" with value \"cafe\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "cafe"
+        },
+        {
+            "description": "attribute \"type\" with value \"viewpoint\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "viewpoint"
+        },
+        {
+            "description": "attribute \"type\" with value \"doctors\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "doctors"
+        },
+        {
+            "description": "attribute \"type\" with value \"swimming_pool\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "swimming_pool"
+        },
+        {
+            "description": "attribute \"type\" with value \"swimming_pool\" on layer \"poi_a\"",
+            "key": "leisure",
+            "value": "swimming_pool"
+        },
+        {
+            "description": "attribute \"type\" with value \"swimming_pool\" on layer \"poi_a\"",
+            "key": "sport",
+            "value": "swimming_pool"
+        },
+        {
+            "description": "attribute \"type\" with value \"marketplace\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "marketplace"
+        },
+        {
+            "description": "attribute \"type\" with value \"vending_cigarette\" on layer \"poi_a\"",
+            "key": "vending",
+            "value": "cigarettes"
+        },
+        {
+            "description": "attribute \"type\" with value \"furniture\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "furniture"
+        },
+        {
+            "description": "attribute \"type\" with value \"surveillance\" on layer \"poi_a\"",
+            "key": "man_made",
+            "value": "surveillance"
+        },
+        {
+            "description": "attribute \"type\" with value \"museum\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "museum"
+        },
+        {
+            "description": "attribute \"type\" with value \"clothes\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "clothes"
+        },
+        {
+            "description": "attribute \"type\" with value \"car_wash\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "car_wash"
+        },
+        {
+            "description": "attribute \"type\" with value \"townhall\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "townhall"
+        },
+        {
+            "description": "attribute \"type\" with value \"hairdresser\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "hairdresser"
+        },
+        {
+            "description": "attribute \"type\" with value \"emergency_access\" on layer \"poi_a\"",
+            "key": "highway",
+            "value": "emergency_access_point"
+        },
+        {
+            "description": "attribute \"type\" with value \"water_park\" on layer \"poi_a\"",
+            "key": "leisure",
+            "value": "water_park"
+        },
+        {
+            "description": "attribute \"type\" with value \"battlefield\" on layer \"poi_a\"",
+            "key": "historic",
+            "value": "battlefield"
+        },
+        {
+            "description": "attribute \"type\" with value \"cemetery\" on layer \"poi_a\"",
+            "key": "landuse",
+            "value": "cemetery"
+        },
+        {
+            "description": "attribute \"type\" with value \"beverages\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "beverages"
+        },
+        {
+            "description": "attribute \"type\" with value \"beverages\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "alcohol"
+        },
+        {
+            "description": "attribute \"type\" with value \"travel_agency\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "travel_agency"
+        },
+        {
+            "description": "attribute \"type\" with value \"artwork\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "artwork"
+        },
+        {
+            "description": "attribute \"type\" with value \"hardware\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "doityourself"
+        },
+        {
+            "description": "attribute \"type\" with value \"hardware\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "hardware"
+        },
+        {
+            "description": "attribute \"type\" with value \"lighthouse\" on layer \"poi_a\"",
+            "key": "man_made",
+            "value": "lighthouse"
+        },
+        {
+            "description": "attribute \"type\" with value \"ice_rink\" on layer \"poi_a\"",
+            "key": "leisure",
+            "value": "ice_rink"
+        },
+        {
+            "description": "attribute \"type\" with value \"observation_tower\" on layer \"poi_a\"",
+            "key": "tower:type",
+            "value": "observation"
+        },
+        {
+            "description": "attribute \"type\" with value \"observation_tower\" on layer \"poi_a\"",
+            "key": "man_made",
+            "value": "observation_tower"
+        },
+        {
+            "description": "attribute \"type\" with value \"atm\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "atm"
+        },
+        {
+            "description": "attribute \"type\" with value \"fire_hydrant\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "fire_hydrant"
+        },
+        {
+            "description": "attribute \"type\" with value \"fire_hydrant\" on layer \"poi_a\"",
+            "key": "emergency",
+            "value": "fire_hydrant"
+        },
+        {
+            "description": "attribute \"type\" with value \"wayside_shrine\" on layer \"poi_a\"",
+            "key": "historic",
+            "value": "wayside_shrine"
+        },
+        {
+            "description": "attribute \"type\" with value \"water_tower\" on layer \"poi_a\"",
+            "key": "man_made",
+            "value": "water_tower"
+        },
+        {
+            "description": "attribute \"type\" with value \"bicycle_rental\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "bicycle_rental"
+        },
+        {
+            "description": "attribute \"type\" with value \"school\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "school"
+        },
+        {
+            "description": "attribute \"type\" with value \"shop\" on layer \"poi_a\"",
+            "key": "shop"
+        },
+        {
+            "description": "attribute \"type\" with value \"outdoor\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "outdoor"
+        },
+        {
+            "description": "attribute \"type\" with value \"motel\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "motel"
+        },
+        {
+            "description": "attribute \"type\" with value \"mobile_phone\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "mobile_phone"
+        },
+        {
+            "description": "attribute \"type\" with value \"hunting_stand\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "hunting_stand"
+        },
+        {
+            "description": "attribute \"type\" with value \"laundry\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "laundry"
+        },
+        {
+            "description": "attribute \"type\" with value \"laundry\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "dry_cleaning"
+        },
+        {
+            "description": "attribute \"type\" with value \"alpine_hut\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "alpine_hut"
+        },
+        {
+            "description": "attribute \"type\" with value \"tourism\" on layer \"poi_a\"",
+            "key": "tourism"
+        },
+        {
+            "description": "attribute \"type\" with value \"bakery\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "bakery"
+        },
+        {
+            "description": "attribute \"type\" with value \"windmill\" on layer \"poi_a\"",
+            "key": "man_made",
+            "value": "windmill"
+        },
+        {
+            "description": "attribute \"type\" with value \"bank\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "bank"
+        },
+        {
+            "description": "attribute \"type\" with value \"police\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "police"
+        },
+        {
+            "description": "attribute \"type\" with value \"board\" on layer \"poi_a\"",
+            "key": "information",
+            "value": "board"
+        },
+        {
+            "description": "attribute \"type\" with value \"board\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "information"
+        },
+        {
+            "description": "attribute \"type\" with value \"car_rental\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "car_rental"
+        },
+        {
+            "description": "attribute \"type\" with value \"sport\" on layer \"poi_a\"",
+            "key": "sport"
+        },
+        {
+            "description": "attribute \"type\" with value \"post_office\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "post_office"
+        },
+        {
+            "description": "attribute \"type\" with value \"shelter\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "shelter"
+        },
+        {
+            "description": "attribute \"type\" with value \"nightclub\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "nightclub"
+        },
+        {
+            "description": "attribute \"type\" with value \"gift\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "gift"
+        },
+        {
+            "description": "attribute \"type\" with value \"ruins\" on layer \"poi_a\"",
+            "key": "historic",
+            "value": "ruins"
+        },
+        {
+            "description": "attribute \"type\" with value \"mall\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "mall"
+        },
+        {
+            "description": "attribute \"type\" with value \"biergarten\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "biergarten"
+        },
+        {
+            "description": "attribute \"type\" with value \"cair_repair\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "car_repair"
+        },
+        {
+            "description": "attribute \"type\" with value \"leisure\" on layer \"poi_a\"",
+            "key": "leisure"
+        },
+        {
+            "description": "attribute \"type\" with value \"bicycle\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "bicycle"
+        },
+        {
+            "description": "attribute \"type\" with value \"video\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "video"
+        },
+        {
+            "description": "attribute \"type\" with value \"optician\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "optician"
+        },
+        {
+            "description": "attribute \"type\" with value \"picnic_site\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "picnic_site"
+        },
+        {
+            "description": "attribute \"type\" with value \"toys\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "toys"
+        },
+        {
+            "description": "attribute \"type\" with value \"paper\" on layer \"poi_a\"",
+            "key": "recycling:paper",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"theatre\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "theatre"
+        },
+        {
+            "description": "attribute \"type\" with value \"nursing_home\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "nursing_home"
+        },
+        {
+            "description": "attribute \"type\" with value \"tennis_pitch\" on layer \"poi_a\"",
+            "key": "sport",
+            "value": "tennis"
+        },
+        {
+            "description": "attribute \"type\" with value \"playground\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "playground"
+        },
+        {
+            "description": "attribute \"type\" with value \"money_changer\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "bureau_de_change"
+        },
+        {
+            "description": "attribute \"type\" with value \"car\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "car"
+        },
+        {
+            "description": "attribute \"type\" with value \"government\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "government"
+        },
+        {
+            "description": "attribute \"type\" with value \"metal\" on layer \"poi_a\"",
+            "key": "recycling:metal",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"pub\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "pub"
+        },
+        {
+            "description": "attribute \"type\" with value \"public_building\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "public_building"
+        },
+        {
+            "description": "attribute \"type\" with value \"wayside_cross\" on layer \"poi_a\"",
+            "key": "historic",
+            "value": "wayside_cross"
+        },
+        {
+            "description": "attribute \"type\" with value \"stadium\" on layer \"poi_a\"",
+            "key": "leisure",
+            "value": "stadium"
+        },
+        {
+            "description": "attribute \"type\" with value \"zoo\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "zoo"
+        },
+        {
+            "description": "attribute \"type\" with value \"hospital\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "hospital"
+        },
+        {
+            "description": "attribute \"type\" with value \"jewelry\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "jewelry"
+        },
+        {
+            "description": "attribute \"type\" with value \"kiosk\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "kiosk"
+        },
+        {
+            "description": "attribute \"type\" with value \"chemist\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "chemist"
+        },
+        {
+            "description": "attribute \"type\" with value \"social_facility\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "social_facility"
+        },
+        {
+            "description": "attribute \"type\" with value \"guest_house\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "guest_house"
+        },
+        {
+            "description": "attribute \"type\" with value \"guest_house\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "bed_and_breakfast"
+        },
+        {
+            "description": "attribute \"type\" with value \"attraction\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "attraction"
+        },
+        {
+            "description": "attribute \"type\" with value \"university\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "university"
+        },
+        {
+            "description": "attribute \"type\" with value \"glass\" on layer \"poi_a\"",
+            "key": "recycling:glass",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"vending_parking\" on layer \"poi_a\"",
+            "key": "vending",
+            "value": "parking_tickets"
+        },
+        {
+            "description": "attribute \"type\" with value \"dentist\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "dentist"
+        },
+        {
+            "description": "attribute \"type\" with value \"fort\" on layer \"poi_a\"",
+            "key": "historic",
+            "value": "fort"
+        },
+        {
+            "description": "attribute \"type\" with value \"greengrocer\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "greengrocer"
+        },
+        {
+            "description": "attribute \"type\" with value \"chalet\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "chalet"
+        },
+        {
+            "description": "attribute \"type\" with value \"cinema\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "cinema"
+        },
+        {
+            "description": "attribute \"type\" with value \"sports\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "sports"
+        },
+        {
+            "description": "attribute \"type\" with value \"water_well\" on layer \"poi_a\"",
+            "key": "man_made",
+            "value": "water_well"
+        },
+        {
+            "description": "attribute \"type\" with value \"memorial\" on layer \"poi_a\"",
+            "key": "historic",
+            "value": "museum"
+        },
+        {
+            "description": "attribute \"type\" with value \"comm_tower\" on layer \"poi_a\"",
+            "key": "tower:type",
+            "value": "communication"
+        },
+        {
+            "description": "attribute \"type\" with value \"comm_tower\" on layer \"poi_a\"",
+            "key": "man_made",
+            "value": "tower"
+        },
+        {
+            "description": "attribute \"type\" with value \"guidepost\" on layer \"poi_a\"",
+            "key": "information",
+            "value": "guidepost"
+        },
+        {
+            "description": "attribute \"type\" with value \"guidepost\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "information"
+        },
+        {
+            "description": "attribute \"type\" with value \"watermill\" on layer \"poi_a\"",
+            "key": "man_made",
+            "value": "watermill"
+        },
+        {
+            "description": "attribute \"type\" with value \"food_court\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "food_court"
+        },
+        {
+            "description": "attribute \"type\" with value \"kindergarten\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "kindergarten"
+        },
+        {
+            "description": "attribute \"type\" with value \"grave_yard\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "grave_yard"
+        },
+        {
+            "description": "attribute \"type\" with value \"drinking_water\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "drinking_water"
+        },
+        {
+            "description": "attribute \"type\" with value \"emergency_phone\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "emergency_phone"
+        },
+        {
+            "description": "attribute \"type\" with value \"emergency_phone\" on layer \"poi_a\"",
+            "key": "emergency",
+            "value": "phone"
+        },
+        {
+            "description": "attribute \"type\" with value \"stationery\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "stationery"
+        },
+        {
+            "description": "attribute \"type\" with value \"supermarket\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "supermarket"
+        },
+        {
+            "description": "attribute \"type\" with value \"florist\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "florist"
+        },
+        {
+            "description": "attribute \"type\" with value \"pharmacy\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "pharmacy"
+        },
+        {
+            "description": "attribute \"type\" with value \"mortuary\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "mortuary"
+        },
+        {
+            "description": "attribute \"type\" with value \"college\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "college"
+        },
+        {
+            "description": "attribute \"type\" with value \"post_box\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "post_box"
+        },
+        {
+            "description": "attribute \"type\" with value \"vending\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "vending_machine"
+        },
+        {
+            "description": "attribute \"type\" with value \"vending\" on layer \"poi_a\"",
+            "key": "vending"
+        },
+        {
+            "description": "attribute \"type\" with value \"amenity\" on layer \"poi_a\"",
+            "key": "amenity"
+        },
+        {
+            "description": "attribute \"type\" with value \"camp_site\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "camp_site"
+        },
+        {
+            "description": "attribute \"type\" with value \"telephone\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "telephone"
+        },
+        {
+            "description": "attribute \"type\" with value \"castle\" on layer \"poi_a\"",
+            "key": "historic",
+            "value": "castle"
+        },
+        {
+            "description": "attribute \"type\" with value \"tower\" on layer \"poi_a\"",
+            "key": "man_made",
+            "value": "tower"
+        },
+        {
+            "description": "attribute \"type\" with value \"map\" on layer \"poi_a\"",
+            "key": "information",
+            "value": "map"
+        },
+        {
+            "description": "attribute \"type\" with value \"map\" on layer \"poi_a\"",
+            "key": "tourism",
+            "value": "information"
+        },
+        {
+            "description": "attribute \"type\" with value \"man_made\" on layer \"poi_a\"",
+            "key": "man_made"
+        },
+        {
+            "description": "attribute \"type\" with value \"monument\" on layer \"poi_a\"",
+            "key": "historic",
+            "value": "museum"
+        },
+        {
+            "description": "attribute \"type\" with value \"shoes\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "shoes"
+        },
+        {
+            "description": "attribute \"type\" with value \"library\" on layer \"poi_a\"",
+            "key": "amenity",
+            "value": "library"
+        },
+        {
+            "description": "attribute \"type\" with value \"department_store\" on layer \"poi_a\"",
+            "key": "shop",
+            "value": "department_store"
+        },
+        {
+            "description": "attribute \"type\" with value \"caravan_site\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "caravan_site"
+        },
+        {
+            "description": "attribute \"type\" with value \"waste_basket\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "waste_backet"
+        },
+        {
+            "description": "attribute \"type\" with value \"wastewater_plant\" on layer \"poi_p\"",
+            "key": "man_made",
+            "value": "wastewater_plant"
+        },
+        {
+            "description": "attribute \"type\" with value \"dog_park\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "dog_park"
+        },
+        {
+            "description": "attribute \"type\" with value \"community_centre\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "community_centre"
+        },
+        {
+            "description": "attribute \"type\" with value \"veterinary\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "veterinary"
+        },
+        {
+            "description": "attribute \"type\" with value \"information\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "information"
+        },
+        {
+            "description": "attribute \"type\" with value \"restaurant\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "restaurant"
+        },
+        {
+            "description": "attribute \"type\" with value \"beauty\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "beauty"
+        },
+        {
+            "description": "attribute \"type\" with value \"hostel\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "hostel"
+        },
+        {
+            "description": "attribute \"type\" with value \"hotel\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "hotel"
+        },
+        {
+            "description": "attribute \"type\" with value \"books\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "books"
+        },
+        {
+            "description": "attribute \"type\" with value \"car_sharing\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "car_sharing"
+        },
+        {
+            "description": "attribute \"type\" with value \"garden_centre\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "garden_centre"
+        },
+        {
+            "description": "attribute \"type\" with value \"newsagent\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "newsagent"
+        },
+        {
+            "description": "attribute \"type\" with value \"fire_station\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "fire_station"
+        },
+        {
+            "description": "attribute \"type\" with value \"golf_course\" on layer \"poi_p\"",
+            "key": "leisure",
+            "value": "golf_course"
+        },
+        {
+            "description": "attribute \"type\" with value \"butcher\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "butcher"
+        },
+        {
+            "description": "attribute \"type\" with value \"general_reclycling\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "recycling"
+        },
+        {
+            "description": "attribute \"type\" with value \"theme_park\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "theme_park"
+        },
+        {
+            "description": "attribute \"type\" with value \"sport_centre\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "sport_centre"
+        },
+        {
+            "description": "attribute \"type\" with value \"prison\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "prison"
+        },
+        {
+            "description": "attribute \"type\" with value \"fountain\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "fountain"
+        },
+        {
+            "description": "attribute \"type\" with value \"pitch\" on layer \"poi_p\"",
+            "key": "leisure",
+            "value": "pitch"
+        },
+        {
+            "description": "attribute \"type\" with value \"fast_food\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "fast_food"
+        },
+        {
+            "description": "attribute \"type\" with value \"toilet\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "toilets"
+        },
+        {
+            "description": "attribute \"type\" with value \"clinic\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "clinic"
+        },
+        {
+            "description": "attribute \"type\" with value \"convenience\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "convenience"
+        },
+        {
+            "description": "attribute \"type\" with value \"archaeological_site\" on layer \"poi_p\"",
+            "key": "historic",
+            "value": "archaeological_site"
+        },
+        {
+            "description": "attribute \"type\" with value \"water_works\" on layer \"poi_p\"",
+            "key": "man_made",
+            "value": "water_works"
+        },
+        {
+            "description": "attribute \"type\" with value \"historic\" on layer \"poi_p\"",
+            "key": "historic"
+        },
+        {
+            "description": "attribute \"type\" with value \"arts_centre\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "arts_centre"
+        },
+        {
+            "description": "attribute \"type\" with value \"bar\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "bar"
+        },
+        {
+            "description": "attribute \"type\" with value \"courthouse\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "courthouse"
+        },
+        {
+            "description": "attribute \"type\" with value \"embassy\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "embassy"
+        },
+        {
+            "description": "attribute \"type\" with value \"soccer_pitch\" on layer \"poi_p\"",
+            "key": "sport",
+            "value": "soccer"
+        },
+        {
+            "description": "attribute \"type\" with value \"bench\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "bench"
+        },
+        {
+            "description": "attribute \"type\" with value \"computer\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "computer"
+        },
+        {
+            "description": "attribute \"type\" with value \"cafe\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "cafe"
+        },
+        {
+            "description": "attribute \"type\" with value \"viewpoint\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "viewpoint"
+        },
+        {
+            "description": "attribute \"type\" with value \"doctors\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "doctors"
+        },
+        {
+            "description": "attribute \"type\" with value \"swimming_pool\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "swimming_pool"
+        },
+        {
+            "description": "attribute \"type\" with value \"swimming_pool\" on layer \"poi_p\"",
+            "key": "leisure",
+            "value": "swimming_pool"
+        },
+        {
+            "description": "attribute \"type\" with value \"swimming_pool\" on layer \"poi_p\"",
+            "key": "sport",
+            "value": "swimming_pool"
+        },
+        {
+            "description": "attribute \"type\" with value \"marketplace\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "marketplace"
+        },
+        {
+            "description": "attribute \"type\" with value \"vending_cigarette\" on layer \"poi_p\"",
+            "key": "vending",
+            "value": "cigarettes"
+        },
+        {
+            "description": "attribute \"type\" with value \"furniture\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "furniture"
+        },
+        {
+            "description": "attribute \"type\" with value \"surveillance\" on layer \"poi_p\"",
+            "key": "man_made",
+            "value": "surveillance"
+        },
+        {
+            "description": "attribute \"type\" with value \"museum\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "museum"
+        },
+        {
+            "description": "attribute \"type\" with value \"clothes\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "clothes"
+        },
+        {
+            "description": "attribute \"type\" with value \"car_wash\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "car_wash"
+        },
+        {
+            "description": "attribute \"type\" with value \"townhall\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "townhall"
+        },
+        {
+            "description": "attribute \"type\" with value \"hairdresser\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "hairdresser"
+        },
+        {
+            "description": "attribute \"type\" with value \"emergency_access\" on layer \"poi_p\"",
+            "key": "highway",
+            "value": "emergency_access_point"
+        },
+        {
+            "description": "attribute \"type\" with value \"water_park\" on layer \"poi_p\"",
+            "key": "leisure",
+            "value": "water_park"
+        },
+        {
+            "description": "attribute \"type\" with value \"battlefield\" on layer \"poi_p\"",
+            "key": "historic",
+            "value": "battlefield"
+        },
+        {
+            "description": "attribute \"type\" with value \"cemetery\" on layer \"poi_p\"",
+            "key": "landuse",
+            "value": "cemetery"
+        },
+        {
+            "description": "attribute \"type\" with value \"beverages\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "beverages"
+        },
+        {
+            "description": "attribute \"type\" with value \"beverages\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "alcohol"
+        },
+        {
+            "description": "attribute \"type\" with value \"travel_agency\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "travel_agency"
+        },
+        {
+            "description": "attribute \"type\" with value \"artwork\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "artwork"
+        },
+        {
+            "description": "attribute \"type\" with value \"hardware\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "doityourself"
+        },
+        {
+            "description": "attribute \"type\" with value \"hardware\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "hardware"
+        },
+        {
+            "description": "attribute \"type\" with value \"lighthouse\" on layer \"poi_p\"",
+            "key": "man_made",
+            "value": "lighthouse"
+        },
+        {
+            "description": "attribute \"type\" with value \"ice_rink\" on layer \"poi_p\"",
+            "key": "leisure",
+            "value": "ice_rink"
+        },
+        {
+            "description": "attribute \"type\" with value \"observation_tower\" on layer \"poi_p\"",
+            "key": "tower:type",
+            "value": "observation"
+        },
+        {
+            "description": "attribute \"type\" with value \"observation_tower\" on layer \"poi_p\"",
+            "key": "man_made",
+            "value": "observation_tower"
+        },
+        {
+            "description": "attribute \"type\" with value \"atm\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "atm"
+        },
+        {
+            "description": "attribute \"type\" with value \"fire_hydrant\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "fire_hydrant"
+        },
+        {
+            "description": "attribute \"type\" with value \"fire_hydrant\" on layer \"poi_p\"",
+            "key": "emergency",
+            "value": "fire_hydrant"
+        },
+        {
+            "description": "attribute \"type\" with value \"wayside_shrine\" on layer \"poi_p\"",
+            "key": "historic",
+            "value": "wayside_shrine"
+        },
+        {
+            "description": "attribute \"type\" with value \"water_tower\" on layer \"poi_p\"",
+            "key": "man_made",
+            "value": "water_tower"
+        },
+        {
+            "description": "attribute \"type\" with value \"bicycle_rental\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "bicycle_rental"
+        },
+        {
+            "description": "attribute \"type\" with value \"school\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "school"
+        },
+        {
+            "description": "attribute \"type\" with value \"shop\" on layer \"poi_p\"",
+            "key": "shop"
+        },
+        {
+            "description": "attribute \"type\" with value \"outdoor\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "outdoor"
+        },
+        {
+            "description": "attribute \"type\" with value \"motel\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "motel"
+        },
+        {
+            "description": "attribute \"type\" with value \"mobile_phone\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "mobile_phone"
+        },
+        {
+            "description": "attribute \"type\" with value \"hunting_stand\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "hunting_stand"
+        },
+        {
+            "description": "attribute \"type\" with value \"laundry\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "laundry"
+        },
+        {
+            "description": "attribute \"type\" with value \"laundry\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "dry_cleaning"
+        },
+        {
+            "description": "attribute \"type\" with value \"alpine_hut\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "alpine_hut"
+        },
+        {
+            "description": "attribute \"type\" with value \"tourism\" on layer \"poi_p\"",
+            "key": "tourism"
+        },
+        {
+            "description": "attribute \"type\" with value \"bakery\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "bakery"
+        },
+        {
+            "description": "attribute \"type\" with value \"windmill\" on layer \"poi_p\"",
+            "key": "man_made",
+            "value": "windmill"
+        },
+        {
+            "description": "attribute \"type\" with value \"bank\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "bank"
+        },
+        {
+            "description": "attribute \"type\" with value \"police\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "police"
+        },
+        {
+            "description": "attribute \"type\" with value \"board\" on layer \"poi_p\"",
+            "key": "information",
+            "value": "board"
+        },
+        {
+            "description": "attribute \"type\" with value \"board\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "information"
+        },
+        {
+            "description": "attribute \"type\" with value \"car_rental\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "car_rental"
+        },
+        {
+            "description": "attribute \"type\" with value \"sport\" on layer \"poi_p\"",
+            "key": "sport"
+        },
+        {
+            "description": "attribute \"type\" with value \"post_office\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "post_office"
+        },
+        {
+            "description": "attribute \"type\" with value \"shelter\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "shelter"
+        },
+        {
+            "description": "attribute \"type\" with value \"nightclub\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "nightclub"
+        },
+        {
+            "description": "attribute \"type\" with value \"gift\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "gift"
+        },
+        {
+            "description": "attribute \"type\" with value \"ruins\" on layer \"poi_p\"",
+            "key": "historic",
+            "value": "ruins"
+        },
+        {
+            "description": "attribute \"type\" with value \"mall\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "mall"
+        },
+        {
+            "description": "attribute \"type\" with value \"biergarten\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "biergarten"
+        },
+        {
+            "description": "attribute \"type\" with value \"cair_repair\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "car_repair"
+        },
+        {
+            "description": "attribute \"type\" with value \"leisure\" on layer \"poi_p\"",
+            "key": "leisure"
+        },
+        {
+            "description": "attribute \"type\" with value \"bicycle\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "bicycle"
+        },
+        {
+            "description": "attribute \"type\" with value \"video\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "video"
+        },
+        {
+            "description": "attribute \"type\" with value \"optician\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "optician"
+        },
+        {
+            "description": "attribute \"type\" with value \"picnic_site\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "picnic_site"
+        },
+        {
+            "description": "attribute \"type\" with value \"toys\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "toys"
+        },
+        {
+            "description": "attribute \"type\" with value \"paper\" on layer \"poi_p\"",
+            "key": "recycling:paper",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"theatre\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "theatre"
+        },
+        {
+            "description": "attribute \"type\" with value \"nursing_home\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "nursing_home"
+        },
+        {
+            "description": "attribute \"type\" with value \"tennis_pitch\" on layer \"poi_p\"",
+            "key": "sport",
+            "value": "tennis"
+        },
+        {
+            "description": "attribute \"type\" with value \"playground\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "playground"
+        },
+        {
+            "description": "attribute \"type\" with value \"money_changer\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "bureau_de_change"
+        },
+        {
+            "description": "attribute \"type\" with value \"car\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "car"
+        },
+        {
+            "description": "attribute \"type\" with value \"government\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "government"
+        },
+        {
+            "description": "attribute \"type\" with value \"metal\" on layer \"poi_p\"",
+            "key": "recycling:metal",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"pub\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "pub"
+        },
+        {
+            "description": "attribute \"type\" with value \"public_building\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "public_building"
+        },
+        {
+            "description": "attribute \"type\" with value \"wayside_cross\" on layer \"poi_p\"",
+            "key": "historic",
+            "value": "wayside_cross"
+        },
+        {
+            "description": "attribute \"type\" with value \"stadium\" on layer \"poi_p\"",
+            "key": "leisure",
+            "value": "stadium"
+        },
+        {
+            "description": "attribute \"type\" with value \"zoo\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "zoo"
+        },
+        {
+            "description": "attribute \"type\" with value \"hospital\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "hospital"
+        },
+        {
+            "description": "attribute \"type\" with value \"jewelry\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "jewelry"
+        },
+        {
+            "description": "attribute \"type\" with value \"kiosk\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "kiosk"
+        },
+        {
+            "description": "attribute \"type\" with value \"chemist\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "chemist"
+        },
+        {
+            "description": "attribute \"type\" with value \"social_facility\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "social_facility"
+        },
+        {
+            "description": "attribute \"type\" with value \"guest_house\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "guest_house"
+        },
+        {
+            "description": "attribute \"type\" with value \"guest_house\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "bed_and_breakfast"
+        },
+        {
+            "description": "attribute \"type\" with value \"attraction\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "attraction"
+        },
+        {
+            "description": "attribute \"type\" with value \"university\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "university"
+        },
+        {
+            "description": "attribute \"type\" with value \"glass\" on layer \"poi_p\"",
+            "key": "recycling:glass",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"vending_parking\" on layer \"poi_p\"",
+            "key": "vending",
+            "value": "parking_tickets"
+        },
+        {
+            "description": "attribute \"type\" with value \"dentist\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "dentist"
+        },
+        {
+            "description": "attribute \"type\" with value \"fort\" on layer \"poi_p\"",
+            "key": "historic",
+            "value": "fort"
+        },
+        {
+            "description": "attribute \"type\" with value \"greengrocer\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "greengrocer"
+        },
+        {
+            "description": "attribute \"type\" with value \"chalet\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "chalet"
+        },
+        {
+            "description": "attribute \"type\" with value \"cinema\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "cinema"
+        },
+        {
+            "description": "attribute \"type\" with value \"sports\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "sports"
+        },
+        {
+            "description": "attribute \"type\" with value \"water_well\" on layer \"poi_p\"",
+            "key": "man_made",
+            "value": "water_well"
+        },
+        {
+            "description": "attribute \"type\" with value \"memorial\" on layer \"poi_p\"",
+            "key": "historic",
+            "value": "museum"
+        },
+        {
+            "description": "attribute \"type\" with value \"comm_tower\" on layer \"poi_p\"",
+            "key": "tower:type",
+            "value": "communication"
+        },
+        {
+            "description": "attribute \"type\" with value \"comm_tower\" on layer \"poi_p\"",
+            "key": "man_made",
+            "value": "tower"
+        },
+        {
+            "description": "attribute \"type\" with value \"guidepost\" on layer \"poi_p\"",
+            "key": "information",
+            "value": "guidepost"
+        },
+        {
+            "description": "attribute \"type\" with value \"guidepost\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "information"
+        },
+        {
+            "description": "attribute \"type\" with value \"watermill\" on layer \"poi_p\"",
+            "key": "man_made",
+            "value": "watermill"
+        },
+        {
+            "description": "attribute \"type\" with value \"food_court\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "food_court"
+        },
+        {
+            "description": "attribute \"type\" with value \"kindergarten\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "kindergarten"
+        },
+        {
+            "description": "attribute \"type\" with value \"grave_yard\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "grave_yard"
+        },
+        {
+            "description": "attribute \"type\" with value \"drinking_water\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "drinking_water"
+        },
+        {
+            "description": "attribute \"type\" with value \"emergency_phone\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "emergency_phone"
+        },
+        {
+            "description": "attribute \"type\" with value \"emergency_phone\" on layer \"poi_p\"",
+            "key": "emergency",
+            "value": "phone"
+        },
+        {
+            "description": "attribute \"type\" with value \"stationery\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "stationery"
+        },
+        {
+            "description": "attribute \"type\" with value \"supermarket\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "supermarket"
+        },
+        {
+            "description": "attribute \"type\" with value \"florist\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "florist"
+        },
+        {
+            "description": "attribute \"type\" with value \"pharmacy\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "pharmacy"
+        },
+        {
+            "description": "attribute \"type\" with value \"mortuary\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "mortuary"
+        },
+        {
+            "description": "attribute \"type\" with value \"college\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "college"
+        },
+        {
+            "description": "attribute \"type\" with value \"post_box\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "post_box"
+        },
+        {
+            "description": "attribute \"type\" with value \"vending\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "vending_machine"
+        },
+        {
+            "description": "attribute \"type\" with value \"vending\" on layer \"poi_p\"",
+            "key": "vending"
+        },
+        {
+            "description": "attribute \"type\" with value \"amenity\" on layer \"poi_p\"",
+            "key": "amenity"
+        },
+        {
+            "description": "attribute \"type\" with value \"camp_site\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "camp_site"
+        },
+        {
+            "description": "attribute \"type\" with value \"telephone\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "telephone"
+        },
+        {
+            "description": "attribute \"type\" with value \"castle\" on layer \"poi_p\"",
+            "key": "historic",
+            "value": "castle"
+        },
+        {
+            "description": "attribute \"type\" with value \"tower\" on layer \"poi_p\"",
+            "key": "man_made",
+            "value": "tower"
+        },
+        {
+            "description": "attribute \"type\" with value \"map\" on layer \"poi_p\"",
+            "key": "information",
+            "value": "map"
+        },
+        {
+            "description": "attribute \"type\" with value \"map\" on layer \"poi_p\"",
+            "key": "tourism",
+            "value": "information"
+        },
+        {
+            "description": "attribute \"type\" with value \"man_made\" on layer \"poi_p\"",
+            "key": "man_made"
+        },
+        {
+            "description": "attribute \"type\" with value \"monument\" on layer \"poi_p\"",
+            "key": "historic",
+            "value": "museum"
+        },
+        {
+            "description": "attribute \"type\" with value \"shoes\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "shoes"
+        },
+        {
+            "description": "attribute \"type\" with value \"library\" on layer \"poi_p\"",
+            "key": "amenity",
+            "value": "library"
+        },
+        {
+            "description": "attribute \"type\" with value \"department_store\" on layer \"poi_p\"",
+            "key": "shop",
+            "value": "department_store"
+        },
+        {
+            "description": "attribute \"type\" with value \"baptist\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"baptist\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "baptist"
+        },
+        {
+            "description": "attribute \"type\" with value \"lutheran\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"lutheran\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "lutheran"
+        },
+        {
+            "description": "attribute \"type\" with value \"catholic\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"catholic\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "catholic"
+        },
+        {
+            "description": "attribute \"type\" with value \"protestant\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"protestant\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "protestant"
+        },
+        {
+            "description": "attribute \"type\" with value \"jewish\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "jewish"
+        },
+        {
+            "description": "attribute \"type\" with value \"orthodox\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"orthodox\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "orthodox"
+        },
+        {
+            "description": "attribute \"type\" with value \"hindu\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "hindu"
+        },
+        {
+            "description": "attribute \"type\" with value \"shia\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "muslim"
+        },
+        {
+            "description": "attribute \"type\" with value \"shia\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "shia"
+        },
+        {
+            "description": "attribute \"type\" with value \"muslim\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "muslim"
+        },
+        {
+            "description": "attribute \"type\" with value \"muslim\" on layer \"pow_a\"",
+            "key": "denomination"
+        },
+        {
+            "description": "attribute \"type\" with value \"evangelical\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"evangelical\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "evangelical"
+        },
+        {
+            "description": "attribute \"type\" with value \"methodist\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"methodist\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "methodist"
+        },
+        {
+            "description": "attribute \"type\" with value \"shinto\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "shinto"
+        },
+        {
+            "description": "attribute \"type\" with value \"presbyterian\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"presbyterian\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "presbyterian"
+        },
+        {
+            "description": "attribute \"type\" with value \"anglican\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"anglican\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "anglican"
+        },
+        {
+            "description": "attribute \"type\" with value \"sunni\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "muslim"
+        },
+        {
+            "description": "attribute \"type\" with value \"sunni\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "sunni"
+        },
+        {
+            "description": "attribute \"type\" with value \"taoist\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "taoist"
+        },
+        {
+            "description": "attribute \"type\" with value \"place_of_worship\" on layer \"pow_a\"",
+            "key": "religion"
+        },
+        {
+            "description": "attribute \"type\" with value \"place_of_worship\" on layer \"pow_a\"",
+            "key": "amenity",
+            "value": "place_of_worship"
+        },
+        {
+            "description": "attribute \"type\" with value \"buddhist\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "buddhist"
+        },
+        {
+            "description": "attribute \"type\" with value \"christian\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"christian\" on layer \"pow_a\"",
+            "key": "denomination"
+        },
+        {
+            "description": "attribute \"type\" with value \"sikh\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "sikh"
+        },
+        {
+            "description": "attribute \"type\" with value \"mormon\" on layer \"pow_a\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"mormon\" on layer \"pow_a\"",
+            "key": "denomination",
+            "value": "mormon"
+        },
+        {
+            "description": "attribute \"type\" with value \"baptist\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"baptist\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "baptist"
+        },
+        {
+            "description": "attribute \"type\" with value \"lutheran\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"lutheran\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "lutheran"
+        },
+        {
+            "description": "attribute \"type\" with value \"catholic\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"catholic\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "catholic"
+        },
+        {
+            "description": "attribute \"type\" with value \"protestant\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"protestant\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "protestant"
+        },
+        {
+            "description": "attribute \"type\" with value \"jewish\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "jewish"
+        },
+        {
+            "description": "attribute \"type\" with value \"orthodox\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"orthodox\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "orthodox"
+        },
+        {
+            "description": "attribute \"type\" with value \"hindu\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "hindu"
+        },
+        {
+            "description": "attribute \"type\" with value \"shia\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "muslim"
+        },
+        {
+            "description": "attribute \"type\" with value \"shia\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "shia"
+        },
+        {
+            "description": "attribute \"type\" with value \"muslim\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "muslim"
+        },
+        {
+            "description": "attribute \"type\" with value \"muslim\" on layer \"pow_p\"",
+            "key": "denomination"
+        },
+        {
+            "description": "attribute \"type\" with value \"evangelical\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"evangelical\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "evangelical"
+        },
+        {
+            "description": "attribute \"type\" with value \"methodist\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"methodist\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "methodist"
+        },
+        {
+            "description": "attribute \"type\" with value \"shinto\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "shinto"
+        },
+        {
+            "description": "attribute \"type\" with value \"presbyterian\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"presbyterian\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "presbyterian"
+        },
+        {
+            "description": "attribute \"type\" with value \"anglican\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"anglican\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "anglican"
+        },
+        {
+            "description": "attribute \"type\" with value \"sunni\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "muslim"
+        },
+        {
+            "description": "attribute \"type\" with value \"sunni\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "sunni"
+        },
+        {
+            "description": "attribute \"type\" with value \"taoist\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "taoist"
+        },
+        {
+            "description": "attribute \"type\" with value \"place_of_worship\" on layer \"pow_p\"",
+            "key": "religion"
+        },
+        {
+            "description": "attribute \"type\" with value \"place_of_worship\" on layer \"pow_p\"",
+            "key": "amenity",
+            "value": "place_of_worship"
+        },
+        {
+            "description": "attribute \"type\" with value \"buddhist\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "buddhist"
+        },
+        {
+            "description": "attribute \"type\" with value \"christian\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"christian\" on layer \"pow_p\"",
+            "key": "denomination"
+        },
+        {
+            "description": "attribute \"type\" with value \"sikh\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "sikh"
+        },
+        {
+            "description": "attribute \"type\" with value \"mormon\" on layer \"pow_p\"",
+            "key": "religion",
+            "value": "christian"
+        },
+        {
+            "description": "attribute \"type\" with value \"mormon\" on layer \"pow_p\"",
+            "key": "denomination",
+            "value": "mormon"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"0\" on layer \"railway_l\"",
+            "key": "bridge",
+            "value": "no"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"1\" on layer \"railway_l\"",
+            "key": "bridge",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"tunnel\" with value \"0\" on layer \"railway_l\"",
+            "key": "tunnel",
+            "value": "no"
+        },
+        {
+            "description": "attribute \"tunnel\" with value \"1\" on layer \"railway_l\"",
+            "key": "tunnel",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"rail\" on layer \"railway_l\"",
+            "key": "railway",
+            "value": "rail"
+        },
+        {
+            "description": "attribute \"type\" with value \"light_rail\" on layer \"railway_l\"",
+            "key": "railway",
+            "value": "light_rail"
+        },
+        {
+            "description": "attribute \"type\" with value \"subway\" on layer \"railway_l\"",
+            "key": "railway",
+            "value": "subway"
+        },
+        {
+            "description": "attribute \"type\" with value \"tram\" on layer \"railway_l\"",
+            "key": "railway",
+            "value": "tram"
+        },
+        {
+            "description": "attribute \"type\" with value \"monorail\" on layer \"railway_l\"",
+            "key": "railway",
+            "value": "monorail"
+        },
+        {
+            "description": "attribute \"type\" with value \"narrow_gauge\" on layer \"railway_l\"",
+            "key": "railway",
+            "value": "narrow_gauge"
+        },
+        {
+            "description": "attribute \"type\" with value \"miniature\" on layer \"railway_l\"",
+            "key": "railway",
+            "value": "miniature"
+        },
+        {
+            "description": "attribute \"type\" with value \"funicular\" on layer \"railway_l\"",
+            "key": "railway",
+            "value": "funicular"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway\" on layer \"railway_l\"",
+            "key": "railway"
+        },
+        {
+            "description": "attribute \"type\" with value \"drag_lift\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "drag_lift"
+        },
+        {
+            "description": "attribute \"type\" with value \"chair_lift\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "chair_lift"
+        },
+        {
+            "description": "attribute \"type\" with value \"chair_lift\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "high_speed_chair_lift"
+        },
+        {
+            "description": "attribute \"type\" with value \"cable_car\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "cable_car"
+        },
+        {
+            "description": "attribute \"type\" with value \"gondola\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "gondola"
+        },
+        {
+            "description": "attribute \"type\" with value \"goods\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "goods"
+        },
+        {
+            "description": "attribute \"type\" with value \"platter\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "platter"
+        },
+        {
+            "description": "attribute \"type\" with value \"t-bar\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "t-bar"
+        },
+        {
+            "description": "attribute \"type\" with value \"j-bar\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "j-bar"
+        },
+        {
+            "description": "attribute \"type\" with value \"magic_carpet\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "magic_carpet"
+        },
+        {
+            "description": "attribute \"type\" with value \"zip_line\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "zip_line"
+        },
+        {
+            "description": "attribute \"type\" with value \"rope_tow\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "rope_tow"
+        },
+        {
+            "description": "attribute \"type\" with value \"mixed_lift\" on layer \"railway_l\"",
+            "key": "aerialway",
+            "value": "mixed_lift"
+        },
+        {
+            "description": "attribute \"type\" with value \"aerialway\" on layer \"railway_l\"",
+            "key": "aerialway"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"0\" on layer \"road_l\"",
+            "key": "bridge",
+            "value": "no"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"1\" on layer \"road_l\"",
+            "key": "bridge",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"tunnel\" with value \"0\" on layer \"road_l\"",
+            "key": "tunnel",
+            "value": "no"
+        },
+        {
+            "description": "attribute \"tunnel\" with value \"1\" on layer \"road_l\"",
+            "key": "tunnel",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"motorway\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "motorway"
+        },
+        {
+            "description": "attribute \"type\" with value \"trunk\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "trunk"
+        },
+        {
+            "description": "attribute \"type\" with value \"primary\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "primary"
+        },
+        {
+            "description": "attribute \"type\" with value \"secondary\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "secondary"
+        },
+        {
+            "description": "attribute \"type\" with value \"tertiary\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "tertiary"
+        },
+        {
+            "description": "attribute \"type\" with value \"unclassified\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "unclassified"
+        },
+        {
+            "description": "attribute \"type\" with value \"residential\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "residential"
+        },
+        {
+            "description": "attribute \"type\" with value \"living_street\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "living_street"
+        },
+        {
+            "description": "attribute \"type\" with value \"pedestrian\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "pedestrian"
+        },
+        {
+            "description": "attribute \"type\" with value \"motorway_link\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "motorway_link"
+        },
+        {
+            "description": "attribute \"type\" with value \"trunk_link\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "trunk_link"
+        },
+        {
+            "description": "attribute \"type\" with value \"primary_link\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "primary_link"
+        },
+        {
+            "description": "attribute \"type\" with value \"secondary_link\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "secondary_link"
+        },
+        {
+            "description": "attribute \"type\" with value \"service\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "service"
+        },
+        {
+            "description": "attribute \"type\" with value \"track\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade1\" on layer \"road_l\"",
+            "key": "tracktype",
+            "value": "grade1"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade1\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade2\" on layer \"road_l\"",
+            "key": "tracktype",
+            "value": "grade2"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade2\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade3\" on layer \"road_l\"",
+            "key": "tracktype",
+            "value": "grade3"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade3\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade4\" on layer \"road_l\"",
+            "key": "tracktype",
+            "value": "grade4"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade4\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade5\" on layer \"road_l\"",
+            "key": "tracktype",
+            "value": "grade5"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade5\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"bridleway\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "bridleway"
+        },
+        {
+            "description": "attribute \"type\" with value \"cycleway\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "cycleway"
+        },
+        {
+            "description": "attribute \"type\" with value \"footway\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "footway"
+        },
+        {
+            "description": "attribute \"type\" with value \"path\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "path"
+        },
+        {
+            "description": "attribute \"type\" with value \"steps\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "steps"
+        },
+        {
+            "description": "attribute \"type\" with value \"road\" on layer \"road_l\"",
+            "key": "highway"
+        },
+        {
+            "description": "attribute \"type\" with value \"motorway\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "motorway"
+        },
+        {
+            "description": "attribute \"type\" with value \"motorway\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"trunk\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "trunk"
+        },
+        {
+            "description": "attribute \"type\" with value \"trunk\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"primary\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "primary"
+        },
+        {
+            "description": "attribute \"type\" with value \"primary\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"secondary\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "secondary"
+        },
+        {
+            "description": "attribute \"type\" with value \"secondary\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"tertiary\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "tertiary"
+        },
+        {
+            "description": "attribute \"type\" with value \"tertiary\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"unclassified\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "unclassified"
+        },
+        {
+            "description": "attribute \"type\" with value \"unclassified\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"residential\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "residential"
+        },
+        {
+            "description": "attribute \"type\" with value \"residential\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"living_street\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "living_street"
+        },
+        {
+            "description": "attribute \"type\" with value \"living_street\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"pedestrian\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "pedestrian"
+        },
+        {
+            "description": "attribute \"type\" with value \"pedestrian\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"motorway_link\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "motorway_link"
+        },
+        {
+            "description": "attribute \"type\" with value \"motorway_link\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"trunk_link\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "trunk_link"
+        },
+        {
+            "description": "attribute \"type\" with value \"trunk_link\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"primary_link\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "primary_link"
+        },
+        {
+            "description": "attribute \"type\" with value \"primary_link\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"secondary_link\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "secondary_link"
+        },
+        {
+            "description": "attribute \"type\" with value \"secondary_link\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"service\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "service"
+        },
+        {
+            "description": "attribute \"type\" with value \"service\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"track\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"track\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade1\" on layer \"road_l\"",
+            "key": "tracktype",
+            "value": "grade1"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade1\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade1\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade2\" on layer \"road_l\"",
+            "key": "tracktype",
+            "value": "grade2"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade2\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade2\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade3\" on layer \"road_l\"",
+            "key": "tracktype",
+            "value": "grade3"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade3\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade3\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade4\" on layer \"road_l\"",
+            "key": "tracktype",
+            "value": "grade4"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade4\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade4\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade5\" on layer \"road_l\"",
+            "key": "tracktype",
+            "value": "grade5"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade5\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "track"
+        },
+        {
+            "description": "attribute \"type\" with value \"grade5\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"bridleway\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "bridleway"
+        },
+        {
+            "description": "attribute \"type\" with value \"bridleway\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"cycleway\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "cycleway"
+        },
+        {
+            "description": "attribute \"type\" with value \"cycleway\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"footway\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "footway"
+        },
+        {
+            "description": "attribute \"type\" with value \"footway\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"path\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "path"
+        },
+        {
+            "description": "attribute \"type\" with value \"path\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"steps\" on layer \"road_l\"",
+            "key": "highway",
+            "value": "steps"
+        },
+        {
+            "description": "attribute \"type\" with value \"steps\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"roundabout\" on layer \"road_l\"",
+            "key": "junction",
+            "value": "roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"bicycle\" on layer \"route_l\"",
+            "key": "route",
+            "value": "bicycle"
+        },
+        {
+            "description": "attribute \"type\" with value \"bus\" on layer \"route_l\"",
+            "key": "route",
+            "value": "bus"
+        },
+        {
+            "description": "attribute \"type\" with value \"canoe\" on layer \"route_l\"",
+            "key": "route",
+            "value": "canoe"
+        },
+        {
+            "description": "attribute \"type\" with value \"detour\" on layer \"route_l\"",
+            "key": "route",
+            "value": "detour"
+        },
+        {
+            "description": "attribute \"type\" with value \"ferry\" on layer \"route_l\"",
+            "key": "route",
+            "value": "ferry"
+        },
+        {
+            "description": "attribute \"type\" with value \"hiking\" on layer \"route_l\"",
+            "key": "route",
+            "value": "hiking"
+        },
+        {
+            "description": "attribute \"type\" with value \"horse\" on layer \"route_l\"",
+            "key": "route",
+            "value": "horse"
+        },
+        {
+            "description": "attribute \"type\" with value \"inline_skates\" on layer \"route_l\"",
+            "key": "route",
+            "value": "inline_skates"
+        },
+        {
+            "description": "attribute \"type\" with value \"light_rail\" on layer \"route_l\"",
+            "key": "route",
+            "value": "light_rail"
+        },
+        {
+            "description": "attribute \"type\" with value \"mtb\" on layer \"route_l\"",
+            "key": "route",
+            "value": "mtb"
+        },
+        {
+            "description": "attribute \"type\" with value \"nordic_walking\" on layer \"route_l\"",
+            "key": "route",
+            "value": "nordic_walking"
+        },
+        {
+            "description": "attribute \"type\" with value \"pipeline\" on layer \"route_l\"",
+            "key": "route",
+            "value": "pipeline"
+        },
+        {
+            "description": "attribute \"type\" with value \"piste\" on layer \"route_l\"",
+            "key": "route",
+            "value": "piste"
+        },
+        {
+            "description": "attribute \"type\" with value \"power\" on layer \"route_l\"",
+            "key": "route",
+            "value": "power"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway\" on layer \"route_l\"",
+            "key": "route",
+            "value": "railway"
+        },
+        {
+            "description": "attribute \"type\" with value \"road\" on layer \"route_l\"",
+            "key": "route",
+            "value": "road"
+        },
+        {
+            "description": "attribute \"type\" with value \"running\" on layer \"route_l\"",
+            "key": "route",
+            "value": "running"
+        },
+        {
+            "description": "attribute \"type\" with value \"ski\" on layer \"route_l\"",
+            "key": "route",
+            "value": "ski"
+        },
+        {
+            "description": "attribute \"type\" with value \"train\" on layer \"route_l\"",
+            "key": "route",
+            "value": "train"
+        },
+        {
+            "description": "attribute \"type\" with value \"tram\" on layer \"route_l\"",
+            "key": "route",
+            "value": "tram"
+        },
+        {
+            "description": "attribute \"type\" with value \"route\" on layer \"route_l\"",
+            "key": "route"
+        },
+        {
+            "description": "attribute \"type\" with value \"fuel\" on layer \"traffic_a\"",
+            "key": "amenity",
+            "value": "fuel"
+        },
+        {
+            "description": "attribute \"type\" with value \"underground\" on layer \"traffic_a\"",
+            "key": "amenity",
+            "value": "parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"underground\" on layer \"traffic_a\"",
+            "key": "parking",
+            "value": "underground"
+        },
+        {
+            "description": "attribute \"type\" with value \"surface\" on layer \"traffic_a\"",
+            "key": "amenity",
+            "value": "parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"surface\" on layer \"traffic_a\"",
+            "key": "parking",
+            "value": "surface"
+        },
+        {
+            "description": "attribute \"type\" with value \"parking\" on layer \"traffic_a\"",
+            "key": "amenity",
+            "value": "parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"parking\" on layer \"traffic_a\"",
+            "key": "parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"multi-storey\" on layer \"traffic_a\"",
+            "key": "amenity",
+            "value": "parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"multi-storey\" on layer \"traffic_a\"",
+            "key": "parking",
+            "value": "multi-storey"
+        },
+        {
+            "description": "attribute \"type\" with value \"bicycle\" on layer \"traffic_a\"",
+            "key": "amenity",
+            "value": "bicycle_parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"block\" on layer \"traffic_p\"",
+            "key": "barrier",
+            "value": "block"
+        },
+        {
+            "description": "attribute \"type\" with value \"fuel\" on layer \"traffic_p\"",
+            "key": "amenity",
+            "value": "fuel"
+        },
+        {
+            "description": "attribute \"type\" with value \"bump\" on layer \"traffic_p\"",
+            "key": "traffic_calming",
+            "value": "bump"
+        },
+        {
+            "description": "attribute \"type\" with value \"stile\" on layer \"traffic_p\"",
+            "key": "barrier",
+            "value": "stile"
+        },
+        {
+            "description": "attribute \"type\" with value \"crossing\" on layer \"traffic_p\"",
+            "key": "highway",
+            "value": "crossing"
+        },
+        {
+            "description": "attribute \"type\" with value \"turning_circle\" on layer \"traffic_p\"",
+            "key": "highway",
+            "value": "turning_circle"
+        },
+        {
+            "description": "attribute \"type\" with value \"ford\" on layer \"traffic_p\"",
+            "key": "highway",
+            "value": "ford"
+        },
+        {
+            "description": "attribute \"type\" with value \"general_traffic\" on layer \"traffic_p\"",
+            "key": "highway"
+        },
+        {
+            "description": "attribute \"type\" with value \"cycle_barrier\" on layer \"traffic_p\"",
+            "key": "barrier",
+            "value": "cycle_barrier"
+        },
+        {
+            "description": "attribute \"type\" with value \"cushion\" on layer \"traffic_p\"",
+            "key": "traffic_calming",
+            "value": "cushion"
+        },
+        {
+            "description": "attribute \"type\" with value \"surface\" on layer \"traffic_p\"",
+            "key": "amenity",
+            "value": "parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"surface\" on layer \"traffic_p\"",
+            "key": "parking",
+            "value": "surface"
+        },
+        {
+            "description": "attribute \"type\" with value \"cattle_grid\" on layer \"traffic_p\"",
+            "key": "barrier",
+            "value": "cattle_grid"
+        },
+        {
+            "description": "attribute \"type\" with value \"bicycle\" on layer \"traffic_p\"",
+            "key": "amenity",
+            "value": "bicycle_parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"table\" on layer \"traffic_p\"",
+            "key": "traffic_calming",
+            "value": "table"
+        },
+        {
+            "description": "attribute \"type\" with value \"level_crossing\" on layer \"traffic_p\"",
+            "key": "highway",
+            "value": "level_crossing"
+        },
+        {
+            "description": "attribute \"type\" with value \"gate\" on layer \"traffic_p\"",
+            "key": "barrier",
+            "value": "gate"
+        },
+        {
+            "description": "attribute \"type\" with value \"lift_gate\" on layer \"traffic_p\"",
+            "key": "barrier",
+            "value": "lift_gate"
+        },
+        {
+            "description": "attribute \"type\" with value \"multi-storey\" on layer \"traffic_p\"",
+            "key": "amenity",
+            "value": "parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"multi-storey\" on layer \"traffic_p\"",
+            "key": "parking",
+            "value": "multi-storey"
+        },
+        {
+            "description": "attribute \"type\" with value \"bollard\" on layer \"traffic_p\"",
+            "key": "barrier",
+            "value": "bollard"
+        },
+        {
+            "description": "attribute \"type\" with value \"mini_roundabout\" on layer \"traffic_p\"",
+            "key": "highway",
+            "value": "mini_roundabout"
+        },
+        {
+            "description": "attribute \"type\" with value \"entrance\" on layer \"traffic_p\"",
+            "key": "barrier",
+            "value": "entrance"
+        },
+        {
+            "description": "attribute \"type\" with value \"hump\" on layer \"traffic_p\"",
+            "key": "traffic_calming",
+            "value": "hump"
+        },
+        {
+            "description": "attribute \"type\" with value \"services\" on layer \"traffic_p\"",
+            "key": "amenity",
+            "value": "services"
+        },
+        {
+            "description": "attribute \"type\" with value \"fence\" on layer \"traffic_p\"",
+            "key": "barrier",
+            "value": "fence"
+        },
+        {
+            "description": "attribute \"type\" with value \"toll_booth\" on layer \"traffic_p\"",
+            "key": "barrier",
+            "value": "toll_booth"
+        },
+        {
+            "description": "attribute \"type\" with value \"speed_camera\" on layer \"traffic_p\"",
+            "key": "highway",
+            "value": "speed_camera"
+        },
+        {
+            "description": "attribute \"type\" with value \"underground\" on layer \"traffic_p\"",
+            "key": "amenity",
+            "value": "parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"underground\" on layer \"traffic_p\"",
+            "key": "parking",
+            "value": "underground"
+        },
+        {
+            "description": "attribute \"type\" with value \"street_lamp\" on layer \"traffic_p\"",
+            "key": "highway",
+            "value": "street_lamp"
+        },
+        {
+            "description": "attribute \"type\" with value \"stop\" on layer \"traffic_p\"",
+            "key": "highway",
+            "value": "stop"
+        },
+        {
+            "description": "attribute \"type\" with value \"motorway_junction\" on layer \"traffic_p\"",
+            "key": "highway",
+            "value": "motorway_junction"
+        },
+        {
+            "description": "attribute \"type\" with value \"chicane\" on layer \"traffic_p\"",
+            "key": "traffic_calming",
+            "value": "chicane"
+        },
+        {
+            "description": "attribute \"type\" with value \"parking\" on layer \"traffic_p\"",
+            "key": "amenity",
+            "value": "parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"parking\" on layer \"traffic_p\"",
+            "key": "parking"
+        },
+        {
+            "description": "attribute \"type\" with value \"traffic_calming\" on layer \"traffic_p\"",
+            "key": "traffic_calming"
+        },
+        {
+            "description": "attribute \"type\" with value \"kissing_gate\" on layer \"traffic_p\"",
+            "key": "barrier",
+            "value": "kissing_gate"
+        },
+        {
+            "description": "attribute \"type\" with value \"barrier\" on layer \"traffic_p\"",
+            "key": "barrier"
+        },
+        {
+            "description": "attribute \"type\" with value \"traffic_signals\" on layer \"traffic_p\"",
+            "key": "highway",
+            "value": "traffic_signals"
+        },
+        {
+            "description": "attribute \"type\" with value \"taxiway\" on layer \"transport_a\"",
+            "key": "aeroway",
+            "value": "taxiway"
+        },
+        {
+            "description": "attribute \"type\" with value \"runway\" on layer \"transport_a\"",
+            "key": "aeroway",
+            "value": "runway"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway_halt\" on layer \"transport_a\"",
+            "key": "railway",
+            "value": "halt"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway_halt\" on layer \"transport_a\"",
+            "key": "train",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway_halt\" on layer \"transport_a\"",
+            "key": "public_transport",
+            "value": "stop_position"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway_station\" on layer \"transport_a\"",
+            "key": "railway",
+            "value": "station"
+        },
+        {
+            "description": "attribute \"type\" with value \"aerialway\" on layer \"transport_a\"",
+            "key": "aerialway"
+        },
+        {
+            "description": "attribute \"type\" with value \"apron\" on layer \"transport_a\"",
+            "key": "aeroway",
+            "value": "apron"
+        },
+        {
+            "description": "attribute \"type\" with value \"helipad\" on layer \"transport_a\"",
+            "key": "aeroway",
+            "value": "helipad"
+        },
+        {
+            "description": "attribute \"type\" with value \"taxi_stand\" on layer \"transport_a\"",
+            "key": "amenity",
+            "value": "taxi"
+        },
+        {
+            "description": "attribute \"type\" with value \"stop_position\" on layer \"transport_a\"",
+            "key": "public_transport",
+            "value": "stop_position"
+        },
+        {
+            "description": "attribute \"type\" with value \"ferry_terminal\" on layer \"transport_a\"",
+            "key": "amenity",
+            "value": "ferry_terminal"
+        },
+        {
+            "description": "attribute \"type\" with value \"bus_station\" on layer \"transport_a\"",
+            "key": "amenity",
+            "value": "bus_station"
+        },
+        {
+            "description": "attribute \"type\" with value \"aerialway_station\" on layer \"transport_a\"",
+            "key": "aerialway",
+            "value": "station"
+        },
+        {
+            "description": "attribute \"type\" with value \"aeroway\" on layer \"transport_a\"",
+            "key": "aeroway"
+        },
+        {
+            "description": "attribute \"type\" with value \"bus_stop\" on layer \"transport_a\"",
+            "key": "railway",
+            "value": "bus_stop"
+        },
+        {
+            "description": "attribute \"type\" with value \"bus_stop\" on layer \"transport_a\"",
+            "key": "bus",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"bus_stop\" on layer \"transport_a\"",
+            "key": "public_transport",
+            "value": "stop_position"
+        },
+        {
+            "description": "attribute \"type\" with value \"airport\" on layer \"transport_a\"",
+            "key": "amenity",
+            "value": "airport"
+        },
+        {
+            "description": "attribute \"type\" with value \"airport\" on layer \"transport_a\"",
+            "key": "aeroway",
+            "value": "aerodrome"
+        },
+        {
+            "description": "attribute \"type\" with value \"taxiway\" on layer \"transport_l\"",
+            "key": "aeroway",
+            "value": "taxiway"
+        },
+        {
+            "description": "attribute \"type\" with value \"runway\" on layer \"transport_l\"",
+            "key": "aeroway",
+            "value": "runway"
+        },
+        {
+            "description": "attribute \"type\" with value \"apron\" on layer \"transport_l\"",
+            "key": "aeroway",
+            "value": "apron"
+        },
+        {
+            "description": "attribute \"type\" with value \"taxiway\" on layer \"transport_p\"",
+            "key": "aeroway",
+            "value": "taxiway"
+        },
+        {
+            "description": "attribute \"type\" with value \"runway\" on layer \"transport_p\"",
+            "key": "aeroway",
+            "value": "runway"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway_halt\" on layer \"transport_p\"",
+            "key": "railway",
+            "value": "halt"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway_halt\" on layer \"transport_p\"",
+            "key": "train",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway_halt\" on layer \"transport_p\"",
+            "key": "public_transport",
+            "value": "stop_position"
+        },
+        {
+            "description": "attribute \"type\" with value \"railway_station\" on layer \"transport_p\"",
+            "key": "railway",
+            "value": "station"
+        },
+        {
+            "description": "attribute \"type\" with value \"aerialway\" on layer \"transport_p\"",
+            "key": "aerialway"
+        },
+        {
+            "description": "attribute \"type\" with value \"apron\" on layer \"transport_p\"",
+            "key": "aeroway",
+            "value": "apron"
+        },
+        {
+            "description": "attribute \"type\" with value \"helipad\" on layer \"transport_p\"",
+            "key": "aeroway",
+            "value": "helipad"
+        },
+        {
+            "description": "attribute \"type\" with value \"taxi_stand\" on layer \"transport_p\"",
+            "key": "amenity",
+            "value": "taxi"
+        },
+        {
+            "description": "attribute \"type\" with value \"stop_position\" on layer \"transport_p\"",
+            "key": "public_transport",
+            "value": "stop_position"
+        },
+        {
+            "description": "attribute \"type\" with value \"ferry_terminal\" on layer \"transport_p\"",
+            "key": "amenity",
+            "value": "ferry_terminal"
+        },
+        {
+            "description": "attribute \"type\" with value \"bus_station\" on layer \"transport_p\"",
+            "key": "amenity",
+            "value": "bus_station"
+        },
+        {
+            "description": "attribute \"type\" with value \"aerialway_station\" on layer \"transport_p\"",
+            "key": "aerialway",
+            "value": "station"
+        },
+        {
+            "description": "attribute \"type\" with value \"aeroway\" on layer \"transport_p\"",
+            "key": "aeroway"
+        },
+        {
+            "description": "attribute \"type\" with value \"bus_stop\" on layer \"transport_p\"",
+            "key": "railway",
+            "value": "bus_stop"
+        },
+        {
+            "description": "attribute \"type\" with value \"bus_stop\" on layer \"transport_p\"",
+            "key": "bus",
+            "value": "yes"
+        },
+        {
+            "description": "attribute \"type\" with value \"bus_stop\" on layer \"transport_p\"",
+            "key": "public_transport",
+            "value": "stop_position"
+        },
+        {
+            "description": "attribute \"type\" with value \"airport\" on layer \"transport_p\"",
+            "key": "amenity",
+            "value": "airport"
+        },
+        {
+            "description": "attribute \"type\" with value \"airport\" on layer \"transport_p\"",
+            "key": "aeroway",
+            "value": "aerodrome"
+        },
+        {
+            "description": "attribute \"type\" with value \"plant\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "plant"
+        },
+        {
+            "description": "attribute \"type\" with value \"tower\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "tower"
+        },
+        {
+            "description": "attribute \"type\" with value \"station\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"nuclear\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"nuclear\" on layer \"utility_a\"",
+            "key": "generator:source",
+            "value": "nuclear"
+        },
+        {
+            "description": "attribute \"type\" with value \"solar\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"solar\" on layer \"utility_a\"",
+            "key": "generator:source",
+            "value": "solar"
+        },
+        {
+            "description": "attribute \"type\" with value \"solar\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"solar\" on layer \"utility_a\"",
+            "key": "power_source",
+            "value": "photovoltaic"
+        },
+        {
+            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
+            "key": "generator:source",
+            "value": "gas"
+        },
+        {
+            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
+            "key": "generator:source",
+            "value": "coal"
+        },
+        {
+            "description": "attribute \"type\" with value \"hydro\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"hydro\" on layer \"utility_a\"",
+            "key": "generator:source",
+            "value": "water"
+        },
+        {
+            "description": "attribute \"type\" with value \"hydro\" on layer \"utility_a\"",
+            "key": "power_source",
+            "value": "hydro"
+        },
+        {
+            "description": "attribute \"type\" with value \"wind\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"wind\" on layer \"utility_a\"",
+            "key": "generator:source",
+            "value": "wind"
+        },
+        {
+            "description": "attribute \"type\" with value \"wind\" on layer \"utility_a\"",
+            "key": "power_source",
+            "value": "wind"
+        },
+        {
+            "description": "attribute \"type\" with value \"substation\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "station"
+        },
+        {
+            "description": "attribute \"type\" with value \"substation\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "substation"
+        },
+        {
+            "description": "attribute \"type\" with value \"substation\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "sub_station"
+        },
+        {
+            "description": "attribute \"type\" with value \"transformer\" on layer \"utility_a\"",
+            "key": "power",
+            "value": "transformer"
+        },
+        {
+            "description": "attribute \"type\" with value \"water_works\" on layer \"utility_a\"",
+            "key": "man_made",
+            "value": "water_works"
+        },
+        {
+            "description": "attribute \"type\" with value \"wastewater_plant\" on layer \"utility_a\"",
+            "key": "man_made",
+            "value": "wastewater_plant"
+        },
+        {
+            "description": "attribute \"type\" with value \"storage_tank\" on layer \"utility_a\"",
+            "key": "man_made",
+            "value": "storage_tank"
+        },
+        {
+            "description": "attribute \"type\" with value \"power\" on layer \"utility_a\"",
+            "key": "power"
+        },
+        {
+            "description": "attribute \"type\" with value \"minor_cable\" on layer \"utility_l\"",
+            "key": "power",
+            "value": "minor_underground_cable"
+        },
+        {
+            "description": "attribute \"type\" with value \"minor_cable\" on layer \"utility_l\"",
+            "key": "power",
+            "value": "minor_cable"
+        },
+        {
+            "description": "attribute \"type\" with value \"power\" on layer \"utility_l\"",
+            "key": "power"
+        },
+        {
+            "description": "attribute \"type\" with value \"line\" on layer \"utility_l\"",
+            "key": "power",
+            "value": "line"
+        },
+        {
+            "description": "attribute \"type\" with value \"minor_line\" on layer \"utility_l\"",
+            "key": "power",
+            "value": "minor_line"
+        },
+        {
+            "description": "attribute \"type\" with value \"cable\" on layer \"utility_l\"",
+            "key": "power",
+            "value": "cable"
+        },
+        {
+            "description": "attribute \"type\" with value \"pipeline\" on layer \"utility_l\"",
+            "key": "man_made",
+            "value": "pipeline"
+        },
+        {
+            "description": "attribute \"type\" with value \"plant\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "plant"
+        },
+        {
+            "description": "attribute \"type\" with value \"tower\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "tower"
+        },
+        {
+            "description": "attribute \"type\" with value \"station\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"nuclear\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"nuclear\" on layer \"utility_p\"",
+            "key": "generator:source",
+            "value": "nuclear"
+        },
+        {
+            "description": "attribute \"type\" with value \"solar\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"solar\" on layer \"utility_p\"",
+            "key": "generator:source",
+            "value": "solar"
+        },
+        {
+            "description": "attribute \"type\" with value \"solar\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"solar\" on layer \"utility_p\"",
+            "key": "power_source",
+            "value": "photovoltaic"
+        },
+        {
+            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
+            "key": "generator:source",
+            "value": "gas"
+        },
+        {
+            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
+            "key": "generator:source",
+            "value": "coal"
+        },
+        {
+            "description": "attribute \"type\" with value \"hydro\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"hydro\" on layer \"utility_p\"",
+            "key": "generator:source",
+            "value": "water"
+        },
+        {
+            "description": "attribute \"type\" with value \"hydro\" on layer \"utility_p\"",
+            "key": "power_source",
+            "value": "hydro"
+        },
+        {
+            "description": "attribute \"type\" with value \"wind\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "generator"
+        },
+        {
+            "description": "attribute \"type\" with value \"wind\" on layer \"utility_p\"",
+            "key": "generator:source",
+            "value": "wind"
+        },
+        {
+            "description": "attribute \"type\" with value \"wind\" on layer \"utility_p\"",
+            "key": "power_source",
+            "value": "wind"
+        },
+        {
+            "description": "attribute \"type\" with value \"substation\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "station"
+        },
+        {
+            "description": "attribute \"type\" with value \"substation\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "substation"
+        },
+        {
+            "description": "attribute \"type\" with value \"substation\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "sub_station"
+        },
+        {
+            "description": "attribute \"type\" with value \"transformer\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "transformer"
+        },
+        {
+            "description": "attribute \"type\" with value \"water_works\" on layer \"utility_p\"",
+            "key": "man_made",
+            "value": "water_works"
+        },
+        {
+            "description": "attribute \"type\" with value \"wastewater_plant\" on layer \"utility_p\"",
+            "key": "man_made",
+            "value": "wastewater_plant"
+        },
+        {
+            "description": "attribute \"type\" with value \"storage_tank\" on layer \"utility_p\"",
+            "key": "man_made",
+            "value": "storage_tank"
+        },
+        {
+            "description": "attribute \"type\" with value \"pole\" on layer \"utility_p\"",
+            "key": "power",
+            "value": "pole"
+        },
+        {
+            "description": "attribute \"type\" with value \"power\" on layer \"utility_p\"",
+            "key": "power"
+        },
+        {
+            "description": "attribute \"type\" with value \"marina\" on layer \"water_a\"",
+            "key": "leisure",
+            "value": "marina"
+        },
+        {
+            "description": "attribute \"type\" with value \"waterway\" on layer \"water_a\"",
+            "key": "waterway"
+        },
+        {
+            "description": "attribute \"type\" with value \"slipway\" on layer \"water_a\"",
+            "key": "leisure",
+            "value": "slipway"
+        },
+        {
+            "description": "attribute \"type\" with value \"riverbank\" on layer \"water_a\"",
+            "key": "natural",
+            "value": "riverbank"
+        },
+        {
+            "description": "attribute \"type\" with value \"pier\" on layer \"water_a\"",
+            "key": "man_made",
+            "value": "pier"
+        },
+        {
+            "description": "attribute \"type\" with value \"weir\" on layer \"water_a\"",
+            "key": "waterway",
+            "value": "weir"
+        },
+        {
+            "description": "attribute \"type\" with value \"reservoir_covered\" on layer \"water_a\"",
+            "key": "man_made",
+            "value": "reservoir_covered"
+        },
+        {
+            "description": "attribute \"type\" with value \"water\" on layer \"water_a\"",
+            "key": "natural",
+            "value": "water"
+        },
+        {
+            "description": "attribute \"type\" with value \"spring\" on layer \"water_a\"",
+            "key": "natural",
+            "value": "spring"
+        },
+        {
+            "description": "attribute \"type\" with value \"dam\" on layer \"water_a\"",
+            "key": "waterway",
+            "value": "dam"
+        },
+        {
+            "description": "attribute \"type\" with value \"river\" on layer \"water_l\"",
+            "key": "waterway",
+            "value": "river"
+        },
+        {
+            "description": "attribute \"type\" with value \"drain\" on layer \"water_l\"",
+            "key": "waterway",
+            "value": "drain"
+        },
+        {
+            "description": "attribute \"type\" with value \"canal\" on layer \"water_l\"",
+            "key": "waterway",
+            "value": "canal"
+        },
+        {
+            "description": "attribute \"type\" with value \"stream\" on layer \"water_l\"",
+            "key": "waterway",
+            "value": "stream"
+        },
+        {
+            "description": "attribute \"type\" with value \"waterway\" on layer \"water_l\"",
+            "key": "waterway"
+        },
+        {
+            "description": "attribute \"type\" with value \"marina\" on layer \"water_p\"",
+            "key": "leisure",
+            "value": "marina"
+        },
+        {
+            "description": "attribute \"type\" with value \"waterway\" on layer \"water_p\"",
+            "key": "waterway"
+        },
+        {
+            "description": "attribute \"type\" with value \"waterfall\" on layer \"water_p\"",
+            "key": "waterway",
+            "value": "waterfall"
+        },
+        {
+            "description": "attribute \"type\" with value \"riverbank\" on layer \"water_p\"",
+            "key": "natural",
+            "value": "riverbank"
+        },
+        {
+            "description": "attribute \"type\" with value \"pier\" on layer \"water_p\"",
+            "key": "man_made",
+            "value": "pier"
+        },
+        {
+            "description": "attribute \"type\" with value \"slipway\" on layer \"water_p\"",
+            "key": "leisure",
+            "value": "slipway"
+        },
+        {
+            "description": "attribute \"type\" with value \"weir\" on layer \"water_p\"",
+            "key": "waterway",
+            "value": "weir"
+        },
+        {
+            "description": "attribute \"type\" with value \"lock_gate\" on layer \"water_p\"",
+            "key": "man_made",
+            "value": "pier"
+        },
+        {
+            "description": "attribute \"type\" with value \"reservoir_covered\" on layer \"water_p\"",
+            "key": "man_made",
+            "value": "reservoir_covered"
+        },
+        {
+            "description": "attribute \"type\" with value \"water\" on layer \"water_p\"",
+            "key": "natural",
+            "value": "water"
+        },
+        {
+            "description": "attribute \"type\" with value \"spring\" on layer \"water_p\"",
+            "key": "natural",
+            "value": "spring"
+        },
+        {
+            "description": "attribute \"type\" with value \"dam\" on layer \"water_p\"",
+            "key": "waterway",
+            "value": "dam"
+        }
+    ]
+}
