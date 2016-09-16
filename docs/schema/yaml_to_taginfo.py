@@ -80,6 +80,7 @@ class OSMTag:
             key=self.key,
             **(self._optional('value')),
             description=self.description,
+            object_types=self.object_types,
         )
 
     @property
@@ -105,6 +106,14 @@ class OSMTag:
         template = env.from_string("{% import 'osm.md.jinja2' as osm %}"
                                    "(when combined with {{ osm.tag_combination(osm_tags)}}) ")
         return template.render(osm_tags=self.cotags).replace('`', '').replace('**', '')
+
+    @property
+    def object_types(self):
+        return dict(
+            _p=["node", "area"],
+            _l=["way"],
+            _a=["area"],
+        )[self.layer_name[-2:]]
 
     def _optional(self, attr_name):
         return {attr_name: getattr(self, attr_name)} if hasattr(self, attr_name) else {}
