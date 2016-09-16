@@ -4,7 +4,7 @@ import json
 
 from ruamel import yaml
 
-from yamltomd import do_multimapify
+from yamltomd import do_multimapify, do_dictsort_unless_ordered
 
 schema_source_dir = os.path.dirname(__file__)
 
@@ -17,20 +17,20 @@ def write_json():
 
     osm_tags_for_layer_attributes = [
         OSMTag(key=k, value=v, layer_name=ln, attribute_name=an)
-        for ln, l in layers.items()
-        for an, a in l['attributes'].items()
+        for ln, l in do_dictsort_unless_ordered(layers)
+        for an, a in do_dictsort_unless_ordered(l['attributes'])
         for tag_combination in a.get('osm_tags', [])
-        for k, v in tag_combination.items()
+        for k, v in do_dictsort_unless_ordered(tag_combination)
         if k != ("not",)
     ]
 
     osm_tags_for_layer_attribute_values = [
         OSMTag(key=k, value=v, layer_name=ln, attribute_name=an, attribute_value=avn)
-        for ln, l in layers.items()
-        for an, a in l['attributes'].items()
-        for avn, av in do_multimapify(a.get('values', {})).items()
+        for ln, l in do_dictsort_unless_ordered(layers)
+        for an, a in do_dictsort_unless_ordered(l['attributes'])
+        for avn, av in do_dictsort_unless_ordered(do_multimapify(a.get('values', {})))
         for tag_combination in av.get('osm_tags', [])
-        for k, v in tag_combination.items()
+        for k, v in do_dictsort_unless_ordered(tag_combination)
         if k != ("not",)
     ]
 
