@@ -16,7 +16,7 @@ def write_json():
     layers = data['layers']
 
     osm_tags_for_layer_attributes = [
-        OSMTag(key=k, value=v, layer_name=ln, attribute_name=an)
+        OSMTag(key=k, value=v, layer_name=ln, attribute_name=an, tag_combination=tag_combination)
         for ln, l in do_dictsort_unless_ordered(layers)
         for an, a in do_dictsort_unless_ordered(l['attributes'])
         for tag_combination in a.get('osm_tags', [])
@@ -25,7 +25,7 @@ def write_json():
     ]
 
     osm_tags_for_layer_attribute_values = [
-        OSMTag(key=k, value=v, layer_name=ln, attribute_name=an, attribute_value=avn)
+        OSMTag(key=k, value=v, layer_name=ln, attribute_name=an, attribute_value=avn, tag_combination=tag_combination)
         for ln, l in do_dictsort_unless_ordered(layers)
         for an, a in do_dictsort_unless_ordered(l['attributes'])
         for avn, av in do_dictsort_unless_ordered(do_multimapify(a.get('values', {})))
@@ -57,12 +57,7 @@ def write_json():
 
 
 class OSMTag:
-    def __init__(self, layer_name, attribute_name, key, attribute_value=None, value=None):
-        if value == '*':
-            value = None
-        if value is not None:
-            assert isinstance(value, str)
-            self.value = value
+    def __init__(self, layer_name, attribute_name, key, tag_combination, attribute_value=None, value=None):
         assert isinstance(key, str)
         assert isinstance(layer_name, str)
         assert isinstance(attribute_name, str)
@@ -71,6 +66,13 @@ class OSMTag:
         self.layer_name = layer_name
         self.attribute_name = attribute_name
         self.attribute_value = attribute_value
+        self.cotags = tag_combination.copy()
+        assert self.cotags.pop(key) == value
+        if value == '*':
+            value = None
+        if value is not None:
+            assert isinstance(value, str)
+            self.value = value
 
     @property
     def as_dict(self):
@@ -83,15 +85,26 @@ class OSMTag:
     @property
     def description(self):
         if self.attribute_value is not None:
-            return 'attribute "{attr_name}" with value "{attr_value}" on layer "{layer_name}"'.format(
+            return '{cotags}attribute "{attr_name}" with value "{attr_value}" on layer "{layer_name}"'.format(
                 attr_name=self.attribute_name,
                 attr_value=self.attribute_value,
                 layer_name=self.layer_name,
+                cotags=self.cotag_description,
             )
-        return 'attribute "{attr_name}" on layer "{layer_name}"'.format(
+        return '{cotags}attribute "{attr_name}" on layer "{layer_name}"'.format(
             attr_name=self.attribute_name,
             layer_name=self.layer_name,
+            cotags=self.cotag_description,
         )
+
+    @property
+    def cotag_description(self):
+        if len(self.cotags) == 0:
+            return ""
+        from yamltomd import env
+        template = env.from_string("{% import 'osm.md.jinja2' as osm %}"
+                                   "(when combined with {{ osm.tag_combination(osm_tags)}}) ")
+        return template.render(osm_tags=self.cotags).replace('`', '').replace('**', '')
 
     def _optional(self, attr_name):
         return {attr_name: getattr(self, attr_name)} if hasattr(self, attr_name) else {}

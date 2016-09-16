@@ -25,30 +25,30 @@
             "key": "addr:housenumber"
         },
         {
-            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "description": "(when combined with addr:housenumber=*) attribute \"housenumber\" on layer \"address_p\"",
             "key": "addr:interpolation",
             "value": "even"
         },
         {
-            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "description": "(when combined with addr:interpolation=even) attribute \"housenumber\" on layer \"address_p\"",
             "key": "addr:housenumber"
         },
         {
-            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "description": "(when combined with addr:housenumber=*) attribute \"housenumber\" on layer \"address_p\"",
             "key": "addr:interpolation",
             "value": "odd"
         },
         {
-            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "description": "(when combined with addr:interpolation=odd) attribute \"housenumber\" on layer \"address_p\"",
             "key": "addr:housenumber"
         },
         {
-            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "description": "(when combined with addr:housenumber=*) attribute \"housenumber\" on layer \"address_p\"",
             "key": "addr:interpolation",
             "value": "all"
         },
         {
-            "description": "attribute \"housenumber\" on layer \"address_p\"",
+            "description": "(when combined with addr:interpolation=all) attribute \"housenumber\" on layer \"address_p\"",
             "key": "addr:housenumber"
         },
         {
@@ -88,93 +88,93 @@
             "key": "ref"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with proposed=*) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "highway",
             "value": "proposed"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with highway=proposed) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "proposed"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with planned=*) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "highway",
             "value": "planned"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with highway=planned) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "planned"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with construction=*) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "highway",
             "value": "construction"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with highway=construction) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "construction"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with disused=*) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "highway",
             "value": "disused"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with highway=disused) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "disused"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with abandoned=*) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "highway",
             "value": "abandoned"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with highway=abandoned) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "abandoned"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with proposed=*) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "railway",
             "value": "proposed"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with railway=proposed) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "proposed"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with planned=*) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "railway",
             "value": "planned"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with railway=planned) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "planned"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with construction=*) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "railway",
             "value": "construction"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with railway=construction) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "construction"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with disused=*) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "railway",
             "value": "disused"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with railway=disused) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "disused"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with abandoned=*) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "railway",
             "value": "abandoned"
         },
         {
-            "description": "attribute \"sub_type\" on layer \"nonop_l\"",
+            "description": "(when combined with railway=abandoned) attribute \"sub_type\" on layer \"nonop_l\"",
             "key": "abandoned"
         },
         {
@@ -369,199 +369,199 @@
             "value": "all"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with addr:street=*) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "building",
             "value": "entrance"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with building=entrance) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "addr:street"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with addr:housenumber=*) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "building",
             "value": "entrance"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with building=entrance) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "addr:housenumber"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with addr:place=*) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "building",
             "value": "entrance"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with building=entrance) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "addr:place"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with addr:street=*) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "entrance"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with entrance=*) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "addr:street"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with addr:housenumber=*) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "entrance"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with entrance=*) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "addr:housenumber"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with addr:place=*) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "entrance"
         },
         {
-            "description": "attribute \"type\" with value \"e\" on layer \"address_p\"",
+            "description": "(when combined with entrance=*) attribute \"type\" with value \"e\" on layer \"address_p\"",
             "key": "addr:place"
         },
         {
-            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "description": "(when combined with building=*+building\u2260entrance+entrance\u2260*) attribute \"type\" with value \"b\" on layer \"address_p\"",
             "key": "addr:street"
         },
         {
-            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "description": "(when combined with addr:street=*+building\u2260entrance+entrance\u2260*) attribute \"type\" with value \"b\" on layer \"address_p\"",
             "key": "building"
         },
         {
-            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "description": "(when combined with building=*+building\u2260entrance+entrance\u2260*) attribute \"type\" with value \"b\" on layer \"address_p\"",
             "key": "addr:housenumber"
         },
         {
-            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "description": "(when combined with addr:housenumber=*+building\u2260entrance+entrance\u2260*) attribute \"type\" with value \"b\" on layer \"address_p\"",
             "key": "building"
         },
         {
-            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "description": "(when combined with building=*+building\u2260entrance+entrance\u2260*) attribute \"type\" with value \"b\" on layer \"address_p\"",
             "key": "addr:place"
         },
         {
-            "description": "attribute \"type\" with value \"b\" on layer \"address_p\"",
+            "description": "(when combined with addr:place=*+building\u2260entrance+entrance\u2260*) attribute \"type\" with value \"b\" on layer \"address_p\"",
             "key": "building"
         },
         {
-            "description": "attribute \"type\" with value \"p\" on layer \"address_p\"",
+            "description": "(when combined with building\u2260*+entrance\u2260*) attribute \"type\" with value \"p\" on layer \"address_p\"",
             "key": "addr:street"
         },
         {
-            "description": "attribute \"type\" with value \"p\" on layer \"address_p\"",
+            "description": "(when combined with building\u2260*+entrance\u2260*) attribute \"type\" with value \"p\" on layer \"address_p\"",
             "key": "addr:housenumber"
         },
         {
-            "description": "attribute \"type\" with value \"p\" on layer \"address_p\"",
+            "description": "(when combined with building\u2260*+entrance\u2260*) attribute \"type\" with value \"p\" on layer \"address_p\"",
             "key": "addr:place"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level1\" on layer \"adminarea_a\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level1\" on layer \"adminarea_a\"",
             "key": "admin_level",
             "value": "1"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level1\" on layer \"adminarea_a\"",
+            "description": "(when combined with admin_level=1) attribute \"type\" with value \"admin_level1\" on layer \"adminarea_a\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"national\" on layer \"adminarea_a\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"national\" on layer \"adminarea_a\"",
             "key": "admin_level",
             "value": "2"
         },
         {
-            "description": "attribute \"type\" with value \"national\" on layer \"adminarea_a\"",
+            "description": "(when combined with admin_level=2) attribute \"type\" with value \"national\" on layer \"adminarea_a\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level3\" on layer \"adminarea_a\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level3\" on layer \"adminarea_a\"",
             "key": "admin_level",
             "value": "3"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level3\" on layer \"adminarea_a\"",
+            "description": "(when combined with admin_level=3) attribute \"type\" with value \"admin_level3\" on layer \"adminarea_a\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level4\" on layer \"adminarea_a\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level4\" on layer \"adminarea_a\"",
             "key": "admin_level",
             "value": "4"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level4\" on layer \"adminarea_a\"",
+            "description": "(when combined with admin_level=4) attribute \"type\" with value \"admin_level4\" on layer \"adminarea_a\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level5\" on layer \"adminarea_a\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level5\" on layer \"adminarea_a\"",
             "key": "admin_level",
             "value": "5"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level5\" on layer \"adminarea_a\"",
+            "description": "(when combined with admin_level=5) attribute \"type\" with value \"admin_level5\" on layer \"adminarea_a\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level6\" on layer \"adminarea_a\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level6\" on layer \"adminarea_a\"",
             "key": "admin_level",
             "value": "6"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level6\" on layer \"adminarea_a\"",
+            "description": "(when combined with admin_level=6) attribute \"type\" with value \"admin_level6\" on layer \"adminarea_a\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level7\" on layer \"adminarea_a\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level7\" on layer \"adminarea_a\"",
             "key": "admin_level",
             "value": "7"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level7\" on layer \"adminarea_a\"",
+            "description": "(when combined with admin_level=7) attribute \"type\" with value \"admin_level7\" on layer \"adminarea_a\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level8\" on layer \"adminarea_a\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level8\" on layer \"adminarea_a\"",
             "key": "admin_level",
             "value": "8"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level8\" on layer \"adminarea_a\"",
+            "description": "(when combined with admin_level=8) attribute \"type\" with value \"admin_level8\" on layer \"adminarea_a\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level9\" on layer \"adminarea_a\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level9\" on layer \"adminarea_a\"",
             "key": "admin_level",
             "value": "9"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level9\" on layer \"adminarea_a\"",
+            "description": "(when combined with admin_level=9) attribute \"type\" with value \"admin_level9\" on layer \"adminarea_a\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level10\" on layer \"adminarea_a\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level10\" on layer \"adminarea_a\"",
             "key": "admin_level",
             "value": "10"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level10\" on layer \"adminarea_a\"",
+            "description": "(when combined with admin_level=10) attribute \"type\" with value \"admin_level10\" on layer \"adminarea_a\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level11\" on layer \"adminarea_a\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level11\" on layer \"adminarea_a\"",
             "key": "admin_level",
             "value": "11"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level11\" on layer \"adminarea_a\"",
+            "description": "(when combined with admin_level=11) attribute \"type\" with value \"admin_level11\" on layer \"adminarea_a\"",
             "key": "boundary",
             "value": "administrative"
         },
@@ -580,112 +580,112 @@
             "value": "protected_area"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level1\" on layer \"boundary_l\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level1\" on layer \"boundary_l\"",
             "key": "admin_level",
             "value": "1"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level1\" on layer \"boundary_l\"",
+            "description": "(when combined with admin_level=1) attribute \"type\" with value \"admin_level1\" on layer \"boundary_l\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"national\" on layer \"boundary_l\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"national\" on layer \"boundary_l\"",
             "key": "admin_level",
             "value": "2"
         },
         {
-            "description": "attribute \"type\" with value \"national\" on layer \"boundary_l\"",
+            "description": "(when combined with admin_level=2) attribute \"type\" with value \"national\" on layer \"boundary_l\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level3\" on layer \"boundary_l\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level3\" on layer \"boundary_l\"",
             "key": "admin_level",
             "value": "3"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level3\" on layer \"boundary_l\"",
+            "description": "(when combined with admin_level=3) attribute \"type\" with value \"admin_level3\" on layer \"boundary_l\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level4\" on layer \"boundary_l\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level4\" on layer \"boundary_l\"",
             "key": "admin_level",
             "value": "4"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level4\" on layer \"boundary_l\"",
+            "description": "(when combined with admin_level=4) attribute \"type\" with value \"admin_level4\" on layer \"boundary_l\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level5\" on layer \"boundary_l\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level5\" on layer \"boundary_l\"",
             "key": "admin_level",
             "value": "5"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level5\" on layer \"boundary_l\"",
+            "description": "(when combined with admin_level=5) attribute \"type\" with value \"admin_level5\" on layer \"boundary_l\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level6\" on layer \"boundary_l\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level6\" on layer \"boundary_l\"",
             "key": "admin_level",
             "value": "6"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level6\" on layer \"boundary_l\"",
+            "description": "(when combined with admin_level=6) attribute \"type\" with value \"admin_level6\" on layer \"boundary_l\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level7\" on layer \"boundary_l\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level7\" on layer \"boundary_l\"",
             "key": "admin_level",
             "value": "7"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level7\" on layer \"boundary_l\"",
+            "description": "(when combined with admin_level=7) attribute \"type\" with value \"admin_level7\" on layer \"boundary_l\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level8\" on layer \"boundary_l\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level8\" on layer \"boundary_l\"",
             "key": "admin_level",
             "value": "8"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level8\" on layer \"boundary_l\"",
+            "description": "(when combined with admin_level=8) attribute \"type\" with value \"admin_level8\" on layer \"boundary_l\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level9\" on layer \"boundary_l\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level9\" on layer \"boundary_l\"",
             "key": "admin_level",
             "value": "9"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level9\" on layer \"boundary_l\"",
+            "description": "(when combined with admin_level=9) attribute \"type\" with value \"admin_level9\" on layer \"boundary_l\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level10\" on layer \"boundary_l\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level10\" on layer \"boundary_l\"",
             "key": "admin_level",
             "value": "10"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level10\" on layer \"boundary_l\"",
+            "description": "(when combined with admin_level=10) attribute \"type\" with value \"admin_level10\" on layer \"boundary_l\"",
             "key": "boundary",
             "value": "administrative"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level11\" on layer \"boundary_l\"",
+            "description": "(when combined with boundary=administrative) attribute \"type\" with value \"admin_level11\" on layer \"boundary_l\"",
             "key": "admin_level",
             "value": "11"
         },
         {
-            "description": "attribute \"type\" with value \"admin_level11\" on layer \"boundary_l\"",
+            "description": "(when combined with admin_level=11) attribute \"type\" with value \"admin_level11\" on layer \"boundary_l\"",
             "key": "boundary",
             "value": "administrative"
         },
@@ -753,12 +753,12 @@
             "value": "municipality"
         },
         {
-            "description": "attribute \"type\" with value \"named_place\" on layer \"geoname_l\"",
+            "description": "(when combined with name=*) attribute \"type\" with value \"named_place\" on layer \"geoname_l\"",
             "key": "area",
             "value": "yes"
         },
         {
-            "description": "attribute \"type\" with value \"named_place\" on layer \"geoname_l\"",
+            "description": "(when combined with area=yes) attribute \"type\" with value \"named_place\" on layer \"geoname_l\"",
             "key": "name"
         },
         {
@@ -841,12 +841,12 @@
             "value": "municipality"
         },
         {
-            "description": "attribute \"type\" with value \"named_place\" on layer \"geoname_p\"",
+            "description": "(when combined with name=*) attribute \"type\" with value \"named_place\" on layer \"geoname_p\"",
             "key": "area",
             "value": "yes"
         },
         {
-            "description": "attribute \"type\" with value \"named_place\" on layer \"geoname_p\"",
+            "description": "(when combined with area=yes) attribute \"type\" with value \"named_place\" on layer \"geoname_p\"",
             "key": "name"
         },
         {
@@ -1576,12 +1576,12 @@
             "value": "biergarten"
         },
         {
-            "description": "attribute \"type\" with value \"board\" on layer \"poi_a\"",
+            "description": "(when combined with tourism=information) attribute \"type\" with value \"board\" on layer \"poi_a\"",
             "key": "information",
             "value": "board"
         },
         {
-            "description": "attribute \"type\" with value \"board\" on layer \"poi_a\"",
+            "description": "(when combined with information=board) attribute \"type\" with value \"board\" on layer \"poi_a\"",
             "key": "tourism",
             "value": "information"
         },
@@ -1676,12 +1676,12 @@
             "value": "college"
         },
         {
-            "description": "attribute \"type\" with value \"comm_tower\" on layer \"poi_a\"",
+            "description": "(when combined with tower:type=communication) attribute \"type\" with value \"comm_tower\" on layer \"poi_a\"",
             "key": "man_made",
             "value": "tower"
         },
         {
-            "description": "attribute \"type\" with value \"comm_tower\" on layer \"poi_a\"",
+            "description": "(when combined with man_made=tower) attribute \"type\" with value \"comm_tower\" on layer \"poi_a\"",
             "key": "tower:type",
             "value": "communication"
         },
@@ -1846,12 +1846,12 @@
             "value": "bed_and_breakfast"
         },
         {
-            "description": "attribute \"type\" with value \"guidepost\" on layer \"poi_a\"",
+            "description": "(when combined with tourism=information) attribute \"type\" with value \"guidepost\" on layer \"poi_a\"",
             "key": "information",
             "value": "guidepost"
         },
         {
-            "description": "attribute \"type\" with value \"guidepost\" on layer \"poi_a\"",
+            "description": "(when combined with information=guidepost) attribute \"type\" with value \"guidepost\" on layer \"poi_a\"",
             "key": "tourism",
             "value": "information"
         },
@@ -1953,12 +1953,12 @@
             "key": "man_made"
         },
         {
-            "description": "attribute \"type\" with value \"map\" on layer \"poi_a\"",
+            "description": "(when combined with tourism=information) attribute \"type\" with value \"map\" on layer \"poi_a\"",
             "key": "information",
             "value": "map"
         },
         {
-            "description": "attribute \"type\" with value \"map\" on layer \"poi_a\"",
+            "description": "(when combined with information=map) attribute \"type\" with value \"map\" on layer \"poi_a\"",
             "key": "tourism",
             "value": "information"
         },
@@ -2023,12 +2023,12 @@
             "value": "nursing_home"
         },
         {
-            "description": "attribute \"type\" with value \"observation_tower\" on layer \"poi_a\"",
+            "description": "(when combined with tower:type=observation) attribute \"type\" with value \"observation_tower\" on layer \"poi_a\"",
             "key": "man_made",
             "value": "observation_tower"
         },
         {
-            "description": "attribute \"type\" with value \"observation_tower\" on layer \"poi_a\"",
+            "description": "(when combined with man_made=observation_tower) attribute \"type\" with value \"observation_tower\" on layer \"poi_a\"",
             "key": "tower:type",
             "value": "observation"
         },
@@ -2418,12 +2418,12 @@
             "value": "biergarten"
         },
         {
-            "description": "attribute \"type\" with value \"board\" on layer \"poi_p\"",
+            "description": "(when combined with tourism=information) attribute \"type\" with value \"board\" on layer \"poi_p\"",
             "key": "information",
             "value": "board"
         },
         {
-            "description": "attribute \"type\" with value \"board\" on layer \"poi_p\"",
+            "description": "(when combined with information=board) attribute \"type\" with value \"board\" on layer \"poi_p\"",
             "key": "tourism",
             "value": "information"
         },
@@ -2518,12 +2518,12 @@
             "value": "college"
         },
         {
-            "description": "attribute \"type\" with value \"comm_tower\" on layer \"poi_p\"",
+            "description": "(when combined with tower:type=communication) attribute \"type\" with value \"comm_tower\" on layer \"poi_p\"",
             "key": "man_made",
             "value": "tower"
         },
         {
-            "description": "attribute \"type\" with value \"comm_tower\" on layer \"poi_p\"",
+            "description": "(when combined with man_made=tower) attribute \"type\" with value \"comm_tower\" on layer \"poi_p\"",
             "key": "tower:type",
             "value": "communication"
         },
@@ -2688,12 +2688,12 @@
             "value": "bed_and_breakfast"
         },
         {
-            "description": "attribute \"type\" with value \"guidepost\" on layer \"poi_p\"",
+            "description": "(when combined with tourism=information) attribute \"type\" with value \"guidepost\" on layer \"poi_p\"",
             "key": "information",
             "value": "guidepost"
         },
         {
-            "description": "attribute \"type\" with value \"guidepost\" on layer \"poi_p\"",
+            "description": "(when combined with information=guidepost) attribute \"type\" with value \"guidepost\" on layer \"poi_p\"",
             "key": "tourism",
             "value": "information"
         },
@@ -2795,12 +2795,12 @@
             "key": "man_made"
         },
         {
-            "description": "attribute \"type\" with value \"map\" on layer \"poi_p\"",
+            "description": "(when combined with tourism=information) attribute \"type\" with value \"map\" on layer \"poi_p\"",
             "key": "information",
             "value": "map"
         },
         {
-            "description": "attribute \"type\" with value \"map\" on layer \"poi_p\"",
+            "description": "(when combined with information=map) attribute \"type\" with value \"map\" on layer \"poi_p\"",
             "key": "tourism",
             "value": "information"
         },
@@ -2865,12 +2865,12 @@
             "value": "nursing_home"
         },
         {
-            "description": "attribute \"type\" with value \"observation_tower\" on layer \"poi_p\"",
+            "description": "(when combined with tower:type=observation) attribute \"type\" with value \"observation_tower\" on layer \"poi_p\"",
             "key": "man_made",
             "value": "observation_tower"
         },
         {
-            "description": "attribute \"type\" with value \"observation_tower\" on layer \"poi_p\"",
+            "description": "(when combined with man_made=observation_tower) attribute \"type\" with value \"observation_tower\" on layer \"poi_p\"",
             "key": "tower:type",
             "value": "observation"
         },
@@ -3171,22 +3171,22 @@
             "value": "zoo"
         },
         {
-            "description": "attribute \"type\" with value \"anglican\" on layer \"pow_a\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"anglican\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "anglican"
         },
         {
-            "description": "attribute \"type\" with value \"anglican\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=anglican) attribute \"type\" with value \"anglican\" on layer \"pow_a\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"baptist\" on layer \"pow_a\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"baptist\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "baptist"
         },
         {
-            "description": "attribute \"type\" with value \"baptist\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=baptist) attribute \"type\" with value \"baptist\" on layer \"pow_a\"",
             "key": "religion",
             "value": "christian"
         },
@@ -3196,31 +3196,31 @@
             "value": "buddhist"
         },
         {
-            "description": "attribute \"type\" with value \"catholic\" on layer \"pow_a\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"catholic\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "catholic"
         },
         {
-            "description": "attribute \"type\" with value \"catholic\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=catholic) attribute \"type\" with value \"catholic\" on layer \"pow_a\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"christian\" on layer \"pow_a\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"christian\" on layer \"pow_a\"",
             "key": "denomination"
         },
         {
-            "description": "attribute \"type\" with value \"christian\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=*) attribute \"type\" with value \"christian\" on layer \"pow_a\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"evangelical\" on layer \"pow_a\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"evangelical\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "evangelical"
         },
         {
-            "description": "attribute \"type\" with value \"evangelical\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=evangelical) attribute \"type\" with value \"evangelical\" on layer \"pow_a\"",
             "key": "religion",
             "value": "christian"
         },
@@ -3235,51 +3235,51 @@
             "value": "jewish"
         },
         {
-            "description": "attribute \"type\" with value \"lutheran\" on layer \"pow_a\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"lutheran\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "lutheran"
         },
         {
-            "description": "attribute \"type\" with value \"lutheran\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=lutheran) attribute \"type\" with value \"lutheran\" on layer \"pow_a\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"methodist\" on layer \"pow_a\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"methodist\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "methodist"
         },
         {
-            "description": "attribute \"type\" with value \"methodist\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=methodist) attribute \"type\" with value \"methodist\" on layer \"pow_a\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"mormon\" on layer \"pow_a\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"mormon\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "mormon"
         },
         {
-            "description": "attribute \"type\" with value \"mormon\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=mormon) attribute \"type\" with value \"mormon\" on layer \"pow_a\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"muslim\" on layer \"pow_a\"",
+            "description": "(when combined with religion=muslim) attribute \"type\" with value \"muslim\" on layer \"pow_a\"",
             "key": "denomination"
         },
         {
-            "description": "attribute \"type\" with value \"muslim\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=*) attribute \"type\" with value \"muslim\" on layer \"pow_a\"",
             "key": "religion",
             "value": "muslim"
         },
         {
-            "description": "attribute \"type\" with value \"orthodox\" on layer \"pow_a\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"orthodox\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "orthodox"
         },
         {
-            "description": "attribute \"type\" with value \"orthodox\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=orthodox) attribute \"type\" with value \"orthodox\" on layer \"pow_a\"",
             "key": "religion",
             "value": "christian"
         },
@@ -3293,32 +3293,32 @@
             "value": "place_of_worship"
         },
         {
-            "description": "attribute \"type\" with value \"presbyterian\" on layer \"pow_a\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"presbyterian\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "presbyterian"
         },
         {
-            "description": "attribute \"type\" with value \"presbyterian\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=presbyterian) attribute \"type\" with value \"presbyterian\" on layer \"pow_a\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"protestant\" on layer \"pow_a\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"protestant\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "protestant"
         },
         {
-            "description": "attribute \"type\" with value \"protestant\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=protestant) attribute \"type\" with value \"protestant\" on layer \"pow_a\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"shia\" on layer \"pow_a\"",
+            "description": "(when combined with religion=muslim) attribute \"type\" with value \"shia\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "shia"
         },
         {
-            "description": "attribute \"type\" with value \"shia\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=shia) attribute \"type\" with value \"shia\" on layer \"pow_a\"",
             "key": "religion",
             "value": "muslim"
         },
@@ -3333,12 +3333,12 @@
             "value": "sikh"
         },
         {
-            "description": "attribute \"type\" with value \"sunni\" on layer \"pow_a\"",
+            "description": "(when combined with religion=muslim) attribute \"type\" with value \"sunni\" on layer \"pow_a\"",
             "key": "denomination",
             "value": "sunni"
         },
         {
-            "description": "attribute \"type\" with value \"sunni\" on layer \"pow_a\"",
+            "description": "(when combined with denomination=sunni) attribute \"type\" with value \"sunni\" on layer \"pow_a\"",
             "key": "religion",
             "value": "muslim"
         },
@@ -3348,22 +3348,22 @@
             "value": "taoist"
         },
         {
-            "description": "attribute \"type\" with value \"anglican\" on layer \"pow_p\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"anglican\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "anglican"
         },
         {
-            "description": "attribute \"type\" with value \"anglican\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=anglican) attribute \"type\" with value \"anglican\" on layer \"pow_p\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"baptist\" on layer \"pow_p\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"baptist\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "baptist"
         },
         {
-            "description": "attribute \"type\" with value \"baptist\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=baptist) attribute \"type\" with value \"baptist\" on layer \"pow_p\"",
             "key": "religion",
             "value": "christian"
         },
@@ -3373,31 +3373,31 @@
             "value": "buddhist"
         },
         {
-            "description": "attribute \"type\" with value \"catholic\" on layer \"pow_p\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"catholic\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "catholic"
         },
         {
-            "description": "attribute \"type\" with value \"catholic\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=catholic) attribute \"type\" with value \"catholic\" on layer \"pow_p\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"christian\" on layer \"pow_p\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"christian\" on layer \"pow_p\"",
             "key": "denomination"
         },
         {
-            "description": "attribute \"type\" with value \"christian\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=*) attribute \"type\" with value \"christian\" on layer \"pow_p\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"evangelical\" on layer \"pow_p\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"evangelical\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "evangelical"
         },
         {
-            "description": "attribute \"type\" with value \"evangelical\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=evangelical) attribute \"type\" with value \"evangelical\" on layer \"pow_p\"",
             "key": "religion",
             "value": "christian"
         },
@@ -3412,51 +3412,51 @@
             "value": "jewish"
         },
         {
-            "description": "attribute \"type\" with value \"lutheran\" on layer \"pow_p\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"lutheran\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "lutheran"
         },
         {
-            "description": "attribute \"type\" with value \"lutheran\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=lutheran) attribute \"type\" with value \"lutheran\" on layer \"pow_p\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"methodist\" on layer \"pow_p\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"methodist\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "methodist"
         },
         {
-            "description": "attribute \"type\" with value \"methodist\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=methodist) attribute \"type\" with value \"methodist\" on layer \"pow_p\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"mormon\" on layer \"pow_p\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"mormon\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "mormon"
         },
         {
-            "description": "attribute \"type\" with value \"mormon\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=mormon) attribute \"type\" with value \"mormon\" on layer \"pow_p\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"muslim\" on layer \"pow_p\"",
+            "description": "(when combined with religion=muslim) attribute \"type\" with value \"muslim\" on layer \"pow_p\"",
             "key": "denomination"
         },
         {
-            "description": "attribute \"type\" with value \"muslim\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=*) attribute \"type\" with value \"muslim\" on layer \"pow_p\"",
             "key": "religion",
             "value": "muslim"
         },
         {
-            "description": "attribute \"type\" with value \"orthodox\" on layer \"pow_p\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"orthodox\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "orthodox"
         },
         {
-            "description": "attribute \"type\" with value \"orthodox\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=orthodox) attribute \"type\" with value \"orthodox\" on layer \"pow_p\"",
             "key": "religion",
             "value": "christian"
         },
@@ -3470,32 +3470,32 @@
             "value": "place_of_worship"
         },
         {
-            "description": "attribute \"type\" with value \"presbyterian\" on layer \"pow_p\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"presbyterian\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "presbyterian"
         },
         {
-            "description": "attribute \"type\" with value \"presbyterian\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=presbyterian) attribute \"type\" with value \"presbyterian\" on layer \"pow_p\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"protestant\" on layer \"pow_p\"",
+            "description": "(when combined with religion=christian) attribute \"type\" with value \"protestant\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "protestant"
         },
         {
-            "description": "attribute \"type\" with value \"protestant\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=protestant) attribute \"type\" with value \"protestant\" on layer \"pow_p\"",
             "key": "religion",
             "value": "christian"
         },
         {
-            "description": "attribute \"type\" with value \"shia\" on layer \"pow_p\"",
+            "description": "(when combined with religion=muslim) attribute \"type\" with value \"shia\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "shia"
         },
         {
-            "description": "attribute \"type\" with value \"shia\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=shia) attribute \"type\" with value \"shia\" on layer \"pow_p\"",
             "key": "religion",
             "value": "muslim"
         },
@@ -3510,12 +3510,12 @@
             "value": "sikh"
         },
         {
-            "description": "attribute \"type\" with value \"sunni\" on layer \"pow_p\"",
+            "description": "(when combined with religion=muslim) attribute \"type\" with value \"sunni\" on layer \"pow_p\"",
             "key": "denomination",
             "value": "sunni"
         },
         {
-            "description": "attribute \"type\" with value \"sunni\" on layer \"pow_p\"",
+            "description": "(when combined with denomination=sunni) attribute \"type\" with value \"sunni\" on layer \"pow_p\"",
             "key": "religion",
             "value": "muslim"
         },
@@ -3678,431 +3678,431 @@
             "value": "yes"
         },
         {
-            "description": "attribute \"type\" with value \"motorway\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"motorway\" on layer \"road_l\"",
             "key": "highway",
             "value": "motorway"
         },
         {
-            "description": "attribute \"type\" with value \"trunk\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"trunk\" on layer \"road_l\"",
             "key": "highway",
             "value": "trunk"
         },
         {
-            "description": "attribute \"type\" with value \"primary\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"primary\" on layer \"road_l\"",
             "key": "highway",
             "value": "primary"
         },
         {
-            "description": "attribute \"type\" with value \"secondary\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"secondary\" on layer \"road_l\"",
             "key": "highway",
             "value": "secondary"
         },
         {
-            "description": "attribute \"type\" with value \"tertiary\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"tertiary\" on layer \"road_l\"",
             "key": "highway",
             "value": "tertiary"
         },
         {
-            "description": "attribute \"type\" with value \"unclassified\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"unclassified\" on layer \"road_l\"",
             "key": "highway",
             "value": "unclassified"
         },
         {
-            "description": "attribute \"type\" with value \"residential\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"residential\" on layer \"road_l\"",
             "key": "highway",
             "value": "residential"
         },
         {
-            "description": "attribute \"type\" with value \"living_street\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"living_street\" on layer \"road_l\"",
             "key": "highway",
             "value": "living_street"
         },
         {
-            "description": "attribute \"type\" with value \"pedestrian\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"pedestrian\" on layer \"road_l\"",
             "key": "highway",
             "value": "pedestrian"
         },
         {
-            "description": "attribute \"type\" with value \"motorway_link\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"motorway_link\" on layer \"road_l\"",
             "key": "highway",
             "value": "motorway_link"
         },
         {
-            "description": "attribute \"type\" with value \"trunk_link\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"trunk_link\" on layer \"road_l\"",
             "key": "highway",
             "value": "trunk_link"
         },
         {
-            "description": "attribute \"type\" with value \"primary_link\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"primary_link\" on layer \"road_l\"",
             "key": "highway",
             "value": "primary_link"
         },
         {
-            "description": "attribute \"type\" with value \"secondary_link\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"secondary_link\" on layer \"road_l\"",
             "key": "highway",
             "value": "secondary_link"
         },
         {
-            "description": "attribute \"type\" with value \"service\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"service\" on layer \"road_l\"",
             "key": "highway",
             "value": "service"
         },
         {
-            "description": "attribute \"type\" with value \"track\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout+tracktype\u2260*) attribute \"type\" with value \"track\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"grade1\" on layer \"road_l\"",
+            "description": "(when combined with tracktype=grade1+junction\u2260roundabout) attribute \"type\" with value \"grade1\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"grade1\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+junction\u2260roundabout) attribute \"type\" with value \"grade1\" on layer \"road_l\"",
             "key": "tracktype",
             "value": "grade1"
         },
         {
-            "description": "attribute \"type\" with value \"grade2\" on layer \"road_l\"",
+            "description": "(when combined with tracktype=grade2+junction\u2260roundabout) attribute \"type\" with value \"grade2\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"grade2\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+junction\u2260roundabout) attribute \"type\" with value \"grade2\" on layer \"road_l\"",
             "key": "tracktype",
             "value": "grade2"
         },
         {
-            "description": "attribute \"type\" with value \"grade3\" on layer \"road_l\"",
+            "description": "(when combined with tracktype=grade3+junction\u2260roundabout) attribute \"type\" with value \"grade3\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"grade3\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+junction\u2260roundabout) attribute \"type\" with value \"grade3\" on layer \"road_l\"",
             "key": "tracktype",
             "value": "grade3"
         },
         {
-            "description": "attribute \"type\" with value \"grade4\" on layer \"road_l\"",
+            "description": "(when combined with tracktype=grade4+junction\u2260roundabout) attribute \"type\" with value \"grade4\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"grade4\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+junction\u2260roundabout) attribute \"type\" with value \"grade4\" on layer \"road_l\"",
             "key": "tracktype",
             "value": "grade4"
         },
         {
-            "description": "attribute \"type\" with value \"grade5\" on layer \"road_l\"",
+            "description": "(when combined with tracktype=grade5+junction\u2260roundabout) attribute \"type\" with value \"grade5\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"grade5\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+junction\u2260roundabout) attribute \"type\" with value \"grade5\" on layer \"road_l\"",
             "key": "tracktype",
             "value": "grade5"
         },
         {
-            "description": "attribute \"type\" with value \"bridleway\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"bridleway\" on layer \"road_l\"",
             "key": "highway",
             "value": "bridleway"
         },
         {
-            "description": "attribute \"type\" with value \"cycleway\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"cycleway\" on layer \"road_l\"",
             "key": "highway",
             "value": "cycleway"
         },
         {
-            "description": "attribute \"type\" with value \"footway\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"footway\" on layer \"road_l\"",
             "key": "highway",
             "value": "footway"
         },
         {
-            "description": "attribute \"type\" with value \"path\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"path\" on layer \"road_l\"",
             "key": "highway",
             "value": "path"
         },
         {
-            "description": "attribute \"type\" with value \"steps\" on layer \"road_l\"",
+            "description": "(when combined with junction\u2260roundabout) attribute \"type\" with value \"steps\" on layer \"road_l\"",
             "key": "highway",
             "value": "steps"
         },
         {
-            "description": "attribute \"type\" with value \"road\" on layer \"road_l\"",
+            "description": "(when combined with roundabout\u2260*) attribute \"type\" with value \"road\" on layer \"road_l\"",
             "key": "highway"
         },
         {
-            "description": "attribute \"type\" with value \"motorway\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"motorway\" on layer \"road_l\"",
             "key": "highway",
             "value": "motorway"
         },
         {
-            "description": "attribute \"type\" with value \"motorway\" on layer \"road_l\"",
+            "description": "(when combined with highway=motorway) attribute \"type\" with value \"motorway\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"trunk\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"trunk\" on layer \"road_l\"",
             "key": "highway",
             "value": "trunk"
         },
         {
-            "description": "attribute \"type\" with value \"trunk\" on layer \"road_l\"",
+            "description": "(when combined with highway=trunk) attribute \"type\" with value \"trunk\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"primary\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"primary\" on layer \"road_l\"",
             "key": "highway",
             "value": "primary"
         },
         {
-            "description": "attribute \"type\" with value \"primary\" on layer \"road_l\"",
+            "description": "(when combined with highway=primary) attribute \"type\" with value \"primary\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"secondary\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"secondary\" on layer \"road_l\"",
             "key": "highway",
             "value": "secondary"
         },
         {
-            "description": "attribute \"type\" with value \"secondary\" on layer \"road_l\"",
+            "description": "(when combined with highway=secondary) attribute \"type\" with value \"secondary\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"tertiary\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"tertiary\" on layer \"road_l\"",
             "key": "highway",
             "value": "tertiary"
         },
         {
-            "description": "attribute \"type\" with value \"tertiary\" on layer \"road_l\"",
+            "description": "(when combined with highway=tertiary) attribute \"type\" with value \"tertiary\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"unclassified\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"unclassified\" on layer \"road_l\"",
             "key": "highway",
             "value": "unclassified"
         },
         {
-            "description": "attribute \"type\" with value \"unclassified\" on layer \"road_l\"",
+            "description": "(when combined with highway=unclassified) attribute \"type\" with value \"unclassified\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"residential\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"residential\" on layer \"road_l\"",
             "key": "highway",
             "value": "residential"
         },
         {
-            "description": "attribute \"type\" with value \"residential\" on layer \"road_l\"",
+            "description": "(when combined with highway=residential) attribute \"type\" with value \"residential\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"living_street\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"living_street\" on layer \"road_l\"",
             "key": "highway",
             "value": "living_street"
         },
         {
-            "description": "attribute \"type\" with value \"living_street\" on layer \"road_l\"",
+            "description": "(when combined with highway=living_street) attribute \"type\" with value \"living_street\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"pedestrian\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"pedestrian\" on layer \"road_l\"",
             "key": "highway",
             "value": "pedestrian"
         },
         {
-            "description": "attribute \"type\" with value \"pedestrian\" on layer \"road_l\"",
+            "description": "(when combined with highway=pedestrian) attribute \"type\" with value \"pedestrian\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"motorway_link\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"motorway_link\" on layer \"road_l\"",
             "key": "highway",
             "value": "motorway_link"
         },
         {
-            "description": "attribute \"type\" with value \"motorway_link\" on layer \"road_l\"",
+            "description": "(when combined with highway=motorway_link) attribute \"type\" with value \"motorway_link\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"trunk_link\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"trunk_link\" on layer \"road_l\"",
             "key": "highway",
             "value": "trunk_link"
         },
         {
-            "description": "attribute \"type\" with value \"trunk_link\" on layer \"road_l\"",
+            "description": "(when combined with highway=trunk_link) attribute \"type\" with value \"trunk_link\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"primary_link\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"primary_link\" on layer \"road_l\"",
             "key": "highway",
             "value": "primary_link"
         },
         {
-            "description": "attribute \"type\" with value \"primary_link\" on layer \"road_l\"",
+            "description": "(when combined with highway=primary_link) attribute \"type\" with value \"primary_link\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"secondary_link\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"secondary_link\" on layer \"road_l\"",
             "key": "highway",
             "value": "secondary_link"
         },
         {
-            "description": "attribute \"type\" with value \"secondary_link\" on layer \"road_l\"",
+            "description": "(when combined with highway=secondary_link) attribute \"type\" with value \"secondary_link\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"service\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"service\" on layer \"road_l\"",
             "key": "highway",
             "value": "service"
         },
         {
-            "description": "attribute \"type\" with value \"service\" on layer \"road_l\"",
+            "description": "(when combined with highway=service) attribute \"type\" with value \"service\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"track\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout+tracktype\u2260*) attribute \"type\" with value \"track\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"track\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+tracktype\u2260*) attribute \"type\" with value \"track\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"grade1\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout+tracktype=grade1) attribute \"type\" with value \"grade1\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"grade1\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+tracktype=grade1) attribute \"type\" with value \"grade1\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"grade1\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+junction=roundabout) attribute \"type\" with value \"grade1\" on layer \"road_l\"",
             "key": "tracktype",
             "value": "grade1"
         },
         {
-            "description": "attribute \"type\" with value \"grade2\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout+tracktype=grade2) attribute \"type\" with value \"grade2\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"grade2\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+tracktype=grade2) attribute \"type\" with value \"grade2\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"grade2\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+junction=roundabout) attribute \"type\" with value \"grade2\" on layer \"road_l\"",
             "key": "tracktype",
             "value": "grade2"
         },
         {
-            "description": "attribute \"type\" with value \"grade3\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout+tracktype=grade3) attribute \"type\" with value \"grade3\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"grade3\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+tracktype=grade3) attribute \"type\" with value \"grade3\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"grade3\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+junction=roundabout) attribute \"type\" with value \"grade3\" on layer \"road_l\"",
             "key": "tracktype",
             "value": "grade3"
         },
         {
-            "description": "attribute \"type\" with value \"grade4\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout+tracktype=grade4) attribute \"type\" with value \"grade4\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"grade4\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+tracktype=grade4) attribute \"type\" with value \"grade4\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"grade4\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+junction=roundabout) attribute \"type\" with value \"grade4\" on layer \"road_l\"",
             "key": "tracktype",
             "value": "grade4"
         },
         {
-            "description": "attribute \"type\" with value \"grade5\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout+tracktype=grade5) attribute \"type\" with value \"grade5\" on layer \"road_l\"",
             "key": "highway",
             "value": "track"
         },
         {
-            "description": "attribute \"type\" with value \"grade5\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+tracktype=grade5) attribute \"type\" with value \"grade5\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"grade5\" on layer \"road_l\"",
+            "description": "(when combined with highway=track+junction=roundabout) attribute \"type\" with value \"grade5\" on layer \"road_l\"",
             "key": "tracktype",
             "value": "grade5"
         },
         {
-            "description": "attribute \"type\" with value \"bridleway\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"bridleway\" on layer \"road_l\"",
             "key": "highway",
             "value": "bridleway"
         },
         {
-            "description": "attribute \"type\" with value \"bridleway\" on layer \"road_l\"",
+            "description": "(when combined with highway=bridleway) attribute \"type\" with value \"bridleway\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"cycleway\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"cycleway\" on layer \"road_l\"",
             "key": "highway",
             "value": "cycleway"
         },
         {
-            "description": "attribute \"type\" with value \"cycleway\" on layer \"road_l\"",
+            "description": "(when combined with highway=cycleway) attribute \"type\" with value \"cycleway\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"footway\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"footway\" on layer \"road_l\"",
             "key": "highway",
             "value": "footway"
         },
         {
-            "description": "attribute \"type\" with value \"footway\" on layer \"road_l\"",
+            "description": "(when combined with highway=footway) attribute \"type\" with value \"footway\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"path\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"path\" on layer \"road_l\"",
             "key": "highway",
             "value": "path"
         },
         {
-            "description": "attribute \"type\" with value \"path\" on layer \"road_l\"",
+            "description": "(when combined with highway=path) attribute \"type\" with value \"path\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
         {
-            "description": "attribute \"type\" with value \"steps\" on layer \"road_l\"",
+            "description": "(when combined with junction=roundabout) attribute \"type\" with value \"steps\" on layer \"road_l\"",
             "key": "highway",
             "value": "steps"
         },
         {
-            "description": "attribute \"type\" with value \"steps\" on layer \"road_l\"",
+            "description": "(when combined with highway=steps) attribute \"type\" with value \"steps\" on layer \"road_l\"",
             "key": "junction",
             "value": "roundabout"
         },
@@ -4226,41 +4226,41 @@
             "value": "fuel"
         },
         {
-            "description": "attribute \"type\" with value \"multi-storey\" on layer \"traffic_a\"",
+            "description": "(when combined with parking=multi-storey) attribute \"type\" with value \"multi-storey\" on layer \"traffic_a\"",
             "key": "amenity",
             "value": "parking"
         },
         {
-            "description": "attribute \"type\" with value \"multi-storey\" on layer \"traffic_a\"",
+            "description": "(when combined with amenity=parking) attribute \"type\" with value \"multi-storey\" on layer \"traffic_a\"",
             "key": "parking",
             "value": "multi-storey"
         },
         {
-            "description": "attribute \"type\" with value \"parking\" on layer \"traffic_a\"",
+            "description": "(when combined with parking=*) attribute \"type\" with value \"parking\" on layer \"traffic_a\"",
             "key": "amenity",
             "value": "parking"
         },
         {
-            "description": "attribute \"type\" with value \"parking\" on layer \"traffic_a\"",
+            "description": "(when combined with amenity=parking) attribute \"type\" with value \"parking\" on layer \"traffic_a\"",
             "key": "parking"
         },
         {
-            "description": "attribute \"type\" with value \"surface\" on layer \"traffic_a\"",
+            "description": "(when combined with parking=surface) attribute \"type\" with value \"surface\" on layer \"traffic_a\"",
             "key": "amenity",
             "value": "parking"
         },
         {
-            "description": "attribute \"type\" with value \"surface\" on layer \"traffic_a\"",
+            "description": "(when combined with amenity=parking) attribute \"type\" with value \"surface\" on layer \"traffic_a\"",
             "key": "parking",
             "value": "surface"
         },
         {
-            "description": "attribute \"type\" with value \"underground\" on layer \"traffic_a\"",
+            "description": "(when combined with parking=underground) attribute \"type\" with value \"underground\" on layer \"traffic_a\"",
             "key": "amenity",
             "value": "parking"
         },
         {
-            "description": "attribute \"type\" with value \"underground\" on layer \"traffic_a\"",
+            "description": "(when combined with amenity=parking) attribute \"type\" with value \"underground\" on layer \"traffic_a\"",
             "key": "parking",
             "value": "underground"
         },
@@ -4373,22 +4373,22 @@
             "value": "motorway_junction"
         },
         {
-            "description": "attribute \"type\" with value \"multi-storey\" on layer \"traffic_p\"",
+            "description": "(when combined with parking=multi-storey) attribute \"type\" with value \"multi-storey\" on layer \"traffic_p\"",
             "key": "amenity",
             "value": "parking"
         },
         {
-            "description": "attribute \"type\" with value \"multi-storey\" on layer \"traffic_p\"",
+            "description": "(when combined with amenity=parking) attribute \"type\" with value \"multi-storey\" on layer \"traffic_p\"",
             "key": "parking",
             "value": "multi-storey"
         },
         {
-            "description": "attribute \"type\" with value \"parking\" on layer \"traffic_p\"",
+            "description": "(when combined with parking=*) attribute \"type\" with value \"parking\" on layer \"traffic_p\"",
             "key": "amenity",
             "value": "parking"
         },
         {
-            "description": "attribute \"type\" with value \"parking\" on layer \"traffic_p\"",
+            "description": "(when combined with amenity=parking) attribute \"type\" with value \"parking\" on layer \"traffic_p\"",
             "key": "parking"
         },
         {
@@ -4417,12 +4417,12 @@
             "value": "street_lamp"
         },
         {
-            "description": "attribute \"type\" with value \"surface\" on layer \"traffic_p\"",
+            "description": "(when combined with parking=surface) attribute \"type\" with value \"surface\" on layer \"traffic_p\"",
             "key": "amenity",
             "value": "parking"
         },
         {
-            "description": "attribute \"type\" with value \"surface\" on layer \"traffic_p\"",
+            "description": "(when combined with amenity=parking) attribute \"type\" with value \"surface\" on layer \"traffic_p\"",
             "key": "parking",
             "value": "surface"
         },
@@ -4451,12 +4451,12 @@
             "value": "turning_circle"
         },
         {
-            "description": "attribute \"type\" with value \"underground\" on layer \"traffic_p\"",
+            "description": "(when combined with parking=underground) attribute \"type\" with value \"underground\" on layer \"traffic_p\"",
             "key": "amenity",
             "value": "parking"
         },
         {
-            "description": "attribute \"type\" with value \"underground\" on layer \"traffic_p\"",
+            "description": "(when combined with amenity=parking) attribute \"type\" with value \"underground\" on layer \"traffic_p\"",
             "key": "parking",
             "value": "underground"
         },
@@ -4499,12 +4499,12 @@
             "value": "bus_stop"
         },
         {
-            "description": "attribute \"type\" with value \"bus_stop\" on layer \"transport_a\"",
+            "description": "(when combined with public_transport=stop_position) attribute \"type\" with value \"bus_stop\" on layer \"transport_a\"",
             "key": "bus",
             "value": "yes"
         },
         {
-            "description": "attribute \"type\" with value \"bus_stop\" on layer \"transport_a\"",
+            "description": "(when combined with bus=yes) attribute \"type\" with value \"bus_stop\" on layer \"transport_a\"",
             "key": "public_transport",
             "value": "stop_position"
         },
@@ -4524,12 +4524,12 @@
             "value": "halt"
         },
         {
-            "description": "attribute \"type\" with value \"railway_halt\" on layer \"transport_a\"",
+            "description": "(when combined with train=yes) attribute \"type\" with value \"railway_halt\" on layer \"transport_a\"",
             "key": "public_transport",
             "value": "stop_position"
         },
         {
-            "description": "attribute \"type\" with value \"railway_halt\" on layer \"transport_a\"",
+            "description": "(when combined with public_transport=stop_position) attribute \"type\" with value \"railway_halt\" on layer \"transport_a\"",
             "key": "train",
             "value": "yes"
         },
@@ -4612,12 +4612,12 @@
             "value": "bus_stop"
         },
         {
-            "description": "attribute \"type\" with value \"bus_stop\" on layer \"transport_p\"",
+            "description": "(when combined with public_transport=stop_position) attribute \"type\" with value \"bus_stop\" on layer \"transport_p\"",
             "key": "bus",
             "value": "yes"
         },
         {
-            "description": "attribute \"type\" with value \"bus_stop\" on layer \"transport_p\"",
+            "description": "(when combined with bus=yes) attribute \"type\" with value \"bus_stop\" on layer \"transport_p\"",
             "key": "public_transport",
             "value": "stop_position"
         },
@@ -4637,12 +4637,12 @@
             "value": "halt"
         },
         {
-            "description": "attribute \"type\" with value \"railway_halt\" on layer \"transport_p\"",
+            "description": "(when combined with train=yes) attribute \"type\" with value \"railway_halt\" on layer \"transport_p\"",
             "key": "public_transport",
             "value": "stop_position"
         },
         {
-            "description": "attribute \"type\" with value \"railway_halt\" on layer \"transport_p\"",
+            "description": "(when combined with public_transport=stop_position) attribute \"type\" with value \"railway_halt\" on layer \"transport_p\"",
             "key": "train",
             "value": "yes"
         },
@@ -4687,62 +4687,62 @@
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"nuclear\" on layer \"utility_a\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"nuclear\" on layer \"utility_a\"",
             "key": "generator:source",
             "value": "nuclear"
         },
         {
-            "description": "attribute \"type\" with value \"nuclear\" on layer \"utility_a\"",
+            "description": "(when combined with generator:source=nuclear) attribute \"type\" with value \"nuclear\" on layer \"utility_a\"",
             "key": "power",
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"solar\" on layer \"utility_a\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"solar\" on layer \"utility_a\"",
             "key": "generator:source",
             "value": "solar"
         },
         {
-            "description": "attribute \"type\" with value \"solar\" on layer \"utility_a\"",
+            "description": "(when combined with generator:source=solar) attribute \"type\" with value \"solar\" on layer \"utility_a\"",
             "key": "power",
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"solar\" on layer \"utility_a\"",
+            "description": "(when combined with power_source=photovoltaic) attribute \"type\" with value \"solar\" on layer \"utility_a\"",
             "key": "power",
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"solar\" on layer \"utility_a\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"solar\" on layer \"utility_a\"",
             "key": "power_source",
             "value": "photovoltaic"
         },
         {
-            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
             "key": "generator:source",
             "value": "gas"
         },
         {
-            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
+            "description": "(when combined with generator:source=gas) attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
             "key": "power",
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
             "key": "generator:source",
             "value": "coal"
         },
         {
-            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
+            "description": "(when combined with generator:source=coal) attribute \"type\" with value \"fossil\" on layer \"utility_a\"",
             "key": "power",
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"hydro\" on layer \"utility_a\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"hydro\" on layer \"utility_a\"",
             "key": "generator:source",
             "value": "water"
         },
         {
-            "description": "attribute \"type\" with value \"hydro\" on layer \"utility_a\"",
+            "description": "(when combined with generator:source=water) attribute \"type\" with value \"hydro\" on layer \"utility_a\"",
             "key": "power",
             "value": "generator"
         },
@@ -4752,12 +4752,12 @@
             "value": "hydro"
         },
         {
-            "description": "attribute \"type\" with value \"wind\" on layer \"utility_a\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"wind\" on layer \"utility_a\"",
             "key": "generator:source",
             "value": "wind"
         },
         {
-            "description": "attribute \"type\" with value \"wind\" on layer \"utility_a\"",
+            "description": "(when combined with generator:source=wind) attribute \"type\" with value \"wind\" on layer \"utility_a\"",
             "key": "power",
             "value": "generator"
         },
@@ -4855,62 +4855,62 @@
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"nuclear\" on layer \"utility_p\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"nuclear\" on layer \"utility_p\"",
             "key": "generator:source",
             "value": "nuclear"
         },
         {
-            "description": "attribute \"type\" with value \"nuclear\" on layer \"utility_p\"",
+            "description": "(when combined with generator:source=nuclear) attribute \"type\" with value \"nuclear\" on layer \"utility_p\"",
             "key": "power",
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"solar\" on layer \"utility_p\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"solar\" on layer \"utility_p\"",
             "key": "generator:source",
             "value": "solar"
         },
         {
-            "description": "attribute \"type\" with value \"solar\" on layer \"utility_p\"",
+            "description": "(when combined with generator:source=solar) attribute \"type\" with value \"solar\" on layer \"utility_p\"",
             "key": "power",
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"solar\" on layer \"utility_p\"",
+            "description": "(when combined with power_source=photovoltaic) attribute \"type\" with value \"solar\" on layer \"utility_p\"",
             "key": "power",
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"solar\" on layer \"utility_p\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"solar\" on layer \"utility_p\"",
             "key": "power_source",
             "value": "photovoltaic"
         },
         {
-            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
             "key": "generator:source",
             "value": "gas"
         },
         {
-            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
+            "description": "(when combined with generator:source=gas) attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
             "key": "power",
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
             "key": "generator:source",
             "value": "coal"
         },
         {
-            "description": "attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
+            "description": "(when combined with generator:source=coal) attribute \"type\" with value \"fossil\" on layer \"utility_p\"",
             "key": "power",
             "value": "generator"
         },
         {
-            "description": "attribute \"type\" with value \"hydro\" on layer \"utility_p\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"hydro\" on layer \"utility_p\"",
             "key": "generator:source",
             "value": "water"
         },
         {
-            "description": "attribute \"type\" with value \"hydro\" on layer \"utility_p\"",
+            "description": "(when combined with generator:source=water) attribute \"type\" with value \"hydro\" on layer \"utility_p\"",
             "key": "power",
             "value": "generator"
         },
@@ -4920,12 +4920,12 @@
             "value": "hydro"
         },
         {
-            "description": "attribute \"type\" with value \"wind\" on layer \"utility_p\"",
+            "description": "(when combined with power=generator) attribute \"type\" with value \"wind\" on layer \"utility_p\"",
             "key": "generator:source",
             "value": "wind"
         },
         {
-            "description": "attribute \"type\" with value \"wind\" on layer \"utility_p\"",
+            "description": "(when combined with generator:source=wind) attribute \"type\" with value \"wind\" on layer \"utility_p\"",
             "key": "power",
             "value": "generator"
         },
