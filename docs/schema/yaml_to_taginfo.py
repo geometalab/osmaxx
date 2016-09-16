@@ -81,6 +81,9 @@ class OSMTag:
             **(self._optional('value')),
             description=self.description,
             object_types=self.object_types,
+            doc_url="https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#{layer_name}".format(
+                layer_name=self.layer_name,
+            )
         )
 
     @property
