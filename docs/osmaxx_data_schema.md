@@ -10,7 +10,7 @@ The data referred to is from OpenStreetMap planet file licensed under ODbL 1.0.
 
 The OSMaxx extracts are designed for broad usage.
 This goes beyond the transformations usually necessary to create a
-topoplogical map.
+topological map.
 
 There are known limits, omissions and bugs, which are being tracked
 in the github-repository https://github.com/geometalab/osmaxx/issues. 
