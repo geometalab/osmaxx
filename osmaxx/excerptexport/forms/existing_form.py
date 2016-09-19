@@ -30,7 +30,7 @@ def get_existing_excerpt_choices(user):
         ('Public excerpts [{count}]'.format(count=public_excerpts().count()),
          tuple((excerpt['id'], excerpt['name']) for excerpt in public_excerpts().values('id', 'name'))
          ),
-        ('Countries [{count}]'.format(count=len(country_choices)), country_choices),
+        ('Countries & administrative areas [{count}]'.format(count=len(country_choices)), country_choices),
     )
 
 
