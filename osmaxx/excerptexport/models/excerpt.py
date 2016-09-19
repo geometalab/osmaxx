@@ -100,17 +100,17 @@ class Excerpt(models.Model):
         return self.name
 
 
-def _active_user_defined_excerpts():
-    return _active_excerpts().filter(excerpt_type=Excerpt.EXCERPT_TYPE_USER_DEFINED)
-
-
-def _active_excerpts():
-    return Excerpt.objects.filter(is_active=True)
-
-
 def private_user_excerpts(user):
     return _active_user_defined_excerpts().filter(is_public=False, owner=user)
 
 
 def public_excerpts():
     return _active_user_defined_excerpts().filter(is_public=True)
+
+
+def _active_user_defined_excerpts():
+    return _active_excerpts().filter(excerpt_type=Excerpt.EXCERPT_TYPE_USER_DEFINED)
+
+
+def _active_excerpts():
+    return Excerpt.objects.filter(is_active=True)
