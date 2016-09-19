@@ -11,11 +11,8 @@ The data referred to is from OpenStreetMap planet file licensed under ODbL 1.0.
 Notes regarding limits, quality and out of scope of the data model and the related datasets.
 Goal and scope: 
 
-The OSMaxx exctracts are layed out for a broad usage. 
-Data from OSM are consolidated from OSM source where the data
-is being recorded in a consistent manner or aggregated to a degree where
-filtering and homogenising is possible without too much effort.
-This is much more than what is usually necessary to create a
+The OSMaxx exctracts are designed for broad usage.
+This goes beyond the transformations usually necessary to create a
 topoplogical map.
 
 There are known limits, omissions and bugs, which are being tracked
@@ -27,7 +24,7 @@ This document and the project just started and thus is in e pre-mature state.
 
 These are possible enhancements in next releases:
 
-* File STATISTICS.txt whith contains a report about tables, attributes and it's rows and
+* File STATISTICS.txt which contains a report about tables, attributes and it's rows and
   values.
 * Final data model (V.3?)
 * Adding attribute height to tables like poi_p from external digital terrain model data

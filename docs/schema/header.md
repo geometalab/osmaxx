@@ -9,29 +9,22 @@ The data referred to is from OpenStreetMap planet file licensed under ODbL 1.0.
 ## Goal, scope, and limits
 
 Notes regarding limits, quality and out of scope of the data model and the related datasets.
-Goal and scope: Das OSMaxx-Datenmodell ist zur möglichst breiten Nutzung ausgelegt
-(Kartendarstellung, Orientierung, POI-Suche und räumliche Analyse und später Routing). D.h. es
-wird versucht, so viele Informationen (Tabellen, Attribute und Wertebereiche) wie möglich aus OSM
-herauszuholen, die einigermassen konsistent erfasst werden bzw. die sich filtern („Cleansing“ und
-Homogenisierung) oder aus den Daten herleiten lassen („Data Curation“). Das ist zwangsläufig
-mehr, als beispielsweise für die (gedruckte) Kartendarstellung eines topografischen
-Landschaftsmodells nötig ist.
-These are known limits, omissions and bugs:
+Goal and scope: 
 
-1. Current data export exports POLYGON instead of MULTPOLYGON
-2. Statistics is missing
-3. Missing tables: coastline_l, adminunit_a
-4. tbd.
+The OSMaxx exctracts are designed for broad usage.
+This goes beyond the transformations usually necessary to create a
+topoplogical map.
 
-Tbd.
+There are known limits, omissions and bugs, which are being tracked
+in the github-repository https://github.com/geometalab/osmaxx/issues. 
 
 ## Status of this document and future releases
 
 This document and the project just started and thus is in e pre-mature state.
 
-These are possible enhancements in next releases
+These are possible enhancements in next releases:
 
-* File STATISTICS.txt whih contains a report about tables, attributes and it's rows and
+* File STATISTICS.txt which contains a report about tables, attributes and it's rows and
   values.
 * Final data model (V.3?)
 * Adding attribute height to tables like poi_p from external digital terrain model data
