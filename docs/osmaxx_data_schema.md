@@ -13,7 +13,7 @@ This goes beyond the transformations usually necessary to create a
 topological map.
 
 There are known limits, omissions and bugs, which are being tracked
-in the github-repository https://github.com/geometalab/osmaxx/issues. 
+in the GitHub-repository https://github.com/geometalab/osmaxx/issues. 
 
 ## Status of this document and future releases
 
