@@ -24,7 +24,7 @@ class Excerpt(models.Model):
     is_public = models.BooleanField(default=False, verbose_name=_('is public'))
     is_active = models.BooleanField(default=True, verbose_name=_('is active'))
     owner = models.ForeignKey(User, related_name='excerpts', verbose_name=_('owner'), null=True)
-    bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'), null=True)
+    bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'))
     excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
 
     COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES = 0.001
@@ -102,7 +102,6 @@ class Excerpt(models.Model):
 
 def _active_user_defined_excerpts():
     return Excerpt.objects.filter(is_active=True).filter(
-        bounding_geometry__isnull=False,
         excerpt_type=Excerpt.EXCERPT_TYPE_USER_DEFINED,
     )
 
