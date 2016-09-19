@@ -6,8 +6,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
-from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_user_excerpts, \
-    other_users_public_excerpts
+from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_excerpts
 from .order_options_mixin import OrderOptionsMixin
 
 
@@ -28,12 +27,8 @@ def get_existing_excerpt_choices(user):
             .format(username=user.username, count=private_user_excerpts(user).count()),
          tuple((excerpt['id'], excerpt['name']) for excerpt in private_user_excerpts(user).values('id', 'name'))
          ),
-        ('Personal public excerpts ({username}) [{count}]'
-            .format(username=user.username, count=public_user_excerpts(user).count()),
-         tuple((excerpt['id'], excerpt['name']) for excerpt in public_user_excerpts(user).values('id', 'name'))
-         ),
-        ('Other excerpts [{count}]'.format(count=other_users_public_excerpts(user).count()),
-         tuple((excerpt['id'], excerpt['name']) for excerpt in other_users_public_excerpts(user).values('id', 'name'))
+        ('Public excerpts [{count}]'.format(count=public_excerpts().count()),
+         tuple((excerpt['id'], excerpt['name']) for excerpt in public_excerpts().values('id', 'name'))
          ),
         ('Countries [{count}]'.format(count=len(country_choices)), country_choices),
     )

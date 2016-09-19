@@ -111,9 +111,5 @@ def private_user_excerpts(user):
     return _active_user_defined_excerpts().filter(is_public=False, owner=user)
 
 
-def public_user_excerpts(user):
-    return _active_user_defined_excerpts().filter(is_public=True, owner=user)
-
-
-def other_users_public_excerpts(user):
-    return _active_user_defined_excerpts().filter(is_public=True).exclude(owner=user)
+def public_excerpts():
+    return _active_user_defined_excerpts().filter(is_public=True)
