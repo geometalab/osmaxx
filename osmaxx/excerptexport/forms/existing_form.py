@@ -6,15 +6,15 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
-from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_excerpts
+from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_excerpts, \
+    countries_and_administrative_areas
 from .order_options_mixin import OrderOptionsMixin
 
 
 def get_country_choices():
     return [
         (excerpt['id'], excerpt['name'])
-        for excerpt in Excerpt.objects
-        .filter(excerpt_type=Excerpt.EXCERPT_TYPE_COUNTRY_BOUNDARY, is_public=True, is_active=True)
+        for excerpt in countries_and_administrative_areas()
         .order_by('name')
         .values('id', 'name')
     ]

@@ -108,6 +108,11 @@ def public_excerpts():
     return _active_user_defined_excerpts().filter(is_public=True)
 
 
+def countries_and_administrative_areas():
+    # We don't care about publicness or ownership with these and always return all (active ones) of them.
+    return _active_excerpts().filter(excerpt_type=Excerpt.EXCERPT_TYPE_COUNTRY_BOUNDARY)
+
+
 def _active_user_defined_excerpts():
     return _active_excerpts().filter(excerpt_type=Excerpt.EXCERPT_TYPE_USER_DEFINED)
 
