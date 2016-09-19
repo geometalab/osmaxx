@@ -10,8 +10,8 @@ class ExcerptAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.GeometryField: {'widget': widgets.AdminTextareaWidget}
     }
-    list_display = ['name', 'is_public', 'is_active', 'owner']
-    fields = ('name', ('bounding_geometry',), 'owner')
+    list_display = ['name', 'is_active', 'excerpt_type', 'is_public', 'owner']
+    fields = (('name', 'excerpt_type'), 'is_active', ('bounding_geometry',), 'is_public', 'owner')
     list_per_page = 20
     search_fields = ['name', 'owner__username']
     list_filter = ['is_active', 'is_public', 'excerpt_type']
