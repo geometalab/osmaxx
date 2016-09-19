@@ -101,9 +101,7 @@ class Excerpt(models.Model):
 
 
 def _active_user_defined_excerpts():
-    return _active_excerpts().filter(
-        excerpt_type=Excerpt.EXCERPT_TYPE_USER_DEFINED,
-    )
+    return _active_excerpts().filter(excerpt_type=Excerpt.EXCERPT_TYPE_USER_DEFINED)
 
 
 def _active_excerpts():
