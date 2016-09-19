@@ -8,7 +8,7 @@ The data referred to is from OpenStreetMap planet file licensed under ODbL 1.0.
 
 ## Goal, scope, and limits
 
-The OSMaxx exctracts are designed for broad usage.
+The OSMaxx extracts are designed for broad usage.
 This goes beyond the transformations usually necessary to create a
 topoplogical map.
 
