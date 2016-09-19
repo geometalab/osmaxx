@@ -9,6 +9,7 @@ The data referred to is from OpenStreetMap planet file licensed under ODbL 1.0.
 ## Goal, scope, and limits
 
 Notes regarding limits, quality and out of scope of the data model and the related datasets.
+
 Goal and scope: 
 
 The OSMaxx exctracts are designed for broad usage.
