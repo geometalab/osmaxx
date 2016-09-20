@@ -12,12 +12,12 @@ from .order_options_mixin import OrderOptionsMixin
 
 
 def get_existing_excerpt_choices(user):
-    country_choices = [
+    country_choices = tuple(
         (excerpt['id'], excerpt['name'])
         for excerpt in countries_and_administrative_areas()
         .order_by('name')
         .values('id', 'name')
-    ]
+    )
     return (
         ('Personal excerpts ({username}) [{count}]'
             .format(username=user.username, count=private_user_excerpts(user).count()),
