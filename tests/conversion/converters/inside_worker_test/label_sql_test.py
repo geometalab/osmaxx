@@ -1156,7 +1156,7 @@ def test_label_water_a(osmaxx_schemas, label_input):
 
     engine.execute(osm_models.t_osm_polygon.insert().values(**label_input).execution_options(autocommit=True))
 
-    address_script = 'sql/filter/water/010_water_a_insert_table.sql'
+    address_script = 'sql/filter/water/010_water_a.sql'
     with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
         assert result.rowcount == 1
 
@@ -1175,7 +1175,7 @@ def test_label_water_p(osmaxx_schemas, label_input):
 
     engine.execute(osm_models.t_osm_point.insert().values(**label_input).execution_options(autocommit=True))
 
-    address_script = 'sql/filter/water/020_water_p_insert_table.sql'
+    address_script = 'sql/filter/water/020_water_p.sql'
     with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
         assert result.rowcount == 1
 
@@ -1194,7 +1194,7 @@ def test_label_water_l(osmaxx_schemas, label_input):
 
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
-    address_script = 'sql/filter/water/030_water_l_insert_table.sql'
+    address_script = 'sql/filter/water/030_water_l.sql'
     with closing(engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))) as result:
         assert result.rowcount == 1
 

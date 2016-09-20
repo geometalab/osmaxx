@@ -100,9 +100,9 @@ def relative_sql_script_paths():
         'sql/filter/utility/070_utility_l_power.sql',
         'sql/filter/utility/080_utility_l_man_made.sql',
         'sql/filter/water/000_water_abl_create_tables.sql',
-        'sql/filter/water/010_water_a_insert_table.sql',
-        'sql/filter/water/020_water_p_insert_table.sql',
-        'sql/filter/water/030_water_l_insert_table.sql',
+        'sql/filter/water/010_water_a.sql',
+        'sql/filter/water/020_water_p.sql',
+        'sql/filter/water/030_water_l.sql',
     ]
 
 
