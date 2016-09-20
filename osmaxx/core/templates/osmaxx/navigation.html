@@ -19,12 +19,13 @@
                 <span class="menu_icon">&#x2637;</span>&nbsp;{% trans 'My Exports' %}
             </a>
         </li>
+        {% endif %}
+
         <li role="presentation">
             <a href="{% url 'pages:downloads' %}">
                 <span class="menu_icon">&#x2637;</span>&nbsp;{% trans 'Additional Downloads' %}
             </a>
         </li>
-        {% endif %}
 
         <li role="presentation">
             <a href="{% url 'pages:about' %}">

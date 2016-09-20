@@ -6,7 +6,7 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
 
     L.control.scale().addTo(this.map);
     // add an OpenStreetMap tile layer
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
@@ -19,6 +19,11 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
         this.map.addLayer(layer);
 
         window.addSizeEstimationToCheckboxes(layer);
+
+        // WARNING: Simplification in action here!
+        // If there are multiple features on one layer, i.e. more than one polygon, this will return only the valid
+        // UTM-Regions for the first feature/polygon and ignore the other features!
+        window.filterUTMZones(layer.getLayers()[0]);
     }.bind(this);
 
     this.showExcerptOnMap = function(ID) {

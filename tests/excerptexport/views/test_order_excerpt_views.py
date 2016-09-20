@@ -22,7 +22,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
 
         self.new_excerpt_post_data = {
             'name': 'A very interesting region',
-            'is_public': 'True',
             'bounding_geometry': '{"type":"Polygon","coordinates":[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]}',
             'formats': ['fgdb'],
             'coordinate_reference_system': self.coordinate_reference_system,
@@ -92,7 +91,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
 
         self.assertIn(
-            ('Other excerpts [1]', ((self.existing_public_foreign_excerpt.id, 'Public Excerpt by someone else'),)),
+            ('Public excerpts [1]', ((self.existing_public_foreign_excerpt.id, 'Public Excerpt by someone else'),)),
             response.context['form'].fields['existing_excerpts'].choices
         )
         self.assertIn(self.existing_public_foreign_excerpt.name, response.context['form'].form_html)
@@ -125,8 +124,31 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
-            Excerpt.objects.filter(name='A very interesting region', is_active=True, is_public=True).count(),
+            Excerpt.objects.filter(name='A very interesting region', is_active=True, is_public=False).count(),
             1
+        )
+
+    @vcr.use_cassette('fixtures/vcr/views-test_create_with_new_excerpt.yml')
+    def test_create_with_new_excerpt_ignores_ispublic(self):
+        """
+        When logged in, POSTing an export request with a new excerpt is successful.
+        """
+        self.add_permissions_to_user()
+        self.client.login(username='user', password='pw')
+        self.new_excerpt_post_data['is_public'] = True
+        response = self.client.post(
+            reverse('excerptexport:order_new_excerpt'),
+            self.new_excerpt_post_data,
+            HTTP_HOST='thehost.example.com'
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            Excerpt.objects.filter(name='A very interesting region', is_active=True, is_public=False).count(),
+            1
+        )
+        self.assertEqual(
+            Excerpt.objects.filter(name='A very interesting region', is_public=True).count(),
+            0
         )
 
     @vcr.use_cassette('fixtures/vcr/views-test_create_with_existing_excerpt.yml')

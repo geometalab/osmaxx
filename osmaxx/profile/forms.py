@@ -1,12 +1,14 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout
-from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django import forms
+from django.utils.translation import ugettext_lazy as _
+
+from osmaxx.profile.models import Profile
 
 
 class ProfileForm(forms.ModelForm):
-    email = forms.EmailField(max_length=200, required=True)
+    unverified_email = forms.EmailField(max_length=200, required=True, label=_('email address'))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -16,10 +18,9 @@ class ProfileForm(forms.ModelForm):
         self.helper.form_action = reverse('profile:edit_view')
         self.helper.add_input(Submit('submit', 'Submit'))
         self.helper.layout = Layout(
-            'email',
+            'unverified_email',
         )
 
     class Meta:
-        User = get_user_model()
-        model = User
-        fields = ['email']
+        model = Profile
+        fields = ['unverified_email']

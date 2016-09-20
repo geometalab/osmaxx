@@ -39,7 +39,6 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
                 _('Excerpt'),
                 Field('name'),
                 Field('bounding_geometry'),
-                'is_public',
             ),
             OrderOptionsMixin(self).form_layout(),
             Submit('submit', 'Submit'),
@@ -65,7 +64,7 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
 
     class Meta:
         model = Excerpt
-        fields = ['name', 'is_public', 'bounding_geometry']
+        fields = ['name', 'bounding_geometry']
 
     def save(self, user):
         extraction_order = ExtractionOrder(orderer=user)
@@ -73,7 +72,7 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
         extraction_order.extraction_formats = self.cleaned_data['formats']
         extraction_order.detail_level = self.cleaned_data['detail_level']
 
-        excerpt_dict = select_keys(self.cleaned_data, ['name', 'is_public', 'bounding_geometry'])
+        excerpt_dict = select_keys(self.cleaned_data, ['name', 'bounding_geometry'])
         excerpt = Excerpt(
             is_active=True,
             owner=user,
