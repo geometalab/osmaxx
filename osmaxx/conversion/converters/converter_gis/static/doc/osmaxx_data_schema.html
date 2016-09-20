@@ -2,19 +2,13 @@
 <h2 id="credits-and-legal-issues">Credits and legal issues</h2>
 <p>Credits go to OpenSteetMap and to Geofabrik. This document is licensed under CC-BY-SA. The data referred to is from OpenStreetMap planet file licensed under ODbL 1.0.</p>
 <h2 id="goal-scope-and-limits">Goal, scope, and limits</h2>
-<p>Notes regarding limits, quality and out of scope of the data model and the related datasets. Goal and scope: Das OSMaxx-Datenmodell ist zur möglichst breiten Nutzung ausgelegt (Kartendarstellung, Orientierung, POI-Suche und räumliche Analyse und später Routing). D.h. es wird versucht, so viele Informationen (Tabellen, Attribute und Wertebereiche) wie möglich aus OSM herauszuholen, die einigermassen konsistent erfasst werden bzw. die sich filtern („Cleansing“ und Homogenisierung) oder aus den Daten herleiten lassen („Data Curation“). Das ist zwangsläufig mehr, als beispielsweise für die (gedruckte) Kartendarstellung eines topografischen Landschaftsmodells nötig ist. These are known limits, omissions and bugs:</p>
-<ol type="1">
-<li>Current data export exports POLYGON instead of MULTPOLYGON</li>
-<li>Statistics is missing</li>
-<li>Missing tables: coastline_l, adminunit_a</li>
-<li>tbd.</li>
-</ol>
-<p>Tbd.</p>
+<p>The OSMaxx extracts are designed for broad usage. This goes beyond the transformations usually necessary to create a topological map.</p>
+<p>There are known limits, omissions and bugs, which are being tracked in the GitHub-repository https://github.com/geometalab/osmaxx/issues.</p>
 <h2 id="status-of-this-document-and-future-releases">Status of this document and future releases</h2>
 <p>This document and the project just started and thus is in e pre-mature state.</p>
-<p>These are possible enhancements in next releases</p>
+<p>These are possible enhancements in next releases:</p>
 <ul>
-<li>File STATISTICS.txt whih contains a report about tables, attributes and it's rows and values.</li>
+<li>File STATISTICS.txt which contains a report about tables, attributes and it's rows and values.</li>
 <li>Final data model (V.3?)</li>
 <li>Adding attribute height to tables like poi_p from external digital terrain model data like SRTM3.</li>
 </ul>
@@ -4489,76 +4483,28 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">aerialway</td>
-<td style="text-align: left;">aerialway</td>
-<td style="text-align: left;"><code>aerialway=*</code></td>
-<td style="text-align: left;">All other types of aerialways which is not defined as above</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">aerialway</td>
-<td style="text-align: left;">cable_car</td>
-<td style="text-align: left;"><code>aerialway=cable_car</code></td>
-<td style="text-align: left;">Just one or two large cars. The cable forms a loop, but the cars do not loop around, they just move up and down on their own side.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">aerialway</td>
-<td style="text-align: left;">chair_lift</td>
-<td style="text-align: left;"><code>aerialway=chair_lift</code> or <code>aerialway=high_speed_chair_lift</code></td>
-<td style="text-align: left;">Looped cable with a series of single chairs (typically seating two or four people, but can be more). Exposed to the open air (can have a bubble).</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">aerialway</td>
-<td style="text-align: left;">drag_lift</td>
-<td style="text-align: left;"><code>aerialway=drag_lift</code></td>
-<td style="text-align: left;">an overhead tow-line for skiers and riders.</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">railway</td>
-<td style="text-align: left;">funicular</td>
-<td style="text-align: left;"><code>railway=funicular</code></td>
-<td style="text-align: left;">Cable driven inclined railways</td>
+<td style="text-align: left;">rail</td>
+<td style="text-align: left;"><code>railway=rail</code></td>
+<td style="text-align: left;">Full sized passenger or freight trains in the standard gauge for the country or state.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">aerialway</td>
-<td style="text-align: left;">gondola</td>
-<td style="text-align: left;"><code>aerialway=gondola</code></td>
-<td style="text-align: left;">Many cars on a looped cable.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">aerialway</td>
-<td style="text-align: left;">goods</td>
-<td style="text-align: left;"><code>aerialway=goods</code></td>
-<td style="text-align: left;">A cable/wire supported lift for goods. Passenger transport is usually not allowed.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">aerialway</td>
-<td style="text-align: left;">j-bar</td>
-<td style="text-align: left;"><code>aerialway=t-bar</code></td>
-<td style="text-align: left;">J-bar lift or L-bar lift. Overhead tow-line for skiers and riders with carriers in J-shape.</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">railway</td>
 <td style="text-align: left;">light_rail</td>
 <td style="text-align: left;"><code>railway=light_rail</code></td>
 <td style="text-align: left;">A higher-standard tram system, normally in its own right-of-way. Often it connects towns and thus reaches a considerable length (tens of kilometer).</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">aerialway</td>
-<td style="text-align: left;">magic_carpet</td>
-<td style="text-align: left;"><code>aerialway=magic_carpet</code></td>
-<td style="text-align: left;">Ski lift for small children resembling a conveyor belt.</td>
-</tr>
 <tr class="odd">
 <td style="text-align: left;">railway</td>
-<td style="text-align: left;">miniature</td>
-<td style="text-align: left;"><code>railway=miniature</code></td>
-<td style="text-align: left;">Miniature railways are narrower than narrow gauge and carry passengers. They can be found in parks.</td>
+<td style="text-align: left;">subway</td>
+<td style="text-align: left;"><code>railway=subway</code></td>
+<td style="text-align: left;">A city passenger rail service running mostly grade separated</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">aerialway</td>
-<td style="text-align: left;">mixed_lift</td>
-<td style="text-align: left;"><code>aerialway=mixed_lift</code></td>
-<td style="text-align: left;">A lift mixed with gondola and chair_lift</td>
+<td style="text-align: left;">railway</td>
+<td style="text-align: left;">tram</td>
+<td style="text-align: left;"><code>railway=tram</code></td>
+<td style="text-align: left;">One or two carriage rail vehicles, usually sharing motor road</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">railway</td>
@@ -4573,16 +4519,16 @@
 <td style="text-align: left;">Narrow-gauge passenger or freight trains.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">aerialway</td>
-<td style="text-align: left;">platter</td>
-<td style="text-align: left;"><code>aerialway=platter</code></td>
-<td style="text-align: left;">Platter lift (poma). Overhead tow-line for skiers and riders with platters.</td>
+<td style="text-align: left;">railway</td>
+<td style="text-align: left;">miniature</td>
+<td style="text-align: left;"><code>railway=miniature</code></td>
+<td style="text-align: left;">Miniature railways are narrower than narrow gauge and carry passengers. They can be found in parks.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">railway</td>
-<td style="text-align: left;">rail</td>
-<td style="text-align: left;"><code>railway=rail</code></td>
-<td style="text-align: left;">Full sized passenger or freight trains in the standard gauge for the country or state.</td>
+<td style="text-align: left;">funicular</td>
+<td style="text-align: left;"><code>railway=funicular</code></td>
+<td style="text-align: left;">Cable driven inclined railways</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">railway</td>
@@ -4592,15 +4538,39 @@
 </tr>
 <tr class="even">
 <td style="text-align: left;">aerialway</td>
-<td style="text-align: left;">rope_tow</td>
-<td style="text-align: left;"><code>aerialway=rope_tow</code></td>
-<td style="text-align: left;">Ski tow lift. Tow-line for skiers and riders where passenger hold by hand or use special tow grabbers.</td>
+<td style="text-align: left;">drag_lift</td>
+<td style="text-align: left;"><code>aerialway=drag_lift</code></td>
+<td style="text-align: left;">an overhead tow-line for skiers and riders.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">railway</td>
-<td style="text-align: left;">subway</td>
-<td style="text-align: left;"><code>railway=subway</code></td>
-<td style="text-align: left;">A city passenger rail service running mostly grade separated</td>
+<td style="text-align: left;">aerialway</td>
+<td style="text-align: left;">chair_lift</td>
+<td style="text-align: left;"><code>aerialway=chair_lift</code> or <code>aerialway=high_speed_chair_lift</code></td>
+<td style="text-align: left;">Looped cable with a series of single chairs (typically seating two or four people, but can be more). Exposed to the open air (can have a bubble).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">aerialway</td>
+<td style="text-align: left;">cable_car</td>
+<td style="text-align: left;"><code>aerialway=cable_car</code></td>
+<td style="text-align: left;">Just one or two large cars. The cable forms a loop, but the cars do not loop around, they just move up and down on their own side.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">aerialway</td>
+<td style="text-align: left;">gondola</td>
+<td style="text-align: left;"><code>aerialway=gondola</code></td>
+<td style="text-align: left;">Many cars on a looped cable.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">aerialway</td>
+<td style="text-align: left;">goods</td>
+<td style="text-align: left;"><code>aerialway=goods</code></td>
+<td style="text-align: left;">A cable/wire supported lift for goods. Passenger transport is usually not allowed.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">aerialway</td>
+<td style="text-align: left;">platter</td>
+<td style="text-align: left;"><code>aerialway=platter</code></td>
+<td style="text-align: left;">Platter lift (poma). Overhead tow-line for skiers and riders with platters.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">aerialway</td>
@@ -4609,16 +4579,40 @@
 <td style="text-align: left;">T-bar lift. Overhead tow-line for skiers and riders with T-shaped carriers for two passengers.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">railway</td>
-<td style="text-align: left;">tram</td>
-<td style="text-align: left;"><code>railway=tram</code></td>
-<td style="text-align: left;">One or two carriage rail vehicles, usually sharing motor road</td>
+<td style="text-align: left;">aerialway</td>
+<td style="text-align: left;">j-bar</td>
+<td style="text-align: left;"><code>aerialway=j-bar</code></td>
+<td style="text-align: left;">J-bar lift or L-bar lift. Overhead tow-line for skiers and riders with carriers in J-shape.</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">aerialway</td>
+<td style="text-align: left;">magic_carpet</td>
+<td style="text-align: left;"><code>aerialway=magic_carpet</code></td>
+<td style="text-align: left;">Ski lift for small children resembling a conveyor belt.</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">aerialway</td>
 <td style="text-align: left;">zip_line</td>
 <td style="text-align: left;"><code>aerialway=zip_line</code></td>
 <td style="text-align: left;">Zip lines, Flying fox and similar</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">aerialway</td>
+<td style="text-align: left;">rope_tow</td>
+<td style="text-align: left;"><code>aerialway=rope_tow</code></td>
+<td style="text-align: left;">Ski tow lift. Tow-line for skiers and riders where passenger hold by hand or use special tow grabbers.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">aerialway</td>
+<td style="text-align: left;">mixed_lift</td>
+<td style="text-align: left;"><code>aerialway=mixed_lift</code></td>
+<td style="text-align: left;">A lift mixed with gondola and chair_lift</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">aerialway</td>
+<td style="text-align: left;">aerialway</td>
+<td style="text-align: left;"><code>aerialway=*</code></td>
+<td style="text-align: left;">All other types of aerialways which is not defined as above</td>
 </tr>
 </tbody>
 </table>

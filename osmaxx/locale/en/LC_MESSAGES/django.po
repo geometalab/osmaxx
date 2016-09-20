@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-19 07:01+0200\n"
+"POT-Creation-Date: 2016-09-20 15:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Clipping Geometry"
 msgstr ""
 
-#: osmaxx/clipping_area/models.py:8 osmaxx/excerptexport/models/excerpt.py:22
+#: osmaxx/clipping_area/models.py:8 osmaxx/excerptexport/models/excerpt.py:23
 msgid "name"
 msgstr ""
 
@@ -745,11 +745,11 @@ msgstr ""
 msgid "My Exports"
 msgstr ""
 
-#: osmaxx/core/templates/osmaxx/navigation.html:24
+#: osmaxx/core/templates/osmaxx/navigation.html:26
 msgid "Additional Downloads"
 msgstr ""
 
-#: osmaxx/core/templates/osmaxx/navigation.html:31
+#: osmaxx/core/templates/osmaxx/navigation.html:32
 msgid "About"
 msgstr ""
 
@@ -766,19 +766,19 @@ msgid "Bounding Geometry (GeoJSON)"
 msgstr ""
 
 #: osmaxx/excerptexport/forms/excerpt_form.py:39
-#: osmaxx/excerptexport/forms/existing_form.py:54
+#: osmaxx/excerptexport/forms/existing_form.py:41
 msgid "Excerpt"
 msgstr ""
 
-#: osmaxx/excerptexport/forms/excerpt_form.py:52
+#: osmaxx/excerptexport/forms/excerpt_form.py:51
 msgid "Area Invalid or none selected."
 msgstr ""
 
-#: osmaxx/excerptexport/forms/excerpt_form.py:60
+#: osmaxx/excerptexport/forms/excerpt_form.py:59
 msgid "Only {} are allowed as input."
 msgstr ""
 
-#: osmaxx/excerptexport/forms/existing_form.py:65
+#: osmaxx/excerptexport/forms/existing_form.py:53
 msgid "Existing excerpts"
 msgstr ""
 
@@ -802,27 +802,27 @@ msgstr ""
 msgid "GIS options (ignored for Garmin)"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:19
+#: osmaxx/excerptexport/models/excerpt.py:20
 msgid "user defined"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:20
+#: osmaxx/excerptexport/models/excerpt.py:21
 msgid "country"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:23
+#: osmaxx/excerptexport/models/excerpt.py:24
 msgid "is public"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:24
+#: osmaxx/excerptexport/models/excerpt.py:25
 msgid "is active"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:25
+#: osmaxx/excerptexport/models/excerpt.py:26
 msgid "owner"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:26
+#: osmaxx/excerptexport/models/excerpt.py:27
 msgid "bounding geometry"
 msgstr ""
 
@@ -854,7 +854,7 @@ msgstr ""
 msgid "finished at"
 msgstr ""
 
-#: osmaxx/excerptexport/models/export.py:111
+#: osmaxx/excerptexport/models/export.py:112
 msgid "{} But the result file is not available."
 msgstr ""
 
@@ -906,6 +906,45 @@ msgstr ""
 msgid "file removal date"
 msgstr ""
 
+#: osmaxx/excerptexport/templates/excerptexport/excerpt_confirm_delete.html:4
+msgid "Excerpt Deletion"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/excerpt_confirm_delete.html:10
+msgid "Delete excerpt and dependent data"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/excerpt_confirm_delete.html:19
+msgid "No Exports attached."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/excerpt_manage_list.html:5
+msgid "Excerpt List"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/excerpt_manage_list.html:20
+#, python-format
+msgid "Contains %(export_count)s export(s)."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/excerpt_manage_list.html:21
+msgid "See your exports."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/excerpt_manage_list.html:25
+msgid ""
+"You have running exports for this excerpt. It is not possible to delete "
+"during extraction."
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/excerpt_manage_list.html:27
+msgid "Delete this excerpt and all attached data"
+msgstr ""
+
+#: osmaxx/excerptexport/templates/excerptexport/excerpt_manage_list.html:33
+msgid "You have no personal, non-public excerpts."
+msgstr ""
+
 #: osmaxx/excerptexport/templates/excerptexport/export_detail.html:5
 msgid "Exports"
 msgstr ""
@@ -914,10 +953,20 @@ msgstr ""
 msgid "see all your exports of this excerpt."
 msgstr ""
 
+#: osmaxx/excerptexport/templates/excerptexport/forms/partials/delete_personal_excerpts_link.html:4
+#, python-format
+msgid ""
+"\n"
+"        To delete your own non-public excerpts go to <a href="
+"\"%(excerpt_management)s\">excerpt management</a>.\n"
+"    "
+msgstr ""
+
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:7
 msgid "SQLite based SpatiaLite"
 msgstr ""
 
+#: osmaxx/excerptexport/templates/excerptexport/partials/export_detail_string.html:6
 #: osmaxx/excerptexport/templates/excerptexport/partials/export_display.html:20
 #, python-format
 msgid ""
@@ -1029,31 +1078,95 @@ msgid "My exports"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/order_existing_excerpt.html:6
+msgid "Existing excerpt export"
+msgstr ""
+
 #: osmaxx/excerptexport/templates/excerptexport/templates/order_new_excerpt.html:11
 msgid "New excerpt export"
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:43
+#: osmaxx/excerptexport/views.py:44
 #, python-brace-format
 msgid "Queued extraction order {id}. The conversion process will start soon."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:183 osmaxx/excerptexport/views.py:214
+#: osmaxx/excerptexport/views.py:184 osmaxx/excerptexport/views.py:215
 msgid "Sending of access request failed. Please contact an administrator."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:207
+#: osmaxx/excerptexport/views.py:208
 msgid ""
 "Your access request has been sent successfully. You will receive an email "
 "when your account is ready."
 msgstr ""
 
+#: osmaxx/excerptexport/views.py:267
+msgid ""
+"Exports are currently running for this excerpt. Please try deleting again, "
+"when these are finished."
+msgstr ""
+
+#: osmaxx/profile/apps.py:7
 #: osmaxx/profile/templates/profile/profile_edit.html:7
 msgid "Profile"
 msgstr ""
 
+#: osmaxx/profile/forms.py:11
+msgid "email address"
+msgstr ""
+
+#: osmaxx/profile/models.py:13
+msgid "user"
+msgstr ""
+
+#: osmaxx/profile/models.py:14
+msgid "unverified email"
+msgstr ""
+
 #: osmaxx/profile/templates/profile/profile_edit.html:12
 msgid "Profile for"
+msgstr ""
+
+#: osmaxx/profile/templates/profile/verification_email/body.txt:1
+#, python-format
+msgid ""
+"Someone (probably you) has set the email address for OSMaxx account "
+"%(username)s to %(new_email_address)s. Please click the following link to "
+"confirm that this was indeed you:\n"
+"%(token_url)s\n"
+"\n"
+"If it wasn't you, just ignore this email.\n"
+"\n"
+"Kind regards,\n"
+"The %(domain)s team\n"
+msgstr ""
+
+#: osmaxx/profile/templates/profile/verification_email/subject.txt:1
+msgid "Confirm your email address"
+msgstr ""
+
+#: osmaxx/profile/views.py:51
+msgid "To activate your email, click the link in the confirmation email."
+msgstr ""
+
+#: osmaxx/profile/views.py:66
+msgid ""
+"You have not set an email address. You must set a valid email address to use "
+"OSMaxx."
+msgstr ""
+
+#: osmaxx/profile/views.py:107
+msgid "Profile successfully updated"
+msgstr ""
+
+#: osmaxx/profile/views.py:112
+msgid ""
+"Verification token too old or invalid. Please resend the confirmation email "
+"and try again."
+msgstr ""
+
+#: osmaxx/profile/views.py:123
+msgid "Successfully verified your email address."
 msgstr ""
 
 #: osmaxx/rest_api/apps.py:7
