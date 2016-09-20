@@ -12,14 +12,18 @@ from .order_options_mixin import OrderOptionsMixin
 
 
 def get_existing_excerpt_choices(user):
-    private_choices = tuple(private_user_excerpts(user).values_list('id', 'name'))
-    public_choices = tuple(public_excerpts().values_list('id', 'name'))
-    country_choices = tuple(countries_and_administrative_areas().order_by('name').values_list('id', 'name'))
+    private_choices = _choicify(private_user_excerpts(user))
+    public_choices = _choicify(public_excerpts())
+    country_choices = _choicify(countries_and_administrative_areas().order_by('name'))
     return (
         ('Personal excerpts ({usr}) [{count}]'.format(usr=user.username, count=len(private_choices)), private_choices),
         ('Public excerpts [{count}]'.format(count=len(public_choices)), public_choices),
         ('Countries & administrative areas [{count}]'.format(count=len(country_choices)), country_choices),
     )
+
+
+def _choicify(excerpts_query_set):
+    return tuple(excerpts_query_set.values_list('id', 'name'))
 
 
 class ExistingForm(OrderOptionsMixin, forms.Form):
