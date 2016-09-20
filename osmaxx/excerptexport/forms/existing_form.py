@@ -16,13 +16,8 @@ def get_existing_excerpt_choices(user):
     public_choices = tuple(public_excerpts().values_list('id', 'name'))
     country_choices = tuple(countries_and_administrative_areas().order_by('name').values_list('id', 'name'))
     return (
-        ('Personal excerpts ({username}) [{count}]'
-            .format(username=user.username, count=len(private_choices)),
-         private_choices
-         ),
-        ('Public excerpts [{count}]'.format(count=len(public_choices)),
-         public_choices
-         ),
+        ('Personal excerpts ({usr}) [{count}]'.format(usr=user.username, count=len(private_choices)), private_choices),
+        ('Public excerpts [{count}]'.format(count=len(public_choices)), public_choices),
         ('Countries & administrative areas [{count}]'.format(count=len(country_choices)), country_choices),
     )
 
