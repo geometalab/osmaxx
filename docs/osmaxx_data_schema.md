@@ -1560,7 +1560,7 @@ Values of attribute type
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |dam|`waterway=dam`|A wall built across a river or stream to impound the water. A dam normally does not have water flowing over the top of it.|
-|lock_gate|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
+|lock_gate|`waterway=lock_gate`|Top or bottom gate of a lock. (A Lock is a device for raising and lowering boats between stretches of water of different levels on river and canal waterways.)|
 |marina|`leisure=marina`|For mooring leisure yachts and motor boats|
 |pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
 |reservoir_covered|`man_made=reservoir_covered`|A covered reservoir is a large man-made tank for holding fresh water|

@@ -3312,8 +3312,8 @@ layers: !!omap
               description: 'A waterfall is a place where water flows over a vertical drop in the course of a stream or river.'
             "lock_gate":
               osm_tags:
-                - "man_made": 'pier'
-              description: "A 'bridge into the ocean', usually for recreation."
+                - "waterway": 'lock_gate'
+              description: "Top or bottom gate of a lock. (A Lock is a device for raising and lowering boats between stretches of water of different levels on river and canal waterways.)"
             "weir":
               osm_tags:
                 - "waterway": 'weir'
