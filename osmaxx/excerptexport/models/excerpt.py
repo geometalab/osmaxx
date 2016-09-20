@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.contrib.gis import geos
 from django.contrib.gis.db import models
 from django.core.cache import cache
@@ -23,7 +23,7 @@ class Excerpt(models.Model):
     name = models.CharField(max_length=128, verbose_name=_('name'))
     is_public = models.BooleanField(default=False, verbose_name=_('is public'))
     is_active = models.BooleanField(default=True, verbose_name=_('is active'))
-    owner = models.ForeignKey(User, related_name='excerpts', verbose_name=_('owner'), null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='excerpts', verbose_name=_('owner'), null=True)
     bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'))
     excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
 

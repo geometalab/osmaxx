@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
@@ -18,7 +18,7 @@ class ExtractionOrder(models.Model):
         verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL
     )
     process_id = models.TextField(blank=True, null=True, verbose_name=_('process link'))
-    orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
+    orderer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='extraction_orders', verbose_name=_('orderer'))
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True)
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
 
