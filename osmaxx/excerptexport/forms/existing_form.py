@@ -11,17 +11,13 @@ from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_ex
 from .order_options_mixin import OrderOptionsMixin
 
 
-def get_country_choices():
-    return [
+def get_existing_excerpt_choices(user):
+    country_choices = [
         (excerpt['id'], excerpt['name'])
         for excerpt in countries_and_administrative_areas()
         .order_by('name')
         .values('id', 'name')
     ]
-
-
-def get_existing_excerpt_choices(user):
-    country_choices = get_country_choices()
     return (
         ('Personal excerpts ({username}) [{count}]'
             .format(username=user.username, count=private_user_excerpts(user).count()),
