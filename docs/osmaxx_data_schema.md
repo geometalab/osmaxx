@@ -1515,7 +1515,7 @@ Values of attribute type
 |marina|`leisure=marina`|For mooring leisure yachts and motor boats|
 |pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
 |reservoir_covered|`man_made=reservoir_covered`|A covered reservoir is a large man-made tank for holding fresh water|
-|riverbank|`natural=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
+|riverbank|`waterway=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
 |slipway|`leisure=slipway`|Boats can be launched here|
 |spring|`natural=spring`|A spring is a point where water naturally surfaces|
 |water|`natural=water`|Used to mark body of standing water, such as a lake or pond.|
@@ -1564,7 +1564,7 @@ Values of attribute type
 |marina|`leisure=marina`|For mooring leisure yachts and motor boats|
 |pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
 |reservoir_covered|`man_made=reservoir_covered`|A covered reservoir is a large man-made tank for holding fresh water|
-|riverbank|`natural=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
+|riverbank|`waterway=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
 |slipway|`leisure=slipway`|Boats can be launched here|
 |spring|`natural=spring`|A spring is a point where water naturally surfaces|
 |water|`natural=water`|Used to mark body of standing water, such as a lake or pond.|

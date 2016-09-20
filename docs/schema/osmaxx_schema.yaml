@@ -3207,7 +3207,7 @@ layers: !!omap
               description: 'A spring is a point where water naturally surfaces'
             "riverbank":
               osm_tags:
-                - "natural": 'riverbank'
+                - "waterway": 'riverbank'
               description: 'For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.'
             "slipway":
               osm_tags:
@@ -3284,7 +3284,7 @@ layers: !!omap
               description: 'A spring is a point where water naturally surfaces'
             "riverbank":
               osm_tags:
-                - "natural": 'riverbank'
+                - "waterway": 'riverbank'
               description: 'For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.'
             "slipway":
               osm_tags:
