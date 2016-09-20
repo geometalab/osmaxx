@@ -57,7 +57,7 @@ def do_dictsort_unless_ordered(value):
     if isinstance(value, OrderedDict) or isinstance(value, PseudoMultiMap):
         return value.items()
     else:
-        return sorted(value.items())
+        return sorted(value.items(), key=lambda x: tuple(str(y) for y in x))
 
 
 def do_included(d):
