@@ -7,8 +7,7 @@
     **`{{ key }}≠{{ value }}`**
 {%- endmacro %}
 
-{% macro tag_combination(osm_tag_combination, combination_separator) -%}
-    {{ combination_separator() -}}
+{% macro tag_combination(osm_tag_combination) -%}
     {%- set and_sep = joiner('+') -%}
     {%- for key, value in osm_tag_combination|included|dictsort_unless_ordered -%}
         {{- and_sep() -}}
@@ -23,6 +22,7 @@
 {% macro tag_combinations(osm_tag_combinations) -%}
     {% set or_sep = joiner(' or ') -%}
     {%- for osm_tag_combination in osm_tag_combinations -%}
-        {{ tag_combination(osm_tag_combination, or_sep) }}
+        {{ or_sep() -}}
+        {{ tag_combination(osm_tag_combination) }}
     {%- endfor %}
 {%- endmacro %}
