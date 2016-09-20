@@ -12,18 +12,9 @@ from .order_options_mixin import OrderOptionsMixin
 
 
 def get_existing_excerpt_choices(user):
-    private_choices = tuple(
-        (excerpt['id'], excerpt['name']) for excerpt in private_user_excerpts(user).values('id', 'name')
-    )
-    public_choices = tuple(
-        (excerpt['id'], excerpt['name']) for excerpt in public_excerpts().values('id', 'name')
-    )
-    country_choices = tuple(
-        (excerpt['id'], excerpt['name'])
-        for excerpt in countries_and_administrative_areas()
-        .order_by('name')
-        .values('id', 'name')
-    )
+    private_choices = tuple(private_user_excerpts(user).values_list('id', 'name'))
+    public_choices = tuple(public_excerpts().values_list('id', 'name'))
+    country_choices = tuple(countries_and_administrative_areas().order_by('name').values_list('id', 'name'))
     return (
         ('Personal excerpts ({username}) [{count}]'
             .format(username=user.username, count=len(private_choices)),
