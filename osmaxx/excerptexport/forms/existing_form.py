@@ -6,37 +6,24 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
-from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_user_excerpts, \
-    other_users_public_excerpts
+from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_excerpts, \
+    countries_and_administrative_areas
 from .order_options_mixin import OrderOptionsMixin
 
 
-def get_country_choices():
-    return [
-        (excerpt['id'], excerpt['name'])
-        for excerpt in Excerpt.objects
-        .filter(excerpt_type=Excerpt.EXCERPT_TYPE_COUNTRY_BOUNDARY, is_public=True)
-        .order_by('name')
-        .values('id', 'name')
-    ]
-
-
 def get_existing_excerpt_choices(user):
-    country_choices = get_country_choices()
+    private_choices = _choicify(private_user_excerpts(user))
+    public_choices = _choicify(public_excerpts())
+    country_choices = _choicify(countries_and_administrative_areas().order_by('name'))
     return (
-        ('Personal excerpts ({username}) [{count}]'
-            .format(username=user.username, count=private_user_excerpts(user).count()),
-         tuple((excerpt['id'], excerpt['name']) for excerpt in private_user_excerpts(user).values('id', 'name'))
-         ),
-        ('Personal public excerpts ({username}) [{count}]'
-            .format(username=user.username, count=public_user_excerpts(user).count()),
-         tuple((excerpt['id'], excerpt['name']) for excerpt in public_user_excerpts(user).values('id', 'name'))
-         ),
-        ('Other excerpts [{count}]'.format(count=other_users_public_excerpts(user).count()),
-         tuple((excerpt['id'], excerpt['name']) for excerpt in other_users_public_excerpts(user).values('id', 'name'))
-         ),
-        ('Countries [{count}]'.format(count=len(country_choices)), country_choices),
+        ('Personal excerpts ({usr}) [{count}]'.format(usr=user.username, count=len(private_choices)), private_choices),
+        ('Public excerpts [{count}]'.format(count=len(public_choices)), public_choices),
+        ('Countries & administrative areas [{count}]'.format(count=len(country_choices)), country_choices),
     )
+
+
+def _choicify(excerpts_query_set):
+    return tuple(excerpts_query_set.values_list('id', 'name'))
 
 
 class ExistingForm(OrderOptionsMixin, forms.Form):

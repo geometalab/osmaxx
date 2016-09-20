@@ -91,7 +91,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
 
         self.assertIn(
-            ('Other excerpts [1]', ((self.existing_public_foreign_excerpt.id, 'Public Excerpt by someone else'),)),
+            ('Public excerpts [1]', ((self.existing_public_foreign_excerpt.id, 'Public Excerpt by someone else'),)),
             response.context['form'].fields['existing_excerpts'].choices
         )
         self.assertIn(self.existing_public_foreign_excerpt.name, response.context['form'].form_html)

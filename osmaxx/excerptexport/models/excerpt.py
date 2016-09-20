@@ -24,7 +24,7 @@ class Excerpt(models.Model):
     is_public = models.BooleanField(default=False, verbose_name=_('is public'))
     is_active = models.BooleanField(default=True, verbose_name=_('is active'))
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='excerpts', verbose_name=_('owner'), null=True)
-    bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'), null=True)
+    bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'))
     excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
 
     COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES = 0.001
@@ -100,20 +100,22 @@ class Excerpt(models.Model):
         return self.name
 
 
-def _active_user_defined_excerpts():
-    return Excerpt.objects.filter(is_active=True).filter(
-        bounding_geometry__isnull=False,
-        excerpt_type=Excerpt.EXCERPT_TYPE_USER_DEFINED,
-    )
-
-
 def private_user_excerpts(user):
     return _active_user_defined_excerpts().filter(is_public=False, owner=user)
 
 
-def public_user_excerpts(user):
-    return _active_user_defined_excerpts().filter(is_public=True, owner=user)
+def public_excerpts():
+    return _active_user_defined_excerpts().filter(is_public=True)
 
 
-def other_users_public_excerpts(user):
-    return _active_user_defined_excerpts().filter(is_public=True).exclude(owner=user)
+def countries_and_administrative_areas():
+    # We don't care about publicness or ownership with these and always return all (active ones) of them.
+    return _active_excerpts().filter(excerpt_type=Excerpt.EXCERPT_TYPE_COUNTRY_BOUNDARY)
+
+
+def _active_user_defined_excerpts():
+    return _active_excerpts().filter(excerpt_type=Excerpt.EXCERPT_TYPE_USER_DEFINED)
+
+
+def _active_excerpts():
+    return Excerpt.objects.filter(is_active=True)
