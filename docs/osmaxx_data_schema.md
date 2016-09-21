@@ -1515,7 +1515,7 @@ Values of attribute type
 |marina|`leisure=marina`|For mooring leisure yachts and motor boats|
 |pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
 |reservoir_covered|`man_made=reservoir_covered`|A covered reservoir is a large man-made tank for holding fresh water|
-|riverbank|`natural=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
+|riverbank|`waterway=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
 |slipway|`leisure=slipway`|Boats can be launched here|
 |spring|`natural=spring`|A spring is a point where water naturally surfaces|
 |water|`natural=water`|Used to mark body of standing water, such as a lake or pond.|
@@ -1538,11 +1538,12 @@ Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|canal|`waterway=canal`|An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.|
-|drain|`waterway=drain`|A channel or pipe carrying off any excess liquid.|
 |river|`waterway=river`|A large natural stream of water flowing in a channel to the sea, a lake, or another river.|
 |stream|`waterway=stream`|A small and narrow river.|
+|canal|`waterway=canal`|An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.|
+|drain|`waterway=drain`|A channel or pipe carrying off any excess liquid.|
 |waterway|`waterway=*`|Other waterways which is user-defined|
+|pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
 
 
 ## water_p
@@ -1560,11 +1561,11 @@ Values of attribute type
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |dam|`waterway=dam`|A wall built across a river or stream to impound the water. A dam normally does not have water flowing over the top of it.|
-|lock_gate|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
+|lock_gate|`waterway=lock_gate`|Top or bottom gate of a lock. (A Lock is a device for raising and lowering boats between stretches of water of different levels on river and canal waterways.)|
 |marina|`leisure=marina`|For mooring leisure yachts and motor boats|
 |pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
 |reservoir_covered|`man_made=reservoir_covered`|A covered reservoir is a large man-made tank for holding fresh water|
-|riverbank|`natural=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
+|riverbank|`waterway=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
 |slipway|`leisure=slipway`|Boats can be launched here|
 |spring|`natural=spring`|A spring is a point where water naturally surfaces|
 |water|`natural=water`|Used to mark body of standing water, such as a lake or pond.|

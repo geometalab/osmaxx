@@ -3207,7 +3207,7 @@ layers: !!omap
               description: 'A spring is a point where water naturally surfaces'
             "riverbank":
               osm_tags:
-                - "natural": 'riverbank'
+                - "waterway": 'riverbank'
               description: 'For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.'
             "slipway":
               osm_tags:
@@ -3247,27 +3247,31 @@ layers: !!omap
           description: 'The the measurement or extent of something from side to side; the lesser of two or the least of three dimensions of a body.'
         "type":
           type: int
-          values:
-            "river":
-              osm_tags:
-                - "waterway": 'river'
-              description: 'A large natural stream of water flowing in a channel to the sea, a lake, or another river.'
-            "stream":
-              osm_tags:
-                - "waterway": 'stream'
-              description: 'A small and narrow river.'
-            "canal":
-              osm_tags:
-                - "waterway": 'canal'
-              description: 'An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.'
-            "drain":
-              osm_tags:
-                - "waterway": 'drain'
-              description: 'A channel or pipe carrying off any excess liquid.'
-            "waterway":
-              osm_tags:
-                - "waterway": '*'
-              description: 'Other waterways which is user-defined'
+          values: !!omap
+            - "river":
+                osm_tags:
+                  - "waterway": 'river'
+                description: 'A large natural stream of water flowing in a channel to the sea, a lake, or another river.'
+            - "stream":
+                osm_tags:
+                  - "waterway": 'stream'
+                description: 'A small and narrow river.'
+            - "canal":
+                osm_tags:
+                  - "waterway": 'canal'
+                description: 'An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.'
+            - "drain":
+                osm_tags:
+                  - "waterway": 'drain'
+                description: 'A channel or pipe carrying off any excess liquid.'
+            - "waterway":
+                osm_tags:
+                  - "waterway": '*'
+                description: 'Other waterways which is user-defined'
+            - "pier":
+                osm_tags:
+                  - "man_made": 'pier'
+                description: "A 'bridge into the ocean', usually for recreation."
   - "water_p": &layer_water_p
       summary: "See water_l"
       attributes:
@@ -3284,7 +3288,7 @@ layers: !!omap
               description: 'A spring is a point where water naturally surfaces'
             "riverbank":
               osm_tags:
-                - "natural": 'riverbank'
+                - "waterway": 'riverbank'
               description: 'For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.'
             "slipway":
               osm_tags:
@@ -3312,8 +3316,8 @@ layers: !!omap
               description: 'A waterfall is a place where water flows over a vertical drop in the course of a stream or river.'
             "lock_gate":
               osm_tags:
-                - "man_made": 'pier'
-              description: "A 'bridge into the ocean', usually for recreation."
+                - "waterway": 'lock_gate'
+              description: "Top or bottom gate of a lock. (A Lock is a device for raising and lowering boats between stretches of water of different levels on river and canal waterways.)"
             "weir":
               osm_tags:
                 - "waterway": 'weir'
