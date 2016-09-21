@@ -9591,6 +9591,15 @@
             ]
         },
         {
+            "description": "attribute \"type\" with value \"pier\" on layer \"water_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#water_l",
+            "key": "man_made",
+            "object_types": [
+                "way"
+            ],
+            "value": "pier"
+        },
+        {
             "description": "attribute \"type\" with value \"dam\" on layer \"water_p\"",
             "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#water_p",
             "key": "waterway",

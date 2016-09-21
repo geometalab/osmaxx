@@ -1543,6 +1543,7 @@ Values of attribute type
 |canal|`waterway=canal`|An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.|
 |drain|`waterway=drain`|A channel or pipe carrying off any excess liquid.|
 |waterway|`waterway=*`|Other waterways which is user-defined|
+|pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
 
 
 ## water_p

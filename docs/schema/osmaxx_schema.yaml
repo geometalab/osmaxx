@@ -3268,6 +3268,10 @@ layers: !!omap
                 osm_tags:
                   - "waterway": '*'
                 description: 'Other waterways which is user-defined'
+            - "pier":
+                osm_tags:
+                  - "man_made": 'pier'
+                description: "A 'bridge into the ocean', usually for recreation."
   - "water_p": &layer_water_p
       summary: "See water_l"
       attributes:
