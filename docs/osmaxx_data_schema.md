@@ -1538,10 +1538,10 @@ Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|canal|`waterway=canal`|An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.|
-|drain|`waterway=drain`|A channel or pipe carrying off any excess liquid.|
 |river|`waterway=river`|A large natural stream of water flowing in a channel to the sea, a lake, or another river.|
 |stream|`waterway=stream`|A small and narrow river.|
+|canal|`waterway=canal`|An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.|
+|drain|`waterway=drain`|A channel or pipe carrying off any excess liquid.|
 |waterway|`waterway=*`|Other waterways which is user-defined|
 
 
