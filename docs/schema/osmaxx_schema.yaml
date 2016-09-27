@@ -1921,9 +1921,28 @@ layers: !!omap
           values:
             FALSE:
               osm_tags:
-                - "tunnel": 'no'
+                - [not]: !!pairs
+                  - "tunnel": 'passage'
+                  - "tunnel": 'culvert'
+                  - "tunnel": 'noiseprotection galerie'
+                  - "tunnel": 'gallery'
+                  - "tunnel": 'building_passage'
+                  - "tunnel": 'avalanche_protector'
+                  - "tunnel": 'teilweise'
+                  - "tunnel": 'viaduct'
+                  - "tunnel": 'tunnel'
+                  - "tunnel": 'yes'
             TRUE:
               osm_tags:
+                - "tunnel": 'passage'
+                - "tunnel": 'culvert'
+                - "tunnel": 'noiseprotection galerie'
+                - "tunnel": 'gallery'
+                - "tunnel": 'building_passage'
+                - "tunnel": 'avalanche_protector'
+                - "tunnel": 'teilweise'
+                - "tunnel": 'viaduct'
+                - "tunnel": 'tunnel'
                 - "tunnel": 'yes'
           description: 'A tunnel is an underground passage for a road or similar.'
         "voltage":

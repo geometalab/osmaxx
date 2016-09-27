@@ -1085,8 +1085,8 @@ Values of attribute tunnel
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|False|`tunnel=no`| |
-|True|`tunnel=yes`| |
+|False|**`tunnel≠passage`**+**`tunnel≠culvert`**+**`tunnel≠noiseprotection galerie`**+**`tunnel≠gallery`**+**`tunnel≠building_passage`**+**`tunnel≠avalanche_protector`**+**`tunnel≠teilweise`**+**`tunnel≠viaduct`**+**`tunnel≠tunnel`**+**`tunnel≠yes`**| |
+|True|`tunnel=passage` or `tunnel=culvert` or `tunnel=noiseprotection galerie` or `tunnel=gallery` or `tunnel=building_passage` or `tunnel=avalanche_protector` or `tunnel=teilweise` or `tunnel=viaduct` or `tunnel=tunnel` or `tunnel=yes`| |
 
 
 
@@ -1148,8 +1148,8 @@ Values of attribute tunnel
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|False|`tunnel=no`| |
-|True|`tunnel=yes`| |
+|False|**`tunnel≠passage`**+**`tunnel≠culvert`**+**`tunnel≠noiseprotection galerie`**+**`tunnel≠gallery`**+**`tunnel≠building_passage`**+**`tunnel≠avalanche_protector`**+**`tunnel≠teilweise`**+**`tunnel≠viaduct`**+**`tunnel≠tunnel`**+**`tunnel≠yes`**| |
+|True|`tunnel=passage` or `tunnel=culvert` or `tunnel=noiseprotection galerie` or `tunnel=gallery` or `tunnel=building_passage` or `tunnel=avalanche_protector` or `tunnel=teilweise` or `tunnel=viaduct` or `tunnel=tunnel` or `tunnel=yes`| |
 
 
 
