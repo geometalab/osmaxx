@@ -1076,8 +1076,8 @@ Values of attribute bridge
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|False|`bridge=no`| |
-|True|`bridge=yes`| |
+|False|**`bridge≠split_log`**+**`bridge≠beam`**+**`bridge≠culvert`**+**`bridge≠low_water_crossing`**+**`bridge≠yes`**+**`bridge≠suspension`**+**`bridge≠viaduct`**+**`bridge≠aqueduct`**+**`bridge≠covered`**| |
+|True|`bridge=split_log` or `bridge=beam` or `bridge=culvert` or `bridge=low_water_crossing` or `bridge=yes` or `bridge=suspension` or `bridge=viaduct` or `bridge=aqueduct` or `bridge=covered`| |
 
 
 
@@ -1139,8 +1139,8 @@ Values of attribute bridge
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|False|`bridge=no`| |
-|True|`bridge=yes`| |
+|False|**`bridge≠split_log`**+**`bridge≠beam`**+**`bridge≠culvert`**+**`bridge≠low_water_crossing`**+**`bridge≠yes`**+**`bridge≠suspension`**+**`bridge≠viaduct`**+**`bridge≠aqueduct`**+**`bridge≠covered`**| |
+|True|`bridge=split_log` or `bridge=beam` or `bridge=culvert` or `bridge=low_water_crossing` or `bridge=yes` or `bridge=suspension` or `bridge=viaduct` or `bridge=aqueduct` or `bridge=covered`| |
 
 
 

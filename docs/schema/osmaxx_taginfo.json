@@ -6740,13 +6740,40 @@
             "value": "taoist"
         },
         {
-            "description": "attribute \"bridge\" with value \"False\" on layer \"railway_l\"",
+            "description": "attribute \"bridge\" with value \"True\" on layer \"railway_l\"",
             "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#railway_l",
             "key": "bridge",
             "object_types": [
                 "way"
             ],
-            "value": "no"
+            "value": "split_log"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"railway_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#railway_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "beam"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"railway_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#railway_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "culvert"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"railway_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#railway_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "low_water_crossing"
         },
         {
             "description": "attribute \"bridge\" with value \"True\" on layer \"railway_l\"",
@@ -6756,6 +6783,42 @@
                 "way"
             ],
             "value": "yes"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"railway_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#railway_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "suspension"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"railway_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#railway_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "viaduct"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"railway_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#railway_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "aqueduct"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"railway_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#railway_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "covered"
         },
         {
             "description": "attribute \"tunnel\" with value \"False\" on layer \"railway_l\"",
@@ -6981,13 +7044,40 @@
             ]
         },
         {
-            "description": "attribute \"bridge\" with value \"False\" on layer \"road_l\"",
+            "description": "attribute \"bridge\" with value \"True\" on layer \"road_l\"",
             "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#road_l",
             "key": "bridge",
             "object_types": [
                 "way"
             ],
-            "value": "no"
+            "value": "split_log"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"road_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#road_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "beam"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"road_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#road_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "culvert"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"road_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#road_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "low_water_crossing"
         },
         {
             "description": "attribute \"bridge\" with value \"True\" on layer \"road_l\"",
@@ -6997,6 +7087,42 @@
                 "way"
             ],
             "value": "yes"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"road_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#road_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "suspension"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"road_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#road_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "viaduct"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"road_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#road_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "aqueduct"
+        },
+        {
+            "description": "attribute \"bridge\" with value \"True\" on layer \"road_l\"",
+            "doc_url": "https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md#road_l",
+            "key": "bridge",
+            "object_types": [
+                "way"
+            ],
+            "value": "covered"
         },
         {
             "description": "attribute \"tunnel\" with value \"False\" on layer \"road_l\"",

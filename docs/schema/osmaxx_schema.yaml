@@ -1894,10 +1894,27 @@ layers: !!omap
           values:
             FALSE:
               osm_tags:
-                - "bridge": 'no'
+                - [not]: !!pairs
+                  - "bridge": 'split_log'
+                  - "bridge": 'beam'
+                  - "bridge": 'culvert'
+                  - "bridge": 'low_water_crossing'
+                  - "bridge": 'yes'
+                  - "bridge": 'suspension'
+                  - "bridge": 'viaduct'
+                  - "bridge": 'aqueduct'
+                  - "bridge": 'covered'
             TRUE:
               osm_tags:
+                - "bridge": 'split_log'
+                - "bridge": 'beam'
+                - "bridge": 'culvert'
+                - "bridge": 'low_water_crossing'
                 - "bridge": 'yes'
+                - "bridge": 'suspension'
+                - "bridge": 'viaduct'
+                - "bridge": 'aqueduct'
+                - "bridge": 'covered'
           description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
         "tunnel": &attribute_tunnel
           type: boolean
