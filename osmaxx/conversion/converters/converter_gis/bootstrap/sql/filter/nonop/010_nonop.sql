@@ -59,7 +59,7 @@ INSERT INTO osmaxx.nonop_l
     end as bridge,
 -- Checking for tunnels with different tags associated to tunnels --
     case
-    when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector','teilweise', 'viaduct', 'tunnel', 'yes') then TRUE
+    when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector', 'viaduct', 'tunnel', 'yes') then TRUE
     else FALSE
     end as tunnel,
 
