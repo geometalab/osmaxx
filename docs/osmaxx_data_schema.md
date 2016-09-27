@@ -1076,8 +1076,8 @@ Values of attribute bridge
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`bridge=no`| |
-|1|`bridge=yes`| |
+|False|`bridge=no`| |
+|True|`bridge=yes`| |
 
 
 
@@ -1085,8 +1085,8 @@ Values of attribute tunnel
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`tunnel=no`| |
-|1|`tunnel=yes`| |
+|False|`tunnel=no`| |
+|True|`tunnel=yes`| |
 
 
 
@@ -1139,8 +1139,8 @@ Values of attribute bridge
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`bridge=no`| |
-|1|`bridge=yes`| |
+|False|`bridge=no`| |
+|True|`bridge=yes`| |
 
 
 
@@ -1148,8 +1148,8 @@ Values of attribute tunnel
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`tunnel=no`| |
-|1|`tunnel=yes`| |
+|False|`tunnel=no`| |
+|True|`tunnel=yes`| |
 
 
 

@@ -1890,23 +1890,22 @@ layers: !!omap
             - "layer": '*'
           description: "The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers."
         "bridge": &attribute_bridge
-          # can this type be with the specified value ???
           type: boolean
           values:
-            "0":
+            FALSE:
               osm_tags:
                 - "bridge": 'no'
-            "1":
+            TRUE:
               osm_tags:
                 - "bridge": 'yes'
           description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
         "tunnel": &attribute_tunnel
           type: boolean
           values:
-            "0":
+            FALSE:
               osm_tags:
                 - "tunnel": 'no'
-            "1":
+            TRUE:
               osm_tags:
                 - "tunnel": 'yes'
           description: 'A tunnel is an underground passage for a road or similar.'
