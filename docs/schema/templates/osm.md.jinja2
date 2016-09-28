@@ -13,7 +13,7 @@
         {{- and_sep() -}}
         {{- tag(key, value) -}}
     {%- endfor %}
-    {%- for key, value in osm_tag_combination|excluded|dictsort_unless_ordered -%}
+    {%- for key, value in osm_tag_combination|excluded|multimapify|dictsort_unless_ordered -%}
         {{- and_sep() -}}
         {{- not_tag(key, value) -}}
     {%- endfor %}

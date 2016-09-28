@@ -1889,25 +1889,60 @@ layers: !!omap
           osm_tags: 
             - "layer": '*'
           description: "The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers."
-        "bridge":
-          # can this type be with the specified value ???
+        "bridge": &attribute_bridge
           type: boolean
           values:
-            "0":
+            FALSE:
               osm_tags:
-                - "bridge": 'no'
-            "1":
+                - [not]: !!pairs
+                  - "bridge": 'split_log'
+                  - "bridge": 'beam'
+                  - "bridge": 'culvert'
+                  - "bridge": 'low_water_crossing'
+                  - "bridge": 'yes'
+                  - "bridge": 'suspension'
+                  - "bridge": 'viaduct'
+                  - "bridge": 'aqueduct'
+                  - "bridge": 'covered'
+            TRUE:
               osm_tags:
+                - "bridge": 'split_log'
+                - "bridge": 'beam'
+                - "bridge": 'culvert'
+                - "bridge": 'low_water_crossing'
                 - "bridge": 'yes'
+                - "bridge": 'suspension'
+                - "bridge": 'viaduct'
+                - "bridge": 'aqueduct'
+                - "bridge": 'covered'
           description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
-        "tunnel":
+        "tunnel": &attribute_tunnel
           type: boolean
           values:
-            "0":
+            FALSE:
               osm_tags:
-                - "tunnel": 'no'
-            "1":
+                - [not]: !!pairs
+                  - "tunnel": 'passage'
+                  - "tunnel": 'culvert'
+                  - "tunnel": 'noiseprotection galerie'
+                  - "tunnel": 'gallery'
+                  - "tunnel": 'building_passage'
+                  - "tunnel": 'avalanche_protector'
+                  - "tunnel": 'teilweise'
+                  - "tunnel": 'viaduct'
+                  - "tunnel": 'tunnel'
+                  - "tunnel": 'yes'
+            TRUE:
               osm_tags:
+                - "tunnel": 'passage'
+                - "tunnel": 'culvert'
+                - "tunnel": 'noiseprotection galerie'
+                - "tunnel": 'gallery'
+                - "tunnel": 'building_passage'
+                - "tunnel": 'avalanche_protector'
+                - "tunnel": 'teilweise'
+                - "tunnel": 'viaduct'
+                - "tunnel": 'tunnel'
                 - "tunnel": 'yes'
           description: 'A tunnel is an underground passage for a road or similar.'
         "voltage":
@@ -2083,26 +2118,9 @@ layers: !!omap
           osm_tags:
             - "layer": '*'
         "bridge":
-          # can this type be with the specified value ???
-          type: boolean
-          values:
-            "0":
-              osm_tags:
-                - "bridge": 'no'
-            "1":
-              osm_tags:
-                - "bridge": 'yes'
-          description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
+          <<: *attribute_bridge
         "tunnel":
-          type: boolean
-          values:
-            "0":
-              osm_tags:
-                - "tunnel": 'no'
-            "1":
-              osm_tags:
-                - "tunnel": 'yes'
-          description: 'A tunnel is an underground passage for a road or similar.'
+          <<: *attribute_tunnel
         "type":
           type: text
           values: !!pairs

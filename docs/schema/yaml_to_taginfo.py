@@ -61,7 +61,7 @@ class OSMTag:
         assert isinstance(key, str)
         assert isinstance(layer_name, str)
         assert isinstance(attribute_name, str)
-        assert isinstance(attribute_value, str) or isinstance(attribute_value, type(None))
+        assert any(isinstance(attribute_value, allowed_type) for allowed_type in [str, type(None), bool])
         self.key = key
         self.layer_name = layer_name
         self.attribute_name = attribute_name

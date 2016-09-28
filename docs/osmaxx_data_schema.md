@@ -1076,8 +1076,8 @@ Values of attribute bridge
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`bridge=no`| |
-|1|`bridge=yes`| |
+|False|**`bridge≠split_log`**+**`bridge≠beam`**+**`bridge≠culvert`**+**`bridge≠low_water_crossing`**+**`bridge≠yes`**+**`bridge≠suspension`**+**`bridge≠viaduct`**+**`bridge≠aqueduct`**+**`bridge≠covered`**| |
+|True|`bridge=split_log` or `bridge=beam` or `bridge=culvert` or `bridge=low_water_crossing` or `bridge=yes` or `bridge=suspension` or `bridge=viaduct` or `bridge=aqueduct` or `bridge=covered`| |
 
 
 
@@ -1085,8 +1085,8 @@ Values of attribute tunnel
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`tunnel=no`| |
-|1|`tunnel=yes`| |
+|False|**`tunnel≠passage`**+**`tunnel≠culvert`**+**`tunnel≠noiseprotection galerie`**+**`tunnel≠gallery`**+**`tunnel≠building_passage`**+**`tunnel≠avalanche_protector`**+**`tunnel≠teilweise`**+**`tunnel≠viaduct`**+**`tunnel≠tunnel`**+**`tunnel≠yes`**| |
+|True|`tunnel=passage` or `tunnel=culvert` or `tunnel=noiseprotection galerie` or `tunnel=gallery` or `tunnel=building_passage` or `tunnel=avalanche_protector` or `tunnel=teilweise` or `tunnel=viaduct` or `tunnel=tunnel` or `tunnel=yes`| |
 
 
 
@@ -1139,8 +1139,8 @@ Values of attribute bridge
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`bridge=no`| |
-|1|`bridge=yes`| |
+|False|**`bridge≠split_log`**+**`bridge≠beam`**+**`bridge≠culvert`**+**`bridge≠low_water_crossing`**+**`bridge≠yes`**+**`bridge≠suspension`**+**`bridge≠viaduct`**+**`bridge≠aqueduct`**+**`bridge≠covered`**| |
+|True|`bridge=split_log` or `bridge=beam` or `bridge=culvert` or `bridge=low_water_crossing` or `bridge=yes` or `bridge=suspension` or `bridge=viaduct` or `bridge=aqueduct` or `bridge=covered`| |
 
 
 
@@ -1148,8 +1148,8 @@ Values of attribute tunnel
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`tunnel=no`| |
-|1|`tunnel=yes`| |
+|False|**`tunnel≠passage`**+**`tunnel≠culvert`**+**`tunnel≠noiseprotection galerie`**+**`tunnel≠gallery`**+**`tunnel≠building_passage`**+**`tunnel≠avalanche_protector`**+**`tunnel≠teilweise`**+**`tunnel≠viaduct`**+**`tunnel≠tunnel`**+**`tunnel≠yes`**| |
+|True|`tunnel=passage` or `tunnel=culvert` or `tunnel=noiseprotection galerie` or `tunnel=gallery` or `tunnel=building_passage` or `tunnel=avalanche_protector` or `tunnel=teilweise` or `tunnel=viaduct` or `tunnel=tunnel` or `tunnel=yes`| |
 
 
 
