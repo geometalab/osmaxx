@@ -36,7 +36,7 @@ INSERT INTO osmaxx.railway_l
     end as bridge,
 -- Combining different tags for Rail Tunnels --
     case
-    when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector','teilweise', 'viaduct', 'tunnel', 'yes') then TRUE
+    when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector', 'viaduct', 'tunnel', 'yes') then TRUE
     else FALSE
     end as tunnel,
     voltage as voltage,
