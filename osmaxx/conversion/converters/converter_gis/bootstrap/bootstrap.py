@@ -11,6 +11,7 @@ from osmaxx.utils import polyfile_helpers
 def boostrap(area_polyfile_string, detail_level=detail_levels.DETAIL_LEVEL_ALL):
     bootstrapper = BootStrapper(area_polyfile_string, detail_level=detail_level)
     bootstrapper.bootstrap()
+    return bootstrapper
 
 
 class BootStrapper:
@@ -29,6 +30,10 @@ class BootStrapper:
         self._harmonize_database()
         self._filter_data()
         self._create_views()
+
+    @property
+    def geom(self):
+        return self._extent
 
     def _reset_database(self):
         self._postgres.drop_db()

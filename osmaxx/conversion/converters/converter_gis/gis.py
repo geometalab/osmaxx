@@ -15,6 +15,9 @@ from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_g
 from osmaxx.conversion_api.formats import FORMAT_DEFINITIONS
 
 
+QGIS_DISPLAY_SRID = 3857  # Web Mercator
+
+
 class GISConverter:
     def __init__(self, *, conversion_format, out_zip_file_path, base_file_name, out_srs, polyfile_string, detail_level):
         """
@@ -43,7 +46,8 @@ class GISConverter:
     def create_gis_export(self):
         self._start_time = timezone.now()
 
-        bootstrap.boostrap(self._polyfile_string, detail_level=self._detail_level)
+        _bootstrapper = bootstrap.boostrap(self._polyfile_string, detail_level=self._detail_level)
+        geom_in_qgis_display_srs = _bootstrapper.geom.transform(QGIS_DISPLAY_SRID, clone=True)
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             data_dir = os.path.join(tmp_dir, 'data')
@@ -71,6 +75,7 @@ class GISConverter:
                 separator=format_definition.qgis_datasource_separator,
                 extension=format_definition.layer_filename_extension,
                 attribute_value_encoding=format_definition.attribute_value_encoding,
+                extent=geom_in_qgis_display_srs.extent
             ).dump(os.path.join(qgis_symbology_dir, 'OSMaxx.qgs'))
             shutil.copytree(
                 os.path.join(self._symbology_directory, 'OSMaxx_point_symbols'),
