@@ -439,7 +439,7 @@
   <projectlayers>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_address_p_any20160602124823947</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=address_p</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}address_p{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg address_p any</shortname>
       <keywordList>
         <value></value>
@@ -457,7 +457,7 @@
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -610,7 +610,7 @@
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_adminarea_a_any20160602124824119</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=adminarea_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}adminarea_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg adminarea_a any</shortname>
       <keywordList>
         <value></value>
@@ -628,7 +628,7 @@
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -879,7 +879,7 @@
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_boundary_l_any20160602124824165</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=boundary_l</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}boundary_l{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg boundary_l any</shortname>
       <keywordList>
         <value></value>
@@ -897,7 +897,7 @@
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -1552,7 +1552,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_building_a_any20160602124824228</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=building_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}building_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg building_a any</shortname>
       <keywordList>
         <value></value>
@@ -1570,7 +1570,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -1884,7 +1884,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_coastline_l_any20160602124824025</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=coastline_l</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}coastline_l{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg coastline_l any</shortname>
       <keywordList>
         <value></value>
@@ -1902,7 +1902,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "fid", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -2007,7 +2007,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_geoname_l_any20160602124824368</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=geoname_l</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}geoname_l{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg geoname_l any</shortname>
       <keywordList>
         <value></value>
@@ -2025,7 +2025,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -2151,7 +2151,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_geoname_p_any20160602124824415</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=geoname_p</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}geoname_p{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg geoname_p any</shortname>
       <keywordList>
         <value></value>
@@ -2169,7 +2169,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -2406,7 +2406,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_landmass_a_any20160602124823885</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=landmass_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}landmass_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg landmass_a any</shortname>
       <keywordList>
         <value></value>
@@ -2424,7 +2424,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -2510,7 +2510,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_landuse_a_any20160602124824462</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=landuse_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}landuse_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg landuse_a any</shortname>
       <keywordList>
         <value></value>
@@ -2528,7 +2528,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -3607,7 +3607,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_military_a_any20160602124824509</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=military_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}military_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg military_a any</shortname>
       <keywordList>
         <value></value>
@@ -3625,7 +3625,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -4020,7 +4020,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_military_p_any20160602124824555</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=military_p</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}military_p{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg military_p any</shortname>
       <keywordList>
         <value></value>
@@ -4038,7 +4038,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -4209,7 +4209,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_misc_l_any20160602124824586</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=misc_l</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}misc_l{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg misc_l any</shortname>
       <keywordList>
         <value></value>
@@ -4227,7 +4227,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -4764,7 +4764,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_natural_a_any20160602124824633</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=natural_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}natural_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg natural_a any</shortname>
       <keywordList>
         <value></value>
@@ -4782,7 +4782,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -5480,7 +5480,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="0" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_natural_p_any20160602124824680</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=natural_p</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}natural_p{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg natural_p any</shortname>
       <keywordList>
         <value></value>
@@ -5498,7 +5498,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -6128,7 +6128,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_nonop_l_any20160602124824727</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=nonop_l</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}nonop_l{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg nonop_l any</shortname>
       <keywordList>
         <value></value>
@@ -6146,7 +6146,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -6476,7 +6476,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_poi_a_any20160602124824774</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=poi_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}poi_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg poi_a any</shortname>
       <keywordList>
         <value></value>
@@ -6494,7 +6494,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -7256,7 +7256,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="0" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_poi_p_any20160602124824820</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=poi_p</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}poi_p{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg poi_p any</shortname>
       <keywordList>
         <value></value>
@@ -7274,7 +7274,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -11161,7 +11161,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_pow_a_any20160602124824867</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=pow_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}pow_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg pow_a any</shortname>
       <keywordList>
         <value></value>
@@ -11179,7 +11179,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -11508,7 +11508,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="0" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_pow_p_any20160602124824914</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=pow_p</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}pow_p{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg pow_p any</shortname>
       <keywordList>
         <value></value>
@@ -11526,7 +11526,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -12260,7 +12260,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_railway_l_any20160602124824961</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=railway_l</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}railway_l{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg railway_l any</shortname>
       <keywordList>
         <value></value>
@@ -12278,7 +12278,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -15880,7 +15880,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_road_l_any20160602124825008</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=road_l</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}road_l{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg road_l any</shortname>
       <keywordList>
         <value></value>
@@ -15898,7 +15898,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -20191,7 +20191,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_route_l_any20160602124825085</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=route_l</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}route_l{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg route_l any</shortname>
       <keywordList>
         <value></value>
@@ -20209,7 +20209,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -20524,7 +20524,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_sea_a_any20160602124824072</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=sea_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}sea_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg sea_a any</shortname>
       <keywordList>
         <value></value>
@@ -20542,7 +20542,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "fid", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -20821,7 +20821,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_traffic_a_any20160602124825148</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=traffic_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}traffic_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg traffic_a any</shortname>
       <keywordList>
         <value></value>
@@ -20839,7 +20839,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -21156,7 +21156,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="25000" maximumScale="1000" simplifyDrawingHints="0" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_traffic_p_any20160602124825179</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=traffic_p</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}traffic_p{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg traffic_p any</shortname>
       <keywordList>
         <value></value>
@@ -21174,7 +21174,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -22203,7 +22203,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_transport_a_any20160602124825241</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=transport_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}transport_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg transport_a any</shortname>
       <keywordList>
         <value></value>
@@ -22221,7 +22221,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -22535,7 +22535,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_transport_l_any20160602124825273</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=transport_l</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}transport_l{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg transport_l any</shortname>
       <keywordList>
         <value></value>
@@ -22553,7 +22553,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -22886,7 +22886,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="50000" maximumScale="10000" simplifyDrawingHints="0" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_transport_p_any20160602124825319</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=transport_p</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}transport_p{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg transport_p any</shortname>
       <keywordList>
         <value></value>
@@ -22904,7 +22904,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -23646,7 +23646,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_utility_a_any20160602124825366</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=utility_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}utility_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg utility_a any</shortname>
       <keywordList>
         <value></value>
@@ -23664,7 +23664,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -23978,7 +23978,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_utility_l_any20160602124825413</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=utility_l</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}utility_l{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg utility_l any</shortname>
       <keywordList>
         <value></value>
@@ -23996,7 +23996,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -24384,7 +24384,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="0" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_utility_p_any20160602124825444</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=utility_p</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}utility_p{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg utility_p any</shortname>
       <keywordList>
         <value></value>
@@ -24402,7 +24402,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -25108,7 +25108,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_water_a_any20160602124825491</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=water_a</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}water_a{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg water_a any</shortname>
       <keywordList>
         <value></value>
@@ -25126,7 +25126,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -25553,7 +25553,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_water_l_any20160602124825538</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=water_l</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}water_l{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg water_l any</shortname>
       <keywordList>
         <value></value>
@@ -25571,7 +25571,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
@@ -26058,7 +26058,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="0" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20160601_frankfurt_am_main_gpkg_water_p_any20160602124825584</id>
-      <datasource>../../data/frankfurt-am-main_wgs-84_2016-06-30_gpkg_full-detail.gpkg|layername=water_p</datasource>
+      <datasource>../../data/{{ data_location }}{{ separator }}water_p{{ extension if extension is not none else '' }}</datasource>
       <shortname>20160601-frankfurt-am-main_gpkg water_p any</shortname>
       <keywordList>
         <value></value>
@@ -26076,7 +26076,7 @@ def my_form_open(dialog, layer, feature):
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="{{ attribute_value_encoding }}">ogr</provider>
       <previewExpression></previewExpression>
       <vectorjoins/>
       <layerDependencies/>
