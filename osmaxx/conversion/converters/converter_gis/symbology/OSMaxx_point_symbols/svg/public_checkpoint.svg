@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1000"
+   height="1000"
+   id="svg4799"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   viewBox="0 0 1000 1000"
+   sodipodi:docname="public_checkpoint.svg">
+  <title
+     id="title5366">public_checkpoint</title>
+  <defs
+     id="defs5498" />
+  <sodipodi:namedview
+     inkscape:window-height="894"
+     inkscape:window-width="1240"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     showguides="false"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="0.05675"
+     inkscape:cx="4442.3232"
+     inkscape:cy="2237.4546"
+     inkscape:window-x="383"
+     inkscape:window-y="174"
+     inkscape:current-layer="layer1"
+     inkscape:window-maximized="0">
+    <sodipodi:guide
+       orientation="horizontal"
+       position="-431.71806,-202.64317"
+       id="guide5596" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5594">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>public_checkpoint</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:37.73622131;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 497.04268,179.40814 A 320.59155,320.59155 0 0 0 176.45091,499.99994 320.59155,320.59155 0 0 0 497.04268,820.59186 320.59155,320.59155 0 0 0 817.63449,499.99994 320.59155,320.59155 0 0 0 497.04268,179.40814 Z"
+       id="path9919"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#010002"
+       d="m 500.00038,166.36374 c -184.3108,0 -333.64477,149.3342 -333.64477,333.6362 0,184.20142 149.33397,333.63632 333.64477,333.63632 184.276,0 333.64401,-149.4349 333.64401,-333.63632 0,-184.302 -149.376,-333.6362 -333.644,-333.6362 z m -222.3908,378.11772 0,-88.96302 444.7638,0 0,88.96302 -444.7638,0 z"
+       id="path9356" />
+  </g>
+</svg>

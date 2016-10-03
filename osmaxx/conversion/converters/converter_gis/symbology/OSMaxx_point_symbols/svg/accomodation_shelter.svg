@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg21285"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="accomodation_shelter.svg">
+  <defs
+     id="defs21287" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="80"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata21290">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       inkscape:connector-curvature="0"
+       d="m 979.89832,116.08889 c -239.185,83.5178 -474.788,165.80379 -710.363,248.07344 0,26.04844 0,52.11864 0,78.16708 21.436,33.91725 50.279,7.68154 79.882,7.79009 l 0,288.50824 627.414,0 0,-101.59163 -525.147,0 c 0,-62.89616 2.171,-122.35714 -0.814,-181.56309 -1.628,-34.48705 8.601,-50.21111 42.871,-61.63444 154.039,-51.3914 306.856,-106.28306 459.891,-160.57779 9.796,-3.5003 24.366,-12.1207 25.072,-19.5011 2.903,-29.5215 1.357,-59.5207 1.357,-97.6708 z"
+       id="path3-2"
+       style="fill:#004150;fill-opacity:1" />
+  </g>
+</svg>

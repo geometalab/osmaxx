@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg7179"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="worship_christian.svg">
+  <defs
+     id="defs7181" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="128"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7184">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       inkscape:connector-curvature="0"
+       d="m 626.85995,84.145819 c -40.04,0 -73.595,0.266 -74.629,0.663 -1.67,0.637 -1.856,9.316 -1.856,85.870001 l 0,85.092 -73.544,0 -73.438,0 0,60.44 c 0,54.014 0.265,60.527 1.856,61.163 1.034,0.398 34.087,0.716 73.491,0.716 l 71.625,0 0,195.665 c 0,155.468 0.291,195.811 1.458,196.285 0.822,0.345 34.456,0.637 74.682,0.663 l 73.181,0 0,-196.388 0,-196.339 73.491,0 73.438,0 0,-61.163 0,-61.167 -73.438,0 -73.491,0 0,-85.816 0,-85.816001 -72.818,0 z"
+       id="path15412" />
+  </g>
+</svg>

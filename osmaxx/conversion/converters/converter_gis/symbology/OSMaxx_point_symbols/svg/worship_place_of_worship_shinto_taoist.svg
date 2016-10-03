@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg8923"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="worship_place_of_worship_shinto_taoist.svg">
+  <defs
+     id="defs8925" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="375"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata8928">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       inkscape:connector-curvature="0"
+       d="m 623.00982,61.858219 c -43.254,0 -78.321,35.0672 -78.321,78.321401 0,43.2544 35.067,78.3214 78.321,78.3214 43.26,0 78.322,-35.067 78.322,-78.3214 0,-43.254201 -35.062,-78.321401 -78.322,-78.321401 z m -278.41701,238.786401 69.56001,126.7136 156.643,-52.2143 52.214,208.8572 -104.428,104.4287 c -14.155,15.9306 -24.337,23.9506 -26.107,52.2143 0,52.2143 52.214,52.2143 52.214,52.2143 l 313.286,0 c 0,0 52.214,0 52.214,-52.2143 0,-52.2143 -52.214,-52.2143 -52.214,-52.2143 l -156.643,0 52.214,-52.2143 c 52.214,-52.2144 48.507,-76.8909 42.424,-104.4287 l -42.424,-208.8572 c -12.495,-46.6482 -45.019,-69.424 -104.428,-60.0464 l -52.215,7.8321 -156.643,78.3215 -52.214,-78.3215 c -23.032,-30.681 -61.78001,-4.2816 -43.45301,29.9293 z"
+       id="place-of-worship"
+       style="fill:#000000;fill-opacity:1;stroke:none" />
+  </g>
+</svg>
