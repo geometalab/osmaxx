@@ -53,16 +53,7 @@ class GISConverter:
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             data_dir = os.path.join(tmp_dir, 'data')
-            static_dir = os.path.join(tmp_dir, 'static')
-            os.makedirs(data_dir)
-            shutil.copytree(self._static_directory, static_dir)
-            shutil.copy(odb_license, static_dir)
-            data_location = extract_to(
-                to_format=self._conversion_format,
-                output_dir=data_dir,
-                base_filename=self._base_file_name,
-                out_srs=self._out_srs
-            )
+            data_location = self._dump_gis_data(data_dir, tmp_dir)
             unzipped_result_size = recursive_getsize(data_dir)
 
             symbology_dir = os.path.join(tmp_dir, 'symbology')
@@ -77,6 +68,19 @@ class GISConverter:
             job.meta['unzipped_result_size'] = unzipped_result_size
             job.save()
         return self._out_zip_file_path
+
+    def _dump_gis_data(self, data_dir, target_dir):
+        static_dir = os.path.join(target_dir, 'static')
+        os.makedirs(data_dir)
+        shutil.copytree(self._static_directory, static_dir)
+        shutil.copy(odb_license, static_dir)
+        data_location = extract_to(
+            to_format=self._conversion_format,
+            output_dir=data_dir,
+            base_filename=self._base_file_name,
+            out_srs=self._out_srs
+        )
+        return data_location
 
     def _dump_qgis_symbology(self, data_location, geom_in_qgis_display_srs, target_dir):
         qgis_symbology_dir = os.path.join(target_dir, 'QGIS')
