@@ -66,23 +66,7 @@ class GISConverter:
             unzipped_result_size = recursive_getsize(data_dir)
 
             symbology_dir = os.path.join(tmp_dir, 'symbology')
-            qgis_symbology_dir = os.path.join(symbology_dir, 'QGIS')
-            os.makedirs(qgis_symbology_dir)
-            qgis_symbology_readme = os.path.join(self._symbology_directory, 'README.rst')
-            shutil.copy(qgis_symbology_readme, qgis_symbology_dir)
-            template = self._env.get_template('OSMaxx.qgs.jinja2')
-            format_definition = FORMAT_DEFINITIONS[self._conversion_format]
-            template.stream(
-                data_location=os.path.basename(data_location),
-                separator=format_definition.qgis_datasource_separator,
-                extension=format_definition.layer_filename_extension,
-                attribute_value_encoding=format_definition.attribute_value_encoding,
-                extent=geom_in_qgis_display_srs.extent
-            ).dump(os.path.join(qgis_symbology_dir, 'OSMaxx.qgs'))
-            shutil.copytree(
-                os.path.join(self._symbology_directory, 'OSMaxx_point_symbols'),
-                os.path.join(symbology_dir, 'OSMaxx_point_symbols'),
-            )
+            self._dump_qgis_symbology(data_location, geom_in_qgis_display_srs, target_dir=symbology_dir)
 
             zip_folders_relative([tmp_dir], zip_out_file_path=self._out_zip_file_path)
 
@@ -93,3 +77,22 @@ class GISConverter:
             job.meta['unzipped_result_size'] = unzipped_result_size
             job.save()
         return self._out_zip_file_path
+
+    def _dump_qgis_symbology(self, data_location, geom_in_qgis_display_srs, target_dir):
+        qgis_symbology_dir = os.path.join(target_dir, 'QGIS')
+        os.makedirs(qgis_symbology_dir)
+        qgis_symbology_readme = os.path.join(self._symbology_directory, 'README.rst')
+        shutil.copy(qgis_symbology_readme, qgis_symbology_dir)
+        template = self._env.get_template('OSMaxx.qgs.jinja2')
+        format_definition = FORMAT_DEFINITIONS[self._conversion_format]
+        template.stream(
+            data_location=os.path.basename(data_location),
+            separator=format_definition.qgis_datasource_separator,
+            extension=format_definition.layer_filename_extension,
+            attribute_value_encoding=format_definition.attribute_value_encoding,
+            extent=geom_in_qgis_display_srs.extent
+        ).dump(os.path.join(qgis_symbology_dir, 'OSMaxx.qgs'))
+        shutil.copytree(
+            os.path.join(self._symbology_directory, 'OSMaxx_point_symbols'),
+            os.path.join(target_dir, 'OSMaxx_point_symbols'),
+        )
