@@ -7,30 +7,34 @@ from tests.conftest import TagCombination
 from tests.conversion.converters.inside_worker_test.conftest import sql_from_bootstrap_relative_location, slow
 from tests.conversion.converters.inside_worker_test.declarative_schema import osm_models
 
-xeno = "大洲南部広域農道"
-xeno_transliterated = 'dà zhōu nán bù guǎng yù nóng dào'
+xeno_1 = "大洲南部広域農道"
+xeno_1_transliterated = 'dà zhōu nán bù guǎng yù nóng dào'
+xeno_2 = "কলকাতা"
+xeno_2_transliterated = "kalakātā"
 latin = 'Turicum'
 
 NAME_TAG_COMBINATIONS = tuple(
     TagCombination(name_tags) for name_tags in
     [
-        {'name': latin, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': latin},
-        {'name': xeno, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
-        {'name': latin, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': latin},
+        {'name': latin, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'int_name': xeno_2, 'expected_label': latin},
+        {'name': xeno_1, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'int_name': xeno_2, 'expected_label': 'latin-en'},
+        {'name': latin, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'int_name': None, 'expected_label': latin},
 
         # correct order of fallbacks
-        {'name': None, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
-        {'name': None, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-fr'},
-        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-es'},
-        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'expected_label': 'latin-de'},
-        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': None},
+        {'name': None, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'int_name': 'int name', 'expected_label': 'latin-en'},
+        {'name': None, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'int_name': 'int name', 'expected_label': 'latin-fr'},
+        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'int_name': 'int name', 'expected_label': 'latin-es'},
+        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'int_name': 'int name', 'expected_label': 'latin-de'},
+        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'int_name': 'int name', 'expected_label': 'int name'},
+        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'int_name': None, 'expected_label': None},
 
         # correct order of fallbacks with transliterate
-        {'name': xeno, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
-        {'name': xeno, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-fr'},
-        {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-es'},
-        {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'expected_label': 'latin-de'},
-        {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': xeno_transliterated},
+        {'name': xeno_1, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'int_name': xeno_2, 'expected_label': 'latin-en'},
+        {'name': xeno_1, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'int_name': xeno_2, 'expected_label': 'latin-fr'},
+        {'name': xeno_1, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'int_name': xeno_2, 'expected_label': 'latin-es'},
+        {'name': xeno_1, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'int_name': xeno_2, 'expected_label': 'latin-de'},
+        {'name': xeno_1, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'int_name': xeno_2, 'expected_label': xeno_2_transliterated},
+        {'name': xeno_1, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'int_name': None, 'expected_label': xeno_1_transliterated},
     ]
 )
 

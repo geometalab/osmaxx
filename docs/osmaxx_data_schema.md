@@ -156,7 +156,9 @@ according to the following logic:
 1. The feature's common name (OSM tag `name=*`) is used if it already is is in Latin script.
 2. Else, the feature's English, French, Spanish or German name (in this precedence) is used,
    if known to OSM (tag `name:<language>=*`).
-3. Else, the feature's common name (`name=*`) is transliterated to Latin and the result is used.
+3. Else, the feature's international name (tag `int_name`) is transliterated to Latin and the result is used,
+   if the international name is known to OSM.
+4. Else, the feature's common name (`name=*`) is transliterated to Latin and the result is used.
 
 Note that a transliteration is not a transcription. In contrast to a transcription it
 

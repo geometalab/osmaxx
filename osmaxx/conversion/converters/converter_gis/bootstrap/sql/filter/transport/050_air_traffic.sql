@@ -22,6 +22,7 @@ INSERT INTO osmaxx.transport_l
       WHEN "name:fr" IS NOT NULL THEN "name:fr"
       WHEN "name:es" IS NOT NULL THEN "name:es"
       WHEN "name:de" IS NOT NULL THEN "name:de"
+      WHEN int_name IS NOT NULL THEN osml10n_translit(int_name)
       WHEN name IS NOT NULL THEN osml10n_translit(name)
       ELSE NULL
     END                AS label,
@@ -72,6 +73,7 @@ UNION
         WHEN "name:fr" IS NOT NULL THEN "name:fr"
         WHEN "name:es" IS NOT NULL THEN "name:es"
         WHEN "name:de" IS NOT NULL THEN "name:de"
+        WHEN int_name IS NOT NULL THEN osml10n_translit(int_name)
         WHEN name IS NOT NULL THEN osml10n_translit(name)
         ELSE NULL
       END                AS label,
