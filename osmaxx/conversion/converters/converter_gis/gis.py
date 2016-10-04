@@ -47,7 +47,8 @@ class GISConverter:
     def create_gis_export(self):
         self._start_time = timezone.now()
 
-        _bootstrapper = bootstrap.boostrap(self._polyfile_string, detail_level=self._detail_level)
+        _bootstrapper = bootstrap.BootStrapper(self._polyfile_string, detail_level=self._detail_level)
+        _bootstrapper.bootstrap()
         geom_in_qgis_display_srs = _bootstrapper.geom.transform(QGIS_DISPLAY_SRID, clone=True)
 
         with tempfile.TemporaryDirectory() as tmp_dir:
