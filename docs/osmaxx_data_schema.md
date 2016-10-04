@@ -130,7 +130,6 @@ These attributes are common to all tables except the ones derived from OSM costl
 |geom|geometry(geometry, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON| |`way`|
 |type|text(Enum)|This will define the feature type| |
 |name|text|The feature's (locally or regionally) common default name i.e. the one usually displayed on street signs. May be in a non-Latin script (cyrillic, arabic etc.)|`name=*`| |
-|name_intl|text| |`Coalesce(name:en, int_name, name:fr,name:es,name:de, name)`| |
 |name_en|text|The feature's English name|`name:en=*`| |
 |name_fr|text|The feature's French name|`name:fr=*`| |
 |name_es|text|The feature's Spanish name|`name:es=*`| |
