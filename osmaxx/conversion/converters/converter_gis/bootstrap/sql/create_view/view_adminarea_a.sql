@@ -3,8 +3,8 @@ CREATE OR REPLACE VIEW view_osmaxx.adminarea_a AS SELECT
     lastchange,
     geomtype,
     geom,
-    type,
-    name,
+    "type",
+    "name",
     label,
     tags
 FROM osmaxx.adminarea_a;

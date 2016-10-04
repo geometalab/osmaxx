@@ -3,8 +3,8 @@ CREATE OR REPLACE VIEW view_osmaxx.boundary_l AS SELECT
     lastchange,
     geomtype,
     geom,
-    type,
-    name,
+    "type",
+    "name",
     label,
     tags
 FROM osmaxx.boundary_l;

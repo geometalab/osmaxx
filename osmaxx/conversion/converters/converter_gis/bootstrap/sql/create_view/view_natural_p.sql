@@ -3,8 +3,8 @@ CREATE OR REPLACE VIEW view_osmaxx.natural_p AS SELECT
     lastchange,
     geomtype,
     geom,
-    type,
-    name,
+    "type",
+    "name",
     label,
     tags
 FROM osmaxx.natural_p;

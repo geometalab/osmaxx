@@ -3,8 +3,8 @@ CREATE OR REPLACE VIEW view_osmaxx.geoname_p AS SELECT
     lastchange,
     geomtype,
     geom,
-    type,
-    name,
+    "type",
+    "name",
     label,
     tags,
     population

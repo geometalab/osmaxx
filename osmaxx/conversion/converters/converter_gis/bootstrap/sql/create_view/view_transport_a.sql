@@ -4,8 +4,8 @@ CREATE OR REPLACE VIEW view_osmaxx.transport_a AS SELECT
     geomtype,
     geom,
     aggtype,
-    type,
-    name,
+    "type",
+    "name",
     label,
     tags
 FROM osmaxx.transport_a;

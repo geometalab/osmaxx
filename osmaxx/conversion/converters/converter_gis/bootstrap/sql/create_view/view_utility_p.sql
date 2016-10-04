@@ -4,8 +4,8 @@ CREATE OR REPLACE VIEW view_osmaxx.utility_p AS SELECT
     geomtype,
     geom,
     aggtype,
-    type,
-    name,
+    "type",
+    "name",
     label,
     tags
 FROM osmaxx.utility_p;
