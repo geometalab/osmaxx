@@ -9,7 +9,7 @@ from jinja2 import Environment, PackageLoader
 from rq import get_current_job
 
 from osmaxx.conversion._settings import odb_license
-from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
+from osmaxx.conversion.converters.converter_gis.bootstrap.bootstrap import BootStrapper
 from osmaxx.conversion.converters.converter_gis.extract.db_to_format.extract import extract_to
 from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize
 from osmaxx.conversion_api.formats import FORMAT_DEFINITIONS
@@ -47,7 +47,7 @@ class GISConverter:
     def create_gis_export(self):
         self._start_time = timezone.now()
 
-        _bootstrapper = bootstrap.BootStrapper(self._polyfile_string, detail_level=self._detail_level)
+        _bootstrapper = BootStrapper(self._polyfile_string, detail_level=self._detail_level)
         _bootstrapper.bootstrap()
         geom_in_qgis_display_srs = _bootstrapper.geom.transform(QGIS_DISPLAY_SRID, clone=True)
 
