@@ -40,6 +40,7 @@ class GISConverter:
         self._static_directory = os.path.join(dir, 'static')
         self._symbology_directory = os.path.join(dir, 'symbology')
         self._env = Environment(loader=PackageLoader(__package__, os.path.join('symbology', 'templates')))
+        self._env.globals.update(zip=zip)
         self._detail_level = detail_level
         self._start_time = None
 

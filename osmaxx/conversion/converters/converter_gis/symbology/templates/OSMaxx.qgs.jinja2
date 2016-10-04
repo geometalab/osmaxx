@@ -150,10 +150,9 @@
   <mapcanvas>
     <units>meters</units>
     <extent>
-      <xmin>{{ extent[0] }}</xmin>
-      <ymin>{{ extent[1] }}</ymin>
-      <xmax>{{ extent[2] }}</xmax>
-      <ymax>{{ extent[3] }}</ymax>
+      {%- for coord_name, coord_value in zip(['xmin', 'ymin', 'xmax', 'ymax'], extent) %}
+      <{{ coord_name }}>{{ coord_value }}</{{ coord_name }}>
+      {%- endfor %}
     </extent>
     <rotation>0</rotation>
     <projections>1</projections>
