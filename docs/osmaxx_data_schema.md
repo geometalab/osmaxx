@@ -133,7 +133,7 @@ These attributes are common to all tables except the ones derived from OSM costl
 |name_en|text|The feature's English name|`name:en=*`| |
 |name_fr|text|The feature's French name|`name:fr=*`| |
 |name_es|text|The feature's Spanish name|`name:es=*`| |
-|name_de|text|The feature's German|`name:de=*`| |
+|name_de|text|The feature's German name|`name:de=*`| |
 |name_int|text|The international name of the feature|`int_name=*`| |
 |label|text|A name of the feature readable by those only knowing Latin script. See [below](#attribute-label) for details.| | |
 |tags|text|Additional OSM tags in form `"<key>"=>"<value>"`, separated by `, `, e.g. `"network"=>"RMV", "note:de"=>"RB34 ist das Teilstück Stockheim bis Bad Vilbel"` or `"name:ca"=>"Frankfurt del Main", "name:ru"=>"Франкфурт-на-Майне", "de:place"=>"city", "wikidata"=>"Q1794", "short_name"=>"Frankfurt", "name:prefix"=>"Stadt", "de:regionalschluessel"=>"064120000000", "TMC:cid_58:tabcd_1:Class"=>"Area", "TMC:cid_58:tabcd_1:LCLversion"=>"9.00", "TMC:cid_58:tabcd_1:LocationCode"=>"414", "de:amtlicher_gemeindeschluessel"=>"06412000"`| |`tags`|
