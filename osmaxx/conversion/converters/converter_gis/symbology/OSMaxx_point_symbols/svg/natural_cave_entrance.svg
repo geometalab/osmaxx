@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg17008"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="natural_cave_entrance.svg">
+  <defs
+     id="defs17010" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="80"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata17013">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       style="fill:#6e3200;fill-opacity:1"
+       d="m 680.66035,221.06755 c -45.735,-0.3277 -101.458,13.5599 -157.151,41.373 -66.966,33.4442 -104.342,72.8512 -176.94,186.5496 -50.62,79.2813 -94.893,151.8195 -98.382,161.1977 -3.489,9.3778 7.359,13.915 24.104,10.0826 16.746,-3.8321 64.866,-65.9565 106.935,-138.0549 63.184,-108.2811 92.236,-138.8751 166.99,-175.8455 152.094,-75.2195 152.595,-74.9968 316.335,140.4044 38.219,50.2765 82.378,112.8502 98.13,139.054 39.95995,66.4716 59.24295,33.7203 21.385,-36.3199 -26.865,-49.7029 -120.154,-180.0405 -210.557,-294.1763 -17.915,-22.6192 -50.494,-33.9756 -90.849,-34.2647 z m -86.145,170.5784 c -42.017,0 -174.949,175.2174 -174.949,230.5996 0,6.2753 93.809,11.4092 208.463,11.4092 114.655,0 208.464,-5.3247 208.464,-11.8303 0,-6.5058 -24.487,-51.4118 -54.416,-99.7932 -50.715,-81.9821 -120.343,-130.3853 -187.562,-130.3853 z"
+       id="path2838"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

@@ -5,12 +5,17 @@ import os
 import shutil
 from django.utils import timezone
 
+from jinja2 import Environment, PackageLoader
 from rq import get_current_job
 
 from osmaxx.conversion._settings import odb_license
-from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
+from osmaxx.conversion.converters.converter_gis.bootstrap import BootStrapper
 from osmaxx.conversion.converters.converter_gis.extract.db_to_format.extract import extract_to
 from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize
+from osmaxx.conversion_api.formats import FORMAT_DEFINITIONS
+
+
+QGIS_DISPLAY_SRID = 3857  # Web Mercator
 
 
 class GISConverter:
@@ -31,28 +36,29 @@ class GISConverter:
         self._polyfile_string = polyfile_string
         self._conversion_format = conversion_format
         self._out_srs = out_srs
-        self._static_directory = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static')
+        dir = os.path.abspath(os.path.dirname(__file__))
+        self._static_directory = os.path.join(dir, 'static')
+        self._symbology_directory = os.path.join(dir, 'symbology')
+        self._env = Environment(loader=PackageLoader(__package__, os.path.join('symbology', 'templates')))
+        self._env.globals.update(zip=zip)
         self._detail_level = detail_level
         self._start_time = None
 
     def create_gis_export(self):
         self._start_time = timezone.now()
 
-        bootstrap.boostrap(self._polyfile_string, detail_level=self._detail_level)
+        _bootstrapper = BootStrapper(self._polyfile_string, detail_level=self._detail_level)
+        _bootstrapper.bootstrap()
+        geom_in_qgis_display_srs = _bootstrapper.geom.transform(QGIS_DISPLAY_SRID, clone=True)
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             data_dir = os.path.join(tmp_dir, 'data')
-            static_dir = os.path.join(tmp_dir, 'static')
-            os.makedirs(data_dir)
-            shutil.copytree(self._static_directory, static_dir)
-            shutil.copy(odb_license, static_dir)
-            extract_to(
-                to_format=self._conversion_format,
-                output_dir=data_dir,
-                base_filename=self._base_file_name,
-                out_srs=self._out_srs
-            )
+            data_location = self._dump_gis_data(data_dir, tmp_dir)
             unzipped_result_size = recursive_getsize(data_dir)
+
+            symbology_dir = os.path.join(tmp_dir, 'symbology')
+            self._dump_qgis_symbology(data_location, geom_in_qgis_display_srs, target_dir=symbology_dir)
+
             zip_folders_relative([tmp_dir], zip_out_file_path=self._out_zip_file_path)
 
         job = get_current_job()
@@ -62,3 +68,35 @@ class GISConverter:
             job.meta['unzipped_result_size'] = unzipped_result_size
             job.save()
         return self._out_zip_file_path
+
+    def _dump_gis_data(self, data_dir, target_dir):
+        static_dir = os.path.join(target_dir, 'static')
+        os.makedirs(data_dir)
+        shutil.copytree(self._static_directory, static_dir)
+        shutil.copy(odb_license, static_dir)
+        data_location = extract_to(
+            to_format=self._conversion_format,
+            output_dir=data_dir,
+            base_filename=self._base_file_name,
+            out_srs=self._out_srs
+        )
+        return data_location
+
+    def _dump_qgis_symbology(self, data_location, geom_in_qgis_display_srs, target_dir):
+        qgis_symbology_dir = os.path.join(target_dir, 'QGIS')
+        os.makedirs(qgis_symbology_dir)
+        qgis_symbology_readme = os.path.join(self._symbology_directory, 'README.rst')
+        shutil.copy(qgis_symbology_readme, qgis_symbology_dir)
+        template = self._env.get_template('OSMaxx.qgs.jinja2')
+        format_definition = FORMAT_DEFINITIONS[self._conversion_format]
+        template.stream(
+            data_location=os.path.basename(data_location),
+            separator=format_definition.qgis_datasource_separator,
+            extension=format_definition.layer_filename_extension,
+            attribute_value_encoding=format_definition.attribute_value_encoding,
+            extent=geom_in_qgis_display_srs.extent
+        ).dump(os.path.join(qgis_symbology_dir, 'OSMaxx.qgs'))
+        shutil.copytree(
+            os.path.join(self._symbology_directory, 'OSMaxx_point_symbols'),
+            os.path.join(target_dir, 'OSMaxx_point_symbols'),
+        )
