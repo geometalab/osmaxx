@@ -149,55 +149,48 @@
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">name_intl</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><code>Coalesce(name:en, int_name, name:fr,name:es,name:de, name)</code></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">name_en</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">The feature's English name</td>
 <td style="text-align: left;"><code>name:en=*</code></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">name_fr</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">The feature's French name</td>
 <td style="text-align: left;"><code>name:fr=*</code></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">name_es</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">The feature's Spanish name</td>
 <td style="text-align: left;"><code>name:es=*</code></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">name_de</td>
 <td style="text-align: left;">text</td>
-<td style="text-align: left;">The feature's German</td>
+<td style="text-align: left;">The feature's German name</td>
 <td style="text-align: left;"><code>name:de=*</code></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">name_int</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">The international name of the feature</td>
 <td style="text-align: left;"><code>int_name=*</code></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">label</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">A name of the feature readable by those only knowing Latin script. See <a href="#attribute-label">below</a> for details.</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">tags</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">Additional OSM tags in form <code>&quot;&lt;key&gt;&quot;=&gt;&quot;&lt;value&gt;&quot;</code>, separated by <code>,</code>, e.g. <code>&quot;network&quot;=&gt;&quot;RMV&quot;, &quot;note:de&quot;=&gt;&quot;RB34 ist das Teilstück Stockheim bis Bad Vilbel&quot;</code> or <code>&quot;name:ca&quot;=&gt;&quot;Frankfurt del Main&quot;, &quot;name:ru&quot;=&gt;&quot;Франкфурт-на-Майне&quot;, &quot;de:place&quot;=&gt;&quot;city&quot;, &quot;wikidata&quot;=&gt;&quot;Q1794&quot;, &quot;short_name&quot;=&gt;&quot;Frankfurt&quot;, &quot;name:prefix&quot;=&gt;&quot;Stadt&quot;, &quot;de:regionalschluessel&quot;=&gt;&quot;064120000000&quot;, &quot;TMC:cid_58:tabcd_1:Class&quot;=&gt;&quot;Area&quot;, &quot;TMC:cid_58:tabcd_1:LCLversion&quot;=&gt;&quot;9.00&quot;, &quot;TMC:cid_58:tabcd_1:LocationCode&quot;=&gt;&quot;414&quot;, &quot;de:amtlicher_gemeindeschluessel&quot;=&gt;&quot;06412000&quot;</code></td>
@@ -211,6 +204,7 @@
 <ol type="1">
 <li>The feature's common name (OSM tag <code>name=*</code>) is used if it already is is in Latin script.</li>
 <li>Else, the feature's English, French, Spanish or German name (in this precedence) is used, if known to OSM (tag <code>name:&lt;language&gt;=*</code>).</li>
+<li>Else, the feature's international name (tag <code>int_name</code>) is transliterated to Latin and the result is used, if the international name is known to OSM.</li>
 <li>Else, the feature's common name (<code>name=*</code>) is transliterated to Latin and the result is used.</li>
 </ol>
 <p>Note that a transliteration is not a transcription. In contrast to a transcription it</p>
@@ -4423,6 +4417,11 @@
 </table>
 <p>Values of attribute bridge</p>
 <table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 64%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -4432,19 +4431,24 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">0</td>
-<td style="text-align: left;"><code>bridge=no</code></td>
+<td style="text-align: left;">False</td>
+<td style="text-align: left;"><strong><code>bridge≠split_log</code></strong>+<strong><code>bridge≠beam</code></strong>+<strong><code>bridge≠culvert</code></strong>+<strong><code>bridge≠low_water_crossing</code></strong>+<strong><code>bridge≠yes</code></strong>+<strong><code>bridge≠suspension</code></strong>+<strong><code>bridge≠viaduct</code></strong>+<strong><code>bridge≠aqueduct</code></strong>+<strong><code>bridge≠covered</code></strong></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;"><code>bridge=yes</code></td>
+<td style="text-align: left;">True</td>
+<td style="text-align: left;"><code>bridge=split_log</code> or <code>bridge=beam</code> or <code>bridge=culvert</code> or <code>bridge=low_water_crossing</code> or <code>bridge=yes</code> or <code>bridge=suspension</code> or <code>bridge=viaduct</code> or <code>bridge=aqueduct</code> or <code>bridge=covered</code></td>
 <td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
 <p>Values of attribute tunnel</p>
 <table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 64%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -4454,13 +4458,13 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">0</td>
-<td style="text-align: left;"><code>tunnel=no</code></td>
+<td style="text-align: left;">False</td>
+<td style="text-align: left;"><strong><code>tunnel≠passage</code></strong>+<strong><code>tunnel≠culvert</code></strong>+<strong><code>tunnel≠noiseprotection galerie</code></strong>+<strong><code>tunnel≠gallery</code></strong>+<strong><code>tunnel≠building_passage</code></strong>+<strong><code>tunnel≠avalanche_protector</code></strong>+<strong><code>tunnel≠viaduct</code></strong>+<strong><code>tunnel≠tunnel</code></strong>+<strong><code>tunnel≠yes</code></strong></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;"><code>tunnel=yes</code></td>
+<td style="text-align: left;">True</td>
+<td style="text-align: left;"><code>tunnel=passage</code> or <code>tunnel=culvert</code> or <code>tunnel=noiseprotection galerie</code> or <code>tunnel=gallery</code> or <code>tunnel=building_passage</code> or <code>tunnel=avalanche_protector</code> or <code>tunnel=viaduct</code> or <code>tunnel=tunnel</code> or <code>tunnel=yes</code></td>
 <td style="text-align: left;"></td>
 </tr>
 </tbody>
@@ -4686,6 +4690,11 @@
 </table>
 <p>Values of attribute bridge</p>
 <table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 64%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -4695,19 +4704,24 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">0</td>
-<td style="text-align: left;"><code>bridge=no</code></td>
+<td style="text-align: left;">False</td>
+<td style="text-align: left;"><strong><code>bridge≠split_log</code></strong>+<strong><code>bridge≠beam</code></strong>+<strong><code>bridge≠culvert</code></strong>+<strong><code>bridge≠low_water_crossing</code></strong>+<strong><code>bridge≠yes</code></strong>+<strong><code>bridge≠suspension</code></strong>+<strong><code>bridge≠viaduct</code></strong>+<strong><code>bridge≠aqueduct</code></strong>+<strong><code>bridge≠covered</code></strong></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;"><code>bridge=yes</code></td>
+<td style="text-align: left;">True</td>
+<td style="text-align: left;"><code>bridge=split_log</code> or <code>bridge=beam</code> or <code>bridge=culvert</code> or <code>bridge=low_water_crossing</code> or <code>bridge=yes</code> or <code>bridge=suspension</code> or <code>bridge=viaduct</code> or <code>bridge=aqueduct</code> or <code>bridge=covered</code></td>
 <td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
 <p>Values of attribute tunnel</p>
 <table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 64%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">values</th>
@@ -4717,13 +4731,13 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">0</td>
-<td style="text-align: left;"><code>tunnel=no</code></td>
+<td style="text-align: left;">False</td>
+<td style="text-align: left;"><strong><code>tunnel≠passage</code></strong>+<strong><code>tunnel≠culvert</code></strong>+<strong><code>tunnel≠noiseprotection galerie</code></strong>+<strong><code>tunnel≠gallery</code></strong>+<strong><code>tunnel≠building_passage</code></strong>+<strong><code>tunnel≠avalanche_protector</code></strong>+<strong><code>tunnel≠viaduct</code></strong>+<strong><code>tunnel≠tunnel</code></strong>+<strong><code>tunnel≠yes</code></strong></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;"><code>tunnel=yes</code></td>
+<td style="text-align: left;">True</td>
+<td style="text-align: left;"><code>tunnel=passage</code> or <code>tunnel=culvert</code> or <code>tunnel=noiseprotection galerie</code> or <code>tunnel=gallery</code> or <code>tunnel=building_passage</code> or <code>tunnel=avalanche_protector</code> or <code>tunnel=viaduct</code> or <code>tunnel=tunnel</code> or <code>tunnel=yes</code></td>
 <td style="text-align: left;"></td>
 </tr>
 </tbody>
@@ -6309,7 +6323,7 @@
 </tr>
 <tr class="odd">
 <td style="text-align: left;">riverbank</td>
-<td style="text-align: left;"><code>natural=riverbank</code></td>
+<td style="text-align: left;"><code>waterway=riverbank</code></td>
 <td style="text-align: left;">For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.</td>
 </tr>
 <tr class="even">
@@ -6387,16 +6401,6 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">canal</td>
-<td style="text-align: left;"><code>waterway=canal</code></td>
-<td style="text-align: left;">An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">drain</td>
-<td style="text-align: left;"><code>waterway=drain</code></td>
-<td style="text-align: left;">A channel or pipe carrying off any excess liquid.</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">river</td>
 <td style="text-align: left;"><code>waterway=river</code></td>
 <td style="text-align: left;">A large natural stream of water flowing in a channel to the sea, a lake, or another river.</td>
@@ -6407,9 +6411,24 @@
 <td style="text-align: left;">A small and narrow river.</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">canal</td>
+<td style="text-align: left;"><code>waterway=canal</code></td>
+<td style="text-align: left;">An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">drain</td>
+<td style="text-align: left;"><code>waterway=drain</code></td>
+<td style="text-align: left;">A channel or pipe carrying off any excess liquid.</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">waterway</td>
 <td style="text-align: left;"><code>waterway=*</code></td>
 <td style="text-align: left;">Other waterways which is user-defined</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pier</td>
+<td style="text-align: left;"><code>man_made=pier</code></td>
+<td style="text-align: left;">A 'bridge into the ocean', usually for recreation.</td>
 </tr>
 </tbody>
 </table>
@@ -6455,8 +6474,8 @@
 </tr>
 <tr class="even">
 <td style="text-align: left;">lock_gate</td>
-<td style="text-align: left;"><code>man_made=pier</code></td>
-<td style="text-align: left;">A 'bridge into the ocean', usually for recreation.</td>
+<td style="text-align: left;"><code>waterway=lock_gate</code></td>
+<td style="text-align: left;">Top or bottom gate of a lock. (A Lock is a device for raising and lowering boats between stretches of water of different levels on river and canal waterways.)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">marina</td>
@@ -6475,7 +6494,7 @@
 </tr>
 <tr class="even">
 <td style="text-align: left;">riverbank</td>
-<td style="text-align: left;"><code>natural=riverbank</code></td>
+<td style="text-align: left;"><code>waterway=riverbank</code></td>
 <td style="text-align: left;">For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.</td>
 </tr>
 <tr class="odd">
