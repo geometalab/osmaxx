@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-20 15:58+0200\n"
+"POT-Creation-Date: 2016-10-05 10:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -641,26 +641,26 @@ msgstr ""
 msgid "UTM zones"
 msgstr ""
 
-#: osmaxx/conversion_api/formats.py:46
+#: osmaxx/conversion_api/formats.py:67
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:11
 msgid "Esri File Geodatabase"
 msgstr ""
 
-#: osmaxx/conversion_api/formats.py:53
+#: osmaxx/conversion_api/formats.py:74
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:9
 msgid "Esri Shapefile"
 msgstr ""
 
-#: osmaxx/conversion_api/formats.py:60
+#: osmaxx/conversion_api/formats.py:83
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:5
 msgid "GeoPackage"
 msgstr ""
 
-#: osmaxx/conversion_api/formats.py:67
+#: osmaxx/conversion_api/formats.py:90
 msgid "SpatiaLite"
 msgstr ""
 
-#: osmaxx/conversion_api/formats.py:74
+#: osmaxx/conversion_api/formats.py:97
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:13
 msgid "Garmin navigation & map data"
 msgstr ""
