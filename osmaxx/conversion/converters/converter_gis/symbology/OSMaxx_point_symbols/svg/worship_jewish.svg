@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg8328"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="worship_jewish.svg">
+  <defs
+     id="defs8330" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="128"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata8333">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       d="m 626.69395,45.909119 -110.676,189.023401 -217.971,0 108.987,190.7266 -108.987,190.7246 217.971,0 110.676,192.4238 108.984,-192.4238 216.283,0 -107.297,-190.7246 107.297,-190.7266 -216.283,0 -108.984,-189.023401 z m 0,132.826101 32.369,56.1973 -64.738,0 32.369,-56.1973 z m -212.85,119.2032 66.428,0 -34.059,57.8984 -32.369,-57.8984 z m 144.734,0 136.231,0 71.549,127.7207 -71.549,127.7129 -136.231,0 -71.496,-127.7129 71.496,-127.7207 z m 212.848,0 68.117,0 -34.058,59.6035 -34.059,-59.6035 z m 34.059,195.8359 34.058,59.5977 -68.117,0 34.059,-59.5977 z m -359.272,1.6895 34.059,57.8984 -66.428,0 32.369,-57.8984 z m 148.112,120.9082 64.738,0 -32.369,56.1933 -32.369,-56.1933 z"
+       id="jewish"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

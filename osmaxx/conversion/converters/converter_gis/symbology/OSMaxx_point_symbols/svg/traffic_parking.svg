@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg11978"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="traffic_parking.svg">
+  <defs
+     id="defs11980" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="563.45886"
+     inkscape:cy="614.76447"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:showpageshadow="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1161"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata11983">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       style="font-size:143.53205872px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#3c73b4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:27.54166794;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Sans"
+       d="m 446,137.03125 c -3.60857,-0.002 -7.19582,1.48214 -9.74747,4.03378 -2.55164,2.55165 -4.03615,6.1389 -4.03378,9.74747 l 0,553.09375 c -0.002,3.60857 1.48214,7.19582 4.03378,9.74747 2.55165,2.55164 6.1389,4.03615 9.74747,4.03378 l 62.0625,0 c 3.60336,-0.006 7.18219,-1.49398 9.72726,-4.04483 2.54507,-2.55085 4.02511,-6.13306 4.02274,-9.73642 l 0,-211.09375 106.5625,0 c 68.59284,2.1e-4 119.47811,-16.99653 148.4375,-54.15625 27.35873,-35.10676 40.9677,-78.36392 40.96875,-127.875 0,-29.00416 -5.04269,-56.03233 -15.28125,-80.71875 -10.16753,-24.51657 -23.94589,-44.38483 -41.59375,-58.78125 -17.47479,-14.254 -38.99313,-23.72741 -63.75,-28.625 -0.002,-4.4e-4 0.002,-0.0308 0,-0.0312 -0.0668,-0.0143 -0.15179,-0.017 -0.21875,-0.0312 -18.14794,-3.86398 -42.45516,-5.56199 -74,-5.5625 l -176.9375,0 z m 75.8125,92.8125 106.21875,0 c 27.47965,5.9e-4 46.48021,2.04579 53.65625,4.25 12.99005,4.23258 23.112,12.43426 31.65625,26.625 8.44946,14.03416 12.90625,31.14058 12.90625,52.3125 0,29.52234 -7.46283,50.21256 -21.4375,64.8125 -13.07777,13.66418 -37.4119,22.15663 -75.5,22.15625 l -107.5,0 z"
+       id="text2419"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csccsccsccsccccccccccccccscscc" />
+  </g>
+</svg>

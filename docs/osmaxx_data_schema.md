@@ -130,11 +130,10 @@ These attributes are common to all tables except the ones derived from OSM costl
 |geom|geometry(geometry, 4326)|The “geometry” of the feature can be POINT, MULTILINESTRING or MULTIPOLYGON| |`way`|
 |type|text(Enum)|This will define the feature type| |
 |name|text|The feature's (locally or regionally) common default name i.e. the one usually displayed on street signs. May be in a non-Latin script (cyrillic, arabic etc.)|`name=*`| |
-|name_intl|text| |`Coalesce(name:en, int_name, name:fr,name:es,name:de, name)`| |
 |name_en|text|The feature's English name|`name:en=*`| |
 |name_fr|text|The feature's French name|`name:fr=*`| |
 |name_es|text|The feature's Spanish name|`name:es=*`| |
-|name_de|text|The feature's German|`name:de=*`| |
+|name_de|text|The feature's German name|`name:de=*`| |
 |name_int|text|The international name of the feature|`int_name=*`| |
 |label|text|A name of the feature readable by those only knowing Latin script. See [below](#attribute-label) for details.| | |
 |tags|text|Additional OSM tags in form `"<key>"=>"<value>"`, separated by `, `, e.g. `"network"=>"RMV", "note:de"=>"RB34 ist das Teilstück Stockheim bis Bad Vilbel"` or `"name:ca"=>"Frankfurt del Main", "name:ru"=>"Франкфурт-на-Майне", "de:place"=>"city", "wikidata"=>"Q1794", "short_name"=>"Frankfurt", "name:prefix"=>"Stadt", "de:regionalschluessel"=>"064120000000", "TMC:cid_58:tabcd_1:Class"=>"Area", "TMC:cid_58:tabcd_1:LCLversion"=>"9.00", "TMC:cid_58:tabcd_1:LocationCode"=>"414", "de:amtlicher_gemeindeschluessel"=>"06412000"`| |`tags`|
@@ -156,7 +155,9 @@ according to the following logic:
 1. The feature's common name (OSM tag `name=*`) is used if it already is is in Latin script.
 2. Else, the feature's English, French, Spanish or German name (in this precedence) is used,
    if known to OSM (tag `name:<language>=*`).
-3. Else, the feature's common name (`name=*`) is transliterated to Latin and the result is used.
+3. Else, the feature's international name (tag `int_name`) is transliterated to Latin and the result is used,
+   if the international name is known to OSM.
+4. Else, the feature's common name (`name=*`) is transliterated to Latin and the result is used.
 
 Note that a transliteration is not a transcription. In contrast to a transcription it
 
@@ -1076,8 +1077,8 @@ Values of attribute bridge
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`bridge=no`| |
-|1|`bridge=yes`| |
+|False|**`bridge≠split_log`**+**`bridge≠beam`**+**`bridge≠culvert`**+**`bridge≠low_water_crossing`**+**`bridge≠yes`**+**`bridge≠suspension`**+**`bridge≠viaduct`**+**`bridge≠aqueduct`**+**`bridge≠covered`**| |
+|True|`bridge=split_log` or `bridge=beam` or `bridge=culvert` or `bridge=low_water_crossing` or `bridge=yes` or `bridge=suspension` or `bridge=viaduct` or `bridge=aqueduct` or `bridge=covered`| |
 
 
 
@@ -1085,8 +1086,8 @@ Values of attribute tunnel
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`tunnel=no`| |
-|1|`tunnel=yes`| |
+|False|**`tunnel≠passage`**+**`tunnel≠culvert`**+**`tunnel≠noiseprotection galerie`**+**`tunnel≠gallery`**+**`tunnel≠building_passage`**+**`tunnel≠avalanche_protector`**+**`tunnel≠viaduct`**+**`tunnel≠tunnel`**+**`tunnel≠yes`**| |
+|True|`tunnel=passage` or `tunnel=culvert` or `tunnel=noiseprotection galerie` or `tunnel=gallery` or `tunnel=building_passage` or `tunnel=avalanche_protector` or `tunnel=viaduct` or `tunnel=tunnel` or `tunnel=yes`| |
 
 
 
@@ -1139,8 +1140,8 @@ Values of attribute bridge
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`bridge=no`| |
-|1|`bridge=yes`| |
+|False|**`bridge≠split_log`**+**`bridge≠beam`**+**`bridge≠culvert`**+**`bridge≠low_water_crossing`**+**`bridge≠yes`**+**`bridge≠suspension`**+**`bridge≠viaduct`**+**`bridge≠aqueduct`**+**`bridge≠covered`**| |
+|True|`bridge=split_log` or `bridge=beam` or `bridge=culvert` or `bridge=low_water_crossing` or `bridge=yes` or `bridge=suspension` or `bridge=viaduct` or `bridge=aqueduct` or `bridge=covered`| |
 
 
 
@@ -1148,8 +1149,8 @@ Values of attribute tunnel
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|0|`tunnel=no`| |
-|1|`tunnel=yes`| |
+|False|**`tunnel≠passage`**+**`tunnel≠culvert`**+**`tunnel≠noiseprotection galerie`**+**`tunnel≠gallery`**+**`tunnel≠building_passage`**+**`tunnel≠avalanche_protector`**+**`tunnel≠viaduct`**+**`tunnel≠tunnel`**+**`tunnel≠yes`**| |
+|True|`tunnel=passage` or `tunnel=culvert` or `tunnel=noiseprotection galerie` or `tunnel=gallery` or `tunnel=building_passage` or `tunnel=avalanche_protector` or `tunnel=viaduct` or `tunnel=tunnel` or `tunnel=yes`| |
 
 
 
@@ -1515,7 +1516,7 @@ Values of attribute type
 |marina|`leisure=marina`|For mooring leisure yachts and motor boats|
 |pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
 |reservoir_covered|`man_made=reservoir_covered`|A covered reservoir is a large man-made tank for holding fresh water|
-|riverbank|`natural=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
+|riverbank|`waterway=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
 |slipway|`leisure=slipway`|Boats can be launched here|
 |spring|`natural=spring`|A spring is a point where water naturally surfaces|
 |water|`natural=water`|Used to mark body of standing water, such as a lake or pond.|
@@ -1538,11 +1539,12 @@ Values of attribute type
 
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
-|canal|`waterway=canal`|An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.|
-|drain|`waterway=drain`|A channel or pipe carrying off any excess liquid.|
 |river|`waterway=river`|A large natural stream of water flowing in a channel to the sea, a lake, or another river.|
 |stream|`waterway=stream`|A small and narrow river.|
+|canal|`waterway=canal`|An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.|
+|drain|`waterway=drain`|A channel or pipe carrying off any excess liquid.|
 |waterway|`waterway=*`|Other waterways which is user-defined|
+|pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
 
 
 ## water_p
@@ -1560,11 +1562,11 @@ Values of attribute type
 |values              |osm_tags            |description                                                           |
 | ------------------ | ------------------ | -------------------------------------------------------------------- |
 |dam|`waterway=dam`|A wall built across a river or stream to impound the water. A dam normally does not have water flowing over the top of it.|
-|lock_gate|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
+|lock_gate|`waterway=lock_gate`|Top or bottom gate of a lock. (A Lock is a device for raising and lowering boats between stretches of water of different levels on river and canal waterways.)|
 |marina|`leisure=marina`|For mooring leisure yachts and motor boats|
 |pier|`man_made=pier`|A 'bridge into the ocean', usually for recreation.|
 |reservoir_covered|`man_made=reservoir_covered`|A covered reservoir is a large man-made tank for holding fresh water|
-|riverbank|`natural=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
+|riverbank|`waterway=riverbank`|For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.|
 |slipway|`leisure=slipway`|Boats can be launched here|
 |spring|`natural=spring`|A spring is a point where water naturally surfaces|
 |water|`natural=water`|Used to mark body of standing water, such as a lake or pond.|

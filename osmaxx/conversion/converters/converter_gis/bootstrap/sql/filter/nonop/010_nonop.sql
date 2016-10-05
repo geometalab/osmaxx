@@ -47,6 +47,7 @@ INSERT INTO osmaxx.nonop_l
         when "name:fr" is not null then "name:fr"
         when "name:es" is not null then "name:es"
         when "name:de" is not null then "name:de"
+        when int_name is not null then osml10n_translit(int_name)
         when name is not null then osml10n_translit(name)
         else NULL
     end as label,
@@ -59,7 +60,7 @@ INSERT INTO osmaxx.nonop_l
     end as bridge,
 -- Checking for tunnels with different tags associated to tunnels --
     case
-    when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector','teilweise', 'viaduct', 'tunnel', 'yes') then TRUE
+    when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector', 'viaduct', 'tunnel', 'yes') then TRUE
     else FALSE
     end as tunnel,
 

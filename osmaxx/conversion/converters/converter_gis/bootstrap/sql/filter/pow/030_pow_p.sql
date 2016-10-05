@@ -34,6 +34,7 @@ INSERT INTO osmaxx.pow_p
         when "name:fr" is not null then "name:fr"
         when "name:es" is not null then "name:es"
         when "name:de" is not null then "name:de"
+        when int_name is not null then osml10n_translit(int_name)
         when name is not null then osml10n_translit(name)
         else NULL
     end as label,
@@ -87,6 +88,7 @@ UNION
         when "name:fr" is not null then "name:fr"
         when "name:es" is not null then "name:es"
         when "name:de" is not null then "name:de"
+        when int_name is not null then osml10n_translit(int_name)
         when name is not null then osml10n_translit(name)
         else NULL
     end as label,

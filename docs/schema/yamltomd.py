@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+from itertools import chain
 
 from jinja2 import Environment, FileSystemLoader
 from collections import OrderedDict, ChainMap, Mapping
@@ -66,7 +67,11 @@ def do_included(d):
 
 
 def do_excluded(d):
-    return ChainMap(*(v for k, v in d.items() if _is_excluded(k)))
+    if all(isinstance(v, list) for k, v in d.items() if _is_excluded(k)):
+        return_t = lambda *x: list(chain(*x))
+    else:
+        return_t = ChainMap
+    return return_t(*(v for k, v in d.items() if _is_excluded(k)))
 
 
 def _is_excluded(k):
