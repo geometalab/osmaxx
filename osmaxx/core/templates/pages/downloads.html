@@ -1,18 +1,36 @@
 {% extends "osmaxx/base.html" %}
-{% load i18n %}
+{% load i18n static %}
 
 {% block main %}
-<div class="container-row content">
-    <h2>Downloads</h2>
-    <p>Here you can find additional downloads and some useful links to similar projects.</p>
-    <h3>Symbolfont</h3>
-    <p>
-        <a href="https://github.com/geometalab/osmaxx-symbology/raw/symbolfont-1.0.0/osmaxx-symbology/OSMaxx_point_symbols/OSMaxx_v1.ttf">OSMaxx Symbolfont v1</a>
-    </p>
-    <h3>OsmAnd</h3>
-    <p>
-        <a href="http://osmand.net/">OsmAnd</a> is a iPhone/Android App which provides maps on the phone from OSM.
-        They provide downloads with very recent data directly extracted from OSM.
-    </p>
-</div>
+    <div class="container-row content">
+        <h2>Downloads</h2>
+        <p>Here you can find additional downloads and some useful links to similar projects.</p>
+        <h3>Styles</h3>
+        <h4>Sample Export</h4>
+        <p>
+            As an export example, we provide an example export featuring "Rapperswil"<br />
+            <a href="{% static 'osmaxx/example_data/rapperswil_wgs-84_2016-10-05_gpkg_full-detail.zip' %}">rapperswil_wgs-84_2016-10-05_gpkg_full-detail.zip</a>.
+        </p>
+        <h4>QGIS</h4>
+        <p>
+            A QGIS project file is being delivered with every export, matching the exported data containing the OMSaxx
+            default style. The file should be opened in the folder where it can be found:  <code>&lt;<i>unzipped_folder</i>&gt;/symbology/QGIS/</code>.
+        </p>
+        <h4>ESRI ArcMap</h4>
+        <p>
+            The Symbolfont (see below) needs to be installed on the system before being able to apply this style.<br />
+            The <a href="{% static 'osmaxx/example_data/ArcGIS_styles.zip' %}">ArcGIS style</a> can be applied to any extract
+            from OSMaxx. This download includes several variants of this style, each suitable for a different map scale.
+        </p>
+        <h4>Symbolfont</h4>
+        <p>
+            The OSMaxx point symbols as a font:
+            <a href="https://github.com/geometalab/osmaxx-symbology/raw/symbolfont-1.0.0/osmaxx-symbology/OSMaxx_point_symbols/OSMaxx_v1.ttf">OSMaxx Symbolfont v1</a>
+        </p>
+        <h3>OsmAnd</h3>
+        <p>
+            <a href="http://osmand.net/">OsmAnd</a> is a iPhone/Android App which provides maps on the phone from OSM.
+            They provide downloads with very recent data directly extracted from OSM.
+        </p>
+    </div>
 {% endblock %}
