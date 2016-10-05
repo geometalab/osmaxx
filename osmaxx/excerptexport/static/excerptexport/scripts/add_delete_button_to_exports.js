@@ -33,9 +33,10 @@
             }
             if (group_title.attr('id') !== "delete-export-all") {
                 group_title.attr("id", "delete-export-all");
-                group_title.prepend('<span class="glyphicon glyphicon-remove-circle hand-cursor" aria-hidden="true"></span> ');
+                var excerpt_name = group_title.text();
+                group_title.prepend('<span class="glyphicon glyphicon-trash hand-cursor" aria-hidden="true"></span> ');
                 group_title.on('click', function () {
-                    if (confirm('Are you sure you want to delete all deletable items of "' + group_title.text() + '"?')) {
+                    if (confirm('Are you sure you want to delete all deletable items of "' + excerpt_name + '"?')) {
                         var deletebale_ids = group_title.attr("deletable_children").split(',');
                         console.log(deletebale_ids);
                         deletebale_ids.forEach(function (export_id) {

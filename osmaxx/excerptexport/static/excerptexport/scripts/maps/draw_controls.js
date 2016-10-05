@@ -5,6 +5,7 @@ var draw_controls = function (map) {
     L.drawLocal.edit.toolbar.buttons.editDisabled = 'No selection to edit';
     L.drawLocal.edit.toolbar.buttons.remove = 'Delete selection';
     L.drawLocal.edit.toolbar.buttons.removeDisabled = 'No selection to delete';
+    L.drawLocal.edit.handlers.remove.tooltip.text = 'Click on the extent area to remove it';
     // holds the geoJSON text representation
     var geoJSON_element = document.getElementById('id_bounding_geometry');
     geoJSON_element.parentNode.parentNode.className = "hidden";
