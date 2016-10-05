@@ -35,7 +35,7 @@
                 group_title.attr("id", "delete-export-all");
                 group_title.prepend('<span class="glyphicon glyphicon-remove-circle hand-cursor" aria-hidden="true"></span> ');
                 group_title.on('click', function () {
-                    if (confirm('Are you sure you want to delete all deletable items of "' + group_title.text() + '"?')) {
+                    if (confirm('Are you sure you want to delete all deletable items of "' + jQuery.trim(group_title.text()) + '"?')) {
                         var deletebale_ids = group_title.attr("deletable_children").split(',');
                         console.log(deletebale_ids);
                         deletebale_ids.forEach(function (export_id) {
