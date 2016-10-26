@@ -1,4 +1,3 @@
-from itertools import chain
 from sqlalchemy import MetaData, Table, create_engine, func
 from sqlalchemy.engine.url import URL
 from sqlalchemy.sql import select, insert, expression
