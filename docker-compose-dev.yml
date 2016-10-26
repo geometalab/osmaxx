@@ -79,11 +79,12 @@ services:
       driver: "json-file"
       options:
         max-size: 1M
-  world-database:
-    command: postgres -B 1GB -F -N 512 -S 1GB --max_wal_size=1GB
-    ports:
-      - "5433:5432"
-  osm_importer:
+  osm-pbf-updater:
+    build:
+      context: osm_pbf_updater/
+      dockerfile: Dockerfile
+    volumes:
+      - osm_data:/var/data/osm-planet
     command: >
       sh -c "
       mkdir -p /var/data/osm-planet/pbf &&
@@ -91,15 +92,13 @@ services:
       wget -O /tmp/switzerland-latest.osm.pbf http://download.geofabrik.de/europe/switzerland-latest.osm.pbf &&
       osmconvert /tmp/monaco-latest.osm.pbf -o=/tmp/monaco-latest.osm &&
       osmconvert /tmp/switzerland-latest.osm.pbf -o=/tmp/switzerland-latest.osm &&
-      osmconvert /tmp/monaco-latest.osm /tmp/switzerland-latest.osm -o=/var/data/osm-planet/pbf/planet-latest.osm.pbf &&
-      osm2pgsql -c --number-processes 8 -H database -U gis -d gis --slim -C 2000 --prefix osm --hstore --latlon --style /root/styles/terminal.style --tag-transform-script /root/styles/tag_transform_style.lua /var/data/osm-planet/pbf/planet-latest.osm.pbf
+      osmconvert /tmp/monaco-latest.osm /tmp/switzerland-latest.osm -o=/var/data/osm-planet/pbf/planet-latest.osm.pbf
       "
-    environment:
-      - ram_cache=2000  # in megabytes
-      - num_processes=8
-      - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/switzerland-updates/
-      - osm_planet_mirror=http://download.geofabrik.de/
-      - osm_planet_path_relative_to_mirror=europe/switzerland-latest.osm.pbf
+    # these are just examples
+    # environment:
+      # - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/switzerland-updates/
+      # - osm_planet_mirror=http://download.geofabrik.de/
+      # - osm_planet_path_relative_to_mirror=europe/switzerland-latest.osm.pbf
   osmboundaries-database:
     command: postgres -B 1GB -F -S 1GB
     ports:
