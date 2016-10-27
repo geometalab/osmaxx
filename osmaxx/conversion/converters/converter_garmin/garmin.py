@@ -75,6 +75,7 @@ class Garmin:
             '--bounds={0}'.format(_path_to_bounds_zip),
             '--precomp-sea={0}'.format(_path_to_sea_zip),
             '--read-config={0}'.format(config_file_path),
+            '--gmapsupp',
         ]
 
         subprocess.check_call(

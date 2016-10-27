@@ -398,6 +398,7 @@ OSMAXX = {
     'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME', default='default_user'),
     'CONVERSION_SERVICE_PASSWORD': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD', default='default_password'),
     'EXCLUSIVE_USER_GROUP': 'osmaxx_high_priority',  # high priority people
+    'SECURED_PROXY': env.bool('DJANGO_OSMAXX_SECURED_PROXY', False),
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
