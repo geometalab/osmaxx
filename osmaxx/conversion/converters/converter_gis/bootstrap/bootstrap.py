@@ -18,7 +18,7 @@ class BootStrapper:
         self._style_path = os.path.join(self._script_base_dir, 'styles', 'style.lua')
         self._extent = polyfile_helpers.parse_poly_string(area_polyfile_string)
         self._extent_polyfile_path = os.path.join('/tmp', 'polyfile_extent.poly')
-        self._o5m_file_path = os.path.join('/tmp', 'o5m_cutted.o5m')
+        self._pbf_file_path = os.path.join('/tmp', 'pbf_cutted.pbf')
         self._detail_level = DETAIL_LEVEL_TABLES[detail_level]
         with open(self._extent_polyfile_path, 'w') as f:
             f.write(area_polyfile_string)
@@ -27,7 +27,7 @@ class BootStrapper:
         self._reset_database()
         self._cut_area_from_pbf()
         self._import_boundaries()
-        self._import_o5m()
+        self._import_pbf()
         self._setup_db_functions()
         self._harmonize_database()
         self._filter_data()
@@ -115,16 +115,16 @@ class BootStrapper:
     def _cut_area_from_pbf(self):
         command = [
             "osmconvert",
-            "--out-o5m",
+            "--out-pbf",
             "--complete-ways",
             "--complex-ways",
-            "-o={}".format(self._o5m_file_path),
+            "-o={}".format(self._pbf_file_path),
             "-B={}".format(self._extent_polyfile_path),
             "{}".format(CONVERSION_SETTINGS["PBF_PLANET_FILE_PATH"]),
         ]
         subprocess.check_call(command)
 
-    def _import_o5m(self):
+    def _import_pbf(self):
         db_name = self._postgres.get_db_name()
         postgres_user = self._postgres.get_user()
 
@@ -141,7 +141,7 @@ class BootStrapper:
             '--number-processes', '8',
             '--username', postgres_user,
             '--hstore-all',
-            '--input-reader', 'o5m',
-            self._o5m_file_path,
+            '--input-reader', 'pbf',
+            self._pbf_file_path,
         ]
         subprocess.check_call(osm_2_pgsql_command)

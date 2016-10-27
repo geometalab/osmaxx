@@ -162,7 +162,7 @@ def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch):
         def _cut_area_from_pbf(self):
             pass
 
-        def _import_o5m(self):
+        def _import_pbf(self):
             pass
 
         def _import_boundaries(self):
