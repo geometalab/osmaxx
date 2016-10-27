@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-# wait for at most 30s for the db to be up
-/root/wait-for-it.sh ${POSTGRES_HOST}:${POSTGRES_PORT} -t 30
-
 nice="nice -n 19"
 num_processes=${num_processes:-8}
 osm_cache=/var/cache/osm-cache/persistent-cache-file
