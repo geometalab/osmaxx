@@ -40,7 +40,6 @@ def update(osmupdate_extra_params):
 
 def run(*, sleep_seconds=10, osmupdate_extra_params=None):
     while True:
-        # no loss, whenever we start the container up, we download the newest pbf and start updating it.
         initial_download(planet_url())
         # start updating immediately
         update(osmupdate_extra_params)
