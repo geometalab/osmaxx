@@ -1,8 +1,8 @@
 # coding: utf-8
 from geoalchemy2 import Geometry
 from sqlalchemy import BigInteger, Column, DateTime, Float, Integer, SmallInteger, Table, Text, TEXT, BIGINT
-from sqlalchemy.dialects.postgresql.hstore import HSTORE
-from sqlalchemy.dialects.postgresql.base import ARRAY
+from sqlalchemy.dialects.postgresql import HSTORE
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.ext.declarative import declarative_base
 
 

@@ -43,7 +43,7 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 	    < $< \
 	    > $@
 
-PIP_TOOLS_SOURCE_SPEC_FILES := requirements-all.in requirements-local.in requirements-mediator.in
+PIP_TOOLS_SOURCE_SPEC_FILES := requirements.in requirements-all.in requirements-base.in requirements-local.in requirements-mediator.in
 PIP_TOOLS_COMPILED_SPEC_FILES := $(PIP_TOOLS_SOURCE_SPEC_FILES:.in=.txt)
 
 .PHONY: pip-upgrade
@@ -126,8 +126,8 @@ clean: down-redis down-pg_translit down-pg
 	find . -name __pycache__ -exec rm -rf {} +
 	find . -name "*.pyc" -exec rm -rf {} +
 
-LOCAL_RUN_ONCE_SERVICES := osmboundaries_importer osm_importer
-LOCAL_DB_SERVICES := frontenddatabase mediatordatabase world-database osmboundaries-database
+LOCAL_RUN_ONCE_SERVICES := osmboundaries_importer osm-pbf-updater
+LOCAL_DB_SERVICES := frontenddatabase mediatordatabase osmboundaries-database
 LOCAL_APPLICATION_STACK := nginx frontend mediator worker worker-exclusive conversionserviceredis
 LOCAL_DEPLOY_VERSION := latest
 COMPOSE := DEPLOY_VERSION=${LOCAL_DEPLOY_VERSION} docker-compose -f docker-compose.yml -f docker-compose-dev.yml

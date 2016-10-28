@@ -159,7 +159,13 @@ def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch):
         def _reset_database(self):
             pass  # Already taken care of by clean_osm_tables fixture.
 
-        def _import_from_world_db(self):
+        def _cut_area_from_pbf(self):
+            pass
+
+        def _import_pbf(self):
+            pass
+
+        def _import_boundaries(self):
             for table, values in self.data.items():
                 engine.execute(table.insert().execution_options(autocommit=True), values)
 
