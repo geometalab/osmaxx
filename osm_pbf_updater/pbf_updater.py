@@ -38,7 +38,7 @@ def update(osmupdate_extra_params):
     shutil.move(PLANET_LATEST_ON_UPDATE, PLANET_LATEST)
 
 
-def run(*, sleep_seconds=10, osmupdate_extra_params=None):
+def run(*, sleep_seconds=10, osmupdate_extra_params):
     while True:
         initial_download(planet_url())
         # start updating immediately
