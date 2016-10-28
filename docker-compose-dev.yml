@@ -85,8 +85,9 @@ services:
       dockerfile: Dockerfile
     volumes:
       - osm_data:/var/data/osm-planet
+    entrypoint: /bin/sh -c
     command: >
-      sh -c "
+      "
       mkdir -p /var/data/osm-planet/pbf &&
       wget -O /tmp/monaco-latest.osm.pbf http://download.geofabrik.de/europe/monaco-latest.osm.pbf &&
       wget -O /tmp/switzerland-latest.osm.pbf http://download.geofabrik.de/europe/switzerland-latest.osm.pbf &&

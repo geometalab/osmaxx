@@ -5,8 +5,12 @@ MAINTAINER geometalab <geometalab@hsr.ch>
 RUN apt-get update && apt-get install -y \
   osmctools \
   wget \
+  python3 \
   && rm -rf /var/lib/apt/lists/*
 
-COPY ./update_pbf.sh /opt/update_pbf.sh
+COPY ./pbf_updater.py /opt/pbf_updater.py
 
-CMD /opt/update_pbf.sh
+ENTRYPOINT /opt/pbf_updater.py
+
+# default wait in between updates is one hour, in seconds
+CMD "--wait-seconds" ${wait_seconds:-3600}
