@@ -33,10 +33,7 @@ def initial_download(complete_planet_mirror_url):
 
 
 def update(osmupdate_extra_params):
-    update_comand = ["osmupdate", "-v"]
-    if osmupdate_extra_params is not None:
-        update_comand += osmupdate_extra_params.split()
-    update_comand += [PLANET_LATEST, PLANET_LATEST_ON_UPDATE]
+    update_comand = ["osmupdate", "-v"] + osmupdate_extra_params.split() + [PLANET_LATEST, PLANET_LATEST_ON_UPDATE]
     subprocess.check_call(NICE + update_comand)
     shutil.move(PLANET_LATEST_ON_UPDATE, PLANET_LATEST)
 
@@ -70,7 +67,7 @@ if __name__ == '__main__':
                         help="wait this amount of seconds between updates")
     args = parser.parse_args()
     sleep_seconds = args.wait_seconds
-    update_extra_params = os.environ.get('osmupdate_extra_params', None)
+    update_extra_params = os.environ.get('osmupdate_extra_params', '')
 
     sentry_dsn = os.environ.get('SENTRY_DSN', None)
     if sentry_dsn is not None:
