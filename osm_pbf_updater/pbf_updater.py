@@ -25,7 +25,7 @@ def planet_url():
 
 
 def initial_download(complete_planet_mirror_url):
-    os.makedirs(PBF_DIR, mode=0o777, exist_ok=True)
+    os.makedirs(PBF_DIR, exist_ok=True)
     download_pbf_path = "{}_tmp".format(PLANET_LATEST)
     download_command = ["wget", "--continue", "-O", download_pbf_path, complete_planet_mirror_url]
     subprocess.check_call(NICE + download_command)
