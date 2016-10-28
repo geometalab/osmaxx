@@ -15,5 +15,5 @@ COPY ./pbf_updater.py /opt/pbf_updater.py
 
 ENTRYPOINT /opt/pbf_updater.py
 
-# default wait in between updates is one hour, in seconds
+# default wait between updates is one hour, in seconds
 CMD "--wait-seconds" ${wait_seconds:-3600}
