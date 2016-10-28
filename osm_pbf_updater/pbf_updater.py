@@ -70,6 +70,8 @@ if __name__ == '__main__':
 
     sentry_dsn = os.environ.get('SENTRY_DSN', None)
     if sentry_dsn is not None:
-        run_with_sentry(run, sentry_dsn=sentry_dsn, sleep_seconds=sleep_seconds, osmupdate_extra_params=update_extra_params)
+        run_with_sentry(
+            run, sentry_dsn=sentry_dsn, sleep_seconds=sleep_seconds, osmupdate_extra_params=update_extra_params
+        )
     else:
         run(sleep_seconds=sleep_seconds, osmupdate_extra_params=update_extra_params)
