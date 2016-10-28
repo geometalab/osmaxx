@@ -6,7 +6,10 @@ RUN apt-get update && apt-get install -y \
   osmctools \
   wget \
   python3 \
+  python3-pip \
   && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install raven
 
 COPY ./pbf_updater.py /opt/pbf_updater.py
 

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import os
 import subprocess
-
 import shutil
-
 import time
+
+from raven import Client
+
 
 BASE_DIR = '/var/data/osm-planet'
 PBF_DIR = os.path.join(BASE_DIR, 'pbf')
@@ -51,6 +52,16 @@ def run(*, sleep_seconds=10, osmupdate_extra_params=None):
         time.sleep(sleep_seconds)
 
 
+def run_with_sentry(callable, *args, sentry_dsn, **kwargs):
+    client = Client(sentry_dsn)
+    release = os.environ.get('SENTRY_RELEASE', 'unknown')
+    try:
+        callable(*args, **kwargs)
+    except:
+        client.user_context({'release': release})
+        client.captureException()
+
+
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
@@ -60,5 +71,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
     sleep_seconds = args.wait_seconds
     update_extra_params = os.environ.get('osmupdate_extra_params', None)
-    run(sleep_seconds=sleep_seconds, osmupdate_extra_params=update_extra_params)
 
+    sentry_dsn = os.environ.get('SENTRY_DSN', None)
+    if sentry_dsn is not None:
+        run_with_sentry(run, sentry_dsn=sentry_dsn, sleep_seconds=sleep_seconds, osmupdate_extra_params=update_extra_params)
+    else:
+        run(sleep_seconds=sleep_seconds, osmupdate_extra_params=update_extra_params)
