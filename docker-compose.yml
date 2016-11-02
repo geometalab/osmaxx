@@ -92,7 +92,6 @@ services:
       - worker-data:/data/media/job_result_files
     links:
       - conversionserviceredis:redis
-      - world-database
       - osmboundaries-database
     env_file:
       - ./compose-env/worker.env
@@ -102,10 +101,8 @@ services:
       - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
     depends_on:
       - conversionserviceredis
-      - world-database
       - osmboundaries-database
     networks:
-      - osm-world
       - osmboundaries
       - osmaxx-internal
   worker-exclusive:
@@ -119,7 +116,6 @@ services:
       - worker-data:/data/media/job_result_files
     links:
       - conversionserviceredis:redis
-      - world-database
       - osmboundaries-database
     env_file:
       - ./compose-env/worker.env
@@ -131,10 +127,8 @@ services:
       - WORKER_QUEUES=high
     depends_on:
       - conversionserviceredis
-      - world-database
       - osmboundaries-database
     networks:
-      - osm-world
       - osmboundaries
       - osmaxx-internal
   conversionserviceredis:
@@ -150,46 +144,18 @@ services:
     networks:
       - osmaxx-internal
   ##### CONVERSION SERVICE END ########
-  ##### WORLD-DB START ########
-  world-database:
+  ##### WORLD PBF UPDATER START ########
+  osm-pbf-updater:
     # to limit scaling to exactly 1, we need to specify the container name
-    container_name: osmworlddb_postgis
-    image: geometalab/osm_world_postgis
-    volumes:
-      - database-postgis-data:/var/lib/postgresql
-    command: postgres -B 12GB -F -N 512 -S 20GB --max_wal_size=5GB
-    environment:
-      - POSTGRES_DB=gis
-      - POSTGRES_USER=gis
-      - POSTGRES_PASSWORD=gis
-    networks:
-      - osm-world-internal
-      - osm-world
-    logging:
-      driver: "json-file"
-      options:
-        max-size: 50k
-  osm_importer:
-    # to limit scaling to exactly 1, we need to specify the container name
-    container_name: osmworlddb_osm_importer
-    image: geometalab/continuous-osm2pgsql:latest
-    command: /root/run.sh
-    links:
-      - world-database:database
-    depends_on:
-      - world-database
+    container_name: osm-pbf-updater
+    image: geometalab/osm-pbf-updater:latest
     volumes:
       - osm_data:/var/data/osm-planet
-      - osm_cache:/var/cache/osm-cache
-    environment:
-      - num_processes=16
-    networks:
-      - osm-world-internal
     logging:
       driver: "json-file"
       options:
         max-size: 50k
-  ##### WORLD-DB END ########
+  ##### WORLD PBF UPDATER END ########
   ##### OSM-BOUNDARIES START ######
   osmboundaries-database:
     # to limit scaling to exactly 1, we need to specify the container name
@@ -237,18 +203,11 @@ volumes:
   frontend-results: {}
   mediator-database-data: {}
   worker-data: {}
-  osmplanet-data: {}
-  # osm-world-db
   osm_data: {}
-  osm_cache: {}
   database-postgis-data: {}
   osmboundaries-postgis-data: {}
 networks:
   osmaxx-internal:
-    driver: bridge
-  osm-world:
-    driver: bridge
-  osm-world-internal:
     driver: bridge
   osmboundaries:
     driver: bridge

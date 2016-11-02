@@ -1,8 +1,10 @@
 import glob
 import os
+import subprocess
 
+from osmaxx.conversion._settings import CONVERSION_SETTINGS
 from osmaxx.conversion.converters.converter_gis.helper.default_postgres import get_default_postgres_wrapper
-from osmaxx.conversion.converters.converter_gis.helper.osm_importer import OSMImporter
+from osmaxx.conversion.converters.converter_gis.helper.osm_boundaries_importer import OSMBoundariesImporter
 from osmaxx.conversion.converters import detail_levels
 from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_TABLES
 from osmaxx.utils import polyfile_helpers
@@ -15,11 +17,17 @@ class BootStrapper:
         self._terminal_style_path = os.path.join(self._script_base_dir, 'styles', 'terminal.style')
         self._style_path = os.path.join(self._script_base_dir, 'styles', 'style.lua')
         self._extent = polyfile_helpers.parse_poly_string(area_polyfile_string)
+        self._extent_polyfile_path = os.path.join('/tmp', 'polyfile_extent.poly')
+        self._pbf_file_path = os.path.join('/tmp', 'pbf_cutted.pbf')
         self._detail_level = DETAIL_LEVEL_TABLES[detail_level]
+        with open(self._extent_polyfile_path, 'w') as f:
+            f.write(area_polyfile_string)
 
     def bootstrap(self):
         self._reset_database()
-        self._import_from_world_db()
+        self._cut_area_from_pbf()
+        self._import_boundaries()
+        self._import_pbf()
         self._setup_db_functions()
         self._harmonize_database()
         self._filter_data()
@@ -40,8 +48,8 @@ class BootStrapper:
         drop_and_recreate_script_folder = os.path.join(self._script_base_dir, 'sql', 'drop_and_recreate')
         self._execute_sql_scripts_in_folder(drop_and_recreate_script_folder)
 
-    def _import_from_world_db(self):
-        osm_importer = OSMImporter()
+    def _import_boundaries(self):
+        osm_importer = OSMBoundariesImporter()
         osm_importer.load_area_specific_data(extent=self._extent)
 
     def _setup_db_functions(self):
@@ -103,3 +111,37 @@ class BootStrapper:
         for script_path in sorted(sql_scripts_in_folder, key=os.path.basename):
             script_path = self._level_adapted_script_path(script_path)
             self._postgres.execute_sql_file(script_path)
+
+    def _cut_area_from_pbf(self):
+        command = [
+            "osmconvert",
+            "--out-pbf",
+            "--complete-ways",
+            "--complex-ways",
+            "-o={}".format(self._pbf_file_path),
+            "-B={}".format(self._extent_polyfile_path),
+            "{}".format(CONVERSION_SETTINGS["PBF_PLANET_FILE_PATH"]),
+        ]
+        subprocess.check_call(command)
+
+    def _import_pbf(self):
+        db_name = self._postgres.get_db_name()
+        postgres_user = self._postgres.get_user()
+
+        osm_2_pgsql_command = [
+            'osm2pgsql',
+            '--create',
+            '--extra-attributes',
+            '--slim',
+            '--latlon',
+            '--database', db_name,
+            '--prefix', 'osm',
+            '--style', self._terminal_style_path,
+            '--tag-transform-script', self._style_path,
+            '--number-processes', '8',
+            '--username', postgres_user,
+            '--hstore-all',
+            '--input-reader', 'pbf',
+            self._pbf_file_path,
+        ]
+        subprocess.check_call(osm_2_pgsql_command)
