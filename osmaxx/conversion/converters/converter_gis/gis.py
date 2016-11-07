@@ -93,7 +93,6 @@ class GISConverter:
             data_location=os.path.basename(data_location),
             separator=format_definition.qgis_datasource_separator,
             extension=format_definition.layer_filename_extension,
-            attribute_value_encoding=format_definition.attribute_value_encoding,
             extent=geom_in_qgis_display_srs.extent
         ).dump(os.path.join(qgis_symbology_dir, 'OSMaxx.qgs'))
         shutil.copytree(
