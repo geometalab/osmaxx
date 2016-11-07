@@ -76,7 +76,6 @@ FORMAT_DEFINITIONS = OrderedDict([
         abbreviations=[],
         is_white_box=True,
         layer_filename_extension='.shp',
-        attribute_value_encoding='ISO-8859-1',
     )),
     (GPKG, OutputFormat(
         long_identifier='GeoPackage',

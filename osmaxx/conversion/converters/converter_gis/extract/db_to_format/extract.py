@@ -18,7 +18,7 @@ FORMATS = {
     SHAPEFILE: {
         'ogr_name': 'Esri Shapefile',
         'extension': '.shp',
-        'extraction_options': [],
+        'extraction_options': ['-lco', 'ENCODING=UTF-8'],
     },
     SPATIALITE: {
         'ogr_name': 'SQLite',
