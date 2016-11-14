@@ -3,6 +3,9 @@ import tempfile
 import os
 
 import shutil
+from enum import Enum
+from fractions import Fraction
+
 from django.utils import timezone
 
 from jinja2 import Environment, PackageLoader
@@ -16,6 +19,12 @@ from osmaxx.conversion_api.formats import FORMAT_DEFINITIONS
 
 
 QGIS_DISPLAY_SRID = 3857  # Web Mercator
+
+
+class ScaleLevel(Enum):
+    m1 = Fraction(1, 2500)
+    m3 = Fraction(1, 10000)
+    m4 = Fraction(1, 25000)
 
 
 class GISConverter:
@@ -87,14 +96,15 @@ class GISConverter:
         os.makedirs(qgis_symbology_dir)
         qgis_symbology_readme = os.path.join(self._symbology_directory, 'README.rst')
         shutil.copy(qgis_symbology_readme, qgis_symbology_dir)
-        template = self._env.get_template('OSMaxx.qgs.jinja2')
-        format_definition = FORMAT_DEFINITIONS[self._conversion_format]
-        template.stream(
-            data_location=os.path.basename(data_location),
-            separator=format_definition.qgis_datasource_separator,
-            extension=format_definition.layer_filename_extension,
-            extent=geom_in_qgis_display_srs.extent
-        ).dump(os.path.join(qgis_symbology_dir, 'OSMaxx.qgs'))
+        for scale_level in ScaleLevel:
+            template = self._env.get_template('OSMaxx_{}.qgs.jinja2'.format(scale_level.name.upper()))
+            format_definition = FORMAT_DEFINITIONS[self._conversion_format]
+            template.stream(
+                data_location=os.path.basename(data_location),
+                separator=format_definition.qgis_datasource_separator,
+                extension=format_definition.layer_filename_extension,
+                extent=geom_in_qgis_display_srs.extent
+            ).dump(os.path.join(qgis_symbology_dir, 'OSMaxx_{}.qgs'.format(scale_level.name.upper())))
         shutil.copytree(
             os.path.join(self._symbology_directory, 'OSMaxx_point_symbols'),
             os.path.join(target_dir, 'OSMaxx_point_symbols'),
