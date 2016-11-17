@@ -6,16 +6,26 @@ File format
 -----------
 
 Because it is (to our knowledge) currently the only way to preserve
-layer order, the symbolization for QGIS is offered as a QGIS project
-file (OSMaxx.qgs).
+layer order, the symbolization for QGIS is offered as QGIS project files.
+
+Because `scale-dependent rules cannot keep half-open scale ranges`_ in
+current QGIS versions, we provide a separate project file for each of the
+supported scale ranges:
+
+around 1:2'500 (M1)
+    ``OSMaxx_M1.qgs``
+
+around 1:10'000 (M3)
+    ``OSMaxx_M3.qgs``
+
+around 1:25'000 (M4)
+    ``OSMaxx_M4.qgs``
+
+.. _`scale-dependent rules cannot keep half-open scale ranges`: http://hub.qgis.org/issues/15512
 
 
-Work in progress
-----------------
-
-It's our goal to offer a sample QGIS symbolization for scale levels
-"M1", "M3" and "M4", as we already do for ArcGIS. Currently, the
-QGIS project is only optimized for "M4", yet, though.
+Help us improve
+---------------
 
 Contributions are welcome via https://github.com/geometalab/osmaxx-symbology
 
