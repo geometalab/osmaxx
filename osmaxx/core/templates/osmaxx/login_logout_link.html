@@ -15,7 +15,7 @@
 {% if user.is_authenticated %}
 <li role="presentation" class="col-lg-push-1 col-md-push-1">
     <a href="{% url 'profile:edit_view' %}">
-        <strong>{{ user.username }} {% if user.is_exclusive_member %} (High Priority User){% else %} (Standard User){% endif %}</strong>
+        <strong>{{ user.username }} {% if user.is_exclusive_member %} (Priority User){% else %} (Standard User){% endif %}</strong>
     </a>
 </li>
 {% endif %}
