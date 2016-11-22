@@ -10,7 +10,12 @@
 
 {% block main %}
     <div class="container-row content">
-        <h2>{% trans 'Overview' %}</h2>
+        <h1 class="text-center">
+            OSMaxx<br />
+            <small>
+                {% trans 'Get the OpenStreetMap data you want in the file format you need' %}
+            </small>
+        </h1>
         <p>{% blocktrans %}Welcome to the <strong>OSM Arbitrary Excerpt Export</strong> service.{% endblocktrans %}
             {% if not user.is_authenticated %}
             <br />{% trans 'Please' %} <a href="{% url 'excerptexport:login' %}">{% trans 'login' %}</a> {% trans 'or' %}
