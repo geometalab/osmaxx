@@ -1,4 +1,4 @@
-{% load navigation %}This is an automated email from OSMaxx.
+{% load navigation %}This is an automated email from the OSMaxx service.
 
 The extraction order #{{ extraction_order.id }} "{{ extraction_order.excerpt_name }}" has been processed{% if successful_exports.count > 0 %} and is available for download:
 {% for export in successful_exports %}- {{ export.get_file_format_display }}{% if export.output_file.file %}: {{ export.output_file.file.url | siteabsoluteurl:request }}{% endif %}
