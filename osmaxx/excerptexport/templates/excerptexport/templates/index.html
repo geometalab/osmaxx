@@ -25,16 +25,16 @@
         <div class="container-fluid">
             <div class="text-center col-sm-6">
                 <span class="icon">&#x27bd;</span><br />
-                <a href="{% url 'excerptexport:order_existing_excerpt' %}">{% trans 'Export existing excerpt or country' %}</a>
+                <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_existing_excerpt' %}">{% trans 'Export existing excerpt or country' %}</a>
             </div>
             <div class="text-center col-sm-6">
                 <span class="icon">&#8983;</span><br />
-                <a href="{% url 'excerptexport:order_new_excerpt' %}">{% trans 'Export new excerpt' %}</a>
+                <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_new_excerpt' %}">{% trans 'Export new excerpt' %}</a>
             </div>
             {% if user.is_authenticated %}
             <div class="text-center col-sm-12">
                 <span class="icon">&#x2637;</span><br />
-                <a href="{% url 'excerptexport:export_list' %}">{% trans 'My exports' %}</a>
+                <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:export_list' %}">{% trans 'My exports' %}</a>
             </div>
             {% endif %}
         </div>
