@@ -264,7 +264,9 @@ class CallbackHandlingTest(APITestCase):
                 'Unfortunately, the following exports have failed:',
                 '- SpatiaLite',
                 'Please order them anew if you need them. '
-                'If there are repeated failures please inform the administrators.',
+                'If there are repeated failures, '
+                'please report them on https://github.com/geometalab/osmaxx/issues '
+                'unless the problem is already known there.',
                 '',
                 'View the complete order at http://testserver/exports/ (login required)',
                 '',
