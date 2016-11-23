@@ -7,7 +7,7 @@
     <customproperties/>
     <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="OSMaxx">
       <customproperties/>
-      <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="20160601_frankfurt_am_main_gpkg_address_p_any20160602124823947" name="address_p">
+      <layer-tree-layer expanded="1" checked="Qt::Checked" id="20160601_frankfurt_am_main_gpkg_address_p_any20160602124823947" name="address_p">
         <customproperties/>
       </layer-tree-layer>
       <layer-tree-group expanded="0" checked="Qt::PartiallyChecked" name="geoname">
@@ -159,7 +159,7 @@
     <projections>1</projections>
     <destinationsrs>
       <spatialrefsys>
-        <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+        <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
         <srsid>3857</srsid>
         <srid>3857</srid>
         <authid>EPSG:3857</authid>
@@ -193,6 +193,7 @@
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="20160601_frankfurt_am_main_gpkg_boundary_l_any20160602124824165"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="20160601_frankfurt_am_main_gpkg_road_l_any20160602124825008"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="20160601_frankfurt_am_main_gpkg_coastline_l_any20160602124824025"/>
+      <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="20160601_frankfurt_am_main_gpkg_address_p_any20160602124823947"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="20160601_frankfurt_am_main_gpkg_utility_l_any20160602124825413"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="20160601_frankfurt_am_main_gpkg_military_a_any20160602124824509"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="20160601_frankfurt_am_main_gpkg_sea_a_any20160602124824072"/>
@@ -242,9 +243,9 @@
   </layer-tree-canvas>
   <legend updateDrawingOrder="false">
     <legendgroup open="true" checked="Qt::PartiallyChecked" name="OSMaxx">
-      <legendlayer drawingOrder="0" open="true" checked="Qt::Unchecked" name="address_p" showFeatureCount="0">
+      <legendlayer drawingOrder="0" open="true" checked="Qt::Checked" name="address_p" showFeatureCount="0">
         <filegroup open="true" hidden="false">
-          <legendlayerfile isInOverview="0" layerid="20160601_frankfurt_am_main_gpkg_address_p_any20160602124823947" visible="0"/>
+          <legendlayerfile isInOverview="0" layerid="20160601_frankfurt_am_main_gpkg_address_p_any20160602124823947" visible="1"/>
         </filegroup>
       </legendlayer>
       <legendgroup open="false" checked="Qt::PartiallyChecked" name="geoname">
@@ -521,34 +522,7 @@
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
       </edittypes>
-      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
-        <symbols>
-          <symbol alpha="1" clip_to_extent="1" type="marker" name="0">
-            <layer pass="0" class="SimpleMarker" locked="0">
-              <prop k="angle" v="0"/>
-              <prop k="color" v="104,160,87,255"/>
-              <prop k="horizontal_anchor_point" v="1"/>
-              <prop k="joinstyle" v="bevel"/>
-              <prop k="name" v="circle"/>
-              <prop k="offset" v="0,0"/>
-              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="offset_unit" v="MM"/>
-              <prop k="outline_color" v="0,0,0,255"/>
-              <prop k="outline_style" v="solid"/>
-              <prop k="outline_width" v="0"/>
-              <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="outline_width_unit" v="MM"/>
-              <prop k="scale_method" v="diameter"/>
-              <prop k="size" v="2"/>
-              <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="size_unit" v="MM"/>
-              <prop k="vertical_anchor_point" v="1"/>
-            </layer>
-          </symbol>
-        </symbols>
-        <rotation/>
-        <sizescale scalemethod="diameter"/>
-      </renderer-v2>
+      <renderer-v2 type="nullSymbol"/>
       <labeling type="rule-based">
         <rules key="{e085f0c7-eae1-4b4f-8373-f2639b5ed1f5}">
           <rule description="names (latinized, all address types)" active="0" key="{0f9cc368-2103-4559-b2b6-bbe0874b8a6f}">
@@ -565,7 +539,7 @@
               <data-defined/>
             </settings>
           </rule>
-          <rule description="house numbers (all address types)" active="0" key="{f13621c1-cc00-4254-bdaf-c07014d4807d}">
+          <rule description="house numbers (all address types)" key="{f13621c1-cc00-4254-bdaf-c07014d4807d}">
             <settings>
               <text-style fontItalic="1" fontFamily="DejaVu Sans" fontLetterSpacing="0" fontUnderline="0" fontWeight="50" fontStrikeout="0" textTransp="0" previewBkgrdColor="#ffffff" fontCapitals="0" textColor="0,0,0,255" fontSizeInMapUnits="0" isExpression="0" blendMode="0" fontSizeMapUnitScale="0,0,0,0,0,0" fontSize="5.5" fieldName="housenumber" namedStyle="Oblique" fontWordSpacing="0" useSubstitutions="0">
                 <substitutions/>
@@ -3486,7 +3460,7 @@ def my_form_open(dialog, layer, feature):
               <data-defined/>
             </settings>
           </rule>
-          <rule filter="&quot;type&quot; = 'park'" active="0" key="{ec9dbc07-c5c4-4954-ad1e-cd555e371edd}">
+          <rule filter="&quot;type&quot; = 'park'" key="{ec9dbc07-c5c4-4954-ad1e-cd555e371edd}">
             <settings>
               <text-style fontItalic="1" fontFamily="DejaVu Sans" fontLetterSpacing="0" fontUnderline="0" fontWeight="50" fontStrikeout="0" textTransp="0" previewBkgrdColor="#ffffff" fontCapitals="0" textColor="51,51,51,255" fontSizeInMapUnits="0" isExpression="1" blendMode="0" fontSizeMapUnitScale="0,0,0,0,0,0" fontSize="6" fieldName="eval(@osmaxx_label_expression)" namedStyle="Italic" fontWordSpacing="0" useSubstitutions="0">
                 <substitutions/>
@@ -22059,7 +22033,7 @@ def my_form_open(dialog, layer, feature):
               <data-defined/>
             </settings>
           </rule>
-          <rule description="tertiary road" filter="&quot;type&quot; = 'tertiary'" active="0" key="{29581fcb-ce70-4c59-870e-5386af8cb049}">
+          <rule description="tertiary road" filter="&quot;type&quot; = 'tertiary'" key="{29581fcb-ce70-4c59-870e-5386af8cb049}">
             <settings>
               <text-style fontItalic="0" fontFamily="DejaVu Sans" fontLetterSpacing="0" fontUnderline="0" fontWeight="50" fontStrikeout="0" textTransp="0" previewBkgrdColor="#ffffff" fontCapitals="0" textColor="0,0,0,255" fontSizeInMapUnits="0" isExpression="1" blendMode="0" fontSizeMapUnitScale="0,0,0,0,0,0" fontSize="6" fieldName="eval(@osmaxx_label_expression)" namedStyle="Book" fontWordSpacing="0" useSubstitutions="0">
                 <substitutions/>
@@ -22101,7 +22075,7 @@ def my_form_open(dialog, layer, feature):
               <data-defined/>
             </settings>
           </rule>
-          <rule description="residential road" filter="&quot;type&quot; = 'residential'" active="0" key="{a1d0b964-b1f1-4023-bcf4-b86886e7dd9b}">
+          <rule description="residential road" filter="&quot;type&quot; = 'residential'" key="{a1d0b964-b1f1-4023-bcf4-b86886e7dd9b}">
             <settings>
               <text-style fontItalic="0" fontFamily="DejaVu Sans" fontLetterSpacing="0" fontUnderline="0" fontWeight="50" fontStrikeout="0" textTransp="0" previewBkgrdColor="#ffffff" fontCapitals="0" textColor="0,0,0,255" fontSizeInMapUnits="0" isExpression="1" blendMode="0" fontSizeMapUnitScale="0,0,0,0,0,0" fontSize="5.5" fieldName="eval(@osmaxx_label_expression)" namedStyle="Book" fontWordSpacing="0" useSubstitutions="0">
                 <substitutions/>

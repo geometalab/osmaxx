@@ -250,18 +250,29 @@ class CallbackHandlingTest(APITestCase):
 
         views.tracker(request, export_id=str(self.export.id))
 
+        expected_subject = '[OSMaxx] Extraction Order #{order_id} "Neverland": 1 Export ready for download, 1 failed'
+        expected_subject = expected_subject.format(
+            order_id=self.export.extraction_order.id,
+        )
         expected_body = '\n'.join(
             [
-                'The extraction order #{order_id} "Neverland" has been processed.',
-                'Results available for download:',
-                '- Esri File Geodatabase (http://testserver{download_url})',
+                'This is an automated email from testserver',
                 '',
-                'The following exports have failed:',
+                'The extraction order #{order_id} "Neverland" has been processed and is available for download:',
+                '- Esri File Geodatabase: http://testserver{download_url}',
+                '',
+                'Unfortunately, the following exports have failed:',
                 '- SpatiaLite',
                 'Please order them anew if you need them. '
-                'If there are repeated failures please inform the administrators.',
+                'If there are repeated failures, '
+                'please report them on https://github.com/geometalab/osmaxx/issues '
+                'unless the problem is already known there.',
                 '',
-                'View the complete order at http://testserver/exports/',
+                'View the complete order at http://testserver/exports/ (login required)',
+                '',
+                'Thank you for using OSMaxx.',
+                'The team at Geometa Lab HSR',
+                'geometalab@hsr.ch',
             ]
         ).format(
             order_id=self.export.extraction_order.id,
@@ -275,9 +286,7 @@ class CallbackHandlingTest(APITestCase):
                     ),
                 ),
                 call.inform_mail(
-                    subject='Extraction Order #{order_id} "Neverland": 1 Export finished successfully, 1 failed'.format(
-                        order_id=self.export.extraction_order.id,
-                    ),
+                    subject=expected_subject,
                     mail_body=expected_body,
                 ),
             )
