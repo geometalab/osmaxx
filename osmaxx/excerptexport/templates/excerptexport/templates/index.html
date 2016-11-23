@@ -16,12 +16,6 @@
                 {% trans 'Get the OpenStreetMap data you want in the file format you need' %}
             </small>
         </h1>
-        <p>{% blocktrans %}Welcome to the <strong>OSM Arbitrary Excerpt Export</strong> service.{% endblocktrans %}
-            {% if not user.is_authenticated %}
-            <br />{% trans 'Please' %} <a href="{% url 'excerptexport:login' %}">{% trans 'login' %}</a> {% trans 'or' %}
-            <a href="https://www.openstreetmap.org/user/new" target="_blank">{% trans 'create an "OpenStreetMap" account' %}</a> {% trans 'to login.' %}
-            {% endif %}
-        </p>
         <div class="container-fluid">
             <div class="text-center col-sm-6">
                 <span class="icon">&#x27bd;</span><br />
