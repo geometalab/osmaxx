@@ -21,10 +21,11 @@
         <header>
             <div class="topBar">
                 <a href="{% url 'excerptexport:index' %}">
-                    <h1><img class="logo" src='{% static "osmaxx/images/logo-osmaxx-200.png" %}' alt="OSMaxx" /></h1>
+                    <h1>
+                      <img class="logo" src='{% static "osmaxx/images/logo-osmaxx-200.png" %}' alt="OSMaxx" title="OpenStreetMap Arbitrary Excerpt Export" />
+                    </h1>
                 </a>
-                <img class="hsr-logo" src='{% static "osmaxx/images/logo-hsr.jpg" %}' alt="Logo hsr"
-                title="OpenStreetMap Arbitrary Excerpt Export" />
+                <img class="hsr-logo" src='{% static "osmaxx/images/logo-hsr.jpg" %}' alt="Logo hsr" />
                 {% include 'osmaxx/navigation.html' with view=view user=user %}
             </div>
             <nav class="breadcrumb">
