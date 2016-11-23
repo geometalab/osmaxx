@@ -256,7 +256,7 @@ class CallbackHandlingTest(APITestCase):
         )
         expected_body = '\n'.join(
             [
-                'This is an automated email from OSMaxx.',
+                'This is an automated email from testserver',
                 '',
                 'The extraction order #{order_id} "Neverland" has been processed and is available for download:',
                 '- Esri File Geodatabase: http://testserver{download_url}',
@@ -268,8 +268,8 @@ class CallbackHandlingTest(APITestCase):
                 '',
                 'View the complete order at http://testserver/exports/ (login required)',
                 '',
-                'Thank you for using the OSMaxx service.',
-                'Geometa Lab HSR team',
+                'Thank you for using OSMaxx.',
+                'The team at Geometa Lab HSR',
                 'geometalab@hsr.ch',
             ]
         ).format(
