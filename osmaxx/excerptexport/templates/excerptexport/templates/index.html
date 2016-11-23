@@ -19,11 +19,17 @@
         <div class="container-fluid">
             <div class="text-center col-sm-6">
                 <span class="icon">&#x27bd;</span><br />
-                <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_existing_excerpt' %}">{% trans 'Export existing excerpt or country' %}</a>
+                <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_existing_excerpt' %}">
+                    <strong>{% trans 'Export an existing excerpt' %}</strong>
+                </a>
+                <br />
+                {% trans '(a predefined country or other administrative area,<br />or one of your previously defined excerpts)' %}
             </div>
             <div class="text-center col-sm-6">
                 <span class="icon">&#8983;</span><br />
-                <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_new_excerpt' %}">{% trans 'Export new excerpt' %}</a>
+                <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_new_excerpt' %}">
+                    <strong>{% trans 'Define & export a new excerpt' %}</strong>
+                </a>
             </div>
             {% if user.is_authenticated %}
             <div class="text-center col-sm-12">
