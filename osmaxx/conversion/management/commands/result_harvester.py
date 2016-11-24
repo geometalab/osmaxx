@@ -8,6 +8,7 @@ import shutil
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
+from pbf_file_size_estimation import estimate_size
 
 from osmaxx.conversion import models as conversion_models
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
@@ -96,9 +97,14 @@ def add_meta_data_to_job(*, conversion_job, rq_job):
     from pbf_file_size_estimation.app_settings import PBF_FILE_SIZE_ESTIMATION_CSV_FILE_PATH
     from pbf_file_size_estimation.estimate_size import estimate_size_of_extent
     west, south, east, north = conversion_job.parametrization.clipping_area.clipping_multi_polygon.extent
-    estimated_pbf_size = estimate_size_of_extent(
-        PBF_FILE_SIZE_ESTIMATION_CSV_FILE_PATH, west, south, east, north
-    )
+
+    try:
+        estimated_pbf_size = estimate_size_of_extent(
+            PBF_FILE_SIZE_ESTIMATION_CSV_FILE_PATH, west, south, east, north
+        )
+    except estimate_size.OutOfBoundsError:
+        logger.exception("pbf estimation failed")
+        estimated_pbf_size = None
 
     conversion_job.unzipped_result_size = rq_job.meta['unzipped_result_size']
     conversion_job.extraction_duration = rq_job.meta['duration']
