@@ -1,6 +1,11 @@
 {% extends "osmaxx/base.html" %}
 {% load i18n static %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'Additional Downloads' %}</li>
+{% endblock %}
+
 {% block main %}
     <div class="container-row content">
         <h2>Downloads</h2>

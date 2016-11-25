@@ -1,6 +1,11 @@
 {% extends "osmaxx/base.html" %}
 {% load i18n %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'About OSMaxx' %}</li>
+{% endblock %}
+
 {% block main %}
 <div class="container-row content">
     <h2>About OSMaxx</h2>
