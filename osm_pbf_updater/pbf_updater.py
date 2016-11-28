@@ -45,6 +45,11 @@ def _is_night_time(now):
 
 def run(*, sleep_seconds=10, osmupdate_extra_params):
     last_full_download_time = datetime.datetime.min
+
+    if not os.path.exists(PLANET_LATEST):
+        full_download(planet_url())
+        last_full_download_time = datetime.datetime.now()
+
     while True:
         now = datetime.datetime.now()
         if now - last_full_download_time > datetime.timedelta(weeks=1) and _is_night_time(now):
