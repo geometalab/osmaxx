@@ -148,7 +148,7 @@ services:
   osm-pbf-updater:
     # to limit scaling to exactly 1, we need to specify the container name
     container_name: osm-pbf-updater
-    image: geometalab/osm-pbf-updater:latest
+    image: geometalab/osm-pbf-updater:${DEPLOY_VERSION}
     volumes:
       - osm_data:/var/data/osm-planet
     logging:
