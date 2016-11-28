@@ -39,10 +39,15 @@ def update(osmupdate_extra_params):
     shutil.move(PLANET_LATEST_ON_UPDATE, PLANET_LATEST)
 
 
+def _is_night_time(now):
+    return now.hour < 4 or now.hour > 22
+
+
 def run(*, sleep_seconds=10, osmupdate_extra_params):
     last_full_download_time = datetime.datetime.min
     while True:
-        if datetime.datetime.now() - last_full_download_time > datetime.timedelta(weeks=1):
+        now = datetime.datetime.now()
+        if now - last_full_download_time > datetime.timedelta(weeks=1) and _is_night_time(now):
             full_download(planet_url())
             last_full_download_time = datetime.datetime.now()
         # start updating immediately
