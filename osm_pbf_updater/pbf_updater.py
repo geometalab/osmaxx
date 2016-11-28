@@ -4,6 +4,7 @@ import subprocess
 import shutil
 import time
 
+import datetime
 from raven import Client
 
 
@@ -24,7 +25,7 @@ def planet_url():
     return OSM_PLANET_MIRROR + OSM_PLANET_PATH_RELATIVE_TO_MIRROR
 
 
-def initial_download(complete_planet_mirror_url):
+def full_download(complete_planet_mirror_url):
     os.makedirs(PBF_DIR, exist_ok=True)
     download_pbf_path = "{}_tmp".format(PLANET_LATEST)
     download_command = ["wget", "--continue", "-O", download_pbf_path, complete_planet_mirror_url]
@@ -38,9 +39,17 @@ def update(osmupdate_extra_params):
     shutil.move(PLANET_LATEST_ON_UPDATE, PLANET_LATEST)
 
 
+def _is_night_time(now):
+    return now.hour < 4 or now.hour > 22
+
+
 def run(*, sleep_seconds=10, osmupdate_extra_params):
+    last_full_download_time = datetime.datetime.min
     while True:
-        initial_download(planet_url())
+        now = datetime.datetime.now()
+        if now - last_full_download_time > datetime.timedelta(weeks=1) and _is_night_time(now):
+            full_download(planet_url())
+            last_full_download_time = datetime.datetime.now()
         # start updating immediately
         update(osmupdate_extra_params)
         print("update done, sleeping for {} seconds".format(sleep_seconds))
