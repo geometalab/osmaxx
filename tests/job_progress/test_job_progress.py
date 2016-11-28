@@ -250,7 +250,9 @@ class CallbackHandlingTest(APITestCase):
 
         views.tracker(request, export_id=str(self.export.id))
 
-        expected_subject = '[OSMaxx] Extraction Order #{order_id} "Neverland": 1 Export ready for download, 1 failed'
+        # subject line WITHOUT "[OSMaxx] " prefix, as that would be added by the Emissary,
+        # which has been mocked out for this test
+        expected_subject = 'Extraction Order #{order_id} "Neverland": 1 Export ready for download, 1 failed'
         expected_subject = expected_subject.format(
             order_id=self.export.extraction_order.id,
         )

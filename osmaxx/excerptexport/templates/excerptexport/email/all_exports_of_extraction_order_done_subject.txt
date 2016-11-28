@@ -1,1 +1,1 @@
-[OSMaxx] Extraction Order #{{ extraction_order.id }} "{{ extraction_order.excerpt_name }}": {{ successful_exports_count }} Export{{ successful_exports_count|pluralize }} ready for download{% if failed_exports_count > 0 %}, {{ failed_exports_count }} failed{% endif %}
+Extraction Order #{{ extraction_order.id }} "{{ extraction_order.excerpt_name }}": {{ successful_exports_count }} Export{{ successful_exports_count|pluralize }} ready for download{% if failed_exports_count > 0 %}, {{ failed_exports_count }} failed{% endif %}
