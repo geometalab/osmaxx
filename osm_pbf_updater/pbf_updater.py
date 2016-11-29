@@ -35,7 +35,25 @@ def full_download(complete_planet_mirror_url):
 
 def update(osmupdate_extra_params):
     update_comand = ["osmupdate", "-v"] + osmupdate_extra_params.split() + [PLANET_LATEST, PLANET_LATEST_ON_UPDATE]
-    subprocess.check_call(NICE + update_comand)
+    try:
+        subprocess.check_call(NICE + update_comand)
+    except subprocess.CalledProcessError as e:
+        # if the file is alright, but already up-to-date we want to continue, not stop!
+        #  http://m.m.i24.cc/osmupdate.c
+        #     if(loglevel>0)
+        #       PINFO("Creating output file.")
+        #     strcpy(stpmcpy(master_cachefile_name,global_tempfile_name,
+        #       sizeof(master_cachefile_name)-5),".8");
+        #     if(!file_exists(master_cachefile_name)) {
+        #       if(old_file==NULL)
+        #         PINFO("There is no changefile since this timestamp.")
+        #       else
+        #         PINFO("Your OSM file is already up-to-date.")
+        # return 21;
+        if e.returncode == 21:
+            pass
+        else:
+            raise
     shutil.move(PLANET_LATEST_ON_UPDATE, PLANET_LATEST)
 
 
