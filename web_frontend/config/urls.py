@@ -5,6 +5,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'', include('osmaxx.excerptexport.urls', namespace='excerptexport')),
+    url(r'^admin/django-rq/', include('django_rq.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
     url(r'^version/', include('osmaxx.version.urls', namespace='version')),
