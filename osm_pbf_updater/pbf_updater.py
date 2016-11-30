@@ -45,15 +45,10 @@ def _is_night_time(now):
 
 def run(*, sleep_seconds=10, osmupdate_extra_params):
     last_full_download_time = datetime.datetime.min
-
-    if not os.path.exists(PLANET_LATEST):
-        full_download(planet_url())
-        last_full_download_time = datetime.datetime.now()
-
     while True:
         now = datetime.datetime.now()
         full_update_is_due = now - last_full_download_time > datetime.timedelta(weeks=1)
-        if full_update_is_due and _is_night_time(now):
+        if not os.path.exists(PLANET_LATEST) or full_update_is_due and _is_night_time(now):
             full_download(planet_url())
             last_full_download_time = datetime.datetime.now()
         # start updating immediately
