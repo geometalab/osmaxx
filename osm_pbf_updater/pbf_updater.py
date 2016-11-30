@@ -52,7 +52,8 @@ def run(*, sleep_seconds=10, osmupdate_extra_params):
 
     while True:
         now = datetime.datetime.now()
-        if now - last_full_download_time > datetime.timedelta(weeks=1) and _is_night_time(now):
+        full_update_is_due = now - last_full_download_time > datetime.timedelta(weeks=1)
+        if full_update_is_due and _is_night_time(now):
             full_download(planet_url())
             last_full_download_time = datetime.datetime.now()
         # start updating immediately
