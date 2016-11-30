@@ -29,6 +29,7 @@ services:
     links:
       - frontenddatabase:database
       - mediator:conversion-service
+      - conversionserviceredis:redis
     env_file:
       - ./compose-env/common.env
       - ./compose-env/frontend.env
@@ -37,6 +38,8 @@ services:
       - DATABASE_PORT=5432
       - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
       - NUM_WORKERS=5
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
       - frontenddatabase
       - mediator

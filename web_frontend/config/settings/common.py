@@ -49,6 +49,8 @@ THIRD_PARTY_APPS = (
     # rest API Framework
     'rest_framework',
     'rest_framework_gis',
+    # async execution worker
+    'django_rq',
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
@@ -439,3 +441,14 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = env.bool('DJANGO_SESSION_EXPIRE_AT_BROWSER_CLO
 SESSION_FILE_PATH = env.str('DJANGO_SESSION_FILE_PATH', default=None)
 SESSION_SAVE_EVERY_REQUEST = env.bool('DJANGO_SESSION_SAVE_EVERY_REQUEST', default=False)
 SESSION_SERIALIZER = env.str('DJANGO_SESSION_SERIALIZER', default='django.contrib.sessions.serializers.JSONSerializer')
+
+# RQ settings
+REDIS_CONNECTION = dict(
+    HOST=env.str('REDIS_HOST', default='localhost'),
+    PORT=env.str('REDIS_PORT', default=6379),
+    DB=0,
+    PASSWORD='',
+    DEFAULT_TIMEOUT=int(timedelta(days=2).total_seconds())
+)
+RQ_QUEUE_NAMES = ['default', 'high']
+RQ_QUEUES = {name: REDIS_CONNECTION for name in RQ_QUEUE_NAMES}
