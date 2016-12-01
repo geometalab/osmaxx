@@ -6,6 +6,7 @@ IMAGES = [
     dict(image_name='geometalab/osmaxx-worker', dockerfile='Dockerfile.worker'),
     dict(image_name='geometalab/osmaxx-frontend', dockerfile='Dockerfile.frontend'),
     dict(image_name='geometalab/osmaxx-nginx', dockerfile='Dockerfile.nginx'),
+    dict(image_name='geometalab/osm-pbf-updater', dockerfile='osm_pbf_updater/Dockerfile', location='osm_pbf_updater/'),
 ]
 
 
