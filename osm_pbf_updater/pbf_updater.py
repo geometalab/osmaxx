@@ -51,7 +51,7 @@ def update(osmupdate_extra_params):
         #         PINFO("Your OSM file is already up-to-date.")
         # return 21;
         if e.returncode == 21:
-            pass
+            return
         else:
             raise
     shutil.move(PLANET_LATEST_ON_UPDATE, PLANET_LATEST)
