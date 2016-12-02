@@ -46,7 +46,9 @@
         </div>
 
         <footer>
-            <p class="footer">&copy; 2015-2016 HSR Hochschule für Technik Rapperswil</p>
+            <p class="footer">
+                {% block copyright %}&copy; 2015-2016 HSR Hochschule für Technik Rapperswil{% endblock %}
+            </p>
         </footer>
     </div>
     <script type="text/javascript" src="{% static 'osmaxx/js/custom_event_polyfills.js' %}"></script>

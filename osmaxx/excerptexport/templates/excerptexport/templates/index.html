@@ -1,6 +1,7 @@
 {% extends "excerptexport/base.html" %}
 
 {% load i18n %}
+{% load staticfiles %}
 
 {% block breadcrumb %}
     {{ block.super }}
@@ -18,7 +19,7 @@
         </h1>
         <div class="container-fluid">
             <div class="text-center col-sm-6">
-                <span class="icon">&#x27bd;</span><br />
+                <img src="{% static 'excerptexport/images/export_existing_excerpt_or_country_or_admin_area_emblem.svg' %}" width="70%" max-width="550px" /><br />
                 <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_existing_excerpt' %}">
                     <strong>{% trans 'Export an existing excerpt' %}</strong>
                 </a>
@@ -26,7 +27,7 @@
                 {% trans '(a predefined country or other administrative area,<br />or one of your previously defined excerpts)' %}
             </div>
             <div class="text-center col-sm-6">
-                <span class="icon">&#8983;</span><br />
+                <img src="{% static 'excerptexport/images/define_and_export_new_excerpt_emblem.svg' %}" width="70%" max-width="550px" /><br />
                 <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_new_excerpt' %}">
                     <strong>{% trans 'Define & export a new excerpt' %}</strong>
                 </a>
@@ -39,4 +40,23 @@
             {% endif %}
         </div>
     </div>
+{% endblock %}
+
+
+{% block copyright %}
+    {{ block.super }},
+    <small><small>
+        <a href="{% static 'excerptexport/images/export_existing_excerpt_or_country_or_admin_area_emblem.svg' %}" target="_blank">
+            "open atlas"
+        </a>
+        and
+        <a href="{% static 'excerptexport/images/define_and_export_new_excerpt_emblem.svg' %}" target="_blank">
+            "cut-out from planet" emblems
+        </a>
+        derived from <span title="see SVG source code for individual attributions">CC BY-SA and public domain works</span>
+        and licensed under
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" title="Creative Commons Attribution-ShareAlike 4.0 International Public License" target="_blank">
+            CC BY-SA&nbsp;4.0&nbsp;international
+        </a>
+    </small></small>
 {% endblock %}
