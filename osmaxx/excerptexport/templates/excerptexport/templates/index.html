@@ -18,7 +18,7 @@
         </h1>
         <div class="container-fluid">
             <div class="text-center col-sm-6">
-                <img src="{% static 'excerptexport/images/export_existing_excerpt_or_country_or_admin_area_emblem.svg' %}" width="70%" max-width="550px" /><br />
+                <img src="{% static 'excerptexport/images/export_existing_excerpt_or_country_or_admin_area_emblem.svg' %}" width="70%" style="max-width: 550px;" /><br />
                 <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_existing_excerpt' %}">
                     <strong>{% trans 'Export an existing excerpt' %}</strong>
                 </a>
@@ -26,7 +26,7 @@
                 {% trans '(a predefined country or other administrative area,<br />or one of your previously defined excerpts)' %}
             </div>
             <div class="text-center col-sm-6">
-                <img src="{% static 'excerptexport/images/define_and_export_new_excerpt_emblem.svg' %}" width="70%" max-width="550px" /><br />
+                <img src="{% static 'excerptexport/images/define_and_export_new_excerpt_emblem.svg' %}" width="70%" style="max-width: 550px;" /><br />
                 <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_new_excerpt' %}">
                     <strong>{% trans 'Define & export a new excerpt' %}</strong>
                 </a>
