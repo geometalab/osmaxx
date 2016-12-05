@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-02 14:46+0100\n"
+"POT-Creation-Date: 2016-12-05 11:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1042,43 +1042,25 @@ msgstr ""
 msgid "This site has pages, which are protected. Please login and try again."
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:13
-msgid "Overview"
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:14
-msgid "Welcome to the <strong>OSM Arbitrary Excerpt Export</strong> service."
-msgstr ""
-
 #: osmaxx/excerptexport/templates/excerptexport/templates/index.html:16
-msgid "Please"
+msgid "Get the OpenStreetMap data you want in the file format you need"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:16
-msgid "login"
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:23
+msgid "Export an existing excerpt"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:16
-msgid "or"
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:26
+msgid ""
+"(a predefined country or other administrative area,<br />or one of your "
+"previously defined excerpts)"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:17
-msgid "create an \"OpenStreetMap\" account"
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:31
+msgid "Define & export a new excerpt"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:17
-msgid "to login."
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:24
-msgid "Export existing excerpt or country"
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:28
-msgid "Export new excerpt"
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:33
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:37
 msgid "My exports"
 msgstr ""
 
