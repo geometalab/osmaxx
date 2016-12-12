@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+This work, "folder" is a derivative of
+  - the folder icon "Folder 3 icon-72a7cf" (https://commons.wikimedia.org/wiki/File:Folder_3_icon-72a7cf.svg)
+    by WikiMedia user "Offnfopt", used under public domain (or closest equivalent applicable) rights
+
+This work, "folder" has been released into the public domain by its author HSR Hochschule für Technik Rapperswil.
+This applies worldwide.
+See https://creativecommons.org/publicdomain/zero/1.0/
+-->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -26,5 +35,18 @@
   </metadata>
   <g
      transform="translate(0,-680.31496)"
-     id="layer1" />
+     id="layer1">
+    <g
+       transform="translate(71.999078,746.49856)"
+       id="g4558">
+      <path
+         style="fill:#72a7cf;fill-rule:evenodd;stroke:#568cbc;stroke-width:9;stroke-linejoin:round"
+         d="m 4.5,216.77 0,-177.53 82.467,0 -0.0039,17.257 127.16,0 0,160.27 z"
+         id="path4548" />
+      <path
+         style="fill:#89b1d3;fill-rule:evenodd;stroke:#568cbc;stroke-width:9;stroke-linejoin:round"
+         d="m 4.5,216.77 33.311,-92.876 59.313,0 25.188,-26.301 129.19,0 -35.75,119.18 z"
+         id="path4550" />
+    </g>
+  </g>
 </svg>
