@@ -43,12 +43,9 @@ See https://creativecommons.org/publicdomain/zero/1.0/
          style="fill:#72a7cf;fill-rule:evenodd;stroke:#568cbc;stroke-width:9;stroke-linejoin:round"
          d="m 4.5,216.77 0,-177.53 82.467,0 -0.0039,17.257 127.16,0 0,160.27 z"
          id="path4548" />
-      <rect
+      <path
          transform="matrix(0,1,-1,0,0,0)"
-         y="-269.66678"
-         x="-9.6059675"
-         height="158.29218"
-         width="209.56992"
+         d="m -9.6059675,-269.66678 209.5699175,0 0,158.29218 -209.5699175,0 z"
          id="rect4137"
          style="fill:#ffffff;fill-opacity:1;stroke:#568cbc;stroke-width:9;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <path
