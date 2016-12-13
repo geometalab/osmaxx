@@ -49,17 +49,15 @@ See https://creativecommons.org/licenses/by-sa/4.0/
          transform="matrix(0.75657259,0,0,0.75657259,-12.213224,-23.139671)"
          id="g4200">
         <g
-           id="page">
+           id="page"
+           transform="matrix(0,1,-1,0,0,0)"
+           style="fill:#ffffff;fill-opacity:1;stroke:#0d47a1;stroke-width:9;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" >
           <path
-             transform="matrix(0,1,-1,0,0,0)"
              d="m 31.716456,-269.66678 168.247494,0 0,158.29218 -209.5699175,0 0,-117.63234 z"
-             id="page_back"
-             style="fill:#ffffff;fill-opacity:1;stroke:#0d47a1;stroke-width:9;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+             id="page_back" />
           <path
-             transform="matrix(0,1,-1,0,0,0)"
              d="m 32.170524,-228.48147 -0.454068,-41.18531 168.247494,0 0,158.29218 -209.5699175,0 0,-117.63234 z"
-             id="page_front"
-             style="fill:#ffffff;fill-opacity:1;stroke:#0d47a1;stroke-width:9;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+             id="page_front" />
         </g>
         <g
            transform="matrix(0.19416808,0,0,0.19416808,117.65878,-9.2244492)"
