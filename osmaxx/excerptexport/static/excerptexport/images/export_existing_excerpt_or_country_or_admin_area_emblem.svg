@@ -43,11 +43,19 @@ See https://creativecommons.org/publicdomain/zero/1.0/
          style="fill:#72a7cf;fill-rule:evenodd;stroke:#568cbc;stroke-width:9;stroke-linejoin:round"
          d="m 4.5,216.77 0,-177.53 82.467,0 -0.0039,17.257 127.16,0 0,160.27 z"
          id="path4548" />
-      <path
-         transform="matrix(0,1,-1,0,0,0)"
-         d="m -9.6059675,-269.66678 209.5699175,0 0,158.29218 -209.5699175,0 z"
-         id="rect4137"
-         style="fill:#ffffff;fill-opacity:1;stroke:#568cbc;stroke-width:9;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <g
+         id="page">
+        <path
+           transform="matrix(0,1,-1,0,0,0)"
+           d="m 31.716456,-269.66678 168.247494,0 0,158.29218 -209.5699175,0 0,-117.63234 z"
+           id="page_back"
+           style="fill:#ffffff;fill-opacity:1;stroke:#568cbc;stroke-width:9;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           transform="matrix(0,1,-1,0,0,0)"
+           d="m 32.170524,-228.48147 -0.454068,-41.18531 168.247494,0 0,158.29218 -209.5699175,0 0,-117.63234 z"
+           id="page_front"
+           style="fill:#ffffff;fill-opacity:1;stroke:#568cbc;stroke-width:9;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      </g>
       <path
          style="fill:#89b1d3;fill-rule:evenodd;stroke:#568cbc;stroke-width:9;stroke-linejoin:round"
          d="m 4.5,216.77 33.311,-92.876 59.313,0 25.188,-26.301 129.19,0 -35.75,119.18 z"
