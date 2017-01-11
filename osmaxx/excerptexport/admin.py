@@ -65,10 +65,6 @@ class ExportAdmin(admin.ModelAdmin):
     link_to_extraction_order.allow_tags = True
 
 
-User = get_user_model()
-admin.site.unregister(User)
-
-
 class ExtractionOrderInline(admin.TabularInline):
     model = ExtractionOrder
     fields = ('id', 'excerpt', 'orderer')
@@ -79,6 +75,10 @@ class ExtractionOrderInline(admin.TabularInline):
 
     def has_add_permission(self, request):
         return False
+
+
+User = get_user_model()
+admin.site.unregister(User)
 
 
 @admin.register(User)
