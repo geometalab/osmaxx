@@ -18,11 +18,26 @@ class ExcerptAdmin(admin.ModelAdmin):
     list_filter = ['is_active', 'is_public', 'excerpt_type']
 
 
+class ExportInline(admin.TabularInline):
+    model = Export
+    fields = ['file_format', 'conversion_service_job_id', 'status', 'created_at', 'finished_at']
+    readonly_fields = fields
+    can_delete = False
+    show_change_link = True
+    extra = 0
+
+    def has_add_permission(self, request):
+        return False
+
+
 @admin.register(ExtractionOrder)
 class ExtractionOrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'excerpt', 'orderer')
     list_display_links = ('id', 'excerpt')
-    readonly_fields = ('process_id', 'coordinate_reference_system', 'progress_url')
+    readonly_fields = ('process_id', 'coordinate_reference_system', 'progress_url', 'excerpt')
+    inlines = [
+        ExportInline,
+    ]
 
 
 @admin.register(OutputFile)
