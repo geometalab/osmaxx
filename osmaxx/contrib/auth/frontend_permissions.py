@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
 from rest_framework import permissions
 
+from osmaxx.profile.models import Profile
+
 
 def _may_user_access_osmaxx_frontend(user):
     """
@@ -20,6 +22,16 @@ def _may_user_access_this_export(user, export):
     return export.extraction_order.orderer == user
 
 
+def _user_has_validated_email(user):
+    if user.is_superuser:
+        return True
+    try:
+        profile = Profile.objects.get(associated_user=user)
+    except Profile.DoesNotExist:
+        return False
+    return profile.has_validated_email()
+
+
 def frontend_access_required(function=None):
     """
     Decorator for views that checks that the user has the correct access rights,
@@ -29,6 +41,21 @@ def frontend_access_required(function=None):
     actual_decorator = user_passes_test(
         _may_user_access_osmaxx_frontend,
         login_url=access_denied_info_url
+    )
+    if function:
+        return actual_decorator(function)
+    return actual_decorator
+
+
+def validated_email_required(function=None):
+    """
+    Decorator for views that checks that the user has set a validated email,
+    redirecting to the profile page if necessary.
+    """
+    profile_url = reverse_lazy('profile:edit_view')
+    actual_decorator = user_passes_test(
+        _user_has_validated_email,
+        login_url=profile_url
     )
     if function:
         return actual_decorator(function)
@@ -51,6 +78,15 @@ class FrontendAccessRequiredMixin(object):
     @method_decorator(frontend_access_required)
     def dispatch(self, *args, **kwargs):
         return super(FrontendAccessRequiredMixin, self).dispatch(*args, **kwargs)
+
+
+class EmailRequiredMixin(object):
+    """
+    Frontend Access Check Mixin for Class Based Views.
+    """
+    @method_decorator(validated_email_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
 class AuthenticatedAndAccessPermission(permissions.BasePermission):
