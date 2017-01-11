@@ -19,7 +19,8 @@ from django.views.generic.list import ListView
 from osmaxx.contrib.auth.frontend_permissions import (
     LoginRequiredMixin,
     FrontendAccessRequiredMixin,
-    EmailRequiredMixin)
+    EmailRequiredMixin,
+)
 from osmaxx.conversion_api import statuses
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
