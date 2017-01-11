@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import widgets
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
 from django.contrib.gis.db import models
 from django.core import urlresolvers
 
@@ -61,3 +63,27 @@ class ExportAdmin(admin.ModelAdmin):
         link = urlresolvers.reverse("admin:excerptexport_extractionorder_change", args=[obj.extraction_order.id])
         return u'<a href="%s">%s</a>' % (link, obj.extraction_order.excerpt_name)
     link_to_extraction_order.allow_tags = True
+
+
+User = get_user_model()
+admin.site.unregister(User)
+
+
+class ExtractionOrderInline(admin.TabularInline):
+    model = ExtractionOrder
+    fields = ('id', 'excerpt', 'orderer')
+    readonly_fields = fields
+    can_delete = False
+    show_change_link = True
+    extra = 0
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(User)
+class UserAdmin2(UserAdmin):
+    # list_display = ('id', 'file_format', 'conversion_service_job_id', 'status', 'created_at', 'finished_at')
+    inlines = [
+        ExtractionOrderInline,
+    ]
