@@ -23,8 +23,6 @@ def _may_user_access_this_export(user, export):
 
 
 def _user_has_validated_email(user):
-    if user.is_superuser:
-        return True
     try:
         profile = Profile.objects.get(associated_user=user)
     except Profile.DoesNotExist:
