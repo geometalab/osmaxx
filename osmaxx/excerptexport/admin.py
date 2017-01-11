@@ -83,7 +83,6 @@ class ExtractionOrderInline(admin.TabularInline):
 
 @admin.register(User)
 class UserAdmin2(UserAdmin):
-    # list_display = ('id', 'file_format', 'conversion_service_job_id', 'status', 'created_at', 'finished_at')
     inlines = [
         ExtractionOrderInline,
     ]
