@@ -48,7 +48,7 @@ PIP_TOOLS_COMPILED_SPEC_FILES := $(PIP_TOOLS_SOURCE_SPEC_FILES:.in=.txt)
 
 .PHONY: pip-upgrade
 pip-upgrade: $(PIP_TOOLS_SOURCE_SPEC_FILES)
-	$(MAKE) --always-make $(PIP_TOOLS_COMPILED_SPEC_FILES)
+	PIP_COMPILE_FLAGS=--upgrade $(MAKE) --always-make $(PIP_TOOLS_COMPILED_SPEC_FILES)
 	@echo
 	@echo Updated compiled pip-tools spec files $<, but NOT INSTALLED, yet.
 	@echo Consider running
@@ -64,7 +64,7 @@ pip-sync-all: requirements-all.txt
 	pip-sync $?
 
 %.txt: %.in
-	pip-compile --output-file $@ $<
+	pip-compile ${PIP_COMPILE_FLAGS} --output-file $@ $<
 
 compose-env/%.env: compose-env-dist/%.env
 	@mkdir -p $(@D)
