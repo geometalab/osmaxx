@@ -81,12 +81,7 @@ tests-all: up-redis up-pg up-pg_translit
 
 .PHONY: tox
 tox: up-redis up-pg up-pg_translit
-	tox -e py34-flake8
-	tox -e py34-django1.8-drf3.2
-	tox -e py34-django1.9-drf3.2
-	tox -e py34-django1.8-drf3.3
-	tox -e py34-django1.9-drf3.3
-	tox -e py34-slow-tests
+	tox --skip-missing-interpreters
 
 .PHONY: up-redis
 up-redis:
