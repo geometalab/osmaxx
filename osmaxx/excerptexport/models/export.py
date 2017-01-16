@@ -117,7 +117,6 @@ class Export(TimeStampModelMixin, models.Model):
         of = OutputFile.objects.create(
             export=self,
             mime_type='application/zip',
-            file_extension='zip',
         )
         of.file.save(
             of.download_file_name,
