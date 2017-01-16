@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
+from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from django_enumfield import enum
 
@@ -11,6 +12,8 @@ from osmaxx.excerptexport.models.output_file import OutputFile
 from .excerpt import Excerpt
 
 
+# TODO: remove ExtractionOrderState,
+# TODO:   since this is obsolete and replaced with osmaxx.conversion_api.statuses.STATUS_CHOICES
 class ExtractionOrderState(enum.Enum):
     UNDEFINED = 0
     INITIALIZED = 1
@@ -53,7 +56,6 @@ class ExtractionOrder(models.Model):
     process_id = models.TextField(blank=True, null=True, verbose_name=_('process link'))
     orderer = models.ForeignKey(User, related_name='extraction_orders', verbose_name=_('orderer'))
     excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True)
-    country_id = models.IntegerField(verbose_name=_('country ID'), null=True, blank=True)
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
     process_start_time = models.DateTimeField(verbose_name=_('process start time'), null=True, blank=True)
     download_status = models.IntegerField(
@@ -92,9 +94,6 @@ class ExtractionOrder(models.Model):
         """
         if self.excerpt:
             return self.excerpt.name
-        elif self.country_id:
-            from osmaxx.api_client import ConversionApiClient
-            return ConversionApiClient().get_country_name(self.country_id)
 
     @property
     def output_files(self):
@@ -144,7 +143,39 @@ class ExtractionOrder(models.Model):
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
-        return reverse('excerptexport:status', kwargs={'extraction_order_id': self.id})
+        return reverse('excerptexport:export_list')
+
+    def send_email_if_all_exports_done(self, incoming_request):
+        if all(export.is_status_final for export in self.exports.all()):
+            from osmaxx.utilities.shortcuts import Emissary
+            emissary = Emissary(recipient=self.orderer)
+            emissary.inform_mail(
+                subject=self._get_all_exports_done_email_subject(),
+                mail_body=self._get_all_exports_done_mail_body(incoming_request)
+            )
+
+    def _get_all_exports_done_email_subject(self):
+        view_context = dict(
+            extraction_order=self,
+            successful_exports_count=self.exports.filter(output_file__isnull=False).count(),
+            failed_exports_count=self.exports.filter(output_file__isnull=True).count(),
+        )
+        return render_to_string(
+            'excerptexport/email/all_exports_of_extraction_order_done_subject.txt',
+            context=view_context,
+        ).strip()
+
+    def _get_all_exports_done_mail_body(self, incoming_request):
+        view_context = dict(
+            extraction_order=self,
+            successful_exports=self.exports.filter(output_file__isnull=False),
+            failed_exports=self.exports.filter(output_file__isnull=True),
+            request=incoming_request,
+        )
+        return render_to_string(
+            'excerptexport/email/all_exports_of_extraction_order_done_body.txt',
+            context=view_context,
+        ).strip()
 
 
 @receiver(post_save, sender=ExtractionOrder)

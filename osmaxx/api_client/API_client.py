@@ -1,6 +1,7 @@
 import logging
 
 import requests
+from requests.models import CONTENT_CHUNK_SIZE
 
 logger = logging.getLogger(__name__)
 
@@ -88,6 +89,38 @@ class JWTClient(RESTApiClient):
         return {
             'Authorization': 'JWT {token}'.format(token=self.token),
         }
+
+
+class LazyChunkedRemoteFile:
+    """Wrapper around to-be-downloaded files
+
+    Can be passed to django.core.files.storage.Storage#save as ``content``
+    if that storage's save logic consumes chunks like ``FileSystemStorage`` does
+    at https://github.com/django/django/blob/1.9.4/django/core/files/storage.py#L252
+
+    Notes:
+        - This is not a file-like object: It has no ``read`` method.
+        - Object initialization opens the connection for downloading, but will not fetch the content until the chunks
+          are requested. If too much time has passed between those steps, the server might have closed the connection,
+          so don't wait too long.
+    """
+
+    def __init__(self, *args, download_function=requests.get, **kwargs):
+        stream = kwargs.pop('stream', True)
+        assert stream, "can't chunk without streaming"
+        response = download_function(*args, stream=stream, **kwargs)
+        self._content_it = response.iter_content(chunk_size=CONTENT_CHUNK_SIZE)
+        self._size = 0
+
+    def chunks(self):
+        for chunk in self._content_it:
+            if chunk:
+                self._size += len(chunk)
+                yield chunk
+
+    @property
+    def size(self):
+        return self._size
 
 
 def reasons_for(http_error):

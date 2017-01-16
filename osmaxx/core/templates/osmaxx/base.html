@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <title>Osmaxx</title>
+    <link rel="icon" type="image/png" href='{% static "osmaxx/images/favicon.png" %}' />
+    <style>
+        body { font-family: Arial, sans-serif; }
+    </style>
+
+    <link rel="stylesheet" href="{% static 'osmaxx/libraries/bootstrap/css/bootstrap.min.css' %}" />
+
+    <link rel='stylesheet' type='text/css' href='{% static "osmaxx/stylesheets/main.css" %}' />
+    <link rel='stylesheet' type='text/css' href='{% static "osmaxx/stylesheets/ie-fixes.css" %}' />
+
+    {% block extracss %}{% endblock %}
+{% endblock %}
+
+{% block body %}
+    <div class="page">
+        <header>
+            <div class="topBar">
+                <a href="{% url 'excerptexport:index' %}">
+                    <h1><img class="logo" src='{% static "osmaxx/images/logo-osmaxx-200.png" %}' alt="Osmaxx" /></h1>
+                </a>
+                <img class="hsr-logo" src='{% static "osmaxx/images/logo-hsr.jpg" %}' alt="Logo hsr" />
+                {% include 'osmaxx/navigation.html' with view=view user=user %}
+            </div>
+            <nav class="breadcrumb">
+                <ol class="breadcrumb" data-type="bootstrap">
+                    {% block breadcrumb %}<li><a href="/">Osmaxx</a></li>{% endblock %}
+                </ol>
+            </nav>
+        </header>
+
+        <div class="main box-row-grid">
+            <div class="grid-row messagebox">
+                {% include 'osmaxx/flash_messages.html' with messages=messages %}
+            </div>
+
+            {% block main %}
+            <div class="container-row">
+                <h2>Main block</h2>
+            </div>
+            {% endblock %}
+        </div>
+
+        <footer>
+            {% include 'osmaxx/footer.html' %}
+        </footer>
+    </div>
+    <script type="text/javascript" src="{% static 'osmaxx/js/custom_event_polyfills.js' %}"></script>
+    {# jQuery (necessary for Bootstrap's JavaScript plugins) #}
+    <script type="text/javascript" src="{% static 'osmaxx/libraries/jquery/jquery.min.js' %}"></script>
+
+    {# Bootstrap #}
+    <script type="text/javascript" src="{% static 'osmaxx/libraries/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    {% block scripts %}{% endblock %}
+{% endblock %}

@@ -1,7 +1,7 @@
 from itertools import chain
 from sqlalchemy import MetaData, Table, create_engine, func
 from sqlalchemy.engine.url import URL
-from sqlalchemy.sql import select, insert
+from sqlalchemy.sql import select, insert, expression
 from geoalchemy2 import Geometry, Geography
 
 
@@ -87,6 +87,13 @@ class OSMImporter:
         self._insert_corresponding_osm_nodes(local_ways)
 
     def _load_boundaries_tables(self, extent):
+        multipolygon_cast = Geometry(geometry_type='MULTIPOLYGON', srid=4326)
+        multilinestring_cast = Geometry(geometry_type='MULTILINESTRING', srid=4326)
+        table_casts = {
+            'land_polygons': multipolygon_cast,
+            'water_polygons': multipolygon_cast,
+            'coastlines': multilinestring_cast,
+        }
         for table_name in self._osm_boundaries_tables:
             source_table_meta = self._table_metas[table_name]
             query = select([
@@ -100,19 +107,21 @@ class OSMImporter:
             view_definition_query = select([
                 source_table_meta.c.ogc_fid,
                 source_table_meta.c.fid,
-                func.ST_Intersection(source_table_meta.c.wkb_geometry, extent.ewkt).label('geom')
+                expression.cast(
+                    func.ST_Multi(func.ST_Intersection(source_table_meta.c.wkb_geometry, extent.ewkt)),
+                    table_casts[table_name]
+                ).label('geom')
             ]).where(func.ST_Intersects(source_table_meta.c.wkb_geometry, extent.ewkt))
             view_meta = MetaData()
             view = Table(table_name, view_meta, schema='view_osmaxx')
+
             from sqlalchemy.dialects import postgresql
             from sqlalchemy.sql import text
             query_defintion_string = str(
                 view_definition_query.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True})
             )
-            # TODO: REMOVE the ugly replacement hack
-            query_defintion_string = query_defintion_string.replace(') AS', ' AS')
-            query_defintion_string = query_defintion_string.replace('ST_AsEWKB(', '')
-
+            query_defintion_string = query_defintion_string.replace('ST_AsEWKB(CAST', 'CAST')
+            query_defintion_string = query_defintion_string.replace('))) AS geom', ')) AS geom')
             query_defintion_text = text(query_defintion_string)
             create_view = CreateView(view, query_defintion_text, or_replace=True)
             self._local_db_engine.execute(create_view)

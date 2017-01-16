@@ -75,7 +75,7 @@ headers = {'Content-Type': 'application/json; charset=UTF-8', 'Authorization': '
 data = {
     "callback_url": "http://example.com",
     "gis_formats": ["fgdb", "spatialite"],
-    "gis_option": {"coordinate_reference_system": "WGS_84","detail_level": 1},
+    "gis_option": {"coordinate_reference_system": "4326","detail_level": 1},
     "extent": {
         "west": 29.525547623634335,
         "south": 40.77546776498174,

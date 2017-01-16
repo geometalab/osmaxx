@@ -1,5 +1,13 @@
 version: '2'
 services:
+  nginx:
+    image: geometalab/osmaxx-nginx:${DEPLOY_VERSION}
+    volumes:
+      - frontend-media:/data/frontend/media
+    depends_on:
+      - frontend
+    networks:
+      - osmaxx-internal
   # if you change the names of the containers, please remember
   # that you need to adapt REAMDE.md
   ##### frontend START ########
@@ -8,9 +16,13 @@ services:
     extends:
       file: docker-compose-common.yml
       service: frontendbase
+    expose:
+      - "8000"
+    command: [honcho, -f, ./web_frontend/Procfile.django.prod, start]
     volumes:
       - frontend-data:/data
       - frontend-results:/results
+      - frontend-media:/data/media
     links:
       - frontenddatabase:database
       - mediator:conversion-service
@@ -189,6 +201,7 @@ volumes:
   # osmaxx
   frontend-database-data: {}
   frontend-data: {}
+  frontend-media: {}
   frontend-results: {}
   mediator-database-data: {}
   worker-data: {}

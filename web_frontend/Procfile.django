@@ -1,1 +1,0 @@
-web: gunicorn --workers ${NUM_WORKERS} --chdir=web_frontend config.wsgi --bind ${APP_HOST}:${APP_PORT}

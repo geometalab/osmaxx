@@ -58,10 +58,10 @@ class Command(BaseCommand):
 
         logger.info('updating job %d', job_id)
         conversion_job.status = job.status
-        self._notify(conversion_job)
         if job.status == FINISHED:
             add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
         conversion_job.save()
+        self._notify(conversion_job)
         if job.status in FINAL_STATUSES:
             job.delete()
 

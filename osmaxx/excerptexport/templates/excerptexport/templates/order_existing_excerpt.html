@@ -1,4 +1,4 @@
-{% extends "excerptexport/layouts/base.html" %}
+{% extends "excerptexport/base.html" %}
 {% load staticfiles i18n crispy_forms_tags %}
 
 {% block breadcrumb %}
@@ -26,19 +26,12 @@
 
 {% block scripts %}
     {{ block.super }}
-    <script src='{% static "excerptexport/libraries/leaflet/leaflet.js" %}'></script>
-    <script>L.Path.CLIP_PADDING = 1.0;</script>
 
-    <!-- Leaflet plugins -->
-    <script src='{% static "excerptexport/libraries/Leaflet.Spin/spin.min.js" %}'></script>
-    <script src='{% static "excerptexport/libraries/Leaflet.Spin/leaflet.spin.js" %}'></script>
-    <script src='{% static "excerptexport/libraries/leaflet-ajax/leaflet.ajax.min.js" %}'></script>
-
-    <!-- map -->
+    {# map #}
     <script src='{% static "excerptexport/scripts/maps/excerpt_viewer.js" %}'></script>
     <script src='{% static "excerptexport/scripts/maps/existing_excerpt_map.js" %}'></script>
 
-    <!-- form -->
+    {# form #}
     <script src='{% static "excerptexport/scripts/excerpt_filter.js" %}'></script>
     <script src='{% static "excerptexport/scripts/validation/existing_excerpt_validation.js" %}'></script>
 {% endblock %}
