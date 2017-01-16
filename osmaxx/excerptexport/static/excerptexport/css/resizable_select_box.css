@@ -1,0 +1,4 @@
+/* to set the height and width of the select */
+#resizable { height: 300px; }
+/* to adjust the position of the dragger */
+.ui-resizable-se { bottom: 18px; right: 25px; }

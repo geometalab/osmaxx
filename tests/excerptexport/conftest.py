@@ -1,3 +1,6 @@
+import os
+import tempfile
+
 import pytest
 
 from osmaxx.conversion_api import formats
@@ -22,7 +25,6 @@ def excerpt(user, bounding_geometry, db):
 @pytest.fixture
 def extraction_order(excerpt, user, db):
     extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
-    extraction_order.extraction_configuration = {}
     return extraction_order
 
 
@@ -45,8 +47,26 @@ def output_file_filename():
 
 
 @pytest.fixture
-def output_file_with_file(output_file, output_file_filename):
+def output_file_content():
+    return b"some content"
+
+
+@pytest.yield_fixture
+def some_fake_zip_file(request, output_file_content):
+    tmpfile = tempfile.NamedTemporaryFile(suffix='.zip', delete=False)
+
+    try:
+        tmpfile.write(output_file_content)
+        tmpfile.seek(0)
+        yield tmpfile
+    finally:
+        if os.path.exists(tmpfile.name):
+            os.remove(tmpfile.name)
+
+
+@pytest.fixture
+def output_file_with_file(output_file, output_file_filename, output_file_content):
     from django.core.files.base import ContentFile
-    file = ContentFile(b"some content")
+    file = ContentFile(output_file_content)
     output_file.file.save(output_file_filename, file)
     return output_file

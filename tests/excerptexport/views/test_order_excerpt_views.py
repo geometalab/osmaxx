@@ -1,12 +1,9 @@
-import shutil
-import os
-
-from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.test import TestCase
 from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
+from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_ALL
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from tests.excerptexport.permission_test_helper import PermissionHelperMixin
 from tests.test_helpers import vcr_explicit_path as vcr
@@ -20,12 +17,15 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.user = User.objects.create_user('user', 'user@example.com', 'pw')
         other_user = User.objects.create_user('other_user', 'o_u@example.com', 'o_pw')
 
+        self.coordinate_reference_system = 4326
+        self.detail_level = DETAIL_LEVEL_ALL
+
         self.new_excerpt_post_data = {
             'name': 'A very interesting region',
-            'is_public': 'True',
             'bounding_geometry': '{"type":"Polygon","coordinates":[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]}',
             'formats': ['fgdb'],
-            'detail_level': 'verbatim',
+            'coordinate_reference_system': self.coordinate_reference_system,
+            'detail_level': self.detail_level,
         }
         self.existing_own_excerpt = Excerpt.objects.create(
             name='Some old Excerpt',
@@ -51,14 +51,9 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.existing_excerpt_post_data = {
             'existing_excerpts': self.existing_own_excerpt.id,
             'formats': ['fgdb'],
+            'coordinate_reference_system': self.coordinate_reference_system,
+            'detail_level': self.detail_level,
         }
-        self.existing_excerpt_extraction_options = {
-            'gis_options': {'coordinate_reference_system': '4326', 'detail_level': 1}
-        }
-
-    def tearDown(self):
-        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
-            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
 
     def test_new_when_not_logged_in(self):
         """
@@ -73,14 +68,16 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         When logged in, we get the excerpt choice form.
         """
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_new_excerpt'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Order new excerpt')
+        self.assertContains(response, 'Order New Excerpt')
 
     @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_existing_own_excerpt.yml')
     def test_new_offers_existing_own_excerpt(self):
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
         self.assertIn(
@@ -92,11 +89,12 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
     @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_existing_public_foreign_excerpt.yml')
     def test_new_offers_existing_public_foreign_excerpt(self):
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
 
         self.assertIn(
-            ('Other excerpts [1]', ((self.existing_public_foreign_excerpt.id, 'Public Excerpt by someone else'),)),
+            ('Public excerpts [1]', ((self.existing_public_foreign_excerpt.id, 'Public Excerpt by someone else'),)),
             response.context['form'].fields['existing_excerpts'].choices
         )
         self.assertIn(self.existing_public_foreign_excerpt.name, response.context['form'].form_html)
@@ -104,6 +102,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
     @vcr.use_cassette('fixtures/vcr/views-test_new_doesnt_offer_existing_private_foreign_excerpt.yml')
     def test_new_doesnt_offer_existing_private_foreign_excerpt(self):
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
         self.assertNotContains(response, self.existing_private_foreign_excerpt.name)
@@ -121,6 +120,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         When logged in, POSTing an export request with a new excerpt is successful.
         """
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.post(
             reverse('excerptexport:order_new_excerpt'),
@@ -129,8 +129,32 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
-            Excerpt.objects.filter(name='A very interesting region', is_active=True, is_public=True).count(),
+            Excerpt.objects.filter(name='A very interesting region', is_active=True, is_public=False).count(),
             1
+        )
+
+    @vcr.use_cassette('fixtures/vcr/views-test_create_with_new_excerpt.yml')
+    def test_create_with_new_excerpt_ignores_ispublic(self):
+        """
+        When logged in, POSTing an export request with a new excerpt is successful.
+        """
+        self.add_permissions_to_user()
+        self.add_valid_email()
+        self.client.login(username='user', password='pw')
+        self.new_excerpt_post_data['is_public'] = True
+        response = self.client.post(
+            reverse('excerptexport:order_new_excerpt'),
+            self.new_excerpt_post_data,
+            HTTP_HOST='thehost.example.com'
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            Excerpt.objects.filter(name='A very interesting region', is_active=True, is_public=False).count(),
+            1
+        )
+        self.assertEqual(
+            Excerpt.objects.filter(name='A very interesting region', is_public=True).count(),
+            0
         )
 
     @vcr.use_cassette('fixtures/vcr/views-test_create_with_existing_excerpt.yml')
@@ -139,6 +163,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         When logged in, POSTing an export request using an existing excerpt is successful.
         """
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.post(
             reverse('excerptexport:order_existing_excerpt'),
@@ -156,6 +181,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         When logged in, POSTing an export request with a new excerpt persists a new ExtractionOrder.
         """
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
         self.client.post(reverse('excerptexport:order_new_excerpt'),
@@ -163,9 +189,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
-        from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-        self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
-        self.assertEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
+        self.assertEqual(newly_created_order.coordinate_reference_system, self.coordinate_reference_system)
+        self.assertEqual(newly_created_order.detail_level, self.detail_level)
         assert_that(newly_created_order.extraction_formats, contains_in_any_order('fgdb'))
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'A very interesting region')
@@ -176,6 +201,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         When logged in, POSTing an export request using an existing excerpt persists a new ExtractionOrder.
         """
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
         self.client.post(
@@ -186,9 +212,8 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         self.assertEqual(ExtractionOrder.objects.count(), 1)
 
         newly_created_order = ExtractionOrder.objects.first()  # only reproducible because there is only 1
-        from osmaxx.excerptexport.models.extraction_order import ExtractionOrderState
-        self.assertEqual(newly_created_order.state, ExtractionOrderState.INITIALIZED)
-        self.assertDictEqual(newly_created_order.extraction_configuration, self.existing_excerpt_extraction_options)
+        self.assertEqual(newly_created_order.coordinate_reference_system, self.coordinate_reference_system)
+        self.assertEqual(newly_created_order.detail_level, self.detail_level)
         assert_that(newly_created_order.extraction_formats, contains_in_any_order('fgdb'))
         self.assertEqual(newly_created_order.orderer, self.user)
         self.assertEqual(newly_created_order.excerpt.name, 'Some old Excerpt')

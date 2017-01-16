@@ -1,9 +1,7 @@
+import tempfile
 from unittest.mock import patch, ANY, call, Mock, sentinel
 
-import os
 import requests_mock
-import shutil
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
@@ -39,12 +37,7 @@ class CallbackHandlingTest(APITestCase):
             orderer=self.user,
             process_id='53880847-faa9-43eb-ae84-dd92f3803a28',
             extraction_formats=['fgdb', 'spatialite'],
-            extraction_configuration={
-                'gis_options': {
-                    'coordinate_reference_system': '4326',
-                    'detail_level': 1
-                }
-            },
+            coordinate_reference_system=4326,
         )
         self.export = extraction_order.exports.get(file_format='fgdb')
         self.nonexistant_export_id = 999
@@ -103,7 +96,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.info(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has been queued.'.format(
+                    'Export #{export_id} "Neverland" to Esri File Geodatabase has been queued.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -125,7 +118,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.info(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has been started.'.format(
+                    'Export #{export_id} "Neverland" to Esri File Geodatabase has been started.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -147,7 +140,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.error(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has failed.'.format(
+                    'Export #{export_id} "Neverland" to Esri File Geodatabase has failed.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -170,7 +163,7 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.success(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has finished.'.format(
+                    'Export #{export_id} "Neverland" to Esri File Geodatabase has finished.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -204,11 +197,16 @@ class CallbackHandlingTest(APITestCase):
             reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
             data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
         )
+
+        resulting_file = tempfile.NamedTemporaryFile()
+        resulting_file.write(b'dummy file')
+        resulting_file.seek(0)
+
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_job/1/',
             json=dict(
-                resulting_file='http://localhost:8901/api/conversion_job/1/conversion_result.zip'
+                resulting_file_path=resulting_file.name
             )
         )
         requests_mock.get(
@@ -237,53 +235,64 @@ class CallbackHandlingTest(APITestCase):
             reverse('job_progress:tracker', kwargs=dict(export_id=self.export.id)),
             data=dict(status='finished', job='http://localhost:8901/api/conversion_job/1/')
         )
+
+        resulting_file = tempfile.NamedTemporaryFile()
+        resulting_file.write(b'dummy file')
+        resulting_file.seek(0)
+
         requests_mock = mocks['requests']
         requests_mock.get(
             'http://localhost:8901/api/conversion_job/1/',
             json=dict(
-                resulting_file='http://localhost:8901/api/conversion_job/1/conversion_result.zip'
+                resulting_file_path=resulting_file.name
             )
-        )
-        requests_mock.get(
-            'http://localhost:8901/api/conversion_job/1/conversion_result.zip',
-            body=BytesIO('dummy file'.encode())
         )
 
         views.tracker(request, export_id=str(self.export.id))
 
+        # subject line WITHOUT "[OSMaxx] " prefix, as that would be added by the Emissary,
+        # which has been mocked out for this test
+        expected_subject = 'Extraction Order #{order_id} "Neverland": 1 Export ready for download, 1 failed'
+        expected_subject = expected_subject.format(
+            order_id=self.export.extraction_order.id,
+        )
         expected_body = '\n'.join(
             [
-                'The extraction order #{order_id} "Neverland" has been processed.',
-                'Results available for download:',
-                '- ESRI File Geodatabase',  # TODO: download link
+                'This is an automated email from testserver',
                 '',
-                'The following exports have failed:',
+                'The extraction order #{order_id} "Neverland" has been processed and is available for download:',
+                '- Esri File Geodatabase: http://testserver{download_url}',
+                '',
+                'Unfortunately, the following exports have failed:',
                 '- SpatiaLite',
                 'Please order them anew if you need them. '
-                'If there are repeated failures please inform the administrators.',
+                'If there are repeated failures, '
+                'please report them on https://github.com/geometalab/osmaxx/issues '
+                'unless the problem is already known there.',
                 '',
-                'View the complete order at http://testserver/exports/',
+                'View the complete order at http://testserver/exports/ (login required)',
+                '',
+                'Thank you for using OSMaxx.',
+                'The team at Geometa Lab HSR',
+                'geometalab@hsr.ch',
             ]
-        ).format(order_id=self.export.extraction_order.id)
+        ).format(
+            order_id=self.export.extraction_order.id,
+            download_url=self.export.output_file.file.url,
+        )
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.success(
-                    'Export #{export_id} "Neverland" to ESRI File Geodatabase has finished.'.format(
+                    'Export #{export_id} "Neverland" to Esri File Geodatabase has finished.'.format(
                         export_id=self.export.id,
                     ),
                 ),
                 call.inform_mail(
-                    subject='Extraction Order #{order_id} "Neverland": 1 Export finished successfully, 1 failed'.format(
-                        order_id=self.export.extraction_order.id,
-                    ),
+                    subject=expected_subject,
                     mail_body=expected_body,
                 ),
             )
         )
-
-    def tearDown(self):
-        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
-            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
 
 
 class ExportUpdaterMiddlewareTest(TestCase):

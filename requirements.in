@@ -1,0 +1,3 @@
+# Minimum Django and REST framework version
+-r requirements-django.in
+-r requirements-base.in

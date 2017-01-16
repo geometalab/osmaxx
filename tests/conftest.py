@@ -1,9 +1,12 @@
 # pylint: disable=C0111
 import os
 import tempfile
+from collections import Mapping
 from datetime import timedelta
 
 import pytest
+
+from osmaxx.utils.frozendict import frozendict
 
 test_data_dir = os.path.join(os.path.dirname(__file__), 'test_data')
 
@@ -12,8 +15,10 @@ postgres_container_userland_port = 65432  # required for travis, so using it eve
 
 def pytest_configure():
     from django.conf import settings
+    import environ
 
     settings.configure(
+        ROOT_DIR=environ.Path(__file__) - 1,
         DEBUG_PROPAGATE_EXCEPTIONS=True,
         DATABASES={
             'default': {
@@ -30,6 +35,8 @@ def pytest_configure():
         USE_I18N=True,
         USE_L10N=True,
         STATIC_URL='/static/',
+        MEDIA_URL='/media/',
+        MEDIA_ROOT=tempfile.mkdtemp(),
         ROOT_URLCONF='tests.urls',
         TEMPLATE_LOADERS=(
             'django.template.loaders.filesystem.Loader',
@@ -46,6 +53,7 @@ def pytest_configure():
                         'django.template.context_processors.media',
                         'django.template.context_processors.static',
                         'django.template.context_processors.tz',
+                        'django.contrib.messages.context_processors.messages',
                         'django.template.context_processors.request',
                     ],
                     'loaders': [
@@ -70,6 +78,7 @@ def pytest_configure():
             'django.contrib.sites',
             'django.contrib.messages',
             'django.contrib.staticfiles',
+            'django.contrib.gis',
 
             'rest_framework',
             'rest_framework_gis',
@@ -79,16 +88,18 @@ def pytest_configure():
 
             'tests',
 
+            # version app
+            'osmaxx.version',
+
             # conversion service apps
             'osmaxx.clipping_area',
             'osmaxx.conversion',
 
             # web_frontend apps
             'osmaxx.core',
-            'osmaxx.countries',
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
-            'osmaxx.social_auth',
+            'osmaxx.profile',
 
             # special model for testing only
             'tests.utilities.test_models',
@@ -101,6 +112,7 @@ def pytest_configure():
             'django.contrib.auth.hashers.MD5PasswordHasher',
             'django.contrib.auth.hashers.CryptPasswordHasher',
         ),
+        RQ_QUEUE_NAMES=['default'],
         RQ_QUEUES={
             'default': {
                 'HOST': 'localhost',
@@ -134,28 +146,24 @@ def pytest_configure():
             'PBF_PLANET_FILE_PATH': os.path.join(test_data_dir, 'osm', 'monaco-latest.osm.pbf'),
         },
         _OSMAXX_POLYFILE_LOCATION=os.path.join(test_data_dir, 'polyfiles'),
-
-        # Some of our tests erase PRIVATE_MEDIA_ROOT dir to clean up after themselves,
-        # so DON'T set this to the location of anything valuable.
-        PRIVATE_MEDIA_ROOT=tempfile.mkdtemp(),
-
         OSMAXX_TEST_SETTINGS={
-            'download_file_name': '%(excerpt_name)s-%(content_type)s-%(id)s.%(file_extension)s',
             'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
         },
         OSMAXX={
-            'download_file_name': '%(date)s-%(excerpt_name)s-%(id)s.%(content_type)s.%(file_extension)s',
-            'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timedelta(hours=24),
+            'download_file_name': '%(excerpt_name)s-%(date)s.%(content_type)s.%(file_extension)s',
+            'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timedelta(hours=48),
             # The email adress of this user will be used to generate the mailto link for users
             # to request access to osmaxx (access_denied page)
             'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
+            'EXCLUSIVE_USER_GROUP': 'dev',
+            'ACCOUNT_MANAGER_EMAIL': 'accountmanager@example.com',
         },
         OSMAXX_FRONTEND_USER_GROUP='osmaxx_frontend_users',
-
+        REGISTRATION_OPEN=True,
         CACHES={
             'default': {
                 'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
@@ -248,6 +256,16 @@ def authenticated_api_client(api_client, user):
 
 
 @pytest.fixture
+def frontend_accessible_authenticated_api_client(api_client, user):
+    from django.conf import settings
+    from django.contrib.auth.models import Group
+
+    group = Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP)
+    user.groups.add(group)
+    return authenticated_client(api_client, user)
+
+
+@pytest.fixture
 def persisted_valid_clipping_area():
     from django.contrib.gis.geos import Polygon, MultiPolygon
     from osmaxx.clipping_area.models import ClippingArea
@@ -264,8 +282,8 @@ def persisted_valid_clipping_area():
 @pytest.fixture
 def authorized_client(authenticated_client):
     from django.contrib.auth.models import Group
-    from osmaxx.contrib.auth.frontend_permissions import FRONTEND_USER_GROUP
-    authenticated_client.user.groups.add(Group.objects.get(name=FRONTEND_USER_GROUP))
+    from django.conf import settings
+    authenticated_client.user.groups.add(Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP))
     return authenticated_client
 
 
@@ -285,7 +303,8 @@ def geos_geometry_can_be_created_from_geojson_string():
 
 @pytest.fixture
 def area_polyfile_string():
-    return ''''none
+    return '''
+none
 polygon-1
     7.495679855346679 43.75782881091782
     7.38581657409668 43.75782881091782
@@ -293,4 +312,27 @@ polygon-1
     7.495679855346679 43.75782881091782
 END
 END
-'''
+'''.lstrip()
+
+
+class TagCombination(Mapping):
+    def __init__(self, *args, **kwargs):
+        tags = dict(osm_id=id(self))
+        tags.update(*args, **kwargs)
+        self.__tags = frozendict(tags)
+        self.__hash = hash(frozenset(self.items()))
+
+    def __getitem__(self, item):
+        return self.__tags[item]
+
+    def __iter__(self):
+        return iter(self.__tags)
+
+    def __len__(self):
+        return len(self.__tags)
+
+    def __str__(self):
+        return ' '.join("{key}={value}".format(key=key, value=value) for key, value in self.items())
+
+    def __hash__(self):
+        return self.__hash

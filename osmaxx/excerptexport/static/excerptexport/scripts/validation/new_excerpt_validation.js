@@ -32,19 +32,4 @@
             formValidator.validate();
         }
     });
-    window.estimateSize = function (leafletGeometry) {
-        var latLngs = leafletGeometry.getBounds(),
-            north = latLngs.getNorth(),
-            east = latLngs.getEast(),
-            south = latLngs.getSouth(),
-            west = latLngs.getWest();
-        return jQuery.getJSON(
-            '/api/estimated_file_size/',
-            {
-                'north': north,
-                'east': east,
-                'south': south,
-                'west': west
-            });
-    };
 })();

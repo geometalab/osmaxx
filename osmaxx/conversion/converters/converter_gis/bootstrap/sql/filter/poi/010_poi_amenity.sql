@@ -13,7 +13,8 @@ INSERT INTO osmaxx.poi_a
 -- Combining the different tags in Amenity into different categories --
     case
      when amenity in('police','fire_station','post_box','post_office','telephone','library','townhall','courthouse','prison','embassy',
-             'community_centre','nursing_home','arts_centre','grave_yard','marketplace','mortuary') then 'public'
+             'community_centre','nursing_home','arts_centre','marketplace','mortuary') then 'public'
+     when amenity = 'grave_yard' then 'burial_ground'
      when amenity='recycling' or "recycling:glass"='yes' or "recycling:paper"='yes' or "recycling:clothes"='yes' or "recycling:scrap_metal"='yes' then 'recycling'
      when amenity in ('university','school','kindergarten','college','public_building') then 'education'
      when amenity in ('pharmacy','hospital','doctors','dentist','veterinary','clinic','social_facility') then 'health'
@@ -58,12 +59,13 @@ INSERT INTO osmaxx.poi_a
     "name:de" as name_de,
     int_name as name_int,
     case
-        when name is not null AND name = transliterate(name) then name
+        when name is not null AND name = osml10n_translit(name) then name
         when "name:en" is not null then "name:en"
         when "name:fr" is not null then "name:fr"
         when "name:es" is not null then "name:es"
         when "name:de" is not null then "name:de"
-        when name is not null then transliterate(name)
+        when int_name is not null then osml10n_translit(int_name)
+        when name is not null then osml10n_translit(name)
         else NULL
     end as label,
     cast(tags as text) as tags,

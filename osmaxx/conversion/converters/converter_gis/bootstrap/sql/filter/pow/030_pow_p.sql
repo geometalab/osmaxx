@@ -29,12 +29,13 @@ INSERT INTO osmaxx.pow_p
     "name:de" as name_de,
     int_name as name_int,
     case
-        when name is not null AND name = transliterate(name) then name
+        when name is not null AND name = osml10n_translit(name) then name
         when "name:en" is not null then "name:en"
         when "name:fr" is not null then "name:fr"
         when "name:es" is not null then "name:es"
         when "name:de" is not null then "name:de"
-        when name is not null then transliterate(name)
+        when int_name is not null then osml10n_translit(int_name)
+        when name is not null then osml10n_translit(name)
         else NULL
     end as label,
     cast(tags as text) as tags,
@@ -47,7 +48,7 @@ INSERT INTO osmaxx.pow_p
     opening_hours as opening_hours,
     "access" as "access"
   FROM osm_point
-  WHERE religion is not null or amenity='place_of_worship'
+  WHERE (religion is not null and amenity IS DISTINCT FROM 'grave_yard' and landuse IS DISTINCT FROM 'cemetery') or amenity='place_of_worship'
 UNION
   SELECT osm_id as osm_id,
     osm_timestamp as lastchange,
@@ -82,12 +83,13 @@ UNION
     "name:de" as name_de,
     int_name as name_int,
     case
-        when name is not null AND name = transliterate(name) then name
+        when name is not null AND name = osml10n_translit(name) then name
         when "name:en" is not null then "name:en"
         when "name:fr" is not null then "name:fr"
         when "name:es" is not null then "name:es"
         when "name:de" is not null then "name:de"
-        when name is not null then transliterate(name)
+        when int_name is not null then osml10n_translit(int_name)
+        when name is not null then osml10n_translit(name)
         else NULL
     end as label,
     cast(tags as text) as tags,
@@ -100,4 +102,4 @@ UNION
     opening_hours as opening_hours,
     "access" as "access"
   FROM osm_polygon
-  WHERE religion is not null or amenity='place_of_worship';
+  WHERE (religion is not null and amenity IS DISTINCT FROM 'grave_yard' and landuse IS DISTINCT FROM 'cemetery') or amenity='place_of_worship';

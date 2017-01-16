@@ -1,27 +1,17 @@
+from urllib.parse import urljoin
+
 import pytest
 import requests
 from selenium.webdriver.common.keys import Keys
 
-from tests.selenium_tests.conftest import skip_selenium_tests
-from tests.selenium_tests.new_excerpt import new_excerpt
+from tests.selenium_tests.conftest import skip_selenium_tests, first_panel_on_excerpts_export_overview_xpath
+from tests.selenium_tests.new_excerpt import new_excerpt_through_admin
 
 
 @pytest.fixture
 def prerequisite(login, base_url, selenium):
-    new_excerpt(selenium, base_url)
-
-    # insert excerpt name
-    excerpt_name = selenium.find_element_by_id('id_name')
-    excerpt_name.send_keys("existing_excerpt")
-
-    # choose the file format
-    formats = selenium.find_element_by_id('id_formats_3')
-    formats.click()
-
-    # submit
-    create = selenium.find_element_by_name('submit')
-    create.send_keys(Keys.RETURN)
-    # wait for request to be completed, so that the existing_excerpt is written to the database
+    excerpt_name = 'existing_excerpt'
+    new_excerpt_through_admin(selenium, base_url, excerpt_name)
 
 
 @skip_selenium_tests
@@ -32,7 +22,7 @@ def test_existing_excerpt(base_url, prerequisite, file_format, selenium, reload_
     selenium.get('{0}/'.format(base_url))
 
     # go to existing excerpt menu
-    menu = selenium.find_element_by_link_text('➽ Existing excerpt / country')
+    menu = selenium.find_element_by_link_text('➽ Existing Excerpt / Country')
     menu.click()
 
     # select existing excerpt
@@ -48,10 +38,11 @@ def test_existing_excerpt(base_url, prerequisite, file_format, selenium, reload_
     create.send_keys(Keys.RETURN)
 
     # wait until the download link appears
-    selenium.find_element_by_link_text('↻ Reload')
-    element = reload_until_condition(selenium.find_element_by_class_name, "form-control")
+    selenium.find_element_by_xpath(first_panel_on_excerpts_export_overview_xpath + "div[1]/h3")
+    first_a = first_panel_on_excerpts_export_overview_xpath + "div[2]/div[1]/div[1]/div[2]/div/div[1]/p/a"
+    element = reload_until_condition(selenium.find_element_by_xpath, first_a)
 
     # check if the download link is a valid link
-    url = element.text
+    url = urljoin(base_url, element.get_attribute('href'))
     r = requests.head(url)
     assert r.status_code == requests.codes.ok

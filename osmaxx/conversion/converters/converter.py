@@ -13,6 +13,7 @@ class Conversion(object):
             osmosis_polygon_file_string,
             output_zip_file_path,
             filename_prefix,
+            detail_level,
             out_srs=None
     ):
         self._conversion_format = conversion_format
@@ -21,6 +22,7 @@ class Conversion(object):
         self._polyfile_string = osmosis_polygon_file_string
         self._name_prefix = filename_prefix
         self._out_srs = out_srs
+        self._detail_level = detail_level
 
         _format_process = {
             GARMIN: self._create_garmin_export,
@@ -41,6 +43,7 @@ class Conversion(object):
             base_file_name=self._name_prefix,
             out_srs=self._out_srs,
             polyfile_string=self._polyfile_string,
+            detail_level=self._detail_level
         )
         gis.create_gis_export()
 
@@ -55,7 +58,7 @@ class Conversion(object):
 
 def convert(
         *, conversion_format, area_name, osmosis_polygon_file_string, output_zip_file_path, filename_prefix,
-        out_srs, use_worker=False
+        out_srs, detail_level, use_worker=False, queue_name='default'
 ):
     params = dict(
         conversion_format=conversion_format,
@@ -63,13 +66,16 @@ def convert(
         osmosis_polygon_file_string=osmosis_polygon_file_string,
         output_zip_file_path=output_zip_file_path,
         filename_prefix=filename_prefix,
+        detail_level=detail_level,
         out_srs=out_srs,
     )
+
     # TODO: find a cleaner way for this recursion magic!
     if use_worker:
         return rq_enqueue_with_settings(
             convert,
             use_worker=False,
+            queue_name=queue_name,
             **params
         ).id
     conversion = Conversion(**params)

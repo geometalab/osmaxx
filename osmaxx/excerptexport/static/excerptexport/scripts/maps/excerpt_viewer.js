@@ -3,9 +3,10 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
     this.currentLayer = null;
 
     this.map = L.map(mapElementID).setView([0, 0], 2);
+
     L.control.scale().addTo(this.map);
     // add an OpenStreetMap tile layer
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
@@ -16,6 +17,13 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
 
         this.currentLayer = layer;
         this.map.addLayer(layer);
+
+        window.addSizeEstimationToCheckboxes(layer);
+
+        // WARNING: Simplification in action here!
+        // If there are multiple features on one layer, i.e. more than one polygon, this will return only the valid
+        // UTM-Regions for the first feature/polygon and ignore the other features!
+        window.filterUTMZones(layer.getLayers()[0]);
     }.bind(this);
 
     this.showExcerptOnMap = function(ID) {
@@ -34,5 +42,16 @@ window.ExcerptViewer = function(mapElementID, excerptApiUrl) {
         }.bind(this)).on('data:loaded', function(){
             this.map.spin(false);
         }.bind(this));
+    }.bind(this);
+
+    this.disableZoom = function(){
+        this.map.dragging.disable();
+        this.map.touchZoom.disable();
+        this.map.doubleClickZoom.disable();
+        this.map.scrollWheelZoom.disable();
+        this.map.keyboard.disable();
+        if (this.map.tap) {
+            this.map.tap.disable();
+        }
     }.bind(this);
 };

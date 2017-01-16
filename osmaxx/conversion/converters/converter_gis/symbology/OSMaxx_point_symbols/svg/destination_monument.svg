@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg25310"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="destination_monument.svg">
+  <defs
+     id="defs25312" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="80"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata25315">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#c84614;fill-opacity:0.99215686;stroke:#ffffff;stroke-width:2.20919967;stroke-opacity:1"
+       d="m 633.12245,79.414819 c -4.3265,0 -33.1302,14.167 -70.3098,34.583001 l -25.7356,14.139 -1.329,12.64 c -0.7352,6.956 -2.8787,36.507 -4.6942,65.661 -2.7712,44.679 -23.1425,387.123 -23.1425,389.215 0,0.284 48.4653,0.849 107.6987,1.414 59.2363,0.283 113.5607,0.849 120.7347,1.131 l 13.0898,0.566 -1.4422,-28.165 c -1.9794,-39.56 -18.5671,-342.641 -21.3186,-389.356 -1.2442,-21.265 -2.8362,-41.653 -3.481,-45.302 -1.0462,-5.938 -5.5933,-9.218 -43.7428,-31.472 -23.4254,-13.658001 -44.2688,-24.857001 -46.3359,-24.857001 z m -178.229,536.825001 0,39.786 0,39.759 175.6331,0 175.6304,0 0,-39.759 0,-39.786 -175.6304,0 -175.6331,0 z m -68.4831,99.424 0,29.833 0,29.805 238.5936,0 238.5936,0 0,-29.805 0,-29.833 -238.5936,0 -238.5936,0 z"
+       id="path4589" />
+  </g>
+</svg>

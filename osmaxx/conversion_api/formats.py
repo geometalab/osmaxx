@@ -7,12 +7,16 @@ FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN = 'fgdb', 'shapefile', 'gpkg', 'spatia
 
 
 class OutputFormat:
-    def __init__(self, *, long_identifier, verbose_name, archive_file_name_identifier, abbreviations, is_white_box):
+    def __init__(
+            self, *, long_identifier, verbose_name, archive_file_name_identifier, abbreviations, is_white_box,
+            layer_filename_extension=None
+    ):
         self._long_identifier = long_identifier
         self._verbose_name = verbose_name
         self._archive_file_name_identifier = archive_file_name_identifier
         self._abbreviations = abbreviations
         self._is_white_box = is_white_box
+        self._layer_filename_extension = layer_filename_extension
 
     @property
     def long_identifier(self):
@@ -30,6 +34,18 @@ class OutputFormat:
     def abbreviations(self):
         return self._abbreviations
 
+    @property
+    def layer_filename_extension(self):
+        return self._layer_filename_extension
+
+    @property
+    def qgis_datasource_separator(self):
+        """
+        The string used to separate the dataset path (collections of layers) from the individual layer in a QGIS project
+        file's ``<datasource>`` element referring to data in this format.
+        """
+        return '/' if self._layer_filename_extension is not None else '|layername='
+
     def unique_archive_name(self):
         return "{}_{}.zip".format(uuid.uuid4(), self.archive_file_name_identifier)
 
@@ -42,18 +58,19 @@ class OutputFormat:
 
 FORMAT_DEFINITIONS = OrderedDict([
     (FGDB, OutputFormat(
-        long_identifier='ESRI File Geodatabase',
-        verbose_name=_('ESRI File Geodatabase'),
+        long_identifier='Esri File Geodatabase',
+        verbose_name=_('Esri File Geodatabase'),
         archive_file_name_identifier='FileGDB',
         abbreviations=['FileGDB', 'FGDB'],
         is_white_box=True,
     )),
     (SHAPEFILE, OutputFormat(
-        long_identifier='ESRI Shapefile',
-        verbose_name=_('ESRI Shapefile'),
+        long_identifier='Esri Shapefile',
+        verbose_name=_('Esri Shapefile'),
         archive_file_name_identifier='Shapefile',
         abbreviations=[],
         is_white_box=True,
+        layer_filename_extension='.shp',
     )),
     (GPKG, OutputFormat(
         long_identifier='GeoPackage',

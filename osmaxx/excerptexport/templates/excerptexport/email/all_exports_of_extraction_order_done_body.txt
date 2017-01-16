@@ -1,10 +1,14 @@
-{% load navigation %}
-The extraction order #{{ extraction_order.id }} "{{ extraction_order.excerpt_name }}" has been processed.
-{% if successful_exports.count > 0 %}Results available for download:
-{% for export in successful_exports %}- {{ export.get_file_format_display }}
+{% load navigation %}This is an automated email from {{ request.get_host }}
+
+The extraction order #{{ extraction_order.id }} "{{ extraction_order.excerpt_name }}" has been processed{% if successful_exports.count > 0 %} and is available for download:
+{% for export in successful_exports %}- {{ export.get_file_format_display }}{% if export.output_file.file %}: {{ export.output_file.file.url | siteabsoluteurl:request }}{% endif %}
 {% endfor %}
-{% endif %}{% if failed_exports.count > 0 %}The following exports have failed:
+{% endif %}{% if failed_exports.count > 0 %}Unfortunately, the following exports have failed:
 {% for export in failed_exports %}- {{ export.get_file_format_display }}
-{% endfor %}Please order them anew if you need them. If there are repeated failures please inform the administrators.
+{% endfor %}Please order them anew if you need them. If there are repeated failures, please report them on https://github.com/geometalab/osmaxx/issues unless the problem is already known there.
 {% endif %}
-View the complete order at {{  extraction_order.get_absolute_url | siteabsoluteurl:request }}
+View the complete order at {{  extraction_order.get_absolute_url | siteabsoluteurl:request }} (login required)
+
+Thank you for using OSMaxx.
+The team at Geometa Lab HSR
+geometalab@hsr.ch

@@ -38,6 +38,7 @@ DJANGO_APPS = (
 
     # Admin
     'django.contrib.admin',
+    'django.contrib.gis',
 )
 THIRD_PARTY_APPS = (
     'social.apps.django_app.default',
@@ -48,16 +49,17 @@ THIRD_PARTY_APPS = (
     # rest API Framework
     'rest_framework',
     'rest_framework_gis',
+    # async execution worker
+    'django_rq',
 )
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'osmaxx.version',
 
-    'osmaxx.countries',
     'osmaxx.conversion_api',
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
-    'osmaxx.social_auth',
+    'osmaxx.profile',
     'osmaxx.core',
 )
 
@@ -104,7 +106,7 @@ EMAIL_HOST = env.str('DJANGO_EMAIL_HOST', default='localhost')
 EMAIL_HOST_PASSWORD = env.str('DJANGO_EMAIL_HOST_PASSWORD', default='')
 EMAIL_HOST_USER = env.str('DJANGO_EMAIL_HOST_USER', default='')
 EMAIL_PORT = env.int('DJANGO_EMAIL_PORT', default=25)
-EMAIL_SUBJECT_PREFIX = env.str('DJANGO_EMAIL_SUBJECT_PREFIX', default='[Osmaxx] ')
+EMAIL_SUBJECT_PREFIX = env.str('DJANGO_EMAIL_SUBJECT_PREFIX', default='[OSMaxx] ')
 EMAIL_USE_TLS = env.bool('DJANGO_EMAIL_USE_TLS', default=False)
 EMAIL_USE_SSL = env.bool('DJANGO_EMAIL_USE_SSL', default=False)
 EMAIL_TIMEOUT = env.int('DJANGO_EMAIL_TIMEOUT', default=None)
@@ -217,7 +219,6 @@ STATICFILES_FINDERS = (
 # data & media
 
 MEDIA_ROOT = env.str('DJANGO_MEDIA_ROOT', default=str(ROOT_DIR('..', 'media')))
-PRIVATE_MEDIA_ROOT = env.str('DJANGO_PRIVATE_MEDIA_ROOT', default=str(ROOT_DIR.path('..', 'private_media')))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
@@ -231,10 +232,12 @@ WSGI_APPLICATION = 'web_frontend.config.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.open_id.OpenIdAuth',
-    'osmaxx.social_auth.backends.clavid_backend.ClavidChOpenId',
-    'osmaxx.social_auth.backends.clavid_backend.ClavidComOpenId',
+    'social.backends.openstreetmap.OpenStreetMapOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+SOCIAL_AUTH_OPENSTREETMAP_KEY = env.str('SOCIAL_AUTH_OPENSTREETMAP_KEY', '')
+SOCIAL_AUTH_OPENSTREETMAP_SECRET = env.str('SOCIAL_AUTH_OPENSTREETMAP_SECRET', '')
 
 SOCIAL_AUTH_PIPELINE = (
     # Get the information we can about the user and return it in a simple
@@ -318,27 +321,27 @@ LOGGING = {
 }
 
 # login url if param 'next' is not set
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/profile/edit/'
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 # TODO: show nice user error page
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
 # Used to redirect the user once the auth process ended successfully.
 # The value of ?next=/foo is used if it was present.
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/profile/edit/'
 # Is used as a fallback for LOGIN_ERROR_URL
 SOCIAL_AUTH_LOGIN_URL = '/'
 # Used to redirect new registered users, will be used in place of SOCIAL_AUTH_LOGIN_REDIRECT_URL if defined.
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/profile/edit/'
 # Like SOCIAL_AUTH_NEW_USER_REDIRECT_URL but for new associated accounts (user is already logged in).
 # Used in place of SOCIAL_AUTH_LOGIN_REDIRECT_URL
-SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/'
+SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/profile/edit/'
 # The user will be redirected to this URL when a social account is disconnected.
 SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/'
 # Inactive users can be redirected to this URL when trying to authenticate.
 # Successful URLs will default to SOCIAL_AUTH_LOGIN_URL while error URLs will fallback to SOCIAL_AUTH_LOGIN_ERROR_URL.
 SOCIAL_AUTH_INACTIVE_USER_URL = '/'
-SOCIAL_AUTH_LOGIN_SUCCESS_URL = '/'
+SOCIAL_AUTH_LOGIN_SUCCESS_URL = '/profile/edit/'
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'email']
 
@@ -364,6 +367,7 @@ MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
 
 # Do not alter this once migrations have been run, since these values are stored in the database.
 OSMAXX_FRONTEND_USER_GROUP = 'osmaxx_frontend_users'
+REGISTRATION_OPEN = True  # If True, verified users are automatically being added to OSMAXX_FRONTEND_USER_GROUP
 
 # message type mapping
 MESSAGE_TAGS = {
@@ -380,9 +384,14 @@ MESSAGE_TAGS = {
 }
 
 OSMAXX = {
-    'download_file_name': '%(date)s-%(excerpt_name)s-%(id)s.%(content_type)s.%(file_extension)s',
     'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timezone.timedelta(
-        hours=env.int('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=24)
+        hours=env.int('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=48)
+    ),
+    'RESULT_FILE_AVAILABILITY_DURATION': timezone.timedelta(
+        days=env.int('DJANGO_OSMAXX_RESULT_FILE_AVAILABILITY_DURATION_DAYS', default=14)
+    ),
+    'OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL': timezone.timedelta(
+        hours=env.int('DJANGO_OSMAXX_OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS', default=1)
     ),
     # The email adress of this user will be used to generate the mailto link for users
     # to request access to osmaxx (access_denied page)
@@ -390,6 +399,8 @@ OSMAXX = {
     'CONVERSION_SERVICE_URL': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_URL', default='http://localhost:8901/api/'),
     'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME', default='default_user'),
     'CONVERSION_SERVICE_PASSWORD': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD', default='default_password'),
+    'EXCLUSIVE_USER_GROUP': 'osmaxx_high_priority',  # high priority people
+    'SECURED_PROXY': env.bool('DJANGO_OSMAXX_SECURED_PROXY', False),
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
@@ -430,3 +441,14 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = env.bool('DJANGO_SESSION_EXPIRE_AT_BROWSER_CLO
 SESSION_FILE_PATH = env.str('DJANGO_SESSION_FILE_PATH', default=None)
 SESSION_SAVE_EVERY_REQUEST = env.bool('DJANGO_SESSION_SAVE_EVERY_REQUEST', default=False)
 SESSION_SERIALIZER = env.str('DJANGO_SESSION_SERIALIZER', default='django.contrib.sessions.serializers.JSONSerializer')
+
+# RQ settings
+REDIS_CONNECTION = dict(
+    HOST=env.str('REDIS_HOST', default='localhost'),
+    PORT=env.str('REDIS_PORT', default=6379),
+    DB=0,
+    PASSWORD='',
+    DEFAULT_TIMEOUT=int(timedelta(days=2).total_seconds())
+)
+RQ_QUEUE_NAMES = ['default', 'high']
+RQ_QUEUES = {name: REDIS_CONNECTION for name in RQ_QUEUE_NAMES}

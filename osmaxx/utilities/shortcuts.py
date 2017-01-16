@@ -4,43 +4,9 @@ from django.conf import settings
 from django.contrib import messages
 from django.core import mail
 from django.core.cache import cache
-from django.shortcuts import _get_queryset
 from django.utils.translation import gettext as _
 
 import stored_messages
-
-
-def get_object_or_none(klass, *args, **kwargs):
-    """
-    Uses get() to return an object, or None if the object
-    does not exist.
-
-    klass may be a Model, Manager, or QuerySet object. All other passed
-    arguments and keyword arguments are used in the get() query.
-
-    Note: Like with get(), an MultipleObjectsReturned will be raised if more than one
-    object is found.
-    """
-    queryset = _get_queryset(klass)
-    try:
-        return queryset.get(*args, **kwargs)
-    except queryset.model.DoesNotExist:
-        return None
-
-
-def get_list_or_none(klass, *args, **kwargs):
-    """
-    Uses filter() to return a list of objects, or return None if
-    the list is empty.
-
-    klass may be a Model, Manager, or QuerySet object. All other passed
-    arguments and keyword arguments are used in the filter() query.
-    """
-    queryset = _get_queryset(klass)
-    object_list = list(queryset.filter(*args, **kwargs))
-    if not object_list:
-        return None
-    return object_list
 
 
 class Emissary:
@@ -66,7 +32,7 @@ class Emissary:
         try:
             email_address = self.recipient.email
             mail.send_mail(
-                '[OSMAXX] ' + subject,
+                settings.EMAIL_SUBJECT_PREFIX + subject,
                 mail_body,
                 settings.DEFAULT_FROM_EMAIL,
                 [email_address]

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg9962"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="natural_sink_hole.svg">
+  <defs
+     id="defs9964" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="80"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata9967">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       inkscape:connector-curvature="0"
+       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:Sans;-inkscape-font-specification:Sans;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#6e3200;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.05437371;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.68181817;marker:none;enable-background:accumulate"
+       d="m 683.92164,191.60023 c -28.6,-0.06 -58.135,1.863 -88.208,5.925 -213.85,28.883 -374.06911,155.164 -357.90911,282.097 16.161,126.931 202.58011,206.454 416.42911,177.571 213.84999,-28.883 374.13096,-155.207 357.96996,-282.139 -11.613,-91.232 -111.20097,-157.945 -245.70597,-177.534 -26.31599,-3.833 -53.97599,-5.864 -82.57599,-5.92 z m -17.211,50.245 c 24.158,-0.173 47.5,1.435 69.639,4.659 20.181,2.939 39.35499,7.23 57.24799,12.74 l -76.24299,64.228 c 13.416,3.055 25.856,7.089 37.019,12 l 74.63199,-62.956 c 49.396,22.151 84.532,55.193 96.793,95.518 l -116.317,13.285 c 5.8,9.86 8.927,20.486 9.05,31.655 l 112.045,-12.811 c 16.291,49.114 -45.871,109.443 -90.131,137.925 l -77.045,-48.588 c -9.68199,6.973 -20.47799,13.464 -32.27299,19.335 l 77.35599,48.776 c -45.069,24.401 -100.04599,42.442 -160.45899,50.601 -6.66,0.9 -13.284,1.652 -19.873,2.288 l 5.87,-72.196 c -2.838,0.408 -5.684,0.818 -8.556,1.161 -8.788,1.051 -17.441,1.702 -25.958,2.083 l -5.971,71.132 c -52.678,1.488 -101.78,-5.474 -143.457,-19.224 l 68.676,-58.876 c -13.308,-3.178 -25.608,-7.339 -36.626,-12.364 l -67.607,57.007 c -49.019,-23.542 -82.82801,-58.237 -92.38201,-100.213 l 106.38901,-10.412 c -3.071,-8.388 -4.374,-17.22 -3.6,-26.336 0.171,-2.012 0.457,-3.986 0.819,-5.977 l -106.08501,10.607 c 3.428,-49.872 40.03001,-98.236 97.61801,-135.481 l 74.853,46.691 c 10.825,-6.36 22.664,-12.188 35.371,-17.314 l -76.894,-48.482 c 43.299,-21.982 94.96,-38.226 151.369,-45.845 6.454,-0.872 12.873,-1.607 19.257,-2.229 l -4.671,74.565 c 11.705,-1.284 23.178,-1.971 34.355,-2.075 l 5.387,-74.694 c 3.484,-0.1 6.951,-0.158 10.402,-0.183 z"
+       id="path3777-6" />
+  </g>
+</svg>

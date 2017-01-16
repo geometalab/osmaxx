@@ -14,12 +14,12 @@ interactions:
     method: POST
     uri: http://localhost:8901/api/token-auth/
   response:
-    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjE0ODUsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.lIca_d82b_0-0N2jUlFaS9m7KlEVEoebqpp95f2QapQ"}'}
+    body: {string: '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImRldiIsImVtYWlsIjoiIiwiZXhwIjoxNDY1NTc1Mzg4fQ.ji68fMufW-syb6VnAle9eQkTW77dOEYMXzFpeJsQCY4"}'}
     headers:
       Allow: ['POST, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Wed, 11 May 2016 10:06:25 GMT']
+      Date: ['Fri, 10 Jun 2016 16:11:28 GMT']
       Server: [Werkzeug/0.10.4 Python/3.4.2]
       Vary: [Accept]
       X-Frame-Options: [SAMEORIGIN]
@@ -27,15 +27,15 @@ interactions:
 - request:
     body: !!binary |
       eyJuYW1lIjogIlNvbWUgb2xkIEV4Y2VycHQiLCAiY2xpcHBpbmdfbXVsdGlfcG9seWdvbiI6IHsi
-      Y29vcmRpbmF0ZXMiOiBbW1tbOC44MTU5MzU1NTIxMjAyMDksIDQ3LjIyMjIyMDQ4NjgxNzY3Nl0s
-      IFs4LjgxNTkzNTU1MjEyMDIwOSwgNDcuMjI0MDI3NTIzMTE1MDVdLCBbOC44MTg5ODI1NDE1NjEx
-      MjcsIDQ3LjIyNDAyNzUyMzExNTA1XSwgWzguODE4OTgyNTQxNTYxMTI3LCA0Ny4yMjIyMjA0ODY4
-      MTc2NzZdLCBbOC44MTU5MzU1NTIxMjAyMDksIDQ3LjIyMjIyMDQ4NjgxNzY3Nl1dXV0sICJ0eXBl
-      IjogIk11bHRpUG9seWdvbiJ9fQ==
+      dHlwZSI6ICJNdWx0aVBvbHlnb24iLCAiY29vcmRpbmF0ZXMiOiBbW1tbOC44MTU5MzU1NTIxMjAy
+      MDksIDQ3LjIyMjIyMDQ4NjgxNzY3Nl0sIFs4LjgxNTkzNTU1MjEyMDIwOSwgNDcuMjI0MDI3NTIz
+      MTE1MDVdLCBbOC44MTg5ODI1NDE1NjExMjcsIDQ3LjIyNDAyNzUyMzExNTA1XSwgWzguODE4OTgy
+      NTQxNTYxMTI3LCA0Ny4yMjIyMjA0ODY4MTc2NzZdLCBbOC44MTU5MzU1NTIxMjAyMDksIDQ3LjIy
+      MjIyMDQ4NjgxNzY3Nl1dXV19fQ==
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjE0ODUsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.lIca_d82b_0-0N2jUlFaS9m7KlEVEoebqpp95f2QapQ]
+      Authorization: [JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImRldiIsImVtYWlsIjoiIiwiZXhwIjoxNDY1NTc1Mzg4fQ.ji68fMufW-syb6VnAle9eQkTW77dOEYMXzFpeJsQCY4]
       Connection: [keep-alive]
       Content-Length: ['304']
       Content-Type: [application/json; charset=UTF-8]
@@ -43,12 +43,12 @@ interactions:
     method: POST
     uri: http://localhost:8901/api/clipping_area/
   response:
-    body: {string: '{"id":13,"name":"Some old Excerpt","clipping_multi_polygon":{"type":"MultiPolygon","coordinates":[[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]]}}'}
+    body: {string: '{"id":24,"name":"Some old Excerpt","clipping_multi_polygon":{"type":"MultiPolygon","coordinates":[[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]]}}'}
     headers:
       Allow: ['GET, POST, HEAD, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Wed, 11 May 2016 10:06:25 GMT']
+      Date: ['Fri, 10 Jun 2016 16:11:28 GMT']
       Server: [Werkzeug/0.10.4 Python/3.4.2]
       Vary: ['Accept, Cookie']
       X-Frame-Options: [SAMEORIGIN]
@@ -68,49 +68,49 @@ interactions:
     method: POST
     uri: http://localhost:8901/api/token-auth/
   response:
-    body: {string: '{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjE0ODUsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.lIca_d82b_0-0N2jUlFaS9m7KlEVEoebqpp95f2QapQ"}'}
+    body: {string: '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImRldiIsImVtYWlsIjoiIiwiZXhwIjoxNDY1NTc1Mzg4fQ.ji68fMufW-syb6VnAle9eQkTW77dOEYMXzFpeJsQCY4"}'}
     headers:
       Allow: ['POST, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Wed, 11 May 2016 10:06:25 GMT']
+      Date: ['Fri, 10 Jun 2016 16:11:28 GMT']
       Server: [Werkzeug/0.10.4 Python/3.4.2]
       Vary: [Accept]
       X-Frame-Options: [SAMEORIGIN]
     status: {code: 200, message: OK}
 - request:
     body: !!binary |
-      eyJvdXRfc3JzIjogIjQzMjYiLCAib3V0X2Zvcm1hdCI6ICJmZ2RiIiwgImNsaXBwaW5nX2FyZWEi
-      OiAxM30=
+      eyJvdXRfZm9ybWF0IjogImZnZGIiLCAib3V0X3NycyI6ICI0MzI2IiwgImNsaXBwaW5nX2FyZWEi
+      OiAyNCwgImRldGFpbF9sZXZlbCI6ICIxMjAifQ==
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjE0ODUsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.lIca_d82b_0-0N2jUlFaS9m7KlEVEoebqpp95f2QapQ]
+      Authorization: [JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImRldiIsImVtYWlsIjoiIiwiZXhwIjoxNDY1NTc1Mzg4fQ.ji68fMufW-syb6VnAle9eQkTW77dOEYMXzFpeJsQCY4]
       Connection: [keep-alive]
-      Content-Length: ['62']
+      Content-Length: ['85']
       Content-Type: [application/json; charset=UTF-8]
       User-Agent: [python-requests/2.8.1]
     method: POST
     uri: http://localhost:8901/api/conversion_parametrization/
   response:
-    body: {string: '{"id":21,"out_format":"fgdb","out_srs":4326,"clipping_area":13}'}
+    body: {string: '{"id":24,"out_format":"fgdb","out_srs":4326,"detail_level":120,"clipping_area":24}'}
     headers:
       Allow: ['GET, POST, HEAD, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Wed, 11 May 2016 10:06:25 GMT']
+      Date: ['Fri, 10 Jun 2016 16:11:29 GMT']
       Server: [Werkzeug/0.10.4 Python/3.4.2]
       Vary: ['Accept, Cookie']
       X-Frame-Options: [SAMEORIGIN]
     status: {code: 201, message: Created}
 - request:
     body: !!binary |
-      eyJwYXJhbWV0cml6YXRpb24iOiAyMSwgImNhbGxiYWNrX3VybCI6ICJodHRwOi8vdGhlaG9zdC5l
-      eGFtcGxlLmNvbS9qb2JfcHJvZ3Jlc3MvdHJhY2tlci8yMS8ifQ==
+      eyJwYXJhbWV0cml6YXRpb24iOiAyNCwgImNhbGxiYWNrX3VybCI6ICJodHRwOi8vdGhlaG9zdC5l
+      eGFtcGxlLmNvbS9qb2JfcHJvZ3Jlc3MvdHJhY2tlci82Ni8ifQ==
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjI5NjE0ODUsInVzZXJuYW1lIjoiZGV2IiwiZW1haWwiOiIiLCJ1c2VyX2lkIjoxfQ.lIca_d82b_0-0N2jUlFaS9m7KlEVEoebqpp95f2QapQ]
+      Authorization: [JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImRldiIsImVtYWlsIjoiIiwiZXhwIjoxNDY1NTc1Mzg4fQ.ji68fMufW-syb6VnAle9eQkTW77dOEYMXzFpeJsQCY4]
       Connection: [keep-alive]
       Content-Length: ['94']
       Content-Type: [application/json; charset=UTF-8]
@@ -118,12 +118,12 @@ interactions:
     method: POST
     uri: http://localhost:8901/api/conversion_job/
   response:
-    body: {string: '{"id":21,"callback_url":"http://thehost.example.com/job_progress/tracker/21/","parametrization":21,"rq_job_id":"9dfe1f82-7f67-44c8-99d8-375aaa030bd9","status":"received","resulting_file":null}'}
+    body: {string: '{"id":24,"callback_url":"http://thehost.example.com/job_progress/tracker/66/","parametrization":24,"rq_job_id":"fb736294-7d3b-4dfa-a15e-da9d0b9d9f8a","status":"received","resulting_file_path":null}'}
     headers:
       Allow: ['GET, POST, HEAD, OPTIONS']
       Connection: [close]
       Content-Type: [application/json]
-      Date: ['Wed, 11 May 2016 10:06:25 GMT']
+      Date: ['Fri, 10 Jun 2016 16:11:29 GMT']
       Server: [Werkzeug/0.10.4 Python/3.4.2]
       Vary: ['Accept, Cookie']
       X-Frame-Options: [SAMEORIGIN]

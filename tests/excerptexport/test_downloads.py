@@ -1,58 +1,40 @@
 import os
 import shutil
-from unittest.mock import patch
+from datetime import timedelta, datetime
 
-from django.test import TestCase
-from django.core.urlresolvers import reverse
-from django.core.files import File
-from django.contrib.auth.models import User
-from django.conf import settings
-
-from osmaxx.excerptexport.models import OutputFile, Excerpt, ExtractionOrder
+from osmaxx.api_client import ConversionApiClient
 
 
-@patch('osmaxx.job_progress.middleware.update_export')
-class DownloadsTestCase(TestCase):
-    def setUp(self):
-        if not os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
-            os.makedirs(settings.PRIVATE_MEDIA_ROOT)
+def test_file_download(authenticated_client, user, output_file_with_file, output_file_content):
+    response = authenticated_client.get(output_file_with_file.get_file_media_url_or_status_page())
+    assert response['Content-Length'] == str(os.path.getsize(output_file_with_file.file.path))
+    assert b''.join(response.streaming_content) == output_file_content
 
-    def test_file_download(self, *args):
-        user = User.objects.create_user('user', 'user@example.com', 'pw')
-        # FIXME: use the bounding_geometry fixture for this
-        from django.contrib.gis import geos
-        bg = geos.GEOSGeometry(
-            '{"type":"MultiPolygon","coordinates":[[[[8.815935552120209,47.222220486817676],[8.815935552120209,47.22402752311505],[8.818982541561127,47.22402752311505],[8.818982541561127,47.222220486817676],[8.815935552120209,47.222220486817676]]]]}'
-        )
-        excerpt = Excerpt.objects.create(name='Neverland', is_active=True, is_public=True, owner=user,
-                                         bounding_geometry=bg)
-        extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
-        export = extraction_order.exports.create(file_format='fgdb')
-        output_file = OutputFile.objects.create(mime_type='test/plain', export=export,
-                                                file_extension='txt')
 
-        file_path = os.path.join(settings.PRIVATE_MEDIA_ROOT, str(output_file.download_file_name))
+def test_successful_file_attaching_changes_export_finished_timestamp(mocker, some_fake_zip_file, export):
+    margin = timedelta(minutes=1)
+    now = datetime.now()
+    mocker.patch.object(
+        ConversionApiClient, 'get_result_file_path',
+        side_effect=[some_fake_zip_file.name],
+    )
+    assert export.finished_at is None
+    export._fetch_result_file()
+    assert export.finished_at is not None
+    assert (now - margin) < export.finished_at < (now + margin)
 
-        with open(file_path, 'w') as file_reference:
-            new_file = File(file_reference)
-            new_file.write('Test text')
 
-        output_file.file = file_path
-        output_file.save()
-
-        response = self.client.get(
-            reverse('excerptexport:download', kwargs={'uuid': output_file.public_identifier})
-        )
-
-        self.assertEqual(response['Content-Length'], str(os.path.getsize(file_path)))
-        self.assertEqual(
-            response['Content-Disposition'],
-            'attachment; filename=%s' % output_file.download_file_name
-        )
-        self.assertEqual(b''.join(response.streaming_content), b'Test text')
-
-        os.remove(file_path)
-
-    def tearDown(self):
-        if os.path.isdir(settings.PRIVATE_MEDIA_ROOT):
-            shutil.rmtree(settings.PRIVATE_MEDIA_ROOT)
+def test_successful_file_attaching_removes_original_file(mocker, some_fake_zip_file, export):
+    mocker.patch.object(
+        ConversionApiClient, 'get_result_file_path',
+        side_effect=[some_fake_zip_file.name],
+    )
+    assert os.path.exists(some_fake_zip_file.name)
+    export._fetch_result_file()
+    assert export.output_file.has_file
+    assert not os.path.exists(some_fake_zip_file.name)
+    assert os.path.exists(export.output_file.file.path)
+    from osmaxx.excerptexport.models.output_file import uuid_directory_path
+    from django.conf import settings
+    assert export.output_file.file.path == os.path.join(settings.MEDIA_ROOT, uuid_directory_path(export.output_file, some_fake_zip_file.name))
+    shutil.rmtree(os.path.dirname(export.output_file.file.path))

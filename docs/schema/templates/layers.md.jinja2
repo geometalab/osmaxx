@@ -1,0 +1,16 @@
+## Layer Overview
+
+See file name conventions above about the meaning of “_a” etc.
+
+
+|Tables        |Geometry Type        |Description                                              |
+| ------------ | ------------------- | ------------------------------------------------------- |
+{% for layer_name, layer_definition in layers|dictsort_unless_ordered -%}
+    |{{ layer_name }}|{{ layer_name|layer_geometry_type }}|{{ layer_definition['summary'] }}|
+{% endfor %}
+
+# Layers Specification
+
+{% for layer_name, layer_definition in layers|dictsort_unless_ordered -%}
+    {% include 'layer.md.jinja2' -%}
+{%- endfor %}

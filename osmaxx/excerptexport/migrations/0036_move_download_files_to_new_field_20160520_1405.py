@@ -24,6 +24,11 @@ def copy_old_file_to_file_to_export(apps, schema_editor):
     OutputFile = apps.get_model('excerptexport', 'OutputFile')  # noqa
 
     for of in OutputFile.objects.filter(file_old__isnull=False):
+        try:
+            # test if underlying file exists
+            of.file_old.file
+        except FileNotFoundError:
+            continue
         file = File(of.file_old)
         name = download_file_name(of)
         if not name.endswith('.zip'):
@@ -35,6 +40,11 @@ def inverse_copy_old_file_to_file_to_export(apps, schema_editor):
     OutputFile = apps.get_model('excerptexport', 'OutputFile')  # noqa
 
     for of in OutputFile.objects.filter(file__isnull=False):
+        try:
+            # test if underlying file exists
+            of.file.file
+        except FileNotFoundError:
+            continue
         new_file = File(of.file)
         new_name = new_file.name.split('/')[-1]
         of.file_old.save(new_name, new_file)

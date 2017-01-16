@@ -26,12 +26,13 @@ INSERT INTO osmaxx.poi_p
     "name:de" as name_de,
     int_name as name_int,
     case
-        when name is not null AND name = transliterate(name) then name
+        when name is not null AND name = osml10n_translit(name) then name
         when "name:en" is not null then "name:en"
         when "name:fr" is not null then "name:fr"
         when "name:es" is not null then "name:es"
         when "name:de" is not null then "name:de"
-        when name is not null then transliterate(name)
+        when int_name is not null then osml10n_translit(int_name)
+        when name is not null then osml10n_translit(name)
         else NULL
     end as label,
     cast(tags as text) as tags,
@@ -74,12 +75,13 @@ UNION
     "name:de" as name_de,
     int_name as name_int,
     case
-        when name is not null AND name = transliterate(name) then name
+        when name is not null AND name = osml10n_translit(name) then name
         when "name:en" is not null then "name:en"
         when "name:fr" is not null then "name:fr"
         when "name:es" is not null then "name:es"
         when "name:de" is not null then "name:de"
-        when name is not null then transliterate(name)
+        when int_name is not null then osml10n_translit(int_name)
+        when name is not null then osml10n_translit(name)
         else NULL
     end as label,
     cast(tags as text) as tags,

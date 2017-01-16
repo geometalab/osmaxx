@@ -10,7 +10,7 @@ INSERT INTO osmaxx.utility_p
      when "power"='tower' then 'tower'
      when "power"='pole' then 'pole'
      when "power"='generator' then 'station'
-     when "power"='station' or "power"='sub_station'  then 'substation'
+     when "power"='substation' or "power"='station' or "power"='sub_station'  then 'substation'
      when "power"='transformer' then 'transformer'
      else 'power'
     end as aggtype,
@@ -30,7 +30,7 @@ INSERT INTO osmaxx.utility_p
      when "power_source"='photovoltaic' then 'solar'
      when "power_source"='hydro' then 'hydro'
      when "power_source"='wind' then 'wind'
-     when "power"='station' or "power"='sub_station'  then 'substation'
+     when "power"='substation' or "power"='station' or "power"='sub_station'  then 'substation'
      when "power"='transformer' then 'transformer'
      else 'power'
     end as type,
@@ -41,12 +41,13 @@ INSERT INTO osmaxx.utility_p
     "name:de" as name_de,
     int_name as name_int,
     case
-        when name is not null AND name = transliterate(name) then name
+        when name is not null AND name = osml10n_translit(name) then name
         when "name:en" is not null then "name:en"
         when "name:fr" is not null then "name:fr"
         when "name:es" is not null then "name:es"
         when "name:de" is not null then "name:de"
-        when name is not null then transliterate(name)
+        when int_name is not null then osml10n_translit(int_name)
+        when name is not null then osml10n_translit(name)
         else NULL
     end as label,
     cast(tags as text) as tags
@@ -65,7 +66,7 @@ UNION
      when "power"='tower' then 'tower'
      when "power"='pole' then 'pole'
      when "power"='generator' then 'station'
-     when "power"='station' or "power"='sub_station'  then 'substation'
+     when "power"='substation' or "power"='station' or "power"='sub_station'  then 'substation'
      when "power"='transformer' then 'transformer'
      else 'power'
     end as aggtype,
@@ -85,7 +86,7 @@ UNION
      when "power_source"='photovoltaic' then 'solar'
      when "power_source"='hydro' then 'hydro'
      when "power_source"='wind' then 'wind'
-     when "power"='station' or "power"='sub_station'  then 'substation'
+     when "power"='substation' or "power"='station' or "power"='sub_station'  then 'substation'
      when "power"='transformer' then 'transformer'
      else 'power'
     end as type,
@@ -97,12 +98,13 @@ UNION
     "name:de" as name_de,
     int_name as name_int,
     case
-        when name is not null AND name = transliterate(name) then name
+        when name is not null AND name = osml10n_translit(name) then name
         when "name:en" is not null then "name:en"
         when "name:fr" is not null then "name:fr"
         when "name:es" is not null then "name:es"
         when "name:de" is not null then "name:de"
-        when name is not null then transliterate(name)
+        when int_name is not null then osml10n_translit(int_name)
+        when name is not null then osml10n_translit(name)
         else NULL
     end as label,
     cast(tags as text) as tags

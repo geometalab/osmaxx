@@ -1,0 +1,34 @@
+{% extends 'excerptexport/base.html' %}{% load i18n capture_as static %}
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{% trans 'Excerpt Deletion' %}</li>
+{% endblock %}
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 last">
+                <h2>{% trans 'Delete excerpt and dependent data' %}</h2>
+                <h3>{{ excerpt.name }}</h3>
+                <p>This will also delete the following Exports:</p>
+                <ul>
+                    {% for export in exports %}
+                        <li>
+                            {% include 'excerptexport/partials/export_detail_string.html' %}
+                        </li>
+                    {% empty %}
+                        <li>{% trans 'No Exports attached.' %}</li>
+                    {% endfor %}
+                </ul>
+                <div class="col-xs-6">
+                    <a href="{% url 'excerptexport:manage_own_excerpts' %}" class="btn btn-success">No</a>
+                </div>
+                <div class="col-xs-6 last">
+                    <form href="{% url 'excerptexport:delete_excerpt' pk=excerpt.id %}" method="post">
+                        {% csrf_token %}
+                        <input class="btn btn-danger" type="submit" value="Yes" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

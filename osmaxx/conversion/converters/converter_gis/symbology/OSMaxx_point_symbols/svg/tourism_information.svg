@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="1000"
+   height="1000"
+   viewBox="0 0 1000 1000"
+   id="svg34895">
+  <defs
+     id="defs34897" />
+  <metadata
+     id="metadata34900">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1">
+    <path
+       style="opacity:1;fill:#1e32a0;fill-opacity:1;stroke:none;stroke-width:37.73622131;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 497.04268,179.40814 A 320.59155,320.59155 0 0 0 176.45091,499.99994 320.59155,320.59155 0 0 0 497.04268,820.59186 320.59155,320.59155 0 0 0 817.63449,499.99994 320.59155,320.59155 0 0 0 497.04268,179.40814 Z"
+       id="path9919" />
+    <path
+       d="m 530.91384,303.8113 c -21.64709,0 -34.6344,17.31799 -34.6344,31.54332 0,16.07838 13.60712,30.92271 31.54253,30.92271 17.3164,0 32.77815,-16.07997 32.77815,-32.15994 0,-12.9889 -9.27641,-30.30609 -29.68628,-30.30609 z m -8.6582,119.36335 c -4.94652,0 -37.72546,8.6582 -85.96617,15.46176 0,8.65819 0.61742,17.31799 1.23562,26.59441 l 52.57141,-3.09108 c -16.08077,69.26879 -35.87162,152.14231 -49.47713,213.37032 3.70929,8.65901 17.93541,19.17344 21.64549,19.17344 23.50175,0 51.95079,-5.56632 77.30878,-13.6063 -1.23643,-9.27723 -2.47366,-17.31722 -4.94891,-25.97701 -20.40827,5.56713 -38.34369,9.89543 -46.38367,9.89543 -2.47366,0 -3.09267,-1.85385 -2.47445,-4.3283 7.42177,-30.92351 38.96428,-161.41952 53.18802,-222.03012 -3.09188,-5.56553 -12.9881,-15.46175 -16.69899,-15.46175 z"
+       id="path5-6"
+       style="fill:#ffffff;fill-opacity:1" />
+  </g>
+</svg>
