@@ -26,7 +26,7 @@ class DownloadsTestCase(TestCase):
         extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user)
         export = extraction_order.exports.create(file_format='fgdb')
         output_file = OutputFile.objects.create(mime_type='test/plain', export=export,
-                                                content_type='text', file_extension='txt')
+                                                file_extension='txt')
 
         file_path = os.path.join(settings.PRIVATE_MEDIA_ROOT, str(output_file.download_file_name))
 

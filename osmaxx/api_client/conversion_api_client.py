@@ -154,7 +154,6 @@ class ConversionApiClient(JWTClient):
         output_file = OutputFile.objects.create(
             mime_type='application/zip',
             file_extension='zip',
-            content_type=download_file_dict['format'],
             extraction_order=extraction_order,
         )
         file_name = str(output_file.public_identifier) + '.zip'
