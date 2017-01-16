@@ -38,7 +38,7 @@ def export(request, extraction_order):
 
 @pytest.fixture
 def output_file(export):
-    return OutputFile.objects.create(mime_type='test/plain', export=export, content_type='text', file_extension='zip')
+    return OutputFile.objects.create(mime_type='test/plain', export=export)
 
 
 @pytest.fixture
