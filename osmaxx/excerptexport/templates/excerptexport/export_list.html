@@ -7,8 +7,10 @@
 
 {% block main %}
     <div class="container-row content">
-        <div class="col-lg-12 last">
-            <h2>My Exports</h2>
+        <div class="row">
+            <div class="col-lg-10">
+                <h2>{% trans 'My Exports' %}</h2>
+            </div>
         </div>
         <div class="col-lg-10">
             {% for excerpt, exports in excerpt_list_with_exports.items %}
@@ -35,6 +37,7 @@
             {% endfor %}
         </div>
         <div class="col-lg-2">
+            <p style="font-size: larger;">{% include 'excerptexport/partials/refresh_export_message.html' %}</p>
             {% include 'excerptexport/partials/export_sidebar.html' %}
         </div>
     </div>

@@ -7,7 +7,7 @@ from django.test.testcases import SimpleTestCase
 
 from osmaxx.conversion_api import formats
 from osmaxx.excerptexport.models.excerpt import Excerpt
-from osmaxx.excerptexport.models.extraction_order import ExtractionOrder, ExtractionOrderState
+from osmaxx.excerptexport.models.extraction_order import ExtractionOrder
 from osmaxx.excerptexport.models.output_file import OutputFile
 
 
@@ -25,8 +25,6 @@ def order(excerpt, db):
     return ExtractionOrder.objects.create(
         orderer=excerpt.owner,
         excerpt=excerpt,
-        state=ExtractionOrderState.FINISHED,
-        download_status=ExtractionOrder.DOWNLOAD_STATUS_AVAILABLE,
     )
 
 
@@ -63,11 +61,10 @@ def test_send_all_links_mailto_link(_, authorized_client, db, downloads, view_wi
     assert response.status_code == 200
 
     expected_send_all_links_link = """
-    <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=ESRI%20File%20Geodatabase%20%28fgdb%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AGarmin%20navigation%20%26%20map%20data%20%28garmin%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AGeoPackage%20%28gpkg%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0A%28shapefile%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0ASQLite%20based%20SpatiaLite%20%28spatialite%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/">
+    <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=Esri%20File%20Geodatabase%20%28fgdb%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AGarmin%20navigation%20%26%20map%20data%20%28garmin%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0AGeoPackage%20%28gpkg%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0A%28shapefile%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/%0D%0ASQLite%20based%20SpatiaLite%20%28spatialite%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/">
         <button>&#9993; Send all links</button>
     </a>"""  # noqa
     actual_response_content = response.content.decode()
-    print(actual_response_content)
     dummy = SimpleTestCase()
     dummy.assertInHTML(expected_send_all_links_link, actual_response_content)
 
@@ -78,7 +75,7 @@ def test_send_all_links_mailto_link(_, authorized_client, db, downloads, view_wi
 @patch('osmaxx.job_progress.middleware.update_export')
 @pytest.mark.parametrize('expected_html', [
     """
-    <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=ESRI%20File%20Geodatabase%20%28fgdb%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/">
+    <a href="mailto:?subject=Download%20map%20data%20of%20Neverland&body=Esri%20File%20Geodatabase%20%28fgdb%29%3A%20http%3A//example.com/downloads/00000000-0000-0000-0000-000000000000/">
        <button>&#9993; Send link</button>
     </a>
     """,  # noqa
@@ -109,8 +106,6 @@ def test_send_link_mailto_links(_, authorized_client, db, downloads, view_with_m
 
     actual_response_content = response.content.decode()
     dummy = SimpleTestCase()
-
-    print(actual_response_content)
 
     dummy.assertInHTML(
         expected_html,

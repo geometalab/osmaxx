@@ -11,18 +11,20 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.utils.datastructures import OrderedSet
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, GenericViewError
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin, DeleteView
 from django.views.generic.list import ListView
 
 from osmaxx.contrib.auth.frontend_permissions import (
     LoginRequiredMixin,
-    FrontendAccessRequiredMixin
+    FrontendAccessRequiredMixin,
+    EmailRequiredMixin,
 )
 from osmaxx.conversion_api import statuses
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
+from osmaxx.excerptexport.models import ExtractionOrder
 from osmaxx.excerptexport.signals import postpone_work_until_request_finished
 from .models import Export
 
@@ -49,13 +51,17 @@ class OrderFormViewMixin(FormMixin):
         )
 
 
-class OrderNewExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, OrderFormViewMixin, FormView):
+class AccessRestrictedBaseView(LoginRequiredMixin, FrontendAccessRequiredMixin, EmailRequiredMixin):
+    pass
+
+
+class OrderNewExcerptView(AccessRestrictedBaseView, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_new_excerpt.html'
     form_class = ExcerptForm
 order_new_excerpt = OrderNewExcerptView.as_view()
 
 
-class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, OrderFormViewMixin, FormView):
+class OrderExistingExcerptView(AccessRestrictedBaseView, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_existing_excerpt.html'
     form_class = ExistingForm
 
@@ -111,7 +117,7 @@ class ExportsListMixin:
         )
 
 
-class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsListMixin, ListView):
+class ExportsListView(AccessRestrictedBaseView, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_list.html'
     context_object_name = 'excerpts'
     model = Excerpt
@@ -139,7 +145,7 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
 export_list = ExportsListView.as_view()
 
 
-class ExportsDetailView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsListMixin, ListView):
+class ExportsDetailView(AccessRestrictedBaseView, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_detail.html'
     context_object_name = 'exports'
     model = Export
@@ -186,7 +192,7 @@ def request_access(request):
         email_message = (  # Intentionally untranslated, as this goes to the administrator(s), not the user.
             '''Hi Admin!
             User '{username}' ({identification_description}) claims to be {first_name} {last_name} ({email})
-            and requests access for Osmaxx.
+            and requests access for OSMaxx.
             If {username} shall be granted access, go to {admin_url} and add {username} to group '{frontend_group}'.
             '''
         ).format(
@@ -200,7 +206,7 @@ def request_access(request):
         )
 
         try:
-            send_mail('Request access for Osmaxx', email_message, settings.DEFAULT_FROM_EMAIL,
+            send_mail('Request access for OSMaxx', email_message, settings.DEFAULT_FROM_EMAIL,
                       [user_administrator_email], fail_silently=True)
             messages.success(
                 request,
@@ -225,3 +231,47 @@ def _social_identification_description(user):
         )
     else:
         return "not identified by any social identity providers"
+
+
+class ExcerptManageListView(ListView):
+    model = Excerpt
+    context_object_name = 'excerpts'
+    template_name = 'excerptexport/excerpt_manage_list.html'
+
+    def get_queryset(self):
+        user = self.request.user
+        return super().get_queryset().filter(owner=user, is_public=False, extraction_orders__orderer=user).distinct()
+manage_own_excerpts = ExcerptManageListView.as_view()
+
+
+class DeleteExcerptView(DeleteView):
+    model = Excerpt
+    context_object_name = 'excerpt'
+    template_name = 'excerptexport/excerpt_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse('excerptexport:manage_own_excerpts')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        excerpt = context_data[self.context_object_name]
+        context_data['exports'] = Export.objects.filter(extraction_order__excerpt=excerpt)
+        return context_data
+
+    def delete(self, request, *args, **kwargs):
+        excerpt = self.get_object()
+        user = self.request.user
+        if user != excerpt.owner:
+            raise GenericViewError("User doesn't match the excerpt's owner.")
+        if excerpt.is_public:
+            raise GenericViewError("No self-defined public excerpts can be deleted.")
+        if ExtractionOrder.objects.exclude(orderer=user).count() > 0:
+            raise GenericViewError("Others' exports reference this excerpt.")
+        if excerpt.has_running_exports:
+            logger.error('Deletion not allowed during an active extraction.')
+            messages.error(self.request, _('Exports are currently running for this excerpt.'
+                                           ' Please try deleting again, when these are finished.'))
+            return HttpResponseRedirect(self.get_success_url())
+
+        return super(DeleteExcerptView, self).delete(request, *args, **kwargs)
+delete_excerpt = DeleteExcerptView.as_view()

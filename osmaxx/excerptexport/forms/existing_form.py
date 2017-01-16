@@ -2,40 +2,28 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, HTML
 from django import forms
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
-from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_user_excerpts, \
-    other_users_public_excerpts
-from .order_options_mixin import OrderOptionsMixin, get_export_options
-
-
-def get_country_choices():
-    return [
-        (excerpt['id'], excerpt['name'])
-        for excerpt in Excerpt.objects
-        .filter(excerpt_type=Excerpt.EXCERPT_TYPE_COUNTRY_BOUNDARY, is_public=True)
-        .order_by('name')
-        .values('id', 'name')
-    ]
+from osmaxx.excerptexport.models.excerpt import private_user_excerpts, public_excerpts, \
+    countries_and_administrative_areas
+from .order_options_mixin import OrderOptionsMixin
 
 
 def get_existing_excerpt_choices(user):
-    country_choices = get_country_choices()
+    private_choices = _choicify(private_user_excerpts(user))
+    public_choices = _choicify(public_excerpts())
+    country_choices = _choicify(countries_and_administrative_areas().order_by('name'))
     return (
-        ('Personal excerpts ({username}) [{count}]'
-            .format(username=user.username, count=private_user_excerpts(user).count()),
-         tuple((excerpt['id'], excerpt['name']) for excerpt in private_user_excerpts(user).values('id', 'name'))
-         ),
-        ('Personal public excerpts ({username}) [{count}]'
-            .format(username=user.username, count=public_user_excerpts(user).count()),
-         tuple((excerpt['id'], excerpt['name']) for excerpt in public_user_excerpts(user).values('id', 'name'))
-         ),
-        ('Other excerpts [{count}]'.format(count=other_users_public_excerpts(user).count()),
-         tuple((excerpt['id'], excerpt['name']) for excerpt in other_users_public_excerpts(user).values('id', 'name'))
-         ),
-        ('Countries [{count}]'.format(count=len(country_choices)), country_choices),
+        ('Personal excerpts ({usr}) [{count}]'.format(usr=user.username, count=len(private_choices)), private_choices),
+        ('Public excerpts [{count}]'.format(count=len(public_choices)), public_choices),
+        ('Countries & administrative areas [{count}]'.format(count=len(country_choices)), country_choices),
     )
+
+
+def _choicify(excerpts_query_set):
+    return tuple(excerpts_query_set.values_list('id', 'name'))
 
 
 class ExistingForm(OrderOptionsMixin, forms.Form):
@@ -51,14 +39,9 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
         self.helper.layout = Layout(
             Fieldset(
                 _('Excerpt'),
-                HTML('''
-                    <div class="form-group has-feedback">
-                        <input id="excerptListFilterField" class="form-control" type="search" placeholder="Filter excerpts …" autocomplete="off"/>
-                        <span id="excerptListFilterFieldClearer" class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span>
-                    </div>
-                    '''  # noqa: line too long ignored
-                ),
+                HTML(render_to_string('excerptexport/forms/partials/existing_form_filter.html')),
                 'existing_excerpts',
+                HTML(render_to_string('excerptexport/forms/partials/delete_personal_excerpts_link.html'))
             ),
             OrderOptionsMixin(self).form_layout(),
             Submit('submit', 'Submit'),
@@ -71,15 +54,16 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
             required=True,
             choices=get_existing_excerpt_choices(user),
             widget=forms.Select(
-                attrs={'size': 10, 'required': True},
+                attrs={'size': 10, 'required': True, 'class': 'resizable'},
             ),
         )
         return cls
 
     def save(self, user):
         extraction_order = ExtractionOrder(orderer=user)
-        extraction_order.extraction_configuration = get_export_options()
+        extraction_order.coordinate_reference_system = self.cleaned_data['coordinate_reference_system']
         extraction_order.extraction_formats = self.cleaned_data['formats']
+        extraction_order.detail_level = self.cleaned_data['detail_level']
 
         existing_key = self.cleaned_data['existing_excerpts']
         excerpt = Excerpt.objects.get(pk=int(existing_key))

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg10756"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="transport_helipad.svg">
+  <defs
+     id="defs10758" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="80"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata10761">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       style="fill:#003cff;fill-opacity:1;stroke:none"
+       d="m 367.22365,118.02272 51.5579,51.5574 257.7795,0 0,103.1124 -243.2787,0 c -18.1219,-15.6266 -40.4968,-25.7787 -66.0587,-25.7787 -56.6393,0 -103.1113,46.4729 -103.1113,103.1123 0,56.6444 46.472,103.1121 103.1113,103.1121 22.0201,0 41.1581,-7.3896 58.0014,-19.3351 l 96.6664,96.6687 c 0,51.5559 51.5564,103.11 103.1123,103.11 l 257.7795,0 c 51.5559,0 103.1123,-51.5541 103.1123,-103.11 -2.32,-125.4561 -103.1119,-257.7794 -257.7796,-257.7794 l 0,-103.1124 206.2245,0 51.5551,-51.5573 -618.6719,0 z m 0,180.4459 c 28.7791,0 51.5579,22.7788 51.5579,51.5574 0,28.7784 -22.7788,51.5549 -51.5579,51.5549 -28.778,0 -51.5543,-22.7765 -51.5543,-51.5549 0,-28.7786 22.7763,-51.5574 51.5543,-51.5574 z m 360.8923,25.7787 c 103.1118,0 206.2245,103.1128 206.2245,206.2244 l -154.6696,0 c -27.1854,0 -51.5549,-25.341 -51.5549,-51.5572 l 0,-154.6672 z m -154.6673,360.8917 c -27.0874,0 -25.3397,51.5549 0,51.5549 l 360.8918,0 c 30.5881,0 28.8404,-51.5549 0,-51.5549 l -360.8918,0 z"
+       id="heliport"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

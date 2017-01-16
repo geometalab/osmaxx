@@ -25,19 +25,19 @@ INSERT INTO osmaxx.address_p
     osm_line."name:de" as name_de,
     osm_line.int_name as name_int,
     case
-        when name is not null AND name = transliterate(name) then name
+        when name is not null AND name = osml10n_translit(name) then name
         when osm_line."name:en" is not null then osm_line."name:en"
         when osm_line."name:fr" is not null then osm_line."name:fr"
         when osm_line."name:es" is not null then osm_line."name:es"
         when osm_line."name:de" is not null then osm_line."name:de"
-        when osm_line.name is not null then transliterate(osm_line.name)
+        when osm_line.name is not null then osml10n_translit(osm_line.name)
         else NULL
     end as label,
     cast(osm_line.tags as text) as tags,
     temp_tbl.addr_street as street,
     temp_tbl.housenr as housenumber,
     osm_line."addr:postcode" as postcode,
-    osm_line."addr:place" as city,
+    osm_line."addr:city" as city,
     osm_line."addr:country" as country
  FROM temp_tbl
  INNER JOIN osm_line

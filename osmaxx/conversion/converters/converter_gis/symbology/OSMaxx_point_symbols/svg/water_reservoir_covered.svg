@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg14564"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="water_reservoir_covered.svg">
+  <defs
+     id="defs14566" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="80"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata14569">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       inkscape:connector-curvature="0"
+       style="clip-rule:evenodd;fill:#0082aa;fill-opacity:1;fill-rule:evenodd"
+       d="m 631.68845,95.588919 c -26.659,27.348501 -53.865,55.139601 -80.917,82.893401 l 55.011,0 c 0.328,3.3426 0.36,6.2936 0.393,9.2311 l 0,108.4152 c 0,21.305 0.328,42.6267 0,63.9654 0,6.2463 1.834,7.9177 7.677,7.7151 11.692,-0.4389 23.394,0 35.053,0 2.162,0 4.287,-0.3377 6.973,-0.4052 l 0,-8.9035 0,-162.9472 c 0,-17.0506 -0.01,-17.0135 16.696,-17.0135 l 39.593,0 c -27.446,-28.2602 -54.403,-56.1222 -80.341,-82.829401 z m 133.816,114.020101 0,257.317 c -3.897,-2.5324 -7.277,-3.7377 -9.144,-6.0674 -4.814,-6.2125 -8.882,-12.9382 -13.434,-19.3871 -1.244,-1.7558 -2.948,-3.1739 -4.477,-4.7506 -1.408,1.6206 -3.079,3.0725 -4.222,4.9464 -2.718,4.3892 -4.758,9.3998 -7.87,13.5865 -13.198,17.8273 -37.902,18.0535 -51.428,0.4052 -3.373,-4.3556 -5.496,-9.8118 -8.443,-14.5724 -0.983,-1.6545 -2.62,-4.055 -4.094,-4.0888 -1.343,0 -3.046,2.2284 -4.094,3.8896 -2.98,4.7944 -5.23,10.1832 -8.571,14.6399 -13.395,17.8273 -37.601,17.2432 -50.406,-1.0467 -2.948,-4.2205 -5.021,-9.0588 -7.739,-13.5156 -0.983,-1.6544 -2.784,-3.9909 -4.094,-3.957 -1.441,0.035 -3.046,2.4309 -4.094,4.0887 -3.046,4.9295 -5.355,10.5107 -8.892,15.035 -13.198,17.0169 -37.631,16.7907 -50.534,-0.4727 -3.472,-4.6256 -5.912,-10.0346 -8.761,-15.1667 -2.817,-4.997 -5.024,-5.1929 -7.742,-0.3376 -1.507,2.701 -2.621,5.7736 -4.222,8.4409 -4.389,7.4281 -9.331,14.3058 -19.123,17.3445 l 0,-256.2635 -214.161,0 0,59.4815 156.015,0 0,489.9696 398.125,0 0,-9.1634 0,-472.4968 c 0,-8.3059 0.01,-8.3734 7.997,-8.3734 46.605,0 93.13,0.034 139.702,0 2.751,0 5.499,-0.4391 8.25,-0.6078 l 0,-58.8874 c -71.757,0 -142.754,0 -214.544,0 z"
+       id="path10" />
+  </g>
+</svg>

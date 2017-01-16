@@ -4,22 +4,28 @@
     <ul class="nav nav-pills">
         <li role="presentation">
             <a href="{% url 'excerptexport:order_existing_excerpt' %}">
-                <span class="menu_icon">&#x27bd;</span>&nbsp;{% trans 'Existing excerpt / country' %}
+                <span class="menu_icon">&#x27bd;</span>&nbsp;{% trans 'Existing Excerpt / Country' %}
             </a>
         </li>
         <li role="presentation">
             <a href="{% url 'excerptexport:order_new_excerpt' %}">
-                <span class="menu_icon">&#8983;</span>&nbsp;{% trans 'New excerpt' %}
+                <span class="menu_icon">&#8983;</span>&nbsp;{% trans 'New Excerpt' %}
             </a>
         </li>
 
         {% if user.is_authenticated %}
         <li role="presentation">
             <a href="{% url 'excerptexport:export_list' %}">
-                <span class="menu_icon">&#x2637;</span>&nbsp;{% trans 'My exports' %}
+                <span class="menu_icon">&#x2637;</span>&nbsp;{% trans 'My Exports' %}
             </a>
         </li>
         {% endif %}
+
+        <li role="presentation">
+            <a href="{% url 'pages:downloads' %}">
+                <span class="menu_icon">&#x2637;</span>&nbsp;{% trans 'Additional Downloads' %}
+            </a>
+        </li>
 
         <li role="presentation">
             <a href="{% url 'pages:about' %}">
@@ -27,8 +33,6 @@
             </a>
         </li>
 
-        <li class="col-lg-push-1 col-md-push-1">
-            {% include 'osmaxx/login_logout_link.html' with user=user %}
-        </li>
+        {% include 'osmaxx/login_logout_link.html' with user=user %}
     </ul>
 </nav>

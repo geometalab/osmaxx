@@ -1,0 +1,3371 @@
+layers: !!omap
+  - "address_p":
+      summary: "Stores a point type of entrances and address information"
+      attributes: !!omap
+        - "type":
+            type: "text"
+            values: !!omap
+              - "i":
+                  description: "Interpolated Entrances along interpolated addresses without nodes"
+                  osm_tags:
+                    - "addr:interpolation": "even"
+                    - "addr:interpolation": "odd"
+                    - "addr:interpolation": "all"
+              - "e":
+                  description: "General Entrance with entrance node"
+                  osm_tags:
+                    - !!omap
+                      - "building": "entrance"
+                      - "addr:street": "*"
+                    - !!omap
+                      - "building": "entrance"
+                      - "addr:housenumber": "*"
+                    - !!omap
+                      - "building": "entrance"
+                      - "addr:place": "*"
+                    - !!omap
+                      - "entrance": "*"
+                      - "addr:street": "*"
+                    - !!omap
+                      - "entrance": "*"
+                      - "addr:housenumber": "*"
+                    - !!omap
+                      - "entrance": "*"
+                      - "addr:place": "*"
+              - "b":
+                  description: "Entrance to a building without entrance node"
+                  osm_tags:
+                    - "building": "*"
+                      [not]:
+                        "building": "entrance"
+                        "entrance": "*"
+                      "addr:street": "*"
+                    - "building": "*"
+                      [not]:
+                        "building": "entrance"
+                        "entrance": "*"
+                      "addr:housenumber": "*"
+                    - "building": "*"
+                      [not]:
+                        "building": "entrance"
+                        "entrance": "*"
+                      "addr:place": "*"
+              - "p":
+                  description: "All other address nodes"
+                  osm_tags:
+                    - [not]:
+                        "building": "*"
+                        "entrance": "*"
+                      "addr:street": "*"
+                    - [not]:
+                        "building": "*"
+                        "entrance": "*"
+                      "addr:housenumber": "*"
+                    - [not]:
+                        "building": "*"
+                        "entrance": "*"
+                      "addr:place": "*"
+        - "street":
+            type: "text"
+            osm_tags:
+              - "addr:street": "*"
+              - "addr:place": "*"
+        - "housenumber":
+            type: "text"
+            osm_tags:
+              - "addr:housenumber": "*"
+              - !!omap
+                - "addr:interpolation": "even"
+                - "addr:housenumber": "*"
+              - !!omap
+                - "addr:interpolation": "odd"
+                - "addr:housenumber": "*"
+              - !!omap
+                - "addr:interpolation": "all"
+                - "addr:housenumber": "*"
+        - "postcode":
+            type: "text"
+            osm_tags:
+              - "addr:postcode": "*"
+        - "city":
+            type: "text"
+            osm_tags:
+              - "addr:city": "*"
+        - "country":
+            type: "text"
+            osm_tags:
+              - "addr:country": "*"
+  - "adminarea_a": &layer_adminarea_a
+      summary: "Administrative boundaries range from large groups of nation states right down to small administrative districts and suburbs, with an indication of this size/level of importance."
+      attributes:
+        "type":
+          type: text
+          values: !!omap
+            - "admin_level1":
+                osm_tags:
+                  - "boundary": 'administrative'
+                    "admin_level": '1'
+                description: Efnahags-loegsaga(Exclusive Economic Zone) use in Iceland
+            - "national":
+                osm_tags:
+                  - "boundary": 'administrative'
+                    "admin_level": '2'
+                description: "National border of a country which is listed based on ISO 3166 standard.(Note: Some dependent territories and special areas of geographical interest which do have their own ISO 3166-1 code but aren't a country)."
+            - "admin_level3":
+                osm_tags:
+                  - "boundary": 'administrative'
+                    "admin_level": '3'
+                description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+            - "admin_level4":
+                osm_tags:
+                  - "boundary": 'administrative'
+                    "admin_level": '4'
+                description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+            - "admin_level5":
+                osm_tags:
+                  - "boundary": 'administrative'
+                    "admin_level": '5'
+                description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+            - "admin_level6":
+                osm_tags:
+                  - "boundary": 'administrative'
+                    "admin_level": '6'
+                description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+            - "admin_level7":
+                osm_tags:
+                  - "boundary": 'administrative'
+                    "admin_level": '7'
+                description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+            - "admin_level8":
+                osm_tags:
+                  - "boundary": 'administrative'
+                    "admin_level": '8'
+                description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+            - "admin_level9":
+                osm_tags:
+                  - "boundary": 'administrative'
+                    "admin_level": '9'
+                description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+            - "admin_level10":
+                osm_tags:
+                  - "boundary": 'administrative'
+                    "admin_level": '10'
+                description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+            - "admin_level11":
+                osm_tags:
+                  - "boundary": 'administrative'
+                    "admin_level": '11'
+                description: 'Considered as subnational borders where it can be specified as parish, district, region, province and state'
+            - "administrative":
+                osm_tags:
+                  - "admin_level": '*'
+                description: 'All empty or User input admin_level values to be placed under'
+            - "national_park":
+                osm_tags:
+                  - "boundary": 'national_park'
+                description: 'A national park is a relatively large area of land declared by a government, to be set aside for human recreation and enjoyment, animal and environmental protection.'
+            - "protected_area":
+                osm_tags:
+                  - "boundary": 'protected_area'
+                description: 'Protected areas, such as for national-parks, water protection areas or indigenous areas.'
+  - "boundary_l":
+      <<: *layer_adminarea_a
+      summary: "The boundary is used to mark the borders of areas, mostly political, but possibly also of other administrative area"
+  - "building_a":
+      summary: "To mark the outline of the area of buildings"
+      attributes:
+        "height":
+          type: text
+          description: Stores the height of the building (Unit Meters)
+          osm_tags:
+            - "height": '*'
+        "type":
+          type: text
+          values:
+            "building":
+              osm_tags:
+                - "building": '*'
+              description: This marks out the size and area of a building.
+  - "geoname_l": &layer_geoname_l
+      summary: "The boarder of a settlement which is marked around the node and to mark the specific type of settlement. Eg. City, town, village, etc"
+      attributes:
+        "population":
+          type: int
+          description: A rough number of citizens in a given place
+          osm_tags:
+            - "population": '*'
+        "wikipedia":
+          type: text
+          description: Provide a reference to an article in Wikipedia about the feature
+          osm_tags:
+            - "wikipedia": '*'
+        "type":
+          type: text
+          values:
+            "town":
+              osm_tags:
+                - "place": 'town'
+              description: An important urban centre between a village and a city in size
+            "city":
+              osm_tags:
+                - "place": 'city'
+              description: The largest urban settlement or settlements within the territory.
+            "named_place":
+              osm_tags:
+                - "area": 'yes'
+                  "name": '*'
+              description: A place where is given a name with a given area but no specific type
+            "place":
+              osm_tags:
+                - "place": '*'
+              description: Any other place type that are not sorted to any type above except for area without name.
+            "village":
+              osm_tags:
+                - "place": 'village'
+              description: 'A settlement with between 1,000 and 10,000 inhabitants.'
+            "hamlet":
+              osm_tags:
+                - "place": 'hamlet'
+              description: A settlement with less than 100-200 inhabitants.
+            "suburb":
+              osm_tags:
+                - "place": 'suburb'
+              description: A part of a town or city with a well-known name and often a distinct identity.
+            "island":
+              osm_tags:
+                - "place": 'island'
+              description: An island is any piece of land that is completely surrounded by water and isolated from other significant landmasses.
+            "farm":
+              osm_tags:
+                - "place": 'farm'
+              description: A farm can be a part of a human settlement
+            "isolated_dwelling":
+              osm_tags:
+                - "place": 'isolated_dweilling'
+              description: The smallest kind of settlement (1-2 households)
+            "locality":
+              osm_tags:
+                - "place": 'locality'
+              description: A named place that has no population
+            "islet":
+              osm_tags:
+                - "place": 'islet'
+              description: A very small island.
+            "neighbourhood":
+              osm_tags:
+                - "place": 'neighbourhood'
+              description: 'A neighbourhood is a smaller named, geographically localised place within a suburb of a larger city or within a town or village'
+            "county":
+              osm_tags:
+                - "place": 'county'
+              description: 'a territorial division of some countries, forming the chief unit of local administration.'
+            "region":
+              osm_tags:
+                - "place": 'region'
+              description: 'an area, especially part of a country or the world having definable characteristics but not always fixed boundaries.'
+            "state":
+              osm_tags:
+                - "place": 'state'
+              description: A large sub-national political/administrative area.
+            "municipality":
+              osm_tags:
+                - "place": 'municipality'
+              description: a town or district that has local government.
+  - "geoname_p":
+      <<: *layer_geoname_l
+      summary: "It is to mark the centre of a named settlement and the specific type of settlement. Eg. City, town, village, etc"
+  - "landuse_a": &layer_landuse_a
+      summary: "Landuse describes the human use of land, for example fields and pastures."
+      attributes:
+        "type":
+          values:
+            "allotments":
+              osm_tags:
+                - "landuse": 'allotments'
+              description: A piece of land given over to local residents for growing vegetables and flowers.
+            "commercial":
+              osm_tags:
+                - "landuse": 'commercial'
+              description: 'Predominantly offices, business parks, etc.'
+            "farm":
+              osm_tags:
+                - "landuse": 'farm'
+                - "landuse": 'farmland'
+              description: 'An area of farmland used for tillage and pasture (animals, crops, vegetables, flowers, fruit growing).'
+            "farmyard":
+              osm_tags:
+                - "landuse": 'farmyard'
+              description: 'An area of land with farm buildings like farmhouse, dwellings, farmsteads, sheds, stables, barns, equipment sheds, feed bunkers, etc. Plus the open space in between them and the shrubbery/trees around them.' 
+            "fishfarm":
+              osm_tags:
+                - "landuse": 'fishfarm'
+              description: A place where fishes are breeded.
+            "grass":
+              osm_tags:
+                - "landuse": 'grass'
+              description: For areas covered with grass.
+            "greenhouse":
+              osm_tags:
+                - "landuse": 'greenhouse_horticulture'
+              description: Area used for growing plants in greenhouses
+            "industrial":
+              osm_tags:
+                - "landuse": 'industrial'
+              description: 'Predominantly workshops, factories or warehouses'
+            "forest":
+              osm_tags:
+                - "landuse": 'forest'
+              description: 'Managed forest or woodland plantation'
+            "meadow":
+              osm_tags:
+                - "landuse": 'forest'
+              description: 'An area of land primarily vegetated by grass and other non-woody plants, usually mowed for making hay'
+            "military":
+              osm_tags:
+                - "landuse": 'military'
+              description: 'For land areas owned/used by the military for whatever purpose'
+            "nature_reserve":
+              osm_tags:
+                - "landuse": 'nature_reserve'
+              description: 'Protected area of importance for wildlife, flora, fauna or features of geological or other special interest.'
+            "orchard":
+              osm_tags:
+                - "landuse": 'orchard'
+              description: 'Intentional planting of trees or shrubs maintained for food production'
+            "park":
+              osm_tags:
+                - "leisure": 'park'
+                - "landuse": 'village_green'
+              description: 'An open, green area for recreation, usually municipal'
+            "port":
+              osm_tags:
+                - "landuse": 'port'
+              description: 'Port area handling commercial traffic'
+            "plant_nursery":
+              osm_tags:
+                - "landuse": 'plant_nursery'
+              description: 'Intentional planting of plants maintaining for the production of new plants'
+            "quarry":
+              osm_tags:
+                - "landuse": 'quarry'
+              description: 'Surface mineral extraction'
+            "railway":
+              osm_tags:
+                - "landuse": 'railway'
+              description: 'for marshalling yards and sidings, railway sheds, bits of grass with old rails and hardware strewn around, train washes, etc...'
+            "recreation_ground":
+              osm_tags:
+                - "leisure": 'recreation_ground'
+                - "landuse": 'recreation_ground'
+              description: 'An open green space for general recreation, which may include pitches, nets and so on, usually municipal but possibly also private to colleges or companies'
+            "residential":
+              osm_tags:
+                - "landuse": 'residential'
+              description: 'Predominantly houses or apartment buildings'
+            "retail":
+              osm_tags:
+                - "landuse": 'retail'
+              description: 'Predominantly shops'
+            "vineyard":
+              osm_tags:
+                - "landuse": 'vineyard'
+              description: 'A piece of land where grapes are grown.'
+            "reservoir":
+              osm_tags:
+                - "landuse": 'reservoir'
+              description: 'Man made body of stored water. May be covered or uncovered.'
+            "basin":
+              osm_tags:
+                - "landuse": 'basin'
+              description: 'An area of water that drains into a river.'
+            "landfill":
+              osm_tags:
+                - "landuse": 'landfill'
+              description: 'Where waste is collected, sorted or covered over'
+            "landuse":
+              osm_tags:
+                - "landuse": '*'
+              description: 'Get all landuse that is not classified in any table'
+  - "military_a": &layer_military_a
+      summary: "See military_p"
+      attributes:
+        "type":
+          type: text
+          values:
+            "airfield":
+              osm_tags:
+                - "military": 'airfield'
+              description: A place where military planes take off and land.
+            "barracks":
+              osm_tags:
+                - "military": 'barracks'
+              description: Buildings where soldiers live and work.
+            "bunker":
+              osm_tags:
+                - "military": 'bunker'
+              description: 'Buildings, often build from concrete, to stand even heavier fire. This includes WW2 pillboxes.'
+            "checkpoint":
+              osm_tags:
+                - "military": 'checkpoint'
+              description: 'Place of a possible access to a restricted or secured area, where civilian visitors and vehicles will be controled by a military authority.'
+            "danger_area":
+              osm_tags:
+                - "military": 'danger_area'
+              description: 'Usually a large marked area around something like a firing range, bombing range, etc which can be an exclusion zone.'
+            "naval_base":
+              osm_tags:
+                - "military": 'naval_base'
+              description: 'A naval base'
+            "nuclear_site":
+              osm_tags:
+                - "military": 'nuclear_explosion_site'
+              description: 'Nuclear weapons test site'
+            "obstacle_course":
+              osm_tags:
+                - "military": 'obstacle_course'
+              description: 'A military obstacle course.'
+            "range":
+              osm_tags:
+                - "military": 'range'
+              description: 'Where soldiers practice with their weapons (firing, bombing, artillery).'
+            "training_area":
+              osm_tags:
+                - "military": 'training_area'
+              description: 'An area where soldiers train and weapons or other military technology are experimented with or are tested.'
+            "military":
+              osm_tags:
+                - "military": '*'
+              description: 'Any other military type that are not sorted to any type above'
+  - "military_p":
+      <<: *layer_military_a
+      summary: "The military is for buildings and area used by the military."
+  - "misc_l": &layer_misc_l
+      summary: "This contains elements could not be categorized into specific tables. E.g barrier and cliffs."
+      attributes:
+        "type":
+          type: text
+          values: !!omap
+            - "barrier":
+                osm_tags:
+                  - "barrier": '*'
+                correlated_attributes:
+                  # key: attribute name, value: attribute value
+                  "aggtype": 'barrier'
+                description: A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.
+            - "gate":
+                osm_tags:
+                  - "barrier": 'gate'
+                correlated_attributes:
+                  # key: attribute name, value: attribute value
+                  "aggtype": 'barrier'
+                description: An entrance that can be opened or closed to get through the barrier.
+            - "city_wall":
+                osm_tags:
+                  - "barrier": 'city_wall'
+                correlated_attributes:
+                  # key: attribute name, value: attribute value
+                  "aggtype": 'barrier'
+                description: 'A fortification used to defend a city or settlement from potential aggressors. From ancient to modern times, they are used to enclose settlements'
+            - "hedge":
+                osm_tags:
+                  - "barrier": 'hedge'
+                correlated_attributes:
+                  # key: attribute name, value: attribute value
+                  "aggtype": 'barrier'
+                description: 'A line of closely spaced shrubs and bushes, planted and trained in such a way as to form a barrier or to mark the boundary of an area.'
+            - "fence":
+                osm_tags:
+                  - "barrier": 'fence'
+                correlated_attributes:
+                  "aggtype": 'barrier'
+                description: 'A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.'
+            - "retaining_wall":
+                osm_tags:
+                  - "barrier": 'retaining_wall'
+                correlated_attributes:
+                  "aggtype": 'barrier'
+                description: 'Retaining walls serve to retain the lateral pressure of soil. Right side is bottom, left side is top.'
+            - "wall":
+                osm_tags:
+                  - "barrier": 'wall'
+                correlated_attributes:
+                  "aggtype": 'barrier'
+                description: 'A freestanding solid structure designed to restrict or prevent movement across a boundary. Usually made from solid brick, concrete or stone and almost always built so that it is opaque to vision.'
+            - "avalanche_protection":
+                osm_tags:
+                  - "barrier": 'avalanche_protection'
+                correlated_attributes:
+                  "aggtype": 'barrier'
+                description: 'A variety of linear structures which are placed on steep slopes to hold snow in place.'
+            - "cliff":
+                osm_tags:
+                  - "natural": 'cliff'
+                correlated_attributes:
+                  "aggtype": 'natural'
+                description: 'A vertical or almost vertical natural drop in terrain, usually with a bare rock surface.'
+            - "traffic_calming":
+                osm_tags:
+                  - "traffic_calming": '*'
+                correlated_attributes:
+                  "aggtype": 'traffic_calming'
+                description: 'Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.'
+            - "hump":
+                osm_tags:
+                  - "traffic_calming": 'hump'
+                correlated_attributes:
+                  "aggtype": 'traffic_calming'
+                description: 'Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)'
+            - "bump":
+                osm_tags:
+                  - "traffic_calming": 'bump'
+                correlated_attributes:
+                  "aggtype": 'traffic_calming'
+                description: 'Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.'
+            - "table":
+                osm_tags:
+                  - "traffic_calming": 'table'
+                correlated_attributes:
+                  "aggtype": 'traffic_calming'
+                description: 'Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.'
+            - "chicane":
+                osm_tags:
+                  - "traffic_calming": 'chicane'
+                correlated_attributes:
+                  "aggtype": 'traffic_calming'
+                description: 'Hazards on the street you have to drive round'
+            - "cushion":
+                osm_tags:
+                  - "traffic_calming": 'cushion'
+                correlated_attributes:
+                  "aggtype": 'traffic_calming'
+                description: 'A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.'
+  - "natural_a": &layer_natural_a
+      summary: "see natural_p"
+      attributes:
+        "type":
+          type: text
+          values:
+            "bare_rock":
+              osm_tags:
+                - "natural": 'bare_rock'
+              description: 'An area with sparse or no vegetation, so that the bedrock becomes visible. NOTE: Will appear only on natural_p but not natural_a'
+            "beach":
+              osm_tags:
+                - "natural": 'beach'
+              description: 'Area of shore which is fairly open, slopes smoothly to the water, and is free of trees'
+            "cave_entrance":
+              osm_tags:
+                - "natural": 'cave_entrance'
+              description: 'The entrance to a cave'
+            "fell":
+              osm_tags:
+                - "natural": 'fell'
+              description: 'Bare upper lying uncultivated land principally covered with grass and often grazed.'
+            "grassland":
+              osm_tags:
+                - "natural": 'grassland'
+              description: 'Where vegetation is dominated by grasses (Poaceae) and other herbaceous (non-woody) plants, except for ornamental grass, mowing for hay, etc. and grazing.'
+            "heath":
+              osm_tags:
+                - "natural": 'heath'
+              description: 'A dwarf-shrub habitat, characterised by open, low growing woody vegetation, often dominated by plants of the Ericaceae.'
+            "moor":
+              osm_tags:
+                - "natural": 'moor'
+              description: 'Upland areas, characterised by low-growing vegetation on acidic soils.'
+            "mud":
+              osm_tags:
+                - "natural": 'mud'
+              description: 'Large area covered with mud'
+            "sand":
+              osm_tags:
+                - "natural": 'sand'
+              description: 'Ground coverage of mostly silica particles, with no or very sparse vegetation.'
+            "scree":
+              osm_tags:
+                - "natural": 'scree'
+              description: 'Unconsolidated angular rocks formed by rockfall and weathering from adjacent rockfaces.'
+            "scrub":
+              osm_tags:
+                - "natural": 'scrub'
+                - "landuse": 'scrub'
+              description: 'Uncultivated land covered with bushes or stunted trees.'
+            "sinkhole":
+              osm_tags:
+                - "natural": 'sinkhole'
+              description: 'A natural depression or hole in the surface topography.'
+            "stone":
+              osm_tags:
+                - "natural": 'stone'
+              description: 'Freestanding stone; e.g., glacial erratic.'
+            "wood":
+              osm_tags:
+                - "natural": 'wood'
+              description: 'Used for ancient or virgin woodland, with no forestry use.'
+            "glacier":
+              osm_tags:
+                - "natural": 'glacier'
+              description: 'A permanent body of ice formed naturally from snow that is moving under its own weight.'
+            "wetland":
+              osm_tags:
+                - "natural": 'wetland'
+              description: 'The wetland tag is used for natural areas subject to inundation or with waterlogged ground'
+            "natural":
+              osm_tags:
+                - "natural": '*'
+              description: 'Any other natural type that are not sorted to any type above'
+  - "natural_p":
+      <<: *layer_natural_a
+      summary: "Used to describes natural physical land features, including small modification by humans. E.g glacier, volcano, mud, etc."
+  - "nonop_l": &layer_nonop_l
+      summary: "non-op./planned infrastructure not usable for traffic or transport"
+      attributes:
+        "ref":
+          type: text
+          description: 'Reference number of this road unset for railways.'
+          osm_tags:
+            - "ref": '*'
+        "z_order":
+          type: smallint
+          description: 'The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one.'
+          osm_tags:
+            - "layer": '*'
+        "status":
+          type: text
+          values: !!omap
+            - "P":
+                osm_tags:
+                  - "highway": 'proposed'
+                  - "railway": 'proposed'
+                  - "highway": 'planned'
+                  - "railway": 'planned'
+            - "C":
+                osm_tags:
+                  - "highway": 'construction'
+                  - "railway": 'construction'
+            - "D":
+                osm_tags:
+                  - "highway": 'disused'
+                  - "railway": 'disused'
+            - "A":
+                osm_tags:
+                  - "highway": 'abandoned'
+                  - "railway": 'abandoned'
+        "type":
+          type: text
+          values:
+            "highway":
+              osm_tags:
+                - "highway": 'proposed'
+                - "highway": 'planned'
+                - "highway": 'construction'
+                - "highway": 'disused'
+                - "highway": 'abandoned'
+              description: 'Contains roads which are disused, planned, under constructions or abandoned. These type of features will be place in this table to keep the feature but display as not available'
+            "railway":
+              osm_tags:
+                - "railway": 'proposed'
+                - "railway": 'planned'
+                - "railway": 'construction'
+                - "railway": 'disused'
+                - "railway": 'abandoned'
+              description: 'Contains railways which are disused, planned, under constructions or abandoned. These type of features will be place in this table to keep the feature but display as not available'
+        "sub_type":
+          type: text
+          description: "See attribute 'type' of layer road_l and railway_l, respectively."
+          osm_tags:
+            - !!omap ["highway": "proposed", "proposed": "*"]
+            - !!omap ["highway": "planned", "planned": "*"]
+            - !!omap ["highway": "construction", "construction": "*"]
+            - !!omap ["highway": "disused", "disused": "*"]
+            - !!omap ["highway": 'abandoned', "abandoned": "*"]
+            - !!omap ["railway": "proposed", "proposed": "*"]
+            - !!omap ["railway": "planned", "planned": "*"]
+            - !!omap ["railway": "construction", "construction": "*"]
+            - !!omap ["railway": "disused", "disused": "*"]
+            - !!omap ["railway": 'abandoned', "abandoned": "*"]
+  - "poi_a": &layer_poi_a
+      summary: "Points of interest features of a generic place, like shops, amenities, leisure, accomondation, pitches etc."
+      attributes:
+        "aggtype":
+          type: text
+          description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
+        "website":
+          type: text 
+          description: 'Specifying the link to the official website for a feature.'
+          osm_tags:
+            - "website": '*'
+        "wikipedia":
+          type: text
+          description: 'Provide a reference to an article in Wikipedia about the feature.'
+          osm_tags:
+            - "wikipedia": '*'
+        "phone":
+          type: text
+          description: 'A telephone number associated with the object.'
+          osm_tags:
+            - "phone": '*'
+            - "contact:phone": '*'
+        "opening_hours":
+          type: text
+          description: 'The timing of when something is open or close'
+          osm_tags:
+            - "opening_hours": '*'
+        "cuisine":
+          type: text
+          description: 'The type of food served at an eating place.'
+          osm_tags:
+            - "cuisine": '*'
+        "access":
+          type: text
+          description: 'The legal accessibility of a element.'
+          osm_tags:
+             - "access": '*'
+        "brand":
+          type: text
+          description: 'The identity of a specific product, service, or business. Often trademarks'
+          osm_tags:
+             - "brand": '*'
+        "tower_type":
+          type: text
+          description: 'The type of tower'
+          osm_tags:
+             - "tower:type": '*'
+        "type":
+          type: text
+          values:
+            "police":
+              osm_tags:
+                - "amenity": 'police'
+              correlated_attributes:
+                "aggtype": 'public'
+              description: 'A police station'
+            "fire_station":
+              osm_tags:
+                - "amenity": 'fire_station'
+              correlated_attributes:
+                "aggtype": 'public'
+              description: 'A fire station'
+            "post_box":
+              osm_tags:
+                - "amenity": 'post_box'
+              correlated_attributes:
+                "aggtype": 'public'
+              description: 'A box for the reception of mail.'
+            "post_office":
+              osm_tags:
+                - "amenity": 'post_office'
+              correlated_attributes:
+                "aggtype": 'public'
+              description: 'Post office building with postal services'
+            "telephone":
+               osm_tags:
+                 - "amenity": 'telephone'
+               correlated_attributes:
+                 "aggtype": 'public'
+               description: 'Public telephone'
+            "library":
+               osm_tags:
+                 - "amenity": 'library'
+               correlated_attributes:
+                 "aggtype": 'public'
+               description: 'A public library (municipal, university) to borrow books from.'
+            "townhall":
+               osm_tags:
+                 - "amenity": 'townhall'
+               correlated_attributes:
+                 "aggtype": 'public'
+               description: 'Building where the administration of a village, town or city may be located, or just a community meeting place'
+            "courthouse":
+               osm_tags:
+                 - "amenity": 'courthouse'
+               correlated_attributes:
+                 "aggtype": 'public'
+               description: 'A place where justice is dispensed'
+            "prison":
+               osm_tags:
+                 - "amenity": 'prison'
+               correlated_attributes:
+                 "aggtype": 'public'
+               description: 'A prison'
+            "embassy":
+               osm_tags:
+                 - "amenity": 'embassy'
+               correlated_attributes:
+                 "aggtype": 'public'
+               description: 'A representation of a country in another country.'
+            "community_centre":
+               osm_tags:
+                 - "amenity": 'community_centre'
+               correlated_attributes:
+                 "aggtype": 'public'
+               description: 'A place mostly used for local events and festivities.'
+            "nursing_home":
+               osm_tags:
+                 - "amenity": 'nursing_home'
+               correlated_attributes:
+                 "aggtype": 'public'
+               description: 'A home for disabled or elderly persons who need permanent care.'
+            "arts_centre":
+               osm_tags:
+                 - "amenity": 'arts_centre'
+               correlated_attributes:
+                 "aggtype": 'public'
+               description: 'A venue where a variety of arts are performed or conducted'
+            "grave_yard":
+                osm_tags:
+                  - "amenity": 'grave_yard'
+                correlated_attributes:
+                  "aggtype": 'burial_ground'
+                description: "A place where people, or sometimes animals are buried which is close to a place of worship. See 'cemetery' for burial grounds not in the yard of a place of worship."
+            "cemetery":
+                osm_tags:
+                  - "landuse": 'cemetery'
+                correlated_attributes:
+                  "aggtype": 'burial_ground'
+                description: "A place where people, or sometimes animals are buried which is independent of places of worship. See 'grave_yard' for burial grounds in the yard of a place of worship."
+            "mortuary":
+                osm_tags:
+                  - "amenity": 'mortuary'
+                correlated_attributes:
+                  "aggtype": 'public'
+                description: 'A morgue or mortuary is a building or room (as in a hospital) used for the storage of human corpses awaiting identification, or removal for autopsy, burial, cremation or some other post-death ritual.'
+            "government":
+                osm_tags:
+                  - "amenity": 'government'
+                correlated_attributes:
+                  "aggtype": 'public'
+                description: 'Government buildings'
+            "marketplace":
+                osm_tags:
+                  - "amenity": 'marketplace'
+                correlated_attributes:
+                  "aggtype": 'public'
+                description: 'A place where trade is regulated.'
+            "general_reclycling":
+                osm_tags:
+                  - "amenity": 'recycling'
+                correlated_attributes:
+                  "aggtype": 'recycling'
+                description: 'Container or centre where you can take waste for recycling.'
+            "glass":
+                osm_tags:
+                  - "recycling:glass": 'yes'
+                correlated_attributes:
+                  "aggtype": 'recycling'
+                description: 'Container or centre where you can take waste for recycling for glass.'
+            "paper":
+                osm_tags:
+                  - "recycling:paper": 'yes'
+                correlated_attributes:
+                  "aggtype": 'recycling'
+                description: 'Container or centre where you can take waste for recycling for paper.'
+            "clothes":
+                osm_tags:
+                  - "recycling:clothes": 'yes'
+                correlated_attributes:
+                  "aggtype": 'recycling'
+                description: 'Container or centre where you can take waste for recycling for clothes.'
+            "metal":
+                osm_tags:
+                  - "recycling:metal": 'yes'
+                correlated_attributes:
+                  "aggtype": 'recycling'
+                description: 'Container or centre where you can take waste for recycling for metal.'
+            "university":
+                osm_tags:
+                  - "amenity": 'university'
+                correlated_attributes:
+                  "aggtype": 'education'
+                description: 'An educational institution designed for instruction, examination, or both, of students in many branches of advanced learning.'
+            "school":
+                osm_tags:
+                  - "amenity": 'school'
+                correlated_attributes:
+                  "aggtype": 'education'
+                description: 'Institution designed for learning under the supervision of teachers.'
+            "kindergarten":
+                osm_tags:
+                  - "amenity": 'kindergarten'
+                correlated_attributes:
+                  "aggtype": 'kindergarten'
+                description: 'A place for looking after preschool children and (typically) giving early education.'
+            "college":
+                osm_tags:
+                  - "amenity": 'college'
+                correlated_attributes:
+                  "aggtype": 'education'
+                description: 'A place for further education usually a post-secondary education institution'
+            "public_building":
+                osm_tags:
+                  - "amenity": 'public_building'
+                correlated_attributes:
+                  "aggtype": 'education'
+                description: 'A generic public building. (Maybe abandoned by osm but still have data concerning this)'
+            "pharmacy":
+                osm_tags:
+                  - "amenity": 'pharmacy'
+                correlated_attributes:
+                  "aggtype": 'health'
+                description: 'A shop where a pharmacist sells medications'
+            "hospital":
+                osm_tags:
+                  - "amenity": 'hospital'
+                correlated_attributes:
+                  "aggtype": 'health'
+                description: 'Institutions for health care providing treatment by specialised staff and equipment, and often but not always providing for longer-term patient stays.'
+            "clinic":
+                osm_tags:
+                  - "amenity": 'clinic'
+                correlated_attributes:
+                  "aggtype": 'health'
+                description: "Medium-sized medical centres with tens of staff; smaller than a hospital and larger than a doctor's practice"
+            "social_facility":
+                osm_tags:
+                  - "amenity": 'social_facility'
+                correlated_attributes:
+                  "aggtype": 'health'
+                description: 'Social work is a profession and a social science committed to the pursuit of social justice, to quality of life, and to the development of the full potential of each individual, group and community in a society'
+            "doctors":
+                osm_tags:
+                  - "amenity": 'doctors'
+                correlated_attributes:
+                  "aggtype": 'health'
+                description: "A Doctor's Office is a place you can go to get medical attention or a check up"
+            "dentist":
+                osm_tags:
+                  - "amenity": 'dentist'
+                correlated_attributes:
+                  "aggtype": 'health'
+                description: 'A place where a professional dental surgeon who specializes in the diagnosis, prevention, and treatment of diseases and conditions on oral care is stationed.'
+            "veterinary":
+                osm_tags:
+                  - "amenity": 'veterinary'
+                correlated_attributes:
+                  "aggtype": 'health'
+                description: 'It is a place where there is a certified doctor that deals with the prevention, diagnosis and treatment of disease, disorder and injury in animals is stationed.'
+            "theatre":
+                osm_tags:
+                  - "amenity": 'theatre'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "Place where live theatrical performances are held."
+            "nightclub":
+                osm_tags:
+                  - "amenity": 'nightclub'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "A nightclub is a place to dance and drink at night."
+            "cinema":
+                osm_tags:
+                  - "amenity": 'cinema'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "Cinema/movie theatre - place for showing movies."
+            "playground":
+                osm_tags:
+                  - "amenity": 'playground'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "These are commonly small outdoor areas with children's play equipment such as swings, climbing frames and roundabouts."
+            "dog_park":
+                osm_tags:
+                  - "amenity": 'dog_park'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "Designated area, with or without a fenced boundary, where dog-owners are permitted to exercise their pets unrestrained"
+            "sport_centre":
+                osm_tags:
+                  - "amenity": 'sport_centre'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "A distinct facility where a range of sports take place within an enclosed area."
+            "soccer_pitch":
+                osm_tags:
+                  - "sport": 'soccer'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "An area designed for playing a particular sport, normally designated with appropriate markings for soccer."
+            "tennis_pitch":
+                osm_tags:
+                  - "sport": 'tennis'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "An area designed for playing a particular sport, normally designated with appropriate markings for tennis."
+            "pitch":
+                osm_tags:
+                  - "leisure": 'pitch'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "An area designed for playing a particular sport, normally designated with appropriate markings."
+            "swimming_pool":
+                osm_tags:
+                  - "amenity": 'swimming_pool'
+                  - "leisure": 'swimming_pool'
+                  - "sport": 'swimming_pool'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "A swimming pool is a place built for swimming as a recreational activity or sport, typically taking the form of an excavated and lined pool"
+            "water_park":
+                osm_tags:
+                  - "leisure": 'water_park'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "An amusement area with water slides, recreational swimming pools and dressing rooms."
+            "golf_course":
+                osm_tags:
+                  - "leisure": 'golf_course'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "A place or area where you can play golf."
+            "golf_course":
+                osm_tags:
+                  - "leisure": 'golf_course'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "A place or area where you can play golf."
+            "stadium":
+                osm_tags:
+                  - "leisure": 'stadium'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "A major sports arena with substantial tiered seating."
+            "ice_rink":
+                osm_tags:
+                  - "leisure": 'ice_rink'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: "A place where you can skate or play ice hockey."
+            "restaurant":
+                osm_tags:
+                  - "amenity": 'restaurant'
+                correlated_attributes:
+                  "aggtype": 'catering'
+                description: "Is for a generally formal place with sit-down facilities selling full meals served by waiters and often licensed (where allowed) to sell alcoholic drinks."
+            "fast_food":
+                osm_tags:
+                  - "amenity": 'fast_food'
+                correlated_attributes:
+                  "aggtype": 'catering'
+                description: "Is for a place concentrating on very fast counter-only service and take-away food."
+            "cafe":
+                osm_tags:
+                  - "amenity": 'cafe'
+                correlated_attributes:
+                  "aggtype": 'catering'
+                description: "Generally informal place with sit-down facilities selling beverages and light meals and/or snacks."
+            "pub":
+                osm_tags:
+                  - "amenity": 'pub'
+                correlated_attributes:
+                  "aggtype": 'catering'
+                description: "A place selling beer and other alcoholic drinks; may also provide food or accommodation"
+            "bar":
+                osm_tags:
+                  - "amenity": 'bar'
+                correlated_attributes:
+                  "aggtype": 'catering'
+                description: "Bar is a purpose-built commercial establishment that sells alcoholic drinks to be consumed on the premises. They are characterised by a noisy and vibrant atmosphere, similar to a party and usually don't sell food."
+            "food_court":
+                osm_tags:
+                  - "amenity": 'food_court'
+                correlated_attributes:
+                  "aggtype": 'catering'
+                description: "An area with several different restaurant food counters and a shared eating area"
+            "biergarten":
+                osm_tags:
+                  - "amenity": 'biergarten'
+                correlated_attributes:
+                  "aggtype": 'catering'
+                description: "Biergarten or beer garden is an open-air area where alcoholic beverages along with food is prepared and served."
+            "hotel":
+                osm_tags:
+                  - "tourism": 'hotel'
+                correlated_attributes:
+                  "aggtype": 'accommodation_in'
+                description: "provide accommodation for guests with usually numbered rooms. Some facilities provided may include a basic bed, storage for clothing and additional guest facilities may include swimming pool, childcare, and conference facilities."
+            "motel":
+                osm_tags:
+                  - "tourism": 'motel'
+                correlated_attributes:
+                  "aggtype": 'accommodation_in'
+                description: "It's an establishment that provides accommodation designed for motorists usually on a short-term basis, with convenient parking for motor cars at or close to the room."
+            "guest_house":
+                osm_tags:
+                  - "tourism": 'guest_house'
+                  - "tourism": 'bed_and_breakfast'
+                correlated_attributes:
+                  "aggtype": 'accommodation_in'
+                description: "Accommodation without hotel license that is typically owner-operated, offers a room and breakfast with staff not available 24/7, ranging from purpose-built guest houses to family-based Bed & Breakfast."
+            "hostel":
+                osm_tags:
+                  - "tourism": 'hostel'
+                correlated_attributes:
+                  "aggtype": 'accommodation_in'
+                description: "Provide inexpensive accommodation, typically with them having shared bedrooms, bathrooms, kitchens, and lounges."
+            "chalet":
+                osm_tags:
+                  - "tourism": 'chalet'
+                correlated_attributes:
+                  "aggtype": 'accommodation_in'
+                description: "is a type of accommodation used in the hospitality industry to describe one or more detached cottages with self-contained cooking facilities and/or bathroom and toilet facilities."
+            "shelter":
+                osm_tags:
+                  - "amenity": 'shelter'
+                correlated_attributes:
+                  "aggtype": 'accommodation_in'
+                description: "Small place to protect against bad weather conditions"
+            "camp_site":
+                osm_tags:
+                  - "tourism": 'camp_site'
+                correlated_attributes:
+                  "aggtype": 'accommodation_out'
+                description: "an area where people can temporarily use a shelter, such as a tent, camper van or sometimes a caravan. Typically, the area is spilt into 'pitches' or 'sites'."
+            "alpine_hut":
+                osm_tags:
+                  - "tourism": 'alpine_hut'
+                correlated_attributes:
+                  "aggtype": 'accommodation_out'
+                description: "a mountain hut is a remote building positioned in the mountains designed to provided lodging accommodation for mountaineers, climbers and hikers. The access is usually restricted to foot, mountain bike or ski."
+            "caravan_site":
+                osm_tags:
+                  - "tourism": 'caravan_site'
+                correlated_attributes:
+                  "aggtype": 'accommodation_out'
+                description: "an area where people with caravans, motorhomes, recreational vehicles can stay overnight, or longer, in allotted spaces known as 'pitches' or 'sites'. They usually provide facilities including toilets, waste disposal, water supply, power supply etc."
+            "supermarket":
+                osm_tags:
+                  - "shop": 'supermarket'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'A large store for groceries and other goods.'
+            "bakery":
+                osm_tags:
+                  - "shop": 'bakery'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling bread'
+            "kiosk":
+                osm_tags:
+                  - "shop": 'kiosk'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'A small shop on the pavement that sells magazines, tobacco, newspapers, sweets and stamps.'
+            "mall":
+                osm_tags:
+                  - "shop": 'mall'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'A shopping mall - multiple stores under one roof (also known as a shopping centre)'
+            "department_store":
+                osm_tags:
+                  - "shop": 'department_store'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'A single large store - often multiple storeys high - selling a large variety of goods'
+            "convenience":
+                osm_tags:
+                  - "shop": 'convenience'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'A small local shop carrying a small subset of the items you would find in a supermarket'
+            "clothes":
+                osm_tags:
+                  - "shop": 'clothes'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling clothes'
+            "florist":
+                osm_tags:
+                  - "shop": 'florist'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling bouquets of flowers'
+            "chemist":
+                osm_tags:
+                  - "shop": 'chemist'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling articles of personal hygiene, cosmetics, and household cleaning products'
+            "books":
+                osm_tags:
+                  - "shop": 'books'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling books'
+            "butcher":
+                osm_tags:
+                  - "shop": 'butcher'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling meat'
+            "shoes":
+                osm_tags:
+                  - "shop": 'shoes'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling shoes'
+            "beverages":
+                osm_tags:
+                  - "shop": 'beverages'
+                  - "shop": 'alcohol'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling alcoholic and non-alcoholic beverages.'
+            "optician":
+                osm_tags:
+                  - "shop": 'optician'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling eyeglasses, contact lenses'
+            "jewelry":
+                osm_tags:
+                  - "shop": 'jewelry'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Jewellers shops.'
+            "gift":
+                osm_tags:
+                  - "shop": 'gift'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling gifts, greeting cards, or tourist gifts (souvenirs)'
+            "sports":
+                osm_tags:
+                  - "shop": 'sports'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling sporting goods.'
+            "stationery":
+                osm_tags:
+                  - "shop": 'stationery'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling office supplies'
+            "outdoor":
+                osm_tags:
+                  - "shop": 'outdoor'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling garden furniture (sheds, outdoor tables, gates, fences, ...).'
+            "mobile_phone":
+                osm_tags:
+                  - "shop": 'mobile_phone'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling mobile phones and accessories'
+            "toys":
+                osm_tags:
+                  - "shop": 'toys'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling toys.'
+            "newsagent":
+                osm_tags:
+                  - "shop": 'newsagent'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling newspapers, cigarettes, other goods'
+            "greengrocer":
+                osm_tags:
+                  - "shop": 'greengrocer'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling vegetables and fruits.'
+            "beauty":
+                osm_tags:
+                  - "shop": 'beauty'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'A non-hairdresser beauty shop, spa, nail salon, etc..'
+            "video":
+                osm_tags:
+                  - "shop": 'video'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling or renting out videos/DVDs.'
+            "car":
+                osm_tags:
+                  - "shop": 'car'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Car store - a place to buy cars or to get your car repaired'
+            "bicycle":
+                osm_tags:
+                  - "shop": 'bicycle'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling bicycles, bicycle equipment and may rent or repair them'
+            "hardware":
+                osm_tags:
+                  - "shop": 'doityourself'
+                  - "shop": 'hardware'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling tools and supplies to do-it-yourself householders, gardening,'
+            "furniture":
+                osm_tags:
+                  - "shop": 'furniture'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling furniture, might range from small decoration items to a whole flat interior'
+            "computer":
+                osm_tags:
+                  - "shop": 'computer'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling computers, peripherals, software,'
+            "garden_centre":
+                osm_tags:
+                  - "shop": 'garden_centre'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling potted flowers, maybe even trees'
+            "hairdresser":
+                osm_tags:
+                  - "shop": 'hairdresser'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Here you can get your hair cut, coloured,'
+            "cair_repair":
+                osm_tags:
+                  - "shop": 'car_repair'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on car repair (usually independent of a specific car brand).'
+            "car_rental":
+                osm_tags:
+                  - "amenity": 'car_rental'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'A place to rent a car'
+            "car_wash":
+                osm_tags:
+                  - "amenity": 'car_wash'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'A place to wash a car'
+            "car_sharing":
+                osm_tags:
+                  - "amenity": 'car_sharing'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'A place to share a car'
+            "bicycle_rental":
+                osm_tags:
+                  - "amenity": 'bicycle_rental'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'A place to rent a bicycle'
+            "travel_agency":
+                osm_tags:
+                  - "amenity": 'travel_agency'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'Shop focused on selling tickets for travelling.'
+            "laundry":
+                osm_tags:
+                  - "shop": 'laundry'
+                  - "shop": 'dry_cleaning'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'A shop to get your normal clothes washed and dry. Might be self-service coin operated, with service staff for drop off or it could be a Shop or kiosk offering a clothes cleaning service. The actual cleaning may be done elsewhere.'
+            "vending":
+                osm_tags:
+                  - "amenity": 'vending_machine'
+                  - "vending": '*'
+                correlated_attributes:
+                  "aggtype": 'vending'
+                description: 'A general machine to vend goods, tickets and so on'
+            "vending_cigarette":
+                osm_tags:
+                  - "vending": 'cigarettes'
+                correlated_attributes:
+                  "aggtype": 'vending'
+                description: 'A cigarette machine is a vending machine that dispenses packets of cigarettes.'
+            "vending_parking":
+                osm_tags:
+                  - "vending": 'parking_tickets'
+                correlated_attributes:
+                  "aggtype": 'vending'
+                description: 'A machine selling tickets for parking'
+            "bank":
+                osm_tags:
+                  - "amenity": 'bank'
+                correlated_attributes:
+                  "aggtype": 'money'
+                description: 'Shows the location of a bank branch.'
+            "atm":
+                osm_tags:
+                  - "amenity": 'atm'
+                correlated_attributes:
+                  "aggtype": 'money'
+                description: 'A device that provides the clients of a financial institution with access to financial transactions.'
+            "money_changer":
+                osm_tags:
+                  - "amenity": 'bureau_de_change'
+                correlated_attributes:
+                  "aggtype": 'money'
+                description: 'A place to change foreign bank notes and travellers cheques'
+            "information":
+                osm_tags:
+                  - "tourism": 'information'
+                correlated_attributes:
+                  "aggtype": 'tourism'
+                description: 'An information source for tourists, travellers and visitors'
+            "map":
+                osm_tags:
+                  - "tourism": 'information'
+                    "information": 'map'
+                correlated_attributes:
+                  "aggtype": 'tourism'
+                description: 'A board with a map.'
+            "board":
+                osm_tags:
+                  - "tourism": 'information'
+                    "information": 'board'
+                correlated_attributes:
+                  "aggtype": 'tourism'
+                description: 'A board with information'
+            "guidepost":
+                osm_tags:
+                  - "tourism": 'information'
+                    "information": 'guidepost'
+                correlated_attributes:
+                  "aggtype": 'tourism'
+                description: 'Signposts/Guideposts are often found along official hiking/cycling routes to indicate the directions to different destinations'
+            "attraction":
+                osm_tags:
+                  - "tourism": 'attraction'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'A general place of interest for visitors. Typically used for its natural or historical significance.'
+            "museum":
+                osm_tags:
+                  - "tourism": 'museum'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'An institution which has exhibitions on scientific, historical, artistic, or cultural artefacts.'
+            "monument":
+                osm_tags:
+                  - "historic": 'museum'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'An object, especially large and made of stone, built to remember and show respect to a person or group of people'
+            "memorial":
+                osm_tags:
+                  - "historic": 'museum'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'Much like a monument, but smaller. Might range from a WWII memorial to a simple plate on a wall.'
+            "artwork":
+                osm_tags:
+                  - "tourism": 'artwork'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'Used to tag public pieces of art. Usually such artwork are outdoors.'
+            "castle":
+                osm_tags:
+                  - "historic": 'castle'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'Castles are (often fortified) buildings from medieval and modern times'
+            "ruins":
+                osm_tags:
+                  - "historic": 'ruins'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'Remains of structures that were once complete, but have fallen into partial or complete disrepair.'
+            "archaeological_site":
+                osm_tags:
+                  - "historic": 'archaeological_site'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'A place in which evidence of past activity is preserved'
+            "wayside_cross":
+                osm_tags:
+                  - "historic": 'wayside_cross'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'A historical (usually Christian) cross. Frequently found along the way in Southern Germany, Austria and probably elsewhere.'
+            "wayside_shrine":
+                osm_tags:
+                  - "historic": 'wayside_shrine'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'A historical shrine often showing a religious depiction. Frequently found along the way in Southern Germany, Austria and probably elsewhere.'
+            "battlefield":
+                osm_tags:
+                  - "historic": 'battlefield'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'The site of a battle or military skirmish in the past. This could be on land or at sea.'
+            "fort":
+                osm_tags:
+                  - "historic": 'fort'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'A military fort - distinct from a castle as it is generally more modern'
+            "picnic_site":
+                osm_tags:
+                  - "tourism": 'picnic_site'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'An area that is suitable for eating outdoors and may have a number of facilities within it.'
+            "viewpoint":
+                osm_tags:
+                  - "tourism": 'viewpoint'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'A place for visitors, often high, with good a scenery view of the surrounding countryside or notable buildings.'
+            "zoo":
+                osm_tags:
+                  - "tourism": 'zoo'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'A zoological garden or park that has confined animals on display for viewing by the public.'
+            "theme_park":
+                osm_tags:
+                  - "tourism": 'theme_park'
+                correlated_attributes:
+                  "aggtype": 'destination'
+                description: 'An area where entertainment is provided by rides, game concessions, etc., catering to large numbers to people.'
+            "toilet":
+                osm_tags:
+                  - "amenity": 'toilets'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'A public accessible toilets'
+            "bench":
+                osm_tags:
+                  - "amenity": 'bench'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'A bench to sit down and relax a bit'
+            "drinking_water":
+                osm_tags:
+                  - "amenity": 'drinking_water'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'Drinking water is a place where humans can obtain potable water for consumption. Typically, the water is used for only drinking. Also known as a drinking fountain or water tap.'
+            "fountain":
+                osm_tags:
+                  - "amenity": 'fountain'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'A fountain for cultural / decoration / recreational purposes.'
+            "hunting_stand":
+                osm_tags:
+                  - "amenity": 'hunting_stand'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'Hunting stands are open or enclosed platforms used by hunters to place themselves at an elevated height above the terrain.'
+            "waste_basket":
+                osm_tags:
+                  - "amenity": 'waste_backet'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'A single small container for depositing garbage that is easily accessible for pedestrians.'
+            "surveillance":
+                osm_tags:
+                  - "man_made": 'surveillance'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'To mark places and buildings monitored by public or private camera.'
+            "emergency_phone":
+                osm_tags:
+                  - "amenity": 'emergency_phone'
+                  - "emergency": 'phone'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'A telephone dedicated to emergency calls'
+            "fire_hydrant":
+                osm_tags:
+                  - "amenity": 'fire_hydrant'
+                  - "emergency": 'fire_hydrant'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'A fire hydrant is an active fire protection measure, and a source of water provided in most urban, suburban and rural areas with municipal water service to enable firefighters to tap into the municipal water supply to assist in extinguishing a fire.'
+            "emergency_access":
+                osm_tags:
+                  - "highway": 'emergency_access_point'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'Sign number which can be used to define you current position in case of an emergency'
+            "tower":
+                osm_tags:
+                  - "man_made": 'tower'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'A tall and often lean building or structure e.g. telecoms. All tower except below specifics.'
+            "comm_tower":
+                osm_tags:
+                  - "man_made": 'tower'
+                    "tower:type": 'communication'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'Describes the type of tower as communication tower'
+            "water_tower":
+                osm_tags:
+                  - "man_made": 'water_tower'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'A tower to store water in, usually found on hills beside or in a town.'
+            "observation_tower":
+                osm_tags:
+                  - "man_made": 'observation_tower'
+                    "tower:type": 'observation'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'One use of an Observation tower is a tower that used to watch for and report forest fire.'
+            "windmill":
+                osm_tags:
+                  - "man_made": 'windmill'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'Windmill, mostly ancient and out of order'
+            "lighthouse":
+                osm_tags:
+                  - "man_made": 'lighthouse'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'Sends out a light beam to guide ships.'
+            "wastewater_plant":
+                osm_tags:
+                  - "man_made": 'wastewater_plant'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'Facilities used to treat wastewater (known as sewage in some countries).'
+            "water_well":
+                osm_tags:
+                  - "man_made": 'water_well'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'A water well is an excavation or structure created in the ground by digging, driving, boring or drilling to access groundwater in underground aquifers.'
+            "watermill":
+                osm_tags:
+                  - "man_made": 'watermill'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'traditional Watermill, mostly ancient and out of order.'
+            "water_works":
+                osm_tags:
+                  - "man_made": 'water_works'
+                correlated_attributes:
+                  "aggtype": 'miscpoi'
+                description: 'A place where drinking water is found and applied to the local water pipes network.'
+            "tourism":
+                osm_tags:
+                  - "tourism": '*'
+                correlated_attributes:
+                  "aggtype": 'tourism'
+                description: 'All other types of tourism which is not defined as above'
+            "leisure":
+                osm_tags:
+                  - "leisure": '*'
+                correlated_attributes:
+                  "aggtype": 'leisure'
+                description: 'All other types of leisure which is not defined as above'
+            "sport":
+                osm_tags:
+                  - "sport": '*'
+                correlated_attributes:
+                  "aggtype": 'sport'
+                description: 'All other types of sport which is not defined as above'
+            "man_made":
+                osm_tags:
+                  - "man_made": '*'
+                correlated_attributes:
+                  "aggtype": 'man_made'
+                description: 'All other types of man_made which is not defined as above'
+            "shop":
+                osm_tags:
+                  - "shop": '*'
+                correlated_attributes:
+                  "aggtype": 'shop'
+                description: 'All other types of shop which is not defined as above'
+            "historic":
+                osm_tags:
+                  - "historic": '*'
+                correlated_attributes:
+                  "aggtype": 'historic'
+                description: 'All other types of historic which is not defined as above'
+            "amenity":
+                osm_tags:
+                  - "amenity": '*'
+                correlated_attributes:
+                  "aggtype": 'amenity'
+                description: 'All other types of amenity which is not defined as above'
+  - "poi_p":
+      <<: *layer_poi_a
+      summary: "Points of interest features of a generic place, like shops, amenities, leisure, accomondation, etc."
+  - "pow_a": &layer_pow_a
+      summary: "See pow_p"
+      attributes:
+        "aggtype":
+          type: text
+          description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
+        "website":
+          type: text 
+          description: 'Specifying the link to the official website for a feature.'
+          osm_tags:
+            - "website": '*'
+        "wikipedia":
+          type: text
+          description: 'Provide a reference to an article in Wikipedia about the feature.'
+          osm_tags:
+            - "wikipedia": '*'
+        "phone":
+          type: text
+          description: 'A telephone number associated with the object.'
+          osm_tags:
+            - "phone": '*'
+            - "contact:phone": '*'
+        "opening_hours":
+          type: text
+          description: 'The timing of when something is open or close'
+          osm_tags:
+            - "opening_hours": '*'
+        "access":
+          type: text
+          description: 'The legal accessibility of a element.'
+          osm_tags:
+            - "access": '*'
+        "type":
+          type: text
+          values:
+            "buddhist":
+              osm_tags:
+                - "religion": 'buddhist'
+              correlated_attributes:
+                "aggtype": 'buddhist'
+              description: 'A buddist place of worship'
+            "christian":
+              osm_tags:
+                - "religion": 'christian'
+                  "denomination": '*'
+              correlated_attributes:
+                "aggtype": 'christian'
+              description: 'A christian place of worship. This is a generalise christian type other then the specific denomination'
+            "anglican":
+              osm_tags:
+                - "religion": 'christian'
+                  "denomination": 'anglican'
+              correlated_attributes:
+                "aggtype": 'christian'
+              description: 'A christian place of worship with denomination'
+            "baptist":
+              osm_tags:
+                - "religion": 'christian'
+                  "denomination": 'baptist'
+              correlated_attributes:
+                "aggtype": 'christian'
+              description: 'A christian place of worship with denomination'
+            "catholic":
+              osm_tags:
+                - "religion": 'christian'
+                  "denomination": 'catholic'
+              correlated_attributes:
+                "aggtype": 'christian'
+              description: 'A christian place of worship with denomination'
+            "evangelical":
+              osm_tags:
+                - "religion": 'christian'
+                  "denomination": 'evangelical'
+              correlated_attributes:
+                "aggtype": 'christian'
+              description: 'A christian place of worship with denomination'
+            "lutheran":
+              osm_tags:
+                - "religion": 'christian'
+                  "denomination": 'lutheran'
+              correlated_attributes:
+                "aggtype": 'christian'
+              description: 'A christian place of worship with denomination'
+            "methodist":
+              osm_tags:
+                - "religion": 'christian'
+                  "denomination": 'methodist'
+              correlated_attributes:
+                "aggtype": 'christian'
+              description: 'A christian place of worship with denomination'
+            "orthodox":
+              osm_tags:
+                - "religion": 'christian'
+                  "denomination": 'orthodox'
+              correlated_attributes:
+                "aggtype": 'christian'
+              description: 'A christian place of worship with denomination'
+            "protestant":
+              osm_tags:
+                - "religion": 'christian'
+                  "denomination": 'protestant'
+              correlated_attributes:
+                "aggtype": 'christian'
+              description: 'A christian place of worship with denomination'
+            "mormon":
+              osm_tags:
+                - "religion": 'christian'
+                  "denomination": 'mormon'
+              correlated_attributes:
+                "aggtype": 'christian'
+              description: 'A christian place of worship with denomination'
+            "presbyterian":
+              osm_tags:
+                - "religion": 'christian'
+                  "denomination": 'presbyterian'
+              correlated_attributes:
+                "aggtype": 'christian'
+              description: 'A christian place of worship with denomination'
+            "hindu":
+              osm_tags:
+                - "religion": 'hindu'
+              correlated_attributes:
+                "aggtype": 'hindu'
+              description: 'A hindu place of worship'
+            "jewish":
+              osm_tags:
+                - "religion": 'jewish'
+              correlated_attributes:
+                "aggtype": 'jewish'
+              description: 'A jewish place of worship'
+            "muslim":
+              osm_tags:
+                - "religion": 'muslim'
+                  "denomination": '*'
+              correlated_attributes:
+                "aggtype": 'muslim'
+              description: 'A muslim place of worship. This is a generalise muslim type other then the specific denomination'
+            "shia":
+              osm_tags:
+                - "religion": 'muslim'
+                  "denomination": 'shia'
+              correlated_attributes:
+                "aggtype": 'muslim'
+              description: 'A muslim place of worship with denomination.'
+            "sunni":
+              osm_tags:
+                - "religion": 'muslim'
+                  "denomination": 'sunni'
+              correlated_attributes:
+                "aggtype": 'muslim'
+              description: 'A muslim place of worship with denomination.'
+            "shinto":
+              osm_tags:
+                - "religion": 'shinto'
+              correlated_attributes:
+                "aggtype": 'shinto'
+              description: 'A shinto place of worship'
+            "sikh":
+              osm_tags:
+                - "religion": 'sikh'
+              correlated_attributes:
+                "aggtype": 'sikh'
+              description: 'A sikh place of worship'
+            "taoist":
+              osm_tags:
+                - "religion": 'taoist'
+              correlated_attributes:
+                "aggtype": 'taoist'
+              description: 'A taoist place of worship'
+            "place_of_worship":
+              osm_tags:
+                - "religion": '*'
+                - "amenity": 'place_of_worship'
+              correlated_attributes:
+                "aggtype": 'place_of_worship'
+              description: 'A place of worship which is not tag to any of the above.'
+  - "pow_p":
+      <<: *layer_pow_a
+      summary: "This it a place of worship where people of different religion can go. e.g. church, temples(buddist, taoist, etc.), mosque(muslims)"
+  - "railway_l":
+      summary: "All forms of transport using metal rails, including mainline services, subways, heritage lines and trams."
+      attributes:
+        "aggtype":
+          type: text
+          description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
+        "z_order":
+          type: smallint
+          osm_tags: 
+            - "layer": '*'
+          description: "The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers."
+        "bridge": &attribute_bridge
+          type: boolean
+          values:
+            FALSE:
+              osm_tags:
+                - [not]: !!pairs
+                  - "bridge": 'split_log'
+                  - "bridge": 'beam'
+                  - "bridge": 'culvert'
+                  - "bridge": 'low_water_crossing'
+                  - "bridge": 'yes'
+                  - "bridge": 'suspension'
+                  - "bridge": 'viaduct'
+                  - "bridge": 'aqueduct'
+                  - "bridge": 'covered'
+            TRUE:
+              osm_tags:
+                - "bridge": 'split_log'
+                - "bridge": 'beam'
+                - "bridge": 'culvert'
+                - "bridge": 'low_water_crossing'
+                - "bridge": 'yes'
+                - "bridge": 'suspension'
+                - "bridge": 'viaduct'
+                - "bridge": 'aqueduct'
+                - "bridge": 'covered'
+          description: 'A bridge is an artificial construction that spans features such as roads, railways, waterways or valleys and carries a road, railway or other feature.'
+        "tunnel": &attribute_tunnel
+          type: boolean
+          values:
+            FALSE:
+              osm_tags:
+                - [not]: !!pairs
+                  - "tunnel": 'passage'
+                  - "tunnel": 'culvert'
+                  - "tunnel": 'noiseprotection galerie'
+                  - "tunnel": 'gallery'
+                  - "tunnel": 'building_passage'
+                  - "tunnel": 'avalanche_protector'
+                  - "tunnel": 'viaduct'
+                  - "tunnel": 'tunnel'
+                  - "tunnel": 'yes'
+            TRUE:
+              osm_tags:
+                - "tunnel": 'passage'
+                - "tunnel": 'culvert'
+                - "tunnel": 'noiseprotection galerie'
+                - "tunnel": 'gallery'
+                - "tunnel": 'building_passage'
+                - "tunnel": 'avalanche_protector'
+                - "tunnel": 'viaduct'
+                - "tunnel": 'tunnel'
+                - "tunnel": 'yes'
+          description: 'A tunnel is an underground passage for a road or similar.'
+        "voltage":
+          type: text
+          osm_tags: 
+            - "voltage": '*'
+          description: 'The voltage level the electrified cable is running on'
+        "frequency":
+          type: text
+          osm_tags: 
+            - "frequency": '*'
+          description: 'The electrical frequency that the electrified cable is running on'
+        "type":
+          type: text
+          values: !!omap
+            - "rail":
+                osm_tags:
+                  - "railway": 'rail'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'Full sized passenger or freight trains in the standard gauge for the country or state.'
+            - "light_rail":
+                osm_tags:
+                  - "railway": 'light_rail'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'A higher-standard tram system, normally in its own right-of-way. Often it connects towns and thus reaches a considerable length (tens of kilometer).'
+            - "subway":
+                osm_tags:
+                  - "railway": 'subway'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'A city passenger rail service running mostly grade separated'
+            - "tram":
+                osm_tags:
+                  - "railway": 'tram'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'One or two carriage rail vehicles, usually sharing motor road'
+            - "monorail":
+                osm_tags:
+                  - "railway": 'monorail'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'A railway with only a single rail.'
+            - "narrow_gauge":
+                osm_tags:
+                  - "railway": 'narrow_gauge'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'Narrow-gauge passenger or freight trains.'
+            - "miniature":
+                osm_tags:
+                  - "railway": 'miniature'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'Miniature railways are narrower than narrow gauge and carry passengers. They can be found in parks.'
+            - "funicular":
+                osm_tags:
+                  - "railway": 'funicular'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'Cable driven inclined railways'
+            - "railway":
+                osm_tags:
+                  - "railway": '*'
+                correlated_attributes:
+                  "aggtype": 'railway'
+                description: 'All other types of railways which is not defined as above'
+            - "drag_lift":
+                osm_tags:
+                  - "aerialway": 'drag_lift'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'an overhead tow-line for skiers and riders.'
+            - "chair_lift":
+                osm_tags:
+                  - "aerialway": 'chair_lift'
+                  - "aerialway": 'high_speed_chair_lift'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Looped cable with a series of single chairs (typically seating two or four people, but can be more). Exposed to the open air (can have a bubble).'
+            - "cable_car":
+                osm_tags:
+                  - "aerialway": 'cable_car'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Just one or two large cars. The cable forms a loop, but the cars do not loop around, they just move up and down on their own side.'
+            - "gondola":
+                osm_tags:
+                  - "aerialway": 'gondola'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Many cars on a looped cable.'
+            - "goods":
+                osm_tags:
+                  - "aerialway": 'goods'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'A cable/wire supported lift for goods. Passenger transport is usually not allowed.'
+            - "platter":
+                osm_tags:
+                  - "aerialway": 'platter'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Platter lift (poma). Overhead tow-line for skiers and riders with platters.'
+            - "t-bar":
+                osm_tags:
+                  - "aerialway": 't-bar'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'T-bar lift. Overhead tow-line for skiers and riders with T-shaped carriers for two passengers.'
+            - "j-bar":
+                osm_tags:
+                  - "aerialway": 'j-bar'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'J-bar lift or L-bar lift. Overhead tow-line for skiers and riders with carriers in J-shape.'
+            - "magic_carpet":
+                osm_tags:
+                  - "aerialway": 'magic_carpet'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Ski lift for small children resembling a conveyor belt.'
+            - "zip_line":
+                osm_tags:
+                  - "aerialway": 'zip_line'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Zip lines, Flying fox and similar'
+            - "rope_tow":
+                osm_tags:
+                  - "aerialway": 'rope_tow'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'Ski tow lift. Tow-line for skiers and riders where passenger hold by hand or use special tow grabbers.'
+            - "mixed_lift":
+                osm_tags:
+                  - "aerialway": 'mixed_lift'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'A lift mixed with gondola and chair_lift'
+            - "aerialway":
+                osm_tags:
+                  - "aerialway": '*'
+                correlated_attributes:
+                  "aggtype": 'aerialway'
+                description: 'All other types of aerialways which is not defined as above'
+  - "road_l":
+      summary: "Any road, route, way, or thoroughfare on land which connects one location to another and has been paved or otherwise improved to allow travel by some conveyance, including motorised vehicles, cyclists, pedestrians, horse, riders, and others"
+      attributes:
+        "aggtype":
+          type: text
+          description: "\"roundabout\" for roundabouts, otherweise the general type/importance of the road or way. See the \"type\" attribute for a road's or way's specific type for both, roundabout and non-roundabout roads/ways."
+        "ref":
+          type: text
+          description: 'Used for reference numbers or codes. Common for roads, highway exits, routes, etc.'
+          osm_tags:
+            - "ref": '*'
+        "oneway":
+          type: boolean
+          description: 'Oneway streets are streets where you are only allowed to drive in one direction.'
+          osm_tags:
+            - "oneway": '*'
+        "maxspeed":
+          type: smallint
+          description: 'Specifies the maximum legal speed limit on a road, railway or waterway'
+          osm_tags:
+            - "maxspeed": '*'
+        "z_order":
+          type: smallint
+          description: 'The layer tag is used to describe vertical relationships between different crossing or overlapping map features. Use this in combination with bridge/tunnel tags when one way passes above or under another one. For describing different floors within a building or levels of multilevel parking decks use levels instead of layers.'
+          osm_tags:
+            - "layer": '*'
+        "bridge":
+          <<: *attribute_bridge
+        "tunnel":
+          <<: *attribute_tunnel
+        "type":
+          type: text
+          values: !!pairs
+            - "motorway":
+                osm_tags:
+                  - "highway": 'motorway'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'major_road'
+                description: 'A restricted access major divided highway, normally with 2 or more running lanes plus emergency hard shoulder. Equivalent to the Freeway, Autobahn, etc..'
+            - "trunk":
+                osm_tags:
+                  - "highway": 'trunk'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'major_road'
+                description: "The most important roads in a country's system that aren't motorways. (Need not necessarily be a divided highway.)"
+            - "primary":
+                osm_tags:
+                  - "highway": 'primary'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'major_road'
+                description: "The next most important roads in a country's system. (Often link larger towns.)"
+            - "secondary":
+                osm_tags:
+                  - "highway": 'secondary'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'major_road'
+                description: "The next most important roads in a country's system. (Often link smaller towns and villages.)	"
+            - "tertiary":
+                osm_tags:
+                  - "highway": 'tertiary'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'major_road'
+                description: "The next most important roads in a country's system."
+            - "unclassified":
+                osm_tags:
+                  - "highway": 'unclassified'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'minor_road'
+                description: "The least most important through roads in a country's system - i.e. minor roads of a lower classification than tertiary, but which serve a purpose other than access to properties. (The word 'unclassified' is a historical artefact of the UK road system and does not mean that the classification is unknown; you can use highway=road for that.)	"
+            - "residential":
+                osm_tags:
+                  - "highway": 'residential'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'minor_road'
+                description: 'Roads which are primarily lined with and serve as an access to housing.'
+            - "living_street":
+                osm_tags:
+                  - "highway": 'living_street'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'minor_road'
+                description: 'For living streets, which are residential streets where pedestrians have legal priority over cars, speeds are kept very low and where children are allowed to play on the street.	'
+            - "pedestrian":
+                osm_tags:
+                  - "highway": 'pedestrian'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'minor_road'
+                description: "For roads used mainly/exclusively for pedestrians in shopping and some residential areas which may allow access by motorised vehicles only for very limited periods of the day. To create a 'square' or 'plaza' create a closed way and tag as pedestrian."
+            - "motorway_link":
+                osm_tags:
+                  - "highway": 'motorway_link'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'highway_links'
+                description: 'The link roads (sliproads/ramps) leading to/from a motorway from/to a motorway or lower class highway. Normally with the same motorway restrictions.'
+            - "trunk_link":
+                osm_tags:
+                  - "highway": 'trunk_link'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'highway_links'
+                description: 'The link roads (sliproads/ramps) leading to/from a trunk road from/to a trunk road or lower class highway.'
+            - "primary_link":
+                osm_tags:
+                  - "highway": 'primary_link'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'highway_links'
+                description: 'The link roads (sliproads/ramps) leading to/from a primary road from/to a primary road or lower class highway.'
+            - "secondary_link":
+                osm_tags:
+                  - "highway": 'secondary_link'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'highway_links'
+                description: 'The link roads (sliproads/ramps) leading to/from a secondary road from/to a secondary road or lower class highway.'
+            - "service":
+                osm_tags:
+                  - "highway": 'service'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'small_road'
+                description: 'For access roads to, or within an industrial estate, camp site, business park, car park etc. Can be used in conjunction with service=* to indicate the type of usage and with access=* to indicate who can use it and in what circumstances.'
+            - "track":
+                osm_tags:
+                  - "highway": 'track'
+                    [not]:
+                      "tracktype": "*"
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'track'
+                description: 'Roads for agricultural use, gravel roads in the forest etc. and no tracktype tag is present'
+            - "grade1":
+                osm_tags:
+                  - "highway": 'track'
+                    "tracktype": 'grade1'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'track'
+                description: 'Solid. Usually a paved or heavily compacted hardcore surface.'
+            - "grade2":
+                osm_tags:
+                  - "highway": 'track'
+                    "tracktype": 'grade2'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'track'
+                description: 'Mostly solid. Usually an unpaved track with surface of gravel mixed with a varying amount of sand, silt, and clay.'
+            - "grade3":
+                osm_tags:
+                  - "highway": 'track'
+                    "tracktype": 'grade3'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'track'
+                description: 'Even mixture of hard and soft materials. Almost always an unpaved track.'
+            - "grade4":
+                osm_tags:
+                  - "highway": 'track'
+                    "tracktype": 'grade4'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'track'
+                description: 'Mostly soft. Almost always an unpaved track prominently with soil/sand/grass, but with some hard materials, or compressed materials mixed in.'
+            - "grade5":
+                osm_tags:
+                  - "highway": 'track'
+                    "tracktype": 'grade5'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'track'
+                description: 'Soft. Almost always an unpaved track lacking hard materials, uncompacted, subtle on the landscape, with surface of soil/sand/grass.'
+            - "bridleway":
+                osm_tags:
+                  - "highway": 'bridleway'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'no_large_vehicle'
+                description: 'For horses.'
+            - "cycleway":
+                osm_tags:
+                  - "highway": 'cycleway'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'no_large_vehicle'
+                description: "Cycling infrastructure that is an inherent part of a road - particularly 'cycle lanes' which are a part of the road"
+            - "footway":
+                osm_tags:
+                  - "highway": 'footway'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'no_large_vehicle'
+                description: 'For designated footpaths; i.e., mainly/exclusively for pedestrians. This includes walking tracks and gravel paths.'
+            - "path":
+                osm_tags:
+                  - "highway": 'path'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'no_large_vehicle'
+                description: 'A non-specific path.'
+            - "steps":
+                osm_tags:
+                  - "highway": 'steps'
+                    [not]:
+                      "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": 'no_large_vehicle'
+                description: 'For flights of steps (stairs) on footways.'
+            - "road":
+                osm_tags:
+                  - "highway": '*'
+                    [not]:
+                      "roundabout": "*"
+                correlated_attributes:
+                  "aggtype": 'unclassified'
+                description: 'A road where the mapper is unable to ascertain the classification from the information available. This is intended as a temporary tag to mark a road until it has been properly surveyed'
+            - "motorway":
+                osm_tags:
+                  - "highway": 'motorway'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a motorway"
+            - "trunk":
+                osm_tags:
+                  - "highway": 'trunk'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a trunk road"
+            - "primary":
+                osm_tags:
+                  - "highway": 'primary'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a primary road"
+            - "secondary":
+                osm_tags:
+                  - "highway": 'secondary'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a secondary road"
+            - "tertiary":
+                osm_tags:
+                  - "highway": 'tertiary'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a tertiary road"
+            - "unclassified":
+                osm_tags:
+                  - "highway": 'unclassified'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a minor public roads (typically at the lowest level of the interconnecting grid network)"
+            - "residential":
+                osm_tags:
+                  - "highway": 'residential'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a residential road"
+            - "living_street":
+                osm_tags:
+                  - "highway": 'living_street'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a living street"
+            - "pedestrian":
+                osm_tags:
+                  - "highway": 'pedestrian'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A pedestrian roundabout"
+            - "motorway_link":
+                osm_tags:
+                  - "highway": 'motorway_link'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a link road (sliproad/ramp) leading to/from a motorway from/to a motorway or lower class road"
+            - "trunk_link":
+                osm_tags:
+                  - "highway": 'trunk_link'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a link road (sliproad/ramp) leading to/from a trunk road from/to a trunk road or lower class road"
+            - "primary_link":
+                osm_tags:
+                  - "highway": 'primary_link'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a link road (sliproad/ramp) leading to/from a primary road from/to a primary road or lower class road"
+            - "secondary_link":
+                osm_tags:
+                  - "highway": 'secondary_link'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a link road (sliproad/ramp) leading to/from a secondary road from/to a secondary road or lower class road"
+            - "service":
+                osm_tags:
+                  - "highway": 'service'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a service road"
+            - "track":
+                osm_tags:
+                  - "highway": 'track'
+                    [not]:
+                      "tracktype": "*"
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a track"
+            - "grade1":
+                osm_tags:
+                  - "highway": 'track'
+                    "tracktype": 'grade1'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a grade 1 track"
+            - "grade2":
+                osm_tags:
+                  - "highway": 'track'
+                    "tracktype": 'grade2'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a grade 2 track"
+            - "grade3":
+                osm_tags:
+                  - "highway": 'track'
+                    "tracktype": 'grade3'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a grade 3 track"
+            - "grade4":
+                osm_tags:
+                  - "highway": 'track'
+                    "tracktype": 'grade4'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a grade 4 track"
+            - "grade5":
+                osm_tags:
+                  - "highway": 'track'
+                    "tracktype": 'grade5'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a grade 5 track"
+            - "bridleway":
+                osm_tags:
+                  - "highway": 'bridleway'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a bridleway"
+            - "cycleway":
+                osm_tags:
+                  - "highway": 'cycleway'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a cycleway"
+            - "footway":
+                osm_tags:
+                  - "highway": 'footway'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a designated footpath"
+            - "path":
+                osm_tags:
+                  - "highway": 'path'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a non-specific path"
+            - "steps":
+                osm_tags:
+                  - "highway": 'steps'
+                    "junction": "roundabout"
+                correlated_attributes:
+                  "aggtype": "roundabout"
+                description: "A roundabout on a flights of steps (stairs) on a footway"
+            - "roundabout":
+                osm_tags:
+                  - "junction": 'roundabout'
+                correlated_attributes:
+                  "aggtype": 'roundabout'
+                description: 'A roundabout on a road of other or unkown classification'
+  - "route_l": &layer_route_l
+      summary: "A route is a customary or regular line of passage or travel, often predetermined and publicized. Routes consist of paths taken repeatedly by people and vehicles."
+      description: Various types of "routes" (customary or regular lines of passage or travel, often predetermined and publicized), from bus lines to hiking trails. Not suitable for "routing" (navigation)!
+      attributes:
+        "type":
+          type: text
+          values: !!omap
+            - "bicycle":
+                osm_tags:
+                  - "route": 'bicycle'
+                description: 'Cycle routes or bicycle route are named or numbered or otherwise signed routes. May go along roads, trails or dedicated cycle paths.'
+            - "bus":
+                osm_tags:
+                  - "route": 'bus'
+                description: 'The route of a bus service'
+            - "canoe":
+                osm_tags:
+                  - "route": 'canoe'
+                description: 'Route for canoeing through a waterway.'
+            - "detour":
+                osm_tags:
+                  - "route": 'detour'
+                description: 'A detour is a named and permanent route you can take if there is a traffic jam on the main route.'
+            - "ferry":
+                osm_tags:
+                  - "route": 'ferry'
+                description: 'Displays the route of a ferry on sea.'
+            - "hiking":
+                osm_tags:
+                  - "route": 'hiking'
+                description: 'Hiking route is a distinct path that a person may take to walk which is usually often used.'
+            - "horse":
+                osm_tags:
+                  - "route": 'horse'
+                description: 'A route that horses can walk on'
+            - "inline_skates":
+                osm_tags:
+                  - "route": 'inline_skates'
+                description: 'Inline skate routes are named or numbered or otherwise signed routes. May go along roads, footways or other suitable paths.'
+            - "light_rail":
+                osm_tags:
+                  - "route": 'light_rail'
+                description: 'Light rail or light rail transit (LRT) is typically an urban form of public transport often using rolling stock similar to a tramway, but operating primarily along exclusive rights-of-way and having vehicles capable of operating as a single tramcar or as multiple units coupled together to form a train.'
+            - "mtb":
+                osm_tags:
+                  - "route": 'mtb'
+                description: 'Mountainbiking route'
+            - "nordic_walking":
+                osm_tags:
+                  - "route": 'nordic_walking'
+                description: 'Nordic walking routes are named or numbered or otherwise signed routes.'
+            - "pipeline":
+                osm_tags:
+                  - "route": 'pipeline'
+                description: 'For pipelines, pipeline markers, and pipeline stations.'
+            - "piste":
+                osm_tags:
+                  - "route": 'piste'
+                description: "Route of a piste (e.g., snowshoe or XC-Ski trails) in a winter sport area."
+            - "power":
+                osm_tags:
+                  - "route": 'power'
+                description: 'where power lines use the same towers (the same way) most likely in utility_l (power)'
+            - "railway":
+                osm_tags:
+                  - "route": 'railway'
+                description: 'All forms of transport using metal rails, including mainline services, subways, heritage lines and trams'
+            - "road":
+                osm_tags:
+                  - "route": 'road'
+                description: 'Map various road routes/long roads.'
+            - "running":
+                osm_tags:
+                  - "route": 'running'
+                description: 'For running (jogging) routes.'
+            - "ski":
+                osm_tags:
+                  - "route": 'ski'
+                description: 'For ski tracks'
+            - "train":
+                osm_tags:
+                  - "route": 'train'
+                description: 'Train services'
+            - "tram":
+                osm_tags:
+                  - "route": 'tram'
+                description: 'Trams services'
+            - "route":
+                osm_tags:
+                  - "route": '*'
+                description: 'Any route not specified above.'
+  - "traffic_a": &layer_traffic_a
+      summary: "See traffic_p"
+      attributes:
+        "aggtype":
+          type: text
+          description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
+        "access":
+          type: text(later)
+          description: 'For describing the legal accessibility of a element.'
+          osm_tags:
+            - "access": '*'
+        "type":
+          type: text
+          values:
+            "fuel":
+              osm_tags: 
+                - "amenity": 'fuel'
+              correlated_attributes:
+                "aggtype": 'fuel'
+              description: 'Petrol station; gas station; marine fuel'
+            "parking":
+              osm_tags:
+               - "amenity": 'parking'
+                 "parking": '*'
+              correlated_attributes:
+                "aggtype": 'parking'
+              description: 'A place for parking cars. This contains any other parking except the specifics below.'
+            "surface":
+              osm_tags:
+               - "amenity": 'parking'
+                 "parking": 'surface'
+              correlated_attributes:
+                "aggtype": 'parking'
+              description: 'Open area parking normally on ground level'
+            "multi-storey":
+              osm_tags:
+               - "amenity": 'parking'
+                 "parking": 'multi-storey'
+              correlated_attributes:
+                "aggtype": 'parking'
+              description: 'A building built to park cars on multiple levels'
+            "underground":
+              osm_tags:
+               - "amenity": 'parking'
+                 "parking": 'underground'
+              correlated_attributes:
+                "aggtype": 'parking'
+              description: 'Carpark is built below the ground level'
+            "bicycle":
+              osm_tags:
+               - "amenity": 'bicycle_parking'
+              correlated_attributes:
+                "aggtype": 'parking'
+              description: 'A place where bicycles can park'
+  - "traffic_p": &layer_traffic_p
+      summary: "It contains information regarding the rules of the road. Which allow better flow of traffic. E.g. Road signs, traffic calming, etc."
+      attributes:
+        "aggtype":
+          type: text
+          description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
+        "access":
+          type: text(later)
+          description: 'For describing the legal accessibility of a element.'
+          osm_tags:
+            - "access": '*'
+        "type":
+          type: text
+          values:
+            "general_traffic":
+              osm_tags:
+               - "highway": '*'
+              correlated_attributes:
+                "aggtype": 'general_traffic'
+              description: 'Contain all other highway except the specifics below.'
+            "traffic_signals":
+              osm_tags:
+               - "highway": 'traffic_signals'
+              correlated_attributes:
+                "aggtype": 'general_traffic'
+              description: 'The light that control the traffic'
+            "mini_roundabout":
+              osm_tags:
+               - "highway": 'mini_roundabout'
+              correlated_attributes:
+                "aggtype": 'general_traffic'
+              description: 'Similar to roundabouts, but at the center there is either a painted circle or a fully traversable island.'
+            "stop":
+              osm_tags:
+               - "highway": 'stop'
+              correlated_attributes:
+                "aggtype": 'general_traffic'
+              description: 'A stop sign'
+            "crossing":
+              osm_tags:
+               - "highway": 'crossing'
+              correlated_attributes:
+                "aggtype": 'general_traffic'
+              description: 'Pedestrians can cross a street here'
+            "level_crossing":
+              osm_tags:
+               - "highway": 'level_crossing'
+              correlated_attributes:
+                "aggtype": 'general_traffic'
+              description: 'A crossing between a railway and a road.'
+            "speed_camera":
+              osm_tags:
+               - "highway": 'speed_camera'
+              correlated_attributes:
+                "aggtype": 'general_traffic'
+              description: 'A fixed road-side or overhead speed camera.'
+            "motorway_junction":
+              osm_tags:
+               - "highway": 'motorway_junction'
+              correlated_attributes:
+                "aggtype": 'general_traffic'
+              description: 'Indicates a junction (UK) or exit (US).'
+            "turning_circle":
+              osm_tags:
+               - "highway": 'turning_circle'
+              correlated_attributes:
+                "aggtype": 'general_traffic'
+              description: 'A turning circle is a rounded, widened area usually, but not necessarily, at the end of a road to facilitate easier turning of a vehicle. Also known as a cul de sac.'
+            "ford":
+              osm_tags:
+               - "highway": 'ford'
+              correlated_attributes:
+                "aggtype": 'general_traffic'
+              description: 'The road crosses through stream or river, vehicles must enter any water.'
+            "street_lamp":
+              osm_tags:
+               - "highway": 'street_lamp'
+              correlated_attributes:
+                "aggtype": 'general_traffic'
+              description: 'A street light, lamppost, street lamp, light standard, or lamp standard is a raised source of light on the edge of a road, which is turned on or lit at a certain time every night'
+            "barrier":
+              osm_tags:
+                - "barrier": '*'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A barrier is a physical structure which blocks or impedes movement. This contains any other barrier except the specifics below.'
+            "gate":
+              osm_tags:
+                - "barrier": 'gate'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'An entrance that can be opened or closed to get through the barrier.'
+            "bollard":
+              osm_tags:
+                - "barrier": 'bollard'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'solid (usually concrete or metal) pillar or pillars in the middle of the road to prevent passage by some traffic.'
+            "lift_gate":
+              osm_tags:
+                - "barrier": 'lift_gate'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A lift gate (boom barrier) is a bar, or pole pivoted in such a way as to allow the boom to block vehicular access through a controlled point.'
+            "stile":
+              osm_tags:
+                - "barrier": 'stile'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: "A stile allows pedestrians to cross a wall or fence, but never actually 'opens' the barrier"
+            "cycle_barrier":
+              osm_tags:
+                - "barrier": 'cycle_barrier'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'Barriers to bicycle traffic, most typically a pair of staggered steel bars perpendicular to the way itself whose gaps allow pedestrians to pass.'
+            "fence":
+              osm_tags:
+                - "barrier": 'fence'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A structure supported by posts driven into the ground and designed to prevent movement across a boundary. It is distinguished from a wall by the lightness of its construction.'
+            "toll_booth":
+              osm_tags:
+                - "barrier": 'toll_booth'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: "A road usage toll or fee is collected here."
+            "block":
+              osm_tags:
+                - "barrier": 'block'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A large, solid, immobile block that can be moved only with heavy machinery or great effort. Typically big solid things made of concrete for stopping larger vehicles. Sometimes natural boulders are used for the same purpose.'
+            "kissing_gate":
+              osm_tags:
+                - "barrier": 'kissing_gate'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A gate which allows people to cross, but not livestock.'
+            "cattle_grid":
+              osm_tags:
+                - "barrier": 'cattle_grid'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'Bars in the road surface that allow wheeled vehicles but not animals to cross. Sometimes known as a Texas Gate, even outside of Texas'
+            "entrance":
+              osm_tags:
+                - "barrier": 'entrance'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'A gap in a linear barrier with nothing that limits passing through'
+            "traffic_calming":
+              osm_tags:
+                - "traffic_calming": '*'
+              correlated_attributes:
+                "aggtype": 'barrier'
+              description: 'Describes features used to slow down traffic. This will contain any other traffic calming except the specifics below.'
+            "hump":
+              osm_tags:
+                - "traffic_calming": 'hump'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Similar to a bump, but longer - total length usually 2-4 m (in direction of travel)'
+            "bump":
+              osm_tags:
+                - "traffic_calming": 'bump'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Short bump - length (in direction of travel) about 30 cm or shorter. Spans the entire width of the road, but can have cuts and small gaps left and right for cyclists.'
+            "table":
+              osm_tags:
+                - "traffic_calming": 'table'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Designed as a long speed hump with a flat section in the middle. The flat section is long enough for all wheels of a passenger car to fit on that section simultaneously. Does not slow as much as a hump and is usually used on roads with residential speed limit. It is known as flat top hump or raised pedestrian crossing.'
+            "chicane":
+              osm_tags:
+                - "traffic_calming": 'chicane'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'Hazards on the street you have to drive round'
+            "cushion":
+              osm_tags:
+                - "traffic_calming": 'cushion'
+              correlated_attributes:
+                "aggtype": 'traffic_calming'
+              description: 'A hump with spaces between or several multiple rectangular humps aligned across the road. This allows emergency vehicles, buses (due to their wider axle) and bicycles to pass through without slowing down.'
+            "fuel":
+              osm_tags:
+                - "amenity": 'fuel'
+              correlated_attributes:
+                "aggtype": 'fuel'
+              description: 'Petrol station; gas station; marine fuel'
+            "services":
+              osm_tags:
+                - "amenity": 'services'
+              correlated_attributes:
+                "aggtype": 'service'
+              description: 'Generally for access to a building, motorway service station, beach, campsite, industrial estate, business park, etc.'
+            "parking":
+              osm_tags:
+               - "amenity": 'parking'
+                 "parking": '*'
+              correlated_attributes:
+                "aggtype": 'parking'
+              description: 'A place for parking cars. This contains any other parking except the specifics below.'
+            "surface":
+              osm_tags:
+               - "amenity": 'parking'
+                 "parking": 'surface'
+              correlated_attributes:
+                "aggtype": 'parking'
+              description: 'Open area parking normally on ground level'
+            "multi-storey":
+              osm_tags:
+               - "amenity": 'parking'
+                 "parking": 'multi-storey'
+              correlated_attributes:
+                "aggtype": 'parking'
+              description: 'A building built to park cars on multiple levels'
+            "underground":
+              osm_tags:
+               - "amenity": 'parking'
+                 "parking": 'underground'
+              correlated_attributes:
+                "aggtype": 'parking'
+              description: 'Carpark is built below the ground level'
+            "bicycle":
+              osm_tags:
+               - "amenity": 'bicycle_parking'
+              correlated_attributes:
+                "aggtype": 'parking'
+              description: 'A place where bicycles can park'
+  - "transport_a": &layer_transport_a
+      summary: "See transport_p"
+      attributes:
+        "type":
+          type: text
+          values:
+            "railway_station":
+              osm_tags:
+               - "railway": 'station'
+              correlated_attributes:
+                "aggtype": 'railway'
+              description: 'Railway stations (including main line, light rail, subway, etc.) are places where customers can access railway services'
+            "railway_halt":
+              osm_tags:
+               - "railway": 'halt'
+               - "public_transport": 'stop_position'
+                 "train": 'yes'
+              correlated_attributes:
+                "aggtype": 'railway'
+              description: 'A small station, may not have a platform, trains may only stop on request.'
+            "bus_stop":
+              osm_tags:
+               - "railway": 'bus_stop'
+               - "public_transport": 'stop_position'
+                 "bus": 'yes'
+              correlated_attributes:
+                "aggtype": 'bus'
+              description: 'A bus stop is a place where public buses stop.'
+            "bus_station":
+              osm_tags:
+               - "amenity": 'bus_station'
+              correlated_attributes:
+                "aggtype": 'bus'
+              description: 'A station is an area designed to access bus.'
+            "taxi_stand":
+              osm_tags:
+               - "amenity": 'taxi'
+              correlated_attributes:
+                "aggtype": 'taxi'
+              description: 'A place where taxi waits for passengers'
+            "airport":
+              osm_tags:
+               - "amenity": 'airport'
+               - "aeroway": 'aerodrome'
+              correlated_attributes:
+                "aggtype": 'air_traffic'
+              description: 'An Aerodrome (UK), Airport (US)'
+            "taxiway": &transport_type_taxiway
+              osm_tags:
+               - "aeroway": 'taxiway'
+              correlated_attributes:
+                "aggtype": 'air_traffic'
+              description: 'Where airplanes manouevre between runways and parking areas.'
+            "apron": &transport_type_apron
+              osm_tags:
+               - "aeroway": 'apron'
+              correlated_attributes:
+                "aggtype": 'air_traffic'
+              description: 'An apron is the surfaced part of an airport where planes park.'
+            "runway": &transport_type_runway
+              osm_tags:
+               - "aeroway": 'runway'
+              correlated_attributes:
+                "aggtype": 'air_traffic'
+              description: 'Where airplanes take off and land'
+            "helipad":
+              osm_tags:
+               - "aeroway": 'helipad'
+              correlated_attributes:
+                "aggtype": 'air_traffic'
+              description: 'A place where helicopters can land.'
+            "ferry_terminal":
+              osm_tags:
+               - "amenity": 'ferry_terminal'
+              correlated_attributes:
+                "aggtype": 'water_traffic'
+              description: 'Ferry terminal/stop. A place where people/cars/etc. can board and leave a ferry.'
+            "aerialway_station":
+              osm_tags:
+               - "aerialway": 'station'
+              correlated_attributes:
+                "aggtype": 'other_traffic'
+              description: 'A station, where passengers can enter and/or leave the aerialway'
+            "aeroway":
+              osm_tags:
+               - "aeroway": '*'
+              correlated_attributes:
+                "aggtype": 'aeroway'
+              description: 'All other types of aeroway which is not defined as above'
+            "aerialway":
+              osm_tags:
+               - "aerialway": '*'
+              correlated_attributes:
+                "aggtype": 'aerialway'
+              description: 'All other types of aerialway which is not defined as above'
+            "stop_position":
+              osm_tags:
+               - "public_transport": 'stop_position'
+              correlated_attributes:
+                "aggtype": 'public_transport'
+              description: 'Where public transports stop to pick up passengers'
+  - "transport_l":
+      summary: "Linear features involved in transporting anyone from one place to another, e.g. runways at airports"
+      attributes:
+        "type":
+          type: text
+          values:
+            "taxiway": *transport_type_taxiway
+            "apron": *transport_type_apron
+            "runway": *transport_type_runway
+  - "transport_p":
+      <<: *layer_transport_a
+      summary: "Features which mark out points or location where it enable transporting anyone from one place to another. E.g. Bus stops, train station, etc."
+  - "utility_a": &layer_utility_a
+      summary: "See utility_l"
+      attributes: &utility_a_p_attributes
+        "aggtype":
+          type: text
+          description: "Groups (aggregates) several different 'type' values to a common supertype, for a coarser, more general caterorization."
+        "type": &utility_a_p_attribute_type
+          type: text
+          values: !!omap
+            - "plant": &utility_a_p_type_plant
+                osm_tags:
+                  - "power": "plant"
+                correlated_attributes:
+                  "aggtype": "plant"
+                description: "The (usually fenced) site of a power plant a.k.a. power station, generating station, or powerhouse (an industrial facility for the generation of energy), enclosing one or more power generators. The individual generators will have aggtype 'station' (see below)."
+            - "tower": &utility_a_p_type_tower
+                osm_tags:
+                 - "power": 'tower'
+                correlated_attributes:
+                  "aggtype": 'tower'
+                description: 'For towers or pylons carrying high voltage electricity cables. Normally constructed from steel latticework but tubular or solid pylons are also commonly used.'
+            - "station": &utility_a_p_type_station
+                osm_tags:
+                 - "power": 'generator'
+                correlated_attributes:
+                  "aggtype": 'station'
+                description: 'A device used to convert power from one form to another. This contain all other power except the specifics below.'
+            - "nuclear": &utility_a_p_type_nuclear
+                osm_tags:
+                 - "power": 'generator'
+                   "generator:source": 'nuclear'
+                correlated_attributes:
+                  "aggtype": 'station'
+                description: 'A nuclear power plant is a thermal power station in which the heat source is one or more nuclear reactors.'
+            - "solar": &utility_a_p_type_solar
+                osm_tags:
+                 - "power": 'generator'
+                   "generator:source": 'solar'
+                 - "power": 'generator'
+                   "power_source": 'photovoltaic'
+                correlated_attributes:
+                  "aggtype": 'station'
+                description: 'Solar powerplant does conversion of sunlight into electricity, either directly using photovoltaics (PV), or indirectly using concentrated solar power (CSP).'
+            - "fossil": &utility_a_p_type_fossil
+                osm_tags:
+                 - "power": 'generator'
+                   "generator:source": 'gas'
+                 - "power": 'generator'
+                   "generator:source": 'coal'
+                correlated_attributes:
+                  "aggtype": 'station'
+                description: 'Using the combustion of fuels to heat the water to in turn spin the generators turbine '
+            - "hydro": &utility_a_p_type_hydro
+                osm_tags:
+                 - "power": 'generator'
+                   "generator:source": 'water'
+                 - "power_source": 'hydro'
+                correlated_attributes:
+                  "aggtype": 'station'
+                description: 'Hydroelectricity is the term referring to electricity generated by hydropower; the production of electrical power through the use of the gravitational force of falling or flowing water. It is the most widely used form of renewable energy.'
+            - "wind": &utility_a_p_type_wind
+                osm_tags:
+                 - "power": 'generator'
+                   "generator:source": 'wind'
+                 - "power_source": 'wind'
+                correlated_attributes:
+                  "aggtype": 'station'
+                description: 'A wind turbine is a device that converts kinetic energy from the wind into mechanical energy. If the mechanical energy is used to produce electricity, the device may be called a wind generator.'
+            - "substation": &utility_a_p_type_substation
+                osm_tags:
+                 - "power": 'station'
+                 - "power": 'substation'
+                 - "power": 'sub_station'
+                correlated_attributes:
+                  "aggtype": 'substation'
+                description: 'A tag for electricity substations. These provide voltage step-up/step-down, switching, conditioning, etc. Substations may be large facilities (up to several acres) for very high voltage transmission lines or just small buildings or kiosks near the street for low voltage distribution lines'
+            - "transformer": &utility_a_p_type_transformer
+                osm_tags:
+                 - "power": 'transformer'
+                correlated_attributes:
+                  "aggtype": 'transformer'
+                description: 'A static device for transferring electric energy by inductive coupling between its windings. Large power transformers are typically located inside substations.'
+            - "water_works": &utility_a_p_type_water_works
+                osm_tags:
+                 - "man_made": 'water_works'
+                correlated_attributes:
+                  "aggtype": 'man_made'
+                description: 'Place where drinking water is found and applied to the local waterpipes network.'
+            - "wastewater_plant": &utility_a_p_type_wastewater_plant
+                osm_tags:
+                 - "man_made": 'wastewater_plant'
+                correlated_attributes:
+                  "aggtype": 'man_made'
+                description: 'Facilities used to treat wastewater'
+            - "storage_tank": &utility_a_p_type_storage_tank
+                osm_tags:
+                 - "man_made": 'storage_tank'
+                correlated_attributes:
+                  "aggtype": 'man_made'
+                description: 'A large holding tank, typically cylindrical.'
+            - "power": &utility_a_p_type_power
+                osm_tags:
+                 - "power": '*'
+                correlated_attributes:
+                  "aggtype": 'power'
+                description: 'All other types of power which is not defined as above'
+  - "utility_l": &layer_utility_l
+      summary: "All features which are part of the utility body. E.g. Power structure (powerlines, power building), pipelines (oil, water, gas etc.), etc.."
+      attributes:
+        "operator":
+          type: text
+          osm_tags:
+            - "operator": '*'
+          description: 'Which company is handling this utility_lines'
+        "voltage":
+          type: text
+          osm_tags:
+            - "voltage": '*'
+          description: 'The voltage level the power line is running on'
+        "frequency":
+          type: text
+          osm_tags:
+            - "frequency": '*'
+          description: 'The frequency level the power line is running on'
+        "type":
+          type: text
+          values:
+            "line":
+              osm_tags:
+               - "power": 'line'
+              correlated_attributes:
+                "aggtype": 'power'
+              description: 'A overground high voltage power line'
+            "minor_line":
+              osm_tags:
+               - "power": 'minor_line'
+              correlated_attributes:
+                "aggtype": 'power'
+              description: 'A smaller overhead line'
+            "cable":
+              osm_tags:
+               - "power": 'cable'
+              correlated_attributes:
+                "aggtype": 'power'
+              description: 'A high voltage earth cables'
+            "minor_cable":
+              osm_tags:
+               - "power": 'minor_underground_cable'
+               - "power": 'minor_cable'
+              correlated_attributes:
+                "aggtype": 'power'
+              description: 'A smaller line under earth'
+            "pipeline":
+              osm_tags:
+               - "man_made": 'pipeline'
+              correlated_attributes:
+                "aggtype": 'man_made'
+              description: 'A pipe for carrying various fluids, such as water, gas, sewage.'
+            "power":
+              osm_tags:
+               - "power": '*'
+              correlated_attributes:
+                "aggtype": 'power'
+              description: 'All other power line which is not specific.'
+  - "utility_p": &layer_utility_p
+      summary: "See utility_l"
+      attributes:
+        <<: *utility_a_p_attributes
+        "type":
+          <<: *utility_a_p_attribute_type
+          values: !!omap
+            - "plant": *utility_a_p_type_plant
+            - "tower": *utility_a_p_type_tower
+            - "station": *utility_a_p_type_station
+            - "nuclear": *utility_a_p_type_nuclear
+            - "solar": *utility_a_p_type_solar
+            - "fossil": *utility_a_p_type_fossil
+            - "hydro": *utility_a_p_type_hydro
+            - "wind": *utility_a_p_type_wind
+            - "substation": *utility_a_p_type_substation
+            - "transformer": *utility_a_p_type_transformer
+            - "water_works": *utility_a_p_type_water_works
+            - "wastewater_plant": *utility_a_p_type_wastewater_plant
+            - "storage_tank": *utility_a_p_type_storage_tank
+            - "pole":
+                osm_tags:
+                 - "power": 'pole'
+                correlated_attributes:
+                  "aggtype": 'pole'
+                description: 'For single (often wooden or concrete) poles carrying medium/low voltage electricity cables.'
+            - "power": *utility_a_p_type_power
+  - "water_a": &layer_water_a
+      summary: "See water_l"
+      attributes:
+        "type":
+          type: text
+          values:
+            "water":
+              osm_tags:
+                - "natural": 'water'
+              description: 'Used to mark body of standing water, such as a lake or pond.'
+            "spring":
+              osm_tags:
+                - "natural": 'spring'
+              description: 'A spring is a point where water naturally surfaces'
+            "riverbank":
+              osm_tags:
+                - "waterway": 'riverbank'
+              description: 'For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.'
+            "slipway":
+              osm_tags:
+                - "leisure": 'slipway'
+              description: 'Boats can be launched here'
+            "marina":
+              osm_tags:
+                - "leisure": 'marina'
+              description: 'For mooring leisure yachts and motor boats'
+            "pier":
+              osm_tags:
+                - "man_made": 'pier'
+              description: "A 'bridge into the ocean', usually for recreation."
+            "reservoir_covered":
+              osm_tags:
+                - "man_made": 'reservoir_covered'
+              description: 'A covered reservoir is a large man-made tank for holding fresh water'
+            "dam":
+              osm_tags:
+                - "waterway": 'dam'
+              description: 'A wall built across a river or stream to impound the water. A dam normally does not have water flowing over the top of it.'
+            "weir":
+              osm_tags:
+                - "waterway": 'weir'
+              description: 'A barrier built across a river, sometimes to divert water for industrial purposes. Water can still flow over the top.'
+            "waterway":
+              osm_tags:
+                - "waterway": '*'
+              description: 'Rivers or other kind of waterways. This contains any other water traffic except the specifics below.'
+  - "water_l": &layer_water_l
+      summary: "All features which are part of the waterbody. E.g. Dams, river, etc."
+      attributes:
+        "width":
+          type: int
+          osm_tags: 
+            - "width": '*'
+          description: 'The the measurement or extent of something from side to side; the lesser of two or the least of three dimensions of a body.'
+        "type":
+          type: int
+          values: !!omap
+            - "river":
+                osm_tags:
+                  - "waterway": 'river'
+                description: 'A large natural stream of water flowing in a channel to the sea, a lake, or another river.'
+            - "stream":
+                osm_tags:
+                  - "waterway": 'stream'
+                description: 'A small and narrow river.'
+            - "canal":
+                osm_tags:
+                  - "waterway": 'canal'
+                description: 'An artificial waterway constructed to allow the passage of boats or ships inland or to convey water for irrigation.'
+            - "drain":
+                osm_tags:
+                  - "waterway": 'drain'
+                description: 'A channel or pipe carrying off any excess liquid.'
+            - "waterway":
+                osm_tags:
+                  - "waterway": '*'
+                description: 'Other waterways which is user-defined'
+            - "pier":
+                osm_tags:
+                  - "man_made": 'pier'
+                description: "A 'bridge into the ocean', usually for recreation."
+  - "water_p": &layer_water_p
+      summary: "See water_l"
+      attributes:
+        "type":
+          type: text
+          values:
+            "water":
+              osm_tags:
+                - "natural": 'water'
+              description: 'Used to mark body of standing water, such as a lake or pond.'
+            "spring":
+              osm_tags:
+                - "natural": 'spring'
+              description: 'A spring is a point where water naturally surfaces'
+            "riverbank":
+              osm_tags:
+                - "waterway": 'riverbank'
+              description: 'For tagging wide rivers which need to be defined by an area rather than just shown as a linear way.'
+            "slipway":
+              osm_tags:
+                - "leisure": 'slipway'
+              description: 'Boats can be launched here'
+            "marina":
+              osm_tags:
+                - "leisure": 'marina'
+              description: 'For mooring leisure yachts and motor boats'
+            "pier":
+              osm_tags:
+                - "man_made": 'pier'
+              description: "A 'bridge into the ocean', usually for recreation."
+            "reservoir_covered":
+              osm_tags:
+                - "man_made": 'reservoir_covered'
+              description: 'A covered reservoir is a large man-made tank for holding fresh water'
+            "dam":
+              osm_tags:
+                - "waterway": 'dam'
+              description: 'A wall built across a river or stream to impound the water. A dam normally does not have water flowing over the top of it.'
+            "waterfall":
+              osm_tags:
+                - "waterway": 'waterfall'
+              description: 'A waterfall is a place where water flows over a vertical drop in the course of a stream or river.'
+            "lock_gate":
+              osm_tags:
+                - "waterway": 'lock_gate'
+              description: "Top or bottom gate of a lock. (A Lock is a device for raising and lowering boats between stretches of water of different levels on river and canal waterways.)"
+            "weir":
+              osm_tags:
+                - "waterway": 'weir'
+              description: 'A barrier built across a river, sometimes to divert water for industrial purposes. Water can still flow over the top.'
+            "waterway":
+              osm_tags:
+                - "waterway": '*'
+              description: 'Rivers or other kind of waterways. This contains any other water traffic except the specifics below.'
+  - "landmass_a":
+      summary: "All land areas in the excerpt, i.e. continents and islands."
+      source:
+        name: "OpenStreetMapData 'Land polygons'"
+        url: http://openstreetmapdata.com/data/land-polygons
+      common_attributes: no
+      attributes:
+        "fid":
+          type: int
+  - "coastline_l":
+      summary: "Linestrings for coastlines. Long linestrings are split into smaller chunks (with no more than 100 points) that are easier and faster to work with."
+      source:
+        name: "OpenStreetMapData 'Coastlines'"
+        url: http://openstreetmapdata.com/data/coastlines
+      common_attributes: no
+      attributes:
+        "fid":
+          type: int
+  - "sea_a":
+      summary: "Oceans, seas and large bodies of inland water. Polygons are split into smaller overlapping chunks that are easier and faster to work with."
+      source:
+        name: "OpenStreetMapData 'Water polygons'"
+        url: http://openstreetmapdata.com/data/water-polygons
+      common_attributes: no
+      attributes:
+        "fid":
+          type: int

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="352.78mm"
+   height="352.78mm"
+   viewBox="0 0 1250.0079 1250.0079"
+   id="svg28845"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="destination_wayside_cross.svg">
+  <defs
+     id="defs28847" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="80"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata28850">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,197.64569)">
+    <path
+       inkscape:connector-curvature="0"
+       d="m 591.2681,69.209319 0,73.632001 0,73.601 -67.6409,0 -67.6437,0 0,29.88 0,29.822 67.6437,0 67.6409,0 0,143.282 0,143.254 -109.411,0 -109.4676,0 0,111.443 0,111.384 252.5848,0 252.6441,0 0,-111.384 0,-111.443 -113.3557,0 -113.2989,0 0,-143.254 0,-143.282 63.6398,0 63.7559,0 0,-29.822 0,-29.88 -63.7559,0 -63.6398,0 0,-73.601 0,-73.632001 -29.8182,0 -29.8775,0 z"
+       id="path8464"
+       style="fill:#c84614;fill-opacity:1" />
+  </g>
+</svg>

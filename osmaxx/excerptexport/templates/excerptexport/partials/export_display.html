@@ -1,15 +1,34 @@
 {% load i18n capture_as email_bodies static %}
-<div class="panel panel-{{ export.css_status_class }}">
+<div class="panel panel-{{ export.css_status_class }}" id="export-panel-{{ export.id }}">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-4 col-md-4">
                 {{ export.get_file_format_display }}
             </div>
             <div class="col-md-2 col-lg-2">
-                {{ export.file_format }}
+                {{ export.extraction_order.get_coordinate_reference_system_display }}
+            </div>
+            <div class="col-md-2 col-lg-2">
+                {{ export.extraction_order.get_detail_level_display }}
             </div>
             <div class="col-md-4 col-lg-4">
-                {{ export.status }} at {% firstof export.finished_at|date:"Y-m-d H:i:s" export.updated_at|date:"Y-m-d H:i:s" %}
+                <div class="col-xs-10">
+                    {% capture_as finished_date %}{% firstof export.finished_at|date:"Y-m-d H:i:s" export.updated_at|date:"Y-m-d H:i:s" %}{% end_capture_as %}
+                    {% capture_as state_display %}{{ export.status }} at {{ finished_date }}{% end_capture_as %}
+                    {% capture_as available_until %}{{ export.result_file_available_until|date:"Y-m-d H:i:s" }}{% end_capture_as %}
+                    {% if export.status == export.FINISHED and export.result_file_available_until %}
+                        {% blocktrans %}<span title="{{ state_display }}">available until {{ available_until }}</span>{% endblocktrans %}
+                    {% else %}
+                        {{ state_display }}
+                    {% endif %}
+                </div>
+                <div class="col-xs-2">
+                    {% if export.can_be_deleted %}
+                        <div id="delete-export-{{ export.id }}" class="hidden">
+                            <span class="glyphicon glyphicon-trash hand-cursor" aria-hidden="true"></span>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
@@ -21,13 +40,13 @@
                         <a href="{{ export.output_file.file.url }}">{{ export.output_file.get_filename_display }}</a>
                     </p>
                 </div>
-            <div class="col-md-1 col-lg-1">
-                {{ export.output_file.file.size|filesizeformat }}
-            </div>
+                <div class="col-md-1 col-lg-1">
+                    {{ export.output_file.file.size|filesizeformat }}
+                </div>
                 <div class="col-md-3 col-lg-3">
                     <p>
                         {% capture_as subject %}Download {{ export.get_file_format_display }} map data of {{ export.extraction_order.excerpt.name }}{% end_capture_as %}
-                        {% capture_as body %}{% email_body_with_single_result_link export.output_file %}{% end_capture_as %}
+                        {% capture_as body %}{% email_body_with_single_result_link export.output_file available_until %}{% end_capture_as %}
                         <a href="mailto:?subject={% filter urlencode %}{{ subject }}{% endfilter %}&body={% filter urlencode %}{{ body }}{% endfilter %}">
                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                             Send Link as Email

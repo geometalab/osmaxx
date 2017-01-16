@@ -1,0 +1,8 @@
+{% load i18n %}{% blocktrans %}Someone (probably you) has set the email address for OSMaxx account {{ username }} to {{ new_email_address }}. Please click the following link to confirm that this was indeed you:
+{{ token_url }}
+
+If it wasn't you, just ignore this email.
+
+Kind regards,
+The {{ domain }} team
+{% endblocktrans %}

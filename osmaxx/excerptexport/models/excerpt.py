@@ -1,7 +1,8 @@
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.contrib.gis import geos
 from django.contrib.gis.db import models
 from django.core.cache import cache
+from django.db.models import Count
 from django.utils.translation import gettext_lazy as _
 
 from osmaxx.utils.geometry_buffer_helper import with_metric_buffer
@@ -22,8 +23,8 @@ class Excerpt(models.Model):
     name = models.CharField(max_length=128, verbose_name=_('name'))
     is_public = models.BooleanField(default=False, verbose_name=_('is public'))
     is_active = models.BooleanField(default=True, verbose_name=_('is active'))
-    owner = models.ForeignKey(User, related_name='excerpts', verbose_name=_('owner'), null=True)
-    bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'), null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='excerpts', verbose_name=_('owner'), null=True)
+    bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'))
     excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
 
     COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES = 0.001
@@ -84,24 +85,37 @@ class Excerpt(models.Model):
     def extent(self):
         return self.bounding_geometry.extent
 
+    @property
+    def has_running_exports(self):
+        return any(
+            export.is_running
+            for extraction_order in self.extraction_orders.all()
+            for export in extraction_order.exports.all()
+        )
+
+    def attached_export_count(self, user):
+        return self.extraction_orders.filter(orderer=user).aggregate(Count('exports'))['exports__count']
+
     def __str__(self):
         return self.name
-
-
-def _active_user_defined_excerpts():
-    return Excerpt.objects.filter(is_active=True).filter(
-        bounding_geometry__isnull=False,
-        excerpt_type=Excerpt.EXCERPT_TYPE_USER_DEFINED,
-    )
 
 
 def private_user_excerpts(user):
     return _active_user_defined_excerpts().filter(is_public=False, owner=user)
 
 
-def public_user_excerpts(user):
-    return _active_user_defined_excerpts().filter(is_public=True, owner=user)
+def public_excerpts():
+    return _active_user_defined_excerpts().filter(is_public=True)
 
 
-def other_users_public_excerpts(user):
-    return _active_user_defined_excerpts().filter(is_public=True).exclude(owner=user)
+def countries_and_administrative_areas():
+    # We don't care about publicness or ownership with these and always return all (active ones) of them.
+    return _active_excerpts().filter(excerpt_type=Excerpt.EXCERPT_TYPE_COUNTRY_BOUNDARY)
+
+
+def _active_user_defined_excerpts():
+    return _active_excerpts().filter(excerpt_type=Excerpt.EXCERPT_TYPE_USER_DEFINED)
+
+
+def _active_excerpts():
+    return Excerpt.objects.filter(is_active=True)

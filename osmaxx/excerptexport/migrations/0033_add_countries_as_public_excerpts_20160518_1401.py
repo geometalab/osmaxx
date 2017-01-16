@@ -23,26 +23,6 @@ def _extract_country_name_from_polyfile_name(filename):
     return name
 
 
-def merge_countries(apps, schema_editor):  # noqa
-    Excerpt = apps.get_model("excerptexport", "Excerpt")  # noqa
-    countries = Excerpt.objects.filter(country__isnull=False).order_by('name')
-    import itertools
-    for key, group in itertools.groupby(countries, lambda x: x.name):
-        group_list = list(group)
-        if len(group_list) > 1:
-            country_excerpt = group_list[0]
-            for duplicate_country_excerpt in group_list[1:]:
-                for extraction_order in duplicate_country_excerpt.extraction_orders.all():
-                    extraction_order.excerpt = country_excerpt
-                    extraction_order.save()
-                    duplicate_country_excerpt.delete()
-
-
-def unmerge_countries(apps, schema_editor):  # noqa
-    # this is still correct, no need to undo any changes
-    pass
-
-
 def import_countries(apps, schema_editor):  # noqa
     from osmaxx.utils.polyfile_helpers import polyfile_to_geos_geometry
     Excerpt = apps.get_model("excerptexport", "Excerpt")  # noqa
@@ -74,6 +54,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(merge_countries, unmerge_countries),
         migrations.RunPython(import_countries, remove_countries),
     ]

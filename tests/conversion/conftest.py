@@ -6,6 +6,8 @@ import pytest
 from django.conf import settings
 
 import osmaxx.conversion_api.formats
+from osmaxx.conversion.converters import detail_levels
+from osmaxx.conversion_api import coordinate_reference_systems as crs
 from osmaxx.conversion_api.statuses import STARTED, FAILED, FINISHED
 
 format_list = osmaxx.conversion_api.formats.FORMAT_DEFINITIONS.keys()
@@ -31,9 +33,14 @@ def filename_prefix():
     return 'test_prefix_for_this_example'
 
 
-@pytest.fixture()
-def out_srs():
-    return 'EPSG:4326'
+@pytest.fixture(params=detail_levels.DETAIL_LEVEL_CHOICES)
+def detail_level(request):
+    return request.param[0]
+
+
+@pytest.fixture(params=crs.GLOBAL_CRS[:2])
+def out_srs(request):
+    return int(request.param[0])
 
 
 @pytest.fixture
@@ -58,21 +65,17 @@ def simple_osmosis_line_string():
 
 
 @pytest.fixture(params=format_list)
-def conversion_parametrization_data(request, persisted_valid_clipping_area):
+def conversion_parametrization_data(request, persisted_valid_clipping_area, detail_level, out_srs):
     out_format = request.param
-    # TODO: parametrize the srs to test with different srses as well.
-    out_srs = 4326
     clipping_area = persisted_valid_clipping_area.id
-    return {'out_format': out_format, 'out_srs': out_srs, 'clipping_area': clipping_area}
+    return {'out_format': out_format, 'out_srs': out_srs, 'clipping_area': clipping_area, 'detail_level': detail_level}
 
 
 @pytest.fixture(params=format_list)
-def conversion_parametrization(request, persisted_valid_clipping_area):
+def conversion_parametrization(request, persisted_valid_clipping_area, detail_level, out_srs):
     out_format = request.param
-    # TODO: parametrize the srs to test with different srses as well.
-    out_srs = 4326
     from osmaxx.conversion.models import Parametrization
-    return Parametrization.objects.create(out_format=out_format, out_srs=out_srs, clipping_area=persisted_valid_clipping_area)
+    return Parametrization.objects.create(out_format=out_format, detail_level=detail_level, out_srs=out_srs, clipping_area=persisted_valid_clipping_area)
 
 
 @pytest.fixture

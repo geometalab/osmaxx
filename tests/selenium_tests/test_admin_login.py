@@ -12,7 +12,6 @@ def test_admin_login(base_url, selenium):
     submit = selenium.find_element_by_class_name('submit-row')
     username.send_keys("admin")
     password.send_keys("admin")
-    clicked = submit.click()
-    print(clicked)
+    submit.click()
     selenium.get('{0}/admin/'.format(base_url))
     assert selenium.title == "Site administration | Django site admin"

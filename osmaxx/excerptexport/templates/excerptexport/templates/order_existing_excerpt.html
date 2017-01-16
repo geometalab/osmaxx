@@ -3,7 +3,7 @@
 
 {% block breadcrumb %}
     {{ block.super }}
-    <li class="active">{% trans 'New excerpt export' %}</li>
+    <li class="active">{% trans 'Existing excerpt export' %}</li>
 {% endblock %}
 
 {% block main %}
@@ -13,7 +13,7 @@
                 <a href="{% url 'excerptexport:order_new_excerpt' %}">Order a new excerpt</a>
             </p>
 
-            <h2>Export existing excerpt</h2>
+            <h2>Export Existing Excerpt</h2>
             {% crispy form %}
         </div>
         <div class="grid-column column-stretch-5">

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block extra_head %}
-    <title>Osmaxx</title>
+    <title>OSMaxx</title>
     <link rel="icon" type="image/png" href='{% static "osmaxx/images/favicon.png" %}' />
     <style>
         body { font-family: Arial, sans-serif; }
@@ -21,14 +21,16 @@
         <header>
             <div class="topBar">
                 <a href="{% url 'excerptexport:index' %}">
-                    <h1><img class="logo" src='{% static "osmaxx/images/logo-osmaxx-200.png" %}' alt="Osmaxx" /></h1>
+                    <h1>
+                      <img class="logo" src='{% static "osmaxx/images/logo-osmaxx-200.png" %}' alt="OSMaxx" title="OpenStreetMap Arbitrary Excerpt Export" />
+                    </h1>
                 </a>
                 <img class="hsr-logo" src='{% static "osmaxx/images/logo-hsr.jpg" %}' alt="Logo hsr" />
                 {% include 'osmaxx/navigation.html' with view=view user=user %}
             </div>
             <nav class="breadcrumb">
                 <ol class="breadcrumb" data-type="bootstrap">
-                    {% block breadcrumb %}<li><a href="/">Osmaxx</a></li>{% endblock %}
+                    {% block breadcrumb %}<li><a href="/">OSMaxx</a></li>{% endblock %}
                 </ol>
             </nav>
         </header>
@@ -46,7 +48,9 @@
         </div>
 
         <footer>
-            {% include 'osmaxx/footer.html' %}
+            <p class="footer">
+                {% block copyright %}&copy; 2015-2017 HSR Hochschule für Technik Rapperswil{% endblock %}
+            </p>
         </footer>
     </div>
     <script type="text/javascript" src="{% static 'osmaxx/js/custom_event_polyfills.js' %}"></script>
