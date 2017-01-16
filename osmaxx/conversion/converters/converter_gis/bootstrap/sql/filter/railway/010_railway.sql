@@ -41,4 +41,4 @@ INSERT INTO osmaxx.railway_l
     voltage as voltage,
     frequency as frequency
      FROM osm_line
-     WHERE railway not in ('abandon','construction','disused','planned');
+     WHERE railway not in ('abandoned','construction','disused','planned','proposed');

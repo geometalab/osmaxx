@@ -10,7 +10,7 @@ INSERT INTO osmaxx.utility_p
      when "power"='tower' then 'tower'
      when "power"='pole' then 'pole'
      when "power"='generator' then 'station'
-     when "power"='station' or "power"='sub_station'  then 'substation'
+     when "power"='substation' or "power"='station' or "power"='sub_station'  then 'substation'
      when "power"='transformer' then 'transformer'
      else 'power'
     end as aggtype,
@@ -30,7 +30,7 @@ INSERT INTO osmaxx.utility_p
      when "power_source"='photovoltaic' then 'solar'
      when "power_source"='hydro' then 'hydro'
      when "power_source"='wind' then 'wind'
-     when "power"='station' or "power"='sub_station'  then 'substation'
+     when "power"='substation' or "power"='station' or "power"='sub_station'  then 'substation'
      when "power"='transformer' then 'transformer'
      else 'power'
     end as type,
@@ -65,7 +65,7 @@ UNION
      when "power"='tower' then 'tower'
      when "power"='pole' then 'pole'
      when "power"='generator' then 'station'
-     when "power"='station' or "power"='sub_station'  then 'substation'
+     when "power"='substation' or "power"='station' or "power"='sub_station'  then 'substation'
      when "power"='transformer' then 'transformer'
      else 'power'
     end as aggtype,
@@ -85,7 +85,7 @@ UNION
      when "power_source"='photovoltaic' then 'solar'
      when "power_source"='hydro' then 'hydro'
      when "power_source"='wind' then 'wind'
-     when "power"='station' or "power"='sub_station'  then 'substation'
+     when "power"='substation' or "power"='station' or "power"='sub_station'  then 'substation'
      when "power"='transformer' then 'transformer'
      else 'power'
     end as type,

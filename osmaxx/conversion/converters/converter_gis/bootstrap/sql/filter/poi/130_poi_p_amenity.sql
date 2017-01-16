@@ -6,10 +6,11 @@ INSERT INTO osmaxx.poi_p
     osm_timestamp as lastchange,
     'N' AS geomtype,  -- Node
     way AS geom,
--- Combining the different tags in Amenity into different categories --
+    -- Combining the different tags in Amenity into different categories --
     case
      when amenity in('police','fire_station','post_box','post_office','telephone','library','townhall','courthouse','prison','embassy',
-             'community_centre','nursing_home','arts_centre','grave_yard','marketplace','mortuary') then 'public'
+             'community_centre','nursing_home','arts_centre','marketplace','mortuary') then 'public'
+     when amenity = 'grave_yard' then 'burial_ground'
      when amenity='recycling' or "recycling:glass"='yes' or "recycling:paper"='yes' or "recycling:clothes"='yes' or "recycling:scrap_metal"='yes' then 'recycling'
      when amenity in ('university','school','kindergarten','college','public_building') then 'education'
      when amenity in ('pharmacy','hospital','doctors','dentist','veterinary','clinic','social_facility') then 'health'
@@ -87,7 +88,8 @@ UNION
 -- Combining the different tags in Amenity into different categories --
     case
      when amenity in('police','fire_station','post_box','post_office','telephone','library','townhall','courthouse','prison','embassy',
-             'community_centre','nursing_home','arts_centre','grave_yard','marketplace','mortuary') then 'public'
+             'community_centre','nursing_home','arts_centre','marketplace','mortuary') then 'public'
+     when amenity = 'grave_yard' then 'burial_ground'
      when amenity='recycling' or "recycling:glass"='yes' or "recycling:paper"='yes' or "recycling:clothes"='yes' or "recycling:scrap_metal"='yes' then 'recycling'
      when amenity in ('university','school','kindergarten','college','public_building') then 'education'
      when amenity in ('pharmacy','hospital','doctors','dentist','veterinary','clinic','social_facility') then 'health'

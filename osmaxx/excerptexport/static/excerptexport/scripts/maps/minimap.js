@@ -8,6 +8,7 @@
             elem.id,
             "/api/bounding_geometry_from_excerpt/{ID}/"
         );
+        excerpt.disableZoom();
         excerpt.showExcerptOnMap(id);
     });
 })();

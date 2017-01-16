@@ -4,3 +4,4 @@ rq-dashboard/
 /html/
 
 .*
+!.git

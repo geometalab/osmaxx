@@ -3,7 +3,6 @@ from django.contrib.auth.views import login, logout
 from django.views.generic import TemplateView
 
 from osmaxx.excerptexport.views import (
-    download_file,
     access_denied,
     request_access,
     order_new_excerpt,
@@ -15,8 +14,6 @@ from osmaxx.excerptexport.views import (
 excerpt_export_urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="excerptexport/templates/index.html"), name='index'),
     url(r'^access_denied/$', access_denied, name='access_denied'),
-
-    url(r'^downloads/(?P<uuid>[A-Za-z0-9_-]+)/$', download_file, name='download'),
 
     url(r'^exports/$', export_list, name='export_list'),
     url(r'^exports/(?P<id>[A-Za-z0-9_-]+)/$', export_detail, name='export_detail'),

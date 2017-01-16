@@ -1,6 +1,7 @@
 import pytest
 import sqlalchemy
 
+from tests.conftest import TagCombination
 from tests.inside_worker_test.conftest import sql_from_bootstrap_relative_location, slow
 from tests.inside_worker_test.declarative_schema import osm_models
 
@@ -8,27 +9,33 @@ xeno = "大洲南部広域農道"
 xeno_transliterated = 'dà zhōu nán bù guǎng yù nóng dào'
 latin = 'Turicum'
 
+NAME_TAG_COMBINATIONS = tuple(
+    TagCombination(name_tags) for name_tags in
+    [
+        {'name': latin, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': latin},
+        {'name': xeno, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
+        {'name': latin, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': latin},
 
-@pytest.fixture(params=[
-    {'name': latin, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': latin},
-    {'name': xeno, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
-    {'name': latin, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': latin},
-    # correct order of fallbacks
-    {'name': None, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
-    {'name': None, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-fr'},
-    {'name': None, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-es'},
-    {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'expected_label': 'latin-de'},
-    {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': None},
+        # correct order of fallbacks
+        {'name': None, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
+        {'name': None, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-fr'},
+        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-es'},
+        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'expected_label': 'latin-de'},
+        {'name': None, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': None},
 
-    # correct order of fallbacks with transliterate
-    {'name': xeno, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
-    {'name': xeno, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-fr'},
-    {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-es'},
-    {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'expected_label': 'latin-de'},
-    {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': xeno_transliterated},
-])
+        # correct order of fallbacks with transliterate
+        {'name': xeno, 'name:en': 'latin-en', 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-en'},
+        {'name': xeno, 'name:en': None, 'name:fr': 'latin-fr', 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-fr'},
+        {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': 'latin-es', 'name:de': 'latin-de', 'expected_label': 'latin-es'},
+        {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': 'latin-de', 'expected_label': 'latin-de'},
+        {'name': xeno, 'name:en': None, 'name:fr': None, 'name:es': None, 'name:de': None, 'expected_label': xeno_transliterated},
+    ]
+)
+
+
+@pytest.fixture(params=NAME_TAG_COMBINATIONS, ids=[str(tag_combination) for tag_combination in NAME_TAG_COMBINATIONS])
 def label_input(request):
-    return request.param.copy()
+    return dict(request.param)
 
 
 @slow
@@ -300,7 +307,7 @@ def test_label_traffic_calming(osmaxx_schemas, label_input):
 @slow
 def test_label_air_traffic(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
-    address_script_setup = 'sql/filter/misc/000_setup_misc_table.sql'
+    address_script_setup = 'sql/filter/transport/040_setup-drop_and_recreate_table_transport_l.sql'
     engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script_setup)).execution_options(autocommit=True))
 
     expected_label = label_input.pop('expected_label')
@@ -308,11 +315,11 @@ def test_label_air_traffic(osmaxx_schemas, label_input):
 
     engine.execute(osm_models.t_osm_line.insert().values(**label_input).execution_options(autocommit=True))
 
-    address_script = 'sql/filter/misc/040_air_traffic.sql'
+    address_script = 'sql/filter/transport/050_air_traffic.sql'
     result = engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script)).execution_options(autocommit=True))
     assert result.rowcount == 1
 
-    result = engine.execute(sqlalchemy.text("select label from osmaxx.misc_l").execution_options(autocommit=True))
+    result = engine.execute(sqlalchemy.text("select label from osmaxx.transport_l").execution_options(autocommit=True))
     assert result.fetchone()['label'] == expected_label
 
 
@@ -359,6 +366,9 @@ def test_label_nonop(osmaxx_schemas, label_input):
     engine = osmaxx_schemas
     address_script_setup = 'sql/filter/nonop/000_setup-drop_and_recreate_table_nonop.sql'
     engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(address_script_setup)).execution_options(autocommit=True))
+
+    additional_setup = 'sql/filter/nonop/005_lifecycle_view.sql'
+    engine.execute(sqlalchemy.text(sql_from_bootstrap_relative_location(additional_setup)).execution_options(autocommit=True))
 
     expected_label = label_input.pop('expected_label')
     label_input.update({'highway': 'planned'})

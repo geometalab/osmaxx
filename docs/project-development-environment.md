@@ -74,15 +74,10 @@ where `<your_ip>` is your (public) IP as reported by
 ip route get 1 | awk '{print $NF;exit}'
 ```
 
-or add
-
-```txt
-127.0.0.1	osmaxx.dev
+You can generate the complete URL in `sh` with:
+```bash
+echo "http://$(ip route get 1 | awk '{print $NF;exit}'):8888"
 ```
-
-to your `/etc/hosts` file and access by
-
-[http://osmaxx.dev:8888](http://osmaxx.dev:8888)
 
 ## Enable development with debug toolbar enabled
 

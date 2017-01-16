@@ -38,6 +38,7 @@ DJANGO_APPS = (
 
     # Admin
     'django.contrib.admin',
+    'django.contrib.gis',
 )
 THIRD_PARTY_APPS = (
     'social.apps.django_app.default',
@@ -217,7 +218,6 @@ STATICFILES_FINDERS = (
 # data & media
 
 MEDIA_ROOT = env.str('DJANGO_MEDIA_ROOT', default=str(ROOT_DIR('..', 'media')))
-PRIVATE_MEDIA_ROOT = env.str('DJANGO_PRIVATE_MEDIA_ROOT', default=str(ROOT_DIR.path('..', 'private_media')))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
@@ -380,7 +380,7 @@ MESSAGE_TAGS = {
 }
 
 OSMAXX = {
-    'download_file_name': '%(date)s-%(excerpt_name)s-%(id)s.%(content_type)s.%(file_extension)s',
+    'download_file_name': '%(excerpt_name)s-%(date)s.%(content_type)s.%(file_extension)s',
     'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timezone.timedelta(
         hours=env.int('DJANGO_OSMAXX_EXTRACTION_PROCESSING_TIMEOUT_HOURS', default=24)
     ),

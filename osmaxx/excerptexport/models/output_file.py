@@ -15,7 +15,6 @@ def uuid_directory_path(instance, filename):
 
 class OutputFile(models.Model):
     mime_type = models.CharField(max_length=64, verbose_name=_('mime type'))
-    file_extension = models.CharField(max_length=64, verbose_name=_('file extension'), default='')
     file = models.FileField(blank=True, null=True, verbose_name=_('file'), upload_to=uuid_directory_path,
                             max_length=250)
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
@@ -26,7 +25,6 @@ class OutputFile(models.Model):
     @property
     def download_file_name(self):
         return settings.OSMAXX['download_file_name'] % {
-            'id': str(self.public_identifier),
             'name': os.path.basename(self.file.name) if self.file else None,
             'date': self.creation_date.strftime("%F"),
             'excerpt_name': self.export.extraction_order.excerpt_name.replace(" ", ""),
@@ -37,6 +35,13 @@ class OutputFile(models.Model):
     @property
     def content_type(self):
         return self.export.file_format
+
+    @property
+    def file_extension(self):
+        if bool(self.file):
+            _discarded, file_extension = os.path.splitext(self.file)
+            return file_extension
+        return 'zip'
 
     def __str__(self):
         return \
@@ -49,6 +54,8 @@ class OutputFile(models.Model):
             return os.path.basename(self.file.name)
         return ''
 
-    def get_absolute_url(self):
+    def get_file_media_url_or_status_page(self):
+        if self.file:
+            return self.file.url
         from django.core.urlresolvers import reverse
-        return reverse('excerptexport:download', kwargs=dict(uuid=self.public_identifier))
+        return reverse('excerptexport:export_detail', kwargs={'id': self.export.extraction_order.excerpt.id})
