@@ -138,7 +138,6 @@ class Export(TimeStampModelMixin, models.Model):
         of = OutputFile.objects.create(
             export=self,
             mime_type='application/zip',
-            file_extension='zip',
         )
         new_file_name = uuid_directory_path(of, file_path)
         new_file_path = os.path.join(settings.MEDIA_ROOT, new_file_name)
