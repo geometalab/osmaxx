@@ -205,7 +205,7 @@ If you should find yourself in need of changing the email settings, please
 have a look at the django settings for emails: 
 [Django email settings](https://docs.djangoproject.com/en/1.8/ref/settings/#email-backend)
 
-To change them, append `DJANGO_` to the settings name and add it to the environment in the `compose-development.yml`.
+To change them, prepend `DJANGO_` to the settings name and add it to the environment in the `compose-development.yml`.
 
 The following list ist supported:
 
