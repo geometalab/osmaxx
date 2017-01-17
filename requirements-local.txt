@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file requirements-local.txt requirements-local.in
 #
-decorator==4.0.10         # via ipython, traitlets
+decorator==4.0.11         # via ipython, traitlets
 ipython-genutils==0.1.0   # via traitlets
 ipython==5.1.0
 Jinja2==2.9.4
