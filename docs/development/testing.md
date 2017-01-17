@@ -32,16 +32,16 @@ Run the tests (using the makefile, which uses the underlying runtests.py), exclu
 make tests-quick
 ```
 
+If you want to run the slower (mostly sql related tests), it isn't much harder:
+
+```bash
+make tests-all
+```
+
 You can also use the excellent [tox](http://tox.readthedocs.org/en/latest/) testing tool to run the tests against all supported versions of Python and Django. Install tox globally, and then simply run:
 
 ```bash
 make tox
-```
-
-Both runtest-quick and tox only run the fast test-suit, if you want to run the slower (mostly sql related tests), it isn't much harder:
-
-```bash
-make tests-all
 ```
 
 ### Pass arguments to underlying test runner
