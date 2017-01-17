@@ -38,7 +38,6 @@ def downloads(exports, db):
     return [
         OutputFile.objects.create(
             deleted_on_filesystem=False,
-            content_type=export.file_format,
             public_identifier=UUID(int=0x0),  # Nil UUID, see http://tools.ietf.org/html/rfc4122#section-4.1.7
             export=export,
         ) for export in exports
