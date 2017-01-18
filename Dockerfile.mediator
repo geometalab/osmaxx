@@ -1,5 +1,5 @@
 # this gdal image comes with support for FileGDB and has python3.4 already installed
-FROM geometalab/gdal-debian
+FROM geometalab/gdal-debian:latest
 
 USER root
 
@@ -14,8 +14,8 @@ RUN apt-get clean && DEBIAN_FRONTEND=noninteractive apt-get update && \
     gfortran
 
 # Install required Python packages:
-ENV HOME /home/py
-
+ENV USER py
+ENV HOME /home/$USER
 WORKDIR $HOME
 
 RUN pip3 install honcho
