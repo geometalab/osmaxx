@@ -1,7 +1,10 @@
-FROM geometalab/python3-gis
+FROM geometalab/gdal-debian
+
+USER root
 
 RUN apt-get clean && DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    git
+    git \
+    libpq-dev
 
 ENV USER py
 
