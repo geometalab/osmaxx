@@ -1,3 +1,4 @@
+# this gdal image comes with support for FileGDB and has python3.4 already installed
 FROM geometalab/gdal-debian
 
 USER root
@@ -9,7 +10,6 @@ RUN apt-get clean && DEBIAN_FRONTEND=noninteractive apt-get update && \
 \
     libgeos-dev \
     libgeos++-dev \
-    python3-pip \
     liblapack-dev \
     gfortran
 

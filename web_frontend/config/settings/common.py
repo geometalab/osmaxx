@@ -41,7 +41,7 @@ DJANGO_APPS = (
     'django.contrib.gis',
 )
 THIRD_PARTY_APPS = (
-    'social.apps.django_app.default',
+    'social_django',
     # messages for users
     'stored_messages',
     # better forms
@@ -179,9 +179,9 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-                'social.apps.django_app.context_processors.backends',
-                'social.apps.django_app.context_processors.login_redirect',
-                'django.core.context_processors.request',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+                'django.template.context_processors.request',
                 'osmaxx.excerptexport.context_processors.message_adapter_context_processor'
             ],
             'loaders': [
@@ -231,8 +231,8 @@ ROOT_URLCONF = 'web_frontend.config.urls'
 WSGI_APPLICATION = 'web_frontend.config.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
-    'social.backends.open_id.OpenIdAuth',
-    'social.backends.openstreetmap.OpenStreetMapOAuth',
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.openstreetmap.OpenStreetMapOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -244,44 +244,44 @@ SOCIAL_AUTH_PIPELINE = (
     # format to create the user instance later. On some cases the details are
     # already part of the auth response from the provider, but sometimes this
     # could hit a provider API.
-    'social.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_details',
 
     # Get the social uid from whichever service we're authing thru. The uid is
     # the unique identifier of the given user in the provider.
-    'social.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.social_uid',
 
     # Verifies that the current auth process is valid within the current
     # project, this is were emails and domains whitelists are applied (if
     # defined).
-    'social.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.auth_allowed',
 
     # Checks if the current social-account is already associated in the site.
-    'social.pipeline.social_auth.social_user',
+    'social_core.pipeline.social_auth.social_user',
 
     # Make up a username for this person, appends a random string at the end if
     # there's any collision.
-    'social.pipeline.user.get_username',
+    'social_core.pipeline.user.get_username',
 
     # Send a validation email to the user to verify its email address.
     # Disabled by default.
-    'social.pipeline.mail.mail_validation',
+    'social_core.pipeline.mail.mail_validation',
 
     # Associates the current social details with another user account with
     # a similar email address. Disabled by default.
-    'social.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.social_auth.associate_by_email',
 
     # Create a user account if we haven't found one yet.
-    'social.pipeline.user.create_user',
+    'social_core.pipeline.user.create_user',
 
     # Create the record that associated the social account with this user.
-    'social.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.associate_user',
 
     # Populate the extra_data field in the social record with the values
     # specified by settings (and the default ones like access_token, etc).
-    'social.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.social_auth.load_extra_data',
 
     # Update the user record with any changed info from the auth service.
-    'social.pipeline.user.user_details'
+    'social_core.pipeline.user.user_details'
 )
 
 

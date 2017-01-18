@@ -5,7 +5,7 @@ requests
 markdown
 django-filter
 rq
-django-rq==0.9.2
+django-rq
 django-environ
 django-extensions
 django-model-utils
@@ -53,7 +53,7 @@ pyhamcrest
 vcrpy
 requests-mock
 
-python-social-auth
+python-social-auth[django]
 
 # WSGI Handler
 # needed for production and docker images
