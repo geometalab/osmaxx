@@ -17,7 +17,7 @@ django-environ==0.4.1
 django-extensions==1.7.5
 django-filter==1.0.1
 django-model-utils==2.6.1
-django-rq==0.9.2
+django-rq==0.9.4
 django-secure==1.0.1
 django-stored-messages==1.4.0
 Django==1.10.5            # via django-debug-toolbar, django-downloadview, django-environ, django-model-utils, django-rq, django-secure, django-stored-messages, geometalab.drf-utm-zone-info, geometalab.osm-pbf-file-size-estimation-service
