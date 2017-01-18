@@ -1,4 +1,3 @@
 # just a meta file to contract all requirements in one file
 -r requirements.in
--r requirements-mediator.in
 -r requirements-local.in

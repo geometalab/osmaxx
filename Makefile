@@ -43,7 +43,7 @@ compose-env/frontend.env: compose-env-dist/frontend.env
 	    < $< \
 	    > $@
 
-PIP_TOOLS_SOURCE_SPEC_FILES := requirements.in requirements-all.in requirements-base.in requirements-local.in requirements-mediator.in
+PIP_TOOLS_SOURCE_SPEC_FILES := requirements.in requirements-all.in
 PIP_TOOLS_COMPILED_SPEC_FILES := $(PIP_TOOLS_SOURCE_SPEC_FILES:.in=.txt)
 
 .PHONY: pip-upgrade
