@@ -7,7 +7,7 @@
 astroid==1.4.9            # via pylint, pylint-celery, pylint-flask, pylint-plugin-utils, requirements-detector
 click==6.7                # via mkdocs, rq
 contextlib2==0.5.4        # via raven
-coverage==4.3.3
+coverage==4.3.4
 decorator==4.0.11         # via ipython, traitlets
 defusedxml==0.4.1         # via python3-openid
 django-crispy-forms==1.6.1
@@ -75,25 +75,26 @@ pytest-mock==1.5.0
 pytest-selenium==1.7.0
 pytest-variables==1.4     # via pytest-selenium
 pytest==3.0.5             # via pytest-base-url, pytest-cov, pytest-django, pytest-html, pytest-mock, pytest-selenium, pytest-variables
-python-social-auth==0.3.3
+python-social-auth[django]==0.3.3
 python3-openid==3.0.10    # via social-auth-core
 PyYAML==3.12              # via mkdocs, prospector, vcrpy
 raven==5.32.0
 redis==2.10.5             # via rq
 requests-mock==1.2.0
 requests-oauthlib==0.7.0  # via social-auth-core
-requests==2.12.4
+requests==2.12.5
 requirements-detector==0.5.2  # via prospector
 rq==0.7.1
 scandir==1.4
 selenium==3.0.2           # via pytest-selenium
 setoptconf==0.2.0         # via prospector
 simplegeneric==0.8.1      # via ipython
-six==1.10.0               # via astroid, django-downloadview, django-environ, django-extensions, livereload, prompt-toolkit, pyhamcrest, pylint, requests-mock, social-auth-core, sqlalchemy-utils, traitlets, vcrpy
-social-auth-core==0.2.1   # via python-social-auth
+six==1.10.0               # via astroid, django-downloadview, django-environ, django-extensions, livereload, prompt-toolkit, pyhamcrest, pylint, requests-mock, social-auth-app-django, social-auth-core, sqlalchemy-utils, traitlets, vcrpy
+social-auth-app-django==0.1.0  # via python-social-auth
+social-auth-core==0.2.1   # via python-social-auth, social-auth-app-django
 SQLAlchemy-Utils==0.32.12
 sqlalchemy-views==0.2.1
-SQLAlchemy==1.1.4         # via geoalchemy2, sqlalchemy-utils, sqlalchemy-views
+SQLAlchemy==1.1.5         # via geoalchemy2, sqlalchemy-utils, sqlalchemy-views
 sqlparse==0.2.2           # via django-debug-toolbar
 tornado==4.4.2            # via livereload, mkdocs
 traitlets==4.3.1          # via ipython
@@ -106,5 +107,6 @@ whitenoise==3.2.3
 wrapt==1.10.8             # via astroid, vcrpy
 yarl==0.8.1               # via vcrpy
 
-# The following packages are considered to be unsafe in a requirements file:
+# The following packages are commented out because they are
+# considered to be unsafe in a requirements file:
 # setuptools                # via django-downloadview, ipython, pyhamcrest, pyroma

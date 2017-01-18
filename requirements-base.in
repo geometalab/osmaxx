@@ -53,7 +53,7 @@ pyhamcrest
 vcrpy
 requests-mock
 
-python-social-auth
+python-social-auth[django]
 
 # WSGI Handler
 # needed for production and docker images
