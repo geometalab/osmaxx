@@ -1,5 +1,5 @@
-# this gdal image comes with support for FileGDB
-FROM geometalab/gdal-debian:2.1.0
+# this gdal image comes with support for FileGDB and has python3.4 already installed
+FROM geometalab/gdal-debian:latest
 
 USER root
 
@@ -93,11 +93,7 @@ RUN apt-get clean && apt-get update && \
     binutils \
     libgeoip1 \
 \
-    python-pip \
-    python3-pip \
-    ipython \
     libicu-dev \
-    ipython3 \
     debhelper \
 \
     default-jre \

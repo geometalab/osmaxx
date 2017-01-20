@@ -1,5 +1,4 @@
 from django import template
-from django.template.context import RequestContext
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
@@ -15,7 +14,7 @@ def email_body_with_single_result_link(context, output_file, available_until):
     return mark_safe(render_to_string(
         'excerptexport/email/download_single_result_body.txt',
         context=view_context,
-        context_instance=RequestContext(context.request),
+        request=context.request,
     ).strip())
 
 
