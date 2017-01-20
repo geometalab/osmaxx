@@ -1,4 +1,5 @@
-FROM geometalab/gdal-debian
+# this gdal image comes with support for FileGDB and has python3.4 already installed
+FROM geometalab/gdal-debian:latest
 
 USER root
 
@@ -9,19 +10,16 @@ RUN apt-get clean && DEBIAN_FRONTEND=noninteractive apt-get update && \
 \
     libgeos-dev \
     libgeos++-dev \
-    python3-pip \
     liblapack-dev \
     gfortran
 
 # Install required Python packages:
-ENV HOME /home/py
-
+ENV USER py
+ENV HOME /home/$USER
 WORKDIR $HOME
 
 RUN pip3 install honcho
-ADD ./requirements-mediator.txt $HOME/
 ADD ./requirements.txt $HOME/
-RUN pip3 install -r requirements-mediator.txt
 RUN pip3 install -r requirements.txt
 
 # TODO: this is just a temporary solution, use pip for production as soon as geometalab.osmaxx is published there
