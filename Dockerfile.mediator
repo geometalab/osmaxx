@@ -19,9 +19,7 @@ ENV HOME /home/$USER
 WORKDIR $HOME
 
 RUN pip3 install honcho
-ADD ./requirements-mediator.txt $HOME/
 ADD ./requirements.txt $HOME/
-RUN pip3 install -r requirements-mediator.txt
 RUN pip3 install -r requirements.txt
 
 # TODO: this is just a temporary solution, use pip for production as soon as geometalab.osmaxx is published there

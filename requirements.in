@@ -1,3 +1,77 @@
 # Minimum Django and REST framework version
--r requirements-django.in
--r requirements-base.in
+Django>=1.10,<1.11
+djangorestframework>=3.4,<3.5
+djangorestframework-gis>=0.10,<0.11
+drf-extensions>=0.3.1,<0.4
+
+# pbf estimation service
+geometalab.osm-pbf-file-size-estimation-service>=1.0.0,<2.0.0
+geometalab.drf-utm-zone-info>=0.1.0,<1.0.0
+
+djangorestframework-jwt==1.7.2
+requests
+markdown
+django-filter
+rq
+django-rq
+django-environ
+django-extensions
+django-model-utils
+django-secure
+django-stored-messages
+django-crispy-forms
+Werkzeug
+django-debug-toolbar
+whitenoise
+django-downloadview
+psycopg2
+SQLAlchemy
+SQLAlchemy-Utils
+sqlalchemy-views
+GeoAlchemy2
+# fallback for python < 3.5
+scandir
+
+# Test requirements
+pytest-django
+pytest-cov
+pytest-mock
+pytest-selenium
+flake8
+
+# wheel for PyPI installs
+wheel
+
+# MkDocs for documentation previews/deploys
+mkdocs
+
+# Extended linting support (Prospector)
+prospector
+pyroma
+vulture
+
+# Testing
+coverage
+pyhamcrest
+vcrpy
+requests-mock
+
+python-social-auth[django]
+
+# WSGI Handler
+# needed for production and docker images
+# ------------------------------------------------
+gevent
+PyYAML
+
+# production
+gunicorn
+
+# sentry error logging on production
+raven
+
+ipython
+
+# for regression calculations in mediator
+scipy
+numpy  # NumPy is needed by the part of SciPy we use, but SciPy doesn't declare that dependency.
