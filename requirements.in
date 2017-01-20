@@ -8,7 +8,7 @@ drf-extensions>=0.3.1,<0.4
 geometalab.osm-pbf-file-size-estimation-service>=1.0.0,<2.0.0
 geometalab.drf-utm-zone-info>=0.1.0,<1.0.0
 
-djangorestframework-jwt==1.7.2
+djangorestframework-jwt
 requests
 markdown
 django-filter
