@@ -18,8 +18,10 @@ class ExtractionOrder(models.Model):
         verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL
     )
     process_id = models.TextField(blank=True, null=True, verbose_name=_('process link'))
-    orderer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='extraction_orders', verbose_name=_('orderer'))
-    excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True)
+    orderer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='extraction_orders', verbose_name=_('orderer'),
+                                on_delete=models.CASCADE)
+    excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True,
+                                on_delete=models.CASCADE)
     progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
 
     def forward_to_conversion_service(self, *, incoming_request):
