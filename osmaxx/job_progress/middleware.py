@@ -43,7 +43,7 @@ def handle_unsent_exports(user):
 
 def update_exports_of_request_user(request):
     current_user = request.user
-    if current_user.is_anonymous():
+    if current_user.is_anonymous:
         return
 
     handle_unsent_exports(user=current_user)

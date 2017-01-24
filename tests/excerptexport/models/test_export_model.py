@@ -38,10 +38,10 @@ def test_created_export_has_correct_time_stamp(extraction_order):
 
 
 @pytest.mark.django_db
-def test_saved_again_export_has_correct_time_stamp(mock, export):
+def test_saved_again_export_has_correct_time_stamp(mocker, export):
     updated_at = timezone.now() + timezone.timedelta(days=1)
     created_at = export.created_at
-    mock.patch('django.utils.timezone.now', return_value=updated_at)
+    mocker.patch('django.utils.timezone.now', return_value=updated_at)
     export.save()
     assert export.updated_at is not None
     assert export.created_at is not None

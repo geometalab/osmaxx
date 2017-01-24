@@ -10,7 +10,7 @@ class Profile(models.Model):
     REGISTRATION_VERIFICATION_TIMEOUT_DAYS = 2
     PROFILE_SALT = 'profile'
 
-    associated_user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=_('user'))
+    associated_user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=_('user'), on_delete=models.CASCADE)
     unverified_email = models.EmailField(verbose_name=_('unverified email'), max_length=200, null=True)
 
     def has_validated_email(self):

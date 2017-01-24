@@ -93,7 +93,7 @@ class AuthenticatedAndAccessPermission(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        return request.user.is_authenticated() and _may_user_access_osmaxx_frontend(request.user)
+        return request.user.is_authenticated and _may_user_access_osmaxx_frontend(request.user)
 
 
 class HasBBoxAccessPermission(permissions.BasePermission):
