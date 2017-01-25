@@ -8,7 +8,7 @@ def create_files(*files):
             pass
 
 
-def test_get_polyfile_names_to_file_mapping_returns_correct_mapping(mock):
+def test_get_polyfile_names_to_file_mapping_returns_correct_mapping(mocker):
     with tempfile.TemporaryDirectory() as tmp_dir:
         tmp_dir_path = os.path.abspath(tmp_dir)
 
@@ -28,6 +28,6 @@ def test_get_polyfile_names_to_file_mapping_returns_correct_mapping(mock):
             'foreverland with spaces': foreverland_poly
         }
         import osmaxx.excerptexport._settings
-        mock.patch.object(osmaxx.excerptexport._settings, 'POLYFILE_LOCATION', new=tmp_dir_path)
+        mocker.patch.object(osmaxx.excerptexport._settings, 'POLYFILE_LOCATION', new=tmp_dir_path)
         from osmaxx.utils.polyfile_helpers import get_polyfile_names_to_file_mapping
         assert expected == get_polyfile_names_to_file_mapping()

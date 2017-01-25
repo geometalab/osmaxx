@@ -18,7 +18,8 @@ from django.views.generic.list import ListView
 
 from osmaxx.contrib.auth.frontend_permissions import (
     LoginRequiredMixin,
-    FrontendAccessRequiredMixin
+    FrontendAccessRequiredMixin,
+    EmailRequiredMixin,
 )
 from osmaxx.conversion_api import statuses
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
@@ -50,13 +51,17 @@ class OrderFormViewMixin(FormMixin):
         )
 
 
-class OrderNewExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, OrderFormViewMixin, FormView):
+class AccessRestrictedBaseView(LoginRequiredMixin, FrontendAccessRequiredMixin, EmailRequiredMixin):
+    pass
+
+
+class OrderNewExcerptView(AccessRestrictedBaseView, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_new_excerpt.html'
     form_class = ExcerptForm
 order_new_excerpt = OrderNewExcerptView.as_view()
 
 
-class OrderExistingExcerptView(LoginRequiredMixin, FrontendAccessRequiredMixin, OrderFormViewMixin, FormView):
+class OrderExistingExcerptView(AccessRestrictedBaseView, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_existing_excerpt.html'
     form_class = ExistingForm
 
@@ -112,7 +117,7 @@ class ExportsListMixin:
         )
 
 
-class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsListMixin, ListView):
+class ExportsListView(AccessRestrictedBaseView, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_list.html'
     context_object_name = 'excerpts'
     model = Excerpt
@@ -140,7 +145,7 @@ class ExportsListView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsLi
 export_list = ExportsListView.as_view()
 
 
-class ExportsDetailView(LoginRequiredMixin, FrontendAccessRequiredMixin, ExportsListMixin, ListView):
+class ExportsDetailView(AccessRestrictedBaseView, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_detail.html'
     context_object_name = 'exports'
     model = Export

@@ -36,18 +36,18 @@ class Migration(migrations.Migration):
             name='MessageArchive',
             fields=[
                 ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
-                ('message', models.ForeignKey(to='stored_messages.Message')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('message', models.ForeignKey(to='stored_messages.Message', on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
         ),
         migrations.AddField(
             model_name='inbox',
             name='message',
-            field=models.ForeignKey(to='stored_messages.Message'),
+            field=models.ForeignKey(to='stored_messages.Message', on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='inbox',
             name='user',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
         ),
     ]

@@ -23,7 +23,8 @@ class Excerpt(models.Model):
     name = models.CharField(max_length=128, verbose_name=_('name'))
     is_public = models.BooleanField(default=False, verbose_name=_('is public'))
     is_active = models.BooleanField(default=True, verbose_name=_('is active'))
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='excerpts', verbose_name=_('owner'), null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='excerpts', verbose_name=_('owner'), null=True,
+                              on_delete=models.CASCADE)
     bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'))
     excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
 

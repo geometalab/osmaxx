@@ -47,7 +47,7 @@ class Export(TimeStampModelMixin, models.Model):
     STATUS_CHOICES = (INITIAL_CHOICE,) + STATUS_CHOICES
 
     extraction_order = models.ForeignKey('excerptexport.ExtractionOrder', related_name='exports',
-                                         verbose_name=_('extraction order'))
+                                         verbose_name=_('extraction order'), on_delete=models.CASCADE)
     file_format = models.CharField(choices=FORMAT_CHOICES, verbose_name=_('file format / data format'), max_length=10)
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
     status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
@@ -138,7 +138,6 @@ class Export(TimeStampModelMixin, models.Model):
         of = OutputFile.objects.create(
             export=self,
             mime_type='application/zip',
-            file_extension='zip',
         )
         new_file_name = uuid_directory_path(of, file_path)
         new_file_path = os.path.join(settings.MEDIA_ROOT, new_file_name)

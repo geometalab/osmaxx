@@ -9,6 +9,7 @@ from .models import Job, Parametrization
 class ParametrizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parametrization
+        fields = '__all__'
 
 
 class JobSerializer(serializers.ModelSerializer):

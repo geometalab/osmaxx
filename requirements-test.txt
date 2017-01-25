@@ -1,3 +1,0 @@
-# no explicit dependency on django, since it is being varied per test environment.
--r requirements-base.txt
--r requirements-mediator.txt

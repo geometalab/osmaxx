@@ -1,12 +1,15 @@
-FROM geometalab/python3-gis
+# this gdal image comes with support for FileGDB and has python3.4 already installed
+FROM geometalab/gdal-debian:latest
+
+USER root
 
 RUN apt-get clean && DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    git
+    git \
+    libpq-dev
 
+# Install required Python packages:
 ENV USER py
-
 ENV HOME /home/$USER
-
 WORKDIR $HOME
 
 RUN pip3 install honcho

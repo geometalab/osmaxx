@@ -68,6 +68,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         When logged in, we get the excerpt choice form.
         """
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_new_excerpt'))
         self.assertEqual(response.status_code, 200)
@@ -76,6 +77,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
     @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_existing_own_excerpt.yml')
     def test_new_offers_existing_own_excerpt(self):
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
         self.assertIn(
@@ -87,6 +89,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
     @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_existing_public_foreign_excerpt.yml')
     def test_new_offers_existing_public_foreign_excerpt(self):
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
 
@@ -99,6 +102,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
     @vcr.use_cassette('fixtures/vcr/views-test_new_doesnt_offer_existing_private_foreign_excerpt.yml')
     def test_new_doesnt_offer_existing_private_foreign_excerpt(self):
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
         self.assertNotContains(response, self.existing_private_foreign_excerpt.name)
@@ -116,6 +120,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         When logged in, POSTing an export request with a new excerpt is successful.
         """
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.post(
             reverse('excerptexport:order_new_excerpt'),
@@ -134,6 +139,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         When logged in, POSTing an export request with a new excerpt is successful.
         """
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         self.new_excerpt_post_data['is_public'] = True
         response = self.client.post(
@@ -157,6 +163,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         When logged in, POSTing an export request using an existing excerpt is successful.
         """
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.post(
             reverse('excerptexport:order_existing_excerpt'),
@@ -174,6 +181,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         When logged in, POSTing an export request with a new excerpt persists a new ExtractionOrder.
         """
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
         self.client.post(reverse('excerptexport:order_new_excerpt'),
@@ -193,6 +201,7 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         When logged in, POSTing an export request using an existing excerpt persists a new ExtractionOrder.
         """
         self.add_permissions_to_user()
+        self.add_valid_email()
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
         self.client.post(

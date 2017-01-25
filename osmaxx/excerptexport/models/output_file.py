@@ -20,7 +20,8 @@ class OutputFile(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
     deleted_on_filesystem = models.BooleanField(default=False, verbose_name=_('deleted on filesystem'))
     public_identifier = models.UUIDField(primary_key=False, default=uuid.uuid4, verbose_name=_('public identifier'))
-    export = models.OneToOneField(Export, related_name='output_file', verbose_name=_('export'))
+    export = models.OneToOneField(Export, related_name='output_file', verbose_name=_('export'),
+                                  on_delete=models.CASCADE)
     file_removal_at = models.DateTimeField(_('file removal date'), default=None, blank=True, editable=False, null=True)
 
     def __str__(self):

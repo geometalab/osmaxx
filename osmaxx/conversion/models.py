@@ -25,7 +25,7 @@ class Parametrization(models.Model):
         verbose_name=_("output SRS"), help_text=_("EPSG code of the output spatial reference system"),
         null=True, blank=True, default=4326, choices=CRS_CHOICES
     )
-    clipping_area = models.ForeignKey(ClippingArea, verbose_name=_('Clipping Area'))
+    clipping_area = models.ForeignKey(ClippingArea, verbose_name=_('Clipping Area'), on_delete=models.CASCADE)
     detail_level = models.IntegerField(verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL)
 
     def __str__(self):
@@ -38,7 +38,7 @@ class Parametrization(models.Model):
 
 class Job(models.Model):
     callback_url = models.URLField(_('callback url'), max_length=250)
-    parametrization = models.ForeignKey(verbose_name=_('parametrization'), to=Parametrization)
+    parametrization = models.ForeignKey(verbose_name=_('parametrization'), to=Parametrization, on_delete=models.CASCADE)
     rq_job_id = models.CharField(_('rq job id'), max_length=250, null=True)
     status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=RECEIVED, max_length=20)
     resulting_file = models.FileField(_('resulting file'), upload_to=job_directory_path, null=True, max_length=250)

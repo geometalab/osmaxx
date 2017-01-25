@@ -59,11 +59,19 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
     def get(self, *args, **kwargs):
         profile = self.get_object()
         user = self.request.user
+
         if not (user.email or user.profile.unverified_email):
             messages.add_message(
                 self.request,
                 messages.WARNING,
                 _('You have not set an email address. You must set a valid email address to use OSMaxx.')
+            )
+        if not profile.has_validated_email():
+            messages.add_message(
+                self.request,
+                messages.WARNING,
+                _('Your email has not been validated. Please check your inbox and validate your email address'
+                  ' or resend the verification email.')
             )
         if self.is_new_user():
             self._move_email_from_user_to_profile(user, profile)
@@ -83,7 +91,7 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
         response = super().post(*args, **kwargs)
         if isinstance(response, HttpResponseRedirect):  # successful form validation
             profile = Profile.objects.get(associated_user=self.request.user)
-            if profile.associated_user.email != profile.unverified_email:
+            if not profile.has_validated_email():
                 self._send_email_verification(profile=profile)
         return response
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-05 11:21+0100\n"
+"POT-Creation-Date: 2017-01-25 14:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -827,7 +827,7 @@ msgstr ""
 msgid "owner"
 msgstr ""
 
-#: osmaxx/excerptexport/models/excerpt.py:27
+#: osmaxx/excerptexport/models/excerpt.py:28
 msgid "bounding geometry"
 msgstr ""
 
@@ -875,11 +875,11 @@ msgstr ""
 msgid "orderer"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:22
+#: osmaxx/excerptexport/models/extraction_order.py:23
 msgid "excerpt"
 msgstr ""
 
-#: osmaxx/excerptexport/models/extraction_order.py:23
+#: osmaxx/excerptexport/models/extraction_order.py:25
 msgid "progress URL"
 msgstr ""
 
@@ -907,7 +907,7 @@ msgstr ""
 msgid "export"
 msgstr ""
 
-#: osmaxx/excerptexport/models/output_file.py:24
+#: osmaxx/excerptexport/models/output_file.py:25
 msgid "file removal date"
 msgstr ""
 
@@ -1072,22 +1072,22 @@ msgstr ""
 msgid "New excerpt export"
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:44
+#: osmaxx/excerptexport/views.py:45
 #, python-brace-format
 msgid "Queued extraction order {id}. The conversion process will start soon."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:184 osmaxx/excerptexport/views.py:215
+#: osmaxx/excerptexport/views.py:189 osmaxx/excerptexport/views.py:220
 msgid "Sending of access request failed. Please contact an administrator."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:208
+#: osmaxx/excerptexport/views.py:213
 msgid ""
 "Your access request has been sent successfully. You will receive an email "
 "when your account is ready."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:267
+#: osmaxx/excerptexport/views.py:272
 msgid ""
 "Exports are currently running for this excerpt. Please try deleting again, "
 "when these are finished."
@@ -1136,23 +1136,29 @@ msgstr ""
 msgid "To activate your email, click the link in the confirmation email."
 msgstr ""
 
-#: osmaxx/profile/views.py:66
+#: osmaxx/profile/views.py:67
 msgid ""
 "You have not set an email address. You must set a valid email address to use "
 "OSMaxx."
 msgstr ""
 
-#: osmaxx/profile/views.py:107
+#: osmaxx/profile/views.py:73
+msgid ""
+"Your email has not been validated. Please check your inbox and validate your "
+"email address or resend the verification email."
+msgstr ""
+
+#: osmaxx/profile/views.py:115
 msgid "Profile successfully updated"
 msgstr ""
 
-#: osmaxx/profile/views.py:112
+#: osmaxx/profile/views.py:120
 msgid ""
 "Verification token too old or invalid. Please resend the confirmation email "
 "and try again."
 msgstr ""
 
-#: osmaxx/profile/views.py:123
+#: osmaxx/profile/views.py:131
 msgid "Successfully verified your email address."
 msgstr ""
 
