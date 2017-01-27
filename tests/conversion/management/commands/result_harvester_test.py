@@ -77,13 +77,13 @@ def test_add_meta_data_to_job_with_out_of_bounds_exception():
 
 
 def multiple_queue_test_parameters():
-    queue = Mock()
-    none_queue = Mock()
-    none_queue.fetch_job.return_value = None
+    queue_with_all_jobs = Mock()
+    queue_with_no_jobs = Mock()
+    queue_with_no_jobs.fetch_job.return_value = None
     return [
-        ([queue, none_queue], queue.fetch_job.return_value),
-        ([none_queue, queue], queue.fetch_job.return_value),
-        ([none_queue, none_queue], None),
+        ([queue_with_all_jobs, queue_with_no_jobs], queue_with_all_jobs.fetch_job.return_value),
+        ([queue_with_no_jobs, queue_with_all_jobs], queue_with_all_jobs.fetch_job.return_value),
+        ([queue_with_no_jobs, queue_with_no_jobs], None),
     ]
 
 
