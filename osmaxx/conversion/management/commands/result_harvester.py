@@ -137,9 +137,6 @@ def remove_if_final(job):
 
 
 def cleanup_old_jobs():
-    for job in django_rq.get_failed_queue():
-        remove_if_final(job)
-
-    for queue_name in settings.RQ_QUEUE_NAMES:
+    for queue_name in [django_rq.get_failed_queue()] + settings.RQ_QUEUE_NAMES:
         for job in django_rq.get_queue(name=queue_name):
             remove_if_final(job)
