@@ -37,7 +37,7 @@ class Command(BaseCommand):
                 conversion_job = conversion_models.Job.objects.get(rq_job_id=rq_job_id)
             except ObjectDoesNotExist as e:
                 logger.exception(e)
-                return
+                continue
             self._set_failed_unless_final(conversion_job, rq_job_id=rq_job_id)
             self._notify(conversion_job)
 
