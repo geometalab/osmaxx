@@ -252,7 +252,9 @@ REDIS_CONNECTION = dict(
     DEFAULT_TIMEOUT=int(timedelta(days=2).total_seconds())
 )
 RQ_QUEUE_NAMES = ['default', 'high']
-RQ_QUEUES = {name: REDIS_CONNECTION for name in RQ_QUEUE_NAMES}
+RQ_QUEUES = {
+    name: REDIS_CONNECTION for name in RQ_QUEUE_NAMES + ['failed']
+}
 
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
