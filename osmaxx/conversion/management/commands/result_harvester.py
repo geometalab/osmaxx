@@ -27,12 +27,19 @@ class Command(BaseCommand):
             self._handle_running_jobs()
             logger.info('handling failed jobs')
             self._handle_failed_jobs()
+            cleanup_old_jobs()
             time.sleep(CONVERSION_SETTINGS['result_harvest_interval_seconds'])
 
     def _handle_failed_jobs(self):
         failed_queue = django_rq.get_failed_queue()
-        for job_id in failed_queue.job_ids:
-            self._update_job(rq_job_id=job_id)
+        for rq_job_id in failed_queue.job_ids:
+            try:
+                conversion_job = conversion_models.Job.objects.get(rq_job_id=rq_job_id)
+            except ObjectDoesNotExist as e:
+                logger.exception(e)
+                return
+            self._set_failed_unless_final(conversion_job, rq_job_id=rq_job_id)
+            self._notify(conversion_job)
 
     def _handle_running_jobs(self):
         active_jobs = conversion_models.Job.objects.exclude(status__in=FINAL_STATUSES)\
@@ -54,13 +61,8 @@ class Command(BaseCommand):
             return
 
         if job is None:  # already processed by someone else
-            conversion_job.refresh_from_db()
-            if conversion_job.status not in FINAL_STATUSES:
-                logger.error("job {} of conversion job {} not found in queue but status is {} on database.".format(
-                    rq_job_id, conversion_job.id, conversion_job.status
-                ))
-                conversion_job.status = FAILED
-                conversion_job.save()
+            self._set_failed_unless_final(conversion_job, rq_job_id=rq_job_id)
+            self._notify(conversion_job)
             return
 
         logger.info('updating job %d', rq_job_id)
@@ -70,8 +72,15 @@ class Command(BaseCommand):
             add_meta_data_to_job(conversion_job=conversion_job, rq_job=job)
         conversion_job.save()
         self._notify(conversion_job)
-        if job.status in FINAL_STATUSES:
-            job.delete()
+
+    def _set_failed_unless_final(self, conversion_job, rq_job_id):
+        conversion_job.refresh_from_db()
+        if conversion_job.status not in FINAL_STATUSES:
+            logger.error("job {} of conversion job {} not found in queue but status is {} on database.".format(
+                rq_job_id, conversion_job.id, conversion_job.status
+            ))
+            conversion_job.status = FAILED
+            conversion_job.save()
 
     def _notify(self, conversion_job):
         data = {'status': conversion_job.status, 'job': conversion_job.get_absolute_url()}
@@ -120,3 +129,17 @@ def fetch_job(rq_job_id, from_queues):
         if rq_job is not None:
             return rq_job
     return None
+
+
+def remove_if_final(job):
+    if job.status in FINAL_STATUSES:
+        job.delete()
+
+
+def cleanup_old_jobs():
+    for job in django_rq.get_failed_queue():
+        remove_if_final(job)
+
+    for queue_name in settings.RQ_QUEUE_NAMES:
+        for job in django_rq.get_queue(name=queue_name):
+            remove_if_final(job)

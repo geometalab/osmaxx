@@ -18,14 +18,18 @@ def queue(fake_rq_id):
     return queue
 
 
-def test_handle_failed_jobs_calls_update_job(mocker, fake_rq_id, queue):
+def test_handle_failed_jobs_calls_set_failed_unless_final(mocker, fake_rq_id, queue):
     from osmaxx.conversion.management.commands import result_harvester
+    from osmaxx.conversion.models import Job
     mocker.patch('django_rq.get_failed_queue', return_value=queue)
+    conversion_job_mock = Mock()
+    mocker.patch.object(Job.objects, 'get', return_value=conversion_job_mock)
     cmd = result_harvester.Command()
-    _update_job_mock = mocker.patch.object(cmd, '_update_job')
+    _set_failed_unless_final = mocker.patch.object(cmd, '_set_failed_unless_final')
+    _update_job_mock = mocker.patch.object(cmd, '_notify')
     cmd._handle_failed_jobs()
-    assert _update_job_mock.call_count == 1
-    _update_job_mock.assert_called_once_with(rq_job_id=str(fake_rq_id))
+    _set_failed_unless_final.assert_called_once_with(conversion_job_mock, rq_job_id=str(fake_rq_id))
+    _update_job_mock.assert_called_once_with(conversion_job_mock)
 
 
 @pytest.mark.django_db()
@@ -85,9 +89,8 @@ def multiple_queue_test_parameters():
 
 @pytest.mark.parametrize("queues,expected", multiple_queue_test_parameters())
 def test_multiple_queue_fetch_job(mocker, fake_rq_id, queues, expected):
-    from django.conf import settings
     from osmaxx.conversion.management.commands.result_harvester import fetch_job
 
     mocker.patch('django_rq.get_queue', side_effect=queues)
-    job = fetch_job(fake_rq_id, settings.RQ_QUEUE_NAMES)
+    job = fetch_job(fake_rq_id, ['queue_one', 'queue_two'])
     assert job is expected
