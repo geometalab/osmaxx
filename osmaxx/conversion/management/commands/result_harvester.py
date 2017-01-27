@@ -32,24 +32,23 @@ class Command(BaseCommand):
     def _handle_failed_jobs(self):
         failed_queue = django_rq.get_failed_queue()
         for job_id in failed_queue.job_ids:
-            self._update_job(job_id=job_id, queue=failed_queue)
+            self._update_job(rq_job_id=job_id)
 
     def _handle_running_jobs(self):
-        queue = django_rq.get_queue()
         active_jobs = conversion_models.Job.objects.exclude(status__in=FINAL_STATUSES)\
             .values_list('rq_job_id', flat=True)
         for job_id in active_jobs:
-            self._update_job(job_id=job_id, queue=queue)
+            self._update_job(rq_job_id=job_id)
 
-    def _update_job(self, job_id, queue):
-        if job_id is None:
-            logger.error("job_id is None, None is not a valid id!")
+    def _update_job(self, rq_job_id):
+        if rq_job_id is None:
+            logger.error("rq_job_id is None, None is not a valid id!")
             return
 
-        job = queue.fetch_job(job_id)
+        job = fetch_job(rq_job_id, from_queues=settings.RQ_QUEUE_NAMES)
 
         try:
-            conversion_job = conversion_models.Job.objects.get(rq_job_id=job_id)
+            conversion_job = conversion_models.Job.objects.get(rq_job_id=rq_job_id)
         except ObjectDoesNotExist as e:
             logger.exception(e)
             return
@@ -58,13 +57,13 @@ class Command(BaseCommand):
             conversion_job.refresh_from_db()
             if conversion_job.status not in FINAL_STATUSES:
                 logger.error("job {} of conversion job {} not found in queue but status is {} on database.".format(
-                    job_id, conversion_job.id, conversion_job.status
+                    rq_job_id, conversion_job.id, conversion_job.status
                 ))
                 conversion_job.status = FAILED
                 conversion_job.save()
             return
 
-        logger.info('updating job %d', job_id)
+        logger.info('updating job %d', rq_job_id)
         conversion_job.status = job.status
         if job.status == FINISHED:
             add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
@@ -109,3 +108,15 @@ def add_meta_data_to_job(*, conversion_job, rq_job):
     conversion_job.unzipped_result_size = rq_job.meta['unzipped_result_size']
     conversion_job.extraction_duration = rq_job.meta['duration']
     conversion_job.estimated_pbf_size = estimated_pbf_size
+
+
+def fetch_job(rq_job_id, from_queues):
+    """
+    :return: None if job couldn't be found in any queue else RQ job.
+    """
+    for queue_name in from_queues:
+        queue = django_rq.get_queue(name=queue_name)
+        rq_job = queue.fetch_job(rq_job_id)
+        if rq_job is not None:
+            return rq_job
+    return None
