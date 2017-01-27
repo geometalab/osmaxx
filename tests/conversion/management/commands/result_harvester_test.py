@@ -70,3 +70,24 @@ def test_add_meta_data_to_job_with_out_of_bounds_exception():
         )
         logger_mock.exception.assert_called_once_with("pbf estimation failed")
         assert conversion_job.estimated_pbf_size is None
+
+
+def multiple_queue_test_parameters():
+    queue = Mock()
+    none_queue = Mock()
+    none_queue.fetch_job.return_value = None
+    return [
+        ([queue, none_queue], queue.fetch_job.return_value),
+        ([none_queue, queue], queue.fetch_job.return_value),
+        ([none_queue, none_queue], None),
+    ]
+
+
+@pytest.mark.parametrize("queues,expected", multiple_queue_test_parameters())
+def test_multiple_queue_fetch_job(mocker, fake_rq_id, queues, expected):
+    from django.conf import settings
+    from osmaxx.conversion.management.commands.result_harvester import fetch_job
+
+    mocker.patch('django_rq.get_queue', side_effect=queues)
+    job = fetch_job(fake_rq_id, settings.RQ_QUEUE_NAMES)
+    assert job is expected
