@@ -112,7 +112,7 @@ def pytest_configure():
             'django.contrib.auth.hashers.MD5PasswordHasher',
             'django.contrib.auth.hashers.CryptPasswordHasher',
         ),
-        RQ_QUEUE_NAMES=['default', 'high'],
+        RQ_QUEUE_NAMES=['default'],
         RQ_QUEUES={
             'default': {
                 'HOST': 'localhost',
