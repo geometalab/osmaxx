@@ -62,8 +62,8 @@ def create_data_schema_documentation():
 
 def make_release_specific_changes(release_version):
     execute_steps([
-        "python ./web_frontend/manage.py makemessages -l de_CH -l en -l en_UK -l en_US",
-        "python ./osmaxx_conversion_service/manage.py makemessages -l de_CH -l en -l en_UK -l en_US",
+        "python ./web_frontend/manage.py makemessages -l en",
+        "python ./osmaxx_conversion_service/manage.py makemessages -l en",
         ["git", "commit", "-m", 'added makemessages output', 'osmaxx/locale'],
     ])
     create_data_schema_documentation()
