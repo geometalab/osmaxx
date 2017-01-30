@@ -137,9 +137,9 @@ def delete_terminated(job):
 
 
 def cleanup_old_jobs():
-    for job in django_rq.get_failed_queue():
+    for job in django_rq.get_failed_queue().get_jobs():
         delete_terminated(job)
 
     for queue_name in settings.RQ_QUEUE_NAMES:
-        for job in django_rq.get_queue(name=queue_name):
+        for job in django_rq.get_queue(name=queue_name).get_jobs():
             delete_terminated(job)
