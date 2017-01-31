@@ -131,15 +131,10 @@ def fetch_job(rq_job_id, from_queues):
     return None
 
 
-def remove_if_final(job):
-    if job.status in FINAL_STATUSES:
-        job.delete()
-
-
 def cleanup_old_jobs():
-    for job in django_rq.get_failed_queue().get_jobs():
-        remove_if_final(job)
-
-    for queue_name in settings.RQ_QUEUE_NAMES:
-        for job in django_rq.get_queue(name=queue_name).get_jobs():
-            remove_if_final(job)
+    queues = [django_rq.get_queue(name=queue_name) for queue_name in settings.RQ_QUEUE_NAMES]
+    queues.append(django_rq.get_failed_queue())
+    for queue in queues:
+        for job in queue.get_jobs():
+            if job.status in FINAL_STATUSES:
+                job.delete()
