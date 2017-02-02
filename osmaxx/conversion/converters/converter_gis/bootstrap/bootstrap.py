@@ -10,6 +10,19 @@ from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_TABLES
 from osmaxx.utils import polyfile_helpers
 
 
+def cut_area_from_pbf(pbf_result_file_path, extent_polyfile_path):
+    command = [
+        "osmconvert",
+        "--out-pbf",
+        "--complete-ways",
+        "--complex-ways",
+        "-o={}".format(pbf_result_file_path),
+        "-B={}".format(extent_polyfile_path),
+        "{}".format(CONVERSION_SETTINGS["PBF_PLANET_FILE_PATH"]),
+    ]
+    subprocess.check_call(command)
+
+
 class BootStrapper:
     def __init__(self, area_polyfile_string, *, detail_level=detail_levels.DETAIL_LEVEL_ALL):
         self._postgres = get_default_postgres_wrapper()
@@ -25,7 +38,7 @@ class BootStrapper:
 
     def bootstrap(self):
         self._reset_database()
-        self._cut_area_from_pbf()
+        cut_area_from_pbf(self._pbf_file_path, self._extent_polyfile_path)
         self._import_boundaries()
         self._import_pbf()
         self._setup_db_functions()
@@ -111,18 +124,6 @@ class BootStrapper:
         for script_path in sorted(sql_scripts_in_folder, key=os.path.basename):
             script_path = self._level_adapted_script_path(script_path)
             self._postgres.execute_sql_file(script_path)
-
-    def _cut_area_from_pbf(self):
-        command = [
-            "osmconvert",
-            "--out-pbf",
-            "--complete-ways",
-            "--complex-ways",
-            "-o={}".format(self._pbf_file_path),
-            "-B={}".format(self._extent_polyfile_path),
-            "{}".format(CONVERSION_SETTINGS["PBF_PLANET_FILE_PATH"]),
-        ]
-        subprocess.check_call(command)
 
     def _import_pbf(self):
         db_name = self._postgres.get_db_name()
