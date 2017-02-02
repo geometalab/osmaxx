@@ -23,22 +23,26 @@ def cut_area_from_pbf(pbf_result_file_path, extent_polyfile_path):
     subprocess.check_call(command)
 
 
+def polyfile_string_to_pbf(polyfile_string, pbf_out_path):
+    polyfile_path = os.path.join('/tmp', 'polyfile_extent.poly')
+    with open(polyfile_path, 'w') as f:
+        f.write(polyfile_string)
+    cut_area_from_pbf(pbf_out_path, polyfile_path)
+
+
 class BootStrapper:
     def __init__(self, area_polyfile_string, *, detail_level=detail_levels.DETAIL_LEVEL_ALL):
+        self.area_polyfile_string = area_polyfile_string
         self._postgres = get_default_postgres_wrapper()
         self._script_base_dir = os.path.abspath(os.path.dirname(__file__))
         self._terminal_style_path = os.path.join(self._script_base_dir, 'styles', 'terminal.style')
         self._style_path = os.path.join(self._script_base_dir, 'styles', 'style.lua')
-        self._extent = polyfile_helpers.parse_poly_string(area_polyfile_string)
-        self._extent_polyfile_path = os.path.join('/tmp', 'polyfile_extent.poly')
         self._pbf_file_path = os.path.join('/tmp', 'pbf_cutted.pbf')
         self._detail_level = DETAIL_LEVEL_TABLES[detail_level]
-        with open(self._extent_polyfile_path, 'w') as f:
-            f.write(area_polyfile_string)
 
     def bootstrap(self):
         self._reset_database()
-        cut_area_from_pbf(self._pbf_file_path, self._extent_polyfile_path)
+        polyfile_string_to_pbf(self.area_polyfile_string, self._pbf_file_path)
         self._import_boundaries()
         self._import_pbf()
         self._setup_db_functions()
@@ -48,7 +52,7 @@ class BootStrapper:
 
     @property
     def geom(self):
-        return self._extent
+        return polyfile_helpers.parse_poly_string(self.area_polyfile_string)
 
     def _reset_database(self):
         self._postgres.drop_db()
@@ -63,7 +67,7 @@ class BootStrapper:
 
     def _import_boundaries(self):
         osm_importer = OSMBoundariesImporter()
-        osm_importer.load_area_specific_data(extent=self._extent)
+        osm_importer.load_area_specific_data(extent=self.geom)
 
     def _setup_db_functions(self):
         self._execute_sql_scripts_in_folder(os.path.join(self._script_base_dir, 'sql', 'functions'))
