@@ -9,6 +9,10 @@ range_for_format_and_level = {
         detail_levels.DETAIL_LEVEL_ALL: {'upper': 1.4, 'lower': 0.2},
         detail_levels.DETAIL_LEVEL_REDUCED: {'upper': 1.4, 'lower': 0.2},
     },
+    formats.PBF: {
+        detail_levels.DETAIL_LEVEL_ALL: {'upper': 1.000001, 'lower': 0.99999},
+        detail_levels.DETAIL_LEVEL_REDUCED: {'upper': 1.000001, 'lower': 0.99999},
+    },
     formats.FGDB: {
         detail_levels.DETAIL_LEVEL_ALL: {'upper': 7.4, 'lower': 1.6},
         detail_levels.DETAIL_LEVEL_REDUCED: {'upper': 2.3, 'lower': 0.6},

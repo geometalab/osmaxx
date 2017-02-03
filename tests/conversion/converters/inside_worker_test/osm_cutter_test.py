@@ -1,4 +1,4 @@
-from osmaxx.conversion.converters.converter_gis.bootstrap.bootstrap import cut_area_from_pbf
+from osmaxx.conversion.converters.converter_pbf.to_pbf import cut_area_from_pbf
 
 
 def test_cut_area_from_pbf(mocker):
