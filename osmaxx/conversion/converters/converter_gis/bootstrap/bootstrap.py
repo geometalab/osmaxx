@@ -2,32 +2,12 @@ import glob
 import os
 import subprocess
 
-from osmaxx.conversion._settings import CONVERSION_SETTINGS
 from osmaxx.conversion.converters.converter_gis.helper.default_postgres import get_default_postgres_wrapper
 from osmaxx.conversion.converters.converter_gis.helper.osm_boundaries_importer import OSMBoundariesImporter
 from osmaxx.conversion.converters import detail_levels
+from osmaxx.conversion.converters.converter_pbf.to_pbf import polyfile_string_to_pbf
 from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_TABLES
 from osmaxx.utils import polyfile_helpers
-
-
-def cut_area_from_pbf(pbf_result_file_path, extent_polyfile_path):
-    command = [
-        "osmconvert",
-        "--out-pbf",
-        "--complete-ways",
-        "--complex-ways",
-        "-o={}".format(pbf_result_file_path),
-        "-B={}".format(extent_polyfile_path),
-        "{}".format(CONVERSION_SETTINGS["PBF_PLANET_FILE_PATH"]),
-    ]
-    subprocess.check_call(command)
-
-
-def polyfile_string_to_pbf(polyfile_string, pbf_out_path):
-    polyfile_path = os.path.join('/tmp', 'polyfile_extent.poly')
-    with open(polyfile_path, 'w') as f:
-        f.write(polyfile_string)
-    cut_area_from_pbf(pbf_out_path, polyfile_path)
 
 
 class BootStrapper:
