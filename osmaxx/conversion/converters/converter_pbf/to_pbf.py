@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from rq import get_current_job
 
-from osmaxx.conversion._settings import CONVERSION_SETTINGS, odb_license, copying_notice, creative_commons_license
+from osmaxx.conversion._settings import CONVERSION_SETTINGS, odb_license
 from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize
 
 
@@ -39,9 +39,7 @@ def produce_pbf(*, out_zip_file_path, area_name, polyfile_string):
         os.makedirs(out_dir, exist_ok=True)
         pbf_out_path = os.path.join(out_dir, area_name + '.pbf')
 
-        shutil.copy(copying_notice, out_dir)
         shutil.copy(odb_license, out_dir)
-        shutil.copy(creative_commons_license, out_dir)
 
         polyfile_string_to_pbf(polyfile_string, pbf_out_path)
 
