@@ -9,11 +9,13 @@ def subprocess_check_call_mock(mocker):
     return mocker.patch.object(subprocess, 'check_call')
 
 
-def test_logged_check_call_accepts_params(subprocess_check_call_mock):
+def test_logged_check_call_forwards_args(subprocess_check_call_mock):
     test_call = ['echo', '0']
     utils.logged_check_call(test_call)
     subprocess_check_call_mock.assert_called_with(test_call)
 
+
+def test_logged_check_call_forwards_kwargs(subprocess_check_call_mock):
     test_call = "echo 0"
     utils.logged_check_call(test_call, shell=True)
     subprocess_check_call_mock.assert_called_with(test_call, shell=True)
