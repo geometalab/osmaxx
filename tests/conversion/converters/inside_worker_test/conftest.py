@@ -142,7 +142,7 @@ def sql_from_bootstrap_relative_location(file_name):
 
 
 @pytest.fixture()
-def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch):
+def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch, mocker):
     from tests.conversion.converters.inside_worker_test.conftest import cleanup_osmaxx_schemas
     from osmaxx.conversion.converters.converter_gis.bootstrap.bootstrap import BootStrapper
 
@@ -159,9 +159,6 @@ def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch):
         def _reset_database(self):
             pass  # Already taken care of by clean_osm_tables fixture.
 
-        def _cut_area_from_pbf(self):
-            pass
-
         def _import_pbf(self):
             pass
 
@@ -174,6 +171,8 @@ def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch):
 
     @contextmanager
     def import_data(data):
+        from osmaxx.conversion.converters.converter_pbf import to_pbf
+        mocker.patch.object(to_pbf, 'cut_area_from_pbf', return_value=None)
         bootstrapper = _BootStrapperWithoutPbfFile(data)
         try:
             bootstrapper.bootstrap()
