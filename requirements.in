@@ -11,6 +11,7 @@ geometalab.drf-utm-zone-info>=0.1.0,<1.0.0
 djangorestframework-jwt
 requests
 markdown
+memoize
 django-filter
 rq
 django-rq
