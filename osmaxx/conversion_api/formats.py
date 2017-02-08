@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from django.utils.translation import gettext as _
 
-FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN = 'fgdb', 'shapefile', 'gpkg', 'spatialite', 'garmin'
+FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN, PBF = 'fgdb', 'shapefile', 'gpkg', 'spatialite', 'garmin', 'pbf'
 
 
 class OutputFormat:
@@ -90,6 +90,13 @@ FORMAT_DEFINITIONS = OrderedDict([
         long_identifier='Garmin navigation & map data',
         verbose_name=_('Garmin navigation & map data'),
         archive_file_name_identifier='Garmin',
+        abbreviations=[],
+        is_white_box=False,
+    )),
+    (PBF, OutputFormat(
+        long_identifier='OSM Protocolbuffer Binary Format',
+        verbose_name=_('OSM Protocolbuffer Binary Format'),
+        archive_file_name_identifier='pbf',
         abbreviations=[],
         is_white_box=False,
     )),
