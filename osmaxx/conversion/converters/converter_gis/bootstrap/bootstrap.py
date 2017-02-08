@@ -5,7 +5,7 @@ import subprocess
 from osmaxx.conversion.converters.converter_gis.helper.default_postgres import get_default_postgres_wrapper
 from osmaxx.conversion.converters.converter_gis.helper.osm_boundaries_importer import OSMBoundariesImporter
 from osmaxx.conversion.converters import detail_levels
-from osmaxx.conversion.converters.converter_pbf.to_pbf import polyfile_string_to_pbf
+from osmaxx.conversion.converters.converter_pbf.to_pbf import cut_pbf_along_polyfile
 from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_TABLES
 from osmaxx.utils import polyfile_helpers
 
@@ -22,7 +22,7 @@ class BootStrapper:
 
     def bootstrap(self):
         self._reset_database()
-        polyfile_string_to_pbf(self.area_polyfile_string, self._pbf_file_path)
+        cut_pbf_along_polyfile(self.area_polyfile_string, self._pbf_file_path)
         self._import_boundaries()
         self._import_pbf()
         self._setup_db_functions()

@@ -24,7 +24,7 @@ def cut_area_from_pbf(pbf_result_file_path, extent_polyfile_path):
     subprocess.check_call(command)
 
 
-def polyfile_string_to_pbf(polyfile_string, pbf_out_path):
+def cut_pbf_along_polyfile(polyfile_string, pbf_out_path):
     polyfile_path = os.path.join('/tmp', 'polyfile_extent.poly')
     with open(polyfile_path, 'w') as f:
         f.write(polyfile_string)
@@ -41,7 +41,7 @@ def produce_pbf(*, out_zip_file_path, area_name, polyfile_string):
 
         shutil.copy(odb_license, out_dir)
 
-        polyfile_string_to_pbf(polyfile_string, pbf_out_path)
+        cut_pbf_along_polyfile(polyfile_string, pbf_out_path)
 
         unzipped_result_size = recursive_getsize(out_dir)
 
