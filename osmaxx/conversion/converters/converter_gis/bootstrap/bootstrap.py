@@ -1,6 +1,5 @@
 import glob
 import os
-import subprocess
 
 from memoize import mproperty
 
@@ -9,6 +8,7 @@ from osmaxx.conversion.converters.converter_gis.helper.osm_boundaries_importer i
 from osmaxx.conversion.converters import detail_levels
 from osmaxx.conversion.converters.converter_pbf.to_pbf import cut_pbf_along_polyfile
 from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_TABLES
+from osmaxx.conversion.converters.utils import logged_check_call
 from osmaxx.utils import polyfile_helpers
 
 
@@ -131,4 +131,4 @@ class BootStrapper:
             '--input-reader', 'pbf',
             self._pbf_file_path,
         ]
-        subprocess.check_call(osm_2_pgsql_command)
+        logged_check_call(osm_2_pgsql_command)
