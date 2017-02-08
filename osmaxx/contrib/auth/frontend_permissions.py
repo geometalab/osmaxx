@@ -66,7 +66,7 @@ class LoginRequiredMixin(object):
     """
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
+        return super().dispatch(*args, **kwargs)
 
 
 class FrontendAccessRequiredMixin(object):
@@ -75,7 +75,7 @@ class FrontendAccessRequiredMixin(object):
     """
     @method_decorator(frontend_access_required)
     def dispatch(self, *args, **kwargs):
-        return super(FrontendAccessRequiredMixin, self).dispatch(*args, **kwargs)
+        return super().dispatch(*args, **kwargs)
 
 
 class EmailRequiredMixin(object):
