@@ -29,14 +29,16 @@ def test_logged_check_call_raises():
 
 
 def test_logged_check_call_logs_error_content(mocker, subprocess_check_call_mock):
-    error_output = 'example output that is available'
+    error_output = 'example output'
     error_return_code = 17
     command = 'cmd'
-    expected_output = 'Command `cmd` exited with return value 17\nOutput:\nexample output that is available'
+
     error = subprocess.CalledProcessError(cmd=command, output=error_output, returncode=error_return_code)
     subprocess_check_call_mock.side_effect = error
-
     logger_mock = mocker.patch.object(utils.logger, 'error')
+
     with pytest.raises(subprocess.CalledProcessError):
         utils.logged_check_call(command)
+
+    expected_output = 'Command `cmd` exited with return value 17\nOutput:\nexample output'
     logger_mock.assert_called_with(expected_output)
