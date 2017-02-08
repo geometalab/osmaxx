@@ -1,13 +1,11 @@
 import logging
+import os
+import subprocess
 import uuid
 import zipfile
 
-import os
-
 # Use the built-in version of scandir if possible, otherwise
 # use the scandir module version
-import subprocess
-
 try:
     from os import scandir
 except ImportError:
