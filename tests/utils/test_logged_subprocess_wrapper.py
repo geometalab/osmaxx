@@ -23,8 +23,7 @@ def test_logged_check_call_forwards_kwargs(subprocess_check_call_mock):
 
 def test_logged_check_call_raises():
     with pytest.raises(subprocess.CalledProcessError) as excinfo:
-        test_call = ['false']
-        utils.logged_check_call(test_call)
+        utils.logged_check_call(['false'])
     assert excinfo.value.output is None
     assert excinfo.value.returncode == 1
 
@@ -33,11 +32,11 @@ def test_logged_check_call_logs_error_content(mocker, subprocess_check_call_mock
     error_output = 'example output that is available'
     error_return_code = 17
     command = 'cmd'
+    expected_output = 'Command `cmd` exited with return value 17\nOutput:\nexample output that is available'
     error = subprocess.CalledProcessError(cmd=command, output=error_output, returncode=error_return_code)
     subprocess_check_call_mock.side_effect = error
 
     logger_mock = mocker.patch.object(utils.logger, 'error')
     with pytest.raises(subprocess.CalledProcessError):
         utils.logged_check_call(command)
-    logger_mock.assert_called_with('Command `{}` exited with return value {}\nOutput:\n{}'
-                                   .format(command, error_return_code, error_output))
+    logger_mock.assert_called_with(expected_output)
