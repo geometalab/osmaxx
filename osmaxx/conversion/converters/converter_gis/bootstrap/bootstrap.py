@@ -1,12 +1,12 @@
 import glob
 import os
-import subprocess
 
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
 from osmaxx.conversion.converters.converter_gis.helper.default_postgres import get_default_postgres_wrapper
 from osmaxx.conversion.converters.converter_gis.helper.osm_boundaries_importer import OSMBoundariesImporter
 from osmaxx.conversion.converters import detail_levels
 from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_TABLES
+from osmaxx.conversion.converters.utils import logged_check_call
 from osmaxx.utils import polyfile_helpers
 
 
@@ -122,7 +122,7 @@ class BootStrapper:
             "-B={}".format(self._extent_polyfile_path),
             "{}".format(CONVERSION_SETTINGS["PBF_PLANET_FILE_PATH"]),
         ]
-        subprocess.check_call(command)
+        logged_check_call(command)
 
     def _import_pbf(self):
         db_name = self._postgres.get_db_name()
@@ -144,4 +144,4 @@ class BootStrapper:
             '--input-reader', 'pbf',
             self._pbf_file_path,
         ]
-        subprocess.check_call(osm_2_pgsql_command)
+        logged_check_call(osm_2_pgsql_command)

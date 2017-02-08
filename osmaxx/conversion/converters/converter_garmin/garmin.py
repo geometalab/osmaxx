@@ -1,5 +1,4 @@
 import shutil
-import subprocess
 
 import os
 import tempfile
@@ -8,7 +7,7 @@ from rq import get_current_job
 
 from osmaxx.conversion._settings import CONVERSION_SETTINGS, odb_license, copying_notice, creative_commons_license
 
-from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize
+from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize, logged_check_call
 
 _path_to_commandline_utils = os.path.join(os.path.dirname(__file__), 'command_line_utils')
 _path_to_bounds_zip = os.path.join(CONVERSION_SETTINGS['SEA_AND_BOUNDS_ZIP_DIRECTORY'], 'bounds.zip')
@@ -47,7 +46,7 @@ class Garmin:
     def _split(self, workdir):
         memory_option = '-Xmx7000m'
         _splitter_path = os.path.abspath(os.path.join(_path_to_commandline_utils, 'splitter', 'splitter.jar'))
-        subprocess.check_call([
+        logged_check_call([
             'java',
             memory_option,
             '-jar', _splitter_path,
@@ -79,7 +78,7 @@ class Garmin:
             '--route',
         ]
 
-        subprocess.check_call(
+        logged_check_call(
             mkg_map_command +
             output_dir +
             config
