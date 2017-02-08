@@ -25,10 +25,11 @@ def cut_area_from_pbf(pbf_result_file_path, extent_polyfile_path):
 
 
 def cut_pbf_along_polyfile(polyfile_string, pbf_out_path):
-    polyfile_path = os.path.join('/tmp', 'polyfile_extent.poly')
-    with open(polyfile_path, 'w') as f:
-        f.write(polyfile_string)
-    cut_area_from_pbf(pbf_out_path, polyfile_path)
+    with tempfile.NamedTemporaryFile('w') as polyfile:
+        polyfile.write(polyfile_string)
+        polyfile.flush()
+        os.fsync(polyfile)
+        cut_area_from_pbf(pbf_out_path, polyfile.name)
 
 
 def produce_pbf(*, out_zip_file_path, area_name, polyfile_string):
