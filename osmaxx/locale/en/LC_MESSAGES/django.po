@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-02 09:37+0100\n"
+"POT-Creation-Date: 2017-02-08 16:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -665,6 +665,10 @@ msgstr ""
 msgid "Garmin navigation & map data"
 msgstr ""
 
+#: osmaxx/conversion_api/formats.py:98
+msgid "OSM Protocolbuffer Binary Format"
+msgstr ""
+
 #: osmaxx/conversion_api/statuses.py:12
 msgid "received"
 msgstr ""
@@ -731,10 +735,12 @@ msgid "Home"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:7
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:24
 msgid "Existing Excerpt / Country"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/navigation.html:12
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:31
 msgid "New Excerpt"
 msgstr ""
 
@@ -804,7 +810,7 @@ msgid "Export options"
 msgstr ""
 
 #: osmaxx/excerptexport/forms/order_options_mixin.py:44
-msgid "GIS options (ignored for Garmin)"
+msgid "GIS options (ignored for Garmin and PBF)"
 msgstr ""
 
 #: osmaxx/excerptexport/models/excerpt.py:20
@@ -1047,16 +1053,12 @@ msgid "Get the OpenStreetMap data you want in the file format you need"
 msgstr ""
 
 #: osmaxx/excerptexport/templates/excerptexport/templates/index.html:23
-msgid "Export an existing excerpt"
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:26
 msgid ""
-"(a predefined country or other administrative area,<br />or one of your "
-"previously defined excerpts)"
+"Export a predefined country or other administrative area,<br />or one of "
+"your previously defined excerpts"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:31
+#: osmaxx/excerptexport/templates/excerptexport/templates/index.html:30
 msgid "Define & export a new excerpt"
 msgstr ""
 

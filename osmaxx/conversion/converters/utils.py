@@ -1,7 +1,8 @@
+import logging
+import os
+import subprocess
 import uuid
 import zipfile
-
-import os
 
 # Use the built-in version of scandir if possible, otherwise
 # use the scandir module version
@@ -9,6 +10,8 @@ try:
     from os import scandir
 except ImportError:
     from scandir import scandir
+
+logger = logging.getLogger(__name__)
 
 
 def zip_folders_relative(folder_list, zip_out_file_path=None):
@@ -42,3 +45,11 @@ def recursive_getsize(path):
         elif entry.is_dir(follow_symlinks=False):
             size += recursive_getsize(os.path.join(path, entry.path))
     return size
+
+
+def logged_check_call(*args, **kwargs):
+    try:
+        subprocess.check_call(*args, **kwargs)
+    except subprocess.CalledProcessError as e:
+        logger.error('Command `{}` exited with return value {}\nOutput:\n{}'.format(e.cmd, e.returncode, e.output))
+        raise

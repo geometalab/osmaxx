@@ -11,6 +11,11 @@ PRE_DATA = {
         detail_levels.DETAIL_LEVEL_ALL: [11000, 18000, 42000, 95000],
         detail_levels.DETAIL_LEVEL_REDUCED: [11000, 18000, 42000, 95000],
     },
+    formats.PBF: {
+        'pbf_predicted': [25000, 44000, 96000, 390000],
+        detail_levels.DETAIL_LEVEL_ALL: [25000, 44000, 96000, 390000],
+        detail_levels.DETAIL_LEVEL_REDUCED: [25000, 44000, 96000, 390000],
+    },
     formats.FGDB: {
         'pbf_predicted': [25000, 44000, 96000, 390000],
         detail_levels.DETAIL_LEVEL_ALL: [46000, 101000, 309000, 676000],
