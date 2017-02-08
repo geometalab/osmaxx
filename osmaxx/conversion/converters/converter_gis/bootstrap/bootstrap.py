@@ -2,6 +2,8 @@ import glob
 import os
 import subprocess
 
+from memoize import mproperty
+
 from osmaxx.conversion.converters.converter_gis.helper.default_postgres import get_default_postgres_wrapper
 from osmaxx.conversion.converters.converter_gis.helper.osm_boundaries_importer import OSMBoundariesImporter
 from osmaxx.conversion.converters import detail_levels
@@ -19,7 +21,6 @@ class BootStrapper:
         self._style_path = os.path.join(self._script_base_dir, 'styles', 'style.lua')
         self._pbf_file_path = os.path.join('/tmp', 'pbf_cutted.pbf')
         self._detail_level = DETAIL_LEVEL_TABLES[detail_level]
-        self._extent = None
 
     def bootstrap(self):
         self._reset_database()
@@ -31,11 +32,9 @@ class BootStrapper:
         self._filter_data()
         self._create_views()
 
-    @property
+    @mproperty
     def geom(self):
-        if self._extent is None:
-            self._extent = polyfile_helpers.parse_poly_string(self.area_polyfile_string)
-        return self._extent
+        return polyfile_helpers.parse_poly_string(self.area_polyfile_string)
 
     def _reset_database(self):
         self._postgres.drop_db()
