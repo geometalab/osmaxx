@@ -32,5 +32,5 @@ def test_create_garmin_export_calls_(output_zip_file_path, area_name, simple_osm
     subprocess_mock = mocker.patch('subprocess.check_call')
     _create_zip_mock = mocker.patch('osmaxx.conversion.converters.converter_garmin.garmin.Garmin._create_zip')
     Garmin(out_zip_file_path=output_zip_file_path, area_name=area_name, polyfile_string=simple_osmosis_line_string).create_garmin_export()
-    assert 2 == subprocess_mock.call_count
+    assert 3 == subprocess_mock.call_count  # 2 calls from garmin and one from the pbf cutter
     assert 1 == _create_zip_mock.call_count
