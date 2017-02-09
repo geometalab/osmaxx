@@ -6,6 +6,7 @@ from django.utils import timezone
 from rq import get_current_job
 
 from osmaxx.conversion._settings import CONVERSION_SETTINGS, odb_license, copying_notice, creative_commons_license
+from osmaxx.conversion.converters.converter_pbf.to_pbf import cut_pbf_along_polyfile
 
 from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize, logged_check_call
 
@@ -25,6 +26,7 @@ class Garmin:
         self._polyfile_path = self._osmosis_polygon_file.name
         self._start_time = None
         self._unzipped_result_size = None
+        self._area_polyfile_string = polyfile_string
 
     def create_garmin_export(self):
         self._start_time = timezone.now()
@@ -46,6 +48,8 @@ class Garmin:
     def _split(self, workdir):
         memory_option = '-Xmx7000m'
         _splitter_path = os.path.abspath(os.path.join(_path_to_commandline_utils, 'splitter', 'splitter.jar'))
+        _pbf_file_path = os.path.join('/tmp', 'pbf_cutted.pbf')
+        cut_pbf_along_polyfile(self._area_polyfile_string, _pbf_file_path)
         logged_check_call([
             'java',
             memory_option,
@@ -54,7 +58,7 @@ class Garmin:
             '--description={0}'.format(self._map_description),
             '--geonames-file={0}'.format(_path_to_geonames_zip),
             '--polygon-file={}'.format(self._polyfile_path),
-            CONVERSION_SETTINGS.get('PBF_PLANET_FILE_PATH'),
+            _pbf_file_path,
         ])
         config_file_path = os.path.join(workdir, 'template.args')
         return config_file_path
