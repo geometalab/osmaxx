@@ -28,7 +28,7 @@ def _choicify(excerpts_query_set):
 
 class ExistingForm(OrderOptionsMixin, forms.Form):
     def __init__(self, *args, **kwargs):
-        super(ExistingForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.helper = FormHelper(self)
 

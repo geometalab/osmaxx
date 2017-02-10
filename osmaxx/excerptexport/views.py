@@ -273,5 +273,5 @@ class DeleteExcerptView(DeleteView):
                                            ' Please try deleting again, when these are finished.'))
             return HttpResponseRedirect(self.get_success_url())
 
-        return super(DeleteExcerptView, self).delete(request, *args, **kwargs)
+        return super().delete(request, *args, **kwargs)
 delete_excerpt = DeleteExcerptView.as_view()
