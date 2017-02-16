@@ -5,7 +5,8 @@ The extraction order #{{ extraction_order.id }} "{{ extraction_order.excerpt_nam
 {% endfor %}
 {% endif %}{% if failed_exports.count > 0 %}Unfortunately, the following exports have failed:
 {% for export in failed_exports %}- {{ export.get_file_format_display }}
-{% endfor %}Please order them anew if you need them. If there are repeated failures, please report them on https://github.com/geometalab/osmaxx/issues unless the problem is already known there.
+{% endfor %}
+Please order them anew if you need them. If there are repeated failures, please report them on https://github.com/geometalab/osmaxx/issues unless the problem is already known there.
 {% endif %}
 View the complete order at {{  extraction_order.get_absolute_url | siteabsoluteurl:request }} (login required)
 
