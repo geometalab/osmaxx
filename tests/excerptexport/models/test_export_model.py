@@ -11,7 +11,7 @@ from osmaxx.excerptexport._settings import EXTRACTION_PROCESSING_TIMEOUT_TIMEDEL
 @pytest.fixture
 def export_stale_status(mocker, export):
     def timestamp_model_mixin_save_side_effect(self, *args, **kwargs):
-        super().save(*args, **kwargs)
+        super(TimeStampModelMixin, self).save(*args, **kwargs)
     mocker.patch.object(TimeStampModelMixin, 'save', timestamp_model_mixin_save_side_effect)
     now = timezone.now()
     just_overdue = now - (EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA + timezone.timedelta(minutes=1))
