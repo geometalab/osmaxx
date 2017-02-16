@@ -263,7 +263,7 @@ class CallbackHandlingTest(APITestCase):
                 'The extraction order #{order_id} "Neverland" has been processed and is available for download:',
                 '- Esri File Geodatabase: http://testserver{download_url}',
                 '',
-                'Unfortunately, the following exports have failed:',
+                'Unfortunately, the following export has failed:',
                 '- SpatiaLite',
                 '',
                 'Please order them anew if you need them. '
