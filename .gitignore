@@ -50,7 +50,7 @@ nosetests.xml
 coverage.xml
 
 # Translations
-*.mo
+# *.mo  # (We DO track these, as we don't want to compile translations for every installation.)
 *.pot
 
 # Django stuff:
