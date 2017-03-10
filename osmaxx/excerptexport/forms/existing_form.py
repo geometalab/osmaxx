@@ -44,7 +44,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
                 HTML(render_to_string('excerptexport/forms/partials/delete_personal_excerpts_link.html'))
             ),
             OrderOptionsMixin(self).form_layout(),
-            Submit('submit', 'Submit'),
+            Submit('submit', 'Export (will take around 30 minutes)'),
         )
 
     @classmethod
