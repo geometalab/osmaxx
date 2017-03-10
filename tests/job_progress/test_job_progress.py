@@ -118,7 +118,8 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.info(
-                    'Export #{export_id} "Neverland" to Esri File Geodatabase has been started.'.format(
+                    'Export #{export_id} "Neverland" to Esri File Geodatabase'
+                    ' has been started. Exporting will take around 30 minutes.'.format(
                         export_id=self.export.id
                     ),
                 ),
