@@ -14,7 +14,6 @@ from django.views.generic.list import ListView
 
 from osmaxx.contrib.auth.frontend_permissions import (
     LoginRequiredMixin,
-    FrontendAccessRequiredMixin,
     EmailRequiredMixin,
 )
 from osmaxx.conversion_api import statuses
@@ -47,7 +46,7 @@ class OrderFormViewMixin(FormMixin):
         )
 
 
-class AccessRestrictedBaseView(LoginRequiredMixin, FrontendAccessRequiredMixin, EmailRequiredMixin):
+class AccessRestrictedBaseView(LoginRequiredMixin, EmailRequiredMixin):
     pass
 
 
