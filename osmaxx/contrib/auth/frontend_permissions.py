@@ -35,10 +35,10 @@ def frontend_access_required(function=None):
     Decorator for views that checks that the user has the correct access rights,
     redirecting to the information page if necessary.
     """
-    access_denied_info_url = reverse_lazy('excerptexport:access_denied')
+    profile_url = reverse_lazy('profile:edit_view')
     actual_decorator = user_passes_test(
         _may_user_access_osmaxx_frontend,
-        login_url=access_denied_info_url
+        login_url=profile_url
     )
     if function:
         return actual_decorator(function)
