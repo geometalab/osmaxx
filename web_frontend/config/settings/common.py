@@ -393,8 +393,6 @@ OSMAXX = {
     'OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL': timezone.timedelta(
         hours=env.int('DJANGO_OSMAXX_OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS', default=1)
     ),
-    # The email adress of this user will be used to generate the mailto link for users
-    # to request access to osmaxx
     'ACCOUNT_MANAGER_EMAIL': env.str('OSMAXX_ACCOUNT_MANAGER_EMAIL', default=DEFAULT_FROM_EMAIL),
     'CONVERSION_SERVICE_URL': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_URL', default='http://localhost:8901/api/'),
     'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME', default='default_user'),

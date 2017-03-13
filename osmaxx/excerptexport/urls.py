@@ -9,7 +9,6 @@ from osmaxx.excerptexport.views import (
     manage_own_excerpts,
     order_new_excerpt,
     order_existing_excerpt,
-    request_access,
 )
 
 
@@ -23,8 +22,6 @@ excerpt_export_urlpatterns = [
 
     url(r'^excerpts/(?P<pk>[A-Za-z0-9_-]+)/delete/$', delete_excerpt, name='delete_excerpt'),
     url(r'^excerpts/$', manage_own_excerpts, name='manage_own_excerpts'),
-
-    url(r'^request_access/$', request_access, name='request_access'),
 ]
 
 login_logout_patterns = [

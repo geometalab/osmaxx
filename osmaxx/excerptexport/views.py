@@ -1,14 +1,10 @@
 import logging
 from collections import OrderedDict
 
-from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
 from django.utils.datastructures import OrderedSet
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView, GenericViewError
@@ -166,52 +162,6 @@ class ExportsDetailView(AccessRestrictedBaseView, ExportsListMixin, ListView):
             .filter(extraction_order__excerpt__pk=pk)
         return queryset
 export_detail = ExportsDetailView.as_view()
-
-
-@login_required()
-def request_access(request):
-    user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
-    if not user_administrator_email:
-        logging.exception(
-            "You don't have an user account manager email address defined. Please set OSMAXX_ACCOUNT_MANAGER_EMAIL."
-        )
-        messages.error(
-            request,
-            _('Sending of access request failed. Please contact an administrator.')
-        )
-    else:
-        email_message = (  # Intentionally untranslated, as this goes to the administrator(s), not the user.
-            '''Hi Admin!
-            User '{username}' ({identification_description}) claims to be {first_name} {last_name} ({email})
-            and requests access for OSMaxx.
-            If {username} shall be granted access, go to {admin_url} and add {username} to group '{frontend_group}'.
-            '''
-        ).format(
-            username=request.user.username,
-            first_name=request.user.first_name,
-            last_name=request.user.last_name,
-            email=request.user.email,
-            identification_description=_social_identification_description(request.user),
-            admin_url=request.build_absolute_uri(reverse('admin:auth_user_change', args=(request.user.id,))),
-            frontend_group=settings.OSMAXX_FRONTEND_USER_GROUP,
-        )
-
-        try:
-            send_mail('Request access for OSMaxx', email_message, settings.DEFAULT_FROM_EMAIL,
-                      [user_administrator_email], fail_silently=True)
-            messages.success(
-                request,
-                _('Your access request has been sent successfully. '
-                  'You will receive an email when your account is ready.')
-            )
-        except Exception as exception:
-            logging.exception("Sending access request e-mail failed: {0}, \n{1}".format(exception, email_message))
-            messages.error(
-                request,
-                _('Sending of access request failed. Please contact an administrator.')
-            )
-
-    return redirect(request.GET['next'] + '?next=' + request.GET['next'])
 
 
 def _social_identification_description(user):

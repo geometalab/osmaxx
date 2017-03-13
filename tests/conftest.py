@@ -158,8 +158,6 @@ def pytest_configure():
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
             'EXCLUSIVE_USER_GROUP': 'dev',
-            # The email adress of this user will be used to generate the mailto link for users
-            # to request access to osmaxx
             'ACCOUNT_MANAGER_EMAIL': 'accountmanager@example.com',
         },
         OSMAXX_FRONTEND_USER_GROUP='osmaxx_frontend_users',
