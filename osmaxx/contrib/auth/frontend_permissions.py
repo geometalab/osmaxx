@@ -6,14 +6,6 @@ from rest_framework import permissions
 from osmaxx.profile.models import Profile
 
 
-def _may_user_access_osmaxx_frontend(user):
-    """
-    Actual test to check if the user is in the frontend user group,
-    to give access or deny it. Note: Admins have superpowers.
-    """
-    return user.has_perm('excerptexport.add_extractionorder')
-
-
 def _may_user_access_this_excerpt(user, excerpt):
     return excerpt.is_public or excerpt.owner == user
 
