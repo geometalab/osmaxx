@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.utils.datastructures import OrderedSet
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView, TemplateView, GenericViewError
+from django.views.generic import FormView, GenericViewError
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin, DeleteView
 from django.views.generic.list import ListView
@@ -166,15 +166,6 @@ class ExportsDetailView(AccessRestrictedBaseView, ExportsListMixin, ListView):
             .filter(extraction_order__excerpt__pk=pk)
         return queryset
 export_detail = ExportsDetailView.as_view()
-
-
-class AccesssDenied(TemplateView):
-    template_name = 'excerptexport/templates/access_denied.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(dict(next_page=self.request.GET.get('next', '/')))
-access_denied = AccesssDenied.as_view()
 
 
 @login_required()
