@@ -41,7 +41,7 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
                 Field('bounding_geometry'),
             ),
             OrderOptionsMixin(self).form_layout(),
-            Submit('submit', 'Submit'),
+            Submit('submit', 'Export (will take around 30 minutes)'),
         )
 
     def clean(self):
