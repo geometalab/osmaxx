@@ -28,7 +28,7 @@ def _choicify(excerpts_query_set):
 
 class ExistingForm(OrderOptionsMixin, forms.Form):
     def __init__(self, *args, **kwargs):
-        super(ExistingForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.helper = FormHelper(self)
 
@@ -44,7 +44,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
                 HTML(render_to_string('excerptexport/forms/partials/delete_personal_excerpts_link.html'))
             ),
             OrderOptionsMixin(self).form_layout(),
-            Submit('submit', 'Submit'),
+            Submit('submit', 'Export (will take around 30 minutes)'),
         )
 
     @classmethod

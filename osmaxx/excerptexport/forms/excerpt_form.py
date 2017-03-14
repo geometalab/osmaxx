@@ -26,7 +26,7 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
     )
 
     def __init__(self, *args, **kwargs):
-        super(ExcerptForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.helper = FormHelper(self)
 
@@ -41,7 +41,7 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
                 Field('bounding_geometry'),
             ),
             OrderOptionsMixin(self).form_layout(),
-            Submit('submit', 'Submit'),
+            Submit('submit', 'Export (will take around 30 minutes)'),
         )
 
     def clean(self):

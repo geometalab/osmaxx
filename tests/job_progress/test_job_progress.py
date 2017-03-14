@@ -118,7 +118,8 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.info(
-                    'Export #{export_id} "Neverland" to Esri File Geodatabase has been started.'.format(
+                    'Export #{export_id} "Neverland" to Esri File Geodatabase'
+                    ' has been started. Exporting will take around 30 minutes.'.format(
                         export_id=self.export.id
                     ),
                 ),
@@ -263,8 +264,9 @@ class CallbackHandlingTest(APITestCase):
                 'The extraction order #{order_id} "Neverland" has been processed and is available for download:',
                 '- Esri File Geodatabase: http://testserver{download_url}',
                 '',
-                'Unfortunately, the following exports have failed:',
+                'Unfortunately, the following export has failed:',
                 '- SpatiaLite',
+                '',
                 'Please order them anew if you need them. '
                 'If there are repeated failures, '
                 'please report them on https://github.com/geometalab/osmaxx/issues '

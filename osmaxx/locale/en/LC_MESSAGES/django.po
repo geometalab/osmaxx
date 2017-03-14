@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-08 16:03+0100\n"
+"POT-Creation-Date: 2017-03-14 13:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -697,7 +697,6 @@ msgstr ""
 #: osmaxx/core/templates/osmaxx/login.html:12
 #: osmaxx/core/templates/osmaxx/login_logout_link.html:11
 #: osmaxx/core/templates/osmaxx/logout.html:17
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:26
 msgid "Login"
 msgstr ""
 
@@ -1015,39 +1014,6 @@ msgstr ""
 msgid "refresh page to see changes"
 msgstr ""
 
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:8
-msgid "Please Contact Your Administrator or Request Access"
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:10
-msgid ""
-"You do not appear to have the proper access rights. Please contact your\n"
-"                supervisor/administrator and ask for the needed access "
-"rights."
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:16
-msgid ""
-"If you logged in by a new OpenStreetMap-account, please request its "
-"activation: "
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:19
-msgid "Request access"
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:21
-msgid "and try again."
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:24
-msgid "Please Log In"
-msgstr ""
-
-#: osmaxx/excerptexport/templates/excerptexport/templates/access_denied.html:25
-msgid "This site has pages, which are protected. Please login and try again."
-msgstr ""
-
 #: osmaxx/excerptexport/templates/excerptexport/templates/index.html:16
 msgid "Get the OpenStreetMap data you want in the file format you need"
 msgstr ""
@@ -1074,22 +1040,12 @@ msgstr ""
 msgid "New excerpt export"
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:45
+#: osmaxx/excerptexport/views.py:41
 #, python-brace-format
 msgid "Queued extraction order {id}. The conversion process will start soon."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:189 osmaxx/excerptexport/views.py:220
-msgid "Sending of access request failed. Please contact an administrator."
-msgstr ""
-
 #: osmaxx/excerptexport/views.py:213
-msgid ""
-"Your access request has been sent successfully. You will receive an email "
-"when your account is ready."
-msgstr ""
-
-#: osmaxx/excerptexport/views.py:272
 msgid ""
 "Exports are currently running for this excerpt. Please try deleting again, "
 "when these are finished."
