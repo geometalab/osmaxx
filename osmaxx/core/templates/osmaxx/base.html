@@ -5,9 +5,9 @@
     <title>OSMaxx</title>
     <link rel="icon" type="image/png" href='{% static "osmaxx/images/favicon.png" %}' />
 
-    <meta property="og:image" content='{% static "osmaxx/images/homepage_screenshot.png" %}'/>
+    <meta property="og:image" content='{{ request.build_absolute_uri }}{% static "osmaxx/images/homepage_screenshot.png" %}'/>
     <meta property="og:title" content="OpenStreetMap Arbitrary Excerpt Export"/>
-    <meta property="og:url" content="https://osmaxx.hsr.ch/"/>
+    <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
     <meta property="og:site_name" content="OSMaxx"/>
     <meta property="og:description" content="Get the OpenStreetMap data you want in the file format you need"/>
 
