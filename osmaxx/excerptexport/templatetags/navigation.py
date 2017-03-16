@@ -1,3 +1,5 @@
+from urllib.parse import urlsplit, urlunsplit
+
 from django import template
 from django.conf import settings
 from django.http import HttpRequest
@@ -18,8 +20,8 @@ def siteabsoluteurl(relative_or_absolute_url: str, request: HttpRequest) -> str:
         An absolute URL, incl. scheme, host, etc.
     """
     absolute_url = request.build_absolute_uri(relative_or_absolute_url)
-    if settings.OSMAXX.get('SECURED_PROXY', False) and not absolute_url.startswith('https'):
-        if absolute_url.startswith('http'):
-            absolute_url = absolute_url[4:]
-        absolute_url = 'https' + absolute_url
+    if settings.OSMAXX.get('SECURED_PROXY', False):
+        url_components = urlsplit(absolute_url)
+        if url_components.scheme.startswith('http'):
+            absolute_url = urlunsplit(url_components._replace(scheme='https'))
     return absolute_url

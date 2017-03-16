@@ -1,4 +1,3 @@
-import pytest
 from django.test import override_settings
 
 from osmaxx.excerptexport.templatetags.navigation import siteabsoluteurl
@@ -119,7 +118,6 @@ def test_siteabsoluteurl_when_secured_proxy_in_use_returns_absolute_https_urls_u
     assert siteabsoluteurl(absolute_url, request) == 'https://example.com/foo/bar'
 
 
-@pytest.mark.xfail
 @override_settings(
     OSMAXX=dict(
         SECURED_PROXY=True,
