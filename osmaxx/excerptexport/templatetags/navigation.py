@@ -1,11 +1,12 @@
 from django import template
 from django.conf import settings
+from django.http import HttpRequest
 
 register = template.Library()
 
 
 @register.filter
-def siteabsoluteurl(relative_or_absolute_url, request):
+def siteabsoluteurl(relative_or_absolute_url: str, request: HttpRequest) -> str:
     """
     Produce URL suitable for offsite use.
 
