@@ -1,8 +1,11 @@
 from urllib.parse import urlsplit, urlunsplit
 
+import logging
 from django import template
 from django.conf import settings
 from django.http import HttpRequest
+
+logger = logging.getLogger(__name__)
 
 register = template.Library()
 
@@ -24,4 +27,8 @@ def siteabsoluteurl(relative_or_absolute_url: str, request: HttpRequest) -> str:
         url_components = urlsplit(absolute_url)
         if url_components.scheme.startswith('http'):
             absolute_url = urlunsplit(url_components._replace(scheme='https'))
+        elif logger.getEffectiveLevel() == logging.WARNING:
+            logger.warning(
+                "{url} has not been converted to HTTPS, because it isn't an HTTP URL.".format(url=absolute_url)
+            )
     return absolute_url
