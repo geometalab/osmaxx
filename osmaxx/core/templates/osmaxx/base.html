@@ -3,9 +3,9 @@
 
 {% block extra_head %}
     <title>OSMaxx</title>
-    <link rel="icon" type="image/png" href='{% filter siteabsoluteurl:request %}{% static "osmaxx/images/favicon.png" %}{% endfilter %}' />
+    <link rel="icon" type="image/png" href='{% static "osmaxx/images/favicon.png" %}' />
 
-    <meta property="og:image" content='{% static "osmaxx/images/homepage_screenshot.png" %}'/>
+    <meta property="og:image" content='{% filter siteabsoluteurl:request %}{% static "osmaxx/images/homepage_screenshot.png" %}{% endfilter %}'/>
     <meta property="og:title" content="OpenStreetMap Arbitrary Excerpt Export"/>
     <meta property="og:url" content="{{ request.build_absolute_uri | siteabsoluteurl:request }}"/>
     <meta property="og:site_name" content="OSMaxx"/>
