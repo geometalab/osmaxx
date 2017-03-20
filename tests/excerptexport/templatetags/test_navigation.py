@@ -1,6 +1,6 @@
 from django.test import override_settings
 
-from osmaxx.excerptexport.templatetags.navigation import siteabsoluteurl
+from osmaxx.core.templatetags.navigation import siteabsoluteurl
 
 
 @override_settings(
