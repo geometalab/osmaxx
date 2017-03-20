@@ -1,4 +1,6 @@
 import logging
+
+import pytest
 from django.test import override_settings
 
 from osmaxx.core.templatetags.navigation import siteabsoluteurl, logger
@@ -8,11 +10,9 @@ from osmaxx.core.templatetags.navigation import siteabsoluteurl, logger
     OSMAXX=dict(
     )
 )
-def test_siteabsoluteurl_without_secured_proxy_adds_scheme_and_netloc_and_path_prefix(rf, mocker):
+def test_siteabsoluteurl_without_secured_proxy_adds_scheme_and_netloc_and_path_prefix(rf, log_warning_mock):
     relative_url = 'foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(relative_url, request) == 'http://testserver/another/foo/bar'
     log_warning_mock.assert_not_called()
 
@@ -21,11 +21,9 @@ def test_siteabsoluteurl_without_secured_proxy_adds_scheme_and_netloc_and_path_p
     OSMAXX=dict(
     )
 )
-def test_siteabsoluteurl_without_secured_proxy_adds_scheme_and_netloc(rf, mocker):
+def test_siteabsoluteurl_without_secured_proxy_adds_scheme_and_netloc(rf, log_warning_mock):
     netloc_relative_url = '/foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(netloc_relative_url, request) == 'http://testserver/foo/bar'
     log_warning_mock.assert_not_called()
 
@@ -34,11 +32,9 @@ def test_siteabsoluteurl_without_secured_proxy_adds_scheme_and_netloc(rf, mocker
     OSMAXX=dict(
     )
 )
-def test_siteabsoluteurl_without_secured_proxy_adds_scheme(rf, mocker):
+def test_siteabsoluteurl_without_secured_proxy_adds_scheme(rf, log_warning_mock):
     scheme_relative_url = '//example.com/foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(scheme_relative_url, request) == 'http://example.com/foo/bar'
     log_warning_mock.assert_not_called()
 
@@ -47,11 +43,9 @@ def test_siteabsoluteurl_without_secured_proxy_adds_scheme(rf, mocker):
     OSMAXX=dict(
     )
 )
-def test_siteabsoluteurl_without_secured_proxy_returns_absolute_http_urls_unchanged(rf, mocker):
+def test_siteabsoluteurl_without_secured_proxy_returns_absolute_http_urls_unchanged(rf, log_warning_mock):
     absolute_url = 'http://example.com/foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(absolute_url, request) == 'http://example.com/foo/bar'
     log_warning_mock.assert_not_called()
 
@@ -60,11 +54,9 @@ def test_siteabsoluteurl_without_secured_proxy_returns_absolute_http_urls_unchan
     OSMAXX=dict(
     )
 )
-def test_siteabsoluteurl_without_secured_proxy_returns_absolute_https_urls_unchanged(rf, mocker):
+def test_siteabsoluteurl_without_secured_proxy_returns_absolute_https_urls_unchanged(rf, log_warning_mock):
     absolute_url = 'https://example.com/foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(absolute_url, request) == 'https://example.com/foo/bar'
     log_warning_mock.assert_not_called()
 
@@ -73,11 +65,9 @@ def test_siteabsoluteurl_without_secured_proxy_returns_absolute_https_urls_uncha
     OSMAXX=dict(
     )
 )
-def test_siteabsoluteurl_without_secured_proxy_returns_absolute_nonhttp_urls_unchanged(rf, mocker):
+def test_siteabsoluteurl_without_secured_proxy_returns_absolute_nonhttp_urls_unchanged(rf, log_warning_mock):
     absolute_url = 'ftp://example.com/foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(absolute_url, request) == 'ftp://example.com/foo/bar'
     log_warning_mock.assert_not_called()
 
@@ -87,11 +77,9 @@ def test_siteabsoluteurl_without_secured_proxy_returns_absolute_nonhttp_urls_unc
         SECURED_PROXY=True,
     )
 )
-def test_siteabsoluteurl_when_secured_proxy_in_use_adds_https_and_netloc_and_path_prefix(rf, mocker):
+def test_siteabsoluteurl_when_secured_proxy_in_use_adds_https_and_netloc_and_path_prefix(rf, log_warning_mock):
     relative_url = 'foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(relative_url, request) == 'https://testserver/another/foo/bar'
     log_warning_mock.assert_not_called()
 
@@ -101,11 +89,9 @@ def test_siteabsoluteurl_when_secured_proxy_in_use_adds_https_and_netloc_and_pat
         SECURED_PROXY=True,
     )
 )
-def test_siteabsoluteurl_when_secured_proxy_in_use_adds_https_and_netloc(rf, mocker):
+def test_siteabsoluteurl_when_secured_proxy_in_use_adds_https_and_netloc(rf, log_warning_mock):
     netloc_relative_url = '/foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(netloc_relative_url, request) == 'https://testserver/foo/bar'
     log_warning_mock.assert_not_called()
 
@@ -115,11 +101,9 @@ def test_siteabsoluteurl_when_secured_proxy_in_use_adds_https_and_netloc(rf, moc
         SECURED_PROXY=True,
     )
 )
-def test_siteabsoluteurl_when_secured_proxy_in_use_adds_https(rf, mocker):
+def test_siteabsoluteurl_when_secured_proxy_in_use_adds_https(rf, log_warning_mock):
     scheme_relative_url = '//example.com/foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(scheme_relative_url, request) == 'https://example.com/foo/bar'
     log_warning_mock.assert_not_called()
 
@@ -129,11 +113,9 @@ def test_siteabsoluteurl_when_secured_proxy_in_use_adds_https(rf, mocker):
         SECURED_PROXY=True,
     )
 )
-def test_siteabsoluteurl_when_secured_proxy_in_use_returns_absolute_http_urls_converted_to_https(rf, mocker):
+def test_siteabsoluteurl_when_secured_proxy_in_use_returns_absolute_http_urls_converted_to_https(rf, log_warning_mock):
     absolute_url = 'http://example.com/foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(absolute_url, request) == 'https://example.com/foo/bar'
     log_warning_mock.assert_not_called()
 
@@ -143,11 +125,9 @@ def test_siteabsoluteurl_when_secured_proxy_in_use_returns_absolute_http_urls_co
         SECURED_PROXY=True,
     )
 )
-def test_siteabsoluteurl_when_secured_proxy_in_use_returns_absolute_https_urls_unchanged(rf, mocker):
+def test_siteabsoluteurl_when_secured_proxy_in_use_returns_absolute_https_urls_unchanged(rf, log_warning_mock):
     absolute_url = 'https://example.com/foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(absolute_url, request) == 'https://example.com/foo/bar'
     log_warning_mock.assert_not_called()
 
@@ -157,12 +137,15 @@ def test_siteabsoluteurl_when_secured_proxy_in_use_returns_absolute_https_urls_u
         SECURED_PROXY=True,
     )
 )
-def test_siteabsoluteurl_when_secured_proxy_in_use_returns_absolute_nonhttp_urls_unchanged(rf, mocker):
+def test_siteabsoluteurl_when_secured_proxy_in_use_returns_absolute_nonhttp_urls_unchanged(rf, log_warning_mock):
     absolute_url = 'ftp://example.com/foo/bar'
     request = rf.get('/another/path')
-    logger.setLevel(logging.WARNING)
-    log_warning_mock = mocker.patch.object(logger, 'warning')
     assert siteabsoluteurl(absolute_url, request) == 'ftp://example.com/foo/bar'
     log_warning_mock.assert_called_with(
-        "ftp://example.com/foo/bar has not been converted to HTTPS, because it isn't an HTTP URL."
-    )
+        "ftp://example.com/foo/bar has not been converted to HTTPS, because it isn't an HTTP URL.")
+
+
+@pytest.fixture
+def log_warning_mock(mocker):
+    logger.setLevel(logging.WARNING)
+    return mocker.patch.object(logger, 'warning')
