@@ -10,12 +10,60 @@
     <div class="container-row content">
         <h2>Downloads</h2>
         <p>Here you can find additional downloads and some useful links to similar projects.</p>
-        <h3>Styles</h3>
-        <h4>Sample Export</h4>
+        <h3>Sample Exports</h3>
         <p>
-            As an export example, we provide an example export featuring "Rapperswil"<br />
-            <a href="{% static 'osmaxx/example_data/rapperswil_wgs-84_2016-11-17_gpkg_full-detail.zip' %}">rapperswil_wgs-84_2016-11-17_gpkg_full-detail.zip</a>.
+            The following sample exports feature excerpt "Rapperswil-Jona".
+            <h4>Full detail GIS format exports</h4>
+            <dl class="dl-horizontal">
+                <dt>Esri File Geodatabase</dt>
+                <dd>
+                    <a href="{% static 'osmaxx/example_data/rapperswil-jona_wgs-84_2017-03-20_fgdb_full-detail.zip' %}">rapperswil-jona_wgs-84_2017-03-20_fgdb_full-detail.zip</a>
+                </dd>
+                <dt>Esri Shapefile</dt>
+                <dd>
+                    <a href="{% static 'osmaxx/example_data/rapperswil-jona_wgs-84_2017-03-20_shapefile_full-detail.zip' %}">rapperswil-jona_wgs-84_2017-03-20_shapefile_full-detail.zip</a>
+                </dd>
+                <dt>GeoPackage</dt>
+                <dd>
+                    <a href="{% static 'osmaxx/example_data/rapperswil-jona_wgs-84_2017-03-20_gpkg_full-detail.zip' %}">rapperswil-jona_wgs-84_2017-03-20_gpkg_full-detail.zip</a>
+                </dd>
+                <dt>SpatiaLite</dt>
+                <dd>
+                    <a href="{% static 'osmaxx/example_data/rapperswil-jona_wgs-84_2017-03-20_spatialite_full-detail.zip' %}">rapperswil-jona_wgs-84_2017-03-20_spatialite_full-detail.zip</a>
+                </dd>
+            </dl>
+            <h4>Reduced detail ("simplified") GIS format exports</h4>
+            <dl class="dl-horizontal">
+                <dt>Esri File Geodatabase</dt>
+                <dd>
+                    <a href="{% static 'osmaxx/example_data/rapperswil-jona_wgs-84_2017-03-20_fgdb_simplified.zip' %}">rapperswil-jona_wgs-84_2017-03-20_fgdb_simplified.zip</a>
+                </dd>
+                <dt>Esri Shapefile</dt>
+                <dd>
+                    <a href="{% static 'osmaxx/example_data/rapperswil-jona_wgs-84_2017-03-20_shapefile_simplified.zip' %}">rapperswil-jona_wgs-84_2017-03-20_shapefile_simplified.zip</a>
+                </dd>
+                <dt>GeoPackage</dt>
+                <dd>
+                    <a href="{% static 'osmaxx/example_data/rapperswil-jona_wgs-84_2017-03-20_gpkg_simplified.zip' %}">rapperswil-jona_wgs-84_2017-03-20_gpkg_simplified.zip</a>
+                </dd>
+                <dt>SpatiaLite</dt>
+                <dd>
+                    <a href="{% static 'osmaxx/example_data/rapperswil-jona_wgs-84_2017-03-20_spatialite_simplified.zip' %}">rapperswil-jona_wgs-84_2017-03-20_spatialite_simplified.zip</a>
+                </dd>
+            </dl>
+            <h4>Non-GIS formats</h4>
+            <dl class="dl-horizontal">
+                <dt>Garmin navigation &amp; map data</dt>
+                <dd>
+                    <a href="{% static 'osmaxx/example_data/rapperswil-jona_wgs-84_2017-03-20_garmin_full-detail.zip' %}">rapperswil-jona_wgs-84_2017-03-20_garmin_full-detail.zip</a>
+                </dd>
+                <dt>OSM Protocolbuffer Binary Format</dt>
+                <dd>
+                    <a href="{% static 'osmaxx/example_data/rapperswil-jona_wgs-84_2017-03-20_pbf_full-detail.zip' %}">rapperswil-jona_wgs-84_2017-03-20_pbf_full-detail.zip</a>
+                </dd>
+            </dl>
         </p>
+        <h3>Styles</h3>
         <h4>QGIS</h4>
         <p>
             A QGIS project file is being delivered with every export, matching the exported data containing the OMSaxx
