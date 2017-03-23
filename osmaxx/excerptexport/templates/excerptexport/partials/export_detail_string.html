@@ -1,7 +1,7 @@
 {% load i18n capture_as %}{{ export.get_file_format_display }} /
-{% firstof export.finished_at|date:"Y-m-d H:i:s" export.updated_at|date:"Y-m-d H:i:s" as finished_date %}
-{% capture_as state_display %}{{ export.status }} at {{ finished_date }}{% end_capture_as %}
-{% capture_as available_until %}{{ export.result_file_available_until|date:"Y-m-d H:i:s" }}{% end_capture_as %}
+{% firstof export.finished_at|date:'DATETIME_FORMAT' export.updated_at|date:'DATETIME_FORMAT' as changed_at_datetime %}
+{% capture_as state_display %}{{ export.status }} at {{ changed_at_datetime }}{% end_capture_as %}
+{% capture_as available_until %}{{ export.result_file_available_until|date:'DATETIME_FORMAT' }}{% end_capture_as %}
 {% if export.status == export.FINISHED and export.result_file_available_until %}
     {% blocktrans %}<span title="{{ state_display }}">available until {{ available_until }}</span>{% endblocktrans %} /
 {% else %}

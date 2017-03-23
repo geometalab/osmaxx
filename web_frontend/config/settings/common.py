@@ -160,6 +160,13 @@ USE_L10N = True
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
 
+# See https://docs.djangoproject.com/en/dev/ref/settings/#datetime-format
+DATETIME_FORMAT = "Y-m-d H:i:s e"  # e.g. '2017-03-21 16:15:20 CET'
+
+# See https://mounirmesselmeni.github.io/2014/11/06/date-format-in-django-admin/
+from django.conf.locale.en import formats as en_formats
+en_formats.DATETIME_FORMAT = DATETIME_FORMAT
+
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/1.8/ref/templates/upgrading/#the-templates-settings
