@@ -104,10 +104,12 @@ RUN apt-get clean && apt-get update && \
 WORKDIR /root/osm2pgsql
 
 # OSM2PGSQL
+ENV OSM2PGSQL_VERSION=0.92.0
 RUN mkdir src &&\
     cd src &&\
     GIT_SSL_NO_VERIFY=true git clone https://github.com/openstreetmap/osm2pgsql.git &&\
     cd osm2pgsql &&\
+    git checkout ${OSM2PGSQL_VERSION} &&\
     mkdir build &&\
     cd build &&\
     cmake ..&&\
