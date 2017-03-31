@@ -161,7 +161,6 @@ def pytest_configure():
             'ACCOUNT_MANAGER_EMAIL': 'accountmanager@example.com',
         },
         OSMAXX_FRONTEND_USER_GROUP='osmaxx_frontend_users',
-        REGISTRATION_OPEN=True,
         CACHES={
             'default': {
                 'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
@@ -255,11 +254,9 @@ def authenticated_api_client(api_client, user):
 
 @pytest.fixture
 def frontend_accessible_authenticated_api_client(api_client, user):
-    from django.conf import settings
-    from django.contrib.auth.models import Group
+    from osmaxx.profile.models import Profile
 
-    group = Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP)
-    user.groups.add(group)
+    Profile.objects.create(associated_user=user, unverified_email=user.email)
     return authenticated_client(api_client, user)
 
 

@@ -14,7 +14,7 @@ class Profile(models.Model):
     unverified_email = models.EmailField(verbose_name=_('unverified email'), max_length=200, null=True)
 
     def has_validated_email(self):
-        return self.associated_user.email == self.unverified_email
+        return self.unverified_email and self.associated_user.email == self.unverified_email
 
     def activation_key(self):
         key = signing.dumps(
