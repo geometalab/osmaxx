@@ -103,3 +103,4 @@ FORMAT_DEFINITIONS = OrderedDict([
 ])
 
 FORMAT_CHOICES = tuple((key, definition.verbose_name) for key, definition in FORMAT_DEFINITIONS.items())
+ALL = FORMAT_DEFINITIONS.keys()
