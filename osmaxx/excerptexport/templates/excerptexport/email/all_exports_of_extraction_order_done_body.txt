@@ -1,9 +1,9 @@
 {% load navigation %}This is an automated email from {{ request.get_host }}
 
-The extraction order #{{ extraction_order.id }} "{{ extraction_order.excerpt_name }}" has been processed{% if successful_exports.count > 0 %} and is available for download:
-{% for export in successful_exports %}- {{ export.get_file_format_display }}{% if export.output_file.file %}: {{ export.output_file.file.url | siteabsoluteurl:request }}{% endif %}
+The extraction order #{{ extraction_order.id }} "{{ extraction_order.excerpt_name }}" has been processed{% for export in successful_exports %}{% if forloop.first %} and is available for download:
+{% endif %}- {{ export.get_file_format_display }}{% if export.output_file.file %}: {{ export.output_file.file.url | siteabsoluteurl:request }}{% endif %}
 {% endfor %}
-{% endif %}{% if failed_exports.count > 0 %}Unfortunately, the following export{{ failed_exports.count|pluralize }} ha{{ failed_exports.count|pluralize:"s,ve" }} failed:
+{% if failed_exports.count > 0 %}Unfortunately, the following export{{ failed_exports.count|pluralize }} ha{{ failed_exports.count|pluralize:"s,ve" }} failed:
 {% for export in failed_exports %}- {{ export.get_file_format_display }}
 {% endfor %}
 Please order them anew if you need them. If there are repeated failures, please report them on https://github.com/geometalab/osmaxx/issues unless the problem is already known there.
