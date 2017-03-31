@@ -6,7 +6,7 @@ The extraction order #{{ extraction_order.id }} "{{ extraction_order.excerpt_nam
 {% for export in failed_exports %}{% if forloop.first %}Unfortunately, the following export{{ failed_exports|pluralize }} ha{{ failed_exports|pluralize:"s,ve" }} failed:
 {% endif %}- {{ export.get_file_format_display }}
 {% if forloop.last %}
-Please order them anew if you need them. If there are repeated failures, please report them on https://github.com/geometalab/osmaxx/issues unless the problem is already known there.
+Please order {{ failed_exports|pluralize:"it,them" }} anew if you need {{ failed_exports|pluralize:"it,them" }}. If there are repeated failures, please report them on https://github.com/geometalab/osmaxx/issues unless the problem is already known there.
 {% endif %}{% endfor %}
 View the complete order at {{  extraction_order.get_absolute_url | siteabsoluteurl:request }} (login required)
 
