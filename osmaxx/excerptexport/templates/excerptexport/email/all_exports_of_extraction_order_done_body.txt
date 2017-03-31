@@ -2,6 +2,7 @@
 
 The extraction order #{{ extraction_order.id }} "{{ extraction_order.excerpt_name }}" has been processed{% for export in successful_exports %}{% if forloop.first %} and is available for download:
 {% endif %}- {{ export.get_file_format_display }}{% if export.output_file.file %}: {{ export.output_file.file.url | siteabsoluteurl:request }}{% endif %}
+{% empty %}.
 {% endfor %}
 {% for export in failed_exports %}{% if forloop.first %}Unfortunately, the following export{{ failed_exports|pluralize }} ha{{ failed_exports|pluralize:"s,ve" }} failed:
 {% endif %}- {{ export.get_file_format_display }}
