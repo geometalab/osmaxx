@@ -35,7 +35,7 @@ def test_start_format_extraction_calls_produce_pbf(area_name, simple_osmosis_lin
     conversion.start_format_extraction()
     pbf_converter_mock_create.assert_called_once_with(
         out_zip_file_path=output_zip_file_path,
-        filename_prefix=area_name,
+        filename_prefix=filename_prefix,
         polyfile_string=simple_osmosis_line_string,
     )
 
