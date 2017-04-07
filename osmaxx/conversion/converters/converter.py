@@ -60,7 +60,7 @@ class Conversion(object):
     def _create_pbf(self):
         produce_pbf(
             out_zip_file_path=self._output_zip_file_path,
-            area_name=self._area_name,
+            filename_prefix=self._area_name,
             polyfile_string=self._polyfile_string,
         )
 
