@@ -1,43 +1,26 @@
 import uuid
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 
 from django.utils.translation import gettext as _
 
 FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN, PBF = 'fgdb', 'shapefile', 'gpkg', 'spatialite', 'garmin', 'pbf'
 
 
-class OutputFormat:
-    def __init__(
-            self, *, long_identifier, verbose_name, archive_file_name_identifier, abbreviations, is_white_box,
-            layer_filename_extension=None
-    ):
-        self._long_identifier = long_identifier
-        self._verbose_name = verbose_name
-        self._archive_file_name_identifier = archive_file_name_identifier
-        self._abbreviations = abbreviations
-        self._is_white_box = is_white_box
-        self._layer_filename_extension = layer_filename_extension
+_OutputFormatBase = namedtuple(
+    'OutputFormatBase',
+    [
+        'long_identifier',
+        'verbose_name',
+        'archive_file_name_identifier',
+        'abbreviations',
+        'is_white_box',
+        'layer_filename_extension',
+    ]
+)
+_OutputFormatBase.__new__.__defaults__ = (None,)  # This makes the last field (i.e. layer_filename_extension) optional.
 
-    @property
-    def long_identifier(self):
-        return self._long_identifier
 
-    @property
-    def verbose_name(self):
-        return self._verbose_name
-
-    @property
-    def archive_file_name_identifier(self):
-        return self._archive_file_name_identifier
-
-    @property
-    def abbreviations(self):
-        return self._abbreviations
-
-    @property
-    def layer_filename_extension(self):
-        return self._layer_filename_extension
-
+class OutputFormat(_OutputFormatBase):
     @property
     def qgis_datasource_separator(self):
         """
