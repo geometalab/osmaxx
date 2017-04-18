@@ -39,6 +39,9 @@ class Conversion(object):
         self._conversion_process()
 
     def _extract_postgis_format(self):
+        self.perform_export()
+
+    def perform_export(self):
         gis = GISConverter(
             conversion_format=self._conversion_format,
             out_zip_file_path=self._output_zip_file_path,
