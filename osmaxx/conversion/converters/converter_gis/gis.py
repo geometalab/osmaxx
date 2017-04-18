@@ -111,13 +111,13 @@ class GISConverter:
         )
 
 
-def perform_export(*, _conversion_format, _output_zip_file_path, _name_prefix, _out_srs, _polyfile_string, _detail_level):
+def perform_export(*, conversion_format, output_zip_file_path, filename_prefix, out_srs, polyfile_string, detail_level):
     gis = GISConverter(
-        conversion_format=_conversion_format,
-        out_zip_file_path=_output_zip_file_path,
-        base_file_name=_name_prefix,
-        out_srs=_out_srs,
-        polyfile_string=_polyfile_string,
-        detail_level=_detail_level
+        conversion_format=conversion_format,
+        out_zip_file_path=output_zip_file_path,
+        base_file_name=filename_prefix,
+        out_srs=out_srs,
+        polyfile_string=polyfile_string,
+        detail_level=detail_level
     )
     gis.create_gis_export()
