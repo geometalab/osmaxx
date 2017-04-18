@@ -93,7 +93,7 @@ class Garmin:
         zip_folders_relative([data_dir], self._resulting_zip_file_path)
 
 
-def perform_export(_output_zip_file_path, _area_name, _polyfile_string):
+def perform_export(*, _output_zip_file_path, _area_name, _polyfile_string):
     garmin = Garmin(
         out_zip_file_path=_output_zip_file_path,
         area_name=_area_name,

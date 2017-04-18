@@ -50,7 +50,11 @@ class Conversion(object):
         gis.create_gis_export()
 
     def _create_garmin_export(self):
-        perform_export(self._output_zip_file_path, self._area_name, self._polyfile_string)
+        perform_export(
+            _output_zip_file_path=self._output_zip_file_path,
+            _area_name=self._area_name,
+            _polyfile_string=self._polyfile_string,
+        )
 
     def _create_pbf(self):
         produce_pbf(
