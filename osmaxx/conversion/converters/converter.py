@@ -50,6 +50,9 @@ class Conversion(object):
         gis.create_gis_export()
 
     def _create_garmin_export(self):
+        self.perform_export()
+
+    def perform_export(self):
         garmin = Garmin(
             out_zip_file_path=self._output_zip_file_path,
             area_name=self._area_name,
