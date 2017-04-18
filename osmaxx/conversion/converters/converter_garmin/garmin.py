@@ -13,7 +13,7 @@ from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_g
 
 def perform_export(*, output_zip_file_path, area_name, polyfile_string):
     garmin = Garmin(
-        out_zip_file_path=output_zip_file_path,
+        output_zip_file_path=output_zip_file_path,
         area_name=area_name,
         polyfile_string=polyfile_string,
     )
@@ -27,8 +27,8 @@ _path_to_geonames_zip = os.path.join(os.path.dirname(__file__), 'additional_data
 
 
 class Garmin:
-    def __init__(self, *, out_zip_file_path, area_name, polyfile_string):
-        self._resulting_zip_file_path = out_zip_file_path
+    def __init__(self, *, output_zip_file_path, area_name, polyfile_string):
+        self._resulting_zip_file_path = output_zip_file_path
         self._map_description = area_name
         self._osmosis_polygon_file = tempfile.NamedTemporaryFile(suffix='.poly', mode='w')
         self._osmosis_polygon_file.write(polyfile_string)
