@@ -1,5 +1,5 @@
 from osmaxx.conversion.converters.converter_garmin.garmin import Garmin
-from osmaxx.conversion.converters.converter_gis.gis import GISConverter
+from osmaxx.conversion.converters.converter_gis.gis import perform_export
 from osmaxx.conversion.converters.converter_pbf.to_pbf import produce_pbf
 from osmaxx.conversion.job_dispatcher.rq_dispatcher import rq_enqueue_with_settings
 from osmaxx.conversion_api.formats import FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN, PBF
@@ -39,18 +39,8 @@ class Conversion(object):
         self._conversion_process()
 
     def _extract_postgis_format(self):
-        self.perform_export()
-
-    def perform_export(self):
-        gis = GISConverter(
-            conversion_format=self._conversion_format,
-            out_zip_file_path=self._output_zip_file_path,
-            base_file_name=self._name_prefix,
-            out_srs=self._out_srs,
-            polyfile_string=self._polyfile_string,
-            detail_level=self._detail_level
-        )
-        gis.create_gis_export()
+        perform_export(self._conversion_format, self._output_zip_file_path, self._name_prefix, self._out_srs,
+                       self._polyfile_string, self._detail_level)
 
     def _create_garmin_export(self):
         garmin = Garmin(

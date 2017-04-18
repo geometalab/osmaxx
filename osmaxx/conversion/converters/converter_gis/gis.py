@@ -109,3 +109,15 @@ class GISConverter:
             os.path.join(self._symbology_directory, 'OSMaxx_point_symbols'),
             os.path.join(target_dir, 'OSMaxx_point_symbols'),
         )
+
+
+def perform_export(_conversion_format, _output_zip_file_path, _name_prefix, _out_srs, _polyfile_string, _detail_level):
+    gis = GISConverter(
+        conversion_format=_conversion_format,
+        out_zip_file_path=_output_zip_file_path,
+        base_file_name=_name_prefix,
+        out_srs=_out_srs,
+        polyfile_string=_polyfile_string,
+        detail_level=_detail_level
+    )
+    gis.create_gis_export()
