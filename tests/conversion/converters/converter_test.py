@@ -4,7 +4,7 @@ from osmaxx.conversion.converters.converter import Conversion, convert
 def test_start_format_extraction(conversion_format, area_name, simple_osmosis_line_string, output_zip_file_path, filename_prefix, detail_level, out_srs, mocker):
     gis_converter_mock_create = mocker.patch('osmaxx.conversion.converters.converter_gis.gis.GISConverter.create_gis_export')
     garmin_converter_mock_create = mocker.patch('osmaxx.conversion.converters.converter_garmin.garmin.Garmin.create_garmin_export')
-    pbf_converter_mock_create = mocker.patch('osmaxx.conversion.converters.converter.produce_pbf')
+    pbf_converter_mock_create = mocker.patch('osmaxx.conversion.converters.converter.converter_pbf.perform_export')
     conversion = Conversion(
         conversion_format=conversion_format,
         area_name=area_name,
