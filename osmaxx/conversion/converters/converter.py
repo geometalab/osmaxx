@@ -51,9 +51,9 @@ class Conversion(object):
 
     def _create_garmin_export(self):
         perform_export(
-            _output_zip_file_path=self._output_zip_file_path,
-            _area_name=self._area_name,
-            _polyfile_string=self._polyfile_string,
+            output_zip_file_path=self._output_zip_file_path,
+            area_name=self._area_name,
+            polyfile_string=self._polyfile_string,
         )
 
     def _create_pbf(self):
