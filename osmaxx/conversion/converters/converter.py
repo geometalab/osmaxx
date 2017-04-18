@@ -39,8 +39,14 @@ class Conversion(object):
         self._conversion_process()
 
     def _extract_postgis_format(self):
-        perform_export(self._conversion_format, self._output_zip_file_path, self._name_prefix, self._out_srs,
-                       self._polyfile_string, self._detail_level)
+        perform_export(
+            _conversion_format=self._conversion_format,
+            _output_zip_file_path=self._output_zip_file_path,
+            _name_prefix=self._name_prefix,
+            _out_srs=self._out_srs,
+            _polyfile_string=self._polyfile_string,
+            _detail_level=self._detail_level,
+        )
 
     def _create_garmin_export(self):
         garmin = Garmin(
