@@ -59,7 +59,7 @@ class Conversion(object):
 
     def _create_pbf(self):
         converter_pbf.perform_export(
-            out_zip_file_path=self._output_zip_file_path,
+            output_zip_file_path=self._output_zip_file_path,
             filename_prefix=self._name_prefix,
             polyfile_string=self._polyfile_string,
         )
