@@ -18,6 +18,18 @@ from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_g
 from osmaxx.conversion_api.formats import FORMAT_DEFINITIONS
 
 
+def perform_export(*, conversion_format, output_zip_file_path, filename_prefix, out_srs, polyfile_string, detail_level):
+    gis = GISConverter(
+        conversion_format=conversion_format,
+        out_zip_file_path=output_zip_file_path,
+        base_file_name=filename_prefix,
+        out_srs=out_srs,
+        polyfile_string=polyfile_string,
+        detail_level=detail_level
+    )
+    gis.create_gis_export()
+
+
 QGIS_DISPLAY_SRID = 3857  # Web Mercator
 
 
@@ -109,15 +121,3 @@ class GISConverter:
             os.path.join(self._symbology_directory, 'OSMaxx_point_symbols'),
             os.path.join(target_dir, 'OSMaxx_point_symbols'),
         )
-
-
-def perform_export(*, conversion_format, output_zip_file_path, filename_prefix, out_srs, polyfile_string, detail_level):
-    gis = GISConverter(
-        conversion_format=conversion_format,
-        out_zip_file_path=output_zip_file_path,
-        base_file_name=filename_prefix,
-        out_srs=out_srs,
-        polyfile_string=polyfile_string,
-        detail_level=detail_level
-    )
-    gis.create_gis_export()
