@@ -10,6 +10,16 @@ from osmaxx.conversion.converters.converter_pbf.to_pbf import cut_pbf_along_poly
 
 from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize, logged_check_call
 
+
+def perform_export(*, output_zip_file_path, area_name, polyfile_string):
+    garmin = Garmin(
+        out_zip_file_path=output_zip_file_path,
+        area_name=area_name,
+        polyfile_string=polyfile_string,
+    )
+    garmin.create_garmin_export()
+
+
 _path_to_commandline_utils = os.path.join(os.path.dirname(__file__), 'command_line_utils')
 _path_to_bounds_zip = os.path.join(CONVERSION_SETTINGS['SEA_AND_BOUNDS_ZIP_DIRECTORY'], 'bounds.zip')
 _path_to_sea_zip = os.path.join(CONVERSION_SETTINGS['SEA_AND_BOUNDS_ZIP_DIRECTORY'], 'sea.zip')
@@ -91,12 +101,3 @@ class Garmin:
 
     def _create_zip(self, data_dir):
         zip_folders_relative([data_dir], self._resulting_zip_file_path)
-
-
-def perform_export(*, output_zip_file_path, area_name, polyfile_string):
-    garmin = Garmin(
-        out_zip_file_path=output_zip_file_path,
-        area_name=area_name,
-        polyfile_string=polyfile_string,
-    )
-    garmin.create_garmin_export()
