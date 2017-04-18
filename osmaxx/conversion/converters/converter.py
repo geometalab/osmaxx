@@ -1,4 +1,4 @@
-from osmaxx.conversion.converters.converter_garmin.garmin import Garmin
+from osmaxx.conversion.converters.converter_garmin.garmin import perform_export
 from osmaxx.conversion.converters.converter_gis.gis import GISConverter
 from osmaxx.conversion.converters.converter_pbf.to_pbf import produce_pbf
 from osmaxx.conversion.job_dispatcher.rq_dispatcher import rq_enqueue_with_settings
@@ -50,15 +50,7 @@ class Conversion(object):
         gis.create_gis_export()
 
     def _create_garmin_export(self):
-        self.perform_export()
-
-    def perform_export(self):
-        garmin = Garmin(
-            out_zip_file_path=self._output_zip_file_path,
-            area_name=self._area_name,
-            polyfile_string=self._polyfile_string,
-        )
-        garmin.create_garmin_export()
+        perform_export(self._output_zip_file_path, self._area_name, self._polyfile_string)
 
     def _create_pbf(self):
         produce_pbf(
