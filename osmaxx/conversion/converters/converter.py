@@ -42,6 +42,7 @@ class Conversion(object):
         converter_gis.perform_export(
             conversion_format=self._conversion_format,
             output_zip_file_path=self._output_zip_file_path,
+            area_name=self._area_name,
             filename_prefix=self._name_prefix,
             out_srs=self._out_srs,
             polyfile_string=self._polyfile_string,
@@ -50,16 +51,24 @@ class Conversion(object):
 
     def _create_garmin_export(self):
         converter_garmin.perform_export(
+            conversion_format=self._conversion_format,
             output_zip_file_path=self._output_zip_file_path,
             area_name=self._area_name,
+            filename_prefix=self._name_prefix,
+            out_srs=self._out_srs,
             polyfile_string=self._polyfile_string,
+            detail_level=self._detail_level,
         )
 
     def _create_pbf(self):
         converter_pbf.perform_export(
+            conversion_format=self._conversion_format,
             output_zip_file_path=self._output_zip_file_path,
+            area_name=self._area_name,
             filename_prefix=self._name_prefix,
+            out_srs=self._out_srs,
             polyfile_string=self._polyfile_string,
+            detail_level=self._detail_level,
         )
 
 

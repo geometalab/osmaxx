@@ -31,7 +31,7 @@ def cut_pbf_along_polyfile(polyfile_string, pbf_out_path):
         cut_area_from_pbf(pbf_out_path, polyfile.name)
 
 
-def produce_pbf(*, output_zip_file_path, filename_prefix, polyfile_string):
+def produce_pbf(*, output_zip_file_path, filename_prefix, polyfile_string, **__):
     _start_time = timezone.now()
 
     with tempfile.TemporaryDirectory() as tmp_dir:

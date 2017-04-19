@@ -11,7 +11,7 @@ from osmaxx.conversion.converters.converter_pbf.to_pbf import cut_pbf_along_poly
 from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize, logged_check_call
 
 
-def perform_export(*, output_zip_file_path, area_name, polyfile_string):
+def perform_export(*, output_zip_file_path, area_name, polyfile_string, **__):
     garmin = Garmin(
         output_zip_file_path=output_zip_file_path,
         area_name=area_name,

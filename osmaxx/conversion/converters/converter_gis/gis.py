@@ -18,7 +18,7 @@ from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_g
 from osmaxx.conversion_api.formats import FORMAT_DEFINITIONS
 
 
-def perform_export(*, conversion_format, output_zip_file_path, filename_prefix, out_srs, polyfile_string, detail_level):
+def perform_export(*, conversion_format, output_zip_file_path, filename_prefix, out_srs, polyfile_string, detail_level, **__):
     gis = GISConverter(
         conversion_format=conversion_format,
         output_zip_file_path=output_zip_file_path,
