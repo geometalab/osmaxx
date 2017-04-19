@@ -25,7 +25,7 @@ def start_format_extraction(
         output_zip_file_path,
         filename_prefix,
         detail_level,
-        out_srs=None
+        out_srs
 ):
     converter = _format_converter[conversion_format]
     converter.perform_export(
