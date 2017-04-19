@@ -33,7 +33,7 @@ def test_convert_returns_id_when_use_worker_is_true(conversion_format, area_name
     assert convert_return_value == 42
 
 
-def test_convert_starts_conversion(conversion_format, area_name, simple_osmosis_line_string, output_zip_file_path, filename_prefix, detail_level, out_srs, mocker, monkeypatch):
+def test_convert_starts_conversion(conversion_format, area_name, simple_osmosis_line_string, output_zip_file_path, filename_prefix, detail_level, out_srs, mocker):
     conversion_start_start_format_extraction_mock = mocker.patch('osmaxx.conversion.converters.converter.start_format_extraction')
     convert_return_value = convert(
         conversion_format=conversion_format,
