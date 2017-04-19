@@ -17,28 +17,6 @@ _format_converter = frozendict(
 )
 
 
-def start_format_extraction(
-        *,
-        conversion_format,
-        area_name,
-        osmosis_polygon_file_string,
-        output_zip_file_path,
-        filename_prefix,
-        detail_level,
-        out_srs
-):
-    converter = _format_converter[conversion_format]
-    converter.perform_export(
-        conversion_format=conversion_format,
-        output_zip_file_path=output_zip_file_path,
-        area_name=area_name,
-        filename_prefix=filename_prefix,
-        out_srs=out_srs,
-        osmosis_polygon_file_string=osmosis_polygon_file_string,
-        detail_level=detail_level,
-    )
-
-
 def convert(
         *, conversion_format, area_name, osmosis_polygon_file_string, output_zip_file_path, filename_prefix,
         out_srs, detail_level, use_worker=False, queue_name='default'
@@ -61,5 +39,6 @@ def convert(
             queue_name=queue_name,
             **params
         ).id
-    start_format_extraction(**params)
+    converter = _format_converter[conversion_format]
+    converter.perform_export(**params)
     return None
