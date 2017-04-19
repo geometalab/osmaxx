@@ -3,6 +3,18 @@ from osmaxx.conversion.converters import converter_gis
 from osmaxx.conversion.converters import converter_pbf
 from osmaxx.conversion.job_dispatcher.rq_dispatcher import rq_enqueue_with_settings
 from osmaxx.conversion_api.formats import FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN, PBF
+from osmaxx.utils.frozendict import frozendict
+
+_format_converter = frozendict(
+    {
+        GARMIN: converter_garmin,
+        PBF: converter_pbf,
+        FGDB: converter_gis,
+        SHAPEFILE: converter_gis,
+        GPKG: converter_gis,
+        SPATIALITE: converter_gis,
+    }
+)
 
 
 class Conversion(object):
@@ -24,15 +36,6 @@ class Conversion(object):
         self._name_prefix = filename_prefix
         self._out_srs = out_srs
         self._detail_level = detail_level
-
-        _format_converter = {
-            GARMIN: converter_garmin,
-            PBF: converter_pbf,
-            FGDB: converter_gis,
-            SHAPEFILE: converter_gis,
-            GPKG: converter_gis,
-            SPATIALITE: converter_gis,
-        }
         self._converter = _format_converter[conversion_format]
 
     def start_format_extraction(self):
