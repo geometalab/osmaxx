@@ -25,16 +25,6 @@ class Conversion(object):
         self._out_srs = out_srs
         self._detail_level = detail_level
 
-        _format_process = {
-            GARMIN: self._create_garmin_export,
-            PBF: self._create_pbf,
-            FGDB: self._extract_postgis_format,
-            SHAPEFILE: self._extract_postgis_format,
-            GPKG: self._extract_postgis_format,
-            SPATIALITE: self._extract_postgis_format,
-        }
-        self._conversion_process = _format_process[conversion_format]
-
         _format_converter = {
             GARMIN: converter_garmin,
             PBF: converter_pbf,
@@ -46,15 +36,6 @@ class Conversion(object):
         self._converter = _format_converter[conversion_format]
 
     def start_format_extraction(self):
-        self._conversion_process()
-
-    def _extract_postgis_format(self):
-        self._perform_export(self._converter)
-
-    def _create_garmin_export(self):
-        self._perform_export(self._converter)
-
-    def _create_pbf(self):
         self._perform_export(self._converter)
 
     def _perform_export(self, converter):
