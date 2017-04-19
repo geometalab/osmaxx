@@ -36,10 +36,7 @@ class Conversion(object):
         self._converter = _format_converter[conversion_format]
 
     def start_format_extraction(self):
-        self._perform_export(self._converter)
-
-    def _perform_export(self, converter):
-        converter.perform_export(
+        self._converter.perform_export(
             conversion_format=self._conversion_format,
             output_zip_file_path=self._output_zip_file_path,
             area_name=self._area_name,
