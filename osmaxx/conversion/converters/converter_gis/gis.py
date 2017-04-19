@@ -19,13 +19,14 @@ from osmaxx.conversion_api.formats import FORMAT_DEFINITIONS
 
 
 def perform_export(
-        *, conversion_format, output_zip_file_path, filename_prefix, out_srs, polyfile_string, detail_level, **__):
+        *, conversion_format, output_zip_file_path, filename_prefix, out_srs, osmosis_polygon_file_string, detail_level,
+        **__):
     gis = GISConverter(
         conversion_format=conversion_format,
         output_zip_file_path=output_zip_file_path,
         base_file_name=filename_prefix,
         out_srs=out_srs,
-        polyfile_string=polyfile_string,
+        polyfile_string=osmosis_polygon_file_string,
         detail_level=detail_level
     )
     gis.create_gis_export()

@@ -34,7 +34,7 @@ def start_format_extraction(
         area_name=area_name,
         filename_prefix=filename_prefix,
         out_srs=out_srs,
-        polyfile_string=osmosis_polygon_file_string,
+        osmosis_polygon_file_string=osmosis_polygon_file_string,
         detail_level=detail_level,
     )
 
