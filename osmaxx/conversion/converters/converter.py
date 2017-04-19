@@ -39,7 +39,8 @@ class Conversion(object):
         self._conversion_process()
 
     def _extract_postgis_format(self):
-        converter_gis.perform_export(
+        converter = converter_gis
+        converter.perform_export(
             conversion_format=self._conversion_format,
             output_zip_file_path=self._output_zip_file_path,
             area_name=self._area_name,
@@ -50,7 +51,8 @@ class Conversion(object):
         )
 
     def _create_garmin_export(self):
-        converter_garmin.perform_export(
+        converter = converter_garmin
+        converter.perform_export(
             conversion_format=self._conversion_format,
             output_zip_file_path=self._output_zip_file_path,
             area_name=self._area_name,
@@ -61,7 +63,8 @@ class Conversion(object):
         )
 
     def _create_pbf(self):
-        converter_pbf.perform_export(
+        converter = converter_pbf
+        converter.perform_export(
             conversion_format=self._conversion_format,
             output_zip_file_path=self._output_zip_file_path,
             area_name=self._area_name,
