@@ -17,37 +17,26 @@ _format_converter = frozendict(
 )
 
 
-class Conversion(object):
-    def __init__(
-            self,
-            *,
-            conversion_format,
-            area_name,
-            osmosis_polygon_file_string,
-            output_zip_file_path,
-            filename_prefix,
-            detail_level,
-            out_srs=None
-    ):
-        self._conversion_format = conversion_format
-        self._output_zip_file_path = output_zip_file_path
-        self._area_name = area_name
-        self._polyfile_string = osmosis_polygon_file_string
-        self._name_prefix = filename_prefix
-        self._out_srs = out_srs
-        self._detail_level = detail_level
-        self._converter = _format_converter[conversion_format]
-
-    def start_format_extraction(self):
-        self._converter.perform_export(
-            conversion_format=self._conversion_format,
-            output_zip_file_path=self._output_zip_file_path,
-            area_name=self._area_name,
-            filename_prefix=self._name_prefix,
-            out_srs=self._out_srs,
-            polyfile_string=self._polyfile_string,
-            detail_level=self._detail_level,
-        )
+def start_format_extraction(
+        *,
+        conversion_format,
+        area_name,
+        osmosis_polygon_file_string,
+        output_zip_file_path,
+        filename_prefix,
+        detail_level,
+        out_srs=None
+):
+    converter = _format_converter[conversion_format]
+    converter.perform_export(
+        conversion_format=conversion_format,
+        output_zip_file_path=output_zip_file_path,
+        area_name=area_name,
+        filename_prefix=filename_prefix,
+        out_srs=out_srs,
+        polyfile_string=osmosis_polygon_file_string,
+        detail_level=detail_level,
+    )
 
 
 def convert(
@@ -72,6 +61,5 @@ def convert(
             queue_name=queue_name,
             **params
         ).id
-    conversion = Conversion(**params)
-    conversion.start_format_extraction()
+    start_format_extraction(**params)
     return None
