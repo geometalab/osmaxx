@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
 from rest_framework import permissions
@@ -35,15 +35,6 @@ def validated_email_required(function=None):
     if function:
         return actual_decorator(function)
     return actual_decorator
-
-
-class LoginRequiredMixin(object):
-    """
-    Login required Mixin for Class Based Views.
-    """
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
 
 
 class EmailRequiredMixin(object):

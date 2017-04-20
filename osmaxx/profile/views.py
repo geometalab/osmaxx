@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
@@ -10,7 +11,6 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views import generic
 
-from osmaxx.contrib.auth.frontend_permissions import LoginRequiredMixin
 from osmaxx.profile.forms import ProfileForm
 from osmaxx.profile.models import Profile
 
