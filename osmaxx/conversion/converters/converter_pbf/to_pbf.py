@@ -31,7 +31,7 @@ def cut_pbf_along_polyfile(polyfile_string, pbf_out_path):
         cut_area_from_pbf(pbf_out_path, polyfile.name)
 
 
-def produce_pbf(*, out_zip_file_path, filename_prefix, polyfile_string):
+def produce_pbf(*, output_zip_file_path, filename_prefix, osmosis_polygon_file_string, **__):
     _start_time = timezone.now()
 
     with tempfile.TemporaryDirectory() as tmp_dir:
@@ -41,11 +41,11 @@ def produce_pbf(*, out_zip_file_path, filename_prefix, polyfile_string):
 
         shutil.copy(odb_license, out_dir)
 
-        cut_pbf_along_polyfile(polyfile_string, pbf_out_path)
+        cut_pbf_along_polyfile(osmosis_polygon_file_string, pbf_out_path)
 
         unzipped_result_size = recursive_getsize(out_dir)
 
-        zip_folders_relative([tmp_dir], out_zip_file_path)
+        zip_folders_relative([tmp_dir], output_zip_file_path)
 
     job = get_current_job()
     if job:

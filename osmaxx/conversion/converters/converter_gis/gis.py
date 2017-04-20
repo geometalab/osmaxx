@@ -18,6 +18,20 @@ from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_g
 from osmaxx.conversion_api.formats import FORMAT_DEFINITIONS
 
 
+def perform_export(
+        *, conversion_format, output_zip_file_path, filename_prefix, out_srs, osmosis_polygon_file_string, detail_level,
+        **__):
+    gis = GISConverter(
+        conversion_format=conversion_format,
+        output_zip_file_path=output_zip_file_path,
+        base_file_name=filename_prefix,
+        out_srs=out_srs,
+        polyfile_string=osmosis_polygon_file_string,
+        detail_level=detail_level
+    )
+    gis.create_gis_export()
+
+
 QGIS_DISPLAY_SRID = 3857  # Web Mercator
 
 
@@ -28,12 +42,13 @@ class ScaleLevel(Enum):
 
 
 class GISConverter:
-    def __init__(self, *, conversion_format, out_zip_file_path, base_file_name, out_srs, polyfile_string, detail_level):
+    def __init__(
+            self, *, conversion_format, output_zip_file_path, base_file_name, out_srs, polyfile_string, detail_level):
         """
         Converts a specified pbf into the specified format.
 
         Args:
-            out_zip_file_path: path to where the zipped result should be stored, directory must already exist
+            output_zip_file_path: path to where the zipped result should be stored, directory must already exist
             conversion_format: One of 'fgdb', 'shapefile', 'gpkg', 'spatialite'
             base_file_name: base for created files inside the zip file
 
@@ -41,7 +56,7 @@ class GISConverter:
             the path to the resulting zip file
         """
         self._base_file_name = base_file_name
-        self._out_zip_file_path = out_zip_file_path
+        self._out_zip_file_path = output_zip_file_path
         self._polyfile_string = polyfile_string
         self._conversion_format = conversion_format
         self._out_srs = out_srs

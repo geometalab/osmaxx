@@ -1,11 +1,11 @@
-from osmaxx.conversion.converters.converter import Conversion, convert
+from osmaxx.conversion.converters.converter import convert
 
 
-def test_start_format_extraction(conversion_format, area_name, simple_osmosis_line_string, output_zip_file_path, filename_prefix, detail_level, out_srs, mocker):
-    gis_converter_mock_create = mocker.patch('osmaxx.conversion.converters.converter_gis.gis.GISConverter.create_gis_export')
-    garmin_converter_mock_create = mocker.patch('osmaxx.conversion.converters.converter_garmin.garmin.Garmin.create_garmin_export')
-    pbf_converter_mock_create = mocker.patch('osmaxx.conversion.converters.converter.produce_pbf')
-    conversion = Conversion(
+def test_calls_converter_and_returns_none_when_use_worker_is_omitted(conversion_format, area_name, simple_osmosis_line_string, output_zip_file_path, filename_prefix, detail_level, out_srs, mocker):
+    gis_converter_mock_create = mocker.patch('osmaxx.conversion.converters.converter_gis.perform_export', autospec=True)
+    garmin_converter_mock_create = mocker.patch('osmaxx.conversion.converters.converter_garmin.perform_export', autospec=True)
+    pbf_converter_mock_create = mocker.patch('osmaxx.conversion.converters.converter.converter_pbf.perform_export', autospec=True)
+    convert_return_value = convert(
         conversion_format=conversion_format,
         area_name=area_name,
         osmosis_polygon_file_string=simple_osmosis_line_string,
@@ -14,8 +14,8 @@ def test_start_format_extraction(conversion_format, area_name, simple_osmosis_li
         detail_level=detail_level,
         out_srs='EPSG:{}'.format(out_srs),
     )
-    conversion.start_format_extraction()
     assert gis_converter_mock_create.call_count + garmin_converter_mock_create.call_count + pbf_converter_mock_create.call_count == 1
+    assert convert_return_value is None
 
 
 def test_convert_returns_id_when_use_worker_is_true(conversion_format, area_name, simple_osmosis_line_string, output_zip_file_path, filename_prefix, detail_level, out_srs, rq_mock_return, mocker, monkeypatch):
@@ -32,19 +32,3 @@ def test_convert_returns_id_when_use_worker_is_true(conversion_format, area_name
         use_worker=True,
     )
     assert convert_return_value == 42
-
-
-def test_convert_starts_conversion(conversion_format, area_name, simple_osmosis_line_string, output_zip_file_path, filename_prefix, detail_level, out_srs, mocker, monkeypatch):
-    conversion_start_start_format_extraction_mock = mocker.patch('osmaxx.conversion.converters.converter.Conversion')
-    convert_return_value = convert(
-        conversion_format=conversion_format,
-        area_name=area_name,
-        osmosis_polygon_file_string=simple_osmosis_line_string,
-        output_zip_file_path=output_zip_file_path,
-        filename_prefix=filename_prefix,
-        detail_level=detail_level,
-        out_srs='EPSG:{}'.format(out_srs),
-        use_worker=False,
-    )
-    assert convert_return_value is None
-    assert conversion_start_start_format_extraction_mock.call_count == 1
