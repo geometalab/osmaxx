@@ -57,5 +57,4 @@ class ExportListTestCase(TestCase, PermissionHelperMixin):
                 'excerptexport:export_list'
             )
         )
-        # redirect to 'Access Denied' page
         self.assertEqual(response.status_code, 200)
