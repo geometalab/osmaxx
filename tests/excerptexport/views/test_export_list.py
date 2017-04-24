@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.gis import geos
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from tests.excerptexport.permission_test_helper import PermissionHelperMixin
@@ -16,7 +17,6 @@ class ExportListTestCase(TestCase, PermissionHelperMixin):
 
     def setUp(self):
         self.user = user = User.objects.create_user('user', 'user@example.com', 'pw')
-        self.client.login(username='user', password='pw')
 
         # FIXME: use the bounding_geometry fixture for this
         bounding_geometry = geos.GEOSGeometry(
@@ -41,7 +41,18 @@ class ExportListTestCase(TestCase, PermissionHelperMixin):
             orderer=User.objects.create_user('another_user', 'someone_else@example.com', 'top secret')
         )
 
+    @override_settings(LOGIN_URL='/login/')
+    def test_redirect_to_login_if_not_logged_in(self, *args):
+        response = self.client.get(
+            reverse(
+                'excerptexport:export_list'
+            )
+        )
+        self.assertRedirects(response, '/login/?next=/exports/', fetch_redirect_response=False)
+
     def test_access_ok_even_without_confirmed_email(self, *args):
+        self.client.login(username='user', password='pw')
+
         response = self.client.get(
             reverse(
                 'excerptexport:export_list'
@@ -50,6 +61,8 @@ class ExportListTestCase(TestCase, PermissionHelperMixin):
         self.assertEqual(response.status_code, 200)
 
     def test_access_ok_with_confirmed_email_address(self, *args):
+        self.client.login(username='user', password='pw')
+
         self.add_valid_email()
         response = self.client.get(
             reverse(
