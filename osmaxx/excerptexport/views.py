@@ -110,7 +110,7 @@ class ExportsListMixin:
         )
 
 
-class ExportsListView(AccessRestrictedBaseView, ExportsListMixin, ListView):
+class ExportsListView(LoginRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_list.html'
     context_object_name = 'excerpts'
     model = Excerpt
@@ -138,7 +138,7 @@ class ExportsListView(AccessRestrictedBaseView, ExportsListMixin, ListView):
 export_list = ExportsListView.as_view()
 
 
-class ExportsDetailView(AccessRestrictedBaseView, ExportsListMixin, ListView):
+class ExportsDetailView(LoginRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_detail.html'
     context_object_name = 'exports'
     model = Export

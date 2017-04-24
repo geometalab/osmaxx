@@ -41,16 +41,15 @@ class ExportListTestCase(TestCase, PermissionHelperMixin):
             orderer=User.objects.create_user('another_user', 'someone_else@example.com', 'top secret')
         )
 
-    def test_permission_denied_if_lacking_email(self, *args):
+    def test_access_ok_even_without_confirmed_email(self, *args):
         response = self.client.get(
             reverse(
                 'excerptexport:export_list'
             )
         )
-        # redirect to 'Access Denied' page
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
-    def test_access_ok_if_permissions(self, *args):
+    def test_access_ok_with_confirmed_email_address(self, *args):
         self.add_valid_email()
         response = self.client.get(
             reverse(
