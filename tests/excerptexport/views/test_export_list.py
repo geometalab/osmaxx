@@ -62,8 +62,8 @@ class ExportListTestCase(TestCase, PermissionHelperMixin):
 
     def test_access_ok_with_confirmed_email_address(self, *args):
         self.client.login(username='user', password='pw')
-
         self.add_valid_email()
+
         response = self.client.get(
             reverse(
                 'excerptexport:export_list'
