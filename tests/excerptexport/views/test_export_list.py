@@ -11,6 +11,7 @@ from tests.excerptexport.permission_test_helper import PermissionHelperMixin
 
 
 # TODO: test more possibilities
+@override_settings(LOGIN_URL='/login/')
 @patch('osmaxx.job_progress.middleware.update_export')
 class ExportListTestCase(TestCase, PermissionHelperMixin):
     extraction_order = None
@@ -41,7 +42,6 @@ class ExportListTestCase(TestCase, PermissionHelperMixin):
             orderer=User.objects.create_user('another_user', 'someone_else@example.com', 'top secret')
         )
 
-    @override_settings(LOGIN_URL='/login/')
     def test_redirect_to_login_if_not_logged_in(self, *args):
         response = self.client.get(
             reverse(
