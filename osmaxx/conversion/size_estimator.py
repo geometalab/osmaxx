@@ -2,7 +2,7 @@ import math
 
 from osmaxx.conversion.models import Job
 from osmaxx.conversion_api import formats
-from osmaxx.conversion.converters import detail_levels
+from osmaxx.conversion.converters.converter_gis import detail_levels
 
 
 PRE_DATA = {
