@@ -44,17 +44,13 @@ class OrderFormViewMixin(FormMixin):
         )
 
 
-class AccessRestrictedBaseView(LoginRequiredMixin, EmailRequiredMixin):
-    pass
-
-
-class OrderNewExcerptView(AccessRestrictedBaseView, OrderFormViewMixin, FormView):
+class OrderNewExcerptView(LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_new_excerpt.html'
     form_class = ExcerptForm
 order_new_excerpt = OrderNewExcerptView.as_view()
 
 
-class OrderExistingExcerptView(AccessRestrictedBaseView, OrderFormViewMixin, FormView):
+class OrderExistingExcerptView(LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_existing_excerpt.html'
     form_class = ExistingForm
 
@@ -110,7 +106,7 @@ class ExportsListMixin:
         )
 
 
-class ExportsListView(AccessRestrictedBaseView, ExportsListMixin, ListView):
+class ExportsListView(LoginRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_list.html'
     context_object_name = 'excerpts'
     model = Excerpt
@@ -138,7 +134,7 @@ class ExportsListView(AccessRestrictedBaseView, ExportsListMixin, ListView):
 export_list = ExportsListView.as_view()
 
 
-class ExportsDetailView(AccessRestrictedBaseView, ExportsListMixin, ListView):
+class ExportsDetailView(LoginRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_detail.html'
     context_object_name = 'exports'
     model = Export
