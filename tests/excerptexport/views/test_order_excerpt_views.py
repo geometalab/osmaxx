@@ -1,5 +1,5 @@
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
