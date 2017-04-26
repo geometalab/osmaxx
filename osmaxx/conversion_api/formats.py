@@ -27,16 +27,16 @@ class OutputFormat(_OutputFormatBase):
         The string used to separate the dataset path (collections of layers) from the individual layer in a QGIS project
         file's ``<datasource>`` element referring to data in this format.
         """
-        return '/' if self._layer_filename_extension is not None else '|layername='
+        return '/' if self.layer_filename_extension is not None else '|layername='
 
     def unique_archive_name(self):
         return "{}_{}.zip".format(uuid.uuid4(), self.archive_file_name_identifier)
 
     def crs_change_available(self):
-        return self._is_white_box
+        return self.is_white_box
 
     def detail_level_available(self):
-        return self._is_white_box
+        return self.is_white_box
 
 
 FORMAT_DEFINITIONS = OrderedDict([
