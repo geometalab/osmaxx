@@ -6,7 +6,7 @@ import pytest
 from django.conf import settings
 
 import osmaxx.conversion_api.formats
-from osmaxx.conversion.converters import detail_levels
+from osmaxx.conversion.converters.converter_gis import detail_levels
 from osmaxx.conversion_api import coordinate_reference_systems as crs
 from osmaxx.conversion_api.statuses import STARTED, FAILED, FINISHED
 

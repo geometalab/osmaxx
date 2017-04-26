@@ -2,6 +2,7 @@ import logging
 from collections import OrderedDict
 
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -12,11 +13,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin, DeleteView
 from django.views.generic.list import ListView
 
-from osmaxx.contrib.auth.frontend_permissions import (
-    LoginRequiredMixin,
-    FrontendAccessRequiredMixin,
-    EmailRequiredMixin,
-)
+from osmaxx.contrib.auth.frontend_permissions import EmailRequiredMixin
 from osmaxx.conversion_api import statuses
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
@@ -47,17 +44,13 @@ class OrderFormViewMixin(FormMixin):
         )
 
 
-class AccessRestrictedBaseView(LoginRequiredMixin, FrontendAccessRequiredMixin, EmailRequiredMixin):
-    pass
-
-
-class OrderNewExcerptView(AccessRestrictedBaseView, OrderFormViewMixin, FormView):
+class OrderNewExcerptView(LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_new_excerpt.html'
     form_class = ExcerptForm
 order_new_excerpt = OrderNewExcerptView.as_view()
 
 
-class OrderExistingExcerptView(AccessRestrictedBaseView, OrderFormViewMixin, FormView):
+class OrderExistingExcerptView(LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_existing_excerpt.html'
     form_class = ExistingForm
 
@@ -113,7 +106,7 @@ class ExportsListMixin:
         )
 
 
-class ExportsListView(AccessRestrictedBaseView, ExportsListMixin, ListView):
+class ExportsListView(LoginRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_list.html'
     context_object_name = 'excerpts'
     model = Excerpt
@@ -141,7 +134,7 @@ class ExportsListView(AccessRestrictedBaseView, ExportsListMixin, ListView):
 export_list = ExportsListView.as_view()
 
 
-class ExportsDetailView(AccessRestrictedBaseView, ExportsListMixin, ListView):
+class ExportsDetailView(LoginRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_detail.html'
     context_object_name = 'exports'
     model = Export

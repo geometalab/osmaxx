@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-24 17:17+0100\n"
+"POT-Creation-Date: 2017-04-26 13:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,11 +40,11 @@ msgid ""
 "Invalid coordinates: expected at least one coordinate pair, received none."
 msgstr ""
 
-#: osmaxx/conversion/converters/detail_levels.py:9
+#: osmaxx/conversion/converters/converter_gis/detail_levels.py:9
 msgid "Full detail"
 msgstr ""
 
-#: osmaxx/conversion/converters/detail_levels.py:10
+#: osmaxx/conversion/converters/converter_gis/detail_levels.py:10
 msgid "Simplified"
 msgstr ""
 
@@ -641,31 +641,31 @@ msgstr ""
 msgid "UTM zones"
 msgstr ""
 
-#: osmaxx/conversion_api/formats.py:62
+#: osmaxx/conversion_api/formats.py:45
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:11
 msgid "Esri File Geodatabase"
 msgstr ""
 
-#: osmaxx/conversion_api/formats.py:69
+#: osmaxx/conversion_api/formats.py:52
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:9
 msgid "Esri Shapefile"
 msgstr ""
 
-#: osmaxx/conversion_api/formats.py:77
+#: osmaxx/conversion_api/formats.py:60
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:5
 msgid "GeoPackage"
 msgstr ""
 
-#: osmaxx/conversion_api/formats.py:84
+#: osmaxx/conversion_api/formats.py:67
 msgid "SpatiaLite"
 msgstr ""
 
-#: osmaxx/conversion_api/formats.py:91
+#: osmaxx/conversion_api/formats.py:74
 #: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:13
 msgid "Garmin navigation & map data"
 msgstr ""
 
-#: osmaxx/conversion_api/formats.py:98
+#: osmaxx/conversion_api/formats.py:81
 msgid "OSM Protocolbuffer Binary Format"
 msgstr ""
 
@@ -792,23 +792,23 @@ msgstr ""
 msgid "Existing excerpts"
 msgstr ""
 
-#: osmaxx/excerptexport/forms/order_options_mixin.py:12
+#: osmaxx/excerptexport/forms/order_options_mixin.py:11
 msgid "GIS export formats"
 msgstr ""
 
-#: osmaxx/excerptexport/forms/order_options_mixin.py:18
+#: osmaxx/excerptexport/forms/order_options_mixin.py:17
 msgid "Coordinate system"
 msgstr ""
 
-#: osmaxx/excerptexport/forms/order_options_mixin.py:23
+#: osmaxx/excerptexport/forms/order_options_mixin.py:22
 msgid "Detail level"
 msgstr ""
 
-#: osmaxx/excerptexport/forms/order_options_mixin.py:37
+#: osmaxx/excerptexport/forms/order_options_mixin.py:36
 msgid "Export options"
 msgstr ""
 
-#: osmaxx/excerptexport/forms/order_options_mixin.py:44
+#: osmaxx/excerptexport/forms/order_options_mixin.py:43
 msgid "GIS options (ignored for Garmin and PBF)"
 msgstr ""
 
@@ -1040,12 +1040,12 @@ msgstr ""
 msgid "New excerpt export"
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:41
+#: osmaxx/excerptexport/views.py:38
 #, python-brace-format
 msgid "Queued extraction order {id}. The conversion process will start soon."
 msgstr ""
 
-#: osmaxx/excerptexport/views.py:213
+#: osmaxx/excerptexport/views.py:206
 msgid ""
 "Exports are currently running for this excerpt. Please try deleting again, "
 "when these are finished."
@@ -1090,33 +1090,33 @@ msgstr ""
 msgid "Confirm your email address"
 msgstr ""
 
-#: osmaxx/profile/views.py:51
+#: osmaxx/profile/views.py:50
 msgid "To activate your email, click the link in the confirmation email."
 msgstr ""
 
-#: osmaxx/profile/views.py:67
+#: osmaxx/profile/views.py:66
 msgid ""
 "You have not set an email address. You must set a valid email address to use "
 "OSMaxx."
 msgstr ""
 
-#: osmaxx/profile/views.py:73
+#: osmaxx/profile/views.py:72
 msgid ""
 "Your email has not been validated. Please check your inbox and validate your "
 "email address or resend the verification email."
 msgstr ""
 
-#: osmaxx/profile/views.py:115
+#: osmaxx/profile/views.py:114
 msgid "Profile successfully updated"
 msgstr ""
 
-#: osmaxx/profile/views.py:120
+#: osmaxx/profile/views.py:119
 msgid ""
 "Verification token too old or invalid. Please resend the confirmation email "
 "and try again."
 msgstr ""
 
-#: osmaxx/profile/views.py:131
+#: osmaxx/profile/views.py:129
 msgid "Successfully verified your email address."
 msgstr ""
 

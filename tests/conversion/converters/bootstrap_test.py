@@ -1,9 +1,8 @@
 from unittest import mock
 
-from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_REDUCED
-from tests.conftest import area_polyfile_string
-
 from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
+from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_REDUCED
+from tests.conftest import area_polyfile_string
 
 
 def test_filter_scripts_are_executed_in_correct_order(sql_scripts_filter):

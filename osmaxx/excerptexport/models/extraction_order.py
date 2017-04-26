@@ -5,7 +5,7 @@ from django.dispatch.dispatcher import receiver
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
-from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
+from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
 from osmaxx.conversion_api import coordinate_reference_systems as crs
 from .excerpt import Excerpt
 

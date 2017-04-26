@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import Group
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
@@ -11,7 +11,6 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views import generic
 
-from osmaxx.contrib.auth.frontend_permissions import LoginRequiredMixin
 from osmaxx.profile.forms import ProfileForm
 from osmaxx.profile.models import Profile
 
@@ -127,21 +126,12 @@ class ActivationView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Upd
             if data:
                 user.email = data['email']
                 user.save()
-                self._set_group(user)
                 messages.add_message(self.request, messages.SUCCESS, _('Successfully verified your email address.'))
             else:
                 messages.add_message(self.request, messages.ERROR, self.error_msg)
         else:
             messages.add_message(self.request, messages.ERROR, self.error_msg)
         return redirect(reverse('profile:edit_view'))
-
-    def _set_group(self, user):
-        if settings.REGISTRATION_OPEN and not user_in_frontend_group(user):
-            self._grant_user_access(user)
-
-    def _grant_user_access(self, user):
-        group = Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP)
-        group.user_set.add(user)
 
 
 class ResendVerificationEmail(SendVerificationEmailMixin, LoginRequiredMixin, generic.RedirectView):

@@ -1,9 +1,9 @@
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
-from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_ALL
+from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_ALL
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from tests.excerptexport.permission_test_helper import PermissionHelperMixin
 from tests.test_helpers import vcr_explicit_path as vcr
@@ -67,7 +67,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         """
         When logged in, we get the excerpt choice form.
         """
-        self.add_permissions_to_user()
         self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_new_excerpt'))
@@ -76,7 +75,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
 
     @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_existing_own_excerpt.yml')
     def test_new_offers_existing_own_excerpt(self):
-        self.add_permissions_to_user()
         self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
@@ -88,7 +86,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
 
     @vcr.use_cassette('fixtures/vcr/views-test_test_new_offers_existing_public_foreign_excerpt.yml')
     def test_new_offers_existing_public_foreign_excerpt(self):
-        self.add_permissions_to_user()
         self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
@@ -101,7 +98,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
 
     @vcr.use_cassette('fixtures/vcr/views-test_new_doesnt_offer_existing_private_foreign_excerpt.yml')
     def test_new_doesnt_offer_existing_private_foreign_excerpt(self):
-        self.add_permissions_to_user()
         self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.get(reverse('excerptexport:order_existing_excerpt'))
@@ -119,7 +115,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         """
         When logged in, POSTing an export request with a new excerpt is successful.
         """
-        self.add_permissions_to_user()
         self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.post(
@@ -138,7 +133,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         """
         When logged in, POSTing an export request with a new excerpt is successful.
         """
-        self.add_permissions_to_user()
         self.add_valid_email()
         self.client.login(username='user', password='pw')
         self.new_excerpt_post_data['is_public'] = True
@@ -162,7 +156,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         """
         When logged in, POSTing an export request using an existing excerpt is successful.
         """
-        self.add_permissions_to_user()
         self.add_valid_email()
         self.client.login(username='user', password='pw')
         response = self.client.post(
@@ -180,7 +173,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         """
         When logged in, POSTing an export request with a new excerpt persists a new ExtractionOrder.
         """
-        self.add_permissions_to_user()
         self.add_valid_email()
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
@@ -200,7 +192,6 @@ class ExcerptExportViewTests(TestCase, PermissionHelperMixin):
         """
         When logged in, POSTing an export request using an existing excerpt persists a new ExtractionOrder.
         """
-        self.add_permissions_to_user()
         self.add_valid_email()
         self.assertEqual(ExtractionOrder.objects.count(), 0)
         self.client.login(username='user', password='pw')
