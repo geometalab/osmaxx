@@ -1,9 +1,9 @@
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
-from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_ALL
+from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_ALL
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from tests.excerptexport.permission_test_helper import PermissionHelperMixin
 from tests.test_helpers import vcr_explicit_path as vcr

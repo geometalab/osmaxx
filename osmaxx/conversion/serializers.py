@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from osmaxx.conversion.converters import detail_levels
+from osmaxx.conversion.converters.converter_gis import detail_levels
 from osmaxx.conversion.size_estimator import size_estimation_for_format
 from osmaxx.conversion_api import formats
 from .models import Job, Parametrization
