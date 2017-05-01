@@ -78,7 +78,7 @@ def test_email_change(authorized_client):
 
 @pytest.mark.django_db()
 def test_mail_sent_only_once_within_rate_limit(authenticated_client):
-    with patch('osmaxx.profile.views.send_mail') as send_mail:
+    with patch('osmaxx.profile.email_confirmation.send_mail') as send_mail:
         assert send_mail.call_count == 0
         authenticated_client.get(reverse('profile:edit_view'))
         assert send_mail.call_count == 1
