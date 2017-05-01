@@ -29,7 +29,7 @@ def send_email_confirmation(profile, request):
             'profile/verification_email/body.txt',
             context=dict(
                 token_url=token_url,
-                username=request.user.username,
+                username=user.username,
                 new_email_address=to_email,
                 domain=request.get_host(),
             )
