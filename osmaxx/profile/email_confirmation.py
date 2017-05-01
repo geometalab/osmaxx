@@ -11,11 +11,12 @@ RATE_LIMIT_SECONDS = 30
 
 
 def send_email_confirmation(profile, request):
-    if cache.get(profile.associated_user.id):
+    user = profile.associated_user
+    if cache.get(user.id):
         return
     to_email = profile.unverified_email
     if to_email:
-        cache.set(profile.associated_user.id, 'dummy value', timeout=RATE_LIMIT_SECONDS)
+        cache.set(user.id, 'dummy value', timeout=RATE_LIMIT_SECONDS)
         user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
         token = profile.activation_key()
         token_url = '{}?token={}'.format(
