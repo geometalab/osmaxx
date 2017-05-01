@@ -20,7 +20,7 @@ class SendVerificationEmailMixin(object):
 
     def _send_email_verification(self):
         profile = self.request.user.profile
-        user = profile.associated_user
+        user = self.request.user
         if cache.get(user.id):
             return
         to_email = profile.unverified_email
