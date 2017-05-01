@@ -18,14 +18,15 @@ from osmaxx.profile.models import Profile
 class SendVerificationEmailMixin(object):
     RATE_LIMIT_SECONDS = 30
 
-    def _send_email_verification(self, profile):
-        if cache.get(profile.associated_user.id):
+    def _send_email_verification(self):
+        user = self.request.user
+        if cache.get(user.id):
             return
-        to_email = profile.unverified_email
+        to_email = user.profile.unverified_email
         if to_email:
-            cache.set(profile.associated_user.id, 'dummy value', timeout=self.RATE_LIMIT_SECONDS)
+            cache.set(user.id, 'dummy value', timeout=self.RATE_LIMIT_SECONDS)
             user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
-            token = profile.activation_key()
+            token = user.profile.activation_key()
             token_url = '{}?token={}'.format(
                 self.request.build_absolute_uri(reverse('profile:activation')), urlencode(token)
             )
@@ -35,7 +36,7 @@ class SendVerificationEmailMixin(object):
                 'profile/verification_email/body.txt',
                 context=dict(
                     token_url=token_url,
-                    username=self.request.user.username,
+                    username=user.username,
                     new_email_address=to_email,
                     domain=self.request.get_host(),
                 )
@@ -74,7 +75,7 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
             )
         if self.is_new_user():
             self._move_email_from_user_to_profile(user, profile)
-            self._send_email_verification(profile)
+            self._send_email_verification()
         else:
             self._ensure_profile_has_email(profile, user)
         user.refresh_from_db()
@@ -91,7 +92,7 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
         if isinstance(response, HttpResponseRedirect):  # successful form validation
             profile = Profile.objects.get(associated_user=self.request.user)
             if not profile.has_validated_email():
-                self._send_email_verification(profile=profile)
+                self._send_email_verification()
         return response
 
     def _ensure_profile_has_email(self, profile, user):
@@ -139,8 +140,7 @@ class ResendVerificationEmail(SendVerificationEmailMixin, LoginRequiredMixin, ge
         return reverse('profile:edit_view')
 
     def get(self, request, *args, **kwargs):
-        profile = Profile.objects.get(associated_user=self.request.user)
-        self._send_email_verification(profile=profile)
+        self._send_email_verification()
         return super().get(request, *args, **kwargs)
 
 
