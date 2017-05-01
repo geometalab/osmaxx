@@ -12,6 +12,7 @@ RATE_LIMIT_SECONDS = 30
 
 def send_email_confirmation(profile, request):
     user = profile.associated_user
+    assert user == request.user
     if cache.get(user.id):
         return
     to_email = profile.unverified_email
