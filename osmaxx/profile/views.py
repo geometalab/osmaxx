@@ -20,7 +20,7 @@ class SendVerificationEmailMixin(object):
 
     def _send_email_verification(self):
         user = self.request.user
-        profile = self.request.user.profile
+        profile = user.profile
         if cache.get(user.id):
             return
         to_email = profile.unverified_email
@@ -37,7 +37,7 @@ class SendVerificationEmailMixin(object):
                 'profile/verification_email/body.txt',
                 context=dict(
                     token_url=token_url,
-                    username=self.request.user.username,
+                    username=user.username,
                     new_email_address=to_email,
                     domain=self.request.get_host(),
                 )
