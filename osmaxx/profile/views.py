@@ -12,11 +12,7 @@ from osmaxx.profile.forms import ProfileForm
 from osmaxx.profile.models import Profile
 
 
-class SendVerificationEmailMixin(object):
-    pass
-
-
-class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.UpdateView):
+class ProfileView(LoginRequiredMixin, generic.UpdateView):
     form_class = ProfileForm
     template_name = 'profile/profile_edit.html'
 
@@ -80,7 +76,7 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
         return reverse('profile:edit_view')
 
 
-class ActivationView(SendVerificationEmailMixin, LoginRequiredMixin, generic.UpdateView):
+class ActivationView(LoginRequiredMixin, generic.UpdateView):
     error_msg = _('Verification token too old or invalid. Please resend the confirmation email and try again.')
 
     def get(self, request, *args, **kwargs):
@@ -99,7 +95,7 @@ class ActivationView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Upd
         return redirect(reverse('profile:edit_view'))
 
 
-class ResendVerificationEmail(SendVerificationEmailMixin, LoginRequiredMixin, generic.RedirectView):
+class ResendVerificationEmail(LoginRequiredMixin, generic.RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         return reverse('profile:edit_view')
 
