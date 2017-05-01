@@ -20,14 +20,13 @@ class SendVerificationEmailMixin(object):
 
     def _send_email_verification(self):
         user = self.request.user
-        profile = user.profile
         if cache.get(user.id):
             return
-        to_email = profile.unverified_email
+        to_email = user.profile.unverified_email
         if to_email:
             cache.set(user.id, 'dummy value', timeout=self.RATE_LIMIT_SECONDS)
             user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
-            token = profile.activation_key()
+            token = user.profile.activation_key()
             token_url = '{}?token={}'.format(
                 self.request.build_absolute_uri(reverse('profile:activation')), urlencode(token)
             )
