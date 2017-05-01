@@ -19,8 +19,8 @@ class SendVerificationEmailMixin(object):
     RATE_LIMIT_SECONDS = 30
 
     def _send_email_verification(self):
-        profile = self.request.user.profile
         user = self.request.user
+        profile = self.request.user.profile
         if cache.get(user.id):
             return
         to_email = profile.unverified_email
