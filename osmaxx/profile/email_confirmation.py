@@ -10,7 +10,7 @@ from django.utils.translation import ugettext as _
 RATE_LIMIT_SECONDS = 30
 
 
-def _send_email_verification(request, profile):
+def send_email_confirmation(request, profile):
     if cache.get(profile.associated_user.id):
         return
     to_email = profile.unverified_email
