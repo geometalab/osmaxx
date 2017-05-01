@@ -7,13 +7,15 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 
+RATE_LIMIT_SECONDS = 30
 
-def _send_email_verification(rate_limit_seconds, request, profile):
+
+def _send_email_verification(request, profile):
     if cache.get(profile.associated_user.id):
         return
     to_email = profile.unverified_email
     if to_email:
-        cache.set(profile.associated_user.id, 'dummy value', timeout=rate_limit_seconds)
+        cache.set(profile.associated_user.id, 'dummy value', timeout=RATE_LIMIT_SECONDS)
         user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
         token = profile.activation_key()
         token_url = '{}?token={}'.format(

@@ -13,7 +13,7 @@ from osmaxx.profile.models import Profile
 
 
 class SendVerificationEmailMixin(object):
-    RATE_LIMIT_SECONDS = 30
+    pass
 
 
 class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.UpdateView):
@@ -39,7 +39,7 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
             )
         if self.is_new_user():
             self._move_email_from_user_to_profile(user, profile)
-            _send_email_verification(self.RATE_LIMIT_SECONDS, self.request, profile)
+            _send_email_verification(self.request, profile)
         else:
             self._ensure_profile_has_email(profile, user)
         user.refresh_from_db()
@@ -56,7 +56,7 @@ class ProfileView(SendVerificationEmailMixin, LoginRequiredMixin, generic.Update
         if isinstance(response, HttpResponseRedirect):  # successful form validation
             profile = Profile.objects.get(associated_user=self.request.user)
             if not profile.has_validated_email():
-                _send_email_verification(self.RATE_LIMIT_SECONDS, self.request, profile=profile)
+                _send_email_verification(self.request, profile=profile)
         return response
 
     def _ensure_profile_has_email(self, profile, user):
@@ -105,7 +105,7 @@ class ResendVerificationEmail(SendVerificationEmailMixin, LoginRequiredMixin, ge
 
     def get(self, request, *args, **kwargs):
         profile = Profile.objects.get(associated_user=self.request.user)
-        _send_email_verification(self.RATE_LIMIT_SECONDS, self.request, profile=profile)
+        _send_email_verification(self.request, profile=profile)
         return super().get(request, *args, **kwargs)
 
 
