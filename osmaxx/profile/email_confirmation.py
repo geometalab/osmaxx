@@ -20,10 +20,10 @@ def send_email_confirmation(profile, request):
         cache.set(user.id, 'dummy value', timeout=RATE_LIMIT_SECONDS)
         user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
         token = profile.activation_key()
-        activation_base_uri = request.build_absolute_uri(reverse('profile:activation'))
+        activation_base_uri = reverse('profile:activation')
         f = furl(activation_base_uri)
         f.args['token'] = token
-        token_url = f.url
+        token_url = request.build_absolute_uri(f.url)
         subject = render_to_string('profile/verification_email/subject.txt', context={}).strip()
         subject = ''.join(subject.splitlines())
         message = render_to_string(
