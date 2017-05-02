@@ -11,11 +11,16 @@
     <div class="container-row content">
         <h2>{% trans 'Profile for' %} {{ request.user.username }}</h2>
         <div class="col-lg-4">
-            {% crispy form %}
+            <form action="{% url 'profile:edit_view' %}" method="post" id="id-profileForm">
+                {% crispy form %}
+                {% if request.GET.next %}
+                    <input type="hidden" name="next" value="{{ request.GET.next }}" />
+                {% endif %}
+            </form>
         </div>
         {% if request.user.email != request.user.profile.unverified_email %}
             <div class="col-lg-4">
-                <a href="{% url 'profile:resend_verification' %}" class="btn btn-default btn-info">Resend Confirmation Email</a>
+                <a href="{% url 'profile:resend_verification' %}?next={{ request.GET.next }}" class="btn btn-default btn-info">Resend Confirmation Email</a>
             </div>
         {% endif %}
     </div>

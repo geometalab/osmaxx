@@ -24,8 +24,8 @@ class Profile(models.Model):
             salt=self.PROFILE_SALT)
         return key
 
-    def request_email_address_confirmation(self, request):
-        send_email_confirmation(profile=self, request=request)
+    def request_email_address_confirmation(self, request, redirection_target):
+        send_email_confirmation(profile=self, request=request, redirection_target=redirection_target)
 
     def validate_key(self, activation_key):
         try:

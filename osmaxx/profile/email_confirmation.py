@@ -10,7 +10,7 @@ from furl import furl
 RATE_LIMIT_SECONDS = 30
 
 
-def send_email_confirmation(profile, request):
+def send_email_confirmation(profile, request, redirection_target):
     user = profile.associated_user
     assert user == request.user
     if cache.get(user.id):
@@ -22,6 +22,8 @@ def send_email_confirmation(profile, request):
         token = profile.activation_key()
         f = furl(reverse('profile:activation'))
         f.args['token'] = token
+        if redirection_target:
+            f.args['next'] = redirection_target
         token_url = request.build_absolute_uri(f.url)
         subject = render_to_string('profile/verification_email/subject.txt', context={}).strip()
         subject = ''.join(subject.splitlines())
