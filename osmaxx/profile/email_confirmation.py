@@ -1,5 +1,3 @@
-from urllib.parse import urlsplit, urlunsplit, parse_qs, urlencode
-
 from django.conf import settings
 from django.contrib import messages
 from django.core.cache import cache
@@ -7,6 +5,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import ugettext as _
+from furl import furl
 
 RATE_LIMIT_SECONDS = 30
 
@@ -22,10 +21,9 @@ def send_email_confirmation(profile, request):
         user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
         token = profile.activation_key()
         activation_base_uri = request.build_absolute_uri(reverse('profile:activation'))
-        uri_components = urlsplit(activation_base_uri)
-        query_dict = parse_qs(uri_components.query)
-        query_dict['token'] = token
-        token_url = urlunsplit(uri_components._replace(query=urlencode(query_dict)))
+        f = furl(activation_base_uri)
+        f.args['token'] = token
+        token_url = f.url
         subject = render_to_string('profile/verification_email/subject.txt', context={}).strip()
         subject = ''.join(subject.splitlines())
         message = render_to_string(
