@@ -4,6 +4,7 @@ from django.core.cache import cache
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.text import unescape_entities
 from django.utils.translation import ugettext as _
 from furl import furl
 
@@ -27,6 +28,7 @@ def send_email_confirmation(profile, request, redirection_target):
         token_url = request.build_absolute_uri(f.url)
         subject = render_to_string('profile/verification_email/subject.txt', context={}).strip()
         subject = ''.join(subject.splitlines())
+        subject = unescape_entities(subject)  # HACK: workaround for https://github.com/geometalab/osmaxx/issues/771
         message = render_to_string(
             'profile/verification_email/body.txt',
             context=dict(
@@ -36,6 +38,7 @@ def send_email_confirmation(profile, request, redirection_target):
                 domain=request.get_host(),
             )
         )
+        message = unescape_entities(message)  # HACK: workaround for https://github.com/geometalab/osmaxx/issues/771
         send_mail(
             subject=subject,
             message=message,
