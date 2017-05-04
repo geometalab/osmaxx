@@ -1,0 +1,2 @@
+mediator: gunicorn --workers ${NUM_WORKERS} conversion_service.config.wsgi --bind ${APP_HOST}:${APP_PORT}
+harvester: python3 ./conversion_service/manage.py result_harvester
