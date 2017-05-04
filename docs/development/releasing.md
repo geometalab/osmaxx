@@ -22,7 +22,7 @@ The steps execute in the script in a nutshell are:
 - `git flow release publish <version>`
 - `adapt <version> in osmaxx/__init__.py`
 - `python ./web_frontend/manage.py makemessages -l de_CH -l en -l en_UK -l en_US`
-- `python ./osmaxx_conversion_service/manage.py makemessages -l de_CH -l en -l en_UK -l en_US`
+- `python ./conversion_service/manage.py makemessages -l de_CH -l en -l en_UK -l en_US`
 - `git flow release finish <version>`
 - `git push`
 - `git push --tags`

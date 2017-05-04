@@ -60,7 +60,7 @@ services:
     extends:
       file: docker-compose-common.yml
       service: conversionbase
-    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.prod, start]
+    command: [honcho, -f, ./conversion_service/Procfile.mediator.prod, start]
     expose:
       - "8901"
     volumes:
@@ -77,7 +77,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       # comma separated list, no brackets, e.g. localhost,dev.myhost.com
-      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.production
+      - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.production
       - NUM_WORKERS=5
     depends_on:
       - conversionserviceredis
@@ -89,7 +89,7 @@ services:
     extends:
       file: docker-compose-common.yml
       service: conversionbase
-    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
+    command: [honcho, -f, ./conversion_service/Procfile.worker, start]
     volumes:
       - osm_data:/var/data/osm-planet
       - worker-data:/data/media/job_result_files
@@ -101,7 +101,7 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
+      - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.worker
     depends_on:
       - conversionserviceredis
       - osmboundaries-database
@@ -113,7 +113,7 @@ services:
     extends:
       file: docker-compose-common.yml
       service: conversionbase
-    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.worker, start]
+    command: [honcho, -f, ./conversion_service/Procfile.worker, start]
     volumes:
       - osm_data:/var/data/osm-planet
       - worker-data:/data/media/job_result_files
@@ -125,7 +125,7 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.worker
+      - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.worker
       # only listens for jobs in this specific queue
       - WORKER_QUEUES=high
     depends_on:

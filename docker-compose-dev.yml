@@ -13,7 +13,7 @@ services:
     volumes:
       - ./osmaxx:/home/py/osmaxx
       - ./web_frontend:/home/py/web_frontend
-      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+      - ./conversion_service:/home/py/conversion_service
     ports:
       - "8000:8000"
     command: [honcho, -f, ./web_frontend/Procfile.django.dev, start]
@@ -42,11 +42,11 @@ services:
     volumes:
       - ./osmaxx:/home/py/osmaxx
       - ./web_frontend:/home/py/web_frontend
-      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
-    command: [honcho, -f, ./osmaxx_conversion_service/Procfile.mediator.dev, start]
+      - ./conversion_service:/home/py/conversion_service
+    command: [honcho, -f, ./conversion_service/Procfile.mediator.dev, start]
     environment:
       - DJANGO_SECRET_KEY=insecure!2
-      - DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.local
+      - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
     logging:
       driver: "json-file"
       options:
@@ -55,7 +55,7 @@ services:
     volumes:
       - ./osmaxx:/home/py/osmaxx
       - ./web_frontend:/home/py/web_frontend
-      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+      - ./conversion_service:/home/py/conversion_service
     build:
       context: .
       dockerfile: Dockerfile.worker
@@ -69,7 +69,7 @@ services:
     volumes:
       - ./osmaxx:/home/py/osmaxx
       - ./web_frontend:/home/py/web_frontend
-      - ./osmaxx_conversion_service:/home/py/osmaxx_conversion_service
+      - ./conversion_service:/home/py/conversion_service
     build:
       context: .
       dockerfile: Dockerfile.worker
