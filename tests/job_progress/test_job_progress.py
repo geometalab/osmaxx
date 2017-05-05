@@ -81,7 +81,7 @@ class CallbackHandlingTest(APITestCase):
         self.export.refresh_from_db()
         self.assertEqual(self.export.status, STARTED)
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_queued_informs_user(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -103,7 +103,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_started_informs_user(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -126,7 +126,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_failed_informs_user_with_error(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -149,7 +149,7 @@ class CallbackHandlingTest(APITestCase):
         )
 
     @patch.object(Export, '_fetch_result_file')
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_finished_informs_user_with_success(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -171,7 +171,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_unchanged_status_does_not_inform_user(
             self, emissary_class_mock, *args, **mocks):
         self.export.status = 'started'
@@ -222,7 +222,7 @@ class CallbackHandlingTest(APITestCase):
 
     @requests_mock.Mocker(kw='requests')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_final_status_for_only_remaining_nonfinal_export_of_extraction_order_advertises_downloads(
             self, emissary_class_mock, *args, **mocks):
         self.export.conversion_service_job_id = 1

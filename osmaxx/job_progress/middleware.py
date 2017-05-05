@@ -7,7 +7,7 @@ from requests import HTTPError
 from osmaxx.api_client import ConversionApiClient
 from osmaxx.conversion_api.statuses import FINAL_STATUSES, FAILED
 from osmaxx.excerptexport.models import Export
-from osmaxx.utilities.shortcuts import get_cached_or_set
+from osmaxx.utils.shortcuts import get_cached_or_set
 
 logger = logging.getLogger(__name__)
 
