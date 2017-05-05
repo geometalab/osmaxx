@@ -1,16 +1,15 @@
 import json
 
-from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext_lazy as _
-from django import forms
-from django.core.urlresolvers import reverse
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, Submit
+from django import forms
+from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
 
-from .order_options_mixin import OrderOptionsMixin
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from osmaxx.utils.dict_helpers import select_keys
+from .order_options_mixin import OrderOptionsMixin
 
 
 class ExcerptForm(OrderOptionsMixin, forms.ModelForm):

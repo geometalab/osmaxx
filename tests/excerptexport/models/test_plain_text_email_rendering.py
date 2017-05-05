@@ -1,9 +1,8 @@
 from django.contrib.auth import get_user_model
+from hamcrest import contains_string, match_equality
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.utils.shortcuts import Emissary
-
-from hamcrest import contains_string, match_equality
 
 
 def test_send_email_if_all_exports_done_keeps_special_characters_unescaped(mocker, rf):
