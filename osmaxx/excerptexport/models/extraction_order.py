@@ -74,7 +74,7 @@ class ExtractionOrder(models.Model):
 
     def send_email_if_all_exports_done(self, incoming_request):
         if all(export.is_status_final for export in self.exports.all()):
-            from osmaxx.utilities.shortcuts import Emissary
+            from osmaxx.utils.shortcuts import Emissary
             emissary = Emissary(recipient=self.orderer)
             emissary.inform_mail(
                 subject=self._get_all_exports_done_email_subject(),

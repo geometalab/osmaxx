@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
-from osmaxx.utilities.shortcuts import Emissary
+from osmaxx.utils.shortcuts import Emissary
 
 from hamcrest import contains_string, match_equality
 

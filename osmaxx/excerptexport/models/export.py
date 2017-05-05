@@ -97,7 +97,7 @@ class Export(TimeStampModelMixin, models.Model):
         return (self.updated_at + EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA) < timezone.now()
 
     def _handle_changed_status(self, *, incoming_request):
-        from osmaxx.utilities.shortcuts import Emissary
+        from osmaxx.utils.shortcuts import Emissary
         emissary = Emissary(recipient=self.extraction_order.orderer)
         status_changed_message = self._get_export_status_changed_message()
         if self.status == self.FAILED:

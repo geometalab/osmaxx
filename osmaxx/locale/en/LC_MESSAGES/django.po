@@ -1124,7 +1124,7 @@ msgstr ""
 msgid "Rest API"
 msgstr ""
 
-#: osmaxx/utilities/shortcuts.py:43
+#: osmaxx/utils/shortcuts.py:43
 msgid ""
 "There is no email address assigned to your account. You won't be notified by "
 "email!"
