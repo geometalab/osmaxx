@@ -100,9 +100,6 @@ def pytest_configure():
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
             'osmaxx.profile',
-
-            # special model for testing only
-            'tests.utilities.test_models',
         ),
         PASSWORD_HASHERS=(
             'django.contrib.auth.hashers.SHA1PasswordHasher',
