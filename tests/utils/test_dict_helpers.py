@@ -1,6 +1,6 @@
 from unittest.case import TestCase
 
-from osmaxx.utilities.dict_helpers import are_all_keys_in
+from osmaxx.utils.dict_helpers import are_all_keys_in
 
 
 class AreAllKeysInTest(TestCase):

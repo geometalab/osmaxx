@@ -10,7 +10,7 @@ from crispy_forms.layout import Layout, Fieldset, Field, Submit
 
 from .order_options_mixin import OrderOptionsMixin
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
-from osmaxx.utilities.dict_helpers import select_keys
+from osmaxx.utils.dict_helpers import select_keys
 
 
 class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
