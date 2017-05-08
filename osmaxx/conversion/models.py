@@ -10,9 +10,9 @@ from rest_framework.reverse import reverse
 from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
 from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
-from osmaxx.conversion_api.coordinate_reference_systems import CRS_CHOICES
-from osmaxx.conversion_api.formats import FORMAT_CHOICES
-from osmaxx.conversion_api.statuses import STATUS_CHOICES, RECEIVED
+from osmaxx.conversion.constants.coordinate_reference_systems import CRS_CHOICES
+from osmaxx.conversion.constants.formats import FORMAT_CHOICES
+from osmaxx.conversion.constants.statuses import STATUS_CHOICES, RECEIVED
 
 
 def job_directory_path(instance, filename):

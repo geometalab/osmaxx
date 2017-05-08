@@ -23,7 +23,7 @@ def export_stale_status(mocker, export):
 @pytest.mark.django_db
 def test_created_export_has_correct_time_stamp(extraction_order):
     from osmaxx.excerptexport.models import Export
-    from osmaxx.conversion_api import formats
+    from osmaxx.conversion.constants import formats
     export = Export.objects.create(
         extraction_order=extraction_order,
         file_format=formats.FGDB,

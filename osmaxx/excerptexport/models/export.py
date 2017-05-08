@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
-from osmaxx.conversion_api.formats import FORMAT_CHOICES
+from osmaxx.conversion.constants.formats import FORMAT_CHOICES
 from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION, EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA
 
 logger = logging.getLogger(__name__)
@@ -41,7 +41,7 @@ class Export(TimeStampModelMixin, models.Model):
     - the transformation of the data from the data sources' schemata (e.g. ``osm2pgsql`` schema) to the OSMaxx schema
     - the actual export to one specific GIS or navigation file format with one specific set of parameters
     """
-    from osmaxx.conversion_api.statuses import RECEIVED, QUEUED, FINISHED, FAILED, STARTED, DEFERRED, FINAL_STATUSES, STATUS_CHOICES  # noqa
+    from osmaxx.conversion.constants.statuses import RECEIVED, QUEUED, FINISHED, FAILED, STARTED, DEFERRED, FINAL_STATUSES, STATUS_CHOICES  # noqa
     INITIAL = 'initial'
     INITIAL_CHOICE = (INITIAL, _('initial'))
     STATUS_CHOICES = (INITIAL_CHOICE,) + STATUS_CHOICES

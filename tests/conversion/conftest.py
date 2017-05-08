@@ -5,12 +5,12 @@ from collections import namedtuple
 import pytest
 from django.conf import settings
 
-import osmaxx.conversion_api.formats
+import osmaxx.conversion.constants.formats
 from osmaxx.conversion.converters.converter_gis import detail_levels
-from osmaxx.conversion_api import coordinate_reference_systems as crs
-from osmaxx.conversion_api.statuses import STARTED, FAILED, FINISHED
+from osmaxx.conversion.constants import coordinate_reference_systems as crs
+from osmaxx.conversion.constants.statuses import STARTED, FAILED, FINISHED
 
-format_list = osmaxx.conversion_api.formats.FORMAT_DEFINITIONS.keys()
+format_list = osmaxx.conversion.constants.formats.FORMAT_DEFINITIONS.keys()
 
 
 @pytest.fixture(params=format_list)

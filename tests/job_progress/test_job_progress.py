@@ -13,7 +13,7 @@ from rest_framework.test import APITestCase, APIRequestFactory
 
 from osmaxx import excerptexport
 from osmaxx.api_client.conversion_api_client import ConversionApiClient
-from osmaxx.conversion_api.statuses import STARTED, QUEUED, FINISHED, FAILED
+from osmaxx.conversion.constants.statuses import STARTED, QUEUED, FINISHED, FAILED
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.export import Export
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder

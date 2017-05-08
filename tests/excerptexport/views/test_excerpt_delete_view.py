@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
 from django.views import generic
 
-from osmaxx.conversion_api import formats
+from osmaxx.conversion.constants import formats
 from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.models import Export
 from osmaxx.excerptexport.models import ExtractionOrder
