@@ -1,7 +1,7 @@
 import uuid
 from collections import OrderedDict, namedtuple
 
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN, PBF = 'fgdb', 'shapefile', 'gpkg', 'spatialite', 'garmin', 'pbf'
 
