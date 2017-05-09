@@ -20,7 +20,7 @@ def job_directory_path(instance, filename):
 
 
 class Parametrization(models.Model):
-    out_format = models.CharField(verbose_name=_("out format"), choices=output_format.FORMAT_CHOICES, max_length=100)
+    out_format = models.CharField(verbose_name=_("out format"), choices=output_format.CHOICES, max_length=100)
     out_srs = models.IntegerField(
         verbose_name=_("output SRS"), help_text=_("EPSG code of the output spatial reference system"),
         null=True, blank=True, default=4326, choices=CRS_CHOICES

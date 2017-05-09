@@ -30,7 +30,7 @@ def order(excerpt, db):
 
 @pytest.fixture
 def exports(order, db):
-    return [order.exports.create(file_format=format_choice[0]) for format_choice in output_format.FORMAT_CHOICES]
+    return [order.exports.create(file_format=format_choice[0]) for format_choice in output_format.CHOICES]
 
 
 @pytest.fixture

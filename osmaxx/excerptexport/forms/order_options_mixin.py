@@ -9,7 +9,7 @@ from osmaxx.conversion.constants import output_format, coordinate_reference_syst
 class OrderOptionsMixin(forms.Form):
     formats = forms.MultipleChoiceField(
         label=_("GIS export formats"),
-        choices=output_format.FORMAT_CHOICES,
+        choices=output_format.CHOICES,
         widget=forms.CheckboxSelectMultiple,
         required=True,
     )
