@@ -113,7 +113,7 @@ class GISConverter:
         shutil.copy(qgis_symbology_readme, qgis_symbology_dir)
         for scale_level in ScaleLevel:
             template = self._env.get_template('OSMaxx_{}.qgs.jinja2'.format(scale_level.name.upper()))
-            format_definition = output_format.FORMAT_DEFINITIONS[self._conversion_format]
+            format_definition = output_format.DEFINITIONS[self._conversion_format]
             template.stream(
                 data_location=os.path.basename(data_location),
                 separator=format_definition.qgis_datasource_separator,

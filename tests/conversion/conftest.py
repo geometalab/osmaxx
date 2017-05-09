@@ -10,7 +10,7 @@ from osmaxx.conversion.converters.converter_gis import detail_levels
 from osmaxx.conversion.constants import coordinate_reference_systems as crs
 from osmaxx.conversion.constants.statuses import STARTED, FAILED, FINISHED
 
-format_list = osmaxx.conversion.constants.output_format.FORMAT_DEFINITIONS.keys()
+format_list = osmaxx.conversion.constants.output_format.DEFINITIONS.keys()
 
 
 @pytest.fixture(params=format_list)

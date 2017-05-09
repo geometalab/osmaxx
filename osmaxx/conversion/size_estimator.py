@@ -49,7 +49,7 @@ def size_estimation_for_format(format_type, detail_level, predicted_pbf_size):
 
 
 def get_data(format_type, detail_level):
-    assert format_type in output_format.FORMAT_DEFINITIONS
+    assert format_type in output_format.DEFINITIONS
     assert detail_level in [level[0] for level in detail_levels.DETAIL_LEVEL_CHOICES]
     base_query_set = Job.objects.filter(
         parametrization__out_format=format_type,
