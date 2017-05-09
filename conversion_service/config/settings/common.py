@@ -43,7 +43,6 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'osmaxx.version',
     'osmaxx.clipping_area',
-    'osmaxx.conversion_api',
     'osmaxx.conversion',
 )
 

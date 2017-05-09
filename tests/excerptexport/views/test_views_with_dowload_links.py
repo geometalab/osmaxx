@@ -5,7 +5,7 @@ import pytest
 from django.core.urlresolvers import reverse
 from django.test.testcases import SimpleTestCase
 
-from osmaxx.conversion_api import formats
+from osmaxx.conversion.constants import formats
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder
 from osmaxx.excerptexport.models.output_file import OutputFile

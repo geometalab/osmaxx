@@ -2,7 +2,7 @@ import pytest
 
 from osmaxx.conversion.converters.converter_gis import detail_levels
 from osmaxx.conversion.size_estimator import size_estimation_for_format
-from osmaxx.conversion_api import formats
+from osmaxx.conversion.constants import formats
 
 range_for_format_and_level = {
     formats.GARMIN: {

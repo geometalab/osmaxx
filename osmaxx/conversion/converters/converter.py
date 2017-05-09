@@ -2,7 +2,7 @@ from osmaxx.conversion.converters import converter_garmin
 from osmaxx.conversion.converters import converter_gis
 from osmaxx.conversion.converters import converter_pbf
 from osmaxx.conversion.job_dispatcher.rq_dispatcher import rq_enqueue_with_settings
-from osmaxx.conversion_api.formats import FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN, PBF
+from osmaxx.conversion.constants.formats import FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN, PBF
 from osmaxx.utils.frozendict import frozendict
 
 _format_converter = frozendict(
