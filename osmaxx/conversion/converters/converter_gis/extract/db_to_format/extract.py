@@ -2,7 +2,7 @@ import os
 import subprocess
 
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
-from osmaxx.conversion.constants.formats import FGDB, SHAPEFILE, GPKG, SPATIALITE
+from osmaxx.conversion.constants.output_format import FGDB, SHAPEFILE, GPKG, SPATIALITE
 
 FORMATS = {
     FGDB: {

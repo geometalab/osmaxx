@@ -9,7 +9,7 @@ from requests import HTTPError
 from rest_framework.reverse import reverse
 
 from osmaxx.api_client import ConversionApiClient, API_client
-from osmaxx.conversion.constants.formats import FGDB, SPATIALITE
+from osmaxx.conversion.constants.output_format import FGDB, SPATIALITE
 from osmaxx.conversion.constants.statuses import RECEIVED
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from osmaxx.job_progress.views import tracker

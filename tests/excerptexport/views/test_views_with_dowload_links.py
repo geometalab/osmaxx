@@ -5,7 +5,7 @@ import pytest
 from django.core.urlresolvers import reverse
 from django.test.testcases import SimpleTestCase
 
-from osmaxx.conversion.constants import formats
+from osmaxx.conversion.constants import output_format
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder
 from osmaxx.excerptexport.models.output_file import OutputFile
@@ -30,7 +30,7 @@ def order(excerpt, db):
 
 @pytest.fixture
 def exports(order, db):
-    return [order.exports.create(file_format=format_choice[0]) for format_choice in formats.FORMAT_CHOICES]
+    return [order.exports.create(file_format=format_choice[0]) for format_choice in output_format.FORMAT_CHOICES]
 
 
 @pytest.fixture

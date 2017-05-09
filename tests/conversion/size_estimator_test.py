@@ -2,30 +2,30 @@ import pytest
 
 from osmaxx.conversion.converters.converter_gis import detail_levels
 from osmaxx.conversion.size_estimator import size_estimation_for_format
-from osmaxx.conversion.constants import formats
+from osmaxx.conversion.constants import output_format
 
 range_for_format_and_level = {
-    formats.GARMIN: {
+    output_format.GARMIN: {
         detail_levels.DETAIL_LEVEL_ALL: {'upper': 1.4, 'lower': 0.2},
         detail_levels.DETAIL_LEVEL_REDUCED: {'upper': 1.4, 'lower': 0.2},
     },
-    formats.PBF: {
+    output_format.PBF: {
         detail_levels.DETAIL_LEVEL_ALL: {'upper': 1.000001, 'lower': 0.99999},
         detail_levels.DETAIL_LEVEL_REDUCED: {'upper': 1.000001, 'lower': 0.99999},
     },
-    formats.FGDB: {
+    output_format.FGDB: {
         detail_levels.DETAIL_LEVEL_ALL: {'upper': 7.4, 'lower': 1.6},
         detail_levels.DETAIL_LEVEL_REDUCED: {'upper': 2.3, 'lower': 0.6},
     },
-    formats.GPKG: {
+    output_format.GPKG: {
         detail_levels.DETAIL_LEVEL_ALL: {'upper': 17, 'lower': 3.5},
         detail_levels.DETAIL_LEVEL_REDUCED: {'upper': 4.9, 'lower': 1.3},
     },
-    formats.SHAPEFILE: {
+    output_format.SHAPEFILE: {
         detail_levels.DETAIL_LEVEL_ALL: {'upper': 45, 'lower': 10},
         detail_levels.DETAIL_LEVEL_REDUCED: {'upper': 11, 'lower': 3},
     },
-    formats.SPATIALITE: {
+    output_format.SPATIALITE: {
         detail_levels.DETAIL_LEVEL_ALL: {'upper': 48, 'lower': 4},
         detail_levels.DETAIL_LEVEL_REDUCED: {'upper': 16, 'lower': 1.5},
     },
