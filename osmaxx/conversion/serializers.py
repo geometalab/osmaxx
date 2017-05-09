@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from osmaxx.conversion.converters.converter_gis import detail_levels
 from osmaxx.conversion.size_estimator import size_estimation_for_format
-from osmaxx.conversion.constants import formats
+from osmaxx.conversion.constants import output_format
 from .models import Job, Parametrization
 
 
@@ -41,7 +41,7 @@ class FormatSizeEstimationSerializer(serializers.Serializer):
         data.update(
             {
                 output_format: size_estimation_for_format(output_format, detail_level, estimated_pbf)
-                for output_format in formats.FORMAT_DEFINITIONS
+                for output_format in output_format.DEFINITIONS
             }
         )
         return data

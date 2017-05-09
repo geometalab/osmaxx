@@ -3,13 +3,13 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES
-from osmaxx.conversion.constants import formats, coordinate_reference_systems as crs
+from osmaxx.conversion.constants import output_format, coordinate_reference_systems as crs
 
 
 class OrderOptionsMixin(forms.Form):
     formats = forms.MultipleChoiceField(
         label=_("GIS export formats"),
-        choices=formats.FORMAT_CHOICES,
+        choices=output_format.CHOICES,
         widget=forms.CheckboxSelectMultiple,
         required=True,
     )

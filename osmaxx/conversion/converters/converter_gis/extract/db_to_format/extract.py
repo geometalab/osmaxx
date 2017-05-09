@@ -2,25 +2,25 @@ import os
 import subprocess
 
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
-from osmaxx.conversion.constants.formats import FGDB, SHAPEFILE, GPKG, SPATIALITE
+from osmaxx.conversion.constants import output_format
 
 FORMATS = {
-    FGDB: {
+    output_format.FGDB: {
         'ogr_name': 'FileGDB',
         'extension': '.gdb',
         'extraction_options': [],
     },
-    GPKG: {
+    output_format.GPKG: {
         'ogr_name': 'GPKG',
         'extension': '.gpkg',
         'extraction_options': [],
     },
-    SHAPEFILE: {
+    output_format.SHAPEFILE: {
         'ogr_name': 'Esri Shapefile',
         'extension': '.shp',
         'extraction_options': ['-lco', 'ENCODING=UTF-8'],
     },
-    SPATIALITE: {
+    output_format.SPATIALITE: {
         'ogr_name': 'SQLite',
         'extension': '.sqlite',
         'extraction_options': ['-dsco', 'SPATIALITE=YES', '-nlt', 'GEOMETRY']  # FIXME: Remove or change -nlt because of geometry reading problems

@@ -12,10 +12,10 @@ from jinja2 import Environment, PackageLoader
 from rq import get_current_job
 
 from osmaxx.conversion._settings import odb_license
+from osmaxx.conversion.constants import output_format
 from osmaxx.conversion.converters.converter_gis.bootstrap import BootStrapper
 from osmaxx.conversion.converters.converter_gis.extract.db_to_format.extract import extract_to
 from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize
-from osmaxx.conversion.constants.formats import FORMAT_DEFINITIONS
 
 
 def perform_export(
@@ -113,7 +113,7 @@ class GISConverter:
         shutil.copy(qgis_symbology_readme, qgis_symbology_dir)
         for scale_level in ScaleLevel:
             template = self._env.get_template('OSMaxx_{}.qgs.jinja2'.format(scale_level.name.upper()))
-            format_definition = FORMAT_DEFINITIONS[self._conversion_format]
+            format_definition = output_format.DEFINITIONS[self._conversion_format]
             template.stream(
                 data_location=os.path.basename(data_location),
                 separator=format_definition.qgis_datasource_separator,
