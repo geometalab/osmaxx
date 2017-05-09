@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from osmaxx.conversion.constants.statuses import STARTED, FAILED, FINISHED
+from osmaxx.conversion.constants.status import STARTED, FAILED, FINISHED
 
 
 @pytest.mark.django_db()

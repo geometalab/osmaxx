@@ -4,7 +4,7 @@ from django.contrib.gis import geos
 from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
 from osmaxx.conversion.constants.formats import GARMIN
-from osmaxx.conversion.constants.statuses import FINISHED
+from osmaxx.conversion.constants.status import FINISHED
 from osmaxx.excerptexport import models
 
 

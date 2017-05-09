@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.reverse import reverse
 
-from osmaxx.conversion.constants.statuses import RECEIVED
+from osmaxx.conversion.constants.status import RECEIVED
 
 authenticated_access_urls = [
     reverse('clipping_area-list'),

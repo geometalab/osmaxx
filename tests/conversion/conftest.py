@@ -8,7 +8,7 @@ from django.conf import settings
 import osmaxx.conversion.constants.formats
 from osmaxx.conversion.converters.converter_gis import detail_levels
 from osmaxx.conversion.constants import coordinate_reference_systems as crs
-from osmaxx.conversion.constants.statuses import STARTED, FAILED, FINISHED
+from osmaxx.conversion.constants.status import STARTED, FAILED, FINISHED
 
 format_list = osmaxx.conversion.constants.formats.FORMAT_DEFINITIONS.keys()
 
