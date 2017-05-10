@@ -1,7 +1,7 @@
 import uuid
 from collections import OrderedDict, namedtuple
 
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 FGDB, SHAPEFILE, GPKG, SPATIALITE, GARMIN, PBF = 'fgdb', 'shapefile', 'gpkg', 'spatialite', 'garmin', 'pbf'
 
@@ -39,7 +39,7 @@ class OutputFormat(_OutputFormatBase):
         return self.is_white_box
 
 
-FORMAT_DEFINITIONS = OrderedDict([
+DEFINITIONS = OrderedDict([
     (FGDB, OutputFormat(
         long_identifier='Esri File Geodatabase',
         verbose_name=_('Esri File Geodatabase'),
@@ -85,5 +85,5 @@ FORMAT_DEFINITIONS = OrderedDict([
     )),
 ])
 
-FORMAT_CHOICES = tuple((key, definition.verbose_name) for key, definition in FORMAT_DEFINITIONS.items())
-ALL = FORMAT_DEFINITIONS.keys()
+CHOICES = tuple((key, definition.verbose_name) for key, definition in DEFINITIONS.items())
+ALL = DEFINITIONS.keys()
