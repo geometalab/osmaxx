@@ -4,7 +4,7 @@ from collections import namedtuple
 
 import pytest
 
-from osmaxx.conversion.constants import output_format
+from osmaxx.conversion import output_format
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, Export, OutputFile
 
 

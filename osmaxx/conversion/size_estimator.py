@@ -1,8 +1,8 @@
 import math
 
+from osmaxx.conversion import output_format
 from osmaxx.conversion.converters.converter_gis import detail_levels
 from osmaxx.conversion.models import Job
-from osmaxx.conversion.constants import output_format
 
 PRE_DATA = {
     output_format.GARMIN: {

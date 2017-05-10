@@ -2,7 +2,7 @@ import os
 import subprocess
 
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
-from osmaxx.conversion.constants import output_format
+from osmaxx.conversion import output_format
 
 FORMATS = {
     output_format.FGDB: {

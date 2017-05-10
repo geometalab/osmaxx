@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
-from osmaxx.conversion.constants import output_format
+from osmaxx.conversion import output_format
 from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION, EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA
 
 logger = logging.getLogger(__name__)

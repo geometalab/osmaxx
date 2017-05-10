@@ -11,8 +11,8 @@ from django.utils import timezone
 from jinja2 import Environment, PackageLoader
 from rq import get_current_job
 
+from osmaxx.conversion import output_format
 from osmaxx.conversion._settings import odb_license
-from osmaxx.conversion.constants import output_format
 from osmaxx.conversion.converters.converter_gis.bootstrap import BootStrapper
 from osmaxx.conversion.converters.converter_gis.extract.db_to_format.extract import extract_to
 from osmaxx.conversion.converters.utils import zip_folders_relative, recursive_getsize

@@ -1,4 +1,4 @@
-from osmaxx.conversion.constants import output_format
+from osmaxx.conversion import output_format
 from osmaxx.conversion.converters import converter_garmin
 from osmaxx.conversion.converters import converter_gis
 from osmaxx.conversion.converters import converter_pbf
