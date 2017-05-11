@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
 from django.views import generic
 
-from osmaxx.conversion_api import formats
+from osmaxx.conversion import output_format
 from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.models import Export
 from osmaxx.excerptexport.models import ExtractionOrder
@@ -28,7 +28,7 @@ def test_delete_fails_when_exports_in_progress(authorized_client, user, extracti
     extraction_order.excerpt = excerpt
     extraction_order.save()
     Export.objects.create(
-        extraction_order=extraction_order, file_format=formats.FGDB, conversion_service_job_id=None, status=Export.INITIAL, finished_at=None
+        extraction_order=extraction_order, file_format=output_format.FGDB, conversion_service_job_id=None, status=Export.INITIAL, finished_at=None
     )
     assert excerpt.has_running_exports
 

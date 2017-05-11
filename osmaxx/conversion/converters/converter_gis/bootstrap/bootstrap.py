@@ -1,17 +1,18 @@
 import glob
 import os
-import subprocess
 
+from memoize import mproperty
+
+from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_ALL, DETAIL_LEVEL_TABLES
 from osmaxx.conversion.converters.converter_gis.helper.default_postgres import get_default_postgres_wrapper
 from osmaxx.conversion.converters.converter_gis.helper.osm_boundaries_importer import OSMBoundariesImporter
-from osmaxx.conversion.converters import detail_levels
-from osmaxx.conversion.converters.converter_pbf.to_pbf import polyfile_string_to_pbf
-from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_TABLES
+from osmaxx.conversion.converters.converter_pbf.to_pbf import cut_pbf_along_polyfile
+from osmaxx.conversion.converters.utils import logged_check_call
 from osmaxx.utils import polyfile_helpers
 
 
 class BootStrapper:
-    def __init__(self, area_polyfile_string, *, detail_level=detail_levels.DETAIL_LEVEL_ALL):
+    def __init__(self, area_polyfile_string, *, detail_level=DETAIL_LEVEL_ALL):
         self.area_polyfile_string = area_polyfile_string
         self._postgres = get_default_postgres_wrapper()
         self._script_base_dir = os.path.abspath(os.path.dirname(__file__))
@@ -22,7 +23,7 @@ class BootStrapper:
 
     def bootstrap(self):
         self._reset_database()
-        polyfile_string_to_pbf(self.area_polyfile_string, self._pbf_file_path)
+        cut_pbf_along_polyfile(self.area_polyfile_string, self._pbf_file_path)
         self._import_boundaries()
         self._import_pbf()
         self._setup_db_functions()
@@ -30,7 +31,7 @@ class BootStrapper:
         self._filter_data()
         self._create_views()
 
-    @property
+    @mproperty
     def geom(self):
         return polyfile_helpers.parse_poly_string(self.area_polyfile_string)
 
@@ -129,4 +130,4 @@ class BootStrapper:
             '--input-reader', 'pbf',
             self._pbf_file_path,
         ]
-        subprocess.check_call(osm_2_pgsql_command)
+        logged_check_call(osm_2_pgsql_command)

@@ -13,7 +13,7 @@ from rest_framework.test import APITestCase, APIRequestFactory
 
 from osmaxx import excerptexport
 from osmaxx.api_client.conversion_api_client import ConversionApiClient
-from osmaxx.conversion_api.statuses import STARTED, QUEUED, FINISHED, FAILED
+from osmaxx.conversion.constants.statuses import STARTED, QUEUED, FINISHED, FAILED
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.export import Export
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder
@@ -81,7 +81,7 @@ class CallbackHandlingTest(APITestCase):
         self.export.refresh_from_db()
         self.assertEqual(self.export.status, STARTED)
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_queued_informs_user(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -103,7 +103,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_started_informs_user(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -118,14 +118,15 @@ class CallbackHandlingTest(APITestCase):
         assert_that(
             emissary_mock.mock_calls, contains_in_any_order(
                 call.info(
-                    'Export #{export_id} "Neverland" to Esri File Geodatabase has been started.'.format(
+                    'Export #{export_id} "Neverland" to Esri File Geodatabase'
+                    ' has been started. Exporting will take around 30 minutes.'.format(
                         export_id=self.export.id
                     ),
                 ),
             )
         )
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_failed_informs_user_with_error(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -148,7 +149,7 @@ class CallbackHandlingTest(APITestCase):
         )
 
     @patch.object(Export, '_fetch_result_file')
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_finished_informs_user_with_success(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -170,7 +171,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_unchanged_status_does_not_inform_user(
             self, emissary_class_mock, *args, **mocks):
         self.export.status = 'started'
@@ -221,7 +222,7 @@ class CallbackHandlingTest(APITestCase):
 
     @requests_mock.Mocker(kw='requests')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_final_status_for_only_remaining_nonfinal_export_of_extraction_order_advertises_downloads(
             self, emissary_class_mock, *args, **mocks):
         self.export.conversion_service_job_id = 1
@@ -263,9 +264,10 @@ class CallbackHandlingTest(APITestCase):
                 'The extraction order #{order_id} "Neverland" has been processed and is available for download:',
                 '- Esri File Geodatabase: http://testserver{download_url}',
                 '',
-                'Unfortunately, the following exports have failed:',
+                'Unfortunately, the following export has failed:',
                 '- SpatiaLite',
-                'Please order them anew if you need them. '
+                '',
+                'Please order it anew if you need it. '
                 'If there are repeated failures, '
                 'please report them on https://github.com/geometalab/osmaxx/issues '
                 'unless the problem is already known there.',

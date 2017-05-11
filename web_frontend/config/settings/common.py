@@ -56,7 +56,6 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'osmaxx.version',
 
-    'osmaxx.conversion_api',
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
     'osmaxx.profile',
@@ -159,6 +158,13 @@ USE_L10N = True
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
+
+# See https://docs.djangoproject.com/en/dev/ref/settings/#datetime-format
+DATETIME_FORMAT = "Y-m-d H:i:s e"  # e.g. '2017-03-21 16:15:20 CET'
+
+# See https://mounirmesselmeni.github.io/2014/11/06/date-format-in-django-admin/
+from django.conf.locale.en import formats as en_formats
+en_formats.DATETIME_FORMAT = DATETIME_FORMAT
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -367,7 +373,6 @@ MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
 
 # Do not alter this once migrations have been run, since these values are stored in the database.
 OSMAXX_FRONTEND_USER_GROUP = 'osmaxx_frontend_users'
-REGISTRATION_OPEN = True  # If True, verified users are automatically being added to OSMAXX_FRONTEND_USER_GROUP
 
 # message type mapping
 MESSAGE_TAGS = {
@@ -393,8 +398,6 @@ OSMAXX = {
     'OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL': timezone.timedelta(
         hours=env.int('DJANGO_OSMAXX_OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS', default=1)
     ),
-    # The email adress of this user will be used to generate the mailto link for users
-    # to request access to osmaxx (access_denied page)
     'ACCOUNT_MANAGER_EMAIL': env.str('OSMAXX_ACCOUNT_MANAGER_EMAIL', default=DEFAULT_FROM_EMAIL),
     'CONVERSION_SERVICE_URL': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_URL', default='http://localhost:8901/api/'),
     'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME', default='default_user'),

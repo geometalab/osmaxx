@@ -100,9 +100,6 @@ def pytest_configure():
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
             'osmaxx.profile',
-
-            # special model for testing only
-            'tests.utilities.test_models',
         ),
         PASSWORD_HASHERS=(
             'django.contrib.auth.hashers.SHA1PasswordHasher',
@@ -154,8 +151,6 @@ def pytest_configure():
         OSMAXX={
             'download_file_name': '%(excerpt_name)s-%(date)s.%(content_type)s.%(file_extension)s',
             'EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA': timedelta(hours=48),
-            # The email adress of this user will be used to generate the mailto link for users
-            # to request access to osmaxx (access_denied page)
             'CONVERSION_SERVICE_URL': 'http://localhost:8901/api/',
             'CONVERSION_SERVICE_USERNAME': 'dev',
             'CONVERSION_SERVICE_PASSWORD': 'dev',
@@ -163,7 +158,6 @@ def pytest_configure():
             'ACCOUNT_MANAGER_EMAIL': 'accountmanager@example.com',
         },
         OSMAXX_FRONTEND_USER_GROUP='osmaxx_frontend_users',
-        REGISTRATION_OPEN=True,
         CACHES={
             'default': {
                 'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
@@ -257,11 +251,9 @@ def authenticated_api_client(api_client, user):
 
 @pytest.fixture
 def frontend_accessible_authenticated_api_client(api_client, user):
-    from django.conf import settings
-    from django.contrib.auth.models import Group
+    from osmaxx.profile.models import Profile
 
-    group = Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP)
-    user.groups.add(group)
+    Profile.objects.create(associated_user=user, unverified_email=user.email)
     return authenticated_client(api_client, user)
 
 

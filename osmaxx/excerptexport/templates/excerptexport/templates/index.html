@@ -18,17 +18,17 @@
         </h1>
         <div class="container-fluid">
             <div class="text-center col-sm-6">
-                <img src="{% static 'excerptexport/images/export_existing_excerpt_or_country_or_admin_area_emblem.svg' %}" width="70%" style="max-width: 550px;" /><br />
-                <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_existing_excerpt' %}">
-                    <strong>{% trans 'Export an existing excerpt' %}</strong>
+                <img src="{% static 'excerptexport/images/export_existing_excerpt_or_country_or_admin_area_icon.svg' %}" width="70%" style="max-width: 550px;" /><br />
+                <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_existing_excerpt' %}"
+                    title="{% trans 'Export a predefined country or other administrative area,<br />or one of your previously defined excerpts' %}">
+                    <strong>{% trans 'Existing Excerpt / Country' %}</strong>
                 </a>
-                <br />
-                {% trans '(a predefined country or other administrative area,<br />or one of your previously defined excerpts)' %}
             </div>
             <div class="text-center col-sm-6">
-                <img src="{% static 'excerptexport/images/define_and_export_new_excerpt_emblem.svg' %}" width="70%" style="max-width: 550px;" /><br />
-                <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_new_excerpt' %}">
-                    <strong>{% trans 'Define & export a new excerpt' %}</strong>
+                <img src="{% static 'excerptexport/images/define_and_export_new_excerpt_icon.svg' %}" width="70%" style="max-width: 550px;" /><br />
+                <a class="btn btn-primary btn-lg" href="{% url 'excerptexport:order_new_excerpt' %}"
+                    title="{% trans 'Define & export a new excerpt' %}">
+                    <strong>{% trans 'New Excerpt' %}</strong>
                 </a>
             </div>
             {% if user.is_authenticated %}
@@ -45,17 +45,14 @@
 {% block copyright %}
     {{ block.super }},
     <small><small>
-        <a href="{% static 'excerptexport/images/export_existing_excerpt_or_country_or_admin_area_emblem.svg' %}" target="_blank">
-            "folder with map"
-        </a>
+        <a href="{% static 'excerptexport/images/export_existing_excerpt_or_country_or_admin_area_icon.svg' %}" target="_blank">
+            "folder with map"</a>
         and
-        <a href="{% static 'excerptexport/images/define_and_export_new_excerpt_emblem.svg' %}" target="_blank">
-            "cut-out from planet" emblems
-        </a>
+        <a href="{% static 'excerptexport/images/define_and_export_new_excerpt_icon.svg' %}" target="_blank">
+            "cut-out from planet" icons</a>
         derived from <span title="see SVG source code for individual attributions">CC BY-SA and public domain works</span>
         and licensed under
         <a href="https://creativecommons.org/licenses/by-sa/4.0/" title="Creative Commons Attribution-ShareAlike 4.0 International Public License" target="_blank">
-            CC BY-SA&nbsp;4.0&nbsp;international
-        </a>
+            CC BY-SA&nbsp;4.0&nbsp;international</a>
     </small></small>
 {% endblock %}

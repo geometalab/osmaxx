@@ -3,7 +3,7 @@ from unittest.mock import Mock, MagicMock, patch
 
 import pytest
 
-from osmaxx.conversion_api.statuses import STARTED
+from osmaxx.conversion.constants.statuses import STARTED
 
 
 @pytest.fixture

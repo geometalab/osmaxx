@@ -5,6 +5,8 @@ from django.core import signing
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from osmaxx.profile.email_confirmation import send_email_confirmation
+
 
 class Profile(models.Model):
     REGISTRATION_VERIFICATION_TIMEOUT_DAYS = 2
@@ -14,13 +16,16 @@ class Profile(models.Model):
     unverified_email = models.EmailField(verbose_name=_('unverified email'), max_length=200, null=True)
 
     def has_validated_email(self):
-        return self.associated_user.email == self.unverified_email
+        return self.unverified_email and self.associated_user.email == self.unverified_email
 
     def activation_key(self):
         key = signing.dumps(
             obj=self._username_email_dict(),
             salt=self.PROFILE_SALT)
         return key
+
+    def request_email_address_confirmation(self, request, redirection_target):
+        send_email_confirmation(profile=self, request=request, redirection_target=redirection_target)
 
     def validate_key(self, activation_key):
         try:

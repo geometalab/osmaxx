@@ -1,29 +1,28 @@
-from django.conf import settings
-from django.test import TestCase
-from django.contrib.auth.models import User, Group
-from osmaxx.contrib.auth.frontend_permissions import _may_user_access_osmaxx_frontend
+import pytest
+from django.contrib.auth.models import User
+from osmaxx.contrib.auth.frontend_permissions import _user_has_validated_email
+from osmaxx.profile.models import Profile
 
 
-class TestFrontendPermissions(TestCase):
-    def test_user_can_not_access_frontend_by_default(self):
-        """
-        Newly created users (self sign-up) can't do anything that non-authenticated visitors couldn't do, too, so that
-        we don't have to restrict who can sign up.
-        """
-        a_user = User.objects.create_user('U. Ser', 'user@example.com', 'password')
-        self.assertFalse(_may_user_access_osmaxx_frontend(a_user))
+def test_new_user_has_no_validated_email_address(db):
+    a_user = User.objects.create_user('U. Ser', 'user@example.com', 'password')
+    assert not _user_has_validated_email(a_user)
 
-    def test_user_can_access_frontend_when_in_osmaxx_group(self):
-        """
-        To activate a user for frontend access, add it to the osmaxx frontend group.
-        """
-        a_user = User.objects.create_user('U. Ser', 'user@example.com', 'password')
-        a_user.groups.add(Group.objects.get(name=settings.OSMAXX_FRONTEND_USER_GROUP))
-        self.assertTrue(_may_user_access_osmaxx_frontend(a_user))
 
-    def test_superuser_can_access_frontend_even_if_not_in_osmaxx_group(self):
-        """
-        Superusers cannot be created by anonymous self sign-up, so we don't require explicit group membership for them.
-        """
-        an_admin = User.objects.create_superuser('A. D. Min', 'admin@example.com', 'password')
-        self.assertTrue(_may_user_access_osmaxx_frontend(an_admin))
+def test_user_with_same_address_on_profile_has_validated_email_address(db):
+    a_user = User.objects.create_user('U. Ser', 'user@example.com', 'password')
+    Profile.objects.create(associated_user=a_user, unverified_email=a_user.email)
+    assert _user_has_validated_email(a_user)
+
+
+def test_new_superuser_has_no_validated_email_address(db):
+    an_admin = User.objects.create_superuser('A. D. Min', 'admin@example.com', 'password')
+    assert not _user_has_validated_email(an_admin)
+
+
+@pytest.mark.parametrize('user_email', ['', None])
+@pytest.mark.parametrize('profile_email', ['', None])
+def test_user_with_empty_email_addresses(db, user_email, profile_email):
+    a_user = User.objects.create_user('U. Ser', user_email, 'password')
+    Profile.objects.create(associated_user=a_user, unverified_email=profile_email)
+    assert not _user_has_validated_email(a_user)

@@ -3,10 +3,11 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
 from django.template.loader import render_to_string
+from django.utils.text import unescape_entities
 from django.utils.translation import ugettext_lazy as _
 
-from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
-from osmaxx.conversion_api import coordinate_reference_systems as crs
+from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
+from osmaxx.conversion.constants import coordinate_reference_systems as crs
 from .excerpt import Excerpt
 
 
@@ -73,7 +74,7 @@ class ExtractionOrder(models.Model):
 
     def send_email_if_all_exports_done(self, incoming_request):
         if all(export.is_status_final for export in self.exports.all()):
-            from osmaxx.utilities.shortcuts import Emissary
+            from osmaxx.utils.shortcuts import Emissary
             emissary = Emissary(recipient=self.orderer)
             emissary.inform_mail(
                 subject=self._get_all_exports_done_email_subject(),
@@ -86,10 +87,12 @@ class ExtractionOrder(models.Model):
             successful_exports_count=self.exports.filter(output_file__isnull=False).count(),
             failed_exports_count=self.exports.filter(output_file__isnull=True).count(),
         )
-        return render_to_string(
-            'excerptexport/email/all_exports_of_extraction_order_done_subject.txt',
-            context=view_context,
-        ).strip()
+        return unescape_entities(
+            render_to_string(
+                'excerptexport/email/all_exports_of_extraction_order_done_subject.txt',
+                context=view_context,
+            ).strip()
+        )  # HACK: calling unescape_entities as workaround for https://github.com/geometalab/osmaxx/issues/771
 
     def _get_all_exports_done_mail_body(self, incoming_request):
         view_context = dict(
@@ -98,10 +101,12 @@ class ExtractionOrder(models.Model):
             failed_exports=self.exports.filter(output_file__isnull=True),
             request=incoming_request,
         )
-        return render_to_string(
-            'excerptexport/email/all_exports_of_extraction_order_done_body.txt',
-            context=view_context,
-        ).strip()
+        return unescape_entities(
+            render_to_string(
+                'excerptexport/email/all_exports_of_extraction_order_done_body.txt',
+                context=view_context,
+            ).strip()
+        )  # HACK: calling unescape_entities as workaround for https://github.com/geometalab/osmaxx/issues/771
 
 
 @receiver(post_save, sender=ExtractionOrder)

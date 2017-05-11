@@ -1,9 +1,10 @@
 import os
 import tempfile
+from collections import namedtuple
 
 import pytest
 
-from osmaxx.conversion_api import formats
+from osmaxx.conversion import output_format
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder, Export, OutputFile
 
 
@@ -28,12 +29,18 @@ def extraction_order(excerpt, user, db):
     return extraction_order
 
 
-@pytest.fixture(params=[formats.FGDB, formats.SHAPEFILE, formats.GPKG, formats.SPATIALITE, formats.GARMIN])
+@pytest.fixture(params=output_format.ALL)
 def export(request, extraction_order):
     return Export.objects.create(
         extraction_order=extraction_order,
         file_format=request.param,
     )
+
+
+@pytest.fixture
+def exports(extraction_order):
+    ParamFake = namedtuple('ParamFake', 'param')
+    return [export(ParamFake(format), extraction_order) for format in output_format.ALL]
 
 
 @pytest.fixture

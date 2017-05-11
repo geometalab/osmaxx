@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
-from osmaxx.conversion_api.formats import FORMAT_CHOICES
+from osmaxx.conversion import output_format
 from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION, EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA
 
 logger = logging.getLogger(__name__)
@@ -41,14 +41,14 @@ class Export(TimeStampModelMixin, models.Model):
     - the transformation of the data from the data sources' schemata (e.g. ``osm2pgsql`` schema) to the OSMaxx schema
     - the actual export to one specific GIS or navigation file format with one specific set of parameters
     """
-    from osmaxx.conversion_api.statuses import RECEIVED, QUEUED, FINISHED, FAILED, STARTED, DEFERRED, FINAL_STATUSES, STATUS_CHOICES  # noqa
+    from osmaxx.conversion.constants.statuses import RECEIVED, QUEUED, FINISHED, FAILED, STARTED, DEFERRED, FINAL_STATUSES, STATUS_CHOICES  # noqa
     INITIAL = 'initial'
     INITIAL_CHOICE = (INITIAL, _('initial'))
     STATUS_CHOICES = (INITIAL_CHOICE,) + STATUS_CHOICES
 
     extraction_order = models.ForeignKey('excerptexport.ExtractionOrder', related_name='exports',
                                          verbose_name=_('extraction order'), on_delete=models.CASCADE)
-    file_format = models.CharField(choices=FORMAT_CHOICES, verbose_name=_('file format / data format'), max_length=10)
+    file_format = models.CharField(choices=output_format.CHOICES, verbose_name=_('file format / data format'), max_length=10)
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
     status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
     finished_at = models.DateTimeField(_('finished at'), default=None, blank=True, editable=False, null=True)
@@ -97,7 +97,7 @@ class Export(TimeStampModelMixin, models.Model):
         return (self.updated_at + EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA) < timezone.now()
 
     def _handle_changed_status(self, *, incoming_request):
-        from osmaxx.utilities.shortcuts import Emissary
+        from osmaxx.utils.shortcuts import Emissary
         emissary = Emissary(recipient=self.extraction_order.orderer)
         status_changed_message = self._get_export_status_changed_message()
         if self.status == self.FAILED:

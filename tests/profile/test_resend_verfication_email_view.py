@@ -10,7 +10,7 @@ def test_resend_verification_page_redirects_when_called_without_user(client):
 
 
 def test_resend_verification_page_sends_mail_with_profile(authorized_client, valid_profile):
-    with patch('osmaxx.profile.views.send_mail') as send_mail:
+    with patch('osmaxx.profile.email_confirmation.send_mail') as send_mail:
         assert send_mail.call_count == 0
         response = authorized_client.get(reverse('profile:resend_verification'), follow=True)
         assert response.status_code == 200
@@ -18,8 +18,8 @@ def test_resend_verification_page_sends_mail_with_profile(authorized_client, val
 
 
 def test_resend_verification_page_limits_click_ratio(authorized_client, valid_profile):
-    with patch('osmaxx.profile.views.send_mail') as send_mail:
-        with patch('osmaxx.profile.views.cache') as cache:
+    with patch('osmaxx.profile.email_confirmation.send_mail') as send_mail:
+        with patch('osmaxx.profile.email_confirmation.cache') as cache:
             cache.get.return_value = None
             assert send_mail.call_count == 0
             authorized_client.get(reverse('profile:resend_verification'), follow=True)

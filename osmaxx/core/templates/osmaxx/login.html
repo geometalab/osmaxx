@@ -22,6 +22,6 @@
             {% endblocktrans %}
         </p>
 
-        <a style="font-size: 1.2em;" class="btn btn-default btn-success" href="{% url 'social:begin' 'openstreetmap' %}"><img src="{% static 'images/profile/osm_logo.svg' %}" alt="OSM Logo" height="32" width="32" />&nbsp;<strong>Log in</strong> using OpenStreetMap</a>
+        <a style="font-size: 1.2em;" class="btn btn-default btn-success" href="{% url 'social:begin' 'openstreetmap' %}?next={{ request.GET.next }}"><img src="{% static 'images/profile/osm_logo.svg' %}" alt="OSM Logo" height="32" width="32" />&nbsp;<strong>Log in</strong> using OpenStreetMap</a>
 </div>
 {% endblock %}

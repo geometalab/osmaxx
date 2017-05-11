@@ -1,16 +1,16 @@
-from django.utils.translation import ugettext_lazy as _
-from django import forms
-
 from crispy_forms.layout import Fieldset, Div
+from django import forms
+from django.utils.translation import ugettext_lazy as _
 
-from osmaxx.conversion.converters.detail_levels import DETAIL_LEVEL_CHOICES
-from osmaxx.conversion_api import formats, coordinate_reference_systems as crs
+from osmaxx.conversion import output_format
+from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES
+from osmaxx.conversion.constants import coordinate_reference_systems as crs
 
 
 class OrderOptionsMixin(forms.Form):
     formats = forms.MultipleChoiceField(
         label=_("GIS export formats"),
-        choices=formats.FORMAT_CHOICES,
+        choices=output_format.CHOICES,
         widget=forms.CheckboxSelectMultiple,
         required=True,
     )

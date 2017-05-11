@@ -1,9 +1,20 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load staticfiles navigation %}
 
 {% block extra_head %}
     <title>OSMaxx</title>
     <link rel="icon" type="image/png" href='{% static "osmaxx/images/favicon.png" %}' />
+
+    <meta property="og:image" content='{% filter siteabsoluteurl:request %}{% static "osmaxx/images/homepage_screenshot.png" %}{% endfilter %}'/>
+    <meta property="og:title" content="OpenStreetMap Arbitrary Excerpt Export"/>
+    <meta property="og:url" content="{{ request.build_absolute_uri | siteabsoluteurl:request }}"/>
+    <meta property="og:site_name" content="OSMaxx"/>
+    <meta property="og:description" content="Get the OpenStreetMap data you want in the file format you need"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@GeometaLab">
+    <meta name="twitter:creator" content="@GeometaLab">
+
     <style>
         body { font-family: Arial, sans-serif; }
     </style>

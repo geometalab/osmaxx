@@ -171,8 +171,8 @@ def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch, mocker):
 
     @contextmanager
     def import_data(data):
-        from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
-        mocker.patch.object(bootstrap, 'cut_area_from_pbf', return_value=None)
+        from osmaxx.conversion.converters.converter_pbf import to_pbf
+        mocker.patch.object(to_pbf, 'cut_area_from_pbf', return_value=None)
         bootstrapper = _BootStrapperWithoutPbfFile(data)
         try:
             bootstrapper.bootstrap()

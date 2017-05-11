@@ -1,27 +1,20 @@
 import logging
 from collections import OrderedDict
 
-from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
 from django.utils.datastructures import OrderedSet
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView, TemplateView, GenericViewError
+from django.views.generic import FormView, GenericViewError
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin, DeleteView
 from django.views.generic.list import ListView
 
-from osmaxx.contrib.auth.frontend_permissions import (
-    LoginRequiredMixin,
-    FrontendAccessRequiredMixin,
-    EmailRequiredMixin,
-)
-from osmaxx.conversion_api import statuses
+from osmaxx.contrib.auth.frontend_permissions import EmailRequiredMixin
+from osmaxx.conversion.constants import statuses
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.models import ExtractionOrder
@@ -51,17 +44,13 @@ class OrderFormViewMixin(FormMixin):
         )
 
 
-class AccessRestrictedBaseView(LoginRequiredMixin, FrontendAccessRequiredMixin, EmailRequiredMixin):
-    pass
-
-
-class OrderNewExcerptView(AccessRestrictedBaseView, OrderFormViewMixin, FormView):
+class OrderNewExcerptView(LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_new_excerpt.html'
     form_class = ExcerptForm
 order_new_excerpt = OrderNewExcerptView.as_view()
 
 
-class OrderExistingExcerptView(AccessRestrictedBaseView, OrderFormViewMixin, FormView):
+class OrderExistingExcerptView(LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_existing_excerpt.html'
     form_class = ExistingForm
 
@@ -117,7 +106,7 @@ class ExportsListMixin:
         )
 
 
-class ExportsListView(AccessRestrictedBaseView, ExportsListMixin, ListView):
+class ExportsListView(LoginRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_list.html'
     context_object_name = 'excerpts'
     model = Excerpt
@@ -145,7 +134,7 @@ class ExportsListView(AccessRestrictedBaseView, ExportsListMixin, ListView):
 export_list = ExportsListView.as_view()
 
 
-class ExportsDetailView(AccessRestrictedBaseView, ExportsListMixin, ListView):
+class ExportsDetailView(LoginRequiredMixin, ExportsListMixin, ListView):
     template_name = 'excerptexport/export_detail.html'
     context_object_name = 'exports'
     model = Export
@@ -166,61 +155,6 @@ class ExportsDetailView(AccessRestrictedBaseView, ExportsListMixin, ListView):
             .filter(extraction_order__excerpt__pk=pk)
         return queryset
 export_detail = ExportsDetailView.as_view()
-
-
-class AccesssDenied(TemplateView):
-    template_name = 'excerptexport/templates/access_denied.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(dict(next_page=self.request.GET.get('next', '/')))
-access_denied = AccesssDenied.as_view()
-
-
-@login_required()
-def request_access(request):
-    user_administrator_email = settings.OSMAXX['ACCOUNT_MANAGER_EMAIL']
-    if not user_administrator_email:
-        logging.exception(
-            "You don't have an user account manager email address defined. Please set OSMAXX_ACCOUNT_MANAGER_EMAIL."
-        )
-        messages.error(
-            request,
-            _('Sending of access request failed. Please contact an administrator.')
-        )
-    else:
-        email_message = (  # Intentionally untranslated, as this goes to the administrator(s), not the user.
-            '''Hi Admin!
-            User '{username}' ({identification_description}) claims to be {first_name} {last_name} ({email})
-            and requests access for OSMaxx.
-            If {username} shall be granted access, go to {admin_url} and add {username} to group '{frontend_group}'.
-            '''
-        ).format(
-            username=request.user.username,
-            first_name=request.user.first_name,
-            last_name=request.user.last_name,
-            email=request.user.email,
-            identification_description=_social_identification_description(request.user),
-            admin_url=request.build_absolute_uri(reverse('admin:auth_user_change', args=(request.user.id,))),
-            frontend_group=settings.OSMAXX_FRONTEND_USER_GROUP,
-        )
-
-        try:
-            send_mail('Request access for OSMaxx', email_message, settings.DEFAULT_FROM_EMAIL,
-                      [user_administrator_email], fail_silently=True)
-            messages.success(
-                request,
-                _('Your access request has been sent successfully. '
-                  'You will receive an email when your account is ready.')
-            )
-        except Exception as exception:
-            logging.exception("Sending access request e-mail failed: {0}, \n{1}".format(exception, email_message))
-            messages.error(
-                request,
-                _('Sending of access request failed. Please contact an administrator.')
-            )
-
-    return redirect(request.GET['next'] + '?next=' + request.GET['next'])
 
 
 def _social_identification_description(user):
@@ -273,5 +207,5 @@ class DeleteExcerptView(DeleteView):
                                            ' Please try deleting again, when these are finished.'))
             return HttpResponseRedirect(self.get_success_url())
 
-        return super(DeleteExcerptView, self).delete(request, *args, **kwargs)
+        return super().delete(request, *args, **kwargs)
 delete_excerpt = DeleteExcerptView.as_view()

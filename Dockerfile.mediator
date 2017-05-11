@@ -24,11 +24,11 @@ RUN pip3 install -r requirements.txt
 
 # TODO: this is just a temporary solution, use pip for production as soon as geometalab.osmaxx is published there
 ADD ./osmaxx $HOME/osmaxx
-ADD ./osmaxx_conversion_service $HOME/osmaxx_conversion_service
+ADD ./conversion_service $HOME/conversion_service
 
 # Expose modules:
 ENV PYTHONPATH=PYTHONPATH:$HOME
-ENV DJANGO_SETTINGS_MODULE=osmaxx_conversion_service.config.settings.production
+ENV DJANGO_SETTINGS_MODULE=conversion_service.config.settings.production
 
 RUN mkdir -p $HOME/docker_entrypoint/osmaxx/conversion_service $HOME/entrypoint
 COPY ./docker_entrypoint/osmaxx/conversion_service $HOME/entrypoint
