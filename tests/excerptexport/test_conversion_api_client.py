@@ -158,9 +158,9 @@ def test_create_jobs_for_extraction_order(extraction_order, excerpt_request):
     spatialite_export = extraction_order.exports.get(file_format=output_format.SPATIALITE)
 
     assert fgdb_export.conversion_service_job_id is None
-    assert fgdb_export.status == fgdb_export.INITIAL
+    assert fgdb_export.status is None
     assert spatialite_export.conversion_service_job_id is None
-    assert spatialite_export.status == spatialite_export.INITIAL
+    assert spatialite_export.status is None
 
     jobs_json = extraction_order.forward_to_conversion_service(incoming_request=(excerpt_request))
 

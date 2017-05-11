@@ -42,15 +42,12 @@ class Export(TimeStampModelMixin, models.Model):
     - the actual export to one specific GIS or navigation file format with one specific set of parameters
     """
     from osmaxx.conversion.constants.status import RECEIVED, QUEUED, FINISHED, FAILED, STARTED, DEFERRED, FINAL_STATUSES, STATUS_CHOICES  # noqa
-    INITIAL = 'initial'
-    INITIAL_CHOICE = (INITIAL, _('initial'))
-    STATUS_CHOICES = (INITIAL_CHOICE,) + STATUS_CHOICES
 
     extraction_order = models.ForeignKey('excerptexport.ExtractionOrder', related_name='exports',
                                          verbose_name=_('extraction order'), on_delete=models.CASCADE)
     file_format = models.CharField(choices=output_format.CHOICES, verbose_name=_('file format / data format'), max_length=10)
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
-    status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
+    status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=None, max_length=20, null=True)
     finished_at = models.DateTimeField(_('finished at'), default=None, blank=True, editable=False, null=True)
 
     def delete(self, *args, **kwargs):
@@ -81,7 +78,7 @@ class Export(TimeStampModelMixin, models.Model):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
 
     def set_and_handle_new_status(self, new_status, *, incoming_request):
-        assert new_status in dict(self.STATUS_CHOICES)
+        assert new_status in dict(self.STATUS_CHOICES) or new_status is None
         if self.status == new_status and self.update_is_overdue:
             new_status = self.FAILED
 
