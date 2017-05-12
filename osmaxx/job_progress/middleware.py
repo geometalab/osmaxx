@@ -37,7 +37,7 @@ def handle_unsent_exports(user):
             exclude(status__in=FINAL_STATUSES).\
             filter(extraction_order__orderer=user, conversion_service_job_id__isnull=True):
         if export.update_is_overdue:
-            export.status = export.FAILED
+            export.status = FAILED
             export.save()
 
 

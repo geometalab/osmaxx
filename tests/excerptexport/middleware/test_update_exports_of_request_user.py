@@ -2,6 +2,7 @@ import pytest
 import requests
 
 from osmaxx.api_client import ConversionApiClient
+from osmaxx.conversion.constants import status
 
 
 @pytest.fixture
@@ -29,7 +30,7 @@ def test_update_exports_of_request_user_sets_export_to_failed_if_not_available_o
 
             update_exports_of_request_user(http_request_mock)
             export_with_job.refresh_from_db()
-            assert export_with_job.status == export_with_job.FAILED
+            assert export_with_job.status == status.FAILED
 
 
 def test_update_exports_of_request_user_does_not_change_status_when_exception_occurs(rf, mocker, export_with_job, user):
@@ -77,4 +78,4 @@ def test_update_exports_of_request_user_sets_export_to_failed_if_status_is_overd
 
                 update_exports_of_request_user(http_request_mock)
                 export.refresh_from_db()
-                assert export.status == export.FAILED
+                assert export.status == status.FAILED

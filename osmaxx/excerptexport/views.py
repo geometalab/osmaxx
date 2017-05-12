@@ -85,7 +85,7 @@ class ExportsListMixin:
 
     @property
     def status_choices(self):
-        return [choice for choice in Export.STATUS_CHOICES if choice[0] in self._filterable_statuses]
+        return [choice for choice in status.STATUS_CHOICES if choice[0] in self._filterable_statuses]
 
     def get_user_exports(self):
         return self._filter_exports(
