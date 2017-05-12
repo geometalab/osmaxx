@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.reverse import reverse
 
-from osmaxx.conversion.constants.status import RECEIVED
+from osmaxx.conversion.constants import status
 
 authenticated_access_urls = [
     reverse('clipping_area-list'),
@@ -85,7 +85,7 @@ def test_conversion_job_detail_access_success(authenticated_api_client, conversi
     assert data['id'] == conversion_job.id
     assert data['callback_url'] == conversion_job.callback_url
     assert data['parametrization'] == conversion_parametrization.id
-    assert data['status'] == RECEIVED
+    assert data['status'] == status.RECEIVED
     assert data['resulting_file_path'] is None
 
 

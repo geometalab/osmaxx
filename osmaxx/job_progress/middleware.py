@@ -5,7 +5,7 @@ import requests
 from requests import HTTPError
 
 from osmaxx.api_client import ConversionApiClient
-from osmaxx.conversion.constants.status import FINAL_STATUSES, FAILED
+from osmaxx.conversion.constants import status
 from osmaxx.excerptexport.models import Export
 from osmaxx.utils.shortcuts import get_cached_or_set
 
@@ -34,10 +34,10 @@ class ExportUpdaterMiddleware(object):
 
 def handle_unsent_exports(user):
     for export in Export.objects.\
-            exclude(status__in=FINAL_STATUSES).\
+            exclude(status__in=status.FINAL_STATUSES).\
             filter(extraction_order__orderer=user, conversion_service_job_id__isnull=True):
         if export.update_is_overdue:
-            export.status = FAILED
+            export.status = status.FAILED
             export.save()
 
 
@@ -49,7 +49,7 @@ def update_exports_of_request_user(request):
     handle_unsent_exports(user=current_user)
 
     pending_exports = Export.objects.\
-        exclude(status__in=FINAL_STATUSES).\
+        exclude(status__in=status.FINAL_STATUSES).\
         filter(extraction_order__orderer=current_user, conversion_service_job_id__isnull=False)
     for export in pending_exports:
         try:
@@ -57,7 +57,7 @@ def update_exports_of_request_user(request):
         except HTTPError as e:
             if e.response.status_code == requests.codes['not_found']:
                 logger.exception("Export #%s doesn't exist on the conversion service.", export.id)
-                export.status = FAILED
+                export.status = status.FAILED
                 export.save()
             else:
                 logger.exception("Failed to update status of pending export #%s.", export.id)

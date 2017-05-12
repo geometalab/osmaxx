@@ -12,7 +12,7 @@ from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
 from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
 from osmaxx.conversion.constants.coordinate_reference_systems import CRS_CHOICES
-from osmaxx.conversion.constants.status import STATUS_CHOICES, RECEIVED
+from osmaxx.conversion.constants import status
 
 
 def job_directory_path(instance, filename):
@@ -40,7 +40,7 @@ class Job(models.Model):
     callback_url = models.URLField(_('callback url'), max_length=250)
     parametrization = models.ForeignKey(verbose_name=_('parametrization'), to=Parametrization, on_delete=models.CASCADE)
     rq_job_id = models.CharField(_('rq job id'), max_length=250, null=True)
-    status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=RECEIVED, max_length=20)
+    status = models.CharField(_('job status'), choices=status.STATUS_CHOICES, default=status.RECEIVED, max_length=20)
     resulting_file = models.FileField(_('resulting file'), upload_to=job_directory_path, null=True, max_length=250)
     estimated_pbf_size = models.FloatField(_('estimated pbf size in bytes'), null=True)
     unzipped_result_size = models.FloatField(

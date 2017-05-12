@@ -12,7 +12,7 @@ from pbf_file_size_estimation import estimate_size
 
 from osmaxx.conversion import models as conversion_models
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
-from osmaxx.conversion.constants.status import FINAL_STATUSES, FINISHED, FAILED
+from osmaxx.conversion.constants import status
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -42,7 +42,7 @@ class Command(BaseCommand):
             self._notify(conversion_job)
 
     def _handle_running_jobs(self):
-        active_jobs = conversion_models.Job.objects.exclude(status__in=FINAL_STATUSES)\
+        active_jobs = conversion_models.Job.objects.exclude(status__in=status.FINAL_STATUSES)\
             .values_list('rq_job_id', flat=True)
         for job_id in active_jobs:
             self._update_job(rq_job_id=job_id)
@@ -67,7 +67,7 @@ class Command(BaseCommand):
 
         logger.info('updating job %d', rq_job_id)
         conversion_job.status = job.status
-        if job.status == FINISHED:
+        if job.status == status.FINISHED:
             add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
             add_meta_data_to_job(conversion_job=conversion_job, rq_job=job)
         conversion_job.save()
@@ -75,11 +75,11 @@ class Command(BaseCommand):
 
     def _set_failed_unless_final(self, conversion_job, rq_job_id):
         conversion_job.refresh_from_db()
-        if conversion_job.status not in FINAL_STATUSES:
+        if conversion_job.status not in status.FINAL_STATUSES:
             logger.error("job {} of conversion job {} not found in queue but status is {} on database.".format(
                 rq_job_id, conversion_job.id, conversion_job.status
             ))
-            conversion_job.status = FAILED
+            conversion_job.status = status.FAILED
             conversion_job.save()
 
     def _notify(self, conversion_job):
@@ -136,5 +136,5 @@ def cleanup_old_jobs():
     queues.append(django_rq.get_failed_queue())
     for queue in queues:
         for job in queue.get_jobs():
-            if job.status in FINAL_STATUSES:
+            if job.status in status.FINAL_STATUSES:
                 job.delete()

@@ -4,7 +4,7 @@ from django.contrib.gis import geos
 from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
 from osmaxx.conversion import output_format
-from osmaxx.conversion.constants.status import FINISHED
+from osmaxx.conversion.constants import status
 from osmaxx.excerptexport import models
 
 
@@ -63,6 +63,6 @@ class ExtractionOrderTestCase(TestCase):
 def test_export_get_export_status_changed_message_does_not_html_escape_format_description():
     excerpt = models.Excerpt(name='Obersee')
     extraction_order = models.ExtractionOrder(excerpt=excerpt)
-    export = models.Export(id=5, status=FINISHED, extraction_order=extraction_order, file_format=output_format.GARMIN)
+    export = models.Export(id=5, status=status.FINISHED, extraction_order=extraction_order, file_format=output_format.GARMIN)
     assert export._get_export_status_changed_message() == \
         'Export #5 "Obersee" to Garmin navigation & map data has finished.'
