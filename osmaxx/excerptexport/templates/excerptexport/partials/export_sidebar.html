@@ -5,7 +5,7 @@
     </div>
     <div class="panel-body">
         <div class="btn-group" role="group" aria-label="status-filter-button-group">
-            <a class="btn btn-default{% if not status_filter or status_filter == "all" %} active{% endif %}" role="button" href=".">{% trans 'Show all' %}</a>
+            <a class="btn btn-default{% if not status_filter or status_filter == 'all' %} active{% endif %}" role="button" href=".">{% trans 'Show all' %}</a>
             {% for status, display in status_choices %}
                 <a class="btn btn-default{% if status_filter == status %} active{% endif %}" role="button" href="?status={{ status }}">{{ display|capfirst }}</a>
             {% endfor %}
