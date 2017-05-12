@@ -47,7 +47,7 @@ class Export(TimeStampModelMixin, models.Model):
                                          verbose_name=_('extraction order'), on_delete=models.CASCADE)
     file_format = models.CharField(choices=output_format.CHOICES, verbose_name=_('file format / data format'), max_length=10)
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
-    status = models.CharField(_('job status'), choices=status.STATUS_CHOICES, default=None, max_length=20, null=True)
+    status = models.CharField(_('job status'), choices=status.CHOICES, default=None, max_length=20, null=True)
     finished_at = models.DateTimeField(_('finished at'), default=None, blank=True, editable=False, null=True)
 
     def delete(self, *args, **kwargs):
@@ -78,7 +78,7 @@ class Export(TimeStampModelMixin, models.Model):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
 
     def set_and_handle_new_status(self, new_status, *, incoming_request):
-        assert new_status in dict(status.STATUS_CHOICES) or new_status is None
+        assert new_status in dict(status.CHOICES) or new_status is None
         if self.status == new_status and self.update_is_overdue:
             new_status = status.FAILED
 

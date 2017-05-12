@@ -40,7 +40,7 @@ class Job(models.Model):
     callback_url = models.URLField(_('callback url'), max_length=250)
     parametrization = models.ForeignKey(verbose_name=_('parametrization'), to=Parametrization, on_delete=models.CASCADE)
     rq_job_id = models.CharField(_('rq job id'), max_length=250, null=True)
-    status = models.CharField(_('job status'), choices=status.STATUS_CHOICES, default=status.RECEIVED, max_length=20)
+    status = models.CharField(_('job status'), choices=status.CHOICES, default=status.RECEIVED, max_length=20)
     resulting_file = models.FileField(_('resulting file'), upload_to=job_directory_path, null=True, max_length=250)
     estimated_pbf_size = models.FloatField(_('estimated pbf size in bytes'), null=True)
     unzipped_result_size = models.FloatField(
