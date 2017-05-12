@@ -12,7 +12,7 @@ from pbf_file_size_estimation import estimate_size
 
 from osmaxx.conversion import models as conversion_models
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
-from osmaxx.conversion.constants import status
+from osmaxx.conversion import status
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)

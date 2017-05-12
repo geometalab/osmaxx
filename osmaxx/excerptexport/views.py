@@ -14,7 +14,7 @@ from django.views.generic.edit import FormMixin, DeleteView
 from django.views.generic.list import ListView
 
 from osmaxx.contrib.auth.frontend_permissions import EmailRequiredMixin
-from osmaxx.conversion.constants import status
+from osmaxx.conversion import status
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.models import ExtractionOrder

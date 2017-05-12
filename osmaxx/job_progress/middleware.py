@@ -5,7 +5,7 @@ import requests
 from requests import HTTPError
 
 from osmaxx.api_client import ConversionApiClient
-from osmaxx.conversion.constants import status
+from osmaxx.conversion import status
 from osmaxx.excerptexport.models import Export
 from osmaxx.utils.shortcuts import get_cached_or_set
 

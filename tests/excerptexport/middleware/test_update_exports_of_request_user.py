@@ -2,7 +2,7 @@ import pytest
 import requests
 
 from osmaxx.api_client import ConversionApiClient
-from osmaxx.conversion.constants import status
+from osmaxx.conversion import status
 
 
 @pytest.fixture

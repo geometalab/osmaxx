@@ -10,7 +10,7 @@ from rest_framework.reverse import reverse
 
 from osmaxx.conversion import output_format
 from osmaxx.api_client import ConversionApiClient, API_client
-from osmaxx.conversion.constants import status
+from osmaxx.conversion import status
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from osmaxx.job_progress.views import tracker
 from tests.test_helpers import vcr_explicit_path as vcr

@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from osmaxx.conversion.constants import status
+from osmaxx.conversion import status
 
 
 @pytest.mark.django_db()

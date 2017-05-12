@@ -4,7 +4,7 @@ import pytest
 
 from django.utils import timezone
 
-from osmaxx.conversion.constants import status
+from osmaxx.conversion import status
 from osmaxx.excerptexport.models.export import TimeStampModelMixin
 from osmaxx.excerptexport._settings import EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA
 
