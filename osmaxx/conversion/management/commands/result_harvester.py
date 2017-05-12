@@ -10,9 +10,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 from pbf_file_size_estimation import estimate_size
 
-from osmaxx.conversion import models as conversion_models
+from osmaxx.conversion import models as conversion_models, status
 from osmaxx.conversion._settings import CONVERSION_SETTINGS
-from osmaxx.conversion import status
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)

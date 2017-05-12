@@ -3,8 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.gis import geos
 from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 
-from osmaxx.conversion import output_format
-from osmaxx.conversion import status
+from osmaxx.conversion import output_format, status
 from osmaxx.excerptexport import models
 
 

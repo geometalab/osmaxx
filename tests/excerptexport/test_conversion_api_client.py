@@ -8,9 +8,8 @@ from hamcrest import assert_that, contains_inanyorder
 from requests import HTTPError
 from rest_framework.reverse import reverse
 
-from osmaxx.conversion import output_format
+from osmaxx.conversion import output_format, status
 from osmaxx.api_client import ConversionApiClient, API_client
-from osmaxx.conversion import status
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from osmaxx.job_progress.views import tracker
 from tests.test_helpers import vcr_explicit_path as vcr
