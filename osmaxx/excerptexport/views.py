@@ -14,7 +14,7 @@ from django.views.generic.edit import FormMixin, DeleteView
 from django.views.generic.list import ListView
 
 from osmaxx.contrib.auth.frontend_permissions import EmailRequiredMixin
-from osmaxx.conversion.constants import statuses
+from osmaxx.conversion import status
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.models import ExtractionOrder
@@ -70,7 +70,7 @@ class OwnershipRequiredMixin(SingleObjectMixin):
 
 
 class ExportsListMixin:
-    _filterable_statuses = frozenset({statuses.FINISHED, statuses.FAILED})
+    _filterable_statuses = frozenset({status.FINISHED, status.FAILED})
 
     @property
     def excerpt_ids(self):
@@ -85,7 +85,7 @@ class ExportsListMixin:
 
     @property
     def status_choices(self):
-        return [choice for choice in Export.STATUS_CHOICES if choice[0] in self._filterable_statuses]
+        return [choice for choice in status.CHOICES if choice[0] in self._filterable_statuses]
 
     def get_user_exports(self):
         return self._filter_exports(

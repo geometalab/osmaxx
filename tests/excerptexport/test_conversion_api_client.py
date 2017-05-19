@@ -8,9 +8,8 @@ from hamcrest import assert_that, contains_inanyorder
 from requests import HTTPError
 from rest_framework.reverse import reverse
 
-from osmaxx.conversion import output_format
+from osmaxx.conversion import output_format, status
 from osmaxx.api_client import ConversionApiClient, API_client
-from osmaxx.conversion.constants.statuses import RECEIVED
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from osmaxx.job_progress.views import tracker
 from tests.test_helpers import vcr_explicit_path as vcr
@@ -88,7 +87,7 @@ def test_extraction_order_forward_to_conversion_service(
         rf, mocker, excerpt, extraction_order, bounding_geometry, the_host):
     mocker.patch.object(
         ConversionApiClient, 'create_job',
-        side_effect=[{'id': 5, 'status': RECEIVED}, {'id': 23, 'status': RECEIVED}],
+        side_effect=[{'id': 5, 'status': status.RECEIVED}, {'id': 23, 'status': status.RECEIVED}],
     )
     mocker.patch.object(
         ConversionApiClient, 'create_parametrization',
@@ -158,17 +157,17 @@ def test_create_jobs_for_extraction_order(extraction_order, excerpt_request):
     spatialite_export = extraction_order.exports.get(file_format=output_format.SPATIALITE)
 
     assert fgdb_export.conversion_service_job_id is None
-    assert fgdb_export.status == fgdb_export.INITIAL
+    assert fgdb_export.status is None
     assert spatialite_export.conversion_service_job_id is None
-    assert spatialite_export.status == spatialite_export.INITIAL
+    assert spatialite_export.status is None
 
     jobs_json = extraction_order.forward_to_conversion_service(incoming_request=(excerpt_request))
 
     fgdb_export.refresh_from_db()
     spatialite_export.refresh_from_db()
 
-    assert fgdb_export.status == RECEIVED
-    assert spatialite_export.status == RECEIVED
+    assert fgdb_export.status == status.RECEIVED
+    assert spatialite_export.status == status.RECEIVED
     assert len(jobs_json) == 2
     for job_json in jobs_json:
         expected_keys_in_response = ['callback_url', 'rq_job_id', 'id', 'status', 'resulting_file', 'parametrization']
@@ -201,7 +200,7 @@ def test_create_job_for_export(extraction_order, job_progress_request, clipping_
     assert job_json['callback_url'] == "http://the-host.example.com/job_progress/tracker/23/"
     assert job_json['rq_job_id'] == "6692fa44-cc19-4252-88ae-8687496da421"
     assert job_json['id'] == 29
-    assert job_json['status'] == RECEIVED
+    assert job_json['status'] == status.RECEIVED
     assert job_json['resulting_file'] is None
     assert job_json['parametrization'] == 38
 

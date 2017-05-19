@@ -2,6 +2,7 @@ import pytest
 import requests
 
 from osmaxx.api_client import ConversionApiClient
+from osmaxx.conversion import status
 
 
 @pytest.fixture
@@ -22,14 +23,14 @@ def test_update_exports_of_request_user_sets_export_to_failed_if_not_available_o
     with mocker.patch.object(ConversionApiClient, 'authorized_get'):
         with mocker.patch('osmaxx.job_progress.middleware.update_export_if_stale', side_effect=side_effect_function):
             from osmaxx.job_progress.middleware import update_exports_of_request_user
-            assert export_with_job.status == export_with_job.INITIAL
+            assert export_with_job.status is None
 
             http_request_mock = rf.get('/')
             http_request_mock.user = user
 
             update_exports_of_request_user(http_request_mock)
             export_with_job.refresh_from_db()
-            assert export_with_job.status == export_with_job.FAILED
+            assert export_with_job.status == status.FAILED
 
 
 def test_update_exports_of_request_user_does_not_change_status_when_exception_occurs(rf, mocker, export_with_job, user):
@@ -40,7 +41,7 @@ def test_update_exports_of_request_user_does_not_change_status_when_exception_oc
 
         with mocker.patch('osmaxx.job_progress.middleware.update_export_if_stale', side_effect=side_effect_function):
             from osmaxx.job_progress.middleware import update_exports_of_request_user
-            assert export_with_job.status == export_with_job.INITIAL
+            assert export_with_job.status is None
 
             http_request_mock = rf.get('/')
             http_request_mock.user = user
@@ -48,7 +49,7 @@ def test_update_exports_of_request_user_does_not_change_status_when_exception_oc
             update_exports_of_request_user(http_request_mock)
             export_with_job.refresh_from_db()
 
-            assert export_with_job.status == export_with_job.INITIAL
+            assert export_with_job.status is None
 
 
 def test_update_exports_of_request_user_sets_export_to_failed_if_status_is_overdue(rf, mocker, export, user):
@@ -70,11 +71,11 @@ def test_update_exports_of_request_user_sets_export_to_failed_if_status_is_overd
         with mocker.patch.object(ConversionApiClient, 'authorized_get'):
             with mocker.patch('osmaxx.job_progress.middleware.update_export_if_stale', side_effect=side_effect_function):
                 from osmaxx.job_progress.middleware import update_exports_of_request_user
-                assert export.status == export.INITIAL
+                assert export.status is None
 
                 http_request_mock = rf.get('/')
                 http_request_mock.user = user
 
                 update_exports_of_request_user(http_request_mock)
                 export.refresh_from_db()
-                assert export.status == export.FAILED
+                assert export.status == status.FAILED

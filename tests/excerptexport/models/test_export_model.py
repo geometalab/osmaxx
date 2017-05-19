@@ -4,6 +4,7 @@ import pytest
 
 from django.utils import timezone
 
+from osmaxx.conversion import status
 from osmaxx.excerptexport.models.export import TimeStampModelMixin
 from osmaxx.excerptexport._settings import EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA
 
@@ -59,19 +60,19 @@ def test_saved_again_export_doesnt_change_finished(export):
 def test_set_and_handle_new_status_when_status_outdated_is_set_to_failed(db, mocker, export_stale_status):
     mocker.patch.object(export_stale_status, '_handle_changed_status')
     export_stale_status.set_and_handle_new_status(export_stale_status.status, incoming_request=None)
-    assert export_stale_status.status == export_stale_status.FAILED
+    assert export_stale_status.status == status.FAILED
 
 
 def test_set_and_handle_new_status_when_not_outdated_isnt_marked_as_failed(db, mocker, export):
     mocker.patch.object(export, '_handle_changed_status')
     export.set_and_handle_new_status(export.status, incoming_request=None)
-    assert export.status != export.FAILED
+    assert export.status != status.FAILED
 
 
 def test_set_and_handle_new_status_when_outdated_isnt_marked_as_failed_when_status_is_failed(db, mocker, export_stale_status):
-    export_stale_status.status = export_stale_status.FINISHED
+    export_stale_status.status = status.FINISHED
     export_stale_status.save()
 
     mocker.patch.object(export_stale_status, '_handle_changed_status')
     export_stale_status.set_and_handle_new_status(export_stale_status.status, incoming_request=None)
-    assert export_stale_status.status == export_stale_status.FINISHED
+    assert export_stale_status.status == status.FINISHED

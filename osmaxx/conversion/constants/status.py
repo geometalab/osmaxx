@@ -8,7 +8,7 @@ FAILED = JobStatus.FAILED
 STARTED = JobStatus.STARTED
 DEFERRED = JobStatus.DEFERRED
 
-STATUS_CHOICES = (
+CHOICES = (
     (RECEIVED, _('received')),
     # these are identical to the job-statuses of rq
     (JobStatus.QUEUED, _('queued')),

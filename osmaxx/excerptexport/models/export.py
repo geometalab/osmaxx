@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.reverse import reverse
 
-from osmaxx.conversion import output_format
+from osmaxx.conversion import output_format, status
 from osmaxx.excerptexport._settings import RESULT_FILE_AVAILABILITY_DURATION, EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA
 
 logger = logging.getLogger(__name__)
@@ -41,16 +41,12 @@ class Export(TimeStampModelMixin, models.Model):
     - the transformation of the data from the data sources' schemata (e.g. ``osm2pgsql`` schema) to the OSMaxx schema
     - the actual export to one specific GIS or navigation file format with one specific set of parameters
     """
-    from osmaxx.conversion.constants.statuses import RECEIVED, QUEUED, FINISHED, FAILED, STARTED, DEFERRED, FINAL_STATUSES, STATUS_CHOICES  # noqa
-    INITIAL = 'initial'
-    INITIAL_CHOICE = (INITIAL, _('initial'))
-    STATUS_CHOICES = (INITIAL_CHOICE,) + STATUS_CHOICES
 
     extraction_order = models.ForeignKey('excerptexport.ExtractionOrder', related_name='exports',
                                          verbose_name=_('extraction order'), on_delete=models.CASCADE)
     file_format = models.CharField(choices=output_format.CHOICES, verbose_name=_('file format / data format'), max_length=10)
     conversion_service_job_id = models.IntegerField(verbose_name=_('conversion service job ID'), null=True)
-    status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=INITIAL, max_length=20)
+    status = models.CharField(_('job status'), choices=status.CHOICES, default=None, max_length=20, null=True)
     finished_at = models.DateTimeField(_('finished at'), default=None, blank=True, editable=False, null=True)
 
     def delete(self, *args, **kwargs):
@@ -81,9 +77,9 @@ class Export(TimeStampModelMixin, models.Model):
         return reverse('job_progress:tracker', kwargs=dict(export_id=self.id))
 
     def set_and_handle_new_status(self, new_status, *, incoming_request):
-        assert new_status in dict(self.STATUS_CHOICES)
+        assert new_status in dict(status.CHOICES) or new_status is None
         if self.status == new_status and self.update_is_overdue:
-            new_status = self.FAILED
+            new_status = status.FAILED
 
         if self.status != new_status:
             self.status = new_status
@@ -100,9 +96,9 @@ class Export(TimeStampModelMixin, models.Model):
         from osmaxx.utils.shortcuts import Emissary
         emissary = Emissary(recipient=self.extraction_order.orderer)
         status_changed_message = self._get_export_status_changed_message()
-        if self.status == self.FAILED:
+        if self.status == status.FAILED:
             emissary.error(status_changed_message)
-        elif self.status == self.FINISHED:
+        elif self.status == status.FINISHED:
             from osmaxx.api_client.conversion_api_client import ResultFileNotAvailableError
             try:
                 self._fetch_result_file()
@@ -160,7 +156,7 @@ class Export(TimeStampModelMixin, models.Model):
 
     @property
     def is_status_final(self):
-        return self.status in self.FINAL_STATUSES
+        return self.status in status.FINAL_STATUSES
 
     @property
     def can_be_deleted(self):
@@ -170,7 +166,7 @@ class Export(TimeStampModelMixin, models.Model):
     def is_running(self):
         if self.update_is_overdue:
             now = timezone.now()
-            self.status = self.FAILED
+            self.status = status.FAILED
             self.finished_at = now
             self.save()
         return not self.is_status_final
@@ -185,11 +181,11 @@ class Export(TimeStampModelMixin, models.Model):
         default_class = 'default'
 
         status_map = {
-            self.RECEIVED: 'info',
-            self.QUEUED: 'info',
-            self.FINISHED: 'success',
-            self.FAILED: 'danger',
-            self.STARTED: 'info',
-            self.DEFERRED: 'default',
+            status.RECEIVED: 'info',
+            status.QUEUED: 'info',
+            status.FINISHED: 'success',
+            status.FAILED: 'danger',
+            status.STARTED: 'info',
+            status.DEFERRED: 'default',
         }
         return status_map.get(self.status, default_class)

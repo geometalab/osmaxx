@@ -28,7 +28,7 @@ def test_delete_fails_when_exports_in_progress(authorized_client, user, extracti
     extraction_order.excerpt = excerpt
     extraction_order.save()
     Export.objects.create(
-        extraction_order=extraction_order, file_format=output_format.FGDB, conversion_service_job_id=None, status=Export.INITIAL, finished_at=None
+        extraction_order=extraction_order, file_format=output_format.FGDB, conversion_service_job_id=None, status=None, finished_at=None
     )
     assert excerpt.has_running_exports
 
