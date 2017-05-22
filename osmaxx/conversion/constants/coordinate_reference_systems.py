@@ -16,7 +16,7 @@ GLOBAL_CHOICES = (
     (OSGB_36, _('OSGB 36')),
 )
 
-UTM_ZONES = (
+UTM_ZONE_CHOICES = (
     (32601, _('UTM Zone 1, northern hemisphere')),
     (32602, _('UTM Zone 2, northern hemisphere')),
     (32603, _('UTM Zone 3, northern hemisphere')),
@@ -152,5 +152,5 @@ UTM_ZONES = (
 
 CRS_CHOICES = (
     (_('Global coordinate reference systems'), GLOBAL_CHOICES),
-    (_('UTM zones'), UTM_ZONES),
+    (_('UTM zones'), UTM_ZONE_CHOICES),
 )
