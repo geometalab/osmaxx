@@ -8,7 +8,7 @@ PSEUDO_MERCATOR = 3857
 NAD_83 = 4629
 OSGB_36 = 4277
 
-GLOBAL_CRS = (
+GLOBAL_CHOICES = (
     (WGS_84, _('WGS 84')),
     (PSEUDO_MERCATOR, _('Pseudo-Mercator')),
     (WGS_72, _('WGS 72')),
@@ -151,6 +151,6 @@ UTM_ZONES = (
 )
 
 CRS_CHOICES = (
-    (_('Global coordinate reference systems'), GLOBAL_CRS),
+    (_('Global coordinate reference systems'), GLOBAL_CHOICES),
     (_('UTM zones'), UTM_ZONES),
 )
