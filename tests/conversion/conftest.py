@@ -5,9 +5,8 @@ from collections import namedtuple
 import pytest
 from django.conf import settings
 
-from osmaxx.conversion import output_format, status
+from osmaxx.conversion import coordinate_reference_system as crs, output_format, status
 from osmaxx.conversion.converters.converter_gis import detail_levels
-from osmaxx.conversion import coordinate_reference_system as crs
 
 format_list = output_format.DEFINITIONS.keys()
 

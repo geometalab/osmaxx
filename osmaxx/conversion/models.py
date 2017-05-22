@@ -7,11 +7,10 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from rest_framework.reverse import reverse
 
-from osmaxx.conversion import output_format, status
+from osmaxx.conversion import coordinate_reference_system as crs, output_format, status
 from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
 from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
-from osmaxx.conversion import coordinate_reference_system as crs
 
 
 def job_directory_path(instance, filename):
