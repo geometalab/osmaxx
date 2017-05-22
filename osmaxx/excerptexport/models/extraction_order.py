@@ -13,7 +13,7 @@ from .excerpt import Excerpt
 
 class ExtractionOrder(models.Model):
     coordinate_reference_system = models.IntegerField(
-        verbose_name=_('CRS'), choices=crs.CRS_CHOICES, default=crs.WGS_84
+        verbose_name=_('CRS'), choices=crs.CHOICES, default=crs.WGS_84
     )
     detail_level = models.IntegerField(
         verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL

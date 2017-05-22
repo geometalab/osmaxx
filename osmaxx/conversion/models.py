@@ -22,7 +22,7 @@ class Parametrization(models.Model):
     out_format = models.CharField(verbose_name=_("out format"), choices=output_format.CHOICES, max_length=100)
     out_srs = models.IntegerField(
         verbose_name=_("output SRS"), help_text=_("EPSG code of the output spatial reference system"),
-        null=True, blank=True, default=4326, choices=crs.CRS_CHOICES
+        null=True, blank=True, default=4326, choices=crs.CHOICES
     )
     clipping_area = models.ForeignKey(ClippingArea, verbose_name=_('Clipping Area'), on_delete=models.CASCADE)
     detail_level = models.IntegerField(verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL)

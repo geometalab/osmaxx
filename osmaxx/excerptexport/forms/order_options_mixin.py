@@ -16,7 +16,7 @@ class OrderOptionsMixin(forms.Form):
     )
     coordinate_reference_system = forms.ChoiceField(
         label=_('Coordinate system'),
-        choices=crs.CRS_CHOICES,
+        choices=crs.CHOICES,
         required=True,
     )
     detail_level = forms.ChoiceField(

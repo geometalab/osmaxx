@@ -150,7 +150,7 @@ UTM_ZONE_CHOICES = (
     (32760, _('UTM Zone 60, southern hemisphere')),
 )
 
-CRS_CHOICES = (
+CHOICES = (
     (_('Global coordinate reference systems'), GLOBAL_CHOICES),
     (_('UTM zones'), UTM_ZONE_CHOICES),
 )
