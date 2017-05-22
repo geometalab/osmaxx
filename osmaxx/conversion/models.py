@@ -11,7 +11,7 @@ from osmaxx.conversion import output_format, status
 from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
 from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
-from osmaxx.conversion.constants.coordinate_reference_systems import CRS_CHOICES
+from osmaxx.conversion.constants import coordinate_reference_systems as crs
 
 
 def job_directory_path(instance, filename):
@@ -22,7 +22,7 @@ class Parametrization(models.Model):
     out_format = models.CharField(verbose_name=_("out format"), choices=output_format.CHOICES, max_length=100)
     out_srs = models.IntegerField(
         verbose_name=_("output SRS"), help_text=_("EPSG code of the output spatial reference system"),
-        null=True, blank=True, default=4326, choices=CRS_CHOICES
+        null=True, blank=True, default=4326, choices=crs.CRS_CHOICES
     )
     clipping_area = models.ForeignKey(ClippingArea, verbose_name=_('Clipping Area'), on_delete=models.CASCADE)
     detail_level = models.IntegerField(verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL)
