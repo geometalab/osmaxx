@@ -7,7 +7,7 @@ from django.utils.text import unescape_entities
 from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
-from osmaxx.conversion import coordinate_reference_systems as crs
+from osmaxx.conversion import coordinate_reference_system as crs
 from .excerpt import Excerpt
 
 

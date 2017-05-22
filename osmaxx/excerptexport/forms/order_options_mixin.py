@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.conversion import output_format
 from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES
-from osmaxx.conversion import coordinate_reference_systems as crs
+from osmaxx.conversion import coordinate_reference_system as crs
 
 
 class OrderOptionsMixin(forms.Form):

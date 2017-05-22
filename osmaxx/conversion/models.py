@@ -11,7 +11,7 @@ from osmaxx.conversion import output_format, status
 from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
 from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
-from osmaxx.conversion import coordinate_reference_systems as crs
+from osmaxx.conversion import coordinate_reference_system as crs
 
 
 def job_directory_path(instance, filename):
