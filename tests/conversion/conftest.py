@@ -5,9 +5,8 @@ from collections import namedtuple
 import pytest
 from django.conf import settings
 
-from osmaxx.conversion import output_format, status
+from osmaxx.conversion import coordinate_reference_system as crs, output_format, status
 from osmaxx.conversion.converters.converter_gis import detail_levels
-from osmaxx.conversion.constants import coordinate_reference_systems as crs
 
 format_list = output_format.DEFINITIONS.keys()
 
@@ -37,7 +36,7 @@ def detail_level(request):
     return request.param[0]
 
 
-@pytest.fixture(params=crs.GLOBAL_CRS[:2])
+@pytest.fixture(params=crs.GLOBAL_CHOICES[:2])
 def out_srs(request):
     return int(request.param[0])
 
