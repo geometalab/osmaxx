@@ -31,8 +31,6 @@ SQLAlchemy-Utils
 sqlalchemy-views
 GeoAlchemy2
 furl
-# fallback for python < 3.5
-scandir
 
 # Test requirements
 pytest-django

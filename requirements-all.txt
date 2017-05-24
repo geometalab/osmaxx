@@ -93,7 +93,6 @@ requests==2.13.0
 requirements-detector==0.5.2  # via prospector
 rq==0.7.1
 ruamel.yaml==0.14.11
-scandir==1.5
 scipy==0.19.0
 selenium==3.4.1           # via pytest-selenium
 setoptconf==0.2.0         # via prospector
