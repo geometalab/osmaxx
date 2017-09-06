@@ -16,7 +16,8 @@ services:
       # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/#python-options
       - PYTHONHASHSEED=random
   frontendbase:
-    extends: baseenv
+    extends:
+      service: baseenv
     expose:
       - "8000"
     environment:
@@ -30,7 +31,8 @@ services:
       - DJANGO_RESULT_MEDIA_ROOT=/results
       - DJANGO_DATABASE_URL=postgis://postgres@database/postgres
   conversionbase:
-    extends: baseenv
+    extends:
+      service: baseenv
     environment:
       # port and host application listens
       - APP_PORT=8901
