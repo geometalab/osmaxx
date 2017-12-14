@@ -756,25 +756,25 @@ where oneway='1';
 
 /*Height*/
 UPDATE osm_point
-SET height=(regexp_matches(height, '[-+]?[0-9]*\.?[0-9]*'))[1]
+SET height=(regexp_match(height, '[-+]?[0-9]*\.?[0-9]*'))
 where height is not null;
 UPDATE osm_polygon
-SET height=(regexp_matches(height, '[-+]?[0-9]*\.?[0-9]*'))[1]
+SET height=(regexp_match(height, '[-+]?[0-9]*\.?[0-9]*'))
 where height is not null;
 
 /*Width*/
 UPDATE osm_line
-SET width=(regexp_matches(width, '[-+]?[0-9]*\.?[0-9]*'))[1]
+SET width=(regexp_match(width, '[-+]?[0-9]*\.?[0-9]*'))
 where width is not null;
 
 
 /*Population*/
 UPDATE osm_line
-SET population=(regexp_matches(population, '[-+]?[0-9]*\.?[0-9]*'))[1]
+SET population=(regexp_match(population, '[-+]?[0-9]*\.?[0-9]*'))
 where population is not null;
 
 UPDATE osm_point
-SET population=(regexp_matches(population, '[-+]?[0-9]*\.?[0-9]*'))[1]
+SET population=(regexp_match(population, '[-+]?[0-9]*\.?[0-9]*'))
 where population is not null;
 
 /*Building Height*/
