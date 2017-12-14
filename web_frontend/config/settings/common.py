@@ -131,8 +131,7 @@ MANAGERS = ADMINS
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
-    # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    'default': env.db("DJANGO_DATABASE_URL", default="postgis://localhost/osmaxx"),
+    'default': env.db("DJANGO_DATABASE_URL", default="postgis://postgres@frontenddatabase/postgres"),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -201,7 +200,7 @@ TEMPLATES = [
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = env.str('DJANGO_STATIC_ROOT', default=str(ROOT_DIR('..', 'static')))
+STATIC_ROOT = env.str('DJANGO_STATIC_ROOT', default='/data/static')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
@@ -224,7 +223,7 @@ STATICFILES_FINDERS = (
 
 # data & media
 
-MEDIA_ROOT = env.str('DJANGO_MEDIA_ROOT', default=str(ROOT_DIR('..', 'media')))
+MEDIA_ROOT = env.str('DJANGO_MEDIA_ROOT', default='/data/media')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
@@ -317,11 +316,11 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': env.str('DJANGO_LOG_LEVEL', default='INFO'),
+            'level': env.str('DJANGO_LOG_LEVEL', default='ERROR'),
         },
         'osmaxx': {
             'handlers': ['console'],
-            'level': env.str('DJANGO_LOG_LEVEL', default='INFO'),
+            'level': env.str('DJANGO_LOG_LEVEL', default='ERROR'),
         },
     },
 }
@@ -399,9 +398,9 @@ OSMAXX = {
         hours=env.int('DJANGO_OSMAXX_OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL_HOURS', default=1)
     ),
     'ACCOUNT_MANAGER_EMAIL': env.str('OSMAXX_ACCOUNT_MANAGER_EMAIL', default=DEFAULT_FROM_EMAIL),
-    'CONVERSION_SERVICE_URL': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_URL', default='http://localhost:8901/api/'),
-    'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME', default='default_user'),
-    'CONVERSION_SERVICE_PASSWORD': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD', default='default_password'),
+    'CONVERSION_SERVICE_URL': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_URL', default='http://mediator:8901/api/'),
+    'CONVERSION_SERVICE_USERNAME': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME'),
+    'CONVERSION_SERVICE_PASSWORD': env.str('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD'),
     'EXCLUSIVE_USER_GROUP': 'osmaxx_high_priority',  # high priority people
     'SECURED_PROXY': env.bool('DJANGO_OSMAXX_SECURED_PROXY', False),
 }
@@ -414,8 +413,8 @@ ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=[])
 X_FRAME_OPTIONS = env.str('DJANGO_X_FRAME_OPTIONS', default='SAMEORIGIN')
 
 ## General SECURE Settings
-SECURE_BROWSER_XSS_FILTER = env.bool('DJANGO_SECURE_BROWSER_XSS_FILTER', default=False)
-SECURE_CONTENT_TYPE_NOSNIFF = env.bool('DJANGO_SECURE_CONTENT_TYPE_NOSNIFF', default=False)
+SECURE_BROWSER_XSS_FILTER = env.bool('DJANGO_SECURE_BROWSER_XSS_FILTER', default=True)
+SECURE_CONTENT_TYPE_NOSNIFF = env.bool('DJANGO_SECURE_CONTENT_TYPE_NOSNIFF', default=True)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS', default=False)
 SECURE_HSTS_SECONDS = env.int('DJANGO_SECURE_HSTS_SECONDS', default=0)
 SECURE_PROXY_SSL_HEADER = env.tuple('DJANGO_SECURE_PROXY_SSL_HEADER', default=None)
@@ -424,7 +423,7 @@ SECURE_SSL_HOST = env.str('DJANGO_SECURE_SSL_HOST', default=None)
 SECURE_SSL_REDIRECT = env.bool('DJANGO_SECURE_SSL_REDIRECT', default=False)
 
 ## CSRF
-CSRF_COOKIE_SECURE = env.bool('DJANGO_CSRF_COOKIE_SECURE', default=False)
+CSRF_COOKIE_SECURE = env.bool('DJANGO_CSRF_COOKIE_SECURE', default=True)
 CSRF_COOKIE_HTTPONLY = env.bool('DJANGO_CSRF_COOKIE_HTTPONLY', default=False)
 CSRF_COOKIE_DOMAIN = env.str('DJANGO_CSRF_COOKIE_DOMAIN', default=None)
 CSRF_COOKIE_NAME = env.str('DJANGO_CSRF_COOKIE_NAME', default='csrftoken')
@@ -438,7 +437,7 @@ SESSION_COOKIE_DOMAIN = env.str('DJANGO_SESSION_COOKIE_DOMAIN', default=None)
 SESSION_COOKIE_HTTPONLY = env.bool('DJANGO_SESSION_COOKIE_HTTPONLY', default=True)
 SESSION_COOKIE_NAME = env.str('DJANGO_SESSION_COOKIE_NAME', default='sessionid')
 SESSION_COOKIE_PATH = env.str('DJANGO_SESSION_COOKIE_PATH', default='/')
-SESSION_COOKIE_SECURE = env.bool('DJANGO_SESSION_COOKIE_SECURE', default=False)
+SESSION_COOKIE_SECURE = env.bool('DJANGO_SESSION_COOKIE_SECURE', default=True)
 SESSION_ENGINE = env.str('DJANGO_SESSION_ENGINE', default='django.contrib.sessions.backends.db')
 SESSION_EXPIRE_AT_BROWSER_CLOSE = env.bool('DJANGO_SESSION_EXPIRE_AT_BROWSER_CLOSE', default=False)
 SESSION_FILE_PATH = env.str('DJANGO_SESSION_FILE_PATH', default=None)
@@ -447,7 +446,7 @@ SESSION_SERIALIZER = env.str('DJANGO_SESSION_SERIALIZER', default='django.contri
 
 # RQ settings
 REDIS_CONNECTION = dict(
-    HOST=env.str('REDIS_HOST', default='localhost'),
+    HOST=env.str('REDIS_HOST', default='conversionserviceredis'),
     PORT=env.str('REDIS_PORT', default=6379),
     DB=0,
     PASSWORD='',

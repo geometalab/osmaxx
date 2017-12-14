@@ -3,6 +3,10 @@ FROM geometalab/gdal-debian:latest
 
 USER root
 
+ENV PYTHONUNBUFFERED=non-empty-string PYTHONIOENCODING=utf-8 LC_ALL=C.UTF-8 LANG=C.UTF-8
+ENV DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=default_user DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=default_password
+ENV DATABASE_HOST=mediatordatabase DATABASE_PORT=5432 APP_PORT=8901 APP_HOST=0.0.0.0
+
 MAINTAINER HSR Geometalab <geometalab@hsr.ch>
 
 RUN apt-get clean && DEBIAN_FRONTEND=noninteractive apt-get update && \
@@ -34,4 +38,7 @@ RUN mkdir -p $HOME/docker_entrypoint/osmaxx/conversion_service $HOME/entrypoint
 COPY ./docker_entrypoint/osmaxx/conversion_service $HOME/entrypoint
 COPY ./docker_entrypoint/wait-for-it/wait-for-it.sh $HOME/entrypoint/wait-for-it.sh
 
+EXPOSE 8901
+
 ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]
+CMD ["honcho", "-f", "./conversion_service/Procfile.mediator.prod", "start"]

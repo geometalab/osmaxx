@@ -25,23 +25,11 @@ _list_targets_on_separate_lines:
 	    egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
 .PHONY: local_dev_env
-local_dev_env: compose-env/common.env compose-env/frontend.env compose-env/mediator.env compose-env/worker.env
+local_dev_env:
 	@echo
 	@echo "\tIf you haven't already, you might want to "'`source activate_local_development`', now.
 
-compose-env/common.env: compose-env-dist/common.env
-	@mkdir -p $(@D)
-	sed -e 's/^\(DJANGO_OSMAXX_CONVERSION_SERVICE_\(USERNAME\|PASSWORD\)=\)/\1dev/' < $< > $@
-
 PUBLIC_LOCALHOST_IP := $(shell ip route get 1 | awk '{print $$NF;exit}')
-
-compose-env/frontend.env: compose-env-dist/frontend.env
-	@mkdir -p $(@D)
-# We don't have to set DJANGO_SECRET_KEY here, as docker-compose-dev.yml sets it for local use.
-	sed -e 's/^\(DJANGO_EMAIL_\)/# \1/' \
-	    -e 's/^\(DJANGO_ALLOWED_HOSTS=\)/\1$(PUBLIC_LOCALHOST_IP)/' \
-	    < $< \
-	    > $@
 
 PIP_TOOLS_SOURCE_SPEC_FILES := requirements.in requirements-all.in
 PIP_TOOLS_COMPILED_SPEC_FILES := $(PIP_TOOLS_SOURCE_SPEC_FILES:.in=.txt)
@@ -65,11 +53,6 @@ pip-sync-all: requirements-all.txt
 
 %.txt: %.in
 	pip-compile ${PIP_COMPILE_FLAGS} --output-file $@ $<
-
-compose-env/%.env: compose-env-dist/%.env
-	@mkdir -p $(@D)
-# We don't have to set DJANGO_SECRET_KEY here, as docker-compose-dev.yml sets it for local use.
-	cp $< $@
 
 .PHONY: tests-quick
 tests-quick: up-redis up-pg
