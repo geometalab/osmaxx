@@ -9,7 +9,7 @@ cache: pip
 sudo: required
 
 env:
-    - TOX_ENV=
+    - TOX_ENV=quick-tests
     - TOX_ENV=flake8
     - TOX_ENV=slow-tests
 
