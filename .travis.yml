@@ -2,17 +2,16 @@ language: python
 python:
   - "3.4"
   - "3.5"
+  - "3.6"
 
 cache: pip
 
 sudo: required
 
 env:
-    - TOX_ENV=py35-flake8
-    - TOX_ENV=py34
-    - TOX_ENV=py34-slow-tests
-    - TOX_ENV=py35
-    - TOX_ENV=py35-slow-tests
+    - TOX_ENV=
+    - TOX_ENV=flake8
+    - TOX_ENV=slow-tests
 
 matrix:
   fast_finish: true
