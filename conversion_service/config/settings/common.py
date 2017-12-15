@@ -103,7 +103,6 @@ MANAGERS = ADMINS
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
-    # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
     'default': env.db("DJANGO_DATABASE_URL", default="postgis://postgres@mediatordatabase/postgres"),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
