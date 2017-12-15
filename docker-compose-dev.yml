@@ -62,6 +62,7 @@ services:
     environment:
       - DJANGO_SECRET_KEY=insecure!3
   worker-exclusive:
+    <<: *worker
     environment:
       - DJANGO_SECRET_KEY=insecure!4
   osm-pbf-updater:
