@@ -7,7 +7,7 @@ services:
     ports:
       - "8888:80"
     environment:
-      - VIRTUAL_HOST=localhost,127.0.0.1,192.168.1.208
+      - VIRTUAL_HOST=localhost,127.0.0.1,${PUBLIC_LOCALHOST_IP:-osmaxx}
   frontend:
     build:
       context: .

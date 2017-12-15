@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   nginx:
-    image: geometalab/osmaxx-nginx:${DEPLOY_VERSION}
+    image: geometalab/osmaxx-nginx:${DEPLOY_VERSION:-latest}
     volumes:
       - frontend-media:/data/frontend/media
     depends_on:
@@ -19,7 +19,7 @@ services:
   # that you need to adapt REAMDE.md
   ##### frontend START ########
   frontend:
-    image: geometalab/osmaxx-frontend:${DEPLOY_VERSION}
+    image: geometalab/osmaxx-frontend:${DEPLOY_VERSION:-latest}
     volumes:
       - frontend-media:/data/media
       - worker-data:/data/media/job_result_files
@@ -54,7 +54,7 @@ services:
   ##### frontend END ########
   ##### CONVERSION SERVICE START ########
   mediator:
-    image: geometalab/osmaxx-mediator:${DEPLOY_VERSION}
+    image: geometalab/osmaxx-mediator:${DEPLOY_VERSION:-latest}
     volumes:
       - worker-data:/data/media/job_result_files
     depends_on:
@@ -68,7 +68,7 @@ services:
         max-size: "10M"
         max-file: "10"
   worker: &worker
-    image: geometalab/osmaxx-worker:${DEPLOY_VERSION}
+    image: geometalab/osmaxx-worker:${DEPLOY_VERSION:-latest}
     volumes:
       - osm_data:/var/data/osm-planet
       - worker-data:/data/media/job_result_files
@@ -113,7 +113,7 @@ services:
   osm-pbf-updater:
     # to limit scaling to exactly 1, we need to specify the container name
     container_name: osm-pbf-updater
-    image: geometalab/osm-pbf-updater:${DEPLOY_VERSION}
+    image: geometalab/osm-pbf-updater:${DEPLOY_VERSION:-latest}
     volumes:
       - osm_data:/var/data/osm-planet
     networks:

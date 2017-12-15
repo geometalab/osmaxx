@@ -29,8 +29,6 @@ local_dev_env:
 	@echo
 	@echo "\tIf you haven't already, you might want to "'`source activate_local_development`', now.
 
-PUBLIC_LOCALHOST_IP := $(shell ip route get 1 | awk '{print $$NF;exit}')
-
 PIP_TOOLS_SOURCE_SPEC_FILES := requirements.in requirements-all.in
 PIP_TOOLS_COMPILED_SPEC_FILES := $(PIP_TOOLS_SOURCE_SPEC_FILES:.in=.txt)
 
@@ -108,7 +106,8 @@ LOCAL_RUN_ONCE_SERVICES := osmboundaries_importer osm-pbf-updater
 LOCAL_DB_SERVICES := frontenddatabase mediatordatabase osmboundaries-database
 LOCAL_APPLICATION_STACK := nginx frontend mediator worker worker-exclusive conversionserviceredis
 LOCAL_DEPLOY_VERSION := latest
-COMPOSE := DEPLOY_VERSION=${LOCAL_DEPLOY_VERSION} docker-compose -f docker-compose.yml -f docker-compose-dev.yml
+PUBLIC_LOCALHOST_IP := $(shell ip route get 1 | awk '{print $$NF;exit}')
+COMPOSE := PUBLIC_LOCALHOST_IP=${PUBLIC_LOCALHOST_IP} DEPLOY_VERSION=${LOCAL_DEPLOY_VERSION} docker-compose -f docker-compose.yml -f docker-compose-dev.yml
 
 .PHONY: up_local_run_once
 up_local_run_once: up_local_db
