@@ -3,6 +3,8 @@ FROM geometalab/gdal-debian:latest
 
 USER root
 
+ENV PYTHONUNBUFFERED=non-empty-string PYTHONIOENCODING=utf-8 LC_ALL=C.UTF-8 LANG=C.UTF-8
+
 # make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
 RUN apt-get update && apt-get install -y apt-utils locales && rm -rf /var/lib/apt/lists/* \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
@@ -29,8 +31,8 @@ RUN mkdir /docker-entrypoint-initdb.d
 
 RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
 
-ENV PG_MAJOR 9.4
-ENV POSTGIS_MAJOR 2.1
+ENV PG_MAJOR 10
+ENV POSTGIS_MAJOR 2.4
 
 RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
 
@@ -54,7 +56,7 @@ ENV PGDATA /var/lib/postgresql/data
 
 RUN mkdir -p $PGDATA && chown -R 999:999 /var/lib/postgresql
 
-RUN pg_createcluster --locale=en_US.UTF-8 -d $PGDATA 9.4 main
+RUN pg_createcluster --locale=en_US.UTF-8 -d $PGDATA ${PG_MAJOR} main
 
 ################## END SETUP POSTGIS DATABASE with UTF8 support #############
 
@@ -98,6 +100,8 @@ RUN apt-get clean && apt-get update && \
 \
     default-jre \
     libkakasi2-dev \
+    pandoc \
+    curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -116,6 +120,11 @@ RUN mkdir src &&\
     make &&\
     make install
 
+WORKDIR /var/data/garmin/additional_data/
+# Fetch required additional data for Garmin as documented http://www.mkgmap.org.uk/download/mkgmap.html
+RUN wget -O /var/data/garmin/additional_data/bounds.zip http://osm2.pleiades.uni-wuppertal.de/bounds/latest/bounds.zip
+RUN wget -O /var/data/garmin/additional_data/sea.zip http://osm2.pleiades.uni-wuppertal.de/sea/latest/sea.zip
+
 ENV CODE /code
 WORKDIR $CODE
 
@@ -126,16 +135,9 @@ RUN wget -O libutf8proc1.deb http://ftp.ch.debian.org/debian/pool/main/u/utf8pro
 RUN dpkg --install libutf8proc1.deb libutf8proc-dev.deb
 RUN rm libutf8proc1.deb libutf8proc-dev.deb
 
-RUN apt-get clean && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y pandoc \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN git clone https://github.com/giggls/mapnik-german-l10n.git mapnik-german-l10n
-
-WORKDIR $CODE/mapnik-german-l10n
-
-RUN make && make install && make clean
+RUN git clone https://github.com/giggls/mapnik-german-l10n.git mapnik-german-l10n \
+    && cd mapnik-german-l10n && git checkout v2.2.6 \
+    && make && make install && make clean
 
 ENV HOME /home/py
 
@@ -148,17 +150,9 @@ RUN mkdir -p $HOME/osmaxx/worker $HOME/entrypoint
 COPY ./docker_entrypoint/osmaxx/worker $HOME/entrypoint
 COPY ./docker_entrypoint/wait-for-it/wait-for-it.sh $HOME/entrypoint/wait-for-it.sh
 
-RUN service postgresql start && \
-    gosu postgres psql -f $HOME/entrypoint/01_activate_translit.sql
-
-RUN sed -i '1ilocal   all             all                                     trust' /etc/postgresql/9.4/main/pg_hba.conf
+RUN sed -i '1ilocal   all             all                                     trust' /etc/postgresql/${PG_MAJOR}/main/pg_hba.conf
 
 RUN chmod a+rx $CODE
-
-WORKDIR /var/data/garmin/additional_data/
-# Fetch required additional data for Garmin as documented http://www.mkgmap.org.uk/download/mkgmap.html
-RUN wget -O /var/data/garmin/additional_data/bounds.zip http://osm2.pleiades.uni-wuppertal.de/bounds/latest/bounds.zip
-RUN wget -O /var/data/garmin/additional_data/sea.zip http://osm2.pleiades.uni-wuppertal.de/sea/latest/sea.zip
 
 WORKDIR $HOME
 
@@ -177,4 +171,4 @@ ENV WORKER_QUEUES default high
 
 ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]
 
-CMD ["bash", "-c"]
+CMD ["honcho", "-f", "./conversion_service/Procfile.worker", "start"]

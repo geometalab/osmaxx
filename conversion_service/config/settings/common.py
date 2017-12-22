@@ -103,8 +103,7 @@ MANAGERS = ADMINS
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
-    # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    'default': env.db("DJANGO_DATABASE_URL", default="postgis://localhost/osmaxx"),
+    'default': env.db("DJANGO_DATABASE_URL", default="postgis://postgres@mediatordatabase/postgres"),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -161,7 +160,7 @@ TEMPLATES = [
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = env.str('DJANGO_STATIC_ROOT', default=str(ROOT_DIR('..', 'static')))
+STATIC_ROOT = env.str('DJANGO_STATIC_ROOT', default='/data/static')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
@@ -182,7 +181,7 @@ STATICFILES_FINDERS = (
 
 # data & media
 
-MEDIA_ROOT = env.str('DJANGO_MEDIA_ROOT', default=str(ROOT_DIR('..', 'media')))
+MEDIA_ROOT = env.str('DJANGO_MEDIA_ROOT', default='/data/media')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
@@ -219,7 +218,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': env.str('DJANGO_LOG_LEVEL', default='DEBUG'),
+            'level': env.str('DJANGO_LOG_LEVEL', default='ERROR'),
         },
     },
 }
@@ -244,7 +243,7 @@ REST_FRAMEWORK = {
 
 # RQ settings
 REDIS_CONNECTION = dict(
-    HOST=env.str('REDIS_HOST', default='localhost'),
+    HOST=env.str('REDIS_HOST', default='conversionserviceredis'),
     PORT=env.str('REDIS_PORT', default=6379),
     DB=0,
     PASSWORD='',
@@ -277,7 +276,7 @@ JWT_AUTH = {
 OSMAXX_CONVERSION_SERVICE = {
     'PBF_PLANET_FILE_PATH': env.str(
         'OSMAXX_CONVERSION_SERVICE_PBF_PLANET_FILE_PATH',
-        default='~/tmp/osm-planet/planet-latest.osm.pbf'),
+        default='/var/data/osm-planet/pbf/planet-latest.osm.pbf'),
     'RESULT_TTL': env.str('OSMAXX_CONVERSION_SERVICE_RESULT_TTL', default=-1),  # never expire!
 }
 
