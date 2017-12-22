@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-04 13:59+0200\n"
+"POT-Creation-Date: 2017-12-22 09:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,6 +40,566 @@ msgid ""
 "Invalid coordinates: expected at least one coordinate pair, received none."
 msgstr ""
 
+#: osmaxx/conversion/constants/coordinate_reference_system.py:12
+msgid "WGS 84"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:13
+msgid "Pseudo-Mercator"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:14
+msgid "WGS 72"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:15
+msgid "NAD 83"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:16
+msgid "OSGB 36"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:20
+msgid "UTM Zone 1, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:21
+msgid "UTM Zone 2, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:22
+msgid "UTM Zone 3, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:23
+msgid "UTM Zone 4, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:24
+msgid "UTM Zone 5, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:25
+msgid "UTM Zone 6, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:26
+msgid "UTM Zone 7, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:27
+msgid "UTM Zone 8, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:28
+msgid "UTM Zone 9, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:29
+msgid "UTM Zone 10, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:31
+msgid "UTM Zone 11, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:32
+msgid "UTM Zone 12, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:33
+msgid "UTM Zone 13, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:34
+msgid "UTM Zone 14, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:35
+msgid "UTM Zone 15, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:36
+msgid "UTM Zone 16, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:37
+msgid "UTM Zone 17, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:38
+msgid "UTM Zone 18, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:39
+msgid "UTM Zone 19, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:40
+msgid "UTM Zone 20, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:42
+msgid "UTM Zone 21, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:43
+msgid "UTM Zone 22, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:44
+msgid "UTM Zone 23, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:45
+msgid "UTM Zone 24, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:46
+msgid "UTM Zone 25, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:47
+msgid "UTM Zone 26, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:48
+msgid "UTM Zone 27, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:49
+msgid "UTM Zone 28, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:50
+msgid "UTM Zone 29, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:51
+msgid "UTM Zone 30, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:53
+msgid "UTM Zone 31, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:54
+msgid "UTM Zone 32, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:55
+msgid "UTM Zone 33, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:56
+msgid "UTM Zone 34, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:57
+msgid "UTM Zone 35, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:58
+msgid "UTM Zone 36, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:59
+msgid "UTM Zone 37, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:60
+msgid "UTM Zone 38, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:61
+msgid "UTM Zone 39, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:62
+msgid "UTM Zone 40, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:64
+msgid "UTM Zone 41, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:65
+msgid "UTM Zone 42, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:66
+msgid "UTM Zone 43, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:67
+msgid "UTM Zone 44, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:68
+msgid "UTM Zone 45, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:69
+msgid "UTM Zone 46, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:70
+msgid "UTM Zone 47, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:71
+msgid "UTM Zone 48, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:72
+msgid "UTM Zone 49, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:73
+msgid "UTM Zone 50, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:75
+msgid "UTM Zone 51, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:76
+msgid "UTM Zone 52, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:77
+msgid "UTM Zone 53, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:78
+msgid "UTM Zone 54, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:79
+msgid "UTM Zone 55, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:80
+msgid "UTM Zone 56, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:81
+msgid "UTM Zone 57, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:82
+msgid "UTM Zone 58, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:83
+msgid "UTM Zone 59, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:84
+msgid "UTM Zone 60, northern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:86
+msgid "UTM Zone 1, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:87
+msgid "UTM Zone 2, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:88
+msgid "UTM Zone 3, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:89
+msgid "UTM Zone 4, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:90
+msgid "UTM Zone 5, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:91
+msgid "UTM Zone 6, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:92
+msgid "UTM Zone 7, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:93
+msgid "UTM Zone 8, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:94
+msgid "UTM Zone 9, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:95
+msgid "UTM Zone 10, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:97
+msgid "UTM Zone 11, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:98
+msgid "UTM Zone 12, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:99
+msgid "UTM Zone 13, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:100
+msgid "UTM Zone 14, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:101
+msgid "UTM Zone 15, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:102
+msgid "UTM Zone 16, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:103
+msgid "UTM Zone 17, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:104
+msgid "UTM Zone 18, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:105
+msgid "UTM Zone 19, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:106
+msgid "UTM Zone 20, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:108
+msgid "UTM Zone 21, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:109
+msgid "UTM Zone 22, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:110
+msgid "UTM Zone 23, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:111
+msgid "UTM Zone 24, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:112
+msgid "UTM Zone 25, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:113
+msgid "UTM Zone 26, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:114
+msgid "UTM Zone 27, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:115
+msgid "UTM Zone 28, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:116
+msgid "UTM Zone 29, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:117
+msgid "UTM Zone 30, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:119
+msgid "UTM Zone 31, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:120
+msgid "UTM Zone 32, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:121
+msgid "UTM Zone 33, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:122
+msgid "UTM Zone 34, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:123
+msgid "UTM Zone 35, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:124
+msgid "UTM Zone 36, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:125
+msgid "UTM Zone 37, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:126
+msgid "UTM Zone 38, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:127
+msgid "UTM Zone 39, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:128
+msgid "UTM Zone 40, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:130
+msgid "UTM Zone 41, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:131
+msgid "UTM Zone 42, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:132
+msgid "UTM Zone 43, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:133
+msgid "UTM Zone 44, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:134
+msgid "UTM Zone 45, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:135
+msgid "UTM Zone 46, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:136
+msgid "UTM Zone 47, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:137
+msgid "UTM Zone 48, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:138
+msgid "UTM Zone 49, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:139
+msgid "UTM Zone 50, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:141
+msgid "UTM Zone 51, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:142
+msgid "UTM Zone 52, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:143
+msgid "UTM Zone 53, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:144
+msgid "UTM Zone 54, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:145
+msgid "UTM Zone 55, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:146
+msgid "UTM Zone 56, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:147
+msgid "UTM Zone 57, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:148
+msgid "UTM Zone 58, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:149
+msgid "UTM Zone 59, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:150
+msgid "UTM Zone 60, southern hemisphere"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:154
+msgid "Global coordinate reference systems"
+msgstr ""
+
+#: osmaxx/conversion/constants/coordinate_reference_system.py:155
+msgid "UTM zones"
+msgstr ""
+
+#: osmaxx/conversion/constants/output_format.py:45
+#: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:11
+msgid "Esri File Geodatabase"
+msgstr ""
+
+#: osmaxx/conversion/constants/output_format.py:52
+#: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:9
+msgid "Esri Shapefile"
+msgstr ""
+
+#: osmaxx/conversion/constants/output_format.py:60
+#: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:5
+msgid "GeoPackage"
+msgstr ""
+
+#: osmaxx/conversion/constants/output_format.py:67
+msgid "SpatiaLite"
+msgstr ""
+
+#: osmaxx/conversion/constants/output_format.py:74
+#: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:13
+msgid "Garmin navigation & map data"
+msgstr ""
+
+#: osmaxx/conversion/constants/output_format.py:81
+msgid "OSM Protocolbuffer Binary Format"
+msgstr ""
+
+#: osmaxx/conversion/constants/status.py:12
+msgid "received"
+msgstr ""
+
+#: osmaxx/conversion/constants/status.py:14
+msgid "queued"
+msgstr ""
+
+#: osmaxx/conversion/constants/status.py:15
+msgid "finished"
+msgstr ""
+
+#: osmaxx/conversion/constants/status.py:16
+msgid "failed"
+msgstr ""
+
+#: osmaxx/conversion/constants/status.py:17
+msgid "started"
+msgstr ""
+
+#: osmaxx/conversion/constants/status.py:18
+msgid "deferred"
+msgstr ""
+
 #: osmaxx/conversion/converters/converter_gis/detail_levels.py:9
 msgid "Full detail"
 msgstr ""
@@ -48,649 +608,89 @@ msgstr ""
 msgid "Simplified"
 msgstr ""
 
-#: osmaxx/conversion/models.py:23
+#: osmaxx/conversion/models.py:21
 msgid "out format"
 msgstr ""
 
-#: osmaxx/conversion/models.py:25
+#: osmaxx/conversion/models.py:23
 msgid "output SRS"
 msgstr ""
 
-#: osmaxx/conversion/models.py:25
+#: osmaxx/conversion/models.py:23
 msgid "EPSG code of the output spatial reference system"
 msgstr ""
 
-#: osmaxx/conversion/models.py:28
+#: osmaxx/conversion/models.py:26
 msgid "Clipping Area"
 msgstr ""
 
-#: osmaxx/conversion/models.py:29
+#: osmaxx/conversion/models.py:27
 #: osmaxx/excerptexport/models/extraction_order.py:19
 msgid "detail level"
 msgstr ""
 
-#: osmaxx/conversion/models.py:32
+#: osmaxx/conversion/models.py:30
 msgid "{}: {} as EPSG:{}"
 msgstr ""
 
-#: osmaxx/conversion/models.py:40
+#: osmaxx/conversion/models.py:38
 msgid "callback url"
 msgstr ""
 
-#: osmaxx/conversion/models.py:41
+#: osmaxx/conversion/models.py:39
 msgid "parametrization"
 msgstr ""
 
-#: osmaxx/conversion/models.py:42
+#: osmaxx/conversion/models.py:40
 msgid "rq job id"
 msgstr ""
 
-#: osmaxx/conversion/models.py:43 osmaxx/excerptexport/models/export.py:53
+#: osmaxx/conversion/models.py:41 osmaxx/excerptexport/models/export.py:49
 msgid "job status"
 msgstr ""
 
-#: osmaxx/conversion/models.py:44
+#: osmaxx/conversion/models.py:42
 msgid "resulting file"
 msgstr ""
 
-#: osmaxx/conversion/models.py:45
+#: osmaxx/conversion/models.py:43
 msgid "estimated pbf size in bytes"
 msgstr ""
 
-#: osmaxx/conversion/models.py:47
+#: osmaxx/conversion/models.py:45
 msgid "file size in bytes"
 msgstr ""
 
-#: osmaxx/conversion/models.py:47
+#: osmaxx/conversion/models.py:45
 msgid "without the static files, only the conversion result"
 msgstr ""
 
-#: osmaxx/conversion/models.py:50
+#: osmaxx/conversion/models.py:48
 msgid "extraction duration"
 msgstr ""
 
-#: osmaxx/conversion/models.py:50
+#: osmaxx/conversion/models.py:48
 msgid "time needed to generate the extraction"
 msgstr ""
 
-#: osmaxx/conversion/models.py:53
+#: osmaxx/conversion/models.py:51
 msgid "own base url"
 msgstr ""
 
-#: osmaxx/conversion/models.py:53
+#: osmaxx/conversion/models.py:51
 msgid "the url from which this job is reachable"
 msgstr ""
 
-#: osmaxx/conversion/models.py:56
+#: osmaxx/conversion/models.py:54
 msgid "queue name"
 msgstr ""
 
-#: osmaxx/conversion/models.py:56
+#: osmaxx/conversion/models.py:54
 msgid "queue name for processing"
 msgstr ""
 
-#: osmaxx/conversion/models.py:116
+#: osmaxx/conversion/models.py:114
 msgid "job {} with rq_id {} ({})"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:12
-msgid "WGS 84"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:13
-msgid "Pseudo-Mercator"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:14
-msgid "WGS 72"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:15
-msgid "NAD 83"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:16
-msgid "OSGB 36"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:20
-msgid "UTM Zone 1, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:21
-msgid "UTM Zone 2, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:22
-msgid "UTM Zone 3, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:23
-msgid "UTM Zone 4, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:24
-msgid "UTM Zone 5, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:25
-msgid "UTM Zone 6, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:26
-msgid "UTM Zone 7, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:27
-msgid "UTM Zone 8, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:28
-msgid "UTM Zone 9, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:29
-msgid "UTM Zone 10, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:31
-msgid "UTM Zone 11, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:32
-msgid "UTM Zone 12, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:33
-msgid "UTM Zone 13, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:34
-msgid "UTM Zone 14, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:35
-msgid "UTM Zone 15, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:36
-msgid "UTM Zone 16, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:37
-msgid "UTM Zone 17, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:38
-msgid "UTM Zone 18, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:39
-msgid "UTM Zone 19, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:40
-msgid "UTM Zone 20, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:42
-msgid "UTM Zone 21, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:43
-msgid "UTM Zone 22, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:44
-msgid "UTM Zone 23, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:45
-msgid "UTM Zone 24, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:46
-msgid "UTM Zone 25, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:47
-msgid "UTM Zone 26, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:48
-msgid "UTM Zone 27, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:49
-msgid "UTM Zone 28, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:50
-msgid "UTM Zone 29, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:51
-msgid "UTM Zone 30, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:53
-msgid "UTM Zone 31, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:54
-msgid "UTM Zone 32, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:55
-msgid "UTM Zone 33, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:56
-msgid "UTM Zone 34, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:57
-msgid "UTM Zone 35, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:58
-msgid "UTM Zone 36, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:59
-msgid "UTM Zone 37, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:60
-msgid "UTM Zone 38, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:61
-msgid "UTM Zone 39, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:62
-msgid "UTM Zone 40, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:64
-msgid "UTM Zone 41, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:65
-msgid "UTM Zone 42, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:66
-msgid "UTM Zone 43, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:67
-msgid "UTM Zone 44, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:68
-msgid "UTM Zone 45, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:69
-msgid "UTM Zone 46, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:70
-msgid "UTM Zone 47, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:71
-msgid "UTM Zone 48, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:72
-msgid "UTM Zone 49, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:73
-msgid "UTM Zone 50, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:75
-msgid "UTM Zone 51, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:76
-msgid "UTM Zone 52, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:77
-msgid "UTM Zone 53, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:78
-msgid "UTM Zone 54, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:79
-msgid "UTM Zone 55, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:80
-msgid "UTM Zone 56, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:81
-msgid "UTM Zone 57, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:82
-msgid "UTM Zone 58, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:83
-msgid "UTM Zone 59, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:84
-msgid "UTM Zone 60, northern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:86
-msgid "UTM Zone 1, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:87
-msgid "UTM Zone 2, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:88
-msgid "UTM Zone 3, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:89
-msgid "UTM Zone 4, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:90
-msgid "UTM Zone 5, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:91
-msgid "UTM Zone 6, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:92
-msgid "UTM Zone 7, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:93
-msgid "UTM Zone 8, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:94
-msgid "UTM Zone 9, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:95
-msgid "UTM Zone 10, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:97
-msgid "UTM Zone 11, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:98
-msgid "UTM Zone 12, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:99
-msgid "UTM Zone 13, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:100
-msgid "UTM Zone 14, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:101
-msgid "UTM Zone 15, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:102
-msgid "UTM Zone 16, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:103
-msgid "UTM Zone 17, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:104
-msgid "UTM Zone 18, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:105
-msgid "UTM Zone 19, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:106
-msgid "UTM Zone 20, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:108
-msgid "UTM Zone 21, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:109
-msgid "UTM Zone 22, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:110
-msgid "UTM Zone 23, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:111
-msgid "UTM Zone 24, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:112
-msgid "UTM Zone 25, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:113
-msgid "UTM Zone 26, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:114
-msgid "UTM Zone 27, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:115
-msgid "UTM Zone 28, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:116
-msgid "UTM Zone 29, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:117
-msgid "UTM Zone 30, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:119
-msgid "UTM Zone 31, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:120
-msgid "UTM Zone 32, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:121
-msgid "UTM Zone 33, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:122
-msgid "UTM Zone 34, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:123
-msgid "UTM Zone 35, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:124
-msgid "UTM Zone 36, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:125
-msgid "UTM Zone 37, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:126
-msgid "UTM Zone 38, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:127
-msgid "UTM Zone 39, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:128
-msgid "UTM Zone 40, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:130
-msgid "UTM Zone 41, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:131
-msgid "UTM Zone 42, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:132
-msgid "UTM Zone 43, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:133
-msgid "UTM Zone 44, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:134
-msgid "UTM Zone 45, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:135
-msgid "UTM Zone 46, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:136
-msgid "UTM Zone 47, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:137
-msgid "UTM Zone 48, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:138
-msgid "UTM Zone 49, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:139
-msgid "UTM Zone 50, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:141
-msgid "UTM Zone 51, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:142
-msgid "UTM Zone 52, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:143
-msgid "UTM Zone 53, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:144
-msgid "UTM Zone 54, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:145
-msgid "UTM Zone 55, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:146
-msgid "UTM Zone 56, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:147
-msgid "UTM Zone 57, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:148
-msgid "UTM Zone 58, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:149
-msgid "UTM Zone 59, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:150
-msgid "UTM Zone 60, southern hemisphere"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:154
-msgid "Global coordinate reference systems"
-msgstr ""
-
-#: osmaxx/conversion.constants/coordinate_reference_systems.py:155
-msgid "UTM zones"
-msgstr ""
-
-#: osmaxx/conversion.constants/formats.py:45
-#: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:11
-msgid "Esri File Geodatabase"
-msgstr ""
-
-#: osmaxx/conversion.constants/formats.py:52
-#: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:9
-msgid "Esri Shapefile"
-msgstr ""
-
-#: osmaxx/conversion.constants/formats.py:60
-#: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:5
-msgid "GeoPackage"
-msgstr ""
-
-#: osmaxx/conversion.constants/formats.py:67
-msgid "SpatiaLite"
-msgstr ""
-
-#: osmaxx/conversion.constants/formats.py:74
-#: osmaxx/excerptexport/templates/excerptexport/partials/content_file_type_description.html:13
-msgid "Garmin navigation & map data"
-msgstr ""
-
-#: osmaxx/conversion.constants/formats.py:81
-msgid "OSM Protocolbuffer Binary Format"
-msgstr ""
-
-#: osmaxx/conversion.constants/statuses.py:12
-msgid "received"
-msgstr ""
-
-#: osmaxx/conversion.constants/statuses.py:14
-msgid "queued"
-msgstr ""
-
-#: osmaxx/conversion.constants/statuses.py:15
-msgid "finished"
-msgstr ""
-
-#: osmaxx/conversion.constants/statuses.py:16
-msgid "failed"
-msgstr ""
-
-#: osmaxx/conversion.constants/statuses.py:17
-msgid "started"
-msgstr ""
-
-#: osmaxx/conversion.constants/statuses.py:18
-msgid "deferred"
 msgstr ""
 
 #: osmaxx/core/templates/osmaxx/login.html:7
@@ -767,24 +767,24 @@ msgstr ""
 msgid "Excerpt Export"
 msgstr ""
 
-#: osmaxx/excerptexport/forms/excerpt_form.py:18
+#: osmaxx/excerptexport/forms/excerpt_form.py:17
 msgid "Name"
 msgstr ""
 
-#: osmaxx/excerptexport/forms/excerpt_form.py:23
+#: osmaxx/excerptexport/forms/excerpt_form.py:22
 msgid "Bounding Geometry (GeoJSON)"
 msgstr ""
 
-#: osmaxx/excerptexport/forms/excerpt_form.py:39
+#: osmaxx/excerptexport/forms/excerpt_form.py:38
 #: osmaxx/excerptexport/forms/existing_form.py:41
 msgid "Excerpt"
 msgstr ""
 
-#: osmaxx/excerptexport/forms/excerpt_form.py:51
+#: osmaxx/excerptexport/forms/excerpt_form.py:50
 msgid "Area Invalid or none selected."
 msgstr ""
 
-#: osmaxx/excerptexport/forms/excerpt_form.py:59
+#: osmaxx/excerptexport/forms/excerpt_form.py:58
 msgid "Only {} are allowed as input."
 msgstr ""
 
@@ -845,26 +845,22 @@ msgid "updated at"
 msgstr ""
 
 #: osmaxx/excerptexport/models/export.py:46
-msgid "initial"
-msgstr ""
-
-#: osmaxx/excerptexport/models/export.py:50
 msgid "extraction order"
 msgstr ""
 
-#: osmaxx/excerptexport/models/export.py:51
+#: osmaxx/excerptexport/models/export.py:47
 msgid "file format / data format"
 msgstr ""
 
-#: osmaxx/excerptexport/models/export.py:52
+#: osmaxx/excerptexport/models/export.py:48
 msgid "conversion service job ID"
 msgstr ""
 
-#: osmaxx/excerptexport/models/export.py:54
+#: osmaxx/excerptexport/models/export.py:50
 msgid "finished at"
 msgstr ""
 
-#: osmaxx/excerptexport/models/export.py:112
+#: osmaxx/excerptexport/models/export.py:108
 msgid "{} But the result file is not available."
 msgstr ""
 
