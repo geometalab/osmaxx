@@ -13,7 +13,7 @@ from rest_framework.test import APITestCase, APIRequestFactory
 
 from osmaxx import excerptexport
 from osmaxx.api_client.conversion_api_client import ConversionApiClient
-from osmaxx.conversion_api.statuses import STARTED, QUEUED, FINISHED, FAILED
+from osmaxx.conversion import status
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.export import Export
 from osmaxx.excerptexport.models.extraction_order import ExtractionOrder
@@ -68,7 +68,7 @@ class CallbackHandlingTest(APITestCase):
 
         views.tracker(request, export_id=str(self.export.id))
         self.export.refresh_from_db()
-        self.assertEqual(self.export.status, QUEUED)
+        self.assertEqual(self.export.status, status.QUEUED)
 
     def test_calling_tracker_with_payload_indicating_started_updates_export_status(self, *args):
         factory = APIRequestFactory()
@@ -79,9 +79,9 @@ class CallbackHandlingTest(APITestCase):
 
         views.tracker(request, export_id=str(self.export.id))
         self.export.refresh_from_db()
-        self.assertEqual(self.export.status, STARTED)
+        self.assertEqual(self.export.status, status.STARTED)
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_queued_informs_user(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -103,7 +103,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_started_informs_user(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -126,7 +126,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_failed_informs_user_with_error(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -149,7 +149,7 @@ class CallbackHandlingTest(APITestCase):
         )
 
     @patch.object(Export, '_fetch_result_file')
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_finished_informs_user_with_success(
             self, emissary_class_mock, *args, **mocks):
         emissary_mock = emissary_class_mock()
@@ -171,7 +171,7 @@ class CallbackHandlingTest(APITestCase):
             )
         )
 
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_unchanged_status_does_not_inform_user(
             self, emissary_class_mock, *args, **mocks):
         self.export.status = 'started'
@@ -222,13 +222,13 @@ class CallbackHandlingTest(APITestCase):
 
     @requests_mock.Mocker(kw='requests')
     @patch.object(ConversionApiClient, 'authorized_get', ConversionApiClient.get)  # circumvent authorization logic
-    @patch('osmaxx.utilities.shortcuts.Emissary')
+    @patch('osmaxx.utils.shortcuts.Emissary')
     def test_calling_tracker_with_payload_indicating_final_status_for_only_remaining_nonfinal_export_of_extraction_order_advertises_downloads(
             self, emissary_class_mock, *args, **mocks):
         self.export.conversion_service_job_id = 1
         self.export.save()
         for other_export in self.export.extraction_order.exports.exclude(id=self.export.id):
-            other_export.status = FAILED
+            other_export.status = status.FAILED
             other_export.save()
         emissary_mock = emissary_class_mock()
         factory = APIRequestFactory()
@@ -355,9 +355,9 @@ class ExportUpdateTest(TestCase):
         for i in range(4):
             own_order.exports.create(file_format='fgdb')
         for i in range(8):
-            own_order.exports.create(file_format='fgdb', conversion_service_job_id=1, status=FINISHED)
+            own_order.exports.create(file_format='fgdb', conversion_service_job_id=1, status=status.FINISHED)
         for i in range(16):
-            own_order.exports.create(file_format='fgdb', conversion_service_job_id=1, status=FAILED)
+            own_order.exports.create(file_format='fgdb', conversion_service_job_id=1, status=status.FAILED)
         for i in range(32):
             foreign_order.exports.create(file_format='fgdb', conversion_service_job_id=1)
         self.client.login(username='user', password='pw')

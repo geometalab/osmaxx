@@ -2,20 +2,20 @@ from crispy_forms.layout import Fieldset, Div
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from osmaxx.conversion import coordinate_reference_system as crs, output_format
 from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES
-from osmaxx.conversion_api import formats, coordinate_reference_systems as crs
 
 
 class OrderOptionsMixin(forms.Form):
     formats = forms.MultipleChoiceField(
         label=_("GIS export formats"),
-        choices=formats.FORMAT_CHOICES,
+        choices=output_format.CHOICES,
         widget=forms.CheckboxSelectMultiple,
         required=True,
     )
     coordinate_reference_system = forms.ChoiceField(
         label=_('Coordinate system'),
-        choices=crs.CRS_CHOICES,
+        choices=crs.CHOICES,
         required=True,
     )
     detail_level = forms.ChoiceField(

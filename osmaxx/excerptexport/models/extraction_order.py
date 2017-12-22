@@ -7,13 +7,13 @@ from django.utils.text import unescape_entities
 from django.utils.translation import ugettext_lazy as _
 
 from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
-from osmaxx.conversion_api import coordinate_reference_systems as crs
+from osmaxx.conversion import coordinate_reference_system as crs
 from .excerpt import Excerpt
 
 
 class ExtractionOrder(models.Model):
     coordinate_reference_system = models.IntegerField(
-        verbose_name=_('CRS'), choices=crs.CRS_CHOICES, default=crs.WGS_84
+        verbose_name=_('CRS'), choices=crs.CHOICES, default=crs.WGS_84
     )
     detail_level = models.IntegerField(
         verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL
@@ -74,7 +74,7 @@ class ExtractionOrder(models.Model):
 
     def send_email_if_all_exports_done(self, incoming_request):
         if all(export.is_status_final for export in self.exports.all()):
-            from osmaxx.utilities.shortcuts import Emissary
+            from osmaxx.utils.shortcuts import Emissary
             emissary = Emissary(recipient=self.orderer)
             emissary.inform_mail(
                 subject=self._get_all_exports_done_email_subject(),

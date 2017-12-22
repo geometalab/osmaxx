@@ -7,12 +7,10 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from rest_framework.reverse import reverse
 
+from osmaxx.conversion import coordinate_reference_system as crs, output_format, status
 from osmaxx.clipping_area.models import ClippingArea
 from osmaxx.conversion.converters.converter import convert
 from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
-from osmaxx.conversion_api.coordinate_reference_systems import CRS_CHOICES
-from osmaxx.conversion_api.formats import FORMAT_CHOICES
-from osmaxx.conversion_api.statuses import STATUS_CHOICES, RECEIVED
 
 
 def job_directory_path(instance, filename):
@@ -20,10 +18,10 @@ def job_directory_path(instance, filename):
 
 
 class Parametrization(models.Model):
-    out_format = models.CharField(verbose_name=_("out format"), choices=FORMAT_CHOICES, max_length=100)
+    out_format = models.CharField(verbose_name=_("out format"), choices=output_format.CHOICES, max_length=100)
     out_srs = models.IntegerField(
         verbose_name=_("output SRS"), help_text=_("EPSG code of the output spatial reference system"),
-        null=True, blank=True, default=4326, choices=CRS_CHOICES
+        null=True, blank=True, default=4326, choices=crs.CHOICES
     )
     clipping_area = models.ForeignKey(ClippingArea, verbose_name=_('Clipping Area'), on_delete=models.CASCADE)
     detail_level = models.IntegerField(verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL)
@@ -40,7 +38,7 @@ class Job(models.Model):
     callback_url = models.URLField(_('callback url'), max_length=250)
     parametrization = models.ForeignKey(verbose_name=_('parametrization'), to=Parametrization, on_delete=models.CASCADE)
     rq_job_id = models.CharField(_('rq job id'), max_length=250, null=True)
-    status = models.CharField(_('job status'), choices=STATUS_CHOICES, default=RECEIVED, max_length=20)
+    status = models.CharField(_('job status'), choices=status.CHOICES, default=status.RECEIVED, max_length=20)
     resulting_file = models.FileField(_('resulting file'), upload_to=job_directory_path, null=True, max_length=250)
     estimated_pbf_size = models.FloatField(_('estimated pbf size in bytes'), null=True)
     unzipped_result_size = models.FloatField(

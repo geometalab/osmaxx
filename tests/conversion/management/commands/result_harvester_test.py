@@ -3,7 +3,7 @@ from unittest.mock import Mock, MagicMock, patch
 
 import pytest
 
-from osmaxx.conversion_api.statuses import STARTED
+from osmaxx.conversion import status
 
 
 @pytest.fixture
@@ -12,7 +12,7 @@ def queue(fake_rq_id):
     Job = namedtuple('Job', ['status'])
 
     def fetch_job(job_id):
-        job = Job(status=STARTED)
+        job = Job(status=status.STARTED)
         return job
     queue = Queue(job_ids=[str(fake_rq_id)], fetch_job=fetch_job)
     return queue

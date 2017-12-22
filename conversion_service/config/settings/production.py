@@ -13,7 +13,6 @@ MIDDLEWARE_CLASSES = (
 # during start if any of the corresponding environment variables aren't set.
 SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS")
-DATABASES['default'] = env.db("DJANGO_DATABASE_URL")
 
 INSTALLED_APPS += (
     'gunicorn',

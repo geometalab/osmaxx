@@ -40,7 +40,7 @@ ipython==6.0.0
 isort==4.2.5              # via pylint
 jedi==0.10.2              # via ipython
 jinja2==2.9.6             # via mkdocs
-lazy-object-proxy==1.2.2  # via astroid
+lazy-object-proxy==1.3.0  # via astroid
 livereload==2.5.1         # via mkdocs
 markdown==2.6.8
 markupsafe==1.0           # via jinja2
@@ -79,7 +79,7 @@ pytest-django==3.1.2
 pytest-html==1.14.2       # via pytest-selenium
 pytest-metadata==1.3.0    # via pytest-html
 pytest-mock==1.6.0
-pytest-selenium==1.9.1
+pytest-selenium==1.10.0
 pytest-variables==1.6.1   # via pytest-selenium
 pytest==3.0.7             # via pytest-base-url, pytest-cov, pytest-django, pytest-html, pytest-metadata, pytest-mock, pytest-selenium, pytest-variables
 python-social-auth[django]==0.3.6
@@ -114,4 +114,4 @@ werkzeug==0.12.1
 wheel==0.29.0
 whitenoise==3.3.0
 wrapt==1.10.10            # via astroid, vcrpy
-yarl==0.10.0              # via vcrpy
+yarl==0.10.1              # via vcrpy

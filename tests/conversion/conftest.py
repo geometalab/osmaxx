@@ -5,12 +5,10 @@ from collections import namedtuple
 import pytest
 from django.conf import settings
 
-import osmaxx.conversion_api.formats
+from osmaxx.conversion import coordinate_reference_system as crs, output_format, status
 from osmaxx.conversion.converters.converter_gis import detail_levels
-from osmaxx.conversion_api import coordinate_reference_systems as crs
-from osmaxx.conversion_api.statuses import STARTED, FAILED, FINISHED
 
-format_list = osmaxx.conversion_api.formats.FORMAT_DEFINITIONS.keys()
+format_list = output_format.DEFINITIONS.keys()
 
 
 @pytest.fixture(params=format_list)
@@ -38,7 +36,7 @@ def detail_level(request):
     return request.param[0]
 
 
-@pytest.fixture(params=crs.GLOBAL_CRS[:2])
+@pytest.fixture(params=crs.GLOBAL_CHOICES[:2])
 def out_srs(request):
     return int(request.param[0])
 
@@ -116,20 +114,20 @@ def conversion_job(conversion_parametrization, server_url):
 @pytest.fixture
 def started_conversion_job(conversion_parametrization, server_url, fake_rq_id):
     from osmaxx.conversion.models import Job
-    return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=STARTED)
+    return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=status.STARTED)
 
 
 @pytest.fixture
 def failed_conversion_job(conversion_parametrization, server_url, fake_rq_id):
     from osmaxx.conversion.models import Job
-    return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=FAILED)
+    return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=status.FAILED)
 
 
 @pytest.fixture
 def finished_conversion_job(request, conversion_parametrization, server_url, fake_rq_id, empty_zip):
     from osmaxx.conversion.models import Job
-    conversion_job = Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=FAILED)
-    conversion_job.status = FINISHED
+    conversion_job = Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=status.FAILED)
+    conversion_job.status = status.FINISHED
     from osmaxx.conversion.management.commands.result_harvester import add_file_to_job
     empty_zip_path = add_file_to_job(conversion_job=conversion_job, result_zip_file=empty_zip.name)
 

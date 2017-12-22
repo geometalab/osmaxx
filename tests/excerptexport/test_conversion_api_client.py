@@ -8,9 +8,8 @@ from hamcrest import assert_that, contains_inanyorder
 from requests import HTTPError
 from rest_framework.reverse import reverse
 
+from osmaxx.conversion import output_format, status
 from osmaxx.api_client import ConversionApiClient, API_client
-from osmaxx.conversion_api.formats import FGDB, SPATIALITE
-from osmaxx.conversion_api.statuses import RECEIVED
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from osmaxx.job_progress.views import tracker
 from tests.test_helpers import vcr_explicit_path as vcr
@@ -76,7 +75,7 @@ def excerpt(user, bounding_geometry, db):
 @pytest.fixture
 def extraction_order(excerpt, user, db):
     extraction_order = ExtractionOrder.objects.create(excerpt=excerpt, orderer=user, id=23)
-    extraction_order.extraction_formats = [FGDB, SPATIALITE]
+    extraction_order.extraction_formats = [output_format.FGDB, output_format.SPATIALITE]
     extraction_order.coordinate_reference_system = 4326
     return extraction_order
 
@@ -88,7 +87,7 @@ def test_extraction_order_forward_to_conversion_service(
         rf, mocker, excerpt, extraction_order, bounding_geometry, the_host):
     mocker.patch.object(
         ConversionApiClient, 'create_job',
-        side_effect=[{'id': 5, 'status': RECEIVED}, {'id': 23, 'status': RECEIVED}],
+        side_effect=[{'id': 5, 'status': status.RECEIVED}, {'id': 23, 'status': status.RECEIVED}],
     )
     mocker.patch.object(
         ConversionApiClient, 'create_parametrization',
@@ -104,8 +103,8 @@ def test_extraction_order_forward_to_conversion_service(
     detail_level = extraction_order.detail_level
     assert_that(
         ConversionApiClient.create_parametrization.mock_calls, contains_inanyorder(
-            mock.call(boundary=ConversionApiClient.create_boundary.return_value, out_format=FGDB, detail_level=detail_level, out_srs=srs),
-            mock.call(boundary=ConversionApiClient.create_boundary.return_value, out_format=SPATIALITE, detail_level=detail_level, out_srs=srs),
+            mock.call(boundary=ConversionApiClient.create_boundary.return_value, out_format=output_format.FGDB, detail_level=detail_level, out_srs=srs),
+            mock.call(boundary=ConversionApiClient.create_boundary.return_value, out_format=output_format.SPATIALITE, detail_level=detail_level, out_srs=srs),
         )
     )
     assert_that(
@@ -114,8 +113,8 @@ def test_extraction_order_forward_to_conversion_service(
             mock.call(sentinel.parametrization_2, ANY, user=ANY),
         )
     )
-    fgdb_export = extraction_order.exports.get(file_format=FGDB)
-    spatialite_export = extraction_order.exports.get(file_format=SPATIALITE)
+    fgdb_export = extraction_order.exports.get(file_format=output_format.FGDB)
+    spatialite_export = extraction_order.exports.get(file_format=output_format.SPATIALITE)
     fgdb_callback_uri_path = reverse('job_progress:tracker', kwargs=dict(export_id=fgdb_export.id))
     spatialite_callback_uri_path = reverse('job_progress:tracker', kwargs=dict(export_id=spatialite_export.id))
     assert_that(
@@ -132,8 +131,8 @@ def test_extraction_order_forward_to_conversion_service(
     )
     assert_that(
         extraction_order.exports.values_list('file_format', flat=True), contains_inanyorder(
-            FGDB,
-            SPATIALITE,
+            output_format.FGDB,
+            output_format.SPATIALITE,
         )
     )
     assert_that(
@@ -154,21 +153,21 @@ def api_client():
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job.yml')
 def test_create_jobs_for_extraction_order(extraction_order, excerpt_request):
-    fgdb_export = extraction_order.exports.get(file_format=FGDB)
-    spatialite_export = extraction_order.exports.get(file_format=SPATIALITE)
+    fgdb_export = extraction_order.exports.get(file_format=output_format.FGDB)
+    spatialite_export = extraction_order.exports.get(file_format=output_format.SPATIALITE)
 
     assert fgdb_export.conversion_service_job_id is None
-    assert fgdb_export.status == fgdb_export.INITIAL
+    assert fgdb_export.status is None
     assert spatialite_export.conversion_service_job_id is None
-    assert spatialite_export.status == spatialite_export.INITIAL
+    assert spatialite_export.status is None
 
     jobs_json = extraction_order.forward_to_conversion_service(incoming_request=(excerpt_request))
 
     fgdb_export.refresh_from_db()
     spatialite_export.refresh_from_db()
 
-    assert fgdb_export.status == RECEIVED
-    assert spatialite_export.status == RECEIVED
+    assert fgdb_export.status == status.RECEIVED
+    assert spatialite_export.status == status.RECEIVED
     assert len(jobs_json) == 2
     for job_json in jobs_json:
         expected_keys_in_response = ['callback_url', 'rq_job_id', 'id', 'status', 'resulting_file', 'parametrization']
@@ -196,19 +195,19 @@ def clipping_area_json():
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
 def test_create_job_for_export(extraction_order, job_progress_request, clipping_area_json):
-    fgdb_export = extraction_order.exports.get(file_format=FGDB)
+    fgdb_export = extraction_order.exports.get(file_format=output_format.FGDB)
     job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=job_progress_request)
     assert job_json['callback_url'] == "http://the-host.example.com/job_progress/tracker/23/"
     assert job_json['rq_job_id'] == "6692fa44-cc19-4252-88ae-8687496da421"
     assert job_json['id'] == 29
-    assert job_json['status'] == RECEIVED
+    assert job_json['status'] == status.RECEIVED
     assert job_json['resulting_file'] is None
     assert job_json['parametrization'] == 38
 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
 def test_callback_url_of_created_job_refers_to_correct_export(extraction_order, job_progress_request, clipping_area_json):
-    fgdb_export = extraction_order.exports.get(file_format=FGDB)
+    fgdb_export = extraction_order.exports.get(file_format=output_format.FGDB)
 
     job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=job_progress_request)
 
@@ -222,7 +221,7 @@ def test_callback_url_of_created_job_refers_to_correct_export(extraction_order, 
 
 @vcr.use_cassette('fixtures/vcr/conversion_api-test_create_job_for_export.yml')
 def test_callback_url_would_reach_this_django_instance(extraction_order, job_progress_request, the_host, clipping_area_json):
-    fgdb_export = extraction_order.exports.get(file_format=FGDB)
+    fgdb_export = extraction_order.exports.get(file_format=output_format.FGDB)
 
     job_json = fgdb_export.send_to_conversion_service(clipping_area_json, incoming_request=job_progress_request)
 

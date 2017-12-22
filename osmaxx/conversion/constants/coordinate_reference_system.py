@@ -1,14 +1,14 @@
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 # most common reference systems
 
 WGS_84 = 4326
 WGS_72 = 4322
 PSEUDO_MERCATOR = 3857
-NAD_83 = 4629
+NAD_83 = 4269
 OSGB_36 = 4277
 
-GLOBAL_CRS = (
+GLOBAL_CHOICES = (
     (WGS_84, _('WGS 84')),
     (PSEUDO_MERCATOR, _('Pseudo-Mercator')),
     (WGS_72, _('WGS 72')),
@@ -16,7 +16,7 @@ GLOBAL_CRS = (
     (OSGB_36, _('OSGB 36')),
 )
 
-UTM_ZONES = (
+UTM_ZONE_CHOICES = (
     (32601, _('UTM Zone 1, northern hemisphere')),
     (32602, _('UTM Zone 2, northern hemisphere')),
     (32603, _('UTM Zone 3, northern hemisphere')),
@@ -150,7 +150,7 @@ UTM_ZONES = (
     (32760, _('UTM Zone 60, southern hemisphere')),
 )
 
-CRS_CHOICES = (
-    (_('Global coordinate reference systems'), GLOBAL_CRS),
-    (_('UTM zones'), UTM_ZONES),
+CHOICES = (
+    (_('Global coordinate reference systems'), GLOBAL_CHOICES),
+    (_('UTM zones'), UTM_ZONE_CHOICES),
 )

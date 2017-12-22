@@ -41,8 +41,9 @@ class BootStrapper:
         self._setup_db()
 
     def _setup_db(self):
-        self._postgres.create_extension("hstore")
-        self._postgres.create_extension("postgis")
+        extensions = ['hstore', 'postgis', 'unaccent', 'fuzzystrmatch', 'osml10n']
+        for extension in extensions:
+            self._postgres.create_extension(extension)
         drop_and_recreate_script_folder = os.path.join(self._script_base_dir, 'sql', 'drop_and_recreate')
         self._execute_sql_scripts_in_folder(drop_and_recreate_script_folder)
 
