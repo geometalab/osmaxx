@@ -17,7 +17,7 @@ OSM_PLANET_PATH_RELATIVE_TO_MIRROR = os.environ.get(
     'osm_planet_path_relative_to_mirror', '/pbf/planet-latest.osm.pbf'
 )
 OSM_PLANET_MIRROR = os.environ.get(
-    'osm_planet_mirror', 'http://ftp.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org'
+    'osm_planet_mirror', 'https://ftp.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org'
 )
 
 
