@@ -1,5 +1,6 @@
 {% extends "osmaxx/base.html" %}
 {% load i18n %}
+{% load staticfiles %}
 
 {% block breadcrumb %}
     {{ block.super }}
@@ -12,6 +13,9 @@
     <p>
         OSMaxx (short for "OpenStreetMap Arbitrary Excerpt Export") cuts out OpenStreetMap (OSM) data, processes it to
         geospatial data structures, converts it to typical GIS file formats and offers those for download.
+    </p>
+    <p>
+        A <a href="{% static 'osmaxx/docs/OSMaxx_Product_Fact_Sheet_deutsch.pdf' %}">product fact sheet</a> (in German) is available.
     </p>
     <p>
         <a href="https://github.com/geometalab/osmaxx">All our code is open-source</a> and contributions are welcome.
