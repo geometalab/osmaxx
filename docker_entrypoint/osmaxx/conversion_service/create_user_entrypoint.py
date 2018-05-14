@@ -5,8 +5,8 @@ from django.contrib.auth import get_user_model
 os.environ['DJANGO_SETTINGS_MODULE'] = os.getenv('DJANGO_SETTINGS_MODULE')
 django.setup()
 
-username = os.getenv('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME', None)
-password = os.getenv('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD', None)
+username = os.getenv('DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME')
+password = os.getenv('DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD')
 
 
 def create_user(user_name, user_password):

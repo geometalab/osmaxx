@@ -86,8 +86,9 @@ class Command(BaseCommand):
         try:
             requests.get(conversion_job.callback_url, params=data)
         except:
-            logger.error('failed to send notification for job {}'.format(conversion_job.id))
-            pass
+            logger.error('failed to send notification for job {} using {} as URL.'.format(
+                conversion_job.id, conversion_job.callback_url)
+            )
 
 
 def add_file_to_job(*, conversion_job, result_zip_file):
