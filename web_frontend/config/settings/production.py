@@ -7,6 +7,8 @@ from .common import *  # noqa
 MIDDLEWARE_CLASSES = (
     # Make sure djangosecure.middleware.SecurityMiddleware is listed first
     'django.middleware.security.SecurityMiddleware',
+    # add whitenoise middleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ) + MIDDLEWARE_CLASSES
 
 # get an exception when starting, if they are not defined
