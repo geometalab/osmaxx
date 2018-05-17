@@ -5,6 +5,7 @@
 #    pip-compile --output-file requirements-all.txt requirements-all.in
 #
 astroid==1.5.2            # via pylint, pylint-celery, pylint-flask, pylint-plugin-utils, requirements-detector
+backports-abc==0.5        # via tornado
 click==6.7                # via mkdocs, rq
 contextlib2==0.5.5        # via raven
 coverage==4.3.4
@@ -20,7 +21,7 @@ django-model-utils==3.0.0
 django-rq==0.9.5
 django-secure==1.0.1
 django-stored-messages==1.4.0
-django==1.10.7            # via django-debug-toolbar, django-downloadview, django-environ, django-model-utils, django-rq, django-secure, django-stored-messages, geometalab.drf-utm-zone-info, geometalab.osm-pbf-file-size-estimation-service
+django==1.10.7
 djangorestframework-gis==0.10.1
 djangorestframework-jwt==1.10.0
 djangorestframework==3.4.7
@@ -39,7 +40,7 @@ ipython-genutils==0.2.0   # via traitlets
 ipython==6.0.0
 isort==4.2.5              # via pylint
 jedi==0.10.2              # via ipython
-jinja2==2.9.6             # via mkdocs
+jinja2==2.9.6
 lazy-object-proxy==1.3.0  # via astroid
 livereload==2.5.1         # via mkdocs
 markdown==2.6.8
@@ -84,7 +85,7 @@ pytest-variables==1.6.1   # via pytest-selenium
 pytest==3.0.7             # via pytest-base-url, pytest-cov, pytest-django, pytest-html, pytest-metadata, pytest-mock, pytest-selenium, pytest-variables
 python-social-auth[django]==0.3.6
 python3-openid==3.1.0     # via social-auth-core
-pyyaml==3.12              # via mkdocs, prospector, vcrpy
+pyyaml==3.12
 raven==6.0.0
 redis==2.10.5             # via rq
 requests-mock==1.3.0
@@ -100,13 +101,14 @@ setoptconf==0.2.0         # via prospector
 simplegeneric==0.8.1      # via ipython
 six==1.10.0               # via astroid, django-downloadview, django-environ, django-extensions, furl, livereload, orderedmultidict, prompt-toolkit, pyhamcrest, pylint, requests-mock, social-auth-app-django, social-auth-core, sqlalchemy-utils, traitlets, vcrpy
 social-auth-app-django==1.1.0  # via python-social-auth
-social-auth-core==1.2.0   # via python-social-auth, social-auth-app-django
+social-auth-core==1.7.0   # via python-social-auth, social-auth-app-django
 sqlalchemy-utils==0.32.14
 sqlalchemy-views==0.2.1
-sqlalchemy==1.1.9         # via geoalchemy2, sqlalchemy-utils, sqlalchemy-views
+sqlalchemy==1.1.9
 sqlparse==0.2.3           # via django-debug-toolbar
 tornado==4.5.1            # via livereload, mkdocs
 traitlets==4.3.2          # via ipython
+typing==3.6.4             # via ipython
 vcrpy==1.11.0
 vulture==0.14
 wcwidth==0.1.7            # via prompt-toolkit
