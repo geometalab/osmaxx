@@ -101,7 +101,7 @@ setoptconf==0.2.0         # via prospector
 simplegeneric==0.8.1      # via ipython
 six==1.10.0               # via astroid, django-downloadview, django-environ, django-extensions, furl, livereload, orderedmultidict, prompt-toolkit, pyhamcrest, pylint, requests-mock, social-auth-app-django, social-auth-core, sqlalchemy-utils, traitlets, vcrpy
 social-auth-app-django==1.1.0  # via python-social-auth
-social-auth-core==1.2.0   # via python-social-auth, social-auth-app-django
+social-auth-core==1.7.0   # via python-social-auth, social-auth-app-django
 sqlalchemy-utils==0.32.14
 sqlalchemy-views==0.2.1
 sqlalchemy==1.1.9
