@@ -4,115 +4,126 @@
 #
 #    pip-compile --output-file requirements-all.txt requirements-all.in
 #
-astroid==1.5.2            # via pylint, pylint-celery, pylint-flask, pylint-plugin-utils, requirements-detector
+astroid==1.6.4            # via pylint, pylint-celery, pylint-flask, pylint-plugin-utils, requirements-detector
+attrs==18.1.0             # via pytest
+backcall==0.1.0           # via ipython
 backports-abc==0.5        # via tornado
+certifi==2018.4.16        # via requests
+chardet==3.0.4            # via requests
 click==6.7                # via mkdocs, rq
-coverage==4.3.4
-decorator==4.0.11         # via ipython, traitlets
+coverage==4.5.1
+decorator==4.3.0          # via ipython, traitlets
 defusedxml==0.5.0         # via python3-openid, social-auth-core
-django-crispy-forms==1.6.1
-django-debug-toolbar==1.7
+django-crispy-forms==1.7.2
+django-debug-toolbar==1.9.1
 django-downloadview==1.9
-django-environ==0.4.3
-django-extensions==1.7.8
-django-filter==1.0.2
-django-model-utils==3.0.0
-django-rq==0.9.5
+django-environ==0.4.4
+django-extensions==2.0.7
+django-filter==1.1.0
+django-model-utils==3.1.2
+django-rq==1.1.0
 django-secure==1.0.1
 django-stored-messages==1.4.0
-django==1.10.7
+django==1.10.8
 djangorestframework-gis==0.10.1
-djangorestframework-jwt==1.10.0
+djangorestframework-jwt==1.11.0
 djangorestframework==3.4.7
-docutils==0.13.1          # via pyroma
+docutils==0.14            # via pyroma
 dodgy==0.1.9              # via prospector
 drf-extensions==0.3.1
-flake8==3.3.0
-furl==1.0.0
-geoalchemy2==0.4.0
+flake8-polyfill==1.0.2    # via pep8-naming
+flake8==3.5.0
+furl==1.0.1
+geoalchemy2==0.4.2
 geometalab.drf-utm-zone-info==0.2.0
 geometalab.osm-pbf-file-size-estimation-service==1.1.0
-gevent==1.2.1
-greenlet==0.4.12          # via gevent
-gunicorn==19.7.1
+gevent==1.3.0
+greenlet==0.4.13          # via gevent
+gunicorn==19.8.1
+idna==2.6                 # via requests, yarl
 ipython-genutils==0.2.0   # via traitlets
-ipython==6.0.0
-isort==4.2.5              # via pylint
-jedi==0.10.2              # via ipython
-jinja2==2.9.6
-lazy-object-proxy==1.3.0  # via astroid
-livereload==2.5.1         # via mkdocs
-markdown==2.6.8
+ipython==6.4.0
+isort==4.3.4              # via pylint
+jedi==0.12.0              # via ipython
+jinja2==2.10
+lazy-object-proxy==1.3.1  # via astroid
+livereload==2.5.2         # via mkdocs
+markdown==2.6.11
 markupsafe==1.0           # via jinja2
 mccabe==0.6.1             # via flake8, prospector, pylint
 memoize==1.0.0
-mkdocs==0.16.3
-multidict==2.1.4          # via yarl
-numpy==1.12.1
-oauthlib==2.0.2           # via requests-oauthlib, social-auth-core
+mkdocs==0.17.3
+more-itertools==4.1.0     # via pytest
+multidict==4.3.1          # via yarl
+numpy==1.14.3
+oauthlib==2.0.7           # via requests-oauthlib, social-auth-core
 orderedmultidict==0.7.11  # via furl
-pep8-naming==0.4.1        # via prospector
-pexpect==4.2.1            # via ipython
+parso==0.2.0              # via jedi
+pep8-naming==0.7.0        # via prospector
+pexpect==4.5.0            # via ipython
 pickleshare==0.7.4        # via ipython
-prompt-toolkit==1.0.14    # via ipython
-prospector==0.12.5
-psycopg2==2.7.1
-ptyprocess==0.5.1         # via pexpect
-py==1.4.33                # via pytest
+pluggy==0.6.0             # via pytest
+prompt-toolkit==1.0.15    # via ipython
+prospector==0.12.7
+psycopg2==2.7.4
+ptyprocess==0.5.2         # via pexpect
+py==1.5.3                 # via pytest
 pycodestyle==2.0.0        # via flake8, prospector
-pydocstyle==1.0.0         # via prospector
-pyflakes==1.5.0           # via flake8, prospector
+pydocstyle==2.1.1         # via prospector
+pyflakes==1.6.0           # via flake8, prospector
 pygments==2.2.0           # via ipython
 pyhamcrest==1.9.0
-pyjwt==1.5.0              # via djangorestframework-jwt, social-auth-core
+pyjwt==1.6.1              # via djangorestframework-jwt, social-auth-core
 pylint-celery==0.3        # via prospector
 pylint-common==0.2.5      # via prospector
-pylint-django==0.7.2      # via prospector
+pylint-django==0.11       # via prospector
 pylint-flask==0.5         # via prospector
 pylint-plugin-utils==0.2.6  # via prospector, pylint-celery, pylint-common, pylint-django, pylint-flask
-pylint==1.7.1             # via prospector, pylint-celery, pylint-common, pylint-django, pylint-flask, pylint-plugin-utils
+pylint==1.9.1             # via prospector, pylint-celery, pylint-common, pylint-django, pylint-flask, pylint-plugin-utils
 pypandoc==1.4
-pyroma==2.2
-pytest-base-url==1.3.0    # via pytest-selenium
-pytest-cov==2.4.0
-pytest-django==3.1.2
-pytest-html==1.14.2       # via pytest-selenium
-pytest-metadata==1.3.0    # via pytest-html
-pytest-mock==1.6.0
-pytest-selenium==1.10.0
-pytest-variables==1.6.1   # via pytest-selenium
-pytest==3.0.7             # via pytest-base-url, pytest-cov, pytest-django, pytest-html, pytest-metadata, pytest-mock, pytest-selenium, pytest-variables
+pyroma==2.3
+pytest-base-url==1.4.1    # via pytest-selenium
+pytest-cov==2.5.1
+pytest-django==3.2.1
+pytest-html==1.17.0       # via pytest-selenium
+pytest-metadata==1.7.0    # via pytest-html
+pytest-mock==1.10.0
+pytest-selenium==1.12.0
+pytest-variables==1.7.1   # via pytest-selenium
+pytest==3.5.1             # via pytest-base-url, pytest-cov, pytest-django, pytest-html, pytest-metadata, pytest-mock, pytest-selenium, pytest-variables
 python-social-auth[django]==0.3.6
 python3-openid==3.1.0     # via social-auth-core
 pyyaml==3.12
 raven==6.8.0
-redis==2.10.5             # via rq
-requests-mock==1.3.0
+redis==2.10.6             # via rq
+requests-mock==1.5.0
 requests-oauthlib==0.8.0  # via social-auth-core
-requests==2.13.0
+requests==2.18.4
 requirements-detector==0.5.2  # via prospector
-rq==0.7.1
-ruamel.yaml==0.14.11
-scandir==1.5
-scipy==0.19.0
-selenium==3.4.1           # via pytest-selenium
+rq==0.10.0
+ruamel.yaml==0.15.37
+scandir==1.7
+scipy==1.1.0
+selenium==3.12.0          # via pytest-selenium
 setoptconf==0.2.0         # via prospector
 simplegeneric==0.8.1      # via ipython
-six==1.10.0               # via astroid, django-downloadview, django-environ, django-extensions, furl, livereload, orderedmultidict, prompt-toolkit, pyhamcrest, pylint, requests-mock, social-auth-app-django, social-auth-core, sqlalchemy-utils, traitlets, vcrpy
-social-auth-app-django==1.1.0  # via python-social-auth
+six==1.11.0               # via astroid, django-downloadview, django-environ, django-extensions, furl, livereload, more-itertools, orderedmultidict, prompt-toolkit, pydocstyle, pyhamcrest, pylint, pytest, requests-mock, social-auth-app-django, social-auth-core, sqlalchemy-utils, traitlets, vcrpy
+snowballstemmer==1.2.1    # via pydocstyle
+social-auth-app-django==2.1.0  # via python-social-auth
 social-auth-core==1.7.0   # via python-social-auth, social-auth-app-django
-sqlalchemy-utils==0.32.14
+sqlalchemy-utils==0.33.3
 sqlalchemy-views==0.2.1
-sqlalchemy==1.1.9
-sqlparse==0.2.3           # via django-debug-toolbar
-tornado==4.5.1            # via livereload, mkdocs
+sqlalchemy==1.2.7
+sqlparse==0.2.4           # via django-debug-toolbar
+tornado==4.5.3            # via livereload, mkdocs
 traitlets==4.3.2          # via ipython
-typing==3.6.4             # via ipython
-vcrpy==1.11.0
-vulture==0.14
+typing==3.6.4             # via django-extensions, ipython
+urllib3==1.22             # via requests
+vcrpy==1.11.1
+vulture==0.26
 wcwidth==0.1.7            # via prompt-toolkit
-werkzeug==0.12.1
-wheel==0.29.0
-whitenoise==3.3.0
-wrapt==1.10.10            # via astroid, vcrpy
-yarl==0.10.1              # via vcrpy
+werkzeug==0.14.1
+wheel==0.31.1
+whitenoise==3.3.1
+wrapt==1.10.11            # via astroid, vcrpy
+yarl==1.2.0               # via vcrpy
