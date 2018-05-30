@@ -37,7 +37,7 @@ def expired_output_file(db, output_file, mocker):
     return output_file
 
 
-def test_purge_expired_result_files_call_exists():
+def test_purge_expired_result_files_call_exists(db):
     out = StringIO()
     call_command('purge_expired_result_files', '--run_once', stdout=out)
     assert 'Removing output files that expired before ' in out.getvalue()
