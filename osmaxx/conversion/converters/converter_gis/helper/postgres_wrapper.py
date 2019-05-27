@@ -25,7 +25,7 @@ class Postgres:
         try:
             with open(file_path, 'r') as psql_command_file:
                 return self.execute_sql_command(psql_command_file.read())
-        except:
+        except:  # noqa: E722 do not use bare 'except'
             logger.error("exception caught while processing %s", file_path)
             raise
 

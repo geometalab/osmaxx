@@ -4,5 +4,5 @@
 -- EG. select osml10n_translit('Москва́');
 --     Moskvá
 ---------------------------------------------------------------------------------------
-CREATE EXTENSION IF NOT EXISTS postgis;
-CREATE EXTENSION IF NOT EXISTS osml10n;
+CREATE EXTENSION IF NOT EXISTS postgis CASCADE;
+CREATE EXTENSION IF NOT EXISTS osml10n CASCADE;

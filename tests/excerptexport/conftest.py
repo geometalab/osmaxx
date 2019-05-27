@@ -1,6 +1,5 @@
 import os
 import tempfile
-from collections import namedtuple
 
 import pytest
 
@@ -29,9 +28,16 @@ def extraction_order(excerpt, user, db):
     return extraction_order
 
 
+def create_export(extraction_order, file_format):
+    return Export.objects.create(
+        extraction_order=extraction_order,
+        file_format=file_format,
+    )
+
+
 @pytest.fixture(params=output_format.ALL)
 def export(request, extraction_order):
-    return Export.objects.create(
+    return create_export(
         extraction_order=extraction_order,
         file_format=request.param,
     )
@@ -39,8 +45,7 @@ def export(request, extraction_order):
 
 @pytest.fixture
 def exports(extraction_order):
-    ParamFake = namedtuple('ParamFake', 'param')
-    return [export(ParamFake(format), extraction_order) for format in output_format.ALL]
+    return [create_export(extraction_order, format) for format in output_format.ALL]
 
 
 @pytest.fixture

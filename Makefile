@@ -54,11 +54,13 @@ pip-sync-all: requirements-all.txt
 
 .PHONY: tests-quick
 tests-quick: up-redis up-pg
-	./runtests.py $(PYTEST_ARGS)
+	docker build -t worker:test -f Dockerfile.worker .
+	docker run --link pg_tests:postgres --link redis-local:redis -e DJANGO_SETTINGS_MODULE= -v "$$(pwd):/code" --rm worker:test bash -c 'cp -r /code /tmp/code && cd /tmp/code/ && ./runtests.py $(PYTEST_ARGS)'
 
 .PHONY: tests-all
 tests-all: up-redis up-pg up-pg_translit
-	./runtests.py $(PYTEST_ARGS) --runslow
+	docker build -t worker:test -f Dockerfile.worker .
+	docker run --link pg_translit:translit --link pg_tests:postgres --link redis-local:redis -e PG_TRANSLIT_PORT=5432 -e PG_TRANSLIT_HOST=translit -e DJANGO_SETTINGS_MODULE= -v "$$(pwd):/code" --rm worker:test bash -c 'cp -r /code /tmp/code && cd /tmp/code/ && ./runtests.py $(PYTEST_ARGS) --runslow'
 
 .PHONY: tox
 tox: up-redis up-pg up-pg_translit

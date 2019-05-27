@@ -47,7 +47,7 @@ class OrderFormViewMixin(FormMixin):
 class OrderNewExcerptView(LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView):
     template_name = 'excerptexport/templates/order_new_excerpt.html'
     form_class = ExcerptForm
-order_new_excerpt = OrderNewExcerptView.as_view()
+order_new_excerpt = OrderNewExcerptView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0
 
 
 class OrderExistingExcerptView(LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView):
@@ -56,7 +56,7 @@ class OrderExistingExcerptView(LoginRequiredMixin, EmailRequiredMixin, OrderForm
 
     def get_form_class(self):
         return super().get_form_class().get_dynamic_form_class(self.request.user)
-order_existing_excerpt = OrderExistingExcerptView.as_view()
+order_existing_excerpt = OrderExistingExcerptView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0
 
 
 class OwnershipRequiredMixin(SingleObjectMixin):
@@ -131,7 +131,7 @@ class ExportsListView(LoginRequiredMixin, ExportsListMixin, ListView):
             filter(extraction_order__excerpt=excerpt).\
             select_related('extraction_order', 'extraction_order__excerpt', 'output_file')\
             .defer('extraction_order__excerpt__bounding_geometry')
-export_list = ExportsListView.as_view()
+export_list = ExportsListView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0
 
 
 class ExportsDetailView(LoginRequiredMixin, ExportsListMixin, ListView):
@@ -154,7 +154,7 @@ class ExportsDetailView(LoginRequiredMixin, ExportsListMixin, ListView):
             .select_related('extraction_order', 'extraction_order__excerpt', 'output_file')\
             .filter(extraction_order__excerpt__pk=pk)
         return queryset
-export_detail = ExportsDetailView.as_view()
+export_detail = ExportsDetailView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0
 
 
 def _social_identification_description(user):
@@ -175,7 +175,7 @@ class ExcerptManageListView(ListView):
     def get_queryset(self):
         user = self.request.user
         return super().get_queryset().filter(owner=user, is_public=False, extraction_orders__orderer=user).distinct()
-manage_own_excerpts = ExcerptManageListView.as_view()
+manage_own_excerpts = ExcerptManageListView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0
 
 
 class DeleteExcerptView(DeleteView):
@@ -208,4 +208,4 @@ class DeleteExcerptView(DeleteView):
             return HttpResponseRedirect(self.get_success_url())
 
         return super().delete(request, *args, **kwargs)
-delete_excerpt = DeleteExcerptView.as_view()
+delete_excerpt = DeleteExcerptView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0

@@ -5,3 +5,5 @@ rq-dashboard/
 
 .*
 !.git
+Dockerfile.*
+docker-compose*.yml

@@ -87,5 +87,6 @@ def test_mail_sent_only_once_within_rate_limit(authenticated_client):
         authenticated_client.get(reverse('profile:edit_view'))
         assert send_mail.call_count == 1
 
+
 INVALID_EMAIL_MESSAGE = 'You have not set an email address. You must set a valid email address to use OSMaxx.'
 ACTIVATE_EMAIL_MESSAGE = 'To activate your email, click the link in the confirmation email.'

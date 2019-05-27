@@ -130,7 +130,6 @@ var draw_controls = function (map) {
         }
 
         addSizeEstimationToCheckboxes(layer);
-        filterUTMZones(layer);
         estimateSize(layer).done(function (data) {
             var estimatedFileSize = Number(data['estimated_file_size_in_bytes']);
 

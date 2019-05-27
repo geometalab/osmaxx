@@ -103,7 +103,7 @@ docker-compose up
 
 Unsure which version is running?
 
-Go to `<your_ip>:8888/version/`.
+Go to `<your_ip>:8889/version/`.
 
 where `<your_ip>` is your public IP.
 

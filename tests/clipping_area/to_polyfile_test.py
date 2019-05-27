@@ -90,10 +90,10 @@ class CreatePolyfileStringTest(TestCase):
 
         create_poly_file_string(self.multi_polygon_1)
         self.assertEqual(
-            self.multi_polygon_1,
-            parse_poly_string(create_poly_file_string(self.multi_polygon_1))
+            create_poly_file_string(self.multi_polygon_1),
+            create_poly_file_string(parse_poly_string(create_poly_file_string(self.multi_polygon_1)))
         )
         self.assertEqual(
-            complex_multi_polygon,
-            parse_poly_string(create_poly_file_string(complex_multi_polygon))
+            create_poly_file_string(complex_multi_polygon),
+            create_poly_file_string(parse_poly_string(create_poly_file_string(complex_multi_polygon)))
         )

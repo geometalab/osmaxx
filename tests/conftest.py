@@ -10,7 +10,8 @@ from osmaxx.utils.frozendict import frozendict
 
 test_data_dir = os.path.join(os.path.dirname(__file__), 'test_data')
 
-postgres_container_userland_port = 65432  # required for travis, so using it everywhere
+postgres_container_userland_port = int(os.environ.get('PG_TRANSLIT_PORT', 65432))  # required for travis, so using it everywhere
+postgres_container_translit_host = os.environ.get('PG_TRANSLIT_HOST', '127.0.0.1')
 
 
 def pytest_configure():
@@ -20,14 +21,15 @@ def pytest_configure():
     settings.configure(
         ROOT_DIR=environ.Path(__file__) - 1,
         DEBUG_PROPAGATE_EXCEPTIONS=True,
+        ALLOWED_HOSTS=['the-host.example.com', 'thehost.example.com'],
         DATABASES={
             'default': {
                 'ENGINE': 'django.contrib.gis.db.backends.postgis',
                 'NAME': 'postgres',
                 'USER': 'postgres',
                 'PASSWORD': 'postgres',
-                'PORT': '54321',
-                'HOST': '127.0.0.1',
+                'PORT': '5432',
+                'HOST': 'postgres',
             }
         },
         SITE_ID=1,
@@ -63,15 +65,15 @@ def pytest_configure():
                 },
             },
         ],
-        MIDDLEWARE_CLASSES=(
+        MIDDLEWARE=[
             'django.middleware.common.CommonMiddleware',
             'django.contrib.sessions.middleware.SessionMiddleware',
             'django.middleware.csrf.CsrfViewMiddleware',
             'django.contrib.auth.middleware.AuthenticationMiddleware',
             'django.contrib.messages.middleware.MessageMiddleware',
             'osmaxx.job_progress.middleware.ExportUpdaterMiddleware',
-        ),
-        INSTALLED_APPS=(
+        ],
+        INSTALLED_APPS=[
             'django.contrib.auth',
             'django.contrib.contenttypes',
             'django.contrib.sessions',
@@ -100,7 +102,7 @@ def pytest_configure():
             'osmaxx.excerptexport',
             'osmaxx.job_progress',
             'osmaxx.profile',
-        ),
+        ],
         PASSWORD_HASHERS=(
             'django.contrib.auth.hashers.SHA1PasswordHasher',
             'django.contrib.auth.hashers.PBKDF2PasswordHasher',
@@ -112,7 +114,7 @@ def pytest_configure():
         RQ_QUEUE_NAMES=['default'],
         RQ_QUEUES={
             'default': {
-                'HOST': 'localhost',
+                'HOST': 'redis',
                 'PORT': 6379,
                 'DB': 0,
                 'PASSWORD': '',
@@ -205,6 +207,24 @@ def user(db, django_user_model, django_username_field):
     return user
 
 
+def create_authenticated_client(client, user):
+    """
+    Client using an authenticated user.
+
+    Since this creates a database object, you must
+    mark your test with @pytest.mark.django_db()
+
+    Args:
+        client: Default client fixture from pytest-django
+
+    Returns:
+        Authenticated Client
+    """
+    client.login(username='user', password='password')
+    client.user = user
+    return client
+
+
 @pytest.fixture
 def authenticated_client(client, user):
     """
@@ -220,9 +240,7 @@ def authenticated_client(client, user):
     Returns:
         Authenticated Client
     """
-    client.login(username='user', password='password')
-    client.user = user
-    return client
+    return create_authenticated_client(client, user)
 
 
 @pytest.fixture
@@ -246,7 +264,7 @@ def authenticated_api_client(api_client, user):
     Returns:
         Authenticated Client
     """
-    return authenticated_client(api_client, user)
+    return create_authenticated_client(api_client, user)
 
 
 @pytest.fixture
@@ -254,7 +272,7 @@ def frontend_accessible_authenticated_api_client(api_client, user):
     from osmaxx.profile.models import Profile
 
     Profile.objects.create(associated_user=user, unverified_email=user.email)
-    return authenticated_client(api_client, user)
+    return create_authenticated_client(api_client, user)
 
 
 @pytest.fixture
@@ -293,9 +311,7 @@ def geos_geometry_can_be_created_from_geojson_string():
     GEOSGeometry(geojson_point_string)
 
 
-@pytest.fixture
-def area_polyfile_string():
-    return '''
+AREA_POLYFILE_STRING = '''
 none
 polygon-1
     7.495679855346679 43.75782881091782
@@ -305,6 +321,11 @@ polygon-1
 END
 END
 '''.lstrip()
+
+
+@pytest.fixture
+def area_polyfile_string():
+    return AREA_POLYFILE_STRING
 
 
 class TagCombination(Mapping):

@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile.nginx
     ports:
-      - "8888:80"
+      - "8889:80"
     environment:
       - VIRTUAL_HOST=localhost,127.0.0.1,${PUBLIC_LOCALHOST_IP:-osmaxx}
   frontend:
@@ -24,8 +24,8 @@ services:
       - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.local
       - DJANGO_DEBUG=true
       # set these if you want to be able to log in using OSM
-      - SOCIAL_AUTH_OPENSTREETMAP_KEY=
-      - SOCIAL_AUTH_OPENSTREETMAP_SECRET=
+      - SOCIAL_AUTH_OPENSTREETMAP_KEY=avBljc8UoB9WuibATQSTaBv5VxxRAw0uFvNumuj7
+      - SOCIAL_AUTH_OPENSTREETMAP_SECRET=GBtBboD1ZvngDVgkqVm6n7iNmR6HqMmnxAPQB0kS
 #     Allow access from any private-use IP, since docker assigns "random" IPs.
 #     172.*.*.* is actually allowing too much, but this docker-compose file should
 #     only ever be used on local development machine, anyway!

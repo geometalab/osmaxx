@@ -3,13 +3,7 @@ import os
 import subprocess
 import uuid
 import zipfile
-
-# Use the built-in version of scandir if possible, otherwise
-# use the scandir module version
-try:
-    from os import scandir
-except ImportError:
-    from scandir import scandir
+from os import scandir
 
 logger = logging.getLogger(__name__)
 

@@ -36,7 +36,7 @@ def detail_level(request):
     return request.param[0]
 
 
-@pytest.fixture(params=crs.GLOBAL_CHOICES[:2])
+@pytest.fixture(params=crs.CHOICES[:2])
 def out_srs(request):
     return int(request.param[0])
 

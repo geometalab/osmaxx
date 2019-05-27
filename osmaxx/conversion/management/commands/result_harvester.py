@@ -30,15 +30,18 @@ class Command(BaseCommand):
             time.sleep(CONVERSION_SETTINGS['result_harvest_interval_seconds'])
 
     def _handle_failed_jobs(self):
-        failed_queue = django_rq.get_failed_queue()
-        for rq_job_id in failed_queue.job_ids:
-            try:
-                conversion_job = conversion_models.Job.objects.get(rq_job_id=rq_job_id)
-            except ObjectDoesNotExist as e:
-                logger.exception(e)
-                continue
-            self._set_failed_unless_final(conversion_job, rq_job_id=rq_job_id)
-            self._notify(conversion_job)
+        from django.conf import settings
+        for queue_name in settings.RQ_QUEUES:
+            queue = django_rq.get_queue(queue_name)
+
+            for rq_job_id in queue.failed_job_registry.get_job_ids():
+                try:
+                    conversion_job = conversion_models.Job.objects.get(rq_job_id=rq_job_id)
+                except ObjectDoesNotExist as e:
+                    logger.exception(e)
+                    continue
+                self._set_failed_unless_final(conversion_job, rq_job_id=rq_job_id)
+                self._notify(conversion_job)
 
     def _handle_running_jobs(self):
         active_jobs = conversion_models.Job.objects.exclude(status__in=status.FINAL_STATUSES)\
@@ -65,8 +68,9 @@ class Command(BaseCommand):
             return
 
         logger.info('updating job %d', rq_job_id)
-        conversion_job.status = job.status
-        if job.status == status.FINISHED:
+        conversion_job.status = job.get_status()
+
+        if job.get_status() == status.FINISHED:
             add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
             add_meta_data_to_job(conversion_job=conversion_job, rq_job=job)
         conversion_job.save()
@@ -85,7 +89,7 @@ class Command(BaseCommand):
         data = {'status': conversion_job.status, 'job': conversion_job.get_absolute_url()}
         try:
             requests.get(conversion_job.callback_url, params=data)
-        except:
+        except:  # noqa:  E722 do not use bare 'except'
             logger.error('failed to send notification for job {} using {} as URL.'.format(
                 conversion_job.id, conversion_job.callback_url)
             )
@@ -133,8 +137,14 @@ def fetch_job(rq_job_id, from_queues):
 
 def cleanup_old_jobs():
     queues = [django_rq.get_queue(name=queue_name) for queue_name in settings.RQ_QUEUE_NAMES]
-    queues.append(django_rq.get_failed_queue())
+
     for queue in queues:
         for job in queue.get_jobs():
-            if job.status in status.FINAL_STATUSES:
+            if job.get_status() in status.FINAL_STATUSES:
+                job.delete()
+
+        failed_job_registry = queue.failed_job_registry
+        for rq_job_id in failed_job_registry.get_job_ids():
+            job = queue.fetch_job(rq_job_id)
+            if job.get_status() in status.FINAL_STATUSES:
                 job.delete()
