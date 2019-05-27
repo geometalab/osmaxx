@@ -28,8 +28,8 @@ def pytest_configure():
                 'NAME': 'postgres',
                 'USER': 'postgres',
                 'PASSWORD': 'postgres',
-                'PORT': '5432',
-                'HOST': 'postgres',
+                'PORT': os.environ.get('DJANGO_DB_PORT', '54321'),
+                'HOST': os.environ.get('DJANGO_DB_HOST', '127.0.0.1'),
             }
         },
         SITE_ID=1,

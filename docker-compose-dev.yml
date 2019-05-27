@@ -24,8 +24,8 @@ services:
       - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.local
       - DJANGO_DEBUG=true
       # set these if you want to be able to log in using OSM
-      - SOCIAL_AUTH_OPENSTREETMAP_KEY=avBljc8UoB9WuibATQSTaBv5VxxRAw0uFvNumuj7
-      - SOCIAL_AUTH_OPENSTREETMAP_SECRET=GBtBboD1ZvngDVgkqVm6n7iNmR6HqMmnxAPQB0kS
+      - SOCIAL_AUTH_OPENSTREETMAP_KEY=
+      - SOCIAL_AUTH_OPENSTREETMAP_SECRET=
 #     Allow access from any private-use IP, since docker assigns "random" IPs.
 #     172.*.*.* is actually allowing too much, but this docker-compose file should
 #     only ever be used on local development machine, anyway!
@@ -71,16 +71,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - osm_data:/var/data/osm-planet
-    entrypoint: /bin/sh -c
-    command: >
-      "
-      mkdir -p /var/data/osm-planet/pbf &&
-      wget -O /tmp/monaco-latest.osm.pbf http://download.geofabrik.de/europe/monaco-latest.osm.pbf &&
-      wget -O /tmp/switzerland-latest.osm.pbf http://download.geofabrik.de/europe/switzerland-latest.osm.pbf &&
-      osmconvert /tmp/monaco-latest.osm.pbf -o=/tmp/monaco-latest.osm &&
-      osmconvert /tmp/switzerland-latest.osm.pbf -o=/tmp/switzerland-latest.osm &&
-      osmconvert /tmp/monaco-latest.osm /tmp/switzerland-latest.osm -o=/var/data/osm-planet/pbf/planet-latest.osm.pbf
-      "
+    entrypoint: /bin/bash
+    command: /opt/delvelopment_download_only.sh
     # these are just examples
     # environment:
       # - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/switzerland-updates/
