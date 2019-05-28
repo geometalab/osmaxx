@@ -1,13 +1,16 @@
-# this gdal image comes with support for FileGDB and has python3.6 already installed
-# is derived from ubuntu
+# This gdal image comes with support for FileGDB and has python3.6 already installed.
+# Based ubuntu.
+
 FROM geometalab/gdal-docker:v3.0.0
 
 USER root
 
-ENV PYTHONUNBUFFERED=non-empty-string PYTHONIOENCODING=utf-8 LC_ALL=C.UTF-8 LANG=C.UTF-8 DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=non-empty-string PYTHONIOENCODING=utf-8 LC_ALL=C.UTF-8 LANG=C.UTF-8
 
 # make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
-RUN apt-get update && apt-get install -y apt-utils locales gpg && rm -rf /var/lib/apt/lists/* \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils locales gpg \
+    && rm -rf /var/lib/apt/lists/* \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
 
@@ -24,17 +27,17 @@ ENV PG_MAJOR 11
 ENV POSTGIS_MAJOR 2.5
 
 RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list \
-    && apt-get update \
-    && apt-get install -y postgresql-common \
+    && DEBIAN_FRONTEND=noninteractive apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql-common \
     && sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf \
-    && apt-get install -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         postgresql-${PG_MAJOR} \
         postgresql-contrib-${PG_MAJOR} \
         postgresql-${PG_MAJOR}-postgis-${POSTGIS_MAJOR} \
         postgresql-${PG_MAJOR}-postgis-scripts \
         postgresql-server-dev-${PG_MAJOR} \
         postgresql-contrib-${PG_MAJOR} \
-    && apt-get clean \
+    && DEBIAN_FRONTEND=noninteractive apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /var/run/postgresql && chown -R 999:999 /var/run/postgresql
 
@@ -46,8 +49,8 @@ RUN mkdir -p $PGDATA && chown -R 999:999 /var/lib/postgresql \
 
 ################## END SETUP POSTGIS DATABASE with UTF8 support #############
 
-RUN apt-get update && \
-    apt-get install -y\
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y\
 \
     make cmake g++ libboost-dev libboost-system-dev \
     libboost-filesystem-dev libexpat1-dev zlib1g-dev \
@@ -55,7 +58,7 @@ RUN apt-get update && \
     libproj-dev \
     curl git wget \
     libstdc++6 osmctools \
-    && apt-get clean \
+    && DEBIAN_FRONTEND=noninteractive apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/usr/lib:${LD_LIBRARY_PATH}
@@ -98,12 +101,13 @@ RUN wget -O libutf8proc-dev.deb http://ftp.ch.debian.org/debian/pool/main/u/utf8
     && dpkg --install libutf8proc1.deb libutf8proc-dev.deb \
     && rm libutf8proc1.deb libutf8proc-dev.deb
 
-RUN apt-get update && apt-get install -y pandoc libkakasi2-dev libicu-dev \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y pandoc libkakasi2-dev libicu-dev \
     && git clone https://github.com/giggls/mapnik-german-l10n.git mapnik-german-l10n \
     && cd mapnik-german-l10n && git checkout v2.5.1 \
     && make && make install && make clean \
-    && apt-get purge -y pandoc \
-    && apt-get clean \
+    && DEBIAN_FRONTEND=noninteractive apt-get purge -y pandoc \
+    && DEBIAN_FRONTEND=noninteractive apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 ENV HOME /home/py
