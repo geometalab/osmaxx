@@ -133,7 +133,7 @@ ip route get 1 | awk '{print $NF;exit}'
 
 You can generate the complete URL in `sh` with:
 ```bash
-echo "http://$(ip route get 1 | awk '{print $NF;exit}'):8889"
+echo "http://$(ip route get 1 | awk '{print $(NF-2);exit}'):8889"
 ```
 
 ## Enable development with debug toolbar enabled
