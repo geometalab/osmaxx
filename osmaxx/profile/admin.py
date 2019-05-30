@@ -13,4 +13,4 @@ class ProfileAdminForm(forms.ModelForm):
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ['associated_user', 'unverified_email']
     form = ProfileAdminForm
-admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Profile, ProfileAdmin)  # noqa: E305 expected 2 blank lines after class or function definition, found 0

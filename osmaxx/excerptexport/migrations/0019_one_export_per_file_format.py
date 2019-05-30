@@ -12,7 +12,7 @@ def move_file_formats_from_extraction_order_extraction_configuration_to_export(a
     for extraction_order in ExtractionOrder.objects.all():
         try:
             extraction_configuration = json.loads(extraction_order._extraction_configuration)
-        except:
+        except:  # noqa: E722 do not use bare 'except'
             return
         file_formats = frozenset(extraction_configuration.pop('gis_formats', []))
         extraction_order._extraction_configuration = json.dumps(extraction_configuration)
@@ -26,7 +26,7 @@ def move_file_formats_from_export_to_extraction_order_extraction_configuration(a
     for extraction_order in ExtractionOrder.objects.all():
         try:
             partial_extraction_configuration = json.loads(extraction_order._extraction_configuration)
-        except:
+        except:  # noqa: E722 do not use bare 'except'
             partial_extraction_configuration = {}
         extraction_configuration = dict(
             gis_formats=list(extraction_order.exports.values_list('file_format', flat=True)),

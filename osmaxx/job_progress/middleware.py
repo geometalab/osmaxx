@@ -1,6 +1,8 @@
 import logging
 from datetime import timedelta
 
+from django.utils.deprecation import MiddlewareMixin
+
 import requests
 from requests import HTTPError
 
@@ -12,11 +14,11 @@ from osmaxx.utils.shortcuts import get_cached_or_set
 logger = logging.getLogger(__name__)
 
 
-class ExportUpdaterMiddleware(object):
+class ExportUpdaterMiddleware(MiddlewareMixin):
     def process_request(self, request):
         assert hasattr(request, 'user'), (
             "The osmaxx export updater middleware requires Django authentication middleware "
-            "to be installed. Edit your MIDDLEWARE_CLASSES setting to insert "
+            "to be installed. Edit your MIDDLEWARE setting to insert "
             "'django.contrib.auth.middleware.AuthenticationMiddleware' before "
             "'osmaxx.job_progress.middleware.ExportUpdaterMiddleware'."
         )

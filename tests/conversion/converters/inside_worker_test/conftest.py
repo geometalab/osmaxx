@@ -6,7 +6,7 @@ import sqlalchemy
 from sqlalchemy.engine.url import URL as DBURL
 from sqlalchemy_utils import functions as sql_alchemy_utils
 
-from tests.conftest import postgres_container_userland_port, area_polyfile_string
+from tests.conftest import postgres_container_userland_port, postgres_container_translit_host
 from tests.conversion.converters.inside_worker_test.declarative_schema import osm_models
 
 slow = pytest.mark.skipif(
@@ -16,7 +16,7 @@ slow = pytest.mark.skipif(
 
 db_name = 'osmaxx_db'
 
-gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name, host='127.0.0.1', port=postgres_container_userland_port)
+gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name, host=postgres_container_translit_host, port=postgres_container_userland_port)
 
 
 @pytest.fixture(scope='session')
@@ -115,6 +115,7 @@ def osmaxx_schemas(osmaxx_functions, clean_osm_tables, request):
     request.addfinalizer(_cleanup)
     return engine
 
+
 _osmaxx_schemas = [
     'view_osmaxx',
     'osmaxx',
@@ -142,7 +143,7 @@ def sql_from_bootstrap_relative_location(file_name):
 
 
 @pytest.fixture()
-def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch, mocker):
+def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch, mocker, area_polyfile_string):
     from tests.conversion.converters.inside_worker_test.conftest import cleanup_osmaxx_schemas
     from osmaxx.conversion.converters.converter_gis.bootstrap.bootstrap import BootStrapper
 
@@ -153,7 +154,7 @@ def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch, mocker):
 
     class _BootStrapperWithoutPbfFile(BootStrapper):
         def __init__(self, data):
-            super().__init__(area_polyfile_string=area_polyfile_string())
+            super().__init__(area_polyfile_string=area_polyfile_string)
             self.data = data
 
         def _reset_database(self):

@@ -1,2 +1,2 @@
-alias docker-compose="PUBLIC_LOCALHOST_IP=$(ip route get 1 | awk '{print $NF;exit}') DEPLOY_VERSION=$(git describe --dirty) docker-compose -f docker-compose.yml -f docker-compose-dev.yml"
+alias docker-compose="PUBLIC_LOCALHOST_IP=$(ip route get 1 | awk '{print $(NF-2);exit}') DEPLOY_VERSION=$(git describe --dirty) docker-compose -f docker-compose.yml -f docker-compose-dev.yml"
 alias deactivate_local_development="unalias docker-compose;unalias deactivate_local_development"

@@ -1,6 +1,4 @@
-from collections import namedtuple
 from unittest.mock import Mock, MagicMock, patch
-
 import pytest
 
 from osmaxx.conversion import status
@@ -8,34 +6,37 @@ from osmaxx.conversion import status
 
 @pytest.fixture
 def queue(fake_rq_id):
-    Queue = namedtuple('Queue', ['job_ids', 'fetch_job'])
-    Job = namedtuple('Job', ['status'])
-
-    def fetch_job(job_id):
-        job = Job(status=status.STARTED)
-        return job
-    queue = Queue(job_ids=[str(fake_rq_id)], fetch_job=fetch_job)
+    job = Mock(**{'get_status.return_value': status.STARTED, 'id': fake_rq_id})
+    queue = Mock(**{'fetch_job.return_value': job})
     return queue
 
 
-def test_handle_failed_jobs_calls_set_failed_unless_final(mocker, fake_rq_id, queue):
+@pytest.fixture
+def failed_queue(fake_rq_id):
+    queue = Mock(**{'failed_job_registry.get_job_ids.return_value': [fake_rq_id]})
+    return queue
+
+
+def test_handle_failed_jobs_calls_set_failed_unless_final(mocker, fake_rq_id, failed_queue):
+    mocker.patch('django_rq.get_queue', return_value=failed_queue)
+
     from osmaxx.conversion.management.commands import result_harvester
     from osmaxx.conversion.models import Job
-    mocker.patch('django_rq.get_failed_queue', return_value=queue)
+
     conversion_job_mock = Mock()
     mocker.patch.object(Job.objects, 'get', return_value=conversion_job_mock)
     cmd = result_harvester.Command()
     _set_failed_unless_final = mocker.patch.object(cmd, '_set_failed_unless_final')
     _update_job_mock = mocker.patch.object(cmd, '_notify')
     cmd._handle_failed_jobs()
-    _set_failed_unless_final.assert_called_once_with(conversion_job_mock, rq_job_id=str(fake_rq_id))
+    _set_failed_unless_final.assert_called_once_with(conversion_job_mock, rq_job_id=fake_rq_id)
     _update_job_mock.assert_called_once_with(conversion_job_mock)
 
 
 @pytest.mark.django_db()
 def test_handle_successfull_jobs_calls_update_job(mocker, queue, started_conversion_job):
-    from osmaxx.conversion.management.commands import result_harvester
     mocker.patch('django_rq.get_queue', return_value=queue)
+    from osmaxx.conversion.management.commands import result_harvester
     cmd = result_harvester.Command()
     _update_job_mock = mocker.patch.object(cmd, '_update_job')
     cmd._handle_running_jobs()
@@ -45,8 +46,8 @@ def test_handle_successfull_jobs_calls_update_job(mocker, queue, started_convers
 
 @pytest.mark.django_db()
 def test_handle_update_job_informs(mocker, queue, fake_rq_id, started_conversion_job):
-    from osmaxx.conversion.management.commands import result_harvester
     mocker.patch('django_rq.get_queue', return_value=queue)
+    from osmaxx.conversion.management.commands import result_harvester
     cmd = result_harvester.Command()
     _update_job_mock = mocker.patch.object(cmd, '_notify')
     cmd._update_job(rq_job_id=fake_rq_id)

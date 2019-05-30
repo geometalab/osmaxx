@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile.nginx
     ports:
-      - "8888:80"
+      - "8889:80"
     environment:
       - VIRTUAL_HOST=localhost,127.0.0.1,${PUBLIC_LOCALHOST_IP:-osmaxx}
   frontend:
@@ -71,16 +71,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - osm_data:/var/data/osm-planet
-    entrypoint: /bin/sh -c
-    command: >
-      "
-      mkdir -p /var/data/osm-planet/pbf &&
-      wget -O /tmp/monaco-latest.osm.pbf http://download.geofabrik.de/europe/monaco-latest.osm.pbf &&
-      wget -O /tmp/switzerland-latest.osm.pbf http://download.geofabrik.de/europe/switzerland-latest.osm.pbf &&
-      osmconvert /tmp/monaco-latest.osm.pbf -o=/tmp/monaco-latest.osm &&
-      osmconvert /tmp/switzerland-latest.osm.pbf -o=/tmp/switzerland-latest.osm &&
-      osmconvert /tmp/monaco-latest.osm /tmp/switzerland-latest.osm -o=/var/data/osm-planet/pbf/planet-latest.osm.pbf
-      "
+    entrypoint: /bin/bash
+    command: /opt/delvelopment_download_only.sh
     # these are just examples
     # environment:
       # - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/switzerland-updates/

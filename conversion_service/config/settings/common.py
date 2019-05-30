@@ -22,7 +22,7 @@ env = environ.Env()
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
-DJANGO_APPS = (
+DJANGO_APPS = [
     # Default Django apps:
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -30,35 +30,35 @@ DJANGO_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-)
-THIRD_PARTY_APPS = (
+]
+THIRD_PARTY_APPS = [
     # async execution worker
     'django_rq',
     # rest API Framework
     'rest_framework',
     'rest_framework_gis',
     'pbf_file_size_estimation',
-)
+]
 # Apps specific for this project go here.
-LOCAL_APPS = (
+LOCAL_APPS = [
     'osmaxx.version',
     'osmaxx.clipping_area',
     'osmaxx.conversion',
-)
+]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+]
 
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------

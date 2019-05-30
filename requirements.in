@@ -1,12 +1,11 @@
 # Minimum Django and REST framework version
-Django>=1.10,<1.11
-djangorestframework>=3.4,<3.5
-djangorestframework-gis>=0.10,<0.11
-drf-extensions>=0.3.1,<0.4
+Django>=1.11,<2
+djangorestframework~=3.9.0
+djangorestframework-gis
+drf-extensions
 
 # pbf estimation service
-geometalab.osm-pbf-file-size-estimation-service>=1.0.0,<2.0.0
-geometalab.drf-utm-zone-info>=0.1.0,<1.0.0
+geometalab.osm-pbf-file-size-estimation-service~=2.0.0
 
 djangorestframework-jwt
 requests
@@ -31,8 +30,6 @@ SQLAlchemy-Utils
 sqlalchemy-views
 GeoAlchemy2
 furl
-# fallback for python < 3.5
-scandir
 
 # Test requirements
 pytest-django
@@ -46,11 +43,6 @@ wheel
 
 # MkDocs for documentation previews/deploys
 mkdocs
-
-# Extended linting support (Prospector)
-prospector
-pyroma
-vulture
 
 # Testing
 coverage
@@ -70,7 +62,7 @@ PyYAML
 gunicorn
 
 # sentry error logging on production
-raven
+sentry-sdk==0.7.10
 
 ipython
 

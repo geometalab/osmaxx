@@ -31,7 +31,7 @@ def reload_until_condition(selenium):
             try:
                 result = condition(*args, **kwargs)
                 return result
-            except:
+            except:  # noqa: E722 do not use bare 'except'
                 if timeout < 0:
                     raise
             time.sleep(refresh_interval)

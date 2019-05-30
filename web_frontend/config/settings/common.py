@@ -24,7 +24,7 @@ env = environ.Env()
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
-DJANGO_APPS = (
+DJANGO_APPS = [
     # Default Django apps:
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,8 +39,8 @@ DJANGO_APPS = (
     # Admin
     'django.contrib.admin',
     'django.contrib.gis',
-)
-THIRD_PARTY_APPS = (
+]
+THIRD_PARTY_APPS = [
     'social_django',
     # messages for users
     'stored_messages',
@@ -51,23 +51,23 @@ THIRD_PARTY_APPS = (
     'rest_framework_gis',
     # async execution worker
     'django_rq',
-)
+]
 # Apps specific for this project go here.
-LOCAL_APPS = (
+LOCAL_APPS = [
     'osmaxx.version',
 
     'osmaxx.excerptexport',
     'osmaxx.job_progress',
     'osmaxx.profile',
     'osmaxx.core',
-)
+]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -76,7 +76,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'osmaxx.job_progress.middleware.ExportUpdaterMiddleware',
-)
+]
 
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------

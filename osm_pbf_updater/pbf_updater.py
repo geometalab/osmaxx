@@ -5,7 +5,9 @@ import shutil
 import time
 
 import datetime
-from raven import Client
+
+import sentry_sdk
+from sentry_sdk import capture_exception
 
 
 BASE_DIR = '/var/data/osm-planet'
@@ -76,14 +78,11 @@ def run(*, sleep_seconds=10, osmupdate_extra_params):
         time.sleep(sleep_seconds)
 
 
-def run_with_sentry(callable, *args, sentry_dsn, **kwargs):
-    client = Client(sentry_dsn)
-    release = os.environ.get('SENTRY_RELEASE', 'unknown')
+def run_with_sentry(callable, *args, **kwargs):
     try:
         callable(*args, **kwargs)
-    except:
-        client.user_context({'release': release})
-        client.captureException()
+    except Exception as e:
+        capture_exception(e)
 
 
 if __name__ == '__main__':
@@ -98,8 +97,9 @@ if __name__ == '__main__':
 
     sentry_dsn = os.environ.get('SENTRY_DSN', None)
     if sentry_dsn is not None:
+        sentry_sdk.init(sentry_dsn)
         run_with_sentry(
-            run, sentry_dsn=sentry_dsn, sleep_seconds=sleep_seconds, osmupdate_extra_params=update_extra_params
+            run, sleep_seconds=sleep_seconds, osmupdate_extra_params=update_extra_params
         )
     else:
         run(sleep_seconds=sleep_seconds, osmupdate_extra_params=update_extra_params)

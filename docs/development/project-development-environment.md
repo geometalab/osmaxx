@@ -124,7 +124,7 @@ To run the application tests only, see [Commonly used commands while developing 
 
 ## Access the application
 
-`http://<your_ip>:8888`
+`http://<your_ip>:8889`
 
 where `<your_ip>` is your (public) IP as reported by
 ```bash
@@ -133,7 +133,7 @@ ip route get 1 | awk '{print $NF;exit}'
 
 You can generate the complete URL in `sh` with:
 ```bash
-echo "http://$(ip route get 1 | awk '{print $NF;exit}'):8888"
+echo "http://$(ip route get 1 | awk '{print $(NF-2);exit}'):8889"
 ```
 
 ## Enable development with debug toolbar enabled
