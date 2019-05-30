@@ -1,4 +1,4 @@
-# This gdal image comes with support for FileGDB and has python3.6 already installed.
+# This GDAL image comes with support for FileGDB and has Python 3.6 already installed.
 # Based ubuntu.
 
 FROM geometalab/gdal-docker:v3.0.0
