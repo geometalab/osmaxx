@@ -34,7 +34,7 @@ RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' $PG_MAJ
         postgresql-${PG_MAJOR} \
         postgresql-contrib-${PG_MAJOR} \
         postgresql-${PG_MAJOR}-postgis-${POSTGIS_MAJOR} \
-        postgresql-${PG_MAJOR}-postgis-scripts \
+        postgresql-${PG_MAJOR}-postgis-${POSTGIS_MAJOR}-scripts \
         postgresql-server-dev-${PG_MAJOR} \
         postgresql-contrib-${PG_MAJOR} \
     && DEBIAN_FRONTEND=noninteractive apt-get clean \
