@@ -19,7 +19,10 @@ def get_requirements():
     requirements_file_path = os.path.join(os.path.dirname(__file__), 'requirements.txt')
     # when using tox, requirements.txt doesn't exist in the temp dir created by tox
     if os.path.exists(requirements_file_path):
-        from pip.req import parse_requirements
+        try:  # for pip >= 10
+            from pip._internal.req import parse_requirements
+        except ImportError:  # for pip < 10
+            from pip.req import parse_requirements
         parsed_requirements = parse_requirements(requirements_file_path, session=False)
         requirements = [str(ir.req) for ir in parsed_requirements]
     else:
