@@ -1,0 +1,196 @@
+version: '3.7'
+services:
+  reverse-proxy:
+    image: geometalab/env-configurable-caddy:latest
+    environment:
+      # See https://caddyserver.com/docs/quick-starts/caddyfile for details
+      CADDY_CONFIG: |
+        :8080 {
+          route {
+            reverse_proxy /api* {
+              to django:5000
+            }
+            reverse_proxy /admin* {
+              to django:5000
+            }
+            handle /media/* {
+              uri strip_prefix /media
+              file_server /* {
+                root /data/frontend/
+                browse
+              }
+            }
+            reverse_proxy /* {
+              to frontend:8000
+            }
+          }
+        }
+    volumes:
+      - frontend-media:/data/media
+    ports:
+    - 0.0.0.0:8080:8080/tcp
+    networks:
+      - default
+    logging: &logging
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  # if you change the names of the containers, please remember
+  # that you need to adapt README.md
+  ##### frontend START ########
+  frontend:
+    image: geometalab/osmaxx-frontend:${DEPLOY_VERSION:-latest}
+    volumes:
+      - frontend-media:/data/media
+      - worker-data:/data/media/job_result_files
+    environment:
+      - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+      - DJANGO_CSRF_COOKIE_SECURE=false
+      - DJANGO_SESSION_COOKIE_SECURE=false
+    depends_on:
+      - frontenddatabase
+      - conversionserviceredis
+      - mediator
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  frontenddatabase:
+    image: mdillon/postgis:10
+    volumes:
+      - frontend-database-data:/database/data
+    environment:
+      - PGDATA=/database/data
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  ##### frontend END ########
+  ##### CONVERSION SERVICE START ########
+  mediator:
+    image: geometalab/osmaxx-mediator:${DEPLOY_VERSION:-latest}
+    volumes:
+      - worker-data:/data/media/job_result_files
+    depends_on:
+      - conversionserviceredis
+      - mediatordatabase
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  worker: &worker
+    image: geometalab/osmaxx-worker:${DEPLOY_VERSION:-latest}
+    volumes:
+      - osm_data:/var/data/osm-planet
+      - worker-data:/data/media/job_result_files
+    depends_on:
+      - conversionserviceredis
+      - osmboundaries-database
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  worker-exclusive:
+    <<: *worker
+    environment:
+      - WORKER_QUEUES=high
+  conversionserviceredis:
+    image: redis
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  mediatordatabase:
+    image: mdillon/postgis:10
+    volumes:
+      - mediator-database-data:/database/data
+    environment:
+      - PGDATA=/database/data
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  ##### CONVERSION SERVICE END ########
+  ##### WORLD PBF UPDATER START ########
+  osm-pbf-updater:
+    # to limit scaling to exactly 1, we need to specify the container name
+    container_name: osm-pbf-updater
+    image: geometalab/osm-pbf-updater:${DEPLOY_VERSION:-latest}
+    volumes:
+      - osm_data:/var/data/osm-planet
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  ##### WORLD PBF UPDATER END ########
+  ##### OSM-BOUNDARIES START ######
+  osmboundaries-database:
+    # to limit scaling to exactly 1, we need to specify the container name
+    container_name: osmboundaries_postgis
+    image: mdillon/postgis:10
+    volumes:
+      - osmboundaries-postgis-data:/var/lib/postgresql
+    command: postgres -B 2GB -F -N 512 -S 2GB
+    environment:
+      - POSTGRES_DB=osmboundaries
+      - POSTGRES_USER=osmboundaries
+      - POSTGRES_PASSWORD=osmboundaries
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  osmboundaries_importer:
+    # to limit scaling to exactly 1, we need to specify the container name
+    container_name: osmboundaries_importer
+    image: geometalab/osmboundaries:latest
+    depends_on:
+      - osmboundaries-database
+    environment:
+        # the same as the ones in the database above
+        - POSTGRES_DB=osmboundaries
+        - POSTGRES_USER=osmboundaries
+        - POSTGRES_PASSWORD=osmboundaries
+        # same as the link name/depends_on
+        - POSTGRES_HOST=osmboundaries-database
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  ##### OSM-BOUNDARIES END ######
+volumes:
+  # osmaxx
+  frontend-database-data: {}
+  frontend-media: {}
+  mediator-database-data: {}
+  worker-data: {}
+  osm_data: {}
+  database-postgis-data: {}
+  osmboundaries-postgis-data: {}

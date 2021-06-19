@@ -10,25 +10,49 @@ from osmaxx.excerptexport.models.export import Export
 
 def uuid_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/osmaxx/<public_uuid>/<filename>
-    return os.path.join('osmaxx', 'outputfiles', str(instance.public_identifier), os.path.basename(filename))
+    return os.path.join(
+        "osmaxx",
+        "outputfiles",
+        str(instance.public_identifier),
+        os.path.basename(filename),
+    )
 
 
 class OutputFile(models.Model):
-    mime_type = models.CharField(max_length=64, verbose_name=_('mime type'))
-    file = models.FileField(blank=True, null=True, verbose_name=_('file'), upload_to=uuid_directory_path,
-                            max_length=250)
-    creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
-    deleted_on_filesystem = models.BooleanField(default=False, verbose_name=_('deleted on filesystem'))
-    public_identifier = models.UUIDField(primary_key=False, default=uuid.uuid4, verbose_name=_('public identifier'))
-    export = models.OneToOneField(Export, related_name='output_file', verbose_name=_('export'),
-                                  on_delete=models.CASCADE)
-    file_removal_at = models.DateTimeField(_('file removal date'), default=None, blank=True, editable=False, null=True)
+    mime_type = models.CharField(max_length=64, verbose_name=_("mime type"))
+    file = models.FileField(
+        blank=True,
+        null=True,
+        verbose_name=_("file"),
+        upload_to=uuid_directory_path,
+        max_length=250,
+    )
+    creation_date = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("create date")
+    )
+    deleted_on_filesystem = models.BooleanField(
+        default=False, verbose_name=_("deleted on filesystem")
+    )
+    public_identifier = models.UUIDField(
+        primary_key=False, default=uuid.uuid4, verbose_name=_("public identifier")
+    )
+    export = models.OneToOneField(
+        Export,
+        related_name="output_file",
+        verbose_name=_("export"),
+        on_delete=models.CASCADE,
+    )
+    file_removal_at = models.DateTimeField(
+        _("file removal date"), default=None, blank=True, editable=False, null=True
+    )
 
     def __str__(self):
-        return \
-            '[' + str(self.id) + '] ' \
-            + ('file: ' + os.path.basename(self.file.name) + ', ' if (self.file and self.file.name) else '') \
-            + 'identifier: ' + str(self.public_identifier)
+        fname = (
+            os.path.basename(self.file.name) if (self.file and self.file.name) else ""
+        )
+        return (
+            f"[{str(self.id)}] file: {fname}, identifier: {str(self.public_identifier)}"
+        )
 
     def delete(self, *args, **kwargs):
         self._remove_file()
@@ -43,7 +67,7 @@ class OutputFile(models.Model):
         if self.has_file:
             _discarded, file_extension = os.path.splitext(self.file)
             return file_extension
-        return 'zip'
+        return "zip"
 
     @property
     def has_file(self):
@@ -72,10 +96,14 @@ class OutputFile(models.Model):
     def get_filename_display(self):
         if self.file:
             return os.path.basename(self.file.name)
-        return ''
+        return ""
 
     def get_file_media_url_or_status_page(self):
         if self.file:
             return self.file.url
-        from django.core.urlresolvers import reverse
-        return reverse('excerptexport:export_detail', kwargs={'id': self.export.extraction_order.excerpt.id})
+        from django.urls import reverse
+
+        return reverse(
+            "excerptexport:export_detail",
+            kwargs={"id": self.export.extraction_order.excerpt.id},
+        )
