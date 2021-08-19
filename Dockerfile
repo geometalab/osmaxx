@@ -1,16 +1,124 @@
-# This GDAL image comes with support for FileGDB and has Python 3.9 already installed.
-# Based on official Ubuntu docker image.
+# This GDAL image comes with support for FileGDB and has Python 3.8 already installed.
+# Based on image osgeo/gdal (which itself is derived from _/ubuntu).
 
-# FROM geometalab/gdal-docker:v3.0.0
-FROM geometalab/gdal:3.2.3
-
+FROM geometalab/gdal:full-v3.2.3 as base
 USER root
 
-ENV PYTHONUNBUFFERED=non-empty-string PYTHONIOENCODING=utf-8 LC_ALL=C.UTF-8 LANG=C.UTF-8 DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=rununbuffered \
+    PYTHONIOENCODING=utf-8 \
+    SHELL=/bin/bash \
+    LC_ALL=en_US.UTF-8 \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8 \
+    PYTHONFAULTHANDLER=1 \
+    PYTHONHASHSEED=random \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    MAX_POETRY_VERSION=2 \
+    DOCKERIZE_VERSION=v0.6.1
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+    && apt-get install -y \
+    git \
+    libpq-dev \
+    python3-pip \
+    locales \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+    && locale-gen
+
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    # Enable prompt color in the skeleton .bashrc before creating the default USERNAME
+    && sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc
+
+RUN pip install "poetry<$MAX_POETRY_VERSION" \
+    && poetry config virtualenvs.create false
+
+COPY ./poetry.lock ./pyproject.toml ${WORKDIR}/
+RUN poetry install --no-interaction --no-ansi
+
+ENV USER=py \
+    HOME=/home/py \
+    WORKDIR=/home/py/osmaxx
+
+# don't put on same line, workdir isn't set at the moment
+ENV PYTHONPATH="${WORKDIR}"
+
+RUN useradd -d $HOME --uid 1000 --gid 100 -m $USER
+
+WORKDIR ${WORKDIR}
+
+COPY ./osmaxx ${WORKDIR}/osmaxx
+
+########################
+##### FRONTEND #########
+########################
+
+FROM base as frontend
+
+ENV DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=default_user \
+    DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=default_password \
+    NUM_WORKERS=5 \
+    DATABASE_HOST=frontenddatabase \
+    DATABASE_PORT=5432 \
+    APP_PORT=8000 \
+    APP_HOST=0.0.0.0
+
+EXPOSE 8000
+COPY ./web_frontend ${WORKDIR}/web_frontend
+
+WORKDIR ${WORKDIR}/web_frontend
+
+CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
+
+########################
+##### MEDIATOR #########
+########################
+
+FROM base as mediator
+
+ADD ./conversion_service $WORKDIR/conversion_service
+
+# Expose modules:
+ENV DJANGO_SETTINGS_MODULE=conversion_service.config.settings.production
+
+RUN mkdir -p /entrypoint/osmaxx
+COPY ./docker_entrypoint/osmaxx/conversion_service ./docker_entrypoint/wait-for-it/wait-for-it.sh /entrypoint/
+
+ENV DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=default_user \
+    DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=default_password \
+    NUM_WORKERS=5 \
+    DATABASE_HOST=frontenddatabase \
+    DATABASE_PORT=5432 \
+    APP_PORT=8000 \
+    APP_HOST=0.0.0.0
+
+EXPOSE 8901
+
+ENTRYPOINT ["/entrypoint/entrypoint.sh"]
+CMD ["honcho", "-f", "./conversion_service/Procfile.mediator.prod", "start"]
+
+########################
+####### WORKER #########
+########################
+
+FROM base as worker
 
 # make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
 RUN apt-get update \
-    && apt-get install -y apt-utils locales gpg curl ca-certificates gnupg \
+    && apt-get install -y \
+    apt-utils \
+    locales \
+    gpg \
+    curl \
+    ca-certificates \
+    gnupg \
+    osm2pgsql \
     && rm -rf /var/lib/apt/lists/* \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
@@ -59,33 +167,12 @@ RUN apt-get update && \
     libproj-dev \
     curl git wget \
     libstdc++6 osmctools \
+    osmium \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/usr/lib:${LD_LIBRARY_PATH}
 RUN ldconfig
-
-WORKDIR /root/osm2pgsql
-
-# OSM2PGSQL
-ENV OSM2PGSQL_VERSION=0.96.0 CXXFLAGS=-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H=1
-RUN mkdir src \
-    && cd src \
-    && GIT_SSL_NO_VERIFY=true git clone https://github.com/openstreetmap/osm2pgsql.git \
-    && cd osm2pgsql &&\
-    && git checkout ${OSM2PGSQL_VERSION} &&\
-    && mkdir -p build &&\
-    && cd build &&\
-    && cmake .. &&\
-    && make \
-    && make install
-
-# correcter/more portable would be:
-#    cmake .. &&\
-#    echo 'cmake worked' &&\
-#    cmake --build . &&\
-#    echo 'also make worked' &&\
-#    cmake --build . --target install
 
 WORKDIR /var/data/garmin/additional_data/
 # Fetch required additional data for Garmin as documented http://www.mkgmap.org.uk/download/mkgmap.html
@@ -118,29 +205,23 @@ ENV HOME /home/py
 RUN mkdir /etc/ssl/private-copy; mv /etc/ssl/private/* /etc/ssl/private-copy/; rm -r /etc/ssl/private; mv /etc/ssl/private-copy /etc/ssl/private; chmod -R 0700 /etc/ssl/private; chown -R postgres /etc/ssl/private
 
 # activate translit
-RUN mkdir -p $HOME/osmaxx/worker $HOME/entrypoint
-COPY ./docker_entrypoint/osmaxx/worker $HOME/entrypoint
-COPY ./docker_entrypoint/wait-for-it/wait-for-it.sh $HOME/entrypoint/wait-for-it.sh
+RUN mkdir -p $WORKDIR/osmaxx/worker /entrypoint/
+COPY ./docker_entrypoint/osmaxx/worker /entrypoint/
+COPY ./docker_entrypoint/wait-for-it/wait-for-it.sh /entrypoint/wait-for-it.sh
 
 RUN sed -i '1ilocal   all             all                                     trust' /etc/postgresql/${PG_MAJOR}/main/pg_hba.conf
 
 RUN chmod a+rx $CODE
 
-WORKDIR $HOME
+WORKDIR $WORKDIR
 
-RUN pip3 install honcho
-ADD ./requirements.txt $HOME/requirements.txt
-RUN pip3 install -r requirements.txt
-
-# TODO: this is just a temporary solution, use pip for production as soon as geometalab.osmaxx is published there
-ADD ./osmaxx $HOME/osmaxx
-ADD ./conversion_service $HOME/conversion_service
+ADD ./osmaxx  ./conversion_service $WORKDIR/
 
 # expose modules
-ENV PYTHONPATH=PYTHONPATH:$HOME
+ENV PYTHONPATH=PYTHONPATH:$WORKDIR
 ENV DJANGO_SETTINGS_MODULE=conversion_service.config.settings.worker
 ENV WORKER_QUEUES default high
 
-ENTRYPOINT ["/home/py/entrypoint/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint/entrypoint.sh"]
 
 CMD ["honcho", "-f", "./conversion_service/Procfile.worker", "start"]

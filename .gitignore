@@ -92,3 +92,4 @@ web_frontend/src/
 # ignore commonly used location of python virtualenv
 .venv/
 *.log
+speedtest/

@@ -1,13 +1,17 @@
 from django.conf import settings
 from django.conf.urls import include, url
+from django.urls import path
 from django.conf.urls.static import static
 from django.contrib import admin
 
+from osmaxx.excerptexport.urls import excerpt_export_urlpatterns
+from osmaxx.core.urls import pages_patterns
+
 urlpatterns = (
     [
-        url(r"^", include("osmaxx.excerptexport.urls", namespace="excerptexport")),
+        path("", include(excerpt_export_urlpatterns)),
         url(r"^admin/django-rq/", include("django_rq.urls")),
-        url(r"^admin/", include(admin.site.urls)),
+        path("admin/", admin.site.urls),
         url(r"^", include("social_django.urls", namespace="social")),
         url(r"^version/", include("osmaxx.version.urls", namespace="version")),
         # browsable REST API
@@ -22,7 +26,7 @@ urlpatterns = (
             r"^job_progress/",
             include("osmaxx.job_progress.urls", namespace="job_progress"),
         ),
-        url(r"^pages/", include("osmaxx.core.urls", namespace="pages")),
+        path("pages/", include(pages_patterns)),
         url(r"^profile/", include("osmaxx.profile.urls", namespace="profile")),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, show_indexes=True)

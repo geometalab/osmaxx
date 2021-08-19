@@ -1,21 +1,28 @@
-{% load i18n staticfiles %}
+{% load i18n static %}
 <li role="presentation" class="col-lg-push-1 col-md-push-1">
-{% if user.is_authenticated %}
+    {% if user.is_authenticated %}
     <a href="{% url 'excerptexport:logout' %}?next={% url 'excerptexport:index' %}">
         <img class="menu_icon" src='{% static "osmaxx/images/icon-logout.png" %}' alt="Logout" />
         {% trans 'Logout' %}
     </a>
-{% else %}
+    {% else %}
     <a href="{% url 'excerptexport:login' %}?next={% url 'excerptexport:index' %}">
         <img class="menu_icon" src='{% static "osmaxx/images/icon-login.png" %}' alt="Login" />
         {% trans 'Login' %}
     </a>
-{% endif %}
+    {% endif %}
 </li>
 {% if user.is_authenticated %}
 <li role="presentation" class="col-lg-push-1 col-md-push-1">
     <a href="{% url 'profile:edit_view' %}">
-        <strong>{{ user.username }} {% if user.is_exclusive_member %} (Priority User){% else %} (Standard User){% endif %}</strong>
+        <strong>
+            {{ user.username }}
+            {% if user.is_exclusive_member %}
+            (Priority User)
+            {% else %}
+            (Standard User)
+            {% endif %}
+        </strong>
     </a>
 </li>
 {% endif %}

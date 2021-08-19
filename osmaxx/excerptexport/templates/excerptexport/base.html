@@ -1,7 +1,8 @@
 {% extends 'osmaxx/base.html' %}
-{% load staticfiles %}
+{% load static %}
 {% block extracss %}
-<link rel='stylesheet' type='text/css' href='{% static "excerptexport/libraries/jquery-ui-1.11.4/jquery-ui.min.css" %}' />
+<link rel='stylesheet' type='text/css'
+    href='{% static "excerptexport/libraries/jquery-ui-1.11.4/jquery-ui.min.css" %}' />
 <link rel='stylesheet' type='text/css' href='{% static "excerptexport/css/resizable_select_box.css" %}' />
 <link rel="stylesheet" type="text/css" href='{% static "excerptexport/libraries/leaflet/leaflet.css" %}' />
 <link rel="stylesheet" type="text/css" href='{% static "excerptexport/css/excerptexport.css" %}' />
@@ -14,24 +15,24 @@
 {% endblock %}
 
 {% block scripts %}
-    {# JQuery UI Plugin needed for the resizable select box script #}
-    <script src='{% static "excerptexport/libraries/jquery-ui-1.11.4/jquery-ui.min.js" %}'></script>
-    {# resizable select box script #}
-    <script src='{% static "excerptexport/scripts/resizable_select_box.js" %}'></script>
+{# JQuery UI Plugin needed for the resizable select box script #}
+<script src='{% static "excerptexport/libraries/jquery-ui-1.11.4/jquery-ui.min.js" %}'></script>
+{# resizable select box script #}
+<script src='{% static "excerptexport/scripts/resizable_select_box.js" %}'></script>
 
-    {# Helpers #}
-    <script type="text/javascript" src="{% static 'excerptexport/scripts/helperFunctions.js' %}"></script>
-    {# cookie getter, as per Django docs: https://docs.djangoproject.com/en/1.10/ref/csrf/#ajax #}
-    <script type="text/javascript" src='{% static "excerptexport/libraries/django/js.cookie-2.1.2.min.js" %}'></script>
-    <script type="text/javascript" src='{% static "excerptexport/scripts/add_delete_button_to_exports.js" %}'></script>
+{# Helpers #}
+<script type="text/javascript" src="{% static 'excerptexport/scripts/helperFunctions.js' %}"></script>
+{# cookie getter, as per Django docs: https://docs.djangoproject.com/en/1.10/ref/csrf/#ajax #}
+<script type="text/javascript" src='{% static "excerptexport/libraries/django/js.cookie-2.1.2.min.js" %}'></script>
+<script type="text/javascript" src='{% static "excerptexport/scripts/add_delete_button_to_exports.js" %}'></script>
 
-    {# MAP SCRIPTS #}
-    <script src='{% static "excerptexport/libraries/leaflet/leaflet.js" %}'></script>
-    <script src='{% static "excerptexport/scripts/maps/LeafletSetup.js" %}'></script>
+{# MAP SCRIPTS #}
+<script src='{% static "excerptexport/libraries/leaflet/leaflet.js" %}'></script>
+<script src='{% static "excerptexport/scripts/maps/LeafletSetup.js" %}'></script>
 
-    {# Leaflet plugins #}
-    <script src='{% static "excerptexport/libraries/Leaflet.Spin/spin.min.js" %}'></script>
-    <script src='{% static "excerptexport/libraries/Leaflet.Spin/leaflet.spin.js" %}'></script>
-    <script src='{% static "excerptexport/libraries/leaflet-ajax/leaflet.ajax.min.js" %}'></script>
-    <script src='{% static "excerptexport/scripts/estimate_size.js" %}'></script>
+{# Leaflet plugins #}
+<script src='{% static "excerptexport/libraries/Leaflet.Spin/spin.min.js" %}'></script>
+<script src='{% static "excerptexport/libraries/Leaflet.Spin/leaflet.spin.js" %}'></script>
+<script src='{% static "excerptexport/libraries/leaflet-ajax/leaflet.ajax.min.js" %}'></script>
+<script src='{% static "excerptexport/scripts/estimate_size.js" %}'></script>
 {% endblock %}

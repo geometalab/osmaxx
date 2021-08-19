@@ -19,10 +19,10 @@ services:
         :8080 {
           route {
             reverse_proxy /api* {
-              to django:5000
+              to frontend:8000
             }
             reverse_proxy /admin* {
-              to django:5000
+              to frontend:8000
             }
             handle /media/* {
               uri strip_prefix /media
@@ -49,20 +49,23 @@ services:
         max-size: "10M"
         max-file: "10"
   ##### frontend START ########
-  frontend:
+  frontend: &frontend
     build:
       context: .
-      dockerfile: Dockerfile.frontend
+      dockerfile: Dockerfile
+      target: frontend
+    entrypoint: dockerize -wait tcp://frontenddatabase:5432
+    command: ./manage.py runserver_plus 0.0.0.0:8000
+    user: "1000"
     volumes:
-      - ./osmaxx:/home/py/osmaxx
-      - ./web_frontend:/home/py/web_frontend
-      - ./conversion_service:/home/py/conversion_service
+      - ./osmaxx:/home/py/osmaxx/osmaxx
+      - ./web_frontend:/home/py/osmaxx/web_frontend
       - frontend-media:/data/media
       - worker-data:/data/media/job_result_files
     environment:
       - DJANGO_ALLOWED_HOSTS=*
       - DJANGO_SECRET_KEY=insecure!1
-      - DJANGO_SETTINGS_MODULE=web_frontend.config.settings.local
+      - DJANGO_SETTINGS_MODULE=config.settings.local
       - DJANGO_DEBUG=true
       # set the following two lines if you want to be able to log in using OSM
       # but don't commit them!
@@ -79,13 +82,16 @@ services:
       - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
       - DJANGO_CSRF_COOKIE_SECURE=false
       - DJANGO_SESSION_COOKIE_SECURE=false
-      - DJANGO_DATABASE_URL=postgis://frontend:insecureChangeInProduction@frontenddatabase/frontend
+      - DJANGO_DATABASE_URL=postgis://frontend:insecureChangeInProduction!@frontenddatabase/frontend
     networks:
       - default
     logging:
       <<: *logging
+  frontend-purge-files:
+    <<: *frontend
+    command: ./manage.py purge_expired_result_files
   frontenddatabase:
-    image: postgis/postgis:13
+    image: postgis/postgis:13-3.1
     volumes:
       - frontend-database-data:/database/data
     environment:
@@ -102,13 +108,14 @@ services:
   mediator:
     build:
       context: .
-      dockerfile: Dockerfile.mediator
+      dockerfile: Dockerfile
+      target: mediator
     networks:
       - default
     volumes:
-      - ./osmaxx:/home/py/osmaxx
-      - ./web_frontend:/home/py/web_frontend
-      - ./conversion_service:/home/py/conversion_service
+      - ./osmaxx:/home/py/osmaxx/osmaxx
+      - ./web_frontend:/home/py/osmaxx/web_frontend
+      - ./conversion_service:/home/py/osmaxx/conversion_service
       - worker-data:/data/media/job_result_files
     command: [honcho, -f, ./conversion_service/Procfile.mediator.dev, start]
     environment:
@@ -123,7 +130,7 @@ services:
     logging:
       <<: *logging
   mediatordatabase:
-    image: postgis/postgis:13
+    image: postgis/postgis:13-3.1
     volumes:
       - mediator-database-data:/database/data
     environment:
@@ -138,11 +145,12 @@ services:
   worker: &worker
     build:
       context: .
-      dockerfile: Dockerfile.worker
+      dockerfile: Dockerfile
+      target: worker
     volumes:
-      - ./osmaxx:/home/py/osmaxx
-      - ./web_frontend:/home/py/web_frontend
-      - ./conversion_service:/home/py/conversion_service
+      - ./osmaxx:/home/py/osmaxx/osmaxx
+      - ./web_frontend:/home/py/osmaxx/web_frontend
+      - ./conversion_service://home/py/osmaxx/conversion_service
       - osm_data:/var/data/osm-planet
       - worker-data:/data/media/job_result_files
     environment:
@@ -184,8 +192,7 @@ services:
   ##### OSM-BOUNDARIES START ######
   osmboundaries-database:
     # to limit scaling to exactly 1, we need to specify the container name
-    container_name: osmboundaries_postgis
-    image: mdillon/postgis:10
+    image: postgis/postgis:13-3.1
     volumes:
       - osmboundaries-postgis-data:/var/lib/postgresql
     command: postgres -B 1GB -F -S 1GB

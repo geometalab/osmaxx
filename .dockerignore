@@ -2,8 +2,10 @@
 *.egg*/
 rq-dashboard/
 /html/
+speedtest/
 
 .*
 !.git
 Dockerfile.*
 docker-compose*.yml
+*.pbf

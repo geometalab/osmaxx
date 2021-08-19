@@ -2,6 +2,8 @@ from django.conf.urls import url, include
 
 from osmaxx.profile.views import ProfileView, ActivationView, ResendVerificationEmail
 
+app_name = "osmaxx.profile"
+
 _namespaced_patterns = (
     [
         url(r"^edit/$", ProfileView.as_view(), name="edit_view"),

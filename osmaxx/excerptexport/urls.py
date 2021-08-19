@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
-from django.contrib.auth.views import login, logout
+from django.urls import path
+from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
 from osmaxx.excerptexport.views import (
@@ -11,10 +12,11 @@ from osmaxx.excerptexport.views import (
     order_existing_excerpt,
 )
 
+app_name = "osmaxx.excerptexport"
 
-excerpt_export_urlpatterns = [
-    url(
-        r"^$",
+_urlpatterns = [
+    path(
+        "",
         TemplateView.as_view(template_name="excerptexport/templates/index.html"),
         name="index",
     ),
@@ -32,14 +34,20 @@ excerpt_export_urlpatterns = [
         name="delete_excerpt",
     ),
     url(r"^excerpts/$", manage_own_excerpts, name="manage_own_excerpts"),
+    url(
+        r"^login/$",
+        auth_views.LoginView.as_view(template_name="osmaxx/login.html"),
+        name="login",
+    ),
+    url(
+        r"^logout/$",
+        auth_views.LogoutView.as_view(template_name="osmaxx/logout.html"),
+        name="logout",
+    ),
 ]
 
-login_logout_patterns = [
-    url(r"^login/$", login, {"template_name": "osmaxx/login.html"}, name="login"),
-    url(r"^logout/$", logout, {"template_name": "osmaxx/logout.html"}, name="logout"),
-]
-_namespaced_patterns = (
-    excerpt_export_urlpatterns + login_logout_patterns,
+excerpt_export_urlpatterns = (
+    _urlpatterns,
     "excerptexport",
 )
-urlpatterns = [url("", include(_namespaced_patterns))]
+urlpatterns = [url("", include(excerpt_export_urlpatterns))]

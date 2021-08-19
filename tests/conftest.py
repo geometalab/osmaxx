@@ -87,7 +87,6 @@ def pytest_configure():
             "rest_framework_gis",
             "rest_framework.authtoken",
             "crispy_forms",
-            "stored_messages",
             "tests",
             # version app
             "osmaxx.version",
@@ -165,7 +164,6 @@ def pytest_configure():
         MIGRATION_MODULES={
             "sites": "osmaxx.contrib.sites.migrations",
             "auth": "osmaxx.contrib.auth.migrations",
-            "stored_messages": "osmaxx.third_party_apps.stored_messages.migrations",
         },
     )
 

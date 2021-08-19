@@ -1,2 +1,0 @@
-web: gunicorn --workers ${NUM_WORKERS} web_frontend.config.wsgi --bind ${APP_HOST}:${APP_PORT}
-purge_expired_result_files: python3 ./web_frontend/manage.py purge_expired_result_files

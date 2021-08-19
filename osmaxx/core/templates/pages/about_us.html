@@ -1,10 +1,10 @@
 {% extends "osmaxx/base.html" %}
 {% load i18n %}
-{% load staticfiles %}
+{% load static %}
 
 {% block breadcrumb %}
-    {{ block.super }}
-    <li class="active">{% trans 'About OSMaxx' %}</li>
+{{ block.super }}
+<li class="active">{% trans 'About OSMaxx' %}</li>
 {% endblock %}
 
 {% block main %}
@@ -15,38 +15,43 @@
         geospatial data structures, converts it to typical GIS file formats and offers those for download.
     </p>
     <p>
-        A <a href="{% static 'osmaxx/docs/OSMaxx_Product_Fact_Sheet_deutsch.pdf' %}">product fact sheet</a> (in German) is available.
+        A <a href="{% static 'osmaxx/docs/OSMaxx_Product_Fact_Sheet_deutsch.pdf' %}">product fact sheet</a> (in German)
+        is available.
     </p>
     <p>
         <a href="https://github.com/geometalab/osmaxx">All our code is open-source</a> and contributions are welcome.
     </p>
     <h3>Documentation</h3>
     <p> You can find the online documentation of the schema on GitHub:
-        <a href="https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md">Export Schema Documentation</a>.
+        <a href="https://github.com/geometalab/osmaxx/blob/master/docs/osmaxx_data_schema.md">Export Schema
+            Documentation</a>.
     </p>
 
     <h3>Useful links</h3>
     <p>These can be found in our separate <a href="{% url 'pages:downloads' %}">downloads page</a>.</p>
 
     <h3>Data sources</h3>
-    <p>All data used by OSMaxx comes directly or indirectly from <a href='https://www.openstreetmap.org/'>OpenStreetMap</a>:</p>
+    <p>All data used by OSMaxx comes directly or indirectly from <a
+            href='https://www.openstreetmap.org/'>OpenStreetMap</a>:</p>
 
     <p>The bulk of our input data (everything not listed separately below) is verbatim
-    OpenStreetMap data, taken from our own regularly (about every two hours, depending
-    on the current load) synchronized database import of the
-    <a href='https://planet.openstreetmap.org/'>OpenStreetMap planet</a>.
+        OpenStreetMap data, taken from our own regularly (about every two hours, depending
+        on the current load) synchronized database import of the
+        <a href='https://planet.openstreetmap.org/'>OpenStreetMap planet</a>.
 
     <h4>Additional data sources</h4>
     <ul>
-      <li>Coastlines, Water-polygons and Landmasses: These are from OSM derived data 
-      provided by <a href="http://openstreetmapdata.com/data/">openstreetmapdata.com</a>.</li>
-      <li>Country boundaries: We are using the country boundaries that are based on 
-        OSM-Data, cleaned and maintained by <a href="https://wambachers-osm.website/boundaries/">Wambachers-OSM.website</a>.</li>
+        <li>Coastlines, Water-polygons and Landmasses: These are from OSM derived data
+            provided by <a href="http://openstreetmapdata.com/data/">openstreetmapdata.com</a>.</li>
+        <li>Country boundaries: We are using the country boundaries that are based on
+            OSM-Data, cleaned and maintained by <a
+                href="https://wambachers-osm.website/boundaries/">Wambachers-OSM.website</a>.</li>
     </ul>
 
     <h3>Found a bug?</h3>
     <p>
-        Please <a href="https://github.com/geometalab/osmaxx/issues">see whether it's already been reported on GitHub</a>.
+        Please <a href="https://github.com/geometalab/osmaxx/issues">see whether it's already been reported on
+            GitHub</a>.
         If not, please <a href="https://github.com/geometalab/osmaxx/issues/new">file a new issue</a> there.
     </p>
 

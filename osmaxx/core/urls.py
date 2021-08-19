@@ -1,7 +1,9 @@
 from django.conf.urls import url, include
 from django.views.generic import TemplateView
 
-_namespaced_patterns = (
+app_name = "osmaxx.core.pages"
+
+pages_patterns = (
     [
         url(
             r"^about/$",
@@ -18,4 +20,4 @@ _namespaced_patterns = (
 )
 
 
-urlpatterns = [url("", include(_namespaced_patterns))]
+urlpatterns = [url("", include(pages_patterns))]
