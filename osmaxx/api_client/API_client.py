@@ -30,22 +30,26 @@ class RESTApiClient:
 
     def _data_dict(self, **kwargs):
         headers = self._default_headers()
-        if 'headers' in kwargs:
-            headers.update(kwargs.pop('headers'))
+        if "headers" in kwargs:
+            headers.update(kwargs.pop("headers"))
         return dict(headers=headers, **kwargs)
 
     def _default_headers(self):
         return {
-            'Content-Type': 'application/json; charset=UTF-8',
+            "Content-Type": "application/json; charset=UTF-8",
         }
 
     def _is_colliding_slashes(self, url):
-        return self.service_base.endswith('/') and url.startswith('/')
+        return self.service_base.endswith("/") and url.startswith("/")
 
     def _to_fully_qualified_url(self, url):
-        if url.startswith('http'):
+        if url.startswith("http"):
             return url
-        base_url = self.service_base[:-1] if (self._is_colliding_slashes(url)) else self.service_base
+        base_url = (
+            self.service_base[:-1]
+            if (self._is_colliding_slashes(url))
+            else self.service_base
+        )
         return base_url + url
 
 
@@ -66,7 +70,9 @@ class JWTClient(RESTApiClient):
         return self.get(url, params, headers=self._authorization_headers(), **kwargs)
 
     def authorized_post(self, url, json_data=None, **kwargs):
-        return self.post(url, json_data, headers=self._authorization_headers(), **kwargs)
+        return self.post(
+            url, json_data, headers=self._authorization_headers(), **kwargs
+        )
 
     def _login(self):
         """
@@ -77,17 +83,22 @@ class JWTClient(RESTApiClient):
             return
             # TODO: comply to JWT and check whether key is (still) valid, whether it needs reinitialization etc.
         login_url = self._to_fully_qualified_url(self.login_url)
-        login_data = dict(username=self.username, password=self.password, next=self.service_base)
-        response = self.post(login_url, json_data=login_data, headers=dict(Referer=login_url))
-        self.token = response.json().get('token')
+        login_data = dict(
+            username=self.username, password=self.password, next=self.service_base
+        )
+        response = self.post(
+            login_url, json_data=login_data, headers=dict(Referer=login_url)
+        )
+        self.token = response.json().get("token")
         return response
 
     def _authorization_headers(self):
         self._login()
         return {
-            'Authorization': 'JWT {token}'.format(token=self.token),
+            "Authorization": "JWT {token}".format(token=self.token),
         }
 
 
 def reasons_for(http_error):
+    dir(http_error)
     return http_error.response.json()

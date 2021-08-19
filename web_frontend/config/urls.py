@@ -6,6 +6,8 @@ from django.contrib import admin
 
 from osmaxx.excerptexport.urls import excerpt_export_urlpatterns
 from osmaxx.core.urls import pages_patterns
+from osmaxx.profile.urls import profile_patterns
+from osmaxx.job_progress.urls import job_progress_patterns
 
 urlpatterns = (
     [
@@ -24,10 +26,10 @@ urlpatterns = (
         ),
         url(
             r"^job_progress/",
-            include("osmaxx.job_progress.urls", namespace="job_progress"),
+            include(job_progress_patterns),
         ),
         path("pages/", include(pages_patterns)),
-        url(r"^profile/", include("osmaxx.profile.urls", namespace="profile")),
+        path("profile/", include(profile_patterns)),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, show_indexes=True)
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT, show_indexes=True)

@@ -14,7 +14,7 @@ def get_utm_zone(point):
     """
     # hardcode the target reference system:
     # this is WGS84 by spec
-    wgspoint = point.transform('WGS84', clone=True)
+    wgspoint = point.transform("WGS84", clone=True)
     # remember, geographers are sideways
     lon = wgspoint.x
     return int(1 + (lon + 180.0) / 6.0)
@@ -25,7 +25,7 @@ def is_utm_northern(point):
     Determine if the supplied point is in the northern or southern part
     for the UTM coordinate system.
     """
-    wgspoint = point.transform('WGS84', clone=True)
+    wgspoint = point.transform("WGS84", clone=True)
     lat = wgspoint.y
     return lat >= 0.0
 
@@ -77,6 +77,7 @@ def buffer_from_meters(geom, buffer_meters):
     #     in the input coordinate system.
     # (5) Use this newly obtain distance value to create
     #     a buffered geometry from the original.
+
     ref_point = geom.centroid.clone()
     if not ref_point.srid:
         # default to WGS84
@@ -87,8 +88,8 @@ def buffer_from_meters(geom, buffer_meters):
 
     shift_distance = buffer_meters / math.sqrt(2.0)
     shifted_point = utm_point.clone()
-    shifted_point.set_x(shifted_point.get_x() + shift_distance)
-    shifted_point.set_y(shifted_point.get_y() + shift_distance)
+    shifted_point.x = shifted_point.x + shift_distance
+    shifted_point.y = shifted_point.y + shift_distance
 
     shifted_ref = shifted_point.transform(ref_point.srid, clone=True)
 

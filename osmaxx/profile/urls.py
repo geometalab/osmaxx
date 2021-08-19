@@ -4,7 +4,7 @@ from osmaxx.profile.views import ProfileView, ActivationView, ResendVerification
 
 app_name = "osmaxx.profile"
 
-_namespaced_patterns = (
+profile_patterns = (
     [
         url(r"^edit/$", ProfileView.as_view(), name="edit_view"),
         url(r"^activate/$", ActivationView.as_view(), name="activation"),
@@ -17,4 +17,4 @@ _namespaced_patterns = (
     "profile",
 )
 
-urlpatterns = [url("", include(_namespaced_patterns))]
+urlpatterns = [url("", include(profile_patterns))]

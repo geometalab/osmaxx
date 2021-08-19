@@ -11,7 +11,21 @@ version: '3.7'
 # docker-compose run --rm mediator ./manage.py collectstatic --noinput
 
 services:
-  reverse-proxy:
+
+  access-rights:
+    image: ubuntu:latest
+    command: bash -c 'chown -R 1000 /access'
+    user: root
+    volumes:
+      - frontend-media:/access/media
+      - worker-data:/access/job_result_files
+      - worker-data-ignored:/access/ignored-worker
+    logging: &logging
+      driver: json-file
+      options:
+        max-size: 50m
+
+  proxy:
     image: geometalab/env-configurable-caddy:latest
     environment:
       # See https://caddyserver.com/docs/quick-starts/caddyfile for details
@@ -43,11 +57,8 @@ services:
     - 0.0.0.0:8080:8080/tcp
     networks:
       - default
-    logging: &logging
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
+    logging:
+      <<: *logging
   ##### frontend START ########
   frontend: &frontend
     build:
@@ -105,19 +116,21 @@ services:
       <<: *logging
   ##### frontend END ########
   ##### CONVERSION SERVICE START ########
-  mediator:
+  mediator: &mediator
     build:
       context: .
       dockerfile: Dockerfile
       target: mediator
+    user: "1000"
     networks:
       - default
     volumes:
       - ./osmaxx:/home/py/osmaxx/osmaxx
       - ./web_frontend:/home/py/osmaxx/web_frontend
       - ./conversion_service:/home/py/osmaxx/conversion_service
+      - worker-data-ignored:/data
       - worker-data:/data/media/job_result_files
-    command: [honcho, -f, ./conversion_service/Procfile.mediator.dev, start]
+    command: ./manage.py runserver_plus 0.0.0.0:8901
     environment:
       - DJANGO_ALLOWED_HOSTS=*
       - DJANGO_SECRET_KEY=insecure!2
@@ -129,6 +142,9 @@ services:
       - default
     logging:
       <<: *logging
+  harvester:
+    <<: *mediator
+    command: ./manage.py result_harvester
   mediatordatabase:
     image: postgis/postgis:13-3.1
     volumes:
@@ -147,10 +163,11 @@ services:
       context: .
       dockerfile: Dockerfile
       target: worker
+    command: ./manage.py rqworker default
     volumes:
       - ./osmaxx:/home/py/osmaxx/osmaxx
       - ./web_frontend:/home/py/osmaxx/web_frontend
-      - ./conversion_service://home/py/osmaxx/conversion_service
+      - ./conversion_service:/home/py/osmaxx/conversion_service
       - osm_data:/var/data/osm-planet
       - worker-data:/data/media/job_result_files
     environment:
@@ -161,8 +178,28 @@ services:
       <<: *logging
   worker-exclusive:
     <<: *worker
+    command: ./manage.py rqworker high
     environment:
       - DJANGO_SECRET_KEY=insecure!4
+      - GIS_CONVERSION_DB_USER=worker
+      - GIS_CONVERSION_DB_PASSWORD=worker
+      # ATTENTION: db name needs to be different
+      # to the one defined in the worker-db
+      - GIS_CONVERSION_DB_NAME=osmaxx-temp-db
+      - GIS_CONVERSION_DB_HOST=worker-db
+  worker-db:
+    build:
+      context: docker-helper-images/osmaxx-postgis-translit/
+      dockerfile: Dockerfile
+    volumes:
+      - worker-db:/database/data
+    environment:
+      - PGDATA=/database/data
+      - POSTGRES_DB=worker
+      - POSTGRES_USER=worker
+      - POSTGRES_PASSWORD=worker
+    ports:
+      - "5432:5432"
   conversionserviceredis:
     image: redis
     networks:
@@ -173,12 +210,12 @@ services:
   ##### WORLD PBF UPDATER START ########
   osm-pbf-updater:
     build:
-      context: osm_pbf_updater/
+      context: docker-helper-images/osm_pbf_updater/
       dockerfile: Dockerfile
     volumes:
       - osm_data:/var/data/osm-planet
     entrypoint: /bin/bash
-    command: /opt/delvelopment_download_only.sh
+    command: /opt/development_download_only.sh
     # these are just examples
     # environment:
     # - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/switzerland-updates/
@@ -229,6 +266,8 @@ volumes:
   frontend-media: {}
   mediator-database-data: {}
   worker-data: {}
+  worker-data-ignored: {}
+  worker-db: {}
   osm_data: {}
   database-postgis-data: {}
   osmboundaries-postgis-data: {}

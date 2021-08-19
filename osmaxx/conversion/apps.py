@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class ConversionConfig(AppConfig):
-    name = 'osmaxx.conversion'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "osmaxx.conversion"
