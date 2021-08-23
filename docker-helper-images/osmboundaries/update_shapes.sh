@@ -5,9 +5,9 @@ source ./table_names
 mkdir -p data/
 cd data/
 
-wget -O coastlines.zip https://osmdata.openstreetmap.de/download/coastlines-split-4326.zip
-wget -O land.zip https://osmdata.openstreetmap.de/download/land-polygons-complete-4326.zip
-wget -O water.zip https://osmdata.openstreetmap.de/download/water-polygons-split-4326.zip
+wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O coastlines.zip https://osmdata.openstreetmap.de/download/coastlines-split-4326.zip
+wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O land.zip https://osmdata.openstreetmap.de/download/land-polygons-complete-4326.zip
+wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O water.zip https://osmdata.openstreetmap.de/download/water-polygons-split-4326.zip
 
 unzip coastlines.zip
 unzip land.zip

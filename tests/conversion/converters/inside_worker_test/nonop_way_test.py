@@ -9,99 +9,150 @@ from tests.conftest import TagCombination
 from tests.conversion.converters.inside_worker_test.conftest import slow
 from tests.conversion.converters.inside_worker_test.declarative_schema import osm_models
 
-MAJOR_KEYS = frozenset({'highway', 'railway'})
+MAJOR_KEYS = frozenset({"highway", "railway"})
 
 DEFAULT_EXPECTED_FALLBACK_SUBTYPE_FOR_MAJOR_KEY = frozendict(
-    highway='road',
-    railway='railway'
+    highway="road", railway="railway"
 )
 
 CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS = frozendict(
     {
-        TagCombination(highway='track'): 'track',
-        TagCombination(highway='track', tracktype='grade3'): 'grade3',
-        TagCombination(highway='footway'): 'footway',
-        TagCombination(highway='secondary', junction='roundabout'): 'secondary',
-        TagCombination(highway='some bogus type of road', junction='roundabout'): 'roundabout',
-        TagCombination(railway='rail'): 'rail',
-        TagCombination(railway='platform'): 'railway',
+        TagCombination(highway="track"): "track",
+        TagCombination(highway="track", tracktype="grade3"): "grade3",
+        TagCombination(highway="footway"): "footway",
+        TagCombination(highway="secondary", junction="roundabout"): "secondary",
+        TagCombination(
+            highway="some bogus type of road", junction="roundabout"
+        ): "roundabout",
+        TagCombination(railway="rail"): "rail",
+        TagCombination(railway="platform"): "railway",
     },
 )
 
 CORRESPONDING_OSMAXX_STATUSES_FOR_OSM_STATUSES = frozendict(
-    proposed='P',
-    planned='P',
-    construction='C',
-    disused='D',
-    abandoned='A',
+    proposed="P",
+    planned="P",
+    construction="C",
+    disused="D",
+    abandoned="A",
 )
 
 
 @slow
-def test_osm_object_without_status_does_not_end_up_in_nonop(non_lifecycle_data_import, nonop_l, road_l, railway_l):
+def test_osm_object_without_status_does_not_end_up_in_nonop(
+    non_lifecycle_data_import, nonop_l, road_l, railway_l
+):
     engine = non_lifecycle_data_import
-    with closing(engine.execute(sqlalchemy.select('*').select_from(road_l))) as road_result:
-        with closing(engine.execute(sqlalchemy.select('*').select_from(railway_l))) as railway_result:
+    with closing(
+        engine.execute(sqlalchemy.select("*").select_from(road_l))
+    ) as road_result:
+        with closing(
+            engine.execute(sqlalchemy.select("*").select_from(railway_l))
+        ) as railway_result:
             assert road_result.rowcount + railway_result.rowcount == 1
-    with closing(engine.execute(sqlalchemy.select('*').select_from(nonop_l))) as nonop_result:
+    with closing(
+        engine.execute(sqlalchemy.select("*").select_from(nonop_l))
+    ) as nonop_result:
         assert nonop_result.rowcount == 0
 
 
 @slow
 def test_osm_object_with_status_ends_up_in_nonop_with_correct_attribute_values(
-        lifecycle_data_import,
-        nonop_l, road_l, railway_l,
-        expected_osmaxx_status, osm_status, non_lifecycle_osm_tags, major_tag_key, expected_nonop_subtype,
+    lifecycle_data_import,
+    nonop_l,
+    road_l,
+    railway_l,
+    expected_osmaxx_status,
+    osm_status,
+    non_lifecycle_osm_tags,
+    major_tag_key,
+    expected_nonop_subtype,
 ):
     engine = lifecycle_data_import
-    with closing(engine.execute(sqlalchemy.select('*').select_from(road_l))) as road_result:
+    with closing(
+        engine.execute(sqlalchemy.select("*").select_from(road_l))
+    ) as road_result:
         assert road_result.rowcount == 0
-    with closing(engine.execute(sqlalchemy.select('*').select_from(railway_l))) as railway_result:
+    with closing(
+        engine.execute(sqlalchemy.select("*").select_from(railway_l))
+    ) as railway_result:
         assert railway_result.rowcount == 0
-    with closing(engine.execute(sqlalchemy.select('*').select_from(nonop_l))) as result:
+    with closing(engine.execute(sqlalchemy.select("*").select_from(nonop_l))) as result:
         assert result.rowcount == 1
         row = result.fetchone()
-        assert row['status'] == expected_osmaxx_status
-        assert row['tags'] == '"{key}"=>"{value}"'.format(key=osm_status, value=non_lifecycle_osm_tags[major_tag_key])
-        assert row['sub_type'] == expected_nonop_subtype
+        assert row["status"] == expected_osmaxx_status
+        assert row["tags"] == '"{key}"=>"{value}"'.format(
+            key=osm_status, value=non_lifecycle_osm_tags[major_tag_key]
+        )
+        assert row["sub_type"] == expected_nonop_subtype
 
 
 @slow
 def test_osm_object_with_status_without_details_ends_up_in_nonop_with_correct_status(
-        incomplete_lifecycle_data_import, nonop_l, road_l, railway_l, expected_osmaxx_status,
-        expected_fallback_subtype):
+    incomplete_lifecycle_data_import,
+    nonop_l,
+    road_l,
+    railway_l,
+    expected_osmaxx_status,
+    expected_fallback_subtype,
+):
     engine = incomplete_lifecycle_data_import
-    with closing(engine.execute(sqlalchemy.select('*').select_from(road_l))) as road_result:
+    with closing(
+        engine.execute(sqlalchemy.select("*").select_from(road_l))
+    ) as road_result:
         assert road_result.rowcount == 0
-    with closing(engine.execute(sqlalchemy.select('*').select_from(railway_l))) as railway_result:
+    with closing(
+        engine.execute(sqlalchemy.select("*").select_from(railway_l))
+    ) as railway_result:
         assert railway_result.rowcount == 0
-    with closing(engine.execute(sqlalchemy.select('*').select_from(nonop_l))) as result:
+    with closing(engine.execute(sqlalchemy.select("*").select_from(nonop_l))) as result:
         assert result.rowcount == 1
         row = result.fetchone()
-        assert row['status'] == expected_osmaxx_status
-        assert row['tags'] is None
-        assert row['sub_type'] == expected_fallback_subtype
+        assert row["status"] == expected_osmaxx_status
+        assert row["tags"] is None
+        assert row["sub_type"] == expected_fallback_subtype
 
 
 @pytest.fixture
 def nonop_l():
-    return DbTable('nonop_l', osm_models.metadata, schema='view_osmaxx')
+    from osmaxx.conversion._settings import CONVERSION_SETTINGS
+
+    return DbTable(
+        "nonop_l",
+        osm_models.metadata,
+        schema=CONVERSION_SETTINGS["CONVERSION_SCHEMA_NAME_TMP_VIEW"],
+    )
 
 
 @pytest.fixture
 def road_l():
-    return DbTable('road_l', osm_models.metadata, schema='view_osmaxx')
+    from osmaxx.conversion._settings import CONVERSION_SETTINGS
+
+    return DbTable(
+        "road_l",
+        osm_models.metadata,
+        schema=CONVERSION_SETTINGS["CONVERSION_SCHEMA_NAME_TMP_VIEW"],
+    )
 
 
 @pytest.fixture
 def railway_l():
-    return DbTable('railway_l', osm_models.metadata, schema='view_osmaxx')
+    from osmaxx.conversion._settings import CONVERSION_SETTINGS
+
+    return DbTable(
+        "railway_l",
+        osm_models.metadata,
+        schema=CONVERSION_SETTINGS["CONVERSION_SCHEMA_NAME_TMP_VIEW"],
+    )
 
 
 @pytest.fixture
 def expected_fallback_subtype(major_tag_key, incomplete_lifecycle_osm_tags):
-    if major_tag_key == 'highway' and incomplete_lifecycle_osm_tags.pop('junction', None) == 'roundabout':
-        return 'roundabout'
+    if (
+        major_tag_key == "highway"
+        and incomplete_lifecycle_osm_tags.pop("junction", None) == "roundabout"
+    ):
+        return "roundabout"
     return DEFAULT_EXPECTED_FALLBACK_SUBTYPE_FOR_MAJOR_KEY[major_tag_key]
 
 
@@ -142,7 +193,7 @@ def non_lifecycle_data(non_lifecycle_osm_tags):
 def lifecycle_osm_tags(non_lifecycle_osm_tags, osm_status, major_tag_key):
     osm_tags = dict(non_lifecycle_osm_tags)
     major_tag_value = osm_tags.pop(major_tag_key)
-    osm_tags.update({major_tag_key: osm_status, 'tags': {osm_status: major_tag_value}})
+    osm_tags.update({major_tag_key: osm_status, "tags": {osm_status: major_tag_value}})
     assert len(osm_tags) == len(non_lifecycle_osm_tags) + 1
     return osm_tags
 
@@ -188,7 +239,10 @@ def expected_osmaxx_status(osm_status_and_expected_osmaxx_status):
 
 @pytest.fixture(
     params=CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS.items(),
-    ids=[str(tag_combination) for tag_combination in CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS.keys()],
+    ids=[
+        str(tag_combination)
+        for tag_combination in CORRESPONDING_OSMAXX_WAY_TYPES_FOR_OSM_TAG_COMBINATIONS.keys()
+    ],
 )
 def non_lifecycle_osm_tags_and_expected_nonop_subtype(request):
     return request.param

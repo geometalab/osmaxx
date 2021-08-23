@@ -12,6 +12,7 @@ RUN apt-get update \
   gpg \
   curl \
   wget \
+  git \
   ca-certificates \
   gnupg \
   osm2pgsql \
@@ -23,8 +24,8 @@ WORKDIR $CODE
 
 # Install dependencies
 ENV LIBUTF8PROCVERSION 2.3.0-1
-RUN wget -O libutf8proc-dev.deb http://ftp.ch.debian.org/debian/pool/main/u/utf8proc/libutf8proc-dev_${LIBUTF8PROCVERSION}_amd64.deb \
-  && wget -O libutf8proc1.deb http://ftp.ch.debian.org/debian/pool/main/u/utf8proc/libutf8proc2_${LIBUTF8PROCVERSION}_amd64.deb \
+RUN wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O libutf8proc-dev.deb http://ftp.ch.debian.org/debian/pool/main/u/utf8proc/libutf8proc-dev_${LIBUTF8PROCVERSION}_amd64.deb \
+  && wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O libutf8proc1.deb http://ftp.ch.debian.org/debian/pool/main/u/utf8proc/libutf8proc2_${LIBUTF8PROCVERSION}_amd64.deb \
   && dpkg --install libutf8proc1.deb libutf8proc-dev.deb \
   && rm libutf8proc1.deb libutf8proc-dev.deb
 
@@ -36,7 +37,6 @@ RUN apt-get update && \
   libproj-dev \
   postgresql-server-dev-${PG_MAJOR} \
   postgresql-plpython3-${PG_MAJOR} \
-  curl git wget \
   libstdc++6 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*

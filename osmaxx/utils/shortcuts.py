@@ -48,7 +48,7 @@ class Emissary:
         add_user_message(
             msg=message,
             level=message_type,
-            user=[self.recipient],
+            user=self.recipient,
         )
 
 

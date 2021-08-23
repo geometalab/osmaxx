@@ -1,6 +1,10 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 
 from .models import UserMessage
+
+
+User = get_user_model()
 
 
 def add_user_message(msg, level, user=None):

@@ -3,7 +3,7 @@
 rq-dashboard/
 /html/
 speedtest/
-
+**/osmboundaries/
 .*
 !.git
 Dockerfile.*

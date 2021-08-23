@@ -96,7 +96,6 @@ ADD ./conversion_service $WORKDIR/conversion_service
 
 WORKDIR ${WORKDIR}/conversion_service
 
-ENTRYPOINT ["/entrypoint/conversion_service/entrypoint.sh"]
 CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
 
 ########################
@@ -104,6 +103,11 @@ CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
 ########################
 
 FROM base as worker
+
+WORKDIR /var/data/garmin/additional_data/
+# Fetch required additional data for Garmin as documented http://www.mkgmap.org.uk/download/mkgmap.html
+RUN wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O /var/data/garmin/additional_data/bounds.zip http://osm.thkukuk.de/data/bounds-latest.zip \
+    && wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O /var/data/garmin/additional_data/sea.zip http://osm.thkukuk.de/data/sea-latest.zip
 
 # make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
 RUN apt-get update \
@@ -135,27 +139,13 @@ RUN apt-get update && \
 ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/usr/lib:${LD_LIBRARY_PATH}
 RUN ldconfig
 
-WORKDIR /var/data/garmin/additional_data/
-# Fetch required additional data for Garmin as documented http://www.mkgmap.org.uk/download/mkgmap.html
-RUN wget -O /var/data/garmin/additional_data/bounds.zip http://osm.thkukuk.de/data/bounds-latest.zip \
-    && wget -O /var/data/garmin/additional_data/sea.zip http://osm.thkukuk.de/data/sea-latest.zip
-
-ENV CODE /code
-WORKDIR $CODE
-
 RUN mkdir -p /entrypoint/
 COPY ./docker_entrypoint/osmaxx/worker /entrypoint/worker
-
-RUN sed -i '1ilocal   all             all                                     trust' /etc/postgresql/${PG_MAJOR}/main/pg_hba.conf
-
-RUN chmod a+rx $CODE
 
 ADD ./conversion_service $WORKDIR/conversion_service
 
 WORKDIR $WORKDIR/conversion_service
 
 ENV WORKER_QUEUES default high
-
-ENTRYPOINT ["/entrypoint/worker/entrypoint.sh"]
 
 CMD ./manage.py rqworker default high

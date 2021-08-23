@@ -18,34 +18,39 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = 'updates currently active jobs - runs until interrupted'
+    help = "updates currently active jobs - runs until interrupted"
 
     def handle(self, *args, **options):
         while True:
-            logger.info('handling running jobs')
+            logger.info("handling running jobs")
             self._handle_running_jobs()
-            logger.info('handling failed jobs')
+            logger.info("handling failed jobs")
             self._handle_failed_jobs()
             cleanup_old_jobs()
-            time.sleep(CONVERSION_SETTINGS['result_harvest_interval_seconds'])
+            time.sleep(CONVERSION_SETTINGS["result_harvest_interval_seconds"])
 
     def _handle_failed_jobs(self):
         from django.conf import settings
+
         for queue_name in settings.RQ_QUEUES:
             queue = django_rq.get_queue(queue_name)
 
             for rq_job_id in queue.failed_job_registry.get_job_ids():
                 try:
-                    conversion_job = conversion_models.Job.objects.get(rq_job_id=rq_job_id)
+                    conversion_job = conversion_models.Job.objects.get(
+                        rq_job_id=rq_job_id
+                    )
                 except ObjectDoesNotExist as e:
+                    print(e)
                     logger.exception(e)
                     continue
                 self._set_failed_unless_final(conversion_job, rq_job_id=rq_job_id)
                 self._notify(conversion_job)
 
     def _handle_running_jobs(self):
-        active_jobs = conversion_models.Job.objects.exclude(status__in=status.FINAL_STATUSES)\
-            .values_list('rq_job_id', flat=True)
+        active_jobs = conversion_models.Job.objects.exclude(
+            status__in=status.FINAL_STATUSES
+        ).values_list("rq_job_id", flat=True)
         for job_id in active_jobs:
             self._update_job(rq_job_id=job_id)
 
@@ -59,6 +64,7 @@ class Command(BaseCommand):
         try:
             conversion_job = conversion_models.Job.objects.get(rq_job_id=rq_job_id)
         except ObjectDoesNotExist as e:
+            print(e)
             logger.exception(e)
             return
 
@@ -67,11 +73,14 @@ class Command(BaseCommand):
             self._notify(conversion_job)
             return
 
-        logger.info('updating job %d', rq_job_id)
+        logger.info("updating job %d", rq_job_id)
         conversion_job.status = job.get_status()
 
         if job.get_status() == status.FINISHED:
-            add_file_to_job(conversion_job=conversion_job, result_zip_file=job.kwargs['output_zip_file_path'])
+            add_file_to_job(
+                conversion_job=conversion_job,
+                result_zip_file=job.kwargs["output_zip_file_path"],
+            )
             add_meta_data_to_job(conversion_job=conversion_job, rq_job=job)
         conversion_job.save()
         self._notify(conversion_job)
@@ -79,20 +88,25 @@ class Command(BaseCommand):
     def _set_failed_unless_final(self, conversion_job, rq_job_id):
         conversion_job.refresh_from_db()
         if conversion_job.status not in status.FINAL_STATUSES:
-            logger.error("job {} of conversion job {} not found in queue but status is {} on database.".format(
-                rq_job_id, conversion_job.id, conversion_job.status
-            ))
+            logger.error(
+                "job {} of conversion job {} not found in queue but status is {} on database.".format(
+                    rq_job_id, conversion_job.id, conversion_job.status
+                )
+            )
             conversion_job.status = status.FAILED
             conversion_job.save()
 
     def _notify(self, conversion_job):
-        data = {'status': conversion_job.status, 'job': conversion_job.get_absolute_url()}
+        data = {
+            "status": conversion_job.status,
+            "job": conversion_job.get_absolute_url(),
+        }
         try:
             requests.get(conversion_job.callback_url, params=data)
         except:  # noqa:  E722 do not use bare 'except'
-            logger.error('failed to send notification for job {} using {} as URL.'.format(
-                conversion_job.id, conversion_job.callback_url)
-            )
+            err = "failed to send notification for job {conversion_jo.id} using {conversion_job.callback_url} as URL."
+            print(err)
+            logger.error(err)
 
 
 def add_file_to_job(*, conversion_job, result_zip_file):
@@ -106,9 +120,17 @@ def add_file_to_job(*, conversion_job, result_zip_file):
 
 
 def add_meta_data_to_job(*, conversion_job, rq_job):
-    from pbf_file_size_estimation.app_settings import PBF_FILE_SIZE_ESTIMATION_CSV_FILE_PATH
+    from pbf_file_size_estimation.app_settings import (
+        PBF_FILE_SIZE_ESTIMATION_CSV_FILE_PATH,
+    )
     from pbf_file_size_estimation.estimate_size import estimate_size_of_extent
-    west, south, east, north = conversion_job.parametrization.clipping_area.clipping_multi_polygon.extent
+
+    (
+        west,
+        south,
+        east,
+        north,
+    ) = conversion_job.parametrization.clipping_area.clipping_multi_polygon.extent
 
     estimated_pbf_size = None
     try:
@@ -116,10 +138,11 @@ def add_meta_data_to_job(*, conversion_job, rq_job):
             PBF_FILE_SIZE_ESTIMATION_CSV_FILE_PATH, west, south, east, north
         )
     except estimate_size.OutOfBoundsError:
+        print("pbf estimation failed")
         logger.exception("pbf estimation failed")
 
-    conversion_job.unzipped_result_size = rq_job.meta['unzipped_result_size']
-    conversion_job.extraction_duration = rq_job.meta['duration']
+    conversion_job.unzipped_result_size = rq_job.meta["unzipped_result_size"]
+    conversion_job.extraction_duration = rq_job.meta["duration"]
     conversion_job.estimated_pbf_size = estimated_pbf_size
 
 
@@ -136,7 +159,9 @@ def fetch_job(rq_job_id, from_queues):
 
 
 def cleanup_old_jobs():
-    queues = [django_rq.get_queue(name=queue_name) for queue_name in settings.RQ_QUEUE_NAMES]
+    queues = [
+        django_rq.get_queue(name=queue_name) for queue_name in settings.RQ_QUEUE_NAMES
+    ]
 
     for queue in queues:
         for job in queue.get_jobs():

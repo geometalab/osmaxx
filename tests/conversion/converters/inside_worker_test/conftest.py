@@ -137,9 +137,11 @@ def osmaxx_schemas(osmaxx_functions, clean_osm_tables, request):
     return engine
 
 
+from osmaxx.conversion._settings import CONVERSION_SETTINGS
+
 _osmaxx_schemas = [
-    "view_osmaxx",
-    "osmaxx",
+    CONVERSION_SETTINGS["CONVERSION_SCHEMA_NAME_TMP"],
+    CONVERSION_SETTINGS["CONVERSION_SCHEMA_NAME_TMP_VIEW"],
 ]
 
 

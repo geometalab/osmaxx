@@ -3,7 +3,6 @@ import environ
 from datetime import timedelta
 from django.conf import settings
 
-
 env = environ.Env()
 
 CONVERSION_SETTINGS = {
@@ -35,6 +34,17 @@ CONVERSION_SETTINGS.update(
             "GIS_CONVERSION_DB_HOST",
             default=None,
         ),
+        "OSM_BOUNDARIES_DB_NAME": env.str(
+            "OSM_BOUNDARIES_DB_NAME",
+            default="osmboundaries",
+        ),
+    }
+)
+
+CONVERSION_SETTINGS.update(
+    {
+        "CONVERSION_SCHEMA_NAME_TMP": f"{CONVERSION_SETTINGS['GIS_CONVERSION_DB_NAME']}_tmp",
+        "CONVERSION_SCHEMA_NAME_TMP_VIEW": f"{CONVERSION_SETTINGS['GIS_CONVERSION_DB_NAME']}_tmp_view",
     }
 )
 

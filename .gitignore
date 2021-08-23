@@ -93,3 +93,4 @@ web_frontend/src/
 .venv/
 *.log
 speedtest/
+_data/

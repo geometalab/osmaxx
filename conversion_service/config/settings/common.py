@@ -44,6 +44,7 @@ LOCAL_APPS = [
     "osmaxx.version",
     "osmaxx.clipping_area",
     "osmaxx.conversion",
+    "osmaxx.rest_api",
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

@@ -39,7 +39,7 @@ def cut_area_from_pbf(pbf_result_file_path, extent_polyfile_path):
 
 
 def cut_pbf_along_polyfile(polyfile_string, pbf_out_path):
-    with tempfile.NamedTemporaryFile("w") as polyfile:
+    with tempfile.NamedTemporaryFile(suffix=".poly", mode="w+") as polyfile:
         polyfile.write(polyfile_string)
         polyfile.flush()
         os.fsync(polyfile)

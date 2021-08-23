@@ -117,7 +117,7 @@ For example, using our tests:
 
 ```
 sudo apt-get install xvfb
-wget -O /tmp/ephemeral-x.sh https://github.com/jordansissel/xdotool/blob/master/t/ephemeral-x.sh
+wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O /tmp/ephemeral-x.sh https://github.com/jordansissel/xdotool/blob/master/t/ephemeral-x.sh
 chmod +x /tmp/ephemeral-x.sh
 /tmp/ephemeral-x.sh ./runtests.py --driver Firefox
 ```
