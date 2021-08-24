@@ -14,7 +14,6 @@ BASE_DIR = "/var/data/osm-planet"
 PBF_DIR = os.path.join(BASE_DIR, "pbf")
 PLANET_LATEST = os.path.join(PBF_DIR, "planet-latest.osm.pbf")
 PLANET_LATEST_ON_UPDATE = os.path.join(PBF_DIR, "new_planet-latest.osm.pbf")
-NICE = ["nice", "-n", "19"]
 OSM_PLANET_PATH_RELATIVE_TO_MIRROR = os.environ.get(
     "osm_planet_path_relative_to_mirror", "/pbf/planet-latest.osm.pbf"
 )
@@ -22,6 +21,8 @@ OSM_PLANET_MIRROR = os.environ.get(
     "osm_planet_mirror",
     "https://ftp.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org",
 )
+FULL_DOWNLOAD_EVERY_WEEKS = 1
+DEFAULT_SLEEP_BETWEEN_UPDATES_IN_SECODNS = 60 * 30  # 30 minutes
 
 
 def planet_url():
@@ -34,11 +35,16 @@ def full_download(complete_planet_mirror_url):
     download_command = [
         "wget",
         "--continue",
+        "-nv",
+        "--show-progress",
+        "--progress=bar:force:noscroll",
+        "--tries=20",
+        "--read-timeout=20",
         "-O",
         download_pbf_path,
         complete_planet_mirror_url,
     ]
-    subprocess.check_call(NICE + download_command)
+    subprocess.run(download_command, check=True)
     shutil.move(download_pbf_path, PLANET_LATEST)
 
 
@@ -49,7 +55,7 @@ def update(osmupdate_extra_params):
         + [PLANET_LATEST, PLANET_LATEST_ON_UPDATE]
     )
     try:
-        subprocess.check_call(NICE + update_comand)
+        subprocess.run(update_comand, check=True)
     except subprocess.CalledProcessError as e:
         # if the file is alright, but already up-to-date we want to continue, not stop!
         #  http://m.m.i24.cc/osmupdate.c
@@ -79,10 +85,8 @@ def run(*, sleep_seconds=10, osmupdate_extra_params):
     while True:
         now = datetime.datetime.now()
         full_update_is_due = now - last_full_download_time > datetime.timedelta(weeks=1)
-        if (
-            not os.path.exists(PLANET_LATEST)
-            or full_update_is_due
-            and _is_night_time(now)
+        if not os.path.exists(PLANET_LATEST) or (
+            full_update_is_due and _is_night_time(now)
         ):
             full_download(planet_url())
             last_full_download_time = datetime.datetime.now()
@@ -108,7 +112,7 @@ if __name__ == "__main__":
         "-t",
         "--wait-seconds",
         type=int,
-        default=120,
+        default=DEFAULT_SLEEP_BETWEEN_UPDATES_IN_SECODNS,
         help="wait this amount of seconds between updates",
     )
     args = parser.parse_args()

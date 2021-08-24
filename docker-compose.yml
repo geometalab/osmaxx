@@ -184,7 +184,7 @@ services:
       dockerfile: Dockerfile
       target: worker
     entrypoint: dockerize -wait tcp://worker-db:5432 -timeout 60s
-    command: ./manage.py rqworker default
+    command: ./manage.py rqworker default high
     volumes:
       - ./osmaxx:/home/py/osmaxx/osmaxx
       - ./web_frontend:/home/py/osmaxx/web_frontend
@@ -197,7 +197,7 @@ services:
       - GIS_CONVERSION_DB_PASSWORD=worker
       # ATTENTION: db name needs to be different
       # to the one defined in the worker-db
-      - GIS_CONVERSION_DB_NAME=osmaxx-temp-low-prio
+      - GIS_CONVERSION_DB_NAME=osmaxx-temp-1
       - GIS_CONVERSION_DB_HOST=worker-db
       - OSM_BOUNDARIES_DB_NAME=osmboundaries
       # same as 
@@ -206,16 +206,15 @@ services:
       - default
     logging:
       <<: *logging
-  worker-exclusive:
+  worker2:
     <<: *worker
-    command: ./manage.py rqworker high
     environment:
       - DJANGO_SECRET_KEY=insecure!4
       - GIS_CONVERSION_DB_USER=worker
       - GIS_CONVERSION_DB_PASSWORD=worker
       # ATTENTION: db name needs to be different
       # to the one defined in the worker-db
-      - GIS_CONVERSION_DB_NAME=osmaxx-temp-high-prio
+      - GIS_CONVERSION_DB_NAME=osmaxx-temp-2
       - GIS_CONVERSION_DB_HOST=worker-db
       - OSM_BOUNDARIES_DB_NAME=osmboundaries
   worker-db:

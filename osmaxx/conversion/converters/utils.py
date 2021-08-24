@@ -43,7 +43,7 @@ def recursive_getsize(path):
 
 def logged_check_call(*args, **kwargs):
     try:
-        subprocess.run(*args, **kwargs, check=True)
+        print(subprocess.run(*args, **kwargs, check=True, capture_output=True))
     except subprocess.CalledProcessError as e:
         err = f"Command `{e.cmd}` exited with return value {e.returncode}\nOutput:\n{e.output}"
         print(err)

@@ -71,10 +71,10 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "osmaxx.user_messaging.middleware.message_sepcific_user_middleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "osmaxx.job_progress.middleware.ExportUpdaterMiddleware",
-    "osmaxx.user_messaging.middleware.message_sepcific_user_middleware",
 ]
 
 # MIGRATIONS CONFIGURATION
