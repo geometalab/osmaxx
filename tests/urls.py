@@ -5,7 +5,6 @@ from django.conf.urls import url, include
 from django.views.static import serve
 
 urlpatterns = [
-    url(r"", include("osmaxx.conversion.urls")),
     url(r"", include("osmaxx.excerptexport.urls")),
     url(r"^version/$", include("osmaxx.version.urls")),
     url(r"^api-auth/", include("rest_framework.urls")),

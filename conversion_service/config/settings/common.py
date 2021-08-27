@@ -43,6 +43,8 @@ THIRD_PARTY_APPS = [
     # our own size estimtator
     "pbf_file_size_estimation",
     "debug_toolbar",
+    "django_celery_results",
+    "django_celery_beat",
 ]
 # Apps specific for this project go here.
 LOCAL_APPS = [
@@ -198,7 +200,7 @@ MEDIA_URL = "/media/"
 
 # URL Configuration
 # ------------------------------------------------------------------------------
-ROOT_URLCONF = "conversion_service.config.urls"
+ROOT_URLCONF = None
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = "conversion_service.config.wsgi.application"
@@ -374,3 +376,13 @@ OSMAXX = {
     "CONVERSION_SERVICE_USERNAME": env.str("DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME"),
     "CONVERSION_SERVICE_PASSWORD": env.str("DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD"),
 }
+
+CELERY_TIMEZONE = "Europe/Zurich"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_RESULT_BACKEND = "django-db"
+
+CELERY_BROKER_URL = env.str(
+    "CELERY_REDIS_CONNECTION", default="redis://conversionserviceredis:6379/0"
+)
+CELERY_WORKER_CONCURRENCY = env.int("CELERY_WORKER_CONCURRENCY", default=1)

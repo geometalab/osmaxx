@@ -7,7 +7,6 @@ from django.contrib import admin
 from osmaxx.excerptexport.urls import excerpt_export_urlpatterns
 from osmaxx.core.urls import pages_patterns
 from osmaxx.profile.urls import profile_patterns
-from osmaxx.job_progress.urls import job_progress_patterns
 
 urlpatterns = (
     [
@@ -23,10 +22,6 @@ urlpatterns = (
             include(
                 "osmaxx.excerptexport.rest_api.urls", namespace="excerptexport_api"
             ),
-        ),
-        url(
-            r"^job_progress/",
-            include(job_progress_patterns),
         ),
         path("pages/", include(pages_patterns)),
         path("profile/", include(profile_patterns)),

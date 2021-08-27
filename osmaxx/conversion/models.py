@@ -52,7 +52,6 @@ class Parametrization(models.Model):
 
 
 class Job(models.Model):
-    callback_url = models.CharField(_("callback url"), max_length=250)
     parametrization = models.ForeignKey(
         verbose_name=_("parametrization"), to=Parametrization, on_delete=models.CASCADE
     )
@@ -73,11 +72,6 @@ class Job(models.Model):
         _("extraction duration"),
         help_text=_("time needed to generate the extraction"),
         null=True,
-    )
-    own_base_url = models.CharField(
-        _("own base url"),
-        help_text=_("the url from which this job is reachable"),
-        max_length=250,
     )
     queue_name = models.CharField(
         _("queue name"),

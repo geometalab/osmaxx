@@ -75,38 +75,29 @@ class Export(TimeStampModelMixin, models.Model):
             self.output_file.delete()
         super().delete(*args, **kwargs)
 
-    def send_to_conversion_service(self, clipping_area_json, incoming_request):
+    def send_to_conversion_service(self, clipping_area, incoming_request):
         from osmaxx.api_client.conversion_api_client import ConversionApiClient
 
         api_client = ConversionApiClient()
         extraction_format = self.file_format
         out_srs = self.extraction_order.coordinate_reference_system
         detail_level = self.extraction_order.detail_level
-        parametrization_json = api_client.create_parametrization(
-            boundary=clipping_area_json,
+        parametrization = api_client.create_parametrization(
+            clipping_area=clipping_area,
             out_format=extraction_format,
             detail_level=detail_level,
             out_srs=out_srs,
         )
-        job_json = api_client.create_job(
-            parametrization_json,
-            self.get_full_status_update_uri(incoming_request),
+        job = api_client.create_job(
+            parametrization,
             user=self.extraction_order.orderer,
+            request=incoming_request,
         )
-        self.conversion_service_job_id = job_json["id"]
-        self.status = job_json["status"]
+        print(job)
+        self.conversion_service_job_id = job.id
+        self.status = job.status
         self.save()
-        return job_json
-
-    def get_full_status_update_uri(self, request):
-        callback_url_base = settings.OSMAXX["INTERNAL_CALLBACK_URL_BASE"]
-        if callback_url_base.endswith('/'):
-            callback_url_base = callback_url_base[0:-1]
-        return f"{callback_url_base}{self.status_update_url}"
-
-    @property
-    def status_update_url(self):
-        return reverse("job_progress:tracker", kwargs=dict(export_id=self.id))
+        return job
 
     def set_and_handle_new_status(self, new_status, *, incoming_request):
         assert new_status in dict(status.CHOICES) or new_status is None

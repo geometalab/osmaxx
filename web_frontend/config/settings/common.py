@@ -48,10 +48,13 @@ THIRD_PARTY_APPS = [
     "django_extensions",
     # async execution worker
     "django_rq",
+    "pbf_file_size_estimation",
     # for migration to django 3
     "six",
     "debug_toolbar",
     "gunicorn",
+    "django_celery_results",
+    "django_celery_beat",
 ]
 # Apps specific for this project go here.
 LOCAL_APPS = [
@@ -60,6 +63,8 @@ LOCAL_APPS = [
     "osmaxx.job_progress",
     "osmaxx.profile",
     "osmaxx.core",
+    "osmaxx.clipping_area",
+    "osmaxx.conversion",
     # messages for users
     "osmaxx.user_messaging",
 ]
@@ -74,10 +79,10 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "osmaxx.job_progress.middleware.ExportUpdaterMiddleware",
     "osmaxx.user_messaging.middleware.message_sepcific_user_middleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "osmaxx.job_progress.middleware.ExportUpdaterMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -395,16 +400,10 @@ OSMAXX = {
     "ACCOUNT_MANAGER_EMAIL": env.str(
         "OSMAXX_ACCOUNT_MANAGER_EMAIL", default=DEFAULT_FROM_EMAIL
     ),
-    "CONVERSION_SERVICE_URL": env.str(
-        "DJANGO_OSMAXX_CONVERSION_SERVICE_URL", default="http://mediator:8000/api/"
-    ),
     "CONVERSION_SERVICE_USERNAME": env.str("DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME"),
     "CONVERSION_SERVICE_PASSWORD": env.str("DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD"),
     "EXCLUSIVE_USER_GROUP": "osmaxx_high_priority",  # high priority people
     "SECURED_PROXY": env.bool("DJANGO_OSMAXX_SECURED_PROXY", False),
-    "INTERNAL_CALLBACK_URL_BASE": env.str(
-        "DJANGO_OSMAXX_INTERNAL_CALLBACK_URL", default="http://frontend:8000"
-    ),
 }
 
 CRISPY_TEMPLATE_PACK = "bootstrap3"
@@ -474,7 +473,7 @@ REDIS_CONNECTION = dict(
 RQ_QUEUE_NAMES = ["default", "high"]
 RQ_QUEUES = {name: REDIS_CONNECTION for name in RQ_QUEUE_NAMES}
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DEBUG_TOOLBAR_CONFIG = {
     "DISABLE_PANELS": [

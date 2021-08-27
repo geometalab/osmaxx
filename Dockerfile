@@ -76,7 +76,6 @@ RUN python -m pip install --no-cache-dir install "poetry<$MAX_POETRY_VERSION" \
     && poetry export --dev -f requirements.txt --output requirements.txt \
     && pip install -r requirements.txt
 
-COPY ./osmaxx ${WORKDIR}/osmaxx
 
 ENV DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=default_user \
     DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=default_password
@@ -92,31 +91,12 @@ ENV NUM_WORKERS=5 \
     DATABASE_PORT=5432
 
 EXPOSE 8000
+
+COPY ./osmaxx ${WORKDIR}/osmaxx
+COPY ./conversion_service $WORKDIR/conversion_service
 COPY ./web_frontend ${WORKDIR}/web_frontend
 
 WORKDIR ${WORKDIR}/web_frontend
-
-CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
-
-########################
-##### MEDIATOR #########
-########################
-
-FROM base as mediator
-
-RUN mkdir -p /entrypoint/
-COPY ./docker_entrypoint/osmaxx/conversion_service  /entrypoint/conversion_service
-COPY ./docker_entrypoint/wait-for-it/wait-for-it.sh /entrypoint/
-
-ENV NUM_WORKERS=5 \
-    DATABASE_HOST=mediatordatabase \
-    DATABASE_PORT=5432
-
-EXPOSE 8901
-
-ADD ./conversion_service $WORKDIR/conversion_service
-
-WORKDIR ${WORKDIR}/conversion_service
 
 CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
 
@@ -156,16 +136,7 @@ RUN apt-get update && \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/usr/lib:${LD_LIBRARY_PATH}
-RUN ldconfig
-
-RUN mkdir -p /entrypoint/
-COPY ./docker_entrypoint/osmaxx/worker /entrypoint/worker
-
-ADD ./conversion_service $WORKDIR/conversion_service
+COPY ./osmaxx ${WORKDIR}/osmaxx
+COPY ./conversion_service $WORKDIR/conversion_service
 
 WORKDIR $WORKDIR/conversion_service
-
-ENV WORKER_QUEUES default high
-
-CMD ./manage.py rqworker default high

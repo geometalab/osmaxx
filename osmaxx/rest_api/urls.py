@@ -2,7 +2,6 @@ import rest_framework_jwt.views
 from django.conf.urls import url, include
 
 urlpatterns = [
-    url(r"", include("osmaxx.conversion.urls")),
     # login for browsable API
     url(r"^api-auth/", include("rest_framework.urls")),
     # token auth

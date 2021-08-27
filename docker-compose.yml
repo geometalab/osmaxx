@@ -81,32 +81,32 @@ services:
     volumes:
       - ./osmaxx:/home/py/osmaxx/osmaxx
       - ./web_frontend:/home/py/osmaxx/web_frontend
+      - ./conversion_service:/home/py/osmaxx/conversion_service
       - frontend-media:/data/media
       - frontend-static:/data/static
       - worker-data:/data/media/job_result_files
-    environment:
-      - DJANGO_ALLOWED_HOSTS=*
-      - DJANGO_SECRET_KEY=insecure!1
-      - DJANGO_SETTINGS_MODULE=config.settings.local
-      - DJANGO_DEBUG=true
+      - osm_data:/var/data/osm-planet
+    environment: &baseenv
+      ? DJANGO_ALLOWED_HOSTS=*
+      ? DJANGO_SECRET_KEY=insecure!1
+      ? DJANGO_SETTINGS_MODULE=config.settings.local
+      ? DJANGO_DEBUG=true
       # set the following two lines if you want to be able to log in using OSM
       # but don't commit them!
-      - SOCIAL_AUTH_OPENSTREETMAP_KEY=
-      - SOCIAL_AUTH_OPENSTREETMAP_SECRET=
+      ? SOCIAL_AUTH_OPENSTREETMAP_KEY=
+      ? SOCIAL_AUTH_OPENSTREETMAP_SECRET=
 #     Allow access from any private-use IP, since docker assigns "random" IPs.
 #     172.*.*.* is actually allowing too much, but this docker-compose file should
 #     only ever be used on local development machine, anyway!
-      - DJANGO_INTERNAL_IPS=172.*.*.*,10.*.*.*,192.168.*.*,127.0.0.1
-      - DJANGO_DEFAULT_FROM_EMAIL=webmaster@osmaxx.exmaple.com
-      - DJANGO_SERVER_EMAIL=webmaster@osmaxx.exmaple.com
-      - OSMAXX_ACCOUNT_MANAGER_EMAIL=webmaster@osmaxx.exmaple.com
-      - DJANGO_LOG_LEVEL=INFO
-      - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-      - DJANGO_CSRF_COOKIE_SECURE=false
-      - DJANGO_SESSION_COOKIE_SECURE=false
-      - DJANGO_DATABASE_URL=postgis://frontend:insecureChangeInProduction!@frontenddatabase/frontend
-      - DJANGO_OSMAXX_CONVERSION_SERVICE_URL=http://mediator:8000/api/
-      - DJANGO_OSMAXX_INTERNAL_CALLBACK_URL=http://frontend:8000
+      ? DJANGO_INTERNAL_IPS=172.*.*.*,10.*.*.*,192.168.*.*,127.0.0.1
+      ? DJANGO_DEFAULT_FROM_EMAIL=webmaster@osmaxx.exmaple.com
+      ? DJANGO_SERVER_EMAIL=webmaster@osmaxx.exmaple.com
+      ? OSMAXX_ACCOUNT_MANAGER_EMAIL=webmaster@osmaxx.exmaple.com
+      ? DJANGO_LOG_LEVEL=INFO
+      ? DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+      ? DJANGO_CSRF_COOKIE_SECURE=false
+      ? DJANGO_SESSION_COOKIE_SECURE=false
+      ? DJANGO_DATABASE_URL=postgis://frontend:insecureChangeInProduction!@frontenddatabase/frontend
     networks:
       - default
     logging:
@@ -132,53 +132,10 @@ services:
       <<: *logging
   ##### frontend END ########
   ##### CONVERSION SERVICE START ########
-  mediator: &mediator
-    image: geometalab/osmaxx-mediator
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: mediator
-    user: "1000"
-    networks:
-      - default
-    volumes:
-      - ./osmaxx:/home/py/osmaxx/osmaxx
-      - ./web_frontend:/home/py/osmaxx/web_frontend
-      - ./conversion_service:/home/py/osmaxx/conversion_service
-      - worker-data-ignored:/data
-      - worker-data:/data/media/job_result_files
-    entrypoint: dockerize -wait tcp://mediatordatabase:5432 -timeout 60s
-    command: ./manage.py runserver_plus 0.0.0.0:8000
-    environment:
-      - DJANGO_ALLOWED_HOSTS=*
-      - DJANGO_SECRET_KEY=insecure!2
-      - DJANGO_SETTINGS_MODULE=conversion_service.config.settings.local
-      - DJANGO_DEBUG=true
-      - DJANGO_LOG_LEVEL=INFO
-      - DJANGO_DATABASE_URL=postgis://mediator:insecureChangeInProduction!@mediatordatabase/mediator
-    networks:
-      - default
-    logging:
-      <<: *logging
-  mediator-setup:
-    <<: *mediator
-    command: bash -c "./manage.py migrate --noinput && ./manage.py collectstatic --noinput && ./manage.py setup_mediator_rest_api_user"
-  harvester:
-    <<: *mediator
-    command: ./manage.py result_harvester
-  mediatordatabase:
-    image: postgis/postgis:13-3.1
-    volumes:
-      - mediator-database-data:/database/data
-    environment:
-      - PGDATA=/database/data
-      - POSTGRES_DB=mediator
-      - POSTGRES_USER=mediator
-      - POSTGRES_PASSWORD=insecureChangeInProduction!
-    networks:
-      - default
-    logging:
-      <<: *logging
+  # TODO...
+  # harvester:
+  #   <<: *frontend
+  #   command: ./manage.py result_harvester
 
   conversionserviceredis:
     image: redis
@@ -188,45 +145,40 @@ services:
       <<: *logging
 
   worker: &worker
+    <<: *frontend
     image: geometalab/osmaxx-worker
     build:
       context: .
       dockerfile: Dockerfile
       target: worker
     entrypoint: dockerize -wait tcp://worker-db:5432 -timeout 60s
-    command: ./manage.py rqworker default high
+    # command: ./manage.py rqworker default high
+    command: celery -A config worker -l INFO
     volumes:
       - ./osmaxx:/home/py/osmaxx/osmaxx
-      - ./web_frontend:/home/py/osmaxx/web_frontend
       - ./conversion_service:/home/py/osmaxx/conversion_service
-      - osm_data:/var/data/osm-planet
       - worker-data:/data/media/job_result_files
-    environment:
-      - DJANGO_SECRET_KEY=insecure!3
-      - GIS_CONVERSION_DB_USER=worker
-      - GIS_CONVERSION_DB_PASSWORD=worker
-      - PGPASSWORD=worker
+      - osm_data:/var/data/osm-planet
+    environment: 
+      <<: *baseenv
+      ? DJANGO_SECRET_KEY=insecure!3
+      ? GIS_CONVERSION_DB_USER=worker
+      ? GIS_CONVERSION_DB_PASSWORD=worker
+      ? PGPASSWORD=worker
       # ATTENTION: db name needs to be different
       # to the one defined in the worker-db
-      - GIS_CONVERSION_DB_NAME=worker-db-1
-      - GIS_CONVERSION_DB_HOST=worker-db
-      - OSM_BOUNDARIES_DB_NAME=osmboundaries 
+      ? GIS_CONVERSION_DB_NAME=worker-db-1
+      ? GIS_CONVERSION_DB_HOST=worker-db
+      ? OSM_BOUNDARIES_DB_NAME=osmboundaries 
+      ? DJANGO_DEBUG=false
     networks:
       - default
     logging:
       <<: *logging
-  # example for a second worker:
-  # worker2:
-  #   <<: *worker
-  #   environment:
-  #     - DJANGO_SECRET_KEY=insecure!4
-  #     - GIS_CONVERSION_DB_USER=worker
-  #     - GIS_CONVERSION_DB_PASSWORD=worker
-  #     # ATTENTION: db name needs to be different
-  #     # to the one defined in the worker-db
-  #     - GIS_CONVERSION_DB_NAME=worker-db-2
-  #     - GIS_CONVERSION_DB_HOST=worker-db
-  #     - OSM_BOUNDARIES_DB_NAME=osmboundaries
+  celery-scheduler:
+    <<: *worker
+    command: celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
   worker-db:
     image: geometalab/osmaxx-worker-db
     build:
