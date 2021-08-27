@@ -99,7 +99,10 @@ class Export(TimeStampModelMixin, models.Model):
         return job_json
 
     def get_full_status_update_uri(self, request):
-        return request.build_absolute_uri(self.status_update_url)
+        callback_url_base = settings.OSMAXX["INTERNAL_CALLBACK_URL_BASE"]
+        if callback_url_base.endswith('/'):
+            callback_url_base = callback_url_base[0:-1]
+        return f"{callback_url_base}{self.status_update_url}"
 
     @property
     def status_update_url(self):

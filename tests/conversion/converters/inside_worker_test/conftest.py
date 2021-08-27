@@ -54,7 +54,7 @@ def extensions(initialize_db, request):
     extensions = ["postgis", "hstore"]
     for extension in extensions:
         engine.execute(
-            sqlalchemy.text("CREATE EXTENSION IF NOT EXISTS {};".format(extension))
+            sqlalchemy.text("CREATE EXTENSION IF NOT EXISTS {} CASCADE;".format(extension))
         )
 
     def cleanup_extensions():

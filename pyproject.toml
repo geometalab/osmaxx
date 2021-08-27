@@ -39,6 +39,8 @@ six = "^1.16.0"
 scipy = "^1.7.1"
 numpy = "^1.21.2"
 ipython = "^7.26.0"
+gunicorn = "^20.1.0"
+posthog = "^1.4.2"
 
 [tool.poetry.dev-dependencies]
 pytest-django = "^4.4.0"

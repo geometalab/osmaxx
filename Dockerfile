@@ -1,7 +1,21 @@
+# load additional data without downloading it everytime osmaxx sources change!
+FROM ubuntu:focal-20210723 as extra-data
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+    && apt-get install -y \
+    wget \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /additional_data/
+# Fetch required additional data for Garmin as documented http://www.mkgmap.org.uk/download/mkgmap.html
+RUN wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O /additional_data/bounds.zip http://osm.thkukuk.de/data/bounds-latest.zip \
+    && wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O /additional_data/sea.zip http://osm.thkukuk.de/data/sea-latest.zip
+
 # This GDAL image comes with support for FileGDB and has Python 3.8 already installed.
 # Based on image osgeo/gdal (which itself is derived from _/ubuntu).
-
-FROM geometalab/gdal:full-v3.2.3 as base
+FROM geometalab/gdal:3.2.1-v3.2.1 as base
 USER root
 
 ENV PYTHONUNBUFFERED=rununbuffered \
@@ -23,8 +37,11 @@ RUN apt-get update \
     && apt-get install -y \
     git \
     libpq-dev \
-    python3-pip \
     locales \
+    wget \
+    ca-certificates \
+    python3-distutils \
+    python3-pip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
@@ -36,24 +53,33 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     # Enable prompt color in the skeleton .bashrc before creating the default USERNAME
     && sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc
 
-RUN pip install "poetry<$MAX_POETRY_VERSION" \
-    && poetry config virtualenvs.create false
-
-COPY ./poetry.lock ./pyproject.toml ${WORKDIR}/
-RUN poetry install --no-interaction --no-ansi
+# use a more recent pip version to avoid issues 
+# with certificates being too old and stuff like that...
+RUN wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py \
+    && python get-pip.py \
+    && rm get-pip.py
 
 ENV USER=py \
     HOME=/home/py \
     WORKDIR=/home/py/osmaxx
 
-# don't put on same line, workdir isn't set at the moment
-ENV PYTHONPATH="${WORKDIR}"
-
 RUN useradd -d $HOME --uid 1000 --gid 100 -m $USER
 
 WORKDIR ${WORKDIR}
 
+# don't put on same line, workdir isn't set at the moment
+ENV PYTHONPATH="${PYTHONPATH}:${WORKDIR}"
+
+COPY ./poetry.lock ./pyproject.toml ${WORKDIR}/
+
+RUN python -m pip install --no-cache-dir install "poetry<$MAX_POETRY_VERSION" \
+    && poetry export --dev -f requirements.txt --output requirements.txt \
+    && pip install -r requirements.txt
+
 COPY ./osmaxx ${WORKDIR}/osmaxx
+
+ENV DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=default_user \
+    DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=default_password
 
 ########################
 ##### FRONTEND #########
@@ -61,9 +87,7 @@ COPY ./osmaxx ${WORKDIR}/osmaxx
 
 FROM base as frontend
 
-ENV DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=default_user \
-    DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=default_password \
-    NUM_WORKERS=5 \
+ENV NUM_WORKERS=5 \
     DATABASE_HOST=frontenddatabase \
     DATABASE_PORT=5432
 
@@ -84,9 +108,7 @@ RUN mkdir -p /entrypoint/
 COPY ./docker_entrypoint/osmaxx/conversion_service  /entrypoint/conversion_service
 COPY ./docker_entrypoint/wait-for-it/wait-for-it.sh /entrypoint/
 
-ENV DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=default_user \
-    DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=default_password \
-    NUM_WORKERS=5 \
+ENV NUM_WORKERS=5 \
     DATABASE_HOST=mediatordatabase \
     DATABASE_PORT=5432
 
@@ -105,9 +127,7 @@ CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
 FROM base as worker
 
 WORKDIR /var/data/garmin/additional_data/
-# Fetch required additional data for Garmin as documented http://www.mkgmap.org.uk/download/mkgmap.html
-RUN wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O /var/data/garmin/additional_data/bounds.zip http://osm.thkukuk.de/data/bounds-latest.zip \
-    && wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O /var/data/garmin/additional_data/sea.zip http://osm.thkukuk.de/data/sea-latest.zip
+COPY --from=extra-data /additional_data /var/data/garmin/additional_data
 
 # make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
 RUN apt-get update \

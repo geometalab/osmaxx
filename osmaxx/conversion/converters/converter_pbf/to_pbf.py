@@ -18,9 +18,11 @@ def cut_area_from_pbf(pbf_result_file_path, extent_polyfile_path):
     command = [
         "osmium",
         "extract",
+        "-v",
+        "--output-format=pbf",
         "-s",
         "complete_ways",
-        "-p",
+        "--polygon",
         f"{extent_polyfile_path}",
         f'{CONVERSION_SETTINGS["PBF_PLANET_FILE_PATH"]}',
         "-o",

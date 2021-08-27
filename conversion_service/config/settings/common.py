@@ -32,12 +32,17 @@ DJANGO_APPS = [
     "django.contrib.gis",
 ]
 THIRD_PARTY_APPS = [
+    "gunicorn",
     # async execution worker
     "django_rq",
+    # extensions
+    "django_extensions",
     # rest API Framework
     "rest_framework",
     "rest_framework_gis",
+    # our own size estimtator
     "pbf_file_size_estimation",
+    "debug_toolbar",
 ]
 # Apps specific for this project go here.
 LOCAL_APPS = [
@@ -58,6 +63,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 # MIGRATIONS CONFIGURATION
@@ -222,7 +228,7 @@ LOGGING = {
     "loggers": {
         "django": {
             "handlers": ["console"],
-            "level": env.str("DJANGO_LOG_LEVEL", default="ERROR"),
+            "level": env.str("DJANGO_LOG_LEVEL", default="DEBUG"),
         },
     },
 }
@@ -335,3 +341,36 @@ SESSION_SERIALIZER = env.str(
     "DJANGO_SESSION_SERIALIZER",
     default="django.contrib.sessions.serializers.JSONSerializer",
 )
+
+# Metrics collection (posthog)
+POSTHOG_PROJECT_API_KEY = env.str("DJANGO_POSTHOG_PROJECT_API_KEY", default=None)
+POSTHOG_HOST = env.str("DJANGO_POSTHOG_HOST", default=None)
+
+if POSTHOG_PROJECT_API_KEY and POSTHOG_HOST:
+    import posthog
+
+    # Substitutes posthog.api_key which still exists but has been deprecated
+    posthog.project_api_key = POSTHOG_PROJECT_API_KEY
+
+    # Only necessary if you want to use feature flags
+    posthog.personal_api_key = env.str("DJANGO_POSTHOG_PERSONAL_API_KEY")
+
+    # You can remove this line if you're using app.posthog.com
+    posthog.host = POSTHOG_HOST
+    MIDDLEWARE += ["posthog.sentry.django.PosthogDistinctIdMiddleware"]
+
+    POSTHOG_DJANGO = {
+        "distinct_id": lambda request: request.user and request.user.distinct_id
+    }
+
+DEBUG_TOOLBAR_CONFIG = {
+    "DISABLE_PANELS": [
+        "debug_toolbar.panels.redirects.RedirectsPanel",
+    ],
+    "SHOW_TEMPLATE_CONTEXT": True,
+}
+
+OSMAXX = {
+    "CONVERSION_SERVICE_USERNAME": env.str("DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME"),
+    "CONVERSION_SERVICE_PASSWORD": env.str("DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD"),
+}

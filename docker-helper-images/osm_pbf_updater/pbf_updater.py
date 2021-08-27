@@ -22,7 +22,7 @@ OSM_PLANET_MIRROR = os.environ.get(
     "https://ftp.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org",
 )
 FULL_DOWNLOAD_EVERY_WEEKS = 1
-DEFAULT_SLEEP_BETWEEN_UPDATES_IN_SECODNS = 60 * 30  # 30 minutes
+DEFAULT_SLEEP_BETWEEN_UPDATES_IN_SECONDS = 60 * 60 * 12  # 12 hours
 
 
 def planet_url():
@@ -44,7 +44,7 @@ def full_download(complete_planet_mirror_url):
         download_pbf_path,
         complete_planet_mirror_url,
     ]
-    subprocess.run(download_command, check=True)
+    print(subprocess.run(download_command, check=True, capture_output=True))
     shutil.move(download_pbf_path, PLANET_LATEST)
 
 
@@ -55,7 +55,7 @@ def update(osmupdate_extra_params):
         + [PLANET_LATEST, PLANET_LATEST_ON_UPDATE]
     )
     try:
-        subprocess.run(update_comand, check=True)
+        print(subprocess.run(update_comand, check=True, capture_output=True))
     except subprocess.CalledProcessError as e:
         # if the file is alright, but already up-to-date we want to continue, not stop!
         #  http://m.m.i24.cc/osmupdate.c
@@ -112,7 +112,7 @@ if __name__ == "__main__":
         "-t",
         "--wait-seconds",
         type=int,
-        default=DEFAULT_SLEEP_BETWEEN_UPDATES_IN_SECODNS,
+        default=DEFAULT_SLEEP_BETWEEN_UPDATES_IN_SECONDS,
         help="wait this amount of seconds between updates",
     )
     args = parser.parse_args()

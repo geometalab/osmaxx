@@ -104,7 +104,7 @@ class Command(BaseCommand):
         try:
             requests.get(conversion_job.callback_url, params=data)
         except:  # noqa:  E722 do not use bare 'except'
-            err = "failed to send notification for job {conversion_jo.id} using {conversion_job.callback_url} as URL."
+            err = f"failed to send notification for job {conversion_job.id} using {conversion_job.callback_url} as URL."
             print(err)
             logger.error(err)
 

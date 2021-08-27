@@ -19,8 +19,8 @@ class Postgres:
         if host:
             self._connection_parameters["host"] = host
         connection_url = URL("postgresql", **self._connection_parameters)
-        self._engine = create_engine(connection_url)
-        self.create_db()
+        # self._engine = create_engine(connection_url, echo=True)
+        self._engine = create_engine(connection_url, echo=False)
 
     def execute_sql_file(self, file_path):
         try:
@@ -31,8 +31,14 @@ class Postgres:
             raise
 
     def execute_sql_command(self, sql):
-        with self._engine.begin() as connection:
-            result = connection.execute(sqlalchemy.text(sql))
+        connection = self._engine.raw_connection()
+        try:
+            cursor_obj = connection.cursor()
+            result = cursor_obj.execute(sql)
+        finally:
+            connection.close()
+        # with self._engine.begin() as connection:
+        #     result = connection.execute(sqlalchemy.text(sql))
         return result
 
     def create_db(self):
@@ -44,7 +50,7 @@ class Postgres:
         return self.execute_sql_command(create_schema)
 
     def create_extension(self, extension):
-        create_extension = "CREATE EXTENSION IF NOT EXISTS {extension};".format(
+        create_extension = "CREATE EXTENSION IF NOT EXISTS {extension} CASCADE;".format(
             extension=extension
         )
         return self.execute_sql_command(create_extension)

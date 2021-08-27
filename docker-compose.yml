@@ -59,6 +59,7 @@ services:
           }
         }
     volumes:
+      - frontend-static:/data/static
       - frontend-media:/data/media
       - worker-data:/data/media/job_result_files
     ports:
@@ -104,6 +105,8 @@ services:
       - DJANGO_CSRF_COOKIE_SECURE=false
       - DJANGO_SESSION_COOKIE_SECURE=false
       - DJANGO_DATABASE_URL=postgis://frontend:insecureChangeInProduction!@frontenddatabase/frontend
+      - DJANGO_OSMAXX_CONVERSION_SERVICE_URL=http://mediator:8000/api/
+      - DJANGO_OSMAXX_INTERNAL_CALLBACK_URL=http://frontend:8000
     networks:
       - default
     logging:
@@ -145,7 +148,7 @@ services:
       - worker-data-ignored:/data
       - worker-data:/data/media/job_result_files
     entrypoint: dockerize -wait tcp://mediatordatabase:5432 -timeout 60s
-    command: ./manage.py runserver_plus 0.0.0.0:8901
+    command: ./manage.py runserver_plus 0.0.0.0:8000
     environment:
       - DJANGO_ALLOWED_HOSTS=*
       - DJANGO_SECRET_KEY=insecure!2
@@ -177,6 +180,13 @@ services:
     logging:
       <<: *logging
 
+  conversionserviceredis:
+    image: redis
+    networks:
+      - default
+    logging:
+      <<: *logging
+
   worker: &worker
     image: geometalab/osmaxx-worker
     build:
@@ -195,28 +205,28 @@ services:
       - DJANGO_SECRET_KEY=insecure!3
       - GIS_CONVERSION_DB_USER=worker
       - GIS_CONVERSION_DB_PASSWORD=worker
+      - PGPASSWORD=worker
       # ATTENTION: db name needs to be different
       # to the one defined in the worker-db
-      - GIS_CONVERSION_DB_NAME=osmaxx-temp-1
+      - GIS_CONVERSION_DB_NAME=worker-db-1
       - GIS_CONVERSION_DB_HOST=worker-db
-      - OSM_BOUNDARIES_DB_NAME=osmboundaries
-      # same as 
-      - PGPASSWORD=worker
+      - OSM_BOUNDARIES_DB_NAME=osmboundaries 
     networks:
       - default
     logging:
       <<: *logging
-  worker2:
-    <<: *worker
-    environment:
-      - DJANGO_SECRET_KEY=insecure!4
-      - GIS_CONVERSION_DB_USER=worker
-      - GIS_CONVERSION_DB_PASSWORD=worker
-      # ATTENTION: db name needs to be different
-      # to the one defined in the worker-db
-      - GIS_CONVERSION_DB_NAME=osmaxx-temp-2
-      - GIS_CONVERSION_DB_HOST=worker-db
-      - OSM_BOUNDARIES_DB_NAME=osmboundaries
+  # example for a second worker:
+  # worker2:
+  #   <<: *worker
+  #   environment:
+  #     - DJANGO_SECRET_KEY=insecure!4
+  #     - GIS_CONVERSION_DB_USER=worker
+  #     - GIS_CONVERSION_DB_PASSWORD=worker
+  #     # ATTENTION: db name needs to be different
+  #     # to the one defined in the worker-db
+  #     - GIS_CONVERSION_DB_NAME=worker-db-2
+  #     - GIS_CONVERSION_DB_HOST=worker-db
+  #     - OSM_BOUNDARIES_DB_NAME=osmboundaries
   worker-db:
     image: geometalab/osmaxx-worker-db
     build:
@@ -233,13 +243,6 @@ services:
       - POSTGRES_DB=worker
       - POSTGRES_USER=worker
       - POSTGRES_PASSWORD=worker
-    logging:
-      <<: *logging
-
-  conversionserviceredis:
-    image: redis
-    networks:
-      - default
     logging:
       <<: *logging
 

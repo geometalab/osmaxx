@@ -1,3 +1,4 @@
+import time
 import glob
 import os
 import pathlib
@@ -44,6 +45,7 @@ class BootStrapper:
     def bootstrap(self):
         if pathlib.Path(self._pbf_file_path).exists():
             pathlib.Path(self._pbf_file_path).unlink()
+        print("Bootstrap", "#" * 30)
         print("resetting database/views")
         self._reset_database()
         print("cutting pbf")
@@ -71,13 +73,13 @@ class BootStrapper:
         self._setup_db()
 
     def _setup_db(self):
-        extensions = ["hstore", "postgis", "unaccent", "fuzzystrmatch", "osml10n"]
-        for extension in extensions:
-            self._postgres.create_extension(extension)
         drop_and_recreate_script_folder = os.path.join(
             self._script_base_dir, "sql", "drop_and_recreate"
         )
         self._execute_sql_scripts_in_folder(drop_and_recreate_script_folder)
+        extensions = ["postgis", "hstore", "unaccent", "fuzzystrmatch", "osml10n"]
+        for extension in extensions:
+            self._postgres.create_extension(extension)
 
     def _import_boundaries(self):
         osm_importer = OSMBoundariesImporter()
@@ -164,6 +166,7 @@ class BootStrapper:
         )
         for script_path in sorted(sql_scripts_in_folder, key=os.path.basename):
             script_path = self._level_adapted_script_path(script_path)
+            print(script_path)
             compiled_sql = self._compile_template(script_path)
             self._postgres.execute_sql_command(compiled_sql)
 
@@ -199,7 +202,7 @@ class BootStrapper:
             "--prefix=osm",
             f"--style={self._terminal_style_path}",
             f"--tag-transform-script={self._style_path}",
-            "--number-processes=8",
+            "--number-processes=4",
             "--hstore-all",
             "--input-reader",
             "pbf",

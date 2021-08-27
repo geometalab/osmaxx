@@ -45,10 +45,13 @@ THIRD_PARTY_APPS = [
     # rest API Framework
     "rest_framework",
     "rest_framework_gis",
+    "django_extensions",
     # async execution worker
     "django_rq",
-    # for migrationj to django 3
+    # for migration to django 3
     "six",
+    "debug_toolbar",
+    "gunicorn",
 ]
 # Apps specific for this project go here.
 LOCAL_APPS = [
@@ -75,6 +78,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "osmaxx.job_progress.middleware.ExportUpdaterMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 # MIGRATIONS CONFIGURATION
@@ -309,11 +313,11 @@ LOGGING = {
     "loggers": {
         "django": {
             "handlers": ["console"],
-            "level": env.str("DJANGO_LOG_LEVEL", default="ERROR"),
+            "level": env.str("DJANGO_LOG_LEVEL", default="WARNING"),
         },
         "osmaxx": {
             "handlers": ["console"],
-            "level": env.str("DJANGO_LOG_LEVEL", default="ERROR"),
+            "level": env.str("DJANGO_LOG_LEVEL", default="WARNING"),
         },
     },
 }
@@ -392,12 +396,15 @@ OSMAXX = {
         "OSMAXX_ACCOUNT_MANAGER_EMAIL", default=DEFAULT_FROM_EMAIL
     ),
     "CONVERSION_SERVICE_URL": env.str(
-        "DJANGO_OSMAXX_CONVERSION_SERVICE_URL", default="http://mediator:8901/api/"
+        "DJANGO_OSMAXX_CONVERSION_SERVICE_URL", default="http://mediator:8000/api/"
     ),
     "CONVERSION_SERVICE_USERNAME": env.str("DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME"),
     "CONVERSION_SERVICE_PASSWORD": env.str("DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD"),
     "EXCLUSIVE_USER_GROUP": "osmaxx_high_priority",  # high priority people
     "SECURED_PROXY": env.bool("DJANGO_OSMAXX_SECURED_PROXY", False),
+    "INTERNAL_CALLBACK_URL_BASE": env.str(
+        "DJANGO_OSMAXX_INTERNAL_CALLBACK_URL", default="http://frontend:8000"
+    ),
 }
 
 CRISPY_TEMPLATE_PACK = "bootstrap3"
@@ -466,3 +473,13 @@ REDIS_CONNECTION = dict(
 )
 RQ_QUEUE_NAMES = ["default", "high"]
 RQ_QUEUES = {name: REDIS_CONNECTION for name in RQ_QUEUE_NAMES}
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEBUG_TOOLBAR_CONFIG = {
+    "DISABLE_PANELS": [
+        "debug_toolbar.panels.redirects.RedirectsPanel",
+    ],
+    "JQUERY_URL": "/static/osmaxx/libraries/jquery/jquery.min.js",
+    "SHOW_TEMPLATE_CONTEXT": True,
+}

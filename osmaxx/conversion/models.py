@@ -52,7 +52,7 @@ class Parametrization(models.Model):
 
 
 class Job(models.Model):
-    callback_url = models.URLField(_("callback url"), max_length=250)
+    callback_url = models.CharField(_("callback url"), max_length=250)
     parametrization = models.ForeignKey(
         verbose_name=_("parametrization"), to=Parametrization, on_delete=models.CASCADE
     )

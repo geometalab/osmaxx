@@ -1,4 +1,4 @@
-from sqlalchemy import MetaData, Table, func
+from sqlalchemy import MetaData, Table, func, text
 from sqlalchemy.engine.url import URL
 from sqlalchemy.sql import select, insert, expression
 from geoalchemy2 import Geometry, Geography
@@ -11,12 +11,11 @@ from osmaxx.conversion._settings import CONVERSION_SETTINGS
 
 class OSMBoundariesImporter:
     def __init__(self):
-        self._osm_boundaries_tables = ["coastline_l", "landmass_a", "sea_a"]
+        self._osm_boundaries_tables = ["sea_a", "coastline_l", "landmass_a"]
         self._osm_boundaries_pgwrapper = get_default_postgres_wrapper(
             db_name=CONVERSION_SETTINGS["OSM_BOUNDARIES_DB_NAME"],
         )
-        self._osm_boundaries_db_engine = self._osm_boundaries_pgwrapper._engine
-        self._local_db_engine = get_default_postgres_wrapper()._engine
+        self._destination_db_wrapper = get_default_postgres_wrapper()
 
         assert (
             Geometry
@@ -38,16 +37,24 @@ class OSMBoundariesImporter:
     def _get_meta_tables(self):
         meta_boundaries = self._autoinspect_tables(
             tables=self._osm_boundaries_tables,
-            autoloader=self._osm_boundaries_db_engine,
+            autoloader=self._osm_boundaries_pgwrapper._engine,
         )
         return meta_boundaries
 
     def load_area_specific_data(self, *, extent):
         self._create_tables_on_local_db()
+        print("lading data tables")
         self._load_boundaries_tables(extent)
 
     def _create_tables_on_local_db(self):
-        self._db_meta_data.create_all(self._local_db_engine)
+        print("creating tables")
+        # print(self._table_metas)
+        with self._destination_db_wrapper._engine.connect() as conn:
+            conn.execute(
+                text('CREATE EXTENSION IF NOT EXISTS postgis SCHEMA "public";')
+            )
+            conn.commit()
+            print(self._db_meta_data.create_all(conn))
 
     def _load_boundaries_tables(self, extent):
         multipolygon_cast = Geometry(geometry_type="MULTIPOLYGON", srid=4326)
@@ -58,7 +65,7 @@ class OSMBoundariesImporter:
             "coastline_l": multilinestring_cast,
         }
         for table_name in self._osm_boundaries_tables:
-            print(f"processing {table_name}")
+            print(30 * "#", f"processing {table_name}")
             source_table_meta = self._table_metas[table_name]
             field_selection = source_table_meta.c
             query = select(field_selection)
@@ -66,7 +73,8 @@ class OSMBoundariesImporter:
                 func.ST_Intersects(source_table_meta.c.wkb_geometry, extent.ewkt)
             )
             self._execute_and_insert_into_local_db(
-                query, source_table_meta, source_engine=self._osm_boundaries_db_engine
+                query,
+                source_table_meta,
             )
             from sqlalchemy_views import CreateView
 
@@ -108,11 +116,13 @@ class OSMBoundariesImporter:
             )
             query_defintion_text = text(query_defintion_string)
             create_view = CreateView(view, query_defintion_text, or_replace=True)
-            self._local_db_engine.execute(create_view)
+            self._destination_db_wrapper.execute_sql_command(create_view)
 
-    def _execute_and_insert_into_local_db(self, query, table_meta, source_engine=None):
-        query_result = source_engine.execute(query)
+    def _execute_and_insert_into_local_db(self, query, table_meta):
+        query_result = self._osm_boundaries_pgwrapper.execute_sql_command(query)
         if query_result.rowcount > 0:
             results = query_result.fetchall()
             for result in results:
-                self._local_db_engine.execute(insert(table_meta, values=result))
+                self._destination_db_wrapper.execute_sql_command(
+                    insert(table_meta, values=result)
+                )

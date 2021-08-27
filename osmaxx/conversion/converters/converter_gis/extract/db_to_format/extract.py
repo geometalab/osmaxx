@@ -58,5 +58,5 @@ def extract_to(*, to_format, output_dir, base_filename, out_srs):
         f"PG:dbname={dbname} host={db_host} user={db_user} password={db_pass} schemas={db_view_name}",
     ]
     ogr2ogr_command += extraction_options
-    subprocess.check_output(ogr2ogr_command)
+    print(subprocess.run(ogr2ogr_command, check=True, capture_output=True))
     return output_path
