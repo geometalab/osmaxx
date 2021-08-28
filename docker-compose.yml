@@ -33,12 +33,6 @@ services:
       CADDY_CONFIG: |
         :8080 {
           route {
-            reverse_proxy /api* {
-              to frontend:8000
-            }
-            reverse_proxy /admin* {
-              to frontend:8000
-            }
             handle /media/* {
               uri strip_prefix /media
               file_server /* {
@@ -81,7 +75,6 @@ services:
     volumes:
       - ./osmaxx:/home/py/osmaxx/osmaxx
       - ./web_frontend:/home/py/osmaxx/web_frontend
-      - ./conversion_service:/home/py/osmaxx/conversion_service
       - frontend-media:/data/media
       - frontend-static:/data/static
       - worker-data:/data/media/job_result_files
@@ -107,6 +100,7 @@ services:
       ? DJANGO_CSRF_COOKIE_SECURE=false
       ? DJANGO_SESSION_COOKIE_SECURE=false
       ? DJANGO_DATABASE_URL=postgis://frontend:insecureChangeInProduction!@frontenddatabase/frontend
+      ? CELERY_BROKER_URL=redis://redis:6379/1
     networks:
       - default
     logging:
@@ -137,7 +131,7 @@ services:
   #   <<: *frontend
   #   command: ./manage.py result_harvester
 
-  conversionserviceredis:
+  redis:
     image: redis
     networks:
       - default
@@ -156,7 +150,6 @@ services:
     command: celery -A config worker -l INFO
     volumes:
       - ./osmaxx:/home/py/osmaxx/osmaxx
-      - ./conversion_service:/home/py/osmaxx/conversion_service
       - worker-data:/data/media/job_result_files
       - osm_data:/var/data/osm-planet
     environment: 

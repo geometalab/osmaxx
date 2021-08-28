@@ -21,6 +21,7 @@ from osmaxx.excerptexport.models import ExtractionOrder
 from osmaxx.excerptexport.signals import postpone_work_until_request_finished
 from .models import Export
 
+from osmaxx.conversion.tasks import hello
 
 logger = logging.getLogger(__name__)
 
@@ -51,9 +52,7 @@ class OrderNewExcerptView(
     form_class = ExcerptForm
 
 
-order_new_excerpt = (
-    OrderNewExcerptView.as_view()
-)  # noqa: expected 2 blank lines after class or function definition, found 0
+order_new_excerpt = OrderNewExcerptView.as_view()
 
 
 class OrderExistingExcerptView(
@@ -66,9 +65,7 @@ class OrderExistingExcerptView(
         return super().get_form_class().get_dynamic_form_class(self.request.user)
 
 
-order_existing_excerpt = (
-    OrderExistingExcerptView.as_view()
-)  # noqa: expected 2 blank lines after class or function definition, found 0
+order_existing_excerpt = OrderExistingExcerptView.as_view()
 
 
 class OwnershipRequiredMixin(SingleObjectMixin):
@@ -137,6 +134,8 @@ class ExportsListView(LoginRequiredMixin, ExportsListMixin, ListView):
             (excerpt, self._get_exports_for_excerpt(excerpt))
             for excerpt in context_data[self.context_object_name]
         )
+        task = hello.delay("Stefan", "Keller")
+        print(task.id)
         return context_data
 
     def get_queryset(self):
@@ -159,9 +158,7 @@ class ExportsListView(LoginRequiredMixin, ExportsListMixin, ListView):
         )
 
 
-export_list = (
-    ExportsListView.as_view()
-)  # noqa: expected 2 blank lines after class or function definition, found 0
+export_list = ExportsListView.as_view()
 
 
 class ExportsDetailView(LoginRequiredMixin, ExportsListMixin, ListView):
@@ -190,9 +187,7 @@ class ExportsDetailView(LoginRequiredMixin, ExportsListMixin, ListView):
         return queryset
 
 
-export_detail = (
-    ExportsDetailView.as_view()
-)  # noqa: expected 2 blank lines after class or function definition, found 0
+export_detail = ExportsDetailView.as_view()
 
 
 def _social_identification_description(user):
@@ -221,9 +216,7 @@ class ExcerptManageListView(ListView):
         )
 
 
-manage_own_excerpts = (
-    ExcerptManageListView.as_view()
-)  # noqa: expected 2 blank lines after class or function definition, found 0
+manage_own_excerpts = ExcerptManageListView.as_view()
 
 
 class DeleteExcerptView(DeleteView):
@@ -265,6 +258,4 @@ class DeleteExcerptView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-delete_excerpt = (
-    DeleteExcerptView.as_view()
-)  # noqa: expected 2 blank lines after class or function definition, found 0
+delete_excerpt = DeleteExcerptView.as_view()

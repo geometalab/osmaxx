@@ -76,10 +76,6 @@ RUN python -m pip install --no-cache-dir install "poetry<$MAX_POETRY_VERSION" \
     && poetry export --dev -f requirements.txt --output requirements.txt \
     && pip install -r requirements.txt
 
-
-ENV DJANGO_OSMAXX_CONVERSION_SERVICE_USERNAME=default_user \
-    DJANGO_OSMAXX_CONVERSION_SERVICE_PASSWORD=default_password
-
 ########################
 ##### FRONTEND #########
 ########################
@@ -137,6 +133,5 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 COPY ./osmaxx ${WORKDIR}/osmaxx
-COPY ./conversion_service $WORKDIR/conversion_service
 
-WORKDIR $WORKDIR/conversion_service
+WORKDIR $WORKDIR/web_frontend

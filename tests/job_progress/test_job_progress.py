@@ -12,7 +12,7 @@ from hamcrest import assert_that, contains_inanyorder as contains_in_any_order
 from rest_framework.test import APITestCase, APIRequestFactory
 
 from osmaxx import excerptexport
-from osmaxx.api_client.conversion_api_client import ConversionApiClient
+from osmaxx.api_client.conversion_api_client import ConversionHelper
 from osmaxx.conversion import status
 from osmaxx.excerptexport.models.excerpt import Excerpt
 from osmaxx.excerptexport.models.export import Export
@@ -225,7 +225,7 @@ class CallbackHandlingTest(APITestCase):
         assert emissary_mock.mock_calls == []
 
     @patch.object(
-        ConversionApiClient, "authorized_get", ConversionApiClient.get
+        ConversionHelper, "authorized_get", ConversionHelper.get
     )  # circumvent authorization logic
     @requests_mock.Mocker(kw="requests")
     def test_calling_tracker_with_payload_indicating_status_finished_downloads_result(
@@ -263,7 +263,7 @@ class CallbackHandlingTest(APITestCase):
 
     @requests_mock.Mocker(kw="requests")
     @patch.object(
-        ConversionApiClient, "authorized_get", ConversionApiClient.get
+        ConversionHelper, "authorized_get", ConversionHelper.get
     )  # circumvent authorization logic
     @patch("osmaxx.utils.shortcuts.Emissary")
     def test_calling_tracker_with_payload_indicating_final_status_for_only_remaining_nonfinal_export_of_extraction_order_advertises_downloads(
@@ -376,7 +376,7 @@ class ExportUpdaterMiddlewareTest(TestCase):
         )
         self.assertEqual(user, request.user)
 
-    @patch.object(ConversionApiClient, "authorized_get")
+    @patch.object(ConversionHelper, "authorized_get")
     def test_update_export_set_and_lets_handle_export_status(self, authorized_get_mock):
         authorized_get_mock.return_value.json.return_value = dict(
             status=sentinel.new_status

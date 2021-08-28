@@ -6,8 +6,8 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from rest_framework.reverse import reverse
 
+from osmaxx.conversion.conversion_helper import ConversionJobHelper
 from osmaxx.conversion import output_format, status
 from osmaxx.excerptexport._settings import (
     RESULT_FILE_AVAILABILITY_DURATION,
@@ -76,24 +76,21 @@ class Export(TimeStampModelMixin, models.Model):
         super().delete(*args, **kwargs)
 
     def send_to_conversion_service(self, clipping_area, incoming_request):
-        from osmaxx.api_client.conversion_api_client import ConversionApiClient
-
-        api_client = ConversionApiClient()
+        job_helper = ConversionJobHelper()
         extraction_format = self.file_format
         out_srs = self.extraction_order.coordinate_reference_system
         detail_level = self.extraction_order.detail_level
-        parametrization = api_client.create_parametrization(
+        parametrization = job_helper.create_parametrization(
             clipping_area=clipping_area,
             out_format=extraction_format,
             detail_level=detail_level,
             out_srs=out_srs,
         )
-        job = api_client.create_job(
+        job = job_helper.create_job(
             parametrization,
             user=self.extraction_order.orderer,
             request=incoming_request,
         )
-        print(job)
         self.conversion_service_job_id = job.id
         self.status = job.status
         self.save()
@@ -125,7 +122,7 @@ class Export(TimeStampModelMixin, models.Model):
         if self.status == status.FAILED:
             emissary.error(status_changed_message)
         elif self.status == status.FINISHED:
-            from osmaxx.api_client.conversion_api_client import (
+            from osmaxx.conversion.conversion_helper import (
                 ResultFileNotAvailableError,
             )
 
@@ -162,12 +159,11 @@ class Export(TimeStampModelMixin, models.Model):
         )
 
     def _fetch_result_file(self):
-        from osmaxx.api_client import ConversionApiClient
         from . import OutputFile
         from osmaxx.excerptexport.models.output_file import uuid_directory_path
 
-        api_client = ConversionApiClient()
-        file_path = api_client.get_result_file_path(self.conversion_service_job_id)
+        job_helper = ConversionJobHelper()
+        file_path = job_helper.get_result_file_path(self.conversion_service_job_id)
         now = timezone.now()
         of = OutputFile.objects.create(
             export=self,

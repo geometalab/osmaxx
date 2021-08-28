@@ -9,7 +9,7 @@ from requests import HTTPError
 from rest_framework.reverse import reverse
 
 from osmaxx.conversion import output_format, status
-from osmaxx.api_client import ConversionApiClient, API_client
+from osmaxx.api_client import ConversionHelper, API_client
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from osmaxx.job_progress.views import tracker
 from tests.test_helpers import vcr_explicit_path as vcr
@@ -20,7 +20,7 @@ from tests.test_helpers import vcr_explicit_path as vcr
 
 @vcr.use_cassette("fixtures/vcr/conversion_api-test_successful_login.yml")
 def test_successful_login():
-    api_client = ConversionApiClient()
+    api_client = ConversionHelper()
 
     assert api_client.token is None
 
@@ -31,7 +31,7 @@ def test_successful_login():
 
 @vcr.use_cassette("fixtures/vcr/conversion_api-test_failed_login.yml")
 def test_failed_login():
-    api_client = ConversionApiClient()
+    api_client = ConversionHelper()
     api_client.password = "invalid"
 
     assert api_client.password == "invalid"
@@ -102,7 +102,7 @@ def test_extraction_order_forward_to_conversion_service(
     rf, mocker, excerpt, extraction_order, bounding_geometry, the_host
 ):
     mocker.patch.object(
-        ConversionApiClient,
+        ConversionHelper,
         "create_job",
         side_effect=[
             {"id": 5, "status": status.RECEIVED},
@@ -110,31 +110,31 @@ def test_extraction_order_forward_to_conversion_service(
         ],
     )
     mocker.patch.object(
-        ConversionApiClient,
+        ConversionHelper,
         "create_parametrization",
         side_effect=[sentinel.parametrization_1, sentinel.parametrization_2],
     )
-    mocker.patch.object(ConversionApiClient, "create_boundary")
+    mocker.patch.object(ConversionHelper, "create_boundary")
 
     request = rf.get("/tracker/something", HTTP_HOST=the_host)
     result = extraction_order.forward_to_conversion_service(incoming_request=request)
 
-    ConversionApiClient.create_boundary.assert_called_once_with(
+    ConversionHelper.create_boundary.assert_called_once_with(
         bounding_geometry, name=excerpt.name
     )
     srs = extraction_order.coordinate_reference_system
     detail_level = extraction_order.detail_level
     assert_that(
-        ConversionApiClient.create_parametrization.mock_calls,
+        ConversionHelper.create_parametrization.mock_calls,
         contains_inanyorder(
             mock.call(
-                boundary=ConversionApiClient.create_boundary.return_value,
+                boundary=ConversionHelper.create_boundary.return_value,
                 out_format=output_format.FGDB,
                 detail_level=detail_level,
                 out_srs=srs,
             ),
             mock.call(
-                boundary=ConversionApiClient.create_boundary.return_value,
+                boundary=ConversionHelper.create_boundary.return_value,
                 out_format=output_format.SPATIALITE,
                 detail_level=detail_level,
                 out_srs=srs,
@@ -142,7 +142,7 @@ def test_extraction_order_forward_to_conversion_service(
         ),
     )
     assert_that(
-        ConversionApiClient.create_job.mock_calls,
+        ConversionHelper.create_job.mock_calls,
         contains_inanyorder(
             mock.call(sentinel.parametrization_1, ANY, user=ANY),
             mock.call(sentinel.parametrization_2, ANY, user=ANY),
@@ -159,7 +159,7 @@ def test_extraction_order_forward_to_conversion_service(
         "job_progress:tracker", kwargs=dict(export_id=spatialite_export.id)
     )
     assert_that(
-        ConversionApiClient.create_job.mock_calls,
+        ConversionHelper.create_job.mock_calls,
         contains_inanyorder(
             mock.call(ANY, "http://" + the_host + fgdb_callback_uri_path, user=ANY),
             mock.call(
@@ -192,7 +192,7 @@ def test_extraction_order_forward_to_conversion_service(
 
 @pytest.fixture
 def api_client():
-    return ConversionApiClient()
+    return ConversionHelper()
 
 
 #

@@ -6,7 +6,7 @@ from django.utils.deprecation import MiddlewareMixin
 import requests
 from requests import HTTPError
 
-from osmaxx.api_client import ConversionApiClient
+from osmaxx.conversion.conversion_helper import ConversionJobHelper
 from osmaxx.conversion import status
 from osmaxx.excerptexport.models import Export
 from osmaxx.utils.shortcuts import get_cached_or_set
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 class ExportUpdaterMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        assert hasattr(request, 'user'), (
+        assert hasattr(request, "user"), (
             "The osmaxx export updater middleware requires Django authentication middleware "
             "to be installed. Edit your MIDDLEWARE setting to insert "
             "'django.contrib.auth.middleware.AuthenticationMiddleware' before "
@@ -35,9 +35,9 @@ class ExportUpdaterMiddleware(MiddlewareMixin):
 
 
 def handle_unsent_exports(user):
-    for export in Export.objects.\
-            exclude(status__in=status.FINAL_STATUSES).\
-            filter(extraction_order__orderer=user, conversion_service_job_id__isnull=True):
+    for export in Export.objects.exclude(status__in=status.FINAL_STATUSES).filter(
+        extraction_order__orderer=user, conversion_service_job_id__isnull=True
+    ):
         if export.update_is_overdue:
             export.status = status.FAILED
             export.save()
@@ -50,29 +50,37 @@ def update_exports_of_request_user(request):
 
     handle_unsent_exports(user=current_user)
 
-    pending_exports = Export.objects.\
-        exclude(status__in=status.FINAL_STATUSES).\
-        filter(extraction_order__orderer=current_user, conversion_service_job_id__isnull=False)
+    pending_exports = Export.objects.exclude(status__in=status.FINAL_STATUSES).filter(
+        extraction_order__orderer=current_user, conversion_service_job_id__isnull=False
+    )
     for export in pending_exports:
         try:
             update_export_if_stale(export, request=request)
         except HTTPError as e:
-            if e.response.status_code == requests.codes['not_found']:
-                logger.exception("Export #%s doesn't exist on the conversion service.", export.id)
+            if e.response.status_code == requests.codes["not_found"]:
+                logger.exception(
+                    "Export #%s doesn't exist on the conversion service.", export.id
+                )
                 export.status = status.FAILED
                 export.save()
             else:
-                logger.exception("Failed to update status of pending export #%s.", export.id)
+                logger.exception(
+                    "Failed to update status of pending export #%s.", export.id
+                )
         except:  # noqa:
             # Intentionally catching all non-system-exiting exceptions here, so that the loop can continue
             # and (try) to update the other pending exports.
-            logger.exception("Failed to update status of pending export #%s.", export.id)
+            logger.exception(
+                "Failed to update status of pending export #%s.", export.id
+            )
 
 
 def update_export_if_stale(export, *, request):
     get_cached_or_set(
-        'export_{}_job_progress'.format(export.id),
-        update_export, export, request=request,
+        "export_{}_job_progress".format(export.id),
+        update_export,
+        export,
+        request=request,
         on_cache_hit=_log_cache_hit,
         timeout=timedelta(minutes=1).total_seconds(),
     )
@@ -80,8 +88,8 @@ def update_export_if_stale(export, *, request):
 
 def update_export(export, *, request):
     _log_cache_miss(export)
-    client = ConversionApiClient()
-    status = client.job_status(export)
+    job_helper = ConversionJobHelper()
+    status = job_helper.job_status(export)
     export.set_and_handle_new_status(status, incoming_request=request)
     if logger.isEnabledFor(logging.DEBUG):
         message = "Fetched, updated and cached Export {export} status: {status}".format(

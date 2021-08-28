@@ -7,7 +7,6 @@ from rest_framework import viewsets
 from rest_framework_extensions.etag.mixins import ETAGMixin
 
 from pbf_file_size_estimation.estimate_size import estimate_size_of_extent
-from osmaxx.api_client import ConversionApiClient
 from osmaxx.contrib.auth.frontend_permissions import (
     AuthenticatedAndAccessPermission,
     HasExcerptAccessPermission,
