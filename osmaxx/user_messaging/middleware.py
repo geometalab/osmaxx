@@ -21,7 +21,7 @@ def send_finished_export_mails(get_response):
 
         response = get_response(request)
         for extraction_orders in ExtractionOrder.objects.filter(
-            export_finished=False, email_sent=False
+            export_finished=True, email_sent=False
         ):
             extraction_orders.send_email_if_all_exports_done(request)
         return response
