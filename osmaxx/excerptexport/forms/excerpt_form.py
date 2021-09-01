@@ -67,7 +67,7 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
         model = Excerpt
         fields = ["name", "bounding_geometry"]
 
-    def save(self, user):
+    def save(self, user, request):
         extraction_order = ExtractionOrder(orderer=user)
         extraction_order.coordinate_reference_system = self.cleaned_data[
             "coordinate_reference_system"
@@ -78,6 +78,11 @@ class ExcerptForm(OrderOptionsMixin, forms.ModelForm):
         excerpt_dict = select_keys(self.cleaned_data, ["name", "bounding_geometry"])
         excerpt = Excerpt(is_active=True, owner=user, **excerpt_dict)
         excerpt.save()
+        # cheap way to later on call the website from the worker to
+        # invoke the middleware that sends emails, in order not to have to rely
+        # on people using the site
+        callback_uri = request.build_absolute_uri("/")
+        extraction_order.invoke_update_url = callback_uri
         extraction_order.excerpt = excerpt
         extraction_order.save()
         return extraction_order

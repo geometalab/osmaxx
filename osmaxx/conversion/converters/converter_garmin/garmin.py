@@ -1,19 +1,14 @@
-import pathlib
 import os
 import shutil
 import tempfile
 
-from django.utils import timezone
-from rq import get_current_job
 
-from osmaxx.conversion._settings import (
+from osmaxx.conversion.conversion_settings import (
     CONVERSION_SETTINGS,
     odb_license,
     copying_notice,
     creative_commons_license,
 )
-from osmaxx.conversion.converters.converter_pbf.to_pbf import cut_pbf_along_polyfile
-
 from osmaxx.conversion.converters.utils import (
     zip_folders_relative,
     recursive_getsize,
@@ -47,26 +42,20 @@ _path_to_geonames_zip = os.path.join(
 
 
 class Garmin:
-    def __init__(self, *, output_zip_file_path, area_name, polyfile_string):
+    def __init__(
+        self, *, output_zip_file_path, area_name, polyfile_path, cutted_pbf_file
+    ):
         self._resulting_zip_file_path = output_zip_file_path
         self._map_description = area_name
-        self._polyfile_string = polyfile_string
-        self._start_time = None
         self._unzipped_result_size = None
-        self._pbf_file_path = os.path.join("/tmp", "pbf_cutted.pbf")
+        self._pbf_file_path = cutted_pbf_file
+        self._polyfile_path = polyfile_path
 
     def create_garmin_export(self):
-        self._start_time = timezone.now()
         self._to_garmin()
-        job = get_current_job()
-        if job:
-            job.meta["duration"] = timezone.now() - self._start_time
-            job.meta["unzipped_result_size"] = self._unzipped_result_size
-            job.save()
+        return self._unzipped_result_size
 
     def _to_garmin(self):
-        if pathlib.Path(self._pbf_file_path).exists():
-            pathlib.Path(self._pbf_file_path).unlink()
         with tempfile.TemporaryDirectory() as tmp_dir:
             tmp_out_dir = os.path.join(tmp_dir, "garmin")
             config_file_path = self._split(tmp_dir)
@@ -79,27 +68,20 @@ class Garmin:
             os.path.join(_path_to_commandline_utils, "splitter", "splitter.jar")
         )
 
-        cut_pbf_along_polyfile(self._polyfile_string, self._pbf_file_path)
-
-        with tempfile.NamedTemporaryFile(suffix=".poly", mode="w+") as polyfile:
-            polyfile.write(self._polyfile_string)
-            polyfile.flush()
-            os.fsync(polyfile)
-
-            logged_check_call(
-                [
-                    "java",
-                    memory_option,
-                    "-jar",
-                    _splitter_path,
-                    "--output-dir={0}".format(workdir),
-                    "--description={0}".format(self._map_description),
-                    "--geonames-file={0}".format(_path_to_geonames_zip),
-                    "--polygon-file={}".format(polyfile.name),
-                    self._pbf_file_path,
-                ]
-            )
-            config_file_path = os.path.join(workdir, "template.args")
+        logged_check_call(
+            [
+                "java",
+                memory_option,
+                "-jar",
+                _splitter_path,
+                "--output-dir={0}".format(workdir),
+                "--description={0}".format(self._map_description),
+                "--geonames-file={0}".format(_path_to_geonames_zip),
+                "--polygon-file={}".format(self._polyfile_path),
+                self._pbf_file_path,
+            ]
+        )
+        config_file_path = os.path.join(workdir, "template.args")
         return config_file_path
 
     def _produce_garmin(self, config_file_path, out_dir):

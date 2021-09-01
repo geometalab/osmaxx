@@ -8,23 +8,27 @@ from django.db import migrations
 
 
 def get_polyfile_name_to_file_mapping():
-    from osmaxx.excerptexport._settings import POLYFILE_LOCATION
+    from osmaxx.excerptexport.excerpt_settings import POLYFILE_LOCATION
     from osmaxx.utils.polyfile_helpers import _is_polyfile
+
     filenames = os.listdir(POLYFILE_LOCATION)
     return {
         _extract_country_name_from_polyfile_name(filename): filename
-        for filename in filenames if _is_polyfile(filename)
+        for filename in filenames
+        if _is_polyfile(filename)
     }
 
 
 def _extract_country_name_from_polyfile_name(filename):
     from osmaxx.utils.polyfile_helpers import POLYFILE_FILENAME_EXTENSION
+
     name, _ = filename.split(POLYFILE_FILENAME_EXTENSION)
     return name
 
 
 def import_countries(apps, schema_editor):  # noqa
     from osmaxx.utils.polyfile_helpers import polyfile_to_geos_geometry
+
     Excerpt = apps.get_model("excerptexport", "Excerpt")  # noqa
     ExtractionOrder = apps.get_model("excerptexport", "ExtractionOrder")  # noqa
     for name, polyfile_path in get_polyfile_name_to_file_mapping().items():
@@ -33,7 +37,7 @@ def import_countries(apps, schema_editor):  # noqa
             is_public=True,
             name=name,
             bounding_geometry=geometry,
-            excerpt_type='country',
+            excerpt_type="country",
         )
         for extraction_order in ExtractionOrder.objects.filter(excerpt__name=name):
             extraction_order.excerpt = excerpt
@@ -50,7 +54,7 @@ def remove_countries(apps, schema_editor):  # noqa
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('excerptexport', '0032_allow_user_None'),
+        ("excerptexport", "0032_allow_user_None"),
     ]
 
     operations = [

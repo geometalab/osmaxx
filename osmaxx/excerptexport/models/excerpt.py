@@ -6,7 +6,6 @@ from django.db.models import Count
 from django.utils.translation import gettext_lazy as _
 
 from osmaxx.utils.geometry_buffer_helper import with_metric_buffer
-from osmaxx.conversion.conversion_helper import ConversionJobHelper
 
 EARTH_CIRCUMFERENCE_IN_METERS = 40075.017 * 1000
 DEGREES_PER_CIRCLE = 360
@@ -40,13 +39,6 @@ class Excerpt(models.Model):
     BUFFER_METERS = 200
 
     CACHE_TIMEOUT_IN_SECONDS = None  # cache forever
-
-    def send_to_conversion_service(self):
-        job_helper = ConversionJobHelper()
-        bounding_geometry = self.bounding_geometry
-        if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
-            bounding_geometry = self.simplified_buffered()
-        return job_helper.create_boundary(bounding_geometry, name=self.name)
 
     def simplified_buffered(self):
         """

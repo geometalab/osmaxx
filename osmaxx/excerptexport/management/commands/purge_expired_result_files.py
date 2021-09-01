@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from django.core.management.base import BaseCommand
 
-from osmaxx.excerptexport._settings import (
+from osmaxx.excerptexport.excerpt_settings import (
     OLD_RESULT_FILES_REMOVAL_CHECK_INTERVAL,
     OSMAXX_DATETIME_STRFTIME_FORMAT,
 )

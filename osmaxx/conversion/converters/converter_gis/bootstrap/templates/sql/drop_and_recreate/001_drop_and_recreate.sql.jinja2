@@ -4,5 +4,3 @@ DROP SCHEMA IF EXISTS "{{ schema_name }}";
 /* CREATE SCHEMAS */
 CREATE SCHEMA "{{ schema_name }}";
 CREATE SCHEMA "{{ view_schema_name }}";
-CREATE EXTENSION IF NOT EXISTS postgis SCHEMA "{{ schema_name }}";
-CREATE EXTENSION IF NOT EXISTS postgis SCHEMA "{{ view_schema_name }}";

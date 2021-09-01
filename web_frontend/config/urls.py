@@ -11,7 +11,6 @@ from osmaxx.profile.urls import profile_patterns
 urlpatterns = (
     [
         path("", include(excerpt_export_urlpatterns)),
-        url(r"^admin/django-rq/", include("django_rq.urls")),
         path("admin/", admin.site.urls),
         url(r"^", include("social_django.urls", namespace="social")),
         url(r"^version/", include("osmaxx.version.urls", namespace="version")),

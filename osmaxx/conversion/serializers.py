@@ -3,41 +3,6 @@ from rest_framework import serializers
 from osmaxx.conversion import output_format
 from osmaxx.conversion.converters.converter_gis import detail_levels
 from osmaxx.conversion.size_estimator import size_estimation_for_format
-from .models import Job, Parametrization
-
-
-class ParametrizationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Parametrization
-        fields = "__all__"
-
-
-class JobSerializer(serializers.ModelSerializer):
-    resulting_file_path = serializers.URLField(
-        source="get_absolute_file_path", read_only=True
-    )
-
-    class Meta:
-        model = Job
-        fields = [
-            "id",
-            "parametrization",
-            "rq_job_id",
-            "status",
-            "resulting_file_path",
-            "estimated_pbf_size",
-            "unzipped_result_size",
-            "extraction_duration",
-            "queue_name",
-        ]
-        read_only_fields = [
-            "rq_job_id",
-            "status",
-            "resulting_file_path",
-            "estimated_pbf_size",
-            "unzipped_result_size",
-            "extraction_duration",
-        ]
 
 
 class FormatSizeEstimationSerializer(serializers.Serializer):

@@ -1,21 +1,20 @@
+from enum import Enum
 from django.utils.translation import gettext_lazy as _
-from rq.job import JobStatus
 
-RECEIVED = 'received'
-QUEUED = JobStatus.QUEUED
-FINISHED = JobStatus.FINISHED
-FAILED = JobStatus.FAILED
-STARTED = JobStatus.STARTED
-DEFERRED = JobStatus.DEFERRED
+RECEIVED = "received"
+QUEUED = "queued"
+FINISHED = "finished"
+FAILED = "failed"
+STARTED = "started"
+DEFERRED = "deferred"
 
 CHOICES = (
-    (RECEIVED, _('received')),
-    # these are identical to the job-statuses of rq
-    (JobStatus.QUEUED, _('queued')),
-    (JobStatus.FINISHED, _('finished')),
-    (JobStatus.FAILED, _('failed')),
-    (JobStatus.STARTED, _('started')),
-    (JobStatus.DEFERRED, _('deferred')),
+    (RECEIVED, _("received")),
+    (QUEUED, _("queued")),
+    (FINISHED, _("finished")),
+    (FAILED, _("failed")),
+    (STARTED, _("started")),
+    (DEFERRED, _("deferred")),
 )
 
 FINAL_STATUSES = [FINISHED, FAILED]

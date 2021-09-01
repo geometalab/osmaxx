@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
 from django.template.loader import render_to_string
+from django.utils.functional import empty
 from django.utils.text import unescape_entities
 from django.utils.translation import ugettext_lazy as _
 
@@ -23,7 +24,6 @@ class ExtractionOrder(models.Model):
         choices=DETAIL_LEVEL_CHOICES,
         default=DETAIL_LEVEL_ALL,
     )
-    process_id = models.TextField(blank=True, null=True, verbose_name=_("process link"))
     orderer = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="extraction_orders",
@@ -37,17 +37,24 @@ class ExtractionOrder(models.Model):
         null=True,
         on_delete=models.CASCADE,
     )
-    progress_url = models.URLField(
-        verbose_name=_("progress URL"), null=True, blank=True
+    export_finished = models.BooleanField(
+        _("export finished"),
+        default=False,
     )
-
-    def forward_to_conversion_service(self, *, incoming_request):
-        clipping_area = self.excerpt.send_to_conversion_service()
-        jobs_json = [
-            export.send_to_conversion_service(clipping_area, incoming_request)
-            for export in self.exports.all()
-        ]
-        return jobs_json
+    email_sent = models.BooleanField(
+        _("email sent"),
+        default=False,
+    )
+    invoke_update_url = models.URLField(
+        _("url to invoke for updates"),
+        default="http://localhost:8000",
+        max_length=250,
+    )
+    assigned_task_id = models.CharField(
+        _("assigned task id"),
+        max_length=200,
+        null=True,
+    )
 
     def __str__(self):
         return ", ".join(
@@ -59,6 +66,10 @@ class ExtractionOrder(models.Model):
                 "excerpt: {}".format(str(self.excerpt_name)),
             ]
         )
+
+    @property
+    def epsg(self):
+        return "EPSG:{}".format(self.coordinate_reference_system)
 
     @property
     def excerpt_name(self):
@@ -92,7 +103,9 @@ class ExtractionOrder(models.Model):
         return reverse("excerptexport:export_list")
 
     def send_email_if_all_exports_done(self, incoming_request):
-        if all(export.is_status_final for export in self.exports.all()):
+        if not self.email_sent and all(
+            export.is_status_final for export in self.exports.all()
+        ):
             from osmaxx.utils.shortcuts import Emissary
 
             emissary = Emissary(recipient=self.orderer)
@@ -100,6 +113,8 @@ class ExtractionOrder(models.Model):
                 subject=self._get_all_exports_done_email_subject(),
                 mail_body=self._get_all_exports_done_mail_body(incoming_request),
             )
+            self.email_sent = True
+            self.save()
 
     def _get_all_exports_done_email_subject(self):
         view_context = dict(

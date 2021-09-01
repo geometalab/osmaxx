@@ -46,8 +46,6 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework_gis",
     "django_extensions",
-    # async execution worker
-    "django_rq",
     "pbf_file_size_estimation",
     # for migration to django 3
     "six",
@@ -60,7 +58,6 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "osmaxx.version",
     "osmaxx.excerptexport",
-    "osmaxx.job_progress",
     "osmaxx.profile",
     "osmaxx.core",
     "osmaxx.clipping_area",
@@ -79,9 +76,9 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "osmaxx.job_progress.middleware.ExportUpdaterMiddleware",
-    "osmaxx.user_messaging.middleware.message_sepcific_user_middleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "osmaxx.user_messaging.middleware.message_sepcific_user_middleware",
+    "osmaxx.user_messaging.middleware.send_finished_export_mails",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
@@ -242,10 +239,10 @@ MEDIA_URL = "/media/"
 
 # URL Configuration
 # ------------------------------------------------------------------------------
-ROOT_URLCONF = "web_frontend.config.urls"
+ROOT_URLCONF = "config.urls"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = "web_frontend.config.wsgi.application"
+WSGI_APPLICATION = "config.wsgi.application"
 
 AUTHENTICATION_BACKENDS = (
     "social_core.backends.open_id.OpenIdAuth",
@@ -460,17 +457,6 @@ SESSION_SERIALIZER = env.str(
     default="django.contrib.sessions.serializers.JSONSerializer",
 )
 
-# RQ settings
-REDIS_CONNECTION = dict(
-    HOST=env.str("REDIS_HOST", default="conversionserviceredis"),
-    PORT=env.str("REDIS_PORT", default=6379),
-    DB=0,
-    PASSWORD="",
-    DEFAULT_TIMEOUT=int(timedelta(days=2).total_seconds()),
-)
-RQ_QUEUE_NAMES = ["default", "high"]
-RQ_QUEUES = {name: REDIS_CONNECTION for name in RQ_QUEUE_NAMES}
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DEBUG_TOOLBAR_CONFIG = {
@@ -483,7 +469,8 @@ DEBUG_TOOLBAR_CONFIG = {
 
 CELERY_TIMEZONE = "Europe/Zurich"
 CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
+# in seconds
+CELERY_TASK_TIME_LIMIT = 60 * 120  # two hours
 CELERY_RESULT_BACKEND = "django-db"
 
 CELERY_BROKER_URL = env.str("CELERY_BROKER_URL", default="redis://redis:6379/0")

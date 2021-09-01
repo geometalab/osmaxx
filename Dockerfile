@@ -89,7 +89,6 @@ ENV NUM_WORKERS=5 \
 EXPOSE 8000
 
 COPY ./osmaxx ${WORKDIR}/osmaxx
-COPY ./conversion_service $WORKDIR/conversion_service
 COPY ./web_frontend ${WORKDIR}/web_frontend
 
 WORKDIR ${WORKDIR}/web_frontend
@@ -133,5 +132,6 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 COPY ./osmaxx ${WORKDIR}/osmaxx
+COPY ./web_frontend ${WORKDIR}/web_frontend
 
-WORKDIR $WORKDIR/web_frontend
+WORKDIR ${WORKDIR}/web_frontend

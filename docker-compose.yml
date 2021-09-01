@@ -124,13 +124,6 @@ services:
       - default
     logging:
       <<: *logging
-  ##### frontend END ########
-  ##### CONVERSION SERVICE START ########
-  # TODO...
-  # harvester:
-  #   <<: *frontend
-  #   command: ./manage.py result_harvester
-
   redis:
     image: redis
     networks:
@@ -146,29 +139,25 @@ services:
       dockerfile: Dockerfile
       target: worker
     entrypoint: dockerize -wait tcp://worker-db:5432 -timeout 60s
-    # command: ./manage.py rqworker default high
+    user: root
     command: celery -A config worker -l INFO
-    volumes:
-      - ./osmaxx:/home/py/osmaxx/osmaxx
-      - worker-data:/data/media/job_result_files
-      - osm_data:/var/data/osm-planet
     environment: 
       <<: *baseenv
       ? DJANGO_SECRET_KEY=insecure!3
-      ? GIS_CONVERSION_DB_USER=worker
-      ? GIS_CONVERSION_DB_PASSWORD=worker
-      ? PGPASSWORD=worker
-      # ATTENTION: db name needs to be different
-      # to the one defined in the worker-db
-      ? GIS_CONVERSION_DB_NAME=worker-db-1
       ? GIS_CONVERSION_DB_HOST=worker-db
+      # needs to be the password of the conversion db!
+      ? PGPASSWORD=worker
+      ? GIS_CONVERSION_DB_PASSWORD=worker
+      ? GIS_CONVERSION_DB_USER=worker
       ? OSM_BOUNDARIES_DB_NAME=osmboundaries 
       ? DJANGO_DEBUG=false
+      # set this at maximum your availbale number of cores
+      ? CELERY_WORKER_CONCURRENCY=4
     networks:
       - default
     logging:
       <<: *logging
-  celery-scheduler:
+  scheduler:
     <<: *worker
     command: celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
 

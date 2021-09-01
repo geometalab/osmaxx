@@ -1,16 +1,11 @@
 import logging
-import os
-import shutil
 
-from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
-
-from osmaxx.conversion.conversion_helper import ConversionJobHelper
 from osmaxx.conversion import output_format, status
-from osmaxx.excerptexport._settings import (
-    RESULT_FILE_AVAILABILITY_DURATION,
+from osmaxx.excerptexport.excerpt_settings import (
     EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA,
 )
 
@@ -60,11 +55,23 @@ class Export(TimeStampModelMixin, models.Model):
         verbose_name=_("file format / data format"),
         max_length=10,
     )
-    conversion_service_job_id = models.IntegerField(
-        verbose_name=_("conversion service job ID"), null=True
-    )
     status = models.CharField(
-        _("job status"), choices=status.CHOICES, default=None, max_length=20, null=True
+        _("job status"),
+        choices=status.CHOICES,
+        default=status.RECEIVED,
+        max_length=20,
+        null=True,
+    )
+    estimated_pbf_size = models.FloatField(_("estimated pbf size in bytes"), null=True)
+    unzipped_result_size = models.FloatField(
+        _("file size in bytes"),
+        null=True,
+        help_text=_("without the static files, only the conversion result"),
+    )
+    extraction_duration = models.DurationField(
+        _("extraction duration"),
+        help_text=_("time needed to generate the extraction"),
+        null=True,
     )
     finished_at = models.DateTimeField(
         _("finished at"), default=None, blank=True, editable=False, null=True
@@ -75,37 +82,6 @@ class Export(TimeStampModelMixin, models.Model):
             self.output_file.delete()
         super().delete(*args, **kwargs)
 
-    def send_to_conversion_service(self, clipping_area, incoming_request):
-        job_helper = ConversionJobHelper()
-        extraction_format = self.file_format
-        out_srs = self.extraction_order.coordinate_reference_system
-        detail_level = self.extraction_order.detail_level
-        parametrization = job_helper.create_parametrization(
-            clipping_area=clipping_area,
-            out_format=extraction_format,
-            detail_level=detail_level,
-            out_srs=out_srs,
-        )
-        job = job_helper.create_job(
-            parametrization,
-            user=self.extraction_order.orderer,
-            request=incoming_request,
-        )
-        self.conversion_service_job_id = job.id
-        self.status = job.status
-        self.save()
-        return job
-
-    def set_and_handle_new_status(self, new_status, *, incoming_request):
-        assert new_status in dict(status.CHOICES) or new_status is None
-        if self.status == new_status and self.update_is_overdue:
-            new_status = status.FAILED
-
-        if self.status != new_status:
-            self.status = new_status
-            self.save()
-            self._handle_changed_status(incoming_request=incoming_request)
-
     @property
     def update_is_overdue(self):
         if self.is_status_final:
@@ -113,74 +89,6 @@ class Export(TimeStampModelMixin, models.Model):
         return (
             self.updated_at + EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA
         ) < timezone.now()
-
-    def _handle_changed_status(self, *, incoming_request):
-        from osmaxx.utils.shortcuts import Emissary
-
-        emissary = Emissary(recipient=self.extraction_order.orderer)
-        status_changed_message = self._get_export_status_changed_message()
-        if self.status == status.FAILED:
-            emissary.error(status_changed_message)
-        elif self.status == status.FINISHED:
-            from osmaxx.conversion.conversion_helper import (
-                ResultFileNotAvailableError,
-            )
-
-            try:
-                self._fetch_result_file()
-                emissary.success(status_changed_message)
-            except ResultFileNotAvailableError as e:
-                print(e)
-                logger.error(
-                    self._get_job_finished_but_result_file_missing_log_message()
-                )
-                emissary.warn(
-                    _("{} But the result file is not available.").format(
-                        status_changed_message
-                    )
-                )
-        else:
-            emissary.info(status_changed_message)
-        self.extraction_order.send_email_if_all_exports_done(incoming_request)
-
-    def _get_export_status_changed_message(self):
-        from django.template.loader import render_to_string
-
-        view_context = dict(export=self)
-        return render_to_string(
-            "job_progress/messages/export_status_changed.unsave_text",
-            context=view_context,
-        ).strip()
-
-    def _get_job_finished_but_result_file_missing_log_message(self):
-        return "Export {export_id}: Job {job_id} finished_at, but file not available.".format(
-            export_id=self.id,
-            job_id=self.conversion_service_job_id,
-        )
-
-    def _fetch_result_file(self):
-        from . import OutputFile
-        from osmaxx.excerptexport.models.output_file import uuid_directory_path
-
-        job_helper = ConversionJobHelper()
-        file_path = job_helper.get_result_file_path(self.conversion_service_job_id)
-        now = timezone.now()
-        of = OutputFile.objects.create(
-            export=self,
-            mime_type="application/zip",
-        )
-        new_file_name = uuid_directory_path(of, file_path)
-        new_file_path = os.path.join(settings.MEDIA_ROOT, new_file_name)
-
-        of.file.name = new_file_name
-
-        os.makedirs(os.path.dirname(new_file_path), exist_ok=True)
-        shutil.move(file_path, new_file_path)
-        of.file_removal_at = now + RESULT_FILE_AVAILABILITY_DURATION
-        of.save()
-
-        self.finished_at = now
-        self.save()
 
     @property
     def result_file_available_until(self):
@@ -223,3 +131,12 @@ class Export(TimeStampModelMixin, models.Model):
             status.DEFERRED: "default",
         }
         return status_map.get(self.status, default_class)
+
+    def create_filename_base(self):
+        now = timezone.now()
+        basename = slugify(self.extraction_order.excerpt_name)
+        srs = slugify(self.extraction_order.get_coordinate_reference_system_display())
+        date = now.strftime("%Y-%m-%d")
+        out_format = self.file_format
+        detail_level = slugify(self.extraction_order.get_detail_level_display())
+        return f"{basename}_{srs}_{date}_{out_format}_{detail_level}"

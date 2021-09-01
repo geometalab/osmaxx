@@ -51,26 +51,26 @@ class AuthenticatedAndAccessPermission(permissions.BasePermission):
     Allows access only to authenticated users with confirmed email address.
     """
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, *args, **kwargs):
         return request.user.is_authenticated and _user_has_validated_email(request.user)
 
 
 class HasBBoxAccessPermission(permissions.BasePermission):
     message = "Accessing this bounding box is not allowed."
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj, *args, **kwargs):
         return _may_user_access_this_excerpt(request.user, obj.excerpt)
 
 
 class HasExcerptAccessPermission(permissions.BasePermission):
     message = "Accessing this excerpt is not allowed."
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj, *args, **kwargs):
         return _may_user_access_this_excerpt(request.user, obj)
 
 
 class HasExportAccessPermission(permissions.BasePermission):
     message = "Accessing this export is not allowed."
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj, *args, **kwargs):
         return _may_user_access_this_export(request.user, obj)

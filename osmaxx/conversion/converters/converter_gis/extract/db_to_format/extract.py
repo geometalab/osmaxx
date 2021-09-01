@@ -1,7 +1,7 @@
 import os
+from osmaxx.conversion.conversion_settings import DBConfig
 import subprocess
 
-from osmaxx.conversion._settings import CONVERSION_SETTINGS
 from osmaxx.conversion import output_format
 
 FORMATS = {
@@ -33,13 +33,12 @@ FORMATS = {
 }
 
 
-def extract_to(*, to_format, output_dir, base_filename, out_srs):
-    conversion_service_settings = CONVERSION_SETTINGS
-    db_user = conversion_service_settings["GIS_CONVERSION_DB_USER"]
-    db_pass = conversion_service_settings["GIS_CONVERSION_DB_PASSWORD"]
-    db_host = CONVERSION_SETTINGS["GIS_CONVERSION_DB_HOST"]
-    dbname = conversion_service_settings["GIS_CONVERSION_DB_NAME"]
-    db_view_name = CONVERSION_SETTINGS["CONVERSION_SCHEMA_NAME_TMP_VIEW"]
+def extract_to(*, to_format, output_dir, base_filename, out_srs, db_config: DBConfig):
+    db_user = db_config.user
+    db_pass = db_config.password
+    db_name = db_config.db_name
+    db_host = db_config.host
+    db_view_name = db_config.db_schema_tmp_view
 
     to_format_options = FORMATS[to_format]
     extraction_options = to_format_options["extraction_options"]
@@ -55,8 +54,10 @@ def extract_to(*, to_format, output_dir, base_filename, out_srs):
         output_path,
         "-t_srs",
         out_srs,
-        f"PG:dbname={dbname} host={db_host} user={db_user} password={db_pass} schemas={db_view_name}",
+        f"PG:dbname={db_name} host={db_host} user={db_user} password={db_pass} schemas={db_view_name}",
     ]
     ogr2ogr_command += extraction_options
+    print(30 * "#")
+    print(ogr2ogr_command)
     print(subprocess.run(ogr2ogr_command, check=True, capture_output=True))
     return output_path

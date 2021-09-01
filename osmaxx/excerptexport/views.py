@@ -18,24 +18,19 @@ from osmaxx.conversion import status
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.models import ExtractionOrder
-from osmaxx.excerptexport.signals import postpone_work_until_request_finished
 from .models import Export
 
-from osmaxx.conversion.tasks import hello
+from osmaxx.conversion.tasks import start_conversion
 
 logger = logging.getLogger(__name__)
 
 
-def execute_converters(extraction_order, request):
-    extraction_order.forward_to_conversion_service(incoming_request=request)
-
-
 class OrderFormViewMixin(FormMixin):
     def form_valid(self, form):
-        extraction_order = form.save(self.request.user)
-        postpone_work_until_request_finished(
-            execute_converters, extraction_order, request=self.request
-        )
+        extraction_order = form.save(self.request.user, request=self.request)
+        task_id = start_conversion.delay(extraction_order.id)
+        # mostly for debugging purposes
+        extraction_order.assigned_task_id = str(task_id)
         messages.info(
             self.request,
             _(
@@ -134,8 +129,6 @@ class ExportsListView(LoginRequiredMixin, ExportsListMixin, ListView):
             (excerpt, self._get_exports_for_excerpt(excerpt))
             for excerpt in context_data[self.context_object_name]
         )
-        task = hello.delay("Stefan", "Keller")
-        print(task.id)
         return context_data
 
     def get_queryset(self):
@@ -188,17 +181,6 @@ class ExportsDetailView(LoginRequiredMixin, ExportsListMixin, ListView):
 
 
 export_detail = ExportsDetailView.as_view()
-
-
-def _social_identification_description(user):
-    social_identities = list(user.social_auth.all())
-    if social_identities:
-        return "identified " + " and ".join(
-            "as '{}' by {}".format(soc_id.uid, soc_id.provider)
-            for soc_id in social_identities
-        )
-    else:
-        return "not identified by any social identity providers"
 
 
 class ExcerptManageListView(ListView):

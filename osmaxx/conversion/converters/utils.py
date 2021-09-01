@@ -47,5 +47,7 @@ def logged_check_call(*args, **kwargs):
     except subprocess.CalledProcessError as e:
         err = f"Command `{e.cmd}` exited with return value {e.returncode}\nOutput:\n{e.output}"
         print(err)
+        print(e.stderr)
+        print(e.stdout)
         logger.error(err)
         raise

@@ -1,7 +1,6 @@
-import time
 import glob
 import os
-import pathlib
+import uuid
 import jinja2
 
 from memoize import mproperty
@@ -16,16 +15,23 @@ from osmaxx.conversion.converters.converter_gis.helper.default_postgres import (
 from osmaxx.conversion.converters.converter_gis.helper.osm_boundaries_importer import (
     OSMBoundariesImporter,
 )
-from osmaxx.conversion.converters.converter_pbf.to_pbf import cut_pbf_along_polyfile
 from osmaxx.conversion.converters.utils import logged_check_call
 from osmaxx.utils import polyfile_helpers
-from osmaxx.conversion._settings import CONVERSION_SETTINGS
+from osmaxx.conversion.conversion_settings import DBConfig
 
 
 class BootStrapper:
-    def __init__(self, area_polyfile_string, *, detail_level=DETAIL_LEVEL_ALL):
+    def __init__(
+        self, area_polyfile_string, *, cutted_pbf_file, detail_level=DETAIL_LEVEL_ALL
+    ):
+
         self.area_polyfile_string = area_polyfile_string
-        self._postgres = get_default_postgres_wrapper()
+        self._pbf_file_path = cutted_pbf_file
+        self._detail_level = DETAIL_LEVEL_TABLES[detail_level]
+
+        self.db_config = DBConfig(db_name=f"osmaxx_{uuid.uuid4()}")
+        self._postgres = get_default_postgres_wrapper(db_name=self.db_config.db_name)
+
         self._script_base_dir = os.path.abspath(
             os.path.join(os.path.dirname(__file__), "templates")
         )
@@ -33,23 +39,18 @@ class BootStrapper:
             self._script_base_dir, "styles", "terminal.style"
         )
         self._style_path = os.path.join(self._script_base_dir, "styles", "style.lua")
-        self._pbf_file_path = os.path.join("/tmp", "pbf_cutted.pbf")
-        self._detail_level = DETAIL_LEVEL_TABLES[detail_level]
-        self._db_name = CONVERSION_SETTINGS["GIS_CONVERSION_DB_NAME"]
-        self._db_name_osmboundaries = CONVERSION_SETTINGS["OSM_BOUNDARIES_DB_NAME"]
-        self._db_schema_tmp = CONVERSION_SETTINGS["CONVERSION_SCHEMA_NAME_TMP"]
-        self._db_schema_tmp_view = CONVERSION_SETTINGS[
-            "CONVERSION_SCHEMA_NAME_TMP_VIEW"
-        ]
+
+    def __enter__(self):
+        self._postgres.create_db()
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        self._postgres.drop_db()
 
     def bootstrap(self):
-        if pathlib.Path(self._pbf_file_path).exists():
-            pathlib.Path(self._pbf_file_path).unlink()
         print("Bootstrap", "#" * 30)
         print("resetting database/views")
         self._reset_database()
-        print("cutting pbf")
-        cut_pbf_along_polyfile(self.area_polyfile_string, self._pbf_file_path)
         print("import boundaries")
         self._import_boundaries()
         print("import pbf")
@@ -77,12 +78,21 @@ class BootStrapper:
             self._script_base_dir, "sql", "drop_and_recreate"
         )
         self._execute_sql_scripts_in_folder(drop_and_recreate_script_folder)
-        extensions = ["postgis", "hstore", "unaccent", "fuzzystrmatch", "osml10n"]
+        extensions = [
+            "postgis",
+            "hstore",
+            "unaccent",
+            "fuzzystrmatch",
+            "osml10n",
+            "osml10n_thai_transcript",
+        ]
         for extension in extensions:
+            print(30 * "#")
+            print(extension)
             self._postgres.create_extension(extension)
 
     def _import_boundaries(self):
-        osm_importer = OSMBoundariesImporter()
+        osm_importer = OSMBoundariesImporter(db_config=self.db_config)
         osm_importer.load_area_specific_data(extent=self.geom)
 
     def _setup_db_functions(self):
@@ -95,7 +105,7 @@ class BootStrapper:
             self._script_base_dir, "sql", "sweeping_data.sql.jinja2"
         )
         sql = self._compile_template(
-            cleanup_sql_path, temp_table=f"tmp_{self._db_name}_harmonize"
+            cleanup_sql_path, temp_table=f"tmp_{self.db_config.db_name}_harmonize"
         )
         print(self._postgres.execute_sql_command(sql))
 
@@ -174,8 +184,8 @@ class BootStrapper:
         with open(script_path, "r") as _f:
             template = jinja2.Template(_f.read(), autoescape=False)
         return template.render(
-            schema_name=self._db_schema_tmp,
-            view_schema_name=self._db_schema_tmp_view,
+            schema_name=self.db_config.db_schema_tmp,
+            view_schema_name=self.db_config.db_schema_tmp_view,
             **kwargs,
         )
 

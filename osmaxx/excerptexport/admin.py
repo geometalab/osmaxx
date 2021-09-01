@@ -30,7 +30,6 @@ class ExportInline(admin.TabularInline):
     model = Export
     fields = [
         "file_format",
-        "conversion_service_job_id",
         "status",
         "created_at",
         "finished_at",
@@ -40,7 +39,7 @@ class ExportInline(admin.TabularInline):
     show_change_link = True
     extra = 0
 
-    def has_add_permission(self, request):
+    def has_add_permission(self, request, *args, **kwargs):
         return False
 
 
@@ -49,9 +48,7 @@ class ExtractionOrderAdmin(admin.ModelAdmin):
     list_display = ("id", "excerpt", "orderer")
     list_display_links = ("id", "excerpt")
     readonly_fields = (
-        "process_id",
         "coordinate_reference_system",
-        "progress_url",
         "excerpt",
     )
     inlines = [
@@ -73,7 +70,6 @@ class ExportAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "file_format",
-        "conversion_service_job_id",
         "status",
         "created_at",
         "finished_at",
@@ -82,7 +78,6 @@ class ExportAdmin(admin.ModelAdmin):
     list_filter = ["status", "finished_at", "created_at", "updated_at"]
     fields = (
         "file_format",
-        "conversion_service_job_id",
         "status",
         "link_to_extraction_order",
         "finished_at",
@@ -113,7 +108,7 @@ class ExtractionOrderInline(admin.TabularInline):
     show_change_link = True
     extra = 0
 
-    def has_add_permission(self, request):
+    def has_add_permission(self, request, *args, **kwargs):
         return False
 
 

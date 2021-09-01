@@ -80,7 +80,7 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
         )
         return cls
 
-    def save(self, user):
+    def save(self, user, request):
         extraction_order = ExtractionOrder(orderer=user)
         extraction_order.coordinate_reference_system = self.cleaned_data[
             "coordinate_reference_system"
@@ -92,5 +92,10 @@ class ExistingForm(OrderOptionsMixin, forms.Form):
         excerpt = Excerpt.objects.get(pk=int(existing_key))
         extraction_order.excerpt = excerpt
 
+        # cheap way to later on call the website from the worker to
+        # invoke the middleware that sends emails, in order not to have to rely
+        # on people using the site
+        callback_uri = request.build_absolute_uri("/")
+        extraction_order.invoke_update_url = callback_uri
         extraction_order.save()
         return extraction_order
