@@ -1,6 +1,14 @@
 -------------------
 -- interpolation --
 -------------------
+
+create extension if not exists hstore WITH SCHEMA "{{ schema_name }}" cascade;
+create extension if not exists postgis WITH SCHEMA "{{ schema_name }}" cascade;
+create extension if not exists unaccent WITH SCHEMA "{{ schema_name }}" cascade;
+create extension if not exists fuzzystrmatch WITH SCHEMA "{{ schema_name }}" cascade;
+create extension if not exists osml10n WITH SCHEMA "{{ schema_name }}" cascade;
+create extension if not exists osml10n_thai_transcript WITH SCHEMA "{{ schema_name }}" cascade;
+
 CREATE TEMP TABLE temp_tbl(line_id integer, addr_street text, housenr integer, point_geom geometry);
 
 select

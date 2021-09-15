@@ -11,7 +11,7 @@ from django.utils import timezone
 from jinja2 import Environment, PackageLoader
 
 from osmaxx.conversion import output_format
-from osmaxx.conversion.conversion_settings import odb_license
+from osmaxx.conversion.conversion_settings import DBConfig, odb_license
 from osmaxx.conversion.converters.converter_gis.extract.db_to_format.extract import (
     extract_to,
 )
@@ -57,7 +57,7 @@ class GISConverter:
         base_file_name,
         out_srs,
         detail_level,
-        db_config,
+        db_config: DBConfig,
     ):
         """
         Converts a specified pbf into the specified format.

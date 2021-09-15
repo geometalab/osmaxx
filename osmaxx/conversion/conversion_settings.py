@@ -54,6 +54,10 @@ class DBConfig:
     def db_schema_tmp_view(self):
         return f"{self.db_name}_tmp_view"
 
+    @property
+    def search_path(self):
+        return f"public,{self.db_schema_tmp},{self.db_schema_tmp_view}"
+
 
 copying_notice = os.path.join(
     os.path.dirname(__file__), "converters", "licenses", "COPYING"

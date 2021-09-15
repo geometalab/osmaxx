@@ -1,3 +1,4 @@
+from osmaxx.conversion.constants import status
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
@@ -120,9 +121,9 @@ class ExtractionOrder(models.Model):
         view_context = dict(
             extraction_order=self,
             successful_exports_count=self.exports.filter(
-                output_file__isnull=False
+                status=status.FINISHED,
             ).count(),
-            failed_exports_count=self.exports.filter(output_file__isnull=True).count(),
+            failed_exports_count=self.exports.filter(status=status.FAILED).count(),
         )
         return unescape_entities(
             render_to_string(
@@ -134,8 +135,8 @@ class ExtractionOrder(models.Model):
     def _get_all_exports_done_mail_body(self, incoming_request):
         view_context = dict(
             extraction_order=self,
-            successful_exports=self.exports.filter(output_file__isnull=False),
-            failed_exports=self.exports.filter(output_file__isnull=True),
+            successful_exports=self.exports.filter(status=status.FINISHED),
+            failed_exports=self.exports.filter(status=status.FAILED),
             request=incoming_request,
         )
         return unescape_entities(

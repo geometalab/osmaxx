@@ -18,37 +18,51 @@ logger = logging.getLogger(__name__)
 @shared_task(bind=True, name="start_conversion")
 def start_conversion(self, extraction_order_id):
     extraction_order = ExtractionOrder.objects.get(pk=extraction_order_id)
-    emissary = Emissary(recipient=extraction_order.orderer)
+    # since connection closes when pbf cutter takes very long we need
+    # to keep the ids as close to the database connection as possible
+    export_ids = [export.id for export in extraction_order.exports.all()]
+
+    orderer = extraction_order.orderer
+    geometry = extraction_order.excerpt.geometry
+    emissary = Emissary(recipient=orderer)
     emissary.inform(
         constants.INFO,
         _("Excerpt '{name}' startet").format(name=extraction_order.excerpt_name),
     )
-    with ConversionHelper(extraction_order) as helper:
-        self.update_state(state="PROGRESS", meta={"progress": 0})
+
+    with ConversionHelper(geometry) as helper:
         start_time = timezone.now()
+        print("cutting pbf")
         helper.cut_pbf()
         estimated_pbf_size = os.path.getsize(helper._pbf.name)
         cut_time = timezone.now() - start_time
         print(f"cutting time spent: {cut_time}")
-        for export in extraction_order.exports.all():
+        for export_id in export_ids:
+            export = Export.objects.get(pk=export_id)
+            print(f"starting export {export}")
             export.status = STARTED
-            export.estimated_pbf_size = estimated_pbf_size
             export.save()
+            status = FAILED
             try:
-                helper.create_export(export=export)
-                export.status = FINISHED
-                export.save()
+                helper.create_export(export_id=export_id)
+                status = FINISHED
             except Exception as e:
-                export.status = FAILED
-                export.save()
                 print(e)
                 logger.exception(e)
+            finally:
+                export = Export.objects.get(pk=export_id)
+                export.estimated_pbf_size = estimated_pbf_size
+                export.status = status
+                export.save()
+
+        extraction_order = ExtractionOrder.objects.get(pk=extraction_order_id)
         emissary.inform(
             constants.INFO,
             _("Excerpt '{name}' finished.").format(name=extraction_order.excerpt_name),
         )
         extraction_order.export_finished = True
         extraction_order.save()
+        print(f"extraction order {extraction_order} finished.")
     return f"{extraction_order.id} finished"
 
 

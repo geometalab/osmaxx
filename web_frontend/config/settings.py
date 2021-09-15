@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 # flake8: noqa
 import os
 from datetime import timedelta
+from fnmatch import fnmatch
 import environ
 
 from django.contrib.messages import constants as message_constants
@@ -76,9 +77,9 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
     "osmaxx.user_messaging.middleware.message_sepcific_user_middleware",
     "osmaxx.user_messaging.middleware.send_finished_export_mails",
+    "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
@@ -192,11 +193,11 @@ TEMPLATES = [
                 "django.template.context_processors.media",
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
+                "osmaxx.excerptexport.context_processors.message_adapter_context_processor",
                 "django.contrib.messages.context_processors.messages",
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
                 "django.template.context_processors.request",
-                "osmaxx.excerptexport.context_processors.message_adapter_context_processor",
             ],
             "loaders": [
                 "django.template.loaders.filesystem.Loader",
@@ -475,3 +476,29 @@ CELERY_RESULT_BACKEND = "django-db"
 
 CELERY_BROKER_URL = env.str("CELERY_BROKER_URL", default="redis://redis:6379/0")
 CELERY_WORKER_CONCURRENCY = env.int("CELERY_WORKER_CONCURRENCY", default=1)
+
+
+class glob_list(list):  # noqa
+    def __contains__(self, key):
+        for elt in self:
+            if fnmatch(key, elt):
+                return True
+        return False
+
+
+# django-debug-toolbar
+# ------------------------------------------------------------------------------
+INTERNAL_IPS = glob_list(env.tuple("DJANGO_INTERNAL_IPS", default=("127.0.0.1",)))
+
+# TESTING
+# ------------------------------------------------------------------------------
+TEST_RUNNER = "django.test.runner.DiscoverRunner"
+
+# SENTRY
+SENTRY_DSN = env.str("SENTRY_DSN", default=None)
+
+if SENTRY_DSN is not None:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(dsn=SENTRY_DSN, integrations=[DjangoIntegration()])

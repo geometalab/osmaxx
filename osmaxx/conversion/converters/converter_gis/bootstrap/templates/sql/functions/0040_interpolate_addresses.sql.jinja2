@@ -3,6 +3,13 @@
 -- 2015-04-26 KES
 -- Dependencies: hstore extension, function to_pos_int()
 ------------------------------------------------------------------
+create extension if not exists hstore cascade;
+create extension if not exists postgis cascade;
+create extension if not exists unaccent cascade;
+create extension if not exists fuzzystrmatch cascade;
+create extension if not exists osml10n cascade;
+create extension if not exists osml10n_thai_transcript cascade;
+
 drop table if exists addr_interpolated;
 create table addr_interpolated as
 -- BEGIN
@@ -94,7 +101,7 @@ begin
       --
       --raise info 'info: %', housenr;
       INSERT INTO temp_tbl
-      select line_id, addr_street, housenr, st_line_interpolate_point(line_geom, location);
+      select line_id, addr_street, housenr, ST_LineInterpolatePoint(line_geom, location);
       select location+step into location;
     end loop;
 

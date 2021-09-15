@@ -17,3 +17,5 @@ osmconvert /tmp/switzerland-latest.osm.pbf -o=/tmp/switzerland-latest.osm
 osmconvert /tmp/monaco-latest.osm /tmp/switzerland-latest.osm -o=/var/data/osm-planet/pbf/planet-latest.osm.pbf
 
 rm -f /tmp/monaco-latest.osm /tmp/switzerland-latest.osm /tmp/monaco-latest.osm.pbf /tmp/switzerland-latest.osm.pbf
+# for world tests:
+# wget --continue -nv --show-progress --progress=bar:force:noscroll --tries=20 --read-timeout=20 -O planet-latest.osm.pbf https://ftp.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-latest.osm.pbf

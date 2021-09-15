@@ -15,25 +15,13 @@ class OSMBoundariesImporter:
         self._db_view_name = db_config.db_schema_tmp_view
         self._osm_boundaries_tables = ["coastline_l", "landmass_a", "sea_a"]
 
-        _osm_boundaries_db_connection_parameters = dict(
-            username=db_config.user,
-            password=db_config.password,
-            database=db_config.boundaries_db,
-            host=db_config.host,
-        )
-        osm_boundaries_db_connection = URL(
-            "postgresql", **_osm_boundaries_db_connection_parameters
-        )
-        self._osm_boundaries_db_engine = create_engine(osm_boundaries_db_connection)
+        self._osm_boundaries_db_engine = get_default_postgres_wrapper(
+            db_name=db_config.boundaries_db,
+        )._engine
 
-        _local_db_connection_parameters = dict(
-            username=db_config.user,
-            password=db_config.password,
-            database=db_config.db_name,
-            host=db_config.host,
-        )
-        local_db_connection = URL("postgresql", **_local_db_connection_parameters)
-        self._local_db_engine = create_engine(local_db_connection)
+        self._local_db_engine = get_default_postgres_wrapper(
+            db_name=db_config.db_name,
+        )._engine
 
         assert (
             Geometry
@@ -44,7 +32,11 @@ class OSMBoundariesImporter:
     def _autoinspect_tables(self, tables, autoloader):
         return {
             table: Table(
-                table, self._db_meta_data, autoload=True, autoload_with=autoloader
+                table,
+                self._db_meta_data,
+                autoload=True,
+                autoload_with=autoloader,
+                schema="public",
             )
             for table in tables
         }

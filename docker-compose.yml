@@ -2,7 +2,7 @@ version: '3.7'
 # for local development
 
 # to run python tests:
-# docker-compose run --rm -e DJANGO_SETTINGS_MODULE=config.settings.tests django  python manage.py test
+# docker-compose run --rm -e DJANGO_SETTINGS_MODULE=config.settings django  python manage.py test
 
 # setup project locally (migrations and static files):
 # docker-compose run --rm frontend ./manage.py migrate --noinput
@@ -73,8 +73,8 @@ services:
     command: ./manage.py runserver_plus 0.0.0.0:8000
     user: "1000"
     volumes:
-      - ./osmaxx:/home/py/osmaxx/osmaxx
-      - ./web_frontend:/home/py/osmaxx/web_frontend
+      # - ./osmaxx:/home/py/osmaxx/osmaxx
+      # - ./web_frontend:/home/py/osmaxx/web_frontend
       - frontend-media:/data/media
       - frontend-static:/data/static
       - worker-data:/data/media/job_result_files
@@ -82,8 +82,8 @@ services:
     environment: &baseenv
       ? DJANGO_ALLOWED_HOSTS=*
       ? DJANGO_SECRET_KEY=insecure!1
-      ? DJANGO_SETTINGS_MODULE=config.settings.local
-      ? DJANGO_DEBUG=true
+      ? DJANGO_SETTINGS_MODULE=config.settings
+      ? DJANGO_DEBUG=false
       # set the following two lines if you want to be able to log in using OSM
       # but don't commit them!
       ? SOCIAL_AUTH_OPENSTREETMAP_KEY=
@@ -96,7 +96,7 @@ services:
       ? DJANGO_SERVER_EMAIL=webmaster@osmaxx.exmaple.com
       ? OSMAXX_ACCOUNT_MANAGER_EMAIL=webmaster@osmaxx.exmaple.com
       ? DJANGO_LOG_LEVEL=INFO
-      ? DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+      ? DJANGO_EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
       ? DJANGO_CSRF_COOKIE_SECURE=false
       ? DJANGO_SESSION_COOKIE_SECURE=false
       ? DJANGO_DATABASE_URL=postgis://frontend:insecureChangeInProduction!@frontenddatabase/frontend
@@ -139,7 +139,7 @@ services:
       dockerfile: Dockerfile
       target: worker
     entrypoint: dockerize -wait tcp://worker-db:5432 -timeout 60s
-    user: root
+    user: "1000"
     command: celery -A config worker -l INFO
     environment: 
       <<: *baseenv
@@ -168,10 +168,10 @@ services:
       dockerfile: Dockerfile
     # this can and probably should be further optimized
     # see https://www.postgresql.org/docs/current/app-postgres.html
-    command: postgres -B 1GB -F -S 1GB --max_wal_size=10GB
-    # command: postgres -B 2GB -F -N 512 -S 2GB
+    command: postgres --shared_buffers=2GB --synchronous_commit=off --full_page_writes=off --fsync=off --max_wal_size=10GB --autovacuum=off --checkpoint_timeout=360
+    # command: postgres -B 1GB -F -S 1GB --max_wal_size=10GB
     volumes:
-      - worker-db:/database/data
+      - worker-db:/database
     environment:
       - PGDATA=/database/data
       - POSTGRES_DB=worker
@@ -206,7 +206,8 @@ services:
     volumes:
       - osm_data:/var/data/osm-planet
     entrypoint: /bin/bash
-    command: /opt/development_download_only.sh
+    command: -c "echo 0"
+    # command: /opt/development_download_only.sh
     # these are just examples
     # environment:
     # - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/switzerland-updates/

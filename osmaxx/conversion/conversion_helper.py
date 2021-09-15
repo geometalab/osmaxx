@@ -2,6 +2,7 @@ import logging
 import os
 
 from attr import dataclass
+from django.contrib.gis.geos.geometry import GEOSGeometry
 from osmaxx.conversion.converters.converter_gis.gis import (
     QGIS_DISPLAY_SRID,
     GISConverter,
@@ -20,8 +21,7 @@ from osmaxx.conversion.converters.converter_garmin.garmin import Garmin
 from osmaxx.conversion.converters.converter_pbf.to_pbf import produce_pbf
 from osmaxx.conversion.converters.utils import logged_check_call
 from osmaxx.excerptexport.excerpt_settings import RESULT_FILE_AVAILABILITY_DURATION
-from osmaxx.excerptexport.models import Export, ExtractionOrder, OutputFile
-from osmaxx.excerptexport.models.extraction_order import ExtractionOrder
+from osmaxx.excerptexport.models import Export, OutputFile
 from osmaxx.excerptexport.models.output_file import uuid_directory_path
 from osmaxx.utils.frozendict import frozendict
 
@@ -29,11 +29,9 @@ logger = logging.getLogger(__name__)
 
 
 class ConversionHelper:
-    def __init__(self, extraction_order: ExtractionOrder) -> None:
+    def __init__(self, geometry: GEOSGeometry) -> None:
         self._pbf_source_path = CONVERSION_SETTINGS["PBF_PLANET_FILE_PATH"]
-        self._polyfile_string = create_poly_file_string(
-            extraction_order.excerpt.geometry
-        )
+        self._polyfile_string = create_poly_file_string(geometry)
 
     def __enter__(self):
         self._pbf = tempfile.NamedTemporaryFile(suffix=".pbf")
@@ -62,7 +60,11 @@ class ConversionHelper:
             os.fsync(polyfile)
             self._cut_pbf_along_polyfile(polyfile.name)
 
-    def create_export(self, export: Export):
+    def create_export(self, export_id):
+        # this looks funny, but because processing tales so long,
+        # we need to refetch the objects otherwise the database
+        # connection is already closed
+        export = Export.objects.get(pk=export_id)
         of = OutputFile.objects.create(
             export=export,
             mime_type="application/zip",
@@ -71,19 +73,21 @@ class ConversionHelper:
             self._zip_result_path,
             self._relative_zip_result_path,
         ) = self._create_zip_file_path(export=export, output_file=of)
+        of_id = of.id
 
         now = timezone.now()
+        unzipped_size = None
         try:
             unzipped_size = self._converter[export.file_format](export)
+            of = OutputFile.objects.get(pk=of_id)
             of.file.name = self._relative_zip_result_path
             of.file_removal_at = now + RESULT_FILE_AVAILABILITY_DURATION
             of.save()
         finally:
+            export = Export.objects.get(pk=export_id)
             export.unzipped_result_size = unzipped_size
             export.finished_at = now
             export.save()
-        # TODO: store size of cut
-        return unzipped_size
 
     def create_pbf(self, export, *args, **kwargs):
         unzpped_size = produce_pbf(
@@ -130,8 +134,6 @@ class ConversionHelper:
                 db_config=db_config,
             )
             size = concrete_gis_converter.create_gis_export(geom_srs_corrected)
-            print("succes")
-            print(size)
         return size
 
     def _create_zip_file_path(self, export, output_file):

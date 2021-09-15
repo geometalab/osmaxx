@@ -1,22 +1,23 @@
 version: '3.7'
 services:
-  reverse-proxy:
+  proxy:
     image: geometalab/env-configurable-caddy:latest
     environment:
       # See https://caddyserver.com/docs/quick-starts/caddyfile for details
       CADDY_CONFIG: |
         :8080 {
           route {
-            reverse_proxy /api* {
-              to django:5000
-            }
-            reverse_proxy /admin* {
-              to django:5000
-            }
             handle /media/* {
               uri strip_prefix /media
               file_server /* {
-                root /data/frontend/
+                root /data/media/
+                browse
+              }
+            }
+            handle /static/* {
+              uri strip_prefix /static
+              file_server /* {
+                root /data/static/
                 browse
               }
             }
@@ -26,171 +27,202 @@ services:
           }
         }
     volumes:
-      - frontend-media:/data/media
-    ports:
-    - 0.0.0.0:8080:8080/tcp
-    networks:
-      - default
-    logging: &logging
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
-  # if you change the names of the containers, please remember
-  # that you need to adapt README.md
-  ##### frontend START ########
-  frontend:
-    image: geometalab/osmaxx-frontend:${DEPLOY_VERSION:-latest}
-    volumes:
+      - frontend-static:/data/static
       - frontend-media:/data/media
       - worker-data:/data/media/job_result_files
-    environment:
-      - DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-      - DJANGO_CSRF_COOKIE_SECURE=false
-      - DJANGO_SESSION_COOKIE_SECURE=false
-    depends_on:
-      - frontenddatabase
-      - conversionserviceredis
-      - mediator
+    networks:
+      - default
+      - web
+    deploy: &deploy
+      # when deployed using reverse proxy called caddy
+      labels:
+        caddy: "your.domain.name"
+        caddy.reverse_proxy: "{{upstreams 8000}}"
+      restart_policy:
+        condition: "on-failure"
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    logging: &logging
+      driver: json-file
+      options:
+        max-size: 50m
+
+  access-rights:
+    image: ubuntu:latest
+    command: bash -c 'chown -R 1000 /access'
+    user: root
+    volumes:
+      - frontend-media:/access/media
+      - frontend-static:/access/static
+      - worker-data:/access/job_result_files
+      - worker-data-ignored:/access/ignored-worker
+    logging: &logging
+      driver: json-file
+      options:
+        max-size: 50m
+
+  ##### frontend START ########
+  frontend: &frontend
+    image: geometalab/osmaxx-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend
+    entrypoint: dockerize -wait tcp://frontenddatabase:5432 -timeout 60s
+    command: ./manage.py runserver_plus 0.0.0.0:8000
+    user: "1000"
+    volumes:
+      # - ./osmaxx:/home/py/osmaxx/osmaxx
+      # - ./web_frontend:/home/py/osmaxx/web_frontend
+      - frontend-media:/data/media
+      - frontend-static:/data/static
+      - worker-data:/data/media/job_result_files
+      - osm_data:/var/data/osm-planet
+    environment: &baseenv
+      ? DJANGO_ALLOWED_HOSTS=*
+      ? DJANGO_SECRET_KEY=insecure!1
+      ? DJANGO_SETTINGS_MODULE=config.settings
+      ? DJANGO_DEBUG=false
+      # set the following two lines if you want to be able to log in using OSM
+      # but don't commit them!
+      ? SOCIAL_AUTH_OPENSTREETMAP_KEY=
+      ? SOCIAL_AUTH_OPENSTREETMAP_SECRET=
+      ? DJANGO_DEFAULT_FROM_EMAIL=webmaster@osmaxx.exmaple.com
+      ? DJANGO_SERVER_EMAIL=webmaster@osmaxx.exmaple.com
+      ? OSMAXX_ACCOUNT_MANAGER_EMAIL=webmaster@osmaxx.exmaple.com
+      ? DJANGO_LOG_LEVEL=INFO
+      ? DJANGO_EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+      ? DJANGO_CSRF_COOKIE_SECURE=false
+      ? DJANGO_SESSION_COOKIE_SECURE=false
+      ? DJANGO_DATABASE_URL=postgis://frontend:insecureChangeInProduction!@frontenddatabase/frontend
+      ? CELERY_BROKER_URL=redis://redis:6379/1
     networks:
       - default
     logging:
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
+      <<: *logging
+  frontend-setup:
+    <<: *frontend
+    command: bash -c "./manage.py migrate --noinput && ./manage.py collectstatic --noinput"
+  frontend-purge-files:
+    <<: *frontend
+    command: ./manage.py purge_expired_result_files
   frontenddatabase:
-    image: mdillon/postgis:10
+    image: postgis/postgis:13-3.1
     volumes:
       - frontend-database-data:/database/data
     environment:
       - PGDATA=/database/data
+      - POSTGRES_DB=frontend
+      - POSTGRES_USER=frontend
+      - POSTGRES_PASSWORD=insecureChangeInProduction!
     networks:
       - default
     logging:
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
-  ##### frontend END ########
-  ##### CONVERSION SERVICE START ########
-  mediator:
-    image: geometalab/osmaxx-mediator:${DEPLOY_VERSION:-latest}
-    volumes:
-      - worker-data:/data/media/job_result_files
-    depends_on:
-      - conversionserviceredis
-      - mediatordatabase
-    networks:
-      - default
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
-  worker: &worker
-    image: geometalab/osmaxx-worker:${DEPLOY_VERSION:-latest}
-    volumes:
-      - osm_data:/var/data/osm-planet
-      - worker-data:/data/media/job_result_files
-    depends_on:
-      - conversionserviceredis
-      - osmboundaries-database
-    networks:
-      - default
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
-  worker-exclusive:
-    <<: *worker
-    environment:
-      - WORKER_QUEUES=high
-  conversionserviceredis:
+      <<: *logging
+  redis:
     image: redis
     networks:
       - default
     logging:
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
-  mediatordatabase:
-    image: mdillon/postgis:10
-    volumes:
-      - mediator-database-data:/database/data
-    environment:
-      - PGDATA=/database/data
+      <<: *logging
+
+  worker: &worker
+    <<: *frontend
+    image: geometalab/osmaxx-worker
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker
+    entrypoint: dockerize -wait tcp://worker-db:5432 -timeout 60s
+    user: "1000"
+    command: celery -A config worker -l INFO
+    environment: 
+      <<: *baseenv
+      ? DJANGO_SECRET_KEY=insecure!3
+      ? GIS_CONVERSION_DB_HOST=worker-db
+      # needs to be the password of the conversion db!
+      ? PGPASSWORD=worker
+      ? GIS_CONVERSION_DB_PASSWORD=worker
+      ? GIS_CONVERSION_DB_USER=worker
+      ? OSM_BOUNDARIES_DB_NAME=osmboundaries 
+      ? DJANGO_DEBUG=false
+      # set this at maximum your availbale number of cores
+      ? CELERY_WORKER_CONCURRENCY=4
     networks:
       - default
     logging:
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
+      <<: *logging
+  scheduler:
+    <<: *worker
+    command: celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
+  worker-db:
+    image: geometalab/osmaxx-worker-db
+    build:
+      context: docker-helper-images/osmaxx-postgis-translit/
+      dockerfile: Dockerfile
+    # this can and probably should be further optimized
+    # see https://www.postgresql.org/docs/current/app-postgres.html
+    command: postgres --shared_buffers=2GB --synchronous_commit=off --full_page_writes=off --fsync=off --max_wal_size=10GB --autovacuum=off --checkpoint_timeout=360
+    # command: postgres -B 1GB -F -S 1GB --max_wal_size=10GB
+    volumes:
+      - worker-db:/database
+    environment:
+      - PGDATA=/database/data
+      - POSTGRES_DB=worker
+      - POSTGRES_USER=worker
+      - POSTGRES_PASSWORD=worker
+    logging:
+      <<: *logging
+
+  osmboundaries-importer:
+    # to build/update this image see `docker-helper-images/osmboundaries/`
+    image: geometalab/osmboundaries:latest
+    environment:
+      # TODO: make osmboundaries more flexible concerning the database name
+      # db-name must be osmboundaries. this is a hard-coded dependency
+      - POSTGRES_DB=osmboundaries
+      # the same as the ones in the database above
+      - POSTGRES_USER=worker
+      - POSTGRES_PASSWORD=worker
+      - POSTGRES_HOST=worker-db
+    networks:
+      - default
+    logging:
+      <<: *logging
+
   ##### CONVERSION SERVICE END ########
   ##### WORLD PBF UPDATER START ########
   osm-pbf-updater:
-    # to limit scaling to exactly 1, we need to specify the container name
-    container_name: osm-pbf-updater
-    image: geometalab/osm-pbf-updater:${DEPLOY_VERSION:-latest}
+    image: geometalab/osmaxx-osm-pbf-updater
+    build:
+      context: docker-helper-images/osm_pbf_updater/
+      dockerfile: Dockerfile
     volumes:
       - osm_data:/var/data/osm-planet
+    entrypoint: /bin/bash
+    command: -c "echo 0"
+    # command: /opt/development_download_only.sh
+    # these are just examples
+    # environment:
+    # - osmupdate_extra_params=--base-url=download.geofabrik.de/europe/switzerland-updates/
+    # - osm_planet_mirror=http://download.geofabrik.de/
+    # - osm_planet_path_relative_to_mirror=europe/switzerland-latest.osm.pbf
     networks:
       - default
     logging:
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
+      <<: *logging
   ##### WORLD PBF UPDATER END ########
-  ##### OSM-BOUNDARIES START ######
-  osmboundaries-database:
-    # to limit scaling to exactly 1, we need to specify the container name
-    container_name: osmboundaries_postgis
-    image: mdillon/postgis:10
-    volumes:
-      - osmboundaries-postgis-data:/var/lib/postgresql
-    command: postgres -B 2GB -F -N 512 -S 2GB
-    environment:
-      - POSTGRES_DB=osmboundaries
-      - POSTGRES_USER=osmboundaries
-      - POSTGRES_PASSWORD=osmboundaries
-    networks:
-      - default
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
-  osmboundaries_importer:
-    # to limit scaling to exactly 1, we need to specify the container name
-    container_name: osmboundaries_importer
-    image: geometalab/osmboundaries:latest
-    depends_on:
-      - osmboundaries-database
-    environment:
-        # the same as the ones in the database above
-        - POSTGRES_DB=osmboundaries
-        - POSTGRES_USER=osmboundaries
-        - POSTGRES_PASSWORD=osmboundaries
-        # same as the link name/depends_on
-        - POSTGRES_HOST=osmboundaries-database
-    networks:
-      - default
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10M"
-        max-file: "10"
-  ##### OSM-BOUNDARIES END ######
 volumes:
   # osmaxx
   frontend-database-data: {}
   frontend-media: {}
+  frontend-static: {}
   mediator-database-data: {}
   worker-data: {}
+  worker-data-ignored: {}
+  worker-db: {}
   osm_data: {}
   database-postgis-data: {}
-  osmboundaries-postgis-data: {}

@@ -1,5 +1,6 @@
 import glob
 import os
+from time import sleep
 import uuid
 import jinja2
 
@@ -28,9 +29,11 @@ class BootStrapper:
         self.area_polyfile_string = area_polyfile_string
         self._pbf_file_path = cutted_pbf_file
         self._detail_level = DETAIL_LEVEL_TABLES[detail_level]
-
-        self.db_config = DBConfig(db_name=f"osmaxx_{uuid.uuid4()}")
-        self._postgres = get_default_postgres_wrapper(db_name=self.db_config.db_name)
+        tmp_name = str(uuid.uuid4()).replace("-", "_")
+        self.db_config = DBConfig(db_name=f"osmaxx_{tmp_name}")
+        self._postgres = get_default_postgres_wrapper(
+            db_name=self.db_config.db_name,
+        )
 
         self._script_base_dir = os.path.abspath(
             os.path.join(os.path.dirname(__file__), "templates")
@@ -90,6 +93,12 @@ class BootStrapper:
             print(30 * "#")
             print(extension)
             self._postgres.create_extension(extension)
+            self._postgres.create_extension(
+                extension, schema=self.db_config.db_schema_tmp
+            )
+            self._postgres.create_extension(
+                extension, schema=self.db_config.db_schema_tmp_view
+            )
 
     def _import_boundaries(self):
         osm_importer = OSMBoundariesImporter(db_config=self.db_config)
@@ -110,6 +119,9 @@ class BootStrapper:
         print(self._postgres.execute_sql_command(sql))
 
     def _filter_data(self):
+        self._postgres = get_default_postgres_wrapper(
+            db_name=self.db_config.db_name,
+        )
         filter_sql_script_folders = [
             "address",
             "adminarea_boundary",

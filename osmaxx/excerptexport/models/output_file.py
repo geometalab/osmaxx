@@ -84,15 +84,6 @@ class OutputFile(models.Model):
         if save:
             self.save()
 
-    def remove_file(self):
-        """
-        Removes the file and its directory.
-
-        Returns: None
-
-        """
-        self._remove_file(save=True)
-
     def get_filename_display(self):
         if self.file:
             return os.path.basename(self.file.name)
