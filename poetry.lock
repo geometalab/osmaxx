@@ -1013,6 +1013,17 @@ flake8 = ["flake8", "flake8-import-order", "pep8-naming"]
 test = ["pytest (>=4.0.1,<5.0.0)", "pytest-cov (>=2.6.0,<3.0.0)", "pytest-runner (>=4.2,<5.0.0)"]
 
 [[package]]
+name = "pymemcache"
+version = "3.5.0"
+description = "A comprehensive, fast, pure Python memcached client"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
 name = "pypandoc"
 version = "1.6.3"
 description = "Thin wrapper for pandoc."
@@ -1680,7 +1691,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.10"
-content-hash = "558762c6123737edae15602536c5b29f094a3008326815de2ec1982ca435b207"
+content-hash = "c0d543e0e21a32ac0b4d439c1615ad11114d319897be6c1d80c03eb0c9061d62"
 
 [metadata.files]
 amqp = [
@@ -2354,6 +2365,10 @@ pyhamcrest = [
 pyjwt = [
     {file = "PyJWT-1.7.1-py2.py3-none-any.whl", hash = "sha256:5c6eca3c2940464d106b99ba83b00c6add741c9becaec087fb7ccdefea71350e"},
     {file = "PyJWT-1.7.1.tar.gz", hash = "sha256:8d59a976fb773f3e6a39c85636357c4f0e242707394cadadd9814f5cbaa20e96"},
+]
+pymemcache = [
+    {file = "pymemcache-3.5.0-py2.py3-none-any.whl", hash = "sha256:0969cb83db076f54191a39c904217e3db910b1518b0775cf70fa1dcb31a20424"},
+    {file = "pymemcache-3.5.0.tar.gz", hash = "sha256:5bf9c94a6bc9ad081dc9b5808284e027d755a0518f6375a57405552938c74d91"},
 ]
 pypandoc = [
     {file = "pypandoc-1.6.3-py3-none-win_amd64.whl", hash = "sha256:ed2178f0bfc77e565678c10dd7b57143af01a28d6f9d035995518b5e5b7b877b"},

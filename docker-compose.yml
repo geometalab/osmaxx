@@ -64,7 +64,7 @@ services:
       <<: *logging
   ##### frontend START ########
   frontend: &frontend
-    image: geometalab/osmaxx-frontend
+    image: geometalab/osmaxx-frontend:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -133,7 +133,7 @@ services:
 
   worker: &worker
     <<: *frontend
-    image: geometalab/osmaxx-worker
+    image: geometalab/osmaxx-worker:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -162,7 +162,7 @@ services:
     command: celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
 
   worker-db:
-    image: geometalab/osmaxx-worker-db
+    image: geometalab/osmaxx-worker-db:latest
     build:
       context: docker-helper-images/osmaxx-postgis-translit/
       dockerfile: Dockerfile
@@ -199,7 +199,7 @@ services:
   ##### CONVERSION SERVICE END ########
   ##### WORLD PBF UPDATER START ########
   osm-pbf-updater:
-    image: geometalab/osmaxx-osm-pbf-updater
+    image: geometalab/osmaxx-osm-pbf-updater:latest
     build:
       context: docker-helper-images/osm_pbf_updater/
       dockerfile: Dockerfile

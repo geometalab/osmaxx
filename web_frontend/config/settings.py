@@ -16,12 +16,17 @@ import environ
 from django.contrib.messages import constants as message_constants
 from django.utils import timezone
 
+env = environ.Env()
+
+# DEBUG
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
+DEBUG = env.bool("DJANGO_DEBUG", False)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 APPS_DIR = ROOT_DIR.path("osmaxx")
-
-env = environ.Env()
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -91,10 +96,6 @@ MIGRATION_MODULES = {
     "auth": "osmaxx.contrib.auth.migrations",
 }
 
-# DEBUG
-# ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = env.bool("DJANGO_DEBUG", False)
 
 # FIXTURE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -142,7 +143,11 @@ DATABASES = {
         "DJANGO_DATABASE_URL", default="postgis://postgres@frontenddatabase/postgres"
     ),
 }
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
+# enable persistent connections:
+# https://docs.djangoproject.com/en/3.2/ref/settings/#conn-max-age
+DATABASES["default"]["CONN_MAX_AGE"] = 0
+# disble atomic request, don't remember why we enabled it
+# DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -470,12 +475,13 @@ DEBUG_TOOLBAR_CONFIG = {
 
 CELERY_TIMEZONE = "Europe/Zurich"
 CELERY_TASK_TRACK_STARTED = True
-# in seconds
-CELERY_TASK_TIME_LIMIT = 60 * 120  # two hours
-CELERY_RESULT_BACKEND = "django-db"
 
-CELERY_BROKER_URL = env.str("CELERY_BROKER_URL", default="redis://redis:6379/0")
+CELERY_BROKER_URL = env.str("CELERY_BROKER_URL", default="redis://redis:6379/1")
 CELERY_WORKER_CONCURRENCY = env.int("CELERY_WORKER_CONCURRENCY", default=1)
+
+CELERY_TASK_TIME_LIMIT = 60 * 60 * 24  # in seconds; default 24 hours
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_WORKER_CANCEL_LONG_RUNNING_TASKS_ON_CONNECTION_LOSS = True
 
 
 class glob_list(list):  # noqa

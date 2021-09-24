@@ -42,6 +42,7 @@ posthog = "^1.4.2"
 celery = {extras = ["redis", "auth", "msgpack"], version = "^5.1.2"}
 django-celery-results = "^2.2.0"
 django-celery-beat = "^2.2.1"
+pymemcache = "^3.5.0"
 
 [tool.poetry.dev-dependencies]
 pytest-django = "^4.4.0"
