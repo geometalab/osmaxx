@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "osmaxx"
-version = "1.0.0"
+version = "4.0.0"
 description = ""
 authors = ["Geometa Lab <geometalab@ost.ch>"]
 
