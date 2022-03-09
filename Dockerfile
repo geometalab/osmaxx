@@ -1,5 +1,5 @@
 # load additional data without downloading it everytime osmaxx sources change!
-FROM ubuntu:focal-20210723 as extra-data
+FROM ubuntu:focal-20220302 as extra-data
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
@@ -15,7 +15,7 @@ RUN wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-
 
 # This GDAL image comes with support for FileGDB and has Python 3.8 already installed.
 # Based on image osgeo/gdal (which itself is derived from _/ubuntu).
-FROM geometalab/gdal:3.2.1-v3.2.1 as base
+FROM geometalab/gdal:full-v3.4.1 as base
 USER root
 
 ENV PYTHONUNBUFFERED=rununbuffered \

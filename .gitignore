@@ -94,3 +94,4 @@ web_frontend/src/
 *.log
 speedtest/
 _data/
+docker-helper-images/gdal-docker/gdal/
