@@ -1,3 +1,0 @@
-{% autoescape off %}
-Export #{{ export.id }} "{{ export.extraction_order.excerpt_name }}" to {{ export.get_file_format_display }} has {% if not export.is_status_final %}been {% endif %}{{ export.status }}.{% if export.status == 'started' %} Exporting will take around 30 minutes.{% endif %}
-{% endautoescape %}

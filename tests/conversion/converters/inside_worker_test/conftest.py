@@ -6,27 +6,35 @@ import sqlalchemy
 from sqlalchemy.engine.url import URL as DBURL
 from sqlalchemy_utils import functions as sql_alchemy_utils
 
-from tests.conftest import postgres_container_userland_port, postgres_container_translit_host
+from tests.conftest import (
+    postgres_container_userland_port,
+    postgres_container_translit_host,
+)
 from tests.conversion.converters.inside_worker_test.declarative_schema import osm_models
 
 slow = pytest.mark.skipif(
-    not pytest.config.getoption("--runslow"),
-    reason="need --runslow option to run"
+    "not config.getoption('--runslow')", reason="need --runslow option to run"
 )
 
-db_name = 'osmaxx_db'
+db_name = "osmaxx_db"
 
-gis_db_connection_kwargs = dict(username='postgres', password='postgres', database=db_name, host=postgres_container_translit_host, port=postgres_container_userland_port)
+gis_db_connection_kwargs = dict(
+    username="postgres",
+    password="postgres",
+    database=db_name,
+    host=postgres_container_translit_host,
+    port=postgres_container_userland_port,
+)
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def test_file_dir():
     return os.path.abspath(os.path.dirname(__file__))
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def initialize_db(request):
-    engine = sqlalchemy.create_engine(DBURL('postgres', **gis_db_connection_kwargs))
+    engine = sqlalchemy.create_engine(DBURL("postgres", **gis_db_connection_kwargs))
 
     # create database
     if not sql_alchemy_utils.database_exists(engine.url):
@@ -34,28 +42,35 @@ def initialize_db(request):
 
     def cleanup_db():
         sql_alchemy_utils.drop_database(engine.url)
+
     request.addfinalizer(cleanup_db)
 
     return engine
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def extensions(initialize_db, request):
     engine = initialize_db
-    extensions = ['postgis', 'hstore']
+    extensions = ["postgis", "hstore"]
     for extension in extensions:
-        engine.execute(sqlalchemy.text("CREATE EXTENSION IF NOT EXISTS {};".format(extension)))
+        engine.execute(
+            sqlalchemy.text("CREATE EXTENSION IF NOT EXISTS {} CASCADE;".format(extension))
+        )
 
     def cleanup_extensions():
         for extension in extensions:
-            engine.execute(sqlalchemy.text("DROP EXTENSION IF EXISTS {} CASCADE;".format(extension)))
+            engine.execute(
+                sqlalchemy.text(
+                    "DROP EXTENSION IF EXISTS {} CASCADE;".format(extension)
+                )
+            )
 
     request.addfinalizer(cleanup_extensions)
 
     return engine
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def osm_tables(extensions, request):
     engine = extensions
     tables = [
@@ -73,16 +88,21 @@ def osm_tables(extensions, request):
     def cleanup_tables():
         for table in tables:
             table.drop(engine)
+
     request.addfinalizer(cleanup_tables)
     return engine
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def osmaxx_functions(osm_tables, sql_scripts_create_functions):
     engine = osm_tables
     for function_script in sql_scripts_create_functions:
-        with open(function_script, 'r') as script_content:
-            engine.execute(sqlalchemy.text(script_content.read()).execution_options(autocommit=True))
+        with open(function_script, "r") as script_content:
+            engine.execute(
+                sqlalchemy.text(script_content.read()).execution_options(
+                    autocommit=True
+                )
+            )
     return engine
 
 
@@ -112,19 +132,24 @@ def osmaxx_schemas(osmaxx_functions, clean_osm_tables, request):
 
     def _cleanup():
         cleanup_osmaxx_schemas(engine)
+
     request.addfinalizer(_cleanup)
     return engine
 
 
+from osmaxx.conversion._settings import CONVERSION_SETTINGS
+
 _osmaxx_schemas = [
-    'view_osmaxx',
-    'osmaxx',
+    CONVERSION_SETTINGS["CONVERSION_SCHEMA_NAME_TMP"],
+    CONVERSION_SETTINGS["CONVERSION_SCHEMA_NAME_TMP_VIEW"],
 ]
 
 
 def cleanup_osmaxx_schemas(engine):
     for schema in _osmaxx_schemas:
-        engine.execute(sqlalchemy.text("DROP SCHEMA IF EXISTS {} CASCADE;".format(schema)))
+        engine.execute(
+            sqlalchemy.text("DROP SCHEMA IF EXISTS {} CASCADE;".format(schema))
+        )
 
 
 def sql_from_bootstrap_relative_location(file_name):
@@ -137,20 +162,31 @@ def sql_from_bootstrap_relative_location(file_name):
     Returns: a sql statement as string
     """
     from osmaxx.conversion.converters.converter_gis.bootstrap import bootstrap
-    script_path = os.path.join(os.path.abspath(os.path.dirname(bootstrap.__file__)), file_name)
-    content = open(script_path, 'r').read()
+
+    script_path = os.path.join(
+        os.path.abspath(os.path.dirname(bootstrap.__file__)), file_name
+    )
+    content = open(script_path, "r").read()
     return content
 
 
 @pytest.fixture()
-def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch, mocker, area_polyfile_string):
-    from tests.conversion.converters.inside_worker_test.conftest import cleanup_osmaxx_schemas
-    from osmaxx.conversion.converters.converter_gis.bootstrap.bootstrap import BootStrapper
+def data_import(
+    osmaxx_schemas, clean_osm_tables, monkeypatch, mocker, area_polyfile_string
+):
+    from tests.conversion.converters.inside_worker_test.conftest import (
+        cleanup_osmaxx_schemas,
+    )
+    from osmaxx.conversion.converters.converter_gis.bootstrap.bootstrap import (
+        BootStrapper,
+    )
 
     assert osmaxx_schemas == clean_osm_tables  # same db-connection
     engine = osmaxx_schemas
     monkeypatch.setattr(
-        'osmaxx.conversion.converters.converter_gis.helper.postgres_wrapper.create_engine', lambda *_, **__: engine)
+        "osmaxx.conversion.converters.converter_gis.helper.postgres_wrapper.create_engine",
+        lambda *_, **__: engine,
+    )
 
     class _BootStrapperWithoutPbfFile(BootStrapper):
         def __init__(self, data):
@@ -165,7 +201,9 @@ def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch, mocker, area_poly
 
         def _import_boundaries(self):
             for table, values in self.data.items():
-                engine.execute(table.insert().execution_options(autocommit=True), values)
+                engine.execute(
+                    table.insert().execution_options(autocommit=True), values
+                )
 
         def _setup_db_functions(self):
             pass  # Already taken care of by osmaxx_functions fixture.
@@ -173,7 +211,8 @@ def data_import(osmaxx_schemas, clean_osm_tables, monkeypatch, mocker, area_poly
     @contextmanager
     def import_data(data):
         from osmaxx.conversion.converters.converter_pbf import to_pbf
-        mocker.patch.object(to_pbf, 'cut_area_from_pbf', return_value=None)
+
+        mocker.patch.object(to_pbf, "cut_area_from_pbf", return_value=None)
         bootstrapper = _BootStrapperWithoutPbfFile(data)
         try:
             bootstrapper.bootstrap()

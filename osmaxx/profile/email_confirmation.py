@@ -25,10 +25,18 @@ def send_email_confirmation(profile, request, redirection_target):
         f.args['token'] = token
         if redirection_target:
             f.args['next'] = redirection_target
+
         token_url = request.build_absolute_uri(f.url)
-        subject = render_to_string('profile/verification_email/subject.txt', context={}).strip()
+        if settings.OSMAXX.get('SECURED_PROXY', False):
+            token_url = token_url.replace('http:', 'https:')
+
+        subject = render_to_string(
+            'profile/verification_email/subject.txt', context={}
+        ).strip()
         subject = ''.join(subject.splitlines())
-        subject = unescape_entities(subject)  # HACK: workaround for https://github.com/geometalab/osmaxx/issues/771
+        subject = unescape_entities(
+            subject
+        )  # HACK: workaround for https://github.com/geometalab/osmaxx/issues/771
         message = render_to_string(
             'profile/verification_email/body.txt',
             context=dict(
@@ -36,9 +44,11 @@ def send_email_confirmation(profile, request, redirection_target):
                 username=user.username,
                 new_email_address=to_email,
                 domain=request.get_host(),
-            )
+            ),
         )
-        message = unescape_entities(message)  # HACK: workaround for https://github.com/geometalab/osmaxx/issues/771
+        message = unescape_entities(
+            message
+        )  # HACK: workaround for https://github.com/geometalab/osmaxx/issues/771
         send_mail(
             subject=subject,
             message=message,
@@ -46,5 +56,9 @@ def send_email_confirmation(profile, request, redirection_target):
             recipient_list=[to_email],
         )
         messages.add_message(
-            request, messages.INFO, _('To activate your email, click the link in the confirmation email.')
+            request,
+            messages.INFO,
+            _(
+                'To activate your email, click the link in the confirmation email.'
+            ),
         )

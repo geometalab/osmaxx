@@ -1,0 +1,11 @@
+version: '2'
+services:
+  database:
+    command: postgres -B 1GB -F -N 512 -S 1GB
+    ports:
+      - "5442:5432"
+  osmboundaries_importer:
+    build:
+      context: .
+    volumes:
+      - ./import_shapefiles.sh:/root/import_shapefiles.sh

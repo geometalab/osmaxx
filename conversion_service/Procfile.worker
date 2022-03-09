@@ -1,1 +1,0 @@
-worker: ${HOME}/entrypoint/wait-for-it.sh localhost:5432 -t 30 && python3 ./conversion_service/manage.py rqworker ${WORKER_QUEUES:-default high}

@@ -1,43 +1,43 @@
 {% extends "excerptexport/base.html" %}
-{% load staticfiles i18n crispy_forms_tags %}
+{% load static i18n crispy_forms_tags %}
 
 {% block extracss %}
-    {{ block.super }}
-    <link rel='stylesheet' type='text/css' href='{% static "excerptexport/libraries/Leaflet.draw/leaflet.draw.css" %}' />
+{{ block.super }}
+<link rel='stylesheet' type='text/css' href='{% static "excerptexport/libraries/Leaflet.draw/leaflet.draw.css" %}' />
 {% endblock %}
 
 {% block breadcrumb %}
-    {{ block.super }}
-    <li class="active">{% trans 'New excerpt export' %}</li>
+{{ block.super }}
+<li class="active">{% trans 'New excerpt export' %}</li>
 {% endblock %}
 
 {% block main %}
-    <div class="container-row box-column-grid">
-        <div class="grid-column column-stretch-5 content">
-            <p>Maybe your excerpt exists already?
-                <a href="{% url 'excerptexport:order_existing_excerpt' %}">Order an existing excerpt</a>
-            </p>
+<div class="container-row box-column-grid">
+    <div class="grid-column column-stretch-5 content">
+        <p>Maybe your excerpt exists already?
+            <a href="{% url 'excerptexport:order_existing_excerpt' %}">Order an existing excerpt</a>
+        </p>
 
-            <h2>Order New Excerpt</h2>
-            {% crispy form %}
-        </div>
-        <div class="grid-column column-stretch-5">
-             <div class="outerMapWrapper">
-                <div id="map" ></div>
-            </div>
+        <h2>Order New Excerpt</h2>
+        {% crispy form %}
+    </div>
+    <div class="grid-column column-stretch-5">
+        <div class="outerMapWrapper">
+            <div id="map"></div>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-    {{ block.super }}
-    {# Leaflet plugins #}
-    <script src='{% static "excerptexport/libraries/Leaflet.draw/leaflet.draw.js" %}'></script>
+{{ block.super }}
+{# Leaflet plugins #}
+<script src='{% static "excerptexport/libraries/Leaflet.draw/leaflet.draw.js" %}'></script>
 
-    {# map #}
-    <script src='{% static "excerptexport/scripts/maps/draw_controls.js" %}'></script>
-    <script src='{% static "excerptexport/scripts/maps/new_excerpt_map.js" %}'></script>
+{# map #}
+<script src='{% static "excerptexport/scripts/maps/draw_controls.js" %}'></script>
+<script src='{% static "excerptexport/scripts/maps/new_excerpt_map.js" %}'></script>
 
-    {# form #}
-    <script src='{% static "excerptexport/scripts/validation/new_excerpt_validation.js" %}'></script>
+{# form #}
+<script src='{% static "excerptexport/scripts/validation/new_excerpt_validation.js" %}'></script>
 {% endblock %}

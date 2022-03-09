@@ -4,7 +4,7 @@ from collections import OrderedDict
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.utils.datastructures import OrderedSet
 from django.utils.translation import ugettext_lazy as _
@@ -18,49 +18,53 @@ from osmaxx.conversion import status
 from osmaxx.excerptexport.forms import ExcerptForm, ExistingForm
 from osmaxx.excerptexport.models import Excerpt
 from osmaxx.excerptexport.models import ExtractionOrder
-from osmaxx.excerptexport.signals import postpone_work_until_request_finished
 from .models import Export
 
+from osmaxx.conversion.tasks import start_conversion
 
 logger = logging.getLogger(__name__)
 
 
-def execute_converters(extraction_order, request):
-    extraction_order.forward_to_conversion_service(incoming_request=request)
-
-
 class OrderFormViewMixin(FormMixin):
     def form_valid(self, form):
-        extraction_order = form.save(self.request.user)
-        postpone_work_until_request_finished(execute_converters, extraction_order, request=self.request)
+        extraction_order = form.save(self.request.user, request=self.request)
+        task_id = start_conversion.delay(extraction_order.id)
+        # mostly for debugging purposes
+        extraction_order.assigned_task_id = str(task_id)
         messages.info(
             self.request,
-            _('Queued extraction order {id}. The conversion process will start soon.').format(
-                id=extraction_order.id
-            )
+            _(
+                "Queued extraction order {id}. The conversion process will start soon."
+            ).format(id=extraction_order.id),
         )
-        return HttpResponseRedirect(
-            reverse('excerptexport:export_list')
-        )
+        return HttpResponseRedirect(reverse("excerptexport:export_list"))
 
 
-class OrderNewExcerptView(LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView):
-    template_name = 'excerptexport/templates/order_new_excerpt.html'
+class OrderNewExcerptView(
+    LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView
+):
+    template_name = "excerptexport/templates/order_new_excerpt.html"
     form_class = ExcerptForm
-order_new_excerpt = OrderNewExcerptView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0
 
 
-class OrderExistingExcerptView(LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView):
-    template_name = 'excerptexport/templates/order_existing_excerpt.html'
+order_new_excerpt = OrderNewExcerptView.as_view()
+
+
+class OrderExistingExcerptView(
+    LoginRequiredMixin, EmailRequiredMixin, OrderFormViewMixin, FormView
+):
+    template_name = "excerptexport/templates/order_existing_excerpt.html"
     form_class = ExistingForm
 
     def get_form_class(self):
         return super().get_form_class().get_dynamic_form_class(self.request.user)
-order_existing_excerpt = OrderExistingExcerptView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0
+
+
+order_existing_excerpt = OrderExistingExcerptView.as_view()
 
 
 class OwnershipRequiredMixin(SingleObjectMixin):
-    owner = 'owner'
+    owner = "owner"
 
     def get_object(self, queryset=None):
         o = super().get_object(queryset)
@@ -74,27 +78,33 @@ class ExportsListMixin:
 
     @property
     def excerpt_ids(self):
-        if not hasattr(self, '_excerpt_ids'):
+        if not hasattr(self, "_excerpt_ids"):
             self._excerpt_ids = list(
                 OrderedSet(
-                    self.get_user_exports()
-                    .values_list('extraction_order__excerpt', flat=True)
+                    self.get_user_exports().values_list(
+                        "extraction_order__excerpt", flat=True
+                    )
                 )
             )
         return self._excerpt_ids
 
     @property
     def status_choices(self):
-        return [choice for choice in status.CHOICES if choice[0] in self._filterable_statuses]
+        return [
+            choice
+            for choice in status.CHOICES
+            if choice[0] in self._filterable_statuses
+        ]
 
     def get_user_exports(self):
         return self._filter_exports(
-            Export.objects.filter(extraction_order__orderer=self.request.user)
-            .defer('extraction_order__excerpt__bounding_geometry')
-        ).order_by('-updated_at', '-finished_at')
+            Export.objects.filter(extraction_order__orderer=self.request.user).defer(
+                "extraction_order__excerpt__bounding_geometry"
+            )
+        ).order_by("-updated_at", "-finished_at")
 
     def _filter_exports(self, query):
-        status_filter = self.request.GET.get('status', None)
+        status_filter = self.request.GET.get("status", None)
         if status_filter in self._filterable_statuses:
             return query.filter(status=status_filter)
         return query
@@ -102,43 +112,53 @@ class ExportsListMixin:
     def _get_extra_context_data(self):
         return dict(
             status_choices=self.status_choices,
-            status_filter=self.request.GET.get('status', None),
+            status_filter=self.request.GET.get("status", None),
         )
 
 
 class ExportsListView(LoginRequiredMixin, ExportsListMixin, ListView):
-    template_name = 'excerptexport/export_list.html'
-    context_object_name = 'excerpts'
+    template_name = "excerptexport/export_list.html"
+    context_object_name = "excerpts"
     model = Excerpt
     paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data.update(self._get_extra_context_data())
-        context_data['excerpt_list_with_exports'] = OrderedDict(
-            (excerpt, self._get_exports_for_excerpt(excerpt)) for excerpt in context_data[self.context_object_name]
+        context_data["excerpt_list_with_exports"] = OrderedDict(
+            (excerpt, self._get_exports_for_excerpt(excerpt))
+            for excerpt in context_data[self.context_object_name]
         )
         return context_data
 
     def get_queryset(self):
         return sorted(
-            super().get_queryset().filter(pk__in=self.excerpt_ids)
-            .defer('bounding_geometry'), key=lambda x: self.excerpt_ids.index(x.pk)
+            super()
+            .get_queryset()
+            .filter(pk__in=self.excerpt_ids)
+            .defer("bounding_geometry"),
+            key=lambda x: self.excerpt_ids.index(x.pk),
         )
 
     def _get_exports_for_excerpt(self, excerpt):
-        return self.get_user_exports().\
-            filter(extraction_order__excerpt=excerpt).\
-            select_related('extraction_order', 'extraction_order__excerpt', 'output_file')\
-            .defer('extraction_order__excerpt__bounding_geometry')
-export_list = ExportsListView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0
+        return (
+            self.get_user_exports()
+            .filter(extraction_order__excerpt=excerpt)
+            .select_related(
+                "extraction_order", "extraction_order__excerpt", "output_file"
+            )
+            .defer("extraction_order__excerpt__bounding_geometry")
+        )
+
+
+export_list = ExportsListView.as_view()
 
 
 class ExportsDetailView(LoginRequiredMixin, ExportsListMixin, ListView):
-    template_name = 'excerptexport/export_detail.html'
-    context_object_name = 'exports'
+    template_name = "excerptexport/export_detail.html"
+    context_object_name = "exports"
     model = Export
-    pk_url_kwarg = 'id'
+    pk_url_kwarg = "id"
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -150,46 +170,51 @@ class ExportsDetailView(LoginRequiredMixin, ExportsListMixin, ListView):
         pk = self.kwargs.get(self.pk_url_kwarg)
         if pk is None:
             raise AttributeError("ExportsDetailView must be called with an Excerpt pk.")
-        queryset = self.get_user_exports()\
-            .select_related('extraction_order', 'extraction_order__excerpt', 'output_file')\
+        queryset = (
+            self.get_user_exports()
+            .select_related(
+                "extraction_order", "extraction_order__excerpt", "output_file"
+            )
             .filter(extraction_order__excerpt__pk=pk)
-        return queryset
-export_detail = ExportsDetailView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0
-
-
-def _social_identification_description(user):
-    social_identities = list(user.social_auth.all())
-    if social_identities:
-        return "identified " + " and ".join(
-            "as '{}' by {}".format(soc_id.uid, soc_id.provider) for soc_id in social_identities
         )
-    else:
-        return "not identified by any social identity providers"
+        return queryset
+
+
+export_detail = ExportsDetailView.as_view()
 
 
 class ExcerptManageListView(ListView):
     model = Excerpt
-    context_object_name = 'excerpts'
-    template_name = 'excerptexport/excerpt_manage_list.html'
+    context_object_name = "excerpts"
+    template_name = "excerptexport/excerpt_manage_list.html"
 
     def get_queryset(self):
         user = self.request.user
-        return super().get_queryset().filter(owner=user, is_public=False, extraction_orders__orderer=user).distinct()
-manage_own_excerpts = ExcerptManageListView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0
+        return (
+            super()
+            .get_queryset()
+            .filter(owner=user, is_public=False, extraction_orders__orderer=user)
+            .distinct()
+        )
+
+
+manage_own_excerpts = ExcerptManageListView.as_view()
 
 
 class DeleteExcerptView(DeleteView):
     model = Excerpt
-    context_object_name = 'excerpt'
-    template_name = 'excerptexport/excerpt_confirm_delete.html'
+    context_object_name = "excerpt"
+    template_name = "excerptexport/excerpt_confirm_delete.html"
 
     def get_success_url(self):
-        return reverse('excerptexport:manage_own_excerpts')
+        return reverse("excerptexport:manage_own_excerpts")
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         excerpt = context_data[self.context_object_name]
-        context_data['exports'] = Export.objects.filter(extraction_order__excerpt=excerpt)
+        context_data["exports"] = Export.objects.filter(
+            extraction_order__excerpt=excerpt
+        )
         return context_data
 
     def delete(self, request, *args, **kwargs):
@@ -202,10 +227,17 @@ class DeleteExcerptView(DeleteView):
         if ExtractionOrder.objects.exclude(orderer=user).count() > 0:
             raise GenericViewError("Others' exports reference this excerpt.")
         if excerpt.has_running_exports:
-            logger.error('Deletion not allowed during an active extraction.')
-            messages.error(self.request, _('Exports are currently running for this excerpt.'
-                                           ' Please try deleting again, when these are finished.'))
+            logger.error("Deletion not allowed during an active extraction.")
+            messages.error(
+                self.request,
+                _(
+                    "Exports are currently running for this excerpt."
+                    " Please try deleting again, when these are finished."
+                ),
+            )
             return HttpResponseRedirect(self.get_success_url())
 
         return super().delete(request, *args, **kwargs)
-delete_excerpt = DeleteExcerptView.as_view()  # noqa: expected 2 blank lines after class or function definition, found 0
+
+
+delete_excerpt = DeleteExcerptView.as_view()

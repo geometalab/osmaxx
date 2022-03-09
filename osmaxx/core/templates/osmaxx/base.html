@@ -1,75 +1,79 @@
 {% extends 'base.html' %}
-{% load staticfiles navigation %}
+{% load static navigation %}
 
 {% block extra_head %}
-    <title>OSMaxx</title>
-    <link rel="icon" type="image/png" href='{% static "osmaxx/images/favicon.png" %}' />
+<title>OSMaxx</title>
+<link rel="icon" type="image/png" href='{% static "osmaxx/images/favicon.png" %}' />
 
-    <meta property="og:image" content='{% filter siteabsoluteurl:request %}{% static "osmaxx/images/homepage_screenshot.png" %}{% endfilter %}'/>
-    <meta property="og:title" content="OpenStreetMap Arbitrary Excerpt Export"/>
-    <meta property="og:url" content="{{ request.build_absolute_uri | siteabsoluteurl:request }}"/>
-    <meta property="og:site_name" content="OSMaxx"/>
-    <meta property="og:description" content="Get the OpenStreetMap data you want in the file format you need"/>
+<meta property="og:image"
+    content='{% filter siteabsoluteurl:request %}{% static "osmaxx/images/homepage_screenshot.png" %}{% endfilter %}' />
+<meta property="og:title" content="OpenStreetMap Arbitrary Excerpt Export" />
+<meta property="og:url" content="{{ request.build_absolute_uri | siteabsoluteurl:request }}" />
+<meta property="og:site_name" content="OSMaxx" />
+<meta property="og:description" content="Get the OpenStreetMap data you want in the file format you need" />
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@GeometaLab">
-    <meta name="twitter:creator" content="@GeometaLab">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@GeometaLab">
+<meta name="twitter:creator" content="@GeometaLab">
 
-    <style>
-        body { font-family: Arial, sans-serif; }
-    </style>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+</style>
 
-    <link rel="stylesheet" href="{% static 'osmaxx/libraries/bootstrap/css/bootstrap.min.css' %}" />
+<link rel="stylesheet" href="{% static 'osmaxx/libraries/bootstrap/css/bootstrap.min.css' %}" />
 
-    <link rel='stylesheet' type='text/css' href='{% static "osmaxx/stylesheets/main.css" %}' />
-    <link rel='stylesheet' type='text/css' href='{% static "osmaxx/stylesheets/ie-fixes.css" %}' />
+<link rel='stylesheet' type='text/css' href='{% static "osmaxx/stylesheets/main.css" %}' />
+<link rel='stylesheet' type='text/css' href='{% static "osmaxx/stylesheets/ie-fixes.css" %}' />
 
-    {% block extracss %}{% endblock %}
+{% block extracss %}{% endblock %}
 {% endblock %}
 
 {% block body %}
-    <div class="page">
-        <header>
-            <div class="topBar">
-                <a href="{% url 'excerptexport:index' %}">
-                    <h1>
-                      <img class="logo" src='{% static "osmaxx/images/logo-osmaxx-200.png" %}' alt="OSMaxx" title="OpenStreetMap Arbitrary Excerpt Export" />
-                    </h1>
-                </a>
-                <img class="hsr-logo" src='{% static "osmaxx/images/logo-hsr.jpg" %}' alt="Logo hsr" />
-                {% include 'osmaxx/navigation.html' with view=view user=user %}
-            </div>
-            <nav class="breadcrumb">
-                <ol class="breadcrumb" data-type="bootstrap">
-                    {% block breadcrumb %}<li><a href="/">OSMaxx</a></li>{% endblock %}
-                </ol>
-            </nav>
-        </header>
+<div class="page">
+    <header>
+        <div class="topBar">
+            <a href="{% url 'excerptexport:index' %}">
+                <h1>
+                    <img class="logo" src='{% static "osmaxx/images/logo-osmaxx-200.png" %}' alt="OSMaxx"
+                        title="OpenStreetMap Arbitrary Excerpt Export" />
+                </h1>
+            </a>
+            <img class="hsr-logo" src='{% static "osmaxx/images/logo-hsr.jpg" %}' alt="Logo hsr" />
+            {% include 'osmaxx/navigation.html' with view=view user=user %}
+        </div>
+        <nav class="breadcrumb">
+            <ol class="breadcrumb" data-type="bootstrap">
+                {% block breadcrumb %}<li><a href="/">OSMaxx</a></li>{% endblock %}
+            </ol>
+        </nav>
+    </header>
 
-        <div class="main box-row-grid">
-            <div class="grid-row messagebox">
-                {% include 'osmaxx/flash_messages.html' with messages=messages %}
-            </div>
-
-            {% block main %}
-            <div class="container-row">
-                <h2>Main block</h2>
-            </div>
-            {% endblock %}
+    <div class="main box-row-grid">
+        <div class="grid-row messagebox">
+            {% include 'osmaxx/flash_messages.html' with messages=messages %}
         </div>
 
-        <footer>
-            <p class="footer">
-                {% block copyright %}&copy; 2015-2020 HSR Hochschule für Technik Rapperswil{% endblock %}
-            </p>
-        </footer>
+        {% block main %}
+        <div class="container-row">
+            <h2>Main block</h2>
+        </div>
+        {% endblock %}
     </div>
-    <script type="text/javascript" src="{% static 'osmaxx/js/custom_event_polyfills.js' %}"></script>
-    {# jQuery (necessary for Bootstrap's JavaScript plugins) #}
-    <script type="text/javascript" src="{% static 'osmaxx/libraries/jquery/jquery.min.js' %}"></script>
 
-    {# Bootstrap #}
-    <script type="text/javascript" src="{% static 'osmaxx/libraries/bootstrap/js/bootstrap.min.js' %}"></script>
+    <footer>
+        <p class="footer">
+            {% block copyright %}&copy; 2015-2020 HSR Hochschule für Technik Rapperswil{% endblock %}
+        </p>
+    </footer>
+</div>
+<script type="text/javascript" src="{% static 'osmaxx/js/custom_event_polyfills.js' %}"></script>
+{# jQuery (necessary for Bootstrap's JavaScript plugins) #}
+<script type="text/javascript" src="{% static 'osmaxx/libraries/jquery/jquery.min.js' %}"></script>
 
-    {% block scripts %}{% endblock %}
+{# Bootstrap #}
+<script type="text/javascript" src="{% static 'osmaxx/libraries/bootstrap/js/bootstrap.min.js' %}"></script>
+
+{% block scripts %}{% endblock %}
 {% endblock %}

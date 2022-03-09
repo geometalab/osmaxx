@@ -1,37 +1,37 @@
 {% extends "excerptexport/base.html" %}
-{% load staticfiles i18n crispy_forms_tags %}
+{% load static i18n crispy_forms_tags %}
 
 {% block breadcrumb %}
-    {{ block.super }}
-    <li class="active">{% trans 'Existing excerpt export' %}</li>
+{{ block.super }}
+<li class="active">{% trans 'Existing excerpt export' %}</li>
 {% endblock %}
 
 {% block main %}
-    <div class="container-row box-column-grid">
-        <div class="grid-column column-stretch-5 content">
-            <p>Excerpt not found in list?
-                <a href="{% url 'excerptexport:order_new_excerpt' %}">Order a new excerpt</a>
-            </p>
+<div class="container-row box-column-grid">
+    <div class="grid-column column-stretch-5 content">
+        <p>Excerpt not found in list?
+            <a href="{% url 'excerptexport:order_new_excerpt' %}">Order a new excerpt</a>
+        </p>
 
-            <h2>Export Existing Excerpt</h2>
-            {% crispy form %}
-        </div>
-        <div class="grid-column column-stretch-5">
-             <div class="outerMapWrapper">
-                <div id="map" ></div>
-            </div>
+        <h2>Export Existing Excerpt</h2>
+        {% crispy form %}
+    </div>
+    <div class="grid-column column-stretch-5">
+        <div class="outerMapWrapper">
+            <div id="map"></div>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-    {{ block.super }}
+{{ block.super }}
 
-    {# map #}
-    <script src='{% static "excerptexport/scripts/maps/excerpt_viewer.js" %}'></script>
-    <script src='{% static "excerptexport/scripts/maps/existing_excerpt_map.js" %}'></script>
+{# map #}
+<script src='{% static "excerptexport/scripts/maps/excerpt_viewer.js" %}'></script>
+<script src='{% static "excerptexport/scripts/maps/existing_excerpt_map.js" %}'></script>
 
-    {# form #}
-    <script src='{% static "excerptexport/scripts/excerpt_filter.js" %}'></script>
-    <script src='{% static "excerptexport/scripts/validation/existing_excerpt_validation.js" %}'></script>
+{# form #}
+<script src='{% static "excerptexport/scripts/excerpt_filter.js" %}'></script>
+<script src='{% static "excerptexport/scripts/validation/existing_excerpt_validation.js" %}'></script>
 {% endblock %}

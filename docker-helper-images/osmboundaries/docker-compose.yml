@@ -1,0 +1,42 @@
+version: '3.3'
+services:
+  database:
+    image: postgis/postgis:13-3.1
+    volumes:
+      - osmboundaries-postgis-data:/var/lib/postgresql
+    command: postgres -B 2GB -F -N 512 -S 2GB
+    environment:
+      - POSTGRES_DB=osmboundaries
+      - POSTGRES_USER=osmboundaries
+      - POSTGRES_PASSWORD=osmboundaries
+    networks:
+      - osmboundaries-internal
+      - osmboundaries
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50k
+  osmboundaries_importer:
+    image: geometalab/osmboundaries:latest
+    depends_on:
+      - database
+    environment:
+        # the same as the ones in the database above
+        - POSTGRES_DB=osmboundaries
+        - POSTGRES_USER=osmboundaries
+        - POSTGRES_PASSWORD=osmboundaries
+        # same as the link name/depends_on
+        - POSTGRES_HOST=database
+    networks:
+      - osmboundaries-internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50k
+volumes:
+  osmboundaries-postgis-data: {}
+networks:
+  osmboundaries:
+    driver: bridge
+  osmboundaries-internal:
+    driver: bridge

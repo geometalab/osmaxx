@@ -1,0 +1,143 @@
+-- road --
+INSERT INTO "{{ schema_name }}".road_l
+  SELECT osm_id as osm_id,
+    osm_timestamp as lastchange ,
+    'W' AS geomtype,           -- Way
+    ST_Multi(way) AS geom,
+-- Creating tags for groups of roads --
+    case
+     when highway in ('motorway','trunk','primary','secondary','tertiary') then 'major_road'
+     when highway in ('unclassified','residential','living_street','pedestrian') then 'minor_road'
+     when highway in ('motorway_link','trunk_link','primary_link','secondary_link') then 'highway_links'
+     when highway='service' then 'small_road'
+     when highway='track'  then 'track'
+     when highway in ('bridleway','cycleway','footway','path','steps') then 'no_large_vehicle'
+     else 'others'
+    end as aggtype,
+    case
+     when highway='track' then
+        case
+         when tracktype in ('grade1','grade2','grade3','grade4','grade5') then tracktype
+         else 'track'
+        end
+     when highway in ('motorway','trunk','primary','secondary','tertiary',
+            'unclassified','residential','living_street','pedestrian',
+            'motorway_link','trunk_link','primary_link','secondary_link',
+            'service','track','bridleway','cycleway','footway',
+            'path','steps') then highway
+     else 'road'
+    end as type,
+
+    name as name,
+    "name:en" as name_en,
+    "name:fr" as name_fr,
+    "name:es" as name_es,
+    "name:de" as name_de,
+    int_name as name_int,
+    case
+        when name is not null AND name = osml10n_translit(name) then name
+        when "name:en" is not null then "name:en"
+        when "name:fr" is not null then "name:fr"
+        when "name:es" is not null then "name:es"
+        when "name:de" is not null then "name:de"
+        when int_name is not null then osml10n_translit(int_name)
+        when name is not null then osml10n_translit(name)
+        else NULL
+    end as label,
+    cast(tags as text) as tags,
+    ref as ref,
+    case
+    when oneway is not null then oneway
+    else 'no'
+    end as oneway,
+    z_order as z_order,
+-- Creating tags for groups of Road Bridges --
+    case
+    when bridge in ('split_log' , 'beam', 'culvert', 'low_water_crossing', 'yes', 'suspension', 'viaduct', 'aqueduct', 'covered') then TRUE
+    else FALSE
+    end as bridge,
+-- Creating tags for groups of Road Tunnels --
+    case
+    when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector', 'viaduct', 'tunnel', 'yes') then TRUE
+    else FALSE
+    end as tunnel
+     FROM osm_line
+     WHERE highway not in ('abandoned','construction','planned','proposed','disused') AND junction IS DISTINCT FROM 'roundabout'
+UNION
+(
+  WITH osm_single_polygon AS (
+      SELECT osm_id, osm_timestamp, highway, junction, tunnel, tracktype, bridge, oneway, ref, z_order, name, "name:en", "name:fr", "name:es", "name:de", int_name, tags,
+
+      CASE WHEN ST_GeometryType(way) = ANY(array['ST_MultiPolygon', 'ST_Polygon'])
+        THEN ST_Boundary(way)
+        ELSE way
+      END AS way
+      FROM osm_polygon
+  )
+  SELECT osm_id as osm_id,
+    osm_timestamp as lastchange,
+    'W' AS geomtype,
+    ST_Multi(way) AS geom,
+-- Creating tags for groups of roads --
+    case
+     when highway in ('motorway','trunk','primary','secondary','tertiary') then 'major_road'
+     when highway in ('unclassified','residential','living_street','pedestrian') then 'minor_road'
+     when highway in ('motorway_link','trunk_link','primary_link','secondary_link') then 'highway_links'
+     when highway='service' then 'small_road'
+     when highway='track'  then 'track'
+     when highway in ('bridleway','cycleway','footway','path','steps') then 'no_large_vehicle'
+     else 'others'
+    end as aggtype,
+    case
+     when highway='track' then
+        case
+         when tracktype in ('grade1','grade2','grade3','grade4','grade5') then tracktype
+         else 'track'
+        end
+     when highway in ('motorway','trunk','primary','secondary','tertiary',
+            'unclassified','residential','living_street','pedestrian',
+            'motorway_link','trunk_link','primary_link','secondary_link',
+            'service','track','bridleway','cycleway','footway',
+            'path','steps') then highway
+     else 'road'
+    end as type,
+
+    name as name,
+    "name:en" as name_en,
+    "name:fr" as name_fr,
+    "name:es" as name_es,
+    "name:de" as name_de,
+    int_name as name_int,
+    case
+        when name is not null AND name = osml10n_translit(name) then name
+        when "name:en" is not null then "name:en"
+        when "name:fr" is not null then "name:fr"
+        when "name:es" is not null then "name:es"
+        when "name:de" is not null then "name:de"
+        when int_name is not null then osml10n_translit(int_name)
+        when name is not null then osml10n_translit(name)
+        else NULL
+    end as label,
+    cast(tags as text) as tags,
+    ref as ref,
+    case
+    when oneway is not null then oneway
+    else 'no'
+    end as oneway,
+    z_order as z_order,
+
+-- Creating tags for groups of Road Bridges --
+    case
+    when bridge in ('split_log' , 'beam', 'culvert', 'low_water_crossing', 'yes', 'suspension', 'viaduct', 'aqueduct', 'covered') then TRUE
+    else FALSE
+    end as bridge,
+
+-- Creating tags for groups of Road Tunnels --
+    case
+    when tunnel in ('passage', 'culvert', 'noiseprotection galerie', 'gallery', 'building_passage', 'avalanche_protector', 'viaduct', 'tunnel', 'yes') then TRUE
+    else FALSE
+    end as tunnel
+
+     FROM osm_single_polygon
+     WHERE highway not in ('abandoned','construction','planned','proposed','disused') AND junction IS DISTINCT FROM 'roundabout'
+);

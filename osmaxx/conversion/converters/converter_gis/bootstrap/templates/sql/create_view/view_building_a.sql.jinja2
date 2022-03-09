@@ -1,0 +1,16 @@
+CREATE OR REPLACE VIEW "{{ view_schema_name }}".building_a AS SELECT
+    osm_id,
+    lastchange,
+    geomtype,
+    geom,
+    "type",
+    "name",
+    name_en,
+    name_fr,
+    name_es,
+    name_de,
+    int_name,
+    label,
+    tags,
+    height
+FROM "{{ schema_name }}".building_a;

@@ -14,32 +14,31 @@ NYQIST_FACTOR = 1 / 2
 
 
 class Excerpt(models.Model):
-    EXCERPT_TYPE_USER_DEFINED = 'user-defined'
-    EXCERPT_TYPE_COUNTRY_BOUNDARY = 'country'
+    EXCERPT_TYPE_USER_DEFINED = "user-defined"
+    EXCERPT_TYPE_COUNTRY_BOUNDARY = "country"
     EXCERPT_TYPES = [
-        (EXCERPT_TYPE_USER_DEFINED, _('user defined')),
-        (EXCERPT_TYPE_COUNTRY_BOUNDARY, _('country')),
+        (EXCERPT_TYPE_USER_DEFINED, _("user defined")),
+        (EXCERPT_TYPE_COUNTRY_BOUNDARY, _("country")),
     ]
-    name = models.CharField(max_length=128, verbose_name=_('name'))
-    is_public = models.BooleanField(default=False, verbose_name=_('is public'))
-    is_active = models.BooleanField(default=True, verbose_name=_('is active'))
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='excerpts', verbose_name=_('owner'), null=True,
-                              on_delete=models.CASCADE)
-    bounding_geometry = models.MultiPolygonField(verbose_name=_('bounding geometry'))
-    excerpt_type = models.CharField(max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED)
+    name = models.CharField(max_length=128, verbose_name=_("name"))
+    is_public = models.BooleanField(default=False, verbose_name=_("is public"))
+    is_active = models.BooleanField(default=True, verbose_name=_("is active"))
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="excerpts",
+        verbose_name=_("owner"),
+        null=True,
+        on_delete=models.CASCADE,
+    )
+    bounding_geometry = models.MultiPolygonField(verbose_name=_("bounding geometry"))
+    excerpt_type = models.CharField(
+        max_length=40, choices=EXCERPT_TYPES, default=EXCERPT_TYPE_USER_DEFINED
+    )
 
     COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES = 0.001
     BUFFER_METERS = 200
 
     CACHE_TIMEOUT_IN_SECONDS = None  # cache forever
-
-    def send_to_conversion_service(self):
-        from osmaxx.api_client.conversion_api_client import ConversionApiClient
-        api_client = ConversionApiClient()
-        bounding_geometry = self.bounding_geometry
-        if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
-            bounding_geometry = self.simplified_buffered()
-        return api_client.create_boundary(bounding_geometry, name=self.name)
 
     def simplified_buffered(self):
         """
@@ -49,19 +48,22 @@ class Excerpt(models.Model):
 
         Returns: the resulting area
         """
-        cache_key = 'excerpt-buffered-{}'.format(self.pk)
+        cache_key = "excerpt-buffered-{}".format(self.pk)
 
         geometry = cache.get(cache_key)
         if geometry:
             return geometry
 
-        simplification_tolerance = DEGREES_PER_METERS_AT_EQUATOR * NYQIST_FACTOR * self.BUFFER_METERS
+        simplification_tolerance = (
+            DEGREES_PER_METERS_AT_EQUATOR * NYQIST_FACTOR * self.BUFFER_METERS
+        )
         original_srid = self.bounding_geometry.srs
         bounding_geometry = self.bounding_geometry.simplify(
-            tolerance=simplification_tolerance,
-            preserve_topology=True
+            tolerance=simplification_tolerance, preserve_topology=True
         )
-        bounding_geometry = with_metric_buffer(bounding_geometry, buffer_meters=self.BUFFER_METERS, map_srid=original_srid)
+        bounding_geometry = with_metric_buffer(
+            bounding_geometry, buffer_meters=self.BUFFER_METERS, map_srid=original_srid
+        )
         if not isinstance(bounding_geometry, geos.MultiPolygon):
             bounding_geometry = geos.MultiPolygon(bounding_geometry)
         cache.set(cache_key, bounding_geometry, self.CACHE_TIMEOUT_IN_SECONDS)
@@ -72,15 +74,15 @@ class Excerpt(models.Model):
         if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
             return self.simplified_buffered().simplify(
                 tolerance=self.COUNTRY_SIMPLIFICATION_TOLERANCE_ANGULAR_DEGREES,
-                preserve_topology=True
+                preserve_topology=True,
             )
         return self.bounding_geometry
 
     @property
     def color(self):
         if self.excerpt_type == self.EXCERPT_TYPE_COUNTRY_BOUNDARY:
-            return 'black'
-        return 'blue'
+            return "black"
+        return "blue"
 
     @property
     def extent(self):
@@ -95,7 +97,9 @@ class Excerpt(models.Model):
         )
 
     def attached_export_count(self, user):
-        return self.extraction_orders.filter(orderer=user).aggregate(Count('exports'))['exports__count']
+        return self.extraction_orders.filter(orderer=user).aggregate(Count("exports"))[
+            "exports__count"
+        ]
 
     def __str__(self):
         return self.name

@@ -1,9 +1,9 @@
 import os
 from django.contrib.gis.geos import Polygon, MultiPolygon, GEOSGeometry
 
-from osmaxx.excerptexport._settings import POLYFILE_LOCATION
+from osmaxx.excerptexport.excerpt_settings import POLYFILE_LOCATION
 
-POLYFILE_FILENAME_EXTENSION = '.poly'
+POLYFILE_FILENAME_EXTENSION = ".poly"
 
 
 def _is_polyfile(filename):
@@ -42,19 +42,21 @@ def parse_poly(lines):
             # first line is junk.
             continue
 
-        elif in_ring and line.strip() == 'END':
+        elif in_ring and line.strip() == "END":
             # we are at the end of a ring, perhaps with more to come.
             in_ring = False
 
         elif in_ring:
             # we are in a ring and picking up new coordinates.
-            ring.append([val for val in map(float, line.split())])  # noqa: this is too complicated for flake to understand that ring will be defined if we reach this point
+            ring.append(
+                [val for val in map(float, line.split())]
+            )  # noqa: this is too complicated for flake to understand that ring will be defined if we reach this point
 
-        elif not in_ring and line.strip() == 'END':
+        elif not in_ring and line.strip() == "END":
             # we are at the end of the whole polygon.
             break
 
-        elif not in_ring and line.startswith('!'):
+        elif not in_ring and line.startswith("!"):
             # we are at the start of a polygon part hole.
             coords[-1].append([])
             ring = coords[-1][-1]
@@ -75,15 +77,18 @@ def get_polyfile_names_to_file_mapping():
 
     Returns: a mapping of polyfile names to polyfile path
     """
-    from osmaxx.excerptexport._settings import POLYFILE_LOCATION
+    from osmaxx.excerptexport.excerpt_settings import POLYFILE_LOCATION
+
     polyfile_name_to_file_path_mapping = {}
     for root, dirs, files in os.walk(POLYFILE_LOCATION):
-        subfolder_name = root[len(POLYFILE_LOCATION):].replace('/', '')
+        subfolder_name = root[len(POLYFILE_LOCATION) :].replace("/", "")
         for possible_polyfile in files:
             if _is_polyfile(possible_polyfile):
-                name_parts = [] if subfolder_name == '' else [subfolder_name]
+                name_parts = [] if subfolder_name == "" else [subfolder_name]
                 name, _ = possible_polyfile.split(POLYFILE_FILENAME_EXTENSION)
                 name_parts.append(name)
-                excerpt_name = ' - '.join(name_parts)
-                polyfile_name_to_file_path_mapping[excerpt_name] = os.path.join(root, possible_polyfile)
+                excerpt_name = " - ".join(name_parts)
+                polyfile_name_to_file_path_mapping[excerpt_name] = os.path.join(
+                    root, possible_polyfile
+                )
     return polyfile_name_to_file_path_mapping

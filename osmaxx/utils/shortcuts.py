@@ -1,12 +1,11 @@
 import datetime
+from osmaxx.user_messaging.interaction import add_user_message
 
 from django.conf import settings
 from django.contrib import messages
 from django.core import mail
 from django.core.cache import cache
 from django.utils.translation import gettext as _
-
-import stored_messages
 
 
 class Emissary:
@@ -35,24 +34,31 @@ class Emissary:
                 settings.EMAIL_SUBJECT_PREFIX + subject,
                 mail_body,
                 settings.DEFAULT_FROM_EMAIL,
-                [email_address]
+                [email_address],
             )
         except AttributeError:
             if warn_if_no_email:
                 self.warn(
-                    _("There is no email address assigned to your account. You won't be notified by email!")
+                    _(
+                        "There is no email address assigned to your account. You won't be notified by email!"
+                    )
                 )
 
     def inform(self, message_type, message):
-        stored_messages.api.add_message_for(
-            users=[self.recipient],
+        add_user_message(
+            msg=message,
             level=message_type,
-            message_text=message
+            user=self.recipient,
         )
 
 
 def get_cached_or_set(
-        cache_string, func, *args, timeout=datetime.timedelta(minutes=15).total_seconds(), on_cache_hit=None, **kwargs
+    cache_string,
+    func,
+    *args,
+    timeout=datetime.timedelta(minutes=15).total_seconds(),
+    on_cache_hit=None,
+    **kwargs
 ):
     """Gets requested value from cache, else produces it with specified function and caches it.
 

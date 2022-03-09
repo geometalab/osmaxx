@@ -1,48 +1,76 @@
+from osmaxx.conversion.constants import status
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
 from django.template.loader import render_to_string
+from django.utils.functional import empty
 from django.utils.text import unescape_entities
 from django.utils.translation import ugettext_lazy as _
 
-from osmaxx.conversion.converters.converter_gis.detail_levels import DETAIL_LEVEL_CHOICES, DETAIL_LEVEL_ALL
+from osmaxx.conversion.converters.converter_gis.detail_levels import (
+    DETAIL_LEVEL_CHOICES,
+    DETAIL_LEVEL_ALL,
+)
 from osmaxx.conversion import coordinate_reference_system as crs
 from .excerpt import Excerpt
 
 
 class ExtractionOrder(models.Model):
     coordinate_reference_system = models.IntegerField(
-        verbose_name=_('CRS'), choices=crs.CHOICES, default=crs.WGS_84
+        verbose_name=_("CRS"), choices=crs.CHOICES, default=crs.WGS_84
     )
     detail_level = models.IntegerField(
-        verbose_name=_('detail level'), choices=DETAIL_LEVEL_CHOICES, default=DETAIL_LEVEL_ALL
+        verbose_name=_("detail level"),
+        choices=DETAIL_LEVEL_CHOICES,
+        default=DETAIL_LEVEL_ALL,
     )
-    process_id = models.TextField(blank=True, null=True, verbose_name=_('process link'))
-    orderer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='extraction_orders', verbose_name=_('orderer'),
-                                on_delete=models.CASCADE)
-    excerpt = models.ForeignKey(Excerpt, related_name='extraction_orders', verbose_name=_('excerpt'), null=True,
-                                on_delete=models.CASCADE)
-    progress_url = models.URLField(verbose_name=_('progress URL'), null=True, blank=True)
-
-    def forward_to_conversion_service(self, *, incoming_request):
-        clipping_area_json = self.excerpt.send_to_conversion_service()
-        jobs_json = [
-            export.send_to_conversion_service(clipping_area_json, incoming_request)
-            for export in self.exports.all()
-        ]
-        return jobs_json
+    orderer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="extraction_orders",
+        verbose_name=_("orderer"),
+        on_delete=models.CASCADE,
+    )
+    excerpt = models.ForeignKey(
+        Excerpt,
+        related_name="extraction_orders",
+        verbose_name=_("excerpt"),
+        null=True,
+        on_delete=models.CASCADE,
+    )
+    export_finished = models.BooleanField(
+        _("export finished"),
+        default=False,
+    )
+    email_sent = models.BooleanField(
+        _("email sent"),
+        default=False,
+    )
+    invoke_update_url = models.URLField(
+        _("url to invoke for updates"),
+        default="http://localhost:8000",
+        max_length=250,
+    )
+    assigned_task_id = models.CharField(
+        _("assigned task id"),
+        max_length=200,
+        null=True,
+    )
 
     def __str__(self):
-        return ', '.join(
+        return ", ".join(
             [
-                '[{order_id}] orderer: {orderer_name}'.format(
+                "[{order_id}] orderer: {orderer_name}".format(
                     order_id=self.id,
                     orderer_name=self.orderer.get_username(),
                 ),
-                'excerpt: {}'.format(str(self.excerpt_name)),
+                "excerpt: {}".format(str(self.excerpt_name)),
             ]
         )
+
+    @property
+    def epsg(self):
+        return "EPSG:{}".format(self.coordinate_reference_system)
 
     @property
     def excerpt_name(self):
@@ -57,39 +85,49 @@ class ExtractionOrder(models.Model):
 
     @property
     def extraction_formats(self):
-        return self.exports.values_list('file_format', flat=True)
+        return self.exports.values_list("file_format", flat=True)
 
     @extraction_formats.setter
     def extraction_formats(self, value):
         new_formats = frozenset(value)
-        previous_formats = self.exports.values_list('file_format', flat=True)
+        previous_formats = self.exports.values_list("file_format", flat=True)
         assert new_formats.issuperset(previous_formats)
-        self._new_formats = new_formats  # Will be collected and cleaned up by attach_new_formats.
+        self._new_formats = (
+            new_formats  # Will be collected and cleaned up by attach_new_formats.
+        )
         if self.id is not None:
             attach_new_formats(self.__class__, instance=self)
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
-        return reverse('excerptexport:export_list')
+        from django.urls import reverse
+
+        return reverse("excerptexport:export_list")
 
     def send_email_if_all_exports_done(self, incoming_request):
-        if all(export.is_status_final for export in self.exports.all()):
+        if not self.email_sent and all(
+            export.is_status_final for export in self.exports.all()
+        ):
             from osmaxx.utils.shortcuts import Emissary
+
             emissary = Emissary(recipient=self.orderer)
             emissary.inform_mail(
                 subject=self._get_all_exports_done_email_subject(),
-                mail_body=self._get_all_exports_done_mail_body(incoming_request)
+                mail_body=self._get_all_exports_done_mail_body(incoming_request),
             )
+            self.email_sent = True
+            self.save()
 
     def _get_all_exports_done_email_subject(self):
         view_context = dict(
             extraction_order=self,
-            successful_exports_count=self.exports.filter(output_file__isnull=False).count(),
-            failed_exports_count=self.exports.filter(output_file__isnull=True).count(),
+            successful_exports_count=self.exports.filter(
+                status=status.FINISHED,
+            ).count(),
+            failed_exports_count=self.exports.filter(status=status.FAILED).count(),
         )
         return unescape_entities(
             render_to_string(
-                'excerptexport/email/all_exports_of_extraction_order_done_subject.txt',
+                "excerptexport/email/all_exports_of_extraction_order_done_subject.txt",
                 context=view_context,
             ).strip()
         )  # HACK: calling unescape_entities as workaround for https://github.com/geometalab/osmaxx/issues/771
@@ -97,13 +135,13 @@ class ExtractionOrder(models.Model):
     def _get_all_exports_done_mail_body(self, incoming_request):
         view_context = dict(
             extraction_order=self,
-            successful_exports=self.exports.filter(output_file__isnull=False),
-            failed_exports=self.exports.filter(output_file__isnull=True),
+            successful_exports=self.exports.filter(status=status.FINISHED),
+            failed_exports=self.exports.filter(status=status.FAILED),
             request=incoming_request,
         )
         return unescape_entities(
             render_to_string(
-                'excerptexport/email/all_exports_of_extraction_order_done_body.txt',
+                "excerptexport/email/all_exports_of_extraction_order_done_body.txt",
                 context=view_context,
             ).strip()
         )  # HACK: calling unescape_entities as workaround for https://github.com/geometalab/osmaxx/issues/771
@@ -111,7 +149,7 @@ class ExtractionOrder(models.Model):
 
 @receiver(post_save, sender=ExtractionOrder)
 def attach_new_formats(sender, instance, **kwargs):
-    if hasattr(instance, '_new_formats'):
+    if hasattr(instance, "_new_formats"):
         for format in instance._new_formats:
             instance.exports.get_or_create(file_format=format)
         del instance._new_formats

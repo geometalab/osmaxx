@@ -1,4 +1,4 @@
-(function() {
+(function () {
     window.estimateSize = function (leafletGeometry) {
         var latLngs = leafletGeometry.getBounds(),
             north = latLngs.getNorth(),
@@ -25,9 +25,9 @@
         return parseFloat((bytes / Math.pow(k, i)).toFixed()) + ' ' + sizes[i];
     };
 
-    function _addToCheckboxes(data){
+    function _addToCheckboxes(data) {
         var checkboxes = jQuery("#div_id_formats input[type='checkbox']");
-        checkboxes.each(function(counter, checkbox) {
+        checkboxes.each(function (_, checkbox) {
             var format = jQuery(checkbox).attr('value');
             var size = formatBytes(data[format]);
             var sizeText = "<span class='size_estimation'> (~" + size + ")</span>";
@@ -41,7 +41,7 @@
         });
     }
 
-    window.addSizeEstimationToCheckboxes = function(layer){
+    window.addSizeEstimationToCheckboxes = function (layer) {
         var estimateSizeForFormats = function (pbfSize, detailLevel) {
             return jQuery.getJSON(
                 '/api/format_size_estimation/',
@@ -50,11 +50,11 @@
                     'detail_level': detailLevel
                 });
         };
-        estimateSize(layer).done(function(data){
+        estimateSize(layer).done(function (data) {
             var pbfSize = data['estimated_file_size_in_bytes'];
             var detailLevel = jQuery("#id_detail_level").find(":selected").attr('value');
             if (detailLevel != null) {
-                estimateSizeForFormats(pbfSize, detailLevel).done(function(data) {
+                estimateSizeForFormats(pbfSize, detailLevel).done(function (data) {
                     _addToCheckboxes(data);
                 });
             }

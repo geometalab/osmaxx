@@ -24,13 +24,7 @@ To run this project locally, you need [sufficiently recent versions](/docs/devel
 
 #### Development
 
-Simply run
-
-```shell
-make local_dev_env
-```
-
-to set up `*.env` files suitable for local use of our docker-compose files. **Do not use this for production!** It will make use of insecure and hard coded passwords.
+Development is being done using docker and docker-compose. you should be able to start it with `docker-compose up --build`.
 
 #### Production
 
