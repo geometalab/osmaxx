@@ -5,6 +5,7 @@ from sqlalchemy import create_engine, event
 
 from sqlalchemy.engine.url import URL
 from sqlalchemy_utils import functions as sql_alchemy_utils
+from sqlalchemy.orm.session import close_all_sessions
 
 logger = logging.getLogger()
 
@@ -22,7 +23,14 @@ class Postgres:
         }
         connection_url = URL("postgresql", **self._connection_parameters)
 
-        self._engine = create_engine(connection_url, echo=False)
+        self._engine = create_engine(
+            connection_url,
+            echo=False,
+            pool_size=6,
+            max_overflow=0,
+            pool_pre_ping=True,
+        )
+
         if search_path:
 
             @event.listens_for(self._engine, "connect", insert=True)

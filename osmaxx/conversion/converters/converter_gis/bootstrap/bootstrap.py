@@ -1,3 +1,5 @@
+import random
+import string
 import glob
 import os
 from time import sleep
@@ -21,6 +23,13 @@ from osmaxx.utils import polyfile_helpers
 from osmaxx.conversion.conversion_settings import DBConfig
 
 
+def get_random_string(length):
+    # choose from all lowercase letter
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    return result_str
+
+
 class BootStrapper:
     def __init__(
         self, area_polyfile_string, *, cutted_pbf_file, detail_level=DETAIL_LEVEL_ALL
@@ -29,7 +38,7 @@ class BootStrapper:
         self.area_polyfile_string = area_polyfile_string
         self._pbf_file_path = cutted_pbf_file
         self._detail_level = DETAIL_LEVEL_TABLES[detail_level]
-        tmp_name = str(uuid.uuid4()).replace("-", "_")
+        tmp_name = get_random_string(20)
         self.db_config = DBConfig(db_name=f"osmaxx_{tmp_name}")
         self._postgres = get_default_postgres_wrapper(
             db_name=self.db_config.db_name,
@@ -52,8 +61,10 @@ class BootStrapper:
 
     def bootstrap(self):
         print("Bootstrap", "#" * 30)
-        print("resetting database/views")
-        self._reset_database()
+        # print("resetting database/views")
+        # self._reset_database()
+        print("setup database")
+        self._setup_db()
         print("import boundaries")
         self._import_boundaries()
         print("import pbf")

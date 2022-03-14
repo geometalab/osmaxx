@@ -144,8 +144,9 @@ DATABASES = {
     ),
 }
 # enable persistent connections:
-# https://docs.djangoproject.com/en/3.2/ref/settings/#conn-max-age
-DATABASES["default"]["CONN_MAX_AGE"] = 0
+# https://docs.djangoproject.com/en/4.0/ref/settings/#conn-max-age
+DATABASES["default"]["CONN_MAX_AGE"] = None
+
 # disble atomic request, don't remember why we enabled it
 # DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
@@ -190,6 +191,7 @@ TEMPLATES = [
         "DIRS": [
             str(APPS_DIR.path("templates")),
         ],
+        "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.contrib.auth.context_processors.auth",
@@ -203,10 +205,6 @@ TEMPLATES = [
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
                 "django.template.context_processors.request",
-            ],
-            "loaders": [
-                "django.template.loaders.filesystem.Loader",
-                "django.template.loaders.app_directories.Loader",
             ],
         },
     },

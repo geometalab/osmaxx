@@ -61,7 +61,7 @@ class ConversionHelper:
             self._cut_pbf_along_polyfile(polyfile.name)
 
     def create_export(self, export_id):
-        # this looks funny, but because processing tales so long,
+        # this looks funny, but because processing takes so long,
         # we need to refetch the objects otherwise the database
         # connection is already closed
         export = Export.objects.get(pk=export_id)
