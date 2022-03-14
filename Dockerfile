@@ -70,11 +70,16 @@ WORKDIR ${WORKDIR}
 # don't put on same line, workdir isn't set at the moment
 ENV PYTHONPATH="${PYTHONPATH}:${WORKDIR}"
 
+RUN pip install -U "poetry<$MAX_POETRY_VERSION" \
+    && poetry config virtualenvs.create false
+
 COPY ./poetry.lock ./pyproject.toml ${WORKDIR}/
 
-RUN python -m pip install --no-cache-dir install "poetry<$MAX_POETRY_VERSION" \
-    && poetry export --dev -f requirements.txt --output requirements.txt \
-    && pip install -r requirements.txt
+RUN poetry install --no-interaction --no-ansi
+
+# RUN python -m pip install --no-cache-dir install "poetry<$MAX_POETRY_VERSION" \
+#     && poetry export --dev -f requirements.txt --output requirements.txt \
+#     && pip install -r requirements.txt
 
 ########################
 ##### FRONTEND #########
