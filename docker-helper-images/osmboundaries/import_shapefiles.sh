@@ -19,7 +19,7 @@ create_database_if_not_exists(){
 ogr2ogr_command(){
   ogr2ogr --config PG_USE_COPY YES \
     -f "PostgreSQL" \
-    PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${POSTGRES_DB} password=${POSTGRES_PASSWORD}" \
+    PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${POSTGRES_DB} password=${POSTGRES_PASSWORD} connect_timeout=-1" \
     -overwrite "$1"
 }
 

@@ -147,6 +147,12 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#conn-max-age
 DATABASES["default"]["CONN_MAX_AGE"] = None
 
+CONNECT_TIMEOUT_IN_SECONDS = 60 * 60 * 10 # ten hours
+
+DATABASES["default"]["OPTIONS"] = {
+    'connect_timeout': CONNECT_TIMEOUT_IN_SECONDS,
+}
+
 # disble atomic request, don't remember why we enabled it
 # DATABASES["default"]["ATOMIC_REQUESTS"] = True
 

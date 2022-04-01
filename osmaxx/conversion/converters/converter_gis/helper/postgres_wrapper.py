@@ -22,13 +22,16 @@ class Postgres:
             "host": host,
         }
         connection_url = URL("postgresql", **self._connection_parameters)
-
+        
+        POOL_TIMEOUT_IN_SECONDS = 60 * 60 * 10 # ten hours
+        
         self._engine = create_engine(
             connection_url,
             echo=False,
             pool_size=6,
             max_overflow=0,
             pool_pre_ping=True,
+            pool_timeout=POOL_TIMEOUT_IN_SECONDS,
         )
 
         if search_path:

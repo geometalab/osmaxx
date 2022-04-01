@@ -54,7 +54,7 @@ def extract_to(*, to_format, output_dir, base_filename, out_srs, db_config: DBCo
         output_path,
         "-t_srs",
         out_srs,
-        f"PG:dbname={db_name} host={db_host} user={db_user} password={db_pass} schemas={db_view_name}",
+        f"PG:dbname={db_name} host={db_host} user={db_user} password={db_pass} schemas={db_view_name} connect_timeout=-1",
     ]
     ogr2ogr_command += extraction_options
     print(30 * "#")
