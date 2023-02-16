@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.utils.datastructures import OrderedSet
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, GenericViewError
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin, DeleteView
@@ -217,7 +217,7 @@ class DeleteExcerptView(DeleteView):
         )
         return context_data
 
-    def delete(self, request, *args, **kwargs):
+    def form_valid(self, request, *args, **kwargs):
         excerpt = self.get_object()
         user = self.request.user
         if user != excerpt.owner:

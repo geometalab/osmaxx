@@ -1,6 +1,10 @@
+# gdal with FileGDB Support
+
+Only use this to build the docker image with fileGDB support.
+Since we disabled this feature, this isn't updated anymore.
+
 The version downloaded apparently doesn't yield the correct version when using releases, therefore 
 a change in `gdal/docker/ubuntu-full/bh-gdal.sh` might be needed:
-
 
 ```bash
 # ...
@@ -28,7 +32,6 @@ with
 ```dockerfile
 ARG WITH_FILEGDB=1
 ```
-
 
 **if issues with libjxl, checkout specific version**:
 

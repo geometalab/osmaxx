@@ -1,7 +1,7 @@
 # pylint: disable=C0111
 import os
 import tempfile
-from collections import Mapping
+from collections.abc import Mapping
 from datetime import timedelta
 
 import pytest
@@ -19,20 +19,15 @@ postgres_container_translit_host = os.environ.get("PG_TRANSLIT_HOST", "127.0.0.1
 def pytest_configure():
     from django.conf import settings
     import environ
-
+    env = environ.Env()
     settings.configure(
         ROOT_DIR=environ.Path(__file__) - 1,
         DEBUG_PROPAGATE_EXCEPTIONS=True,
         ALLOWED_HOSTS=["the-host.example.com", "thehost.example.com"],
         DATABASES={
-            "default": {
-                "ENGINE": "django.contrib.gis.db.backends.postgis",
-                "NAME": "postgres",
-                "USER": "postgres",
-                "PASSWORD": "postgres",
-                "PORT": os.environ.get("DJANGO_DB_PORT", "54321"),
-                "HOST": os.environ.get("DJANGO_DB_HOST", "127.0.0.1"),
-            }
+            "default": env.db(
+                "DJANGO_DATABASE_URL", default="postgis://postgres@testdb/postgres"
+            ),
         },
         SITE_ID=1,
         SECRET_KEY="not very secret in tests",
@@ -73,7 +68,6 @@ def pytest_configure():
             "django.middleware.csrf.CsrfViewMiddleware",
             "django.contrib.auth.middleware.AuthenticationMiddleware",
             "django.contrib.messages.middleware.MessageMiddleware",
-            "osmaxx.job_progress.middleware.ExportUpdaterMiddleware",
         ],
         INSTALLED_APPS=[
             "django.contrib.auth",
@@ -83,6 +77,7 @@ def pytest_configure():
             "django.contrib.messages",
             "django.contrib.staticfiles",
             "django.contrib.gis",
+            "django_celery_beat",
             "rest_framework",
             "rest_framework_gis",
             "rest_framework.authtoken",
@@ -91,21 +86,19 @@ def pytest_configure():
             # version app
             "osmaxx.version",
             # conversion service apps
-            "osmaxx.clipping_area",
             "osmaxx.conversion",
             # web_frontend apps
             "osmaxx.core",
             "osmaxx.excerptexport",
-            "osmaxx.job_progress",
             "osmaxx.profile",
+            "osmaxx.user_messaging",
+            "osmaxx.clipping_area",
         ],
         PASSWORD_HASHERS=(
             "django.contrib.auth.hashers.SHA1PasswordHasher",
             "django.contrib.auth.hashers.PBKDF2PasswordHasher",
             "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
             "django.contrib.auth.hashers.BCryptPasswordHasher",
-            "django.contrib.auth.hashers.MD5PasswordHasher",
-            "django.contrib.auth.hashers.CryptPasswordHasher",
         ),
         RQ_QUEUE_NAMES=["default"],
         RQ_QUEUES={
@@ -171,7 +164,7 @@ def pytest_configure():
 # if any global fixtures are needed, add them below
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def requests_mock():
     import requests_mock
 
@@ -271,25 +264,6 @@ def frontend_accessible_authenticated_api_client(api_client, user):
 
     Profile.objects.create(associated_user=user, unverified_email=user.email)
     return create_authenticated_client(api_client, user)
-
-
-@pytest.fixture
-def persisted_valid_clipping_area():
-    from django.contrib.gis.geos import Polygon, MultiPolygon
-    from osmaxx.clipping_area.models import ClippingArea
-
-    poly_1 = Polygon(((0, 0), (0, 1), (1, 1), (0, 0)))
-    poly_2 = Polygon(((1, 1), (1, 2), (2, 2), (1, 1)))
-    multi_polygon = MultiPolygon(poly_1, poly_2)
-    persisted_valid_clipping_area = ClippingArea.objects.create(
-        name="test", clipping_multi_polygon=multi_polygon
-    )
-    assert persisted_valid_clipping_area.osmosis_polygon_file_string != ""
-    assert persisted_valid_clipping_area.osmosis_polygon_file_string is not None
-    assert str(persisted_valid_clipping_area) == "test ({})".format(
-        persisted_valid_clipping_area.id
-    )
-    return persisted_valid_clipping_area
 
 
 @pytest.fixture

@@ -7,7 +7,7 @@ from django.urls import reverse
 def test_profile_page_redirects_when_called_without_user(client):
     response = client.get(reverse("profile:edit_view"))
     assert response.status_code == 302
-    assert response.url == "/accounts/login/?next=/profile/edit/"
+    assert response.url == "/accounts/login/?next=/profile/edit"
 
 
 @pytest.mark.django_db()

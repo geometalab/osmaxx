@@ -1,4 +1,4 @@
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext_lazy as _
 
 from osmaxx.conversion.converters.converter_gis.layers import OUTPUT_LAYER_NAMES
 

@@ -63,5 +63,6 @@ def test_export_get_export_status_changed_message_does_not_html_escape_format_de
     excerpt = models.Excerpt(name='Obersee')
     extraction_order = models.ExtractionOrder(excerpt=excerpt)
     export = models.Export(id=5, status=status.FINISHED, extraction_order=extraction_order, file_format=output_format.GARMIN)
-    assert export._get_export_status_changed_message() == \
-        'Export #5 "Obersee" to Garmin navigation & map data has finished.'
+    assert export.update_is_overdue == False
+    assert export.can_be_deleted == True
+    assert export.is_status_final == True

@@ -6,25 +6,26 @@ from osmaxx.conversion.converters import utils
 
 @pytest.fixture
 def subprocess_check_call_mock(mocker):
-    return mocker.patch.object(subprocess, 'check_call')
+    return mocker.patch.object(subprocess, 'run')
 
 
 def test_logged_check_call_forwards_args(subprocess_check_call_mock):
     test_call = ['echo', '0']
     utils.logged_check_call(test_call)
-    subprocess_check_call_mock.assert_called_with(test_call)
+    subprocess_check_call_mock.assert_called_with(test_call, check=True, capture_output=True)
 
 
 def test_logged_check_call_forwards_kwargs(subprocess_check_call_mock):
     test_call = "echo 0"
     utils.logged_check_call(test_call, shell=True)
-    subprocess_check_call_mock.assert_called_with(test_call, shell=True)
+    subprocess_check_call_mock.assert_called_with(test_call, shell=True, check=True, capture_output=True)
 
 
 def test_logged_check_call_raises():
     with pytest.raises(subprocess.CalledProcessError) as excinfo:
-        utils.logged_check_call(['false'])
-    assert excinfo.value.output is None
+        utils.logged_check_call('false')
+    # the result should be an CalledProcessError, maybe check on that when done
+    assert excinfo.value.output is not None
     assert excinfo.value.returncode == 1
 
 

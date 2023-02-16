@@ -2,8 +2,6 @@ import random
 import string
 import glob
 import os
-from time import sleep
-import uuid
 import jinja2
 
 from memoize import mproperty

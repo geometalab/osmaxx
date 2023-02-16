@@ -4,8 +4,7 @@ import shutil
 import pytest
 from django.core.management import call_command
 from django.utils import timezone
-from django.utils.six import StringIO
-
+from io import StringIO
 from osmaxx.excerptexport.models import OutputFile
 
 

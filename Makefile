@@ -49,12 +49,12 @@ pip-sync-all: requirements-all.txt
 
 .PHONY: tests-quick
 tests-quick: up-redis up-pg
-	docker build -t worker:test -f Dockerfile.worker .
+	docker build --target worker -t worker:test -f Dockerfile .
 	docker run --link pg_tests:postgres --link redis-local:redis -e DJANGO_DB_PORT=5432 -e DJANGO_DB_HOST=postgres -e DJANGO_SETTINGS_MODULE= -v "$$(pwd):/code" --rm worker:test bash -c 'cp -r /code /tmp/code && cd /tmp/code/ && ./runtests.py $(PYTEST_ARGS)'
 
 .PHONY: tests-all
 tests-all: up-redis up-pg up-pg_translit
-	docker build -t worker:test -f Dockerfile.worker .
+	docker build --target worker -t worker:test -f Dockerfile .
 	docker run --link pg_translit:translit --link pg_tests:postgres --link redis-local:redis  -e DJANGO_DB_PORT=5432 -e DJANGO_DB_HOST=postgres -e PG_TRANSLIT_PORT=5432 -e PG_TRANSLIT_HOST=translit -e DJANGO_SETTINGS_MODULE= -v "$$(pwd):/code" --rm worker:test bash -c 'cp -r /code /tmp/code && cd /tmp/code/ && ./runtests.py $(PYTEST_ARGS) --runslow'
 
 .PHONY: tox
@@ -66,7 +66,7 @@ up-redis:
 	docker pull redis  > /dev/null
 	docker create -p "127.0.0.1:6379:6379" --name redis-local redis > /dev/null 2>&1 || true
 	docker start redis-local > /dev/null 2>&1 || true
-	./docker_entrypoint/wait-for-it/wait-for-it.sh 127.0.0.1:6379 -t 20
+	sleep 10
 
 .PHONY: down-redis
 down-redis:
@@ -77,7 +77,7 @@ up-pg:
 	docker pull geometalab/postgis-with-translit > /dev/null
 	docker create -p "127.0.0.1:54321:5432" -e POSTGRES_DB='postgres' --name pg_tests geometalab/postgis-with-translit > /dev/null 2>&1 || true
 	docker start pg_tests
-	./docker_entrypoint/wait-for-it/wait-for-it.sh 127.0.0.1:54321 -t 20
+	sleep 10
 
 .PHONY: down-pg
 down-pg:
@@ -88,7 +88,7 @@ up-pg_translit:
 	docker pull geometalab/postgis-with-translit > /dev/null
 	docker create -p "127.0.0.1:65432:5432" -e POSTGRES_DB='osmaxx_db' --name pg_translit geometalab/postgis-with-translit > /dev/null 2>&1  || true
 	docker start pg_translit
-	./docker_entrypoint/wait-for-it/wait-for-it.sh 127.0.0.1:65432 -t 20
+	sleep 10
 
 .PHONY: down-pg_translit
 down-pg_translit:

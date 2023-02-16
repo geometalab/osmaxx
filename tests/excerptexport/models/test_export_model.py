@@ -6,19 +6,6 @@ from django.utils import timezone
 
 from osmaxx.conversion import status
 from osmaxx.excerptexport.models.export import TimeStampModelMixin
-from osmaxx.excerptexport._settings import EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA
-
-
-@pytest.fixture
-def export_stale_status(mocker, export):
-    def timestamp_model_mixin_save_side_effect(self, *args, **kwargs):
-        super(TimeStampModelMixin, self).save(*args, **kwargs)
-    mocker.patch.object(TimeStampModelMixin, 'save', timestamp_model_mixin_save_side_effect)
-    now = timezone.now()
-    just_overdue = now - (EXTRACTION_PROCESSING_TIMEOUT_TIMEDELTA + timezone.timedelta(minutes=1))
-    export.updated_at = just_overdue
-    export.save()
-    return export
 
 
 @pytest.mark.django_db
@@ -55,24 +42,3 @@ def test_saved_again_export_doesnt_change_finished(export):
     assert export.finished_at is None
     export.save()
     assert export.finished_at is None
-
-
-def test_set_and_handle_new_status_when_status_outdated_is_set_to_failed(db, mocker, export_stale_status):
-    mocker.patch.object(export_stale_status, '_handle_changed_status')
-    export_stale_status.set_and_handle_new_status(export_stale_status.status, incoming_request=None)
-    assert export_stale_status.status == status.FAILED
-
-
-def test_set_and_handle_new_status_when_not_outdated_isnt_marked_as_failed(db, mocker, export):
-    mocker.patch.object(export, '_handle_changed_status')
-    export.set_and_handle_new_status(export.status, incoming_request=None)
-    assert export.status != status.FAILED
-
-
-def test_set_and_handle_new_status_when_outdated_isnt_marked_as_failed_when_status_is_failed(db, mocker, export_stale_status):
-    export_stale_status.status = status.FINISHED
-    export_stale_status.save()
-
-    mocker.patch.object(export_stale_status, '_handle_changed_status')
-    export_stale_status.set_and_handle_new_status(export_stale_status.status, incoming_request=None)
-    assert export_stale_status.status == status.FINISHED

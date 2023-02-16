@@ -1,4 +1,4 @@
-FROM postgis/postgis:14-3.1
+FROM postgis/postgis:15-3.3
 
 ########################
 ####### WORKER #########
@@ -42,14 +42,15 @@ RUN apt-get update && \
   && rm -rf /var/lib/apt/lists/*
 
 # ENV MAPNIK_VERSION="v2.5.9"
-ENV MAPNIK_VERSION="1d661242f1bcb62936156fb7321e16b6a756b230"
+ENV MAPNIK_VERSION="country-grid-download-fix"
 
 RUN apt-get update \
   && apt-get install -y pandoc libkakasi2-dev libicu-dev \
-  && git clone https://github.com/giggls/mapnik-german-l10n.git mapnik-german-l10n \
+  && git clone https://github.com/geometalab/mapnik-german-l10n.git mapnik-german-l10n \
   && cd mapnik-german-l10n && git checkout ${MAPNIK_VERSION} \
-  && make && make install && make clean \
-  && apt-get purge -y pandoc \
+  && make && make install && make clean
+
+RUN apt-get purge -y pandoc \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 

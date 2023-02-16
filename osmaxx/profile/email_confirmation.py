@@ -4,8 +4,8 @@ from django.core.cache import cache
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.text import unescape_entities
-from django.utils.translation import ugettext as _
+from html import unescape as unescape_entities
+from django.utils.translation import gettext as _
 from furl import furl
 
 RATE_LIMIT_SECONDS = 30

@@ -1,4 +1,5 @@
-from django.conf.urls import url, include
+from django.conf.urls import include
+from django.urls import path
 
 from osmaxx.profile.views import ProfileView, ActivationView, ResendVerificationEmail
 
@@ -6,10 +7,10 @@ app_name = "osmaxx.profile"
 
 profile_patterns = (
     [
-        url(r"^edit/$", ProfileView.as_view(), name="edit_view"),
-        url(r"^activate/$", ActivationView.as_view(), name="activation"),
-        url(
-            r"^resend_verification/$",
+        path("edit", ProfileView.as_view(), name="edit_view"),
+        path("activate", ActivationView.as_view(), name="activation"),
+        path(
+            "resend_verification",
             ResendVerificationEmail.as_view(),
             name="resend_verification",
         ),
@@ -17,4 +18,4 @@ profile_patterns = (
     "profile",
 )
 
-urlpatterns = [url("", include(profile_patterns))]
+urlpatterns = [path("", include(profile_patterns))]

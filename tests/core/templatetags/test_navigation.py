@@ -145,7 +145,7 @@ def test_siteabsoluteurl_when_secured_proxy_in_use_returns_absolute_nonhttp_urls
         "ftp://example.com/foo/bar has not been converted to HTTPS, because it isn't an HTTP URL.")
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def log_warning_mock(mocker):
     original_level = logger.level
     logger.setLevel(logging.WARNING)

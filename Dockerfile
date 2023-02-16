@@ -1,5 +1,5 @@
 # load additional data without downloading it everytime osmaxx sources change!
-FROM ubuntu:focal-20220302 as extra-data
+FROM ubuntu:focal-20221130 as extra-data
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
@@ -13,9 +13,10 @@ WORKDIR /additional_data/
 RUN wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O /additional_data/bounds.zip http://osm.thkukuk.de/data/bounds-latest.zip \
     && wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O /additional_data/sea.zip http://osm.thkukuk.de/data/sea-latest.zip
 
-# This GDAL image comes with support for FileGDB and has Python 3.8 already installed.
+# This GDAL image comes with support for FileGDB and has Python 3.10.6 already installed.
 # Based on image osgeo/gdal (which itself is derived from _/ubuntu).
-FROM geometalab/gdal:full-v3.4.1 as base
+# FROM osgeo/gdal:ubuntu-full-latest as base
+FROM osgeo/gdal@sha256:2156ef6155a2db81add85e7c919f43fe8c8dc48b1aa643364a509d316f469ac7 as base
 USER root
 
 ENV PYTHONUNBUFFERED=rununbuffered \
@@ -67,7 +68,6 @@ RUN useradd -d $HOME --uid 1000 --gid 100 -m $USER
 
 WORKDIR ${WORKDIR}
 
-# don't put on same line, workdir isn't set at the moment
 ENV PYTHONPATH="${PYTHONPATH}:${WORKDIR}"
 
 RUN pip install -U "poetry<$MAX_POETRY_VERSION" \

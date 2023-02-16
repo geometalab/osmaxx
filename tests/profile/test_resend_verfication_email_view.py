@@ -6,7 +6,7 @@ from django.urls import reverse
 def test_resend_verification_page_redirects_when_called_without_user(client):
     response = client.get(reverse("profile:resend_verification"))
     assert response.status_code == 302
-    assert response.url == "/accounts/login/?next=/profile/resend_verification/"
+    assert response.url == "/accounts/login/?next=/profile/resend_verification"
 
 
 def test_resend_verification_page_sends_mail_with_profile(

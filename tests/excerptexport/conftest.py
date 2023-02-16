@@ -63,7 +63,7 @@ def output_file_content():
     return b"some content"
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def some_fake_zip_file(request, output_file_content):
     tmpfile = tempfile.NamedTemporaryFile(suffix='.zip', delete=False)
 

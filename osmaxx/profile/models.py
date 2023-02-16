@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.core import signing
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from osmaxx.profile.email_confirmation import send_email_confirmation
 

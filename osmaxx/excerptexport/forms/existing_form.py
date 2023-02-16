@@ -3,7 +3,7 @@ from crispy_forms.layout import Layout, Fieldset, Submit, HTML
 from django import forms
 from django.urls import reverse
 from django.template.loader import render_to_string
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from osmaxx.excerptexport.models import ExtractionOrder, Excerpt
 from osmaxx.excerptexport.models.excerpt import (

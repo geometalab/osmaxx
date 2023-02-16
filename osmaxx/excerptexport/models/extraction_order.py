@@ -4,9 +4,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
 from django.template.loader import render_to_string
-from django.utils.functional import empty
-from django.utils.text import unescape_entities
-from django.utils.translation import ugettext_lazy as _
+from html import unescape as unescape_entities
+from django.utils.translation import gettext_lazy as _
 
 from osmaxx.conversion.converters.converter_gis.detail_levels import (
     DETAIL_LEVEL_CHOICES,
@@ -90,8 +89,10 @@ class ExtractionOrder(models.Model):
     @extraction_formats.setter
     def extraction_formats(self, value):
         new_formats = frozenset(value)
-        previous_formats = self.exports.values_list("file_format", flat=True)
-        assert new_formats.issuperset(previous_formats)
+        # skip if not new
+        if self.id is not None:
+            previous_formats = self.exports.values_list("file_format", flat=True)
+            assert new_formats.issuperset(previous_formats)
         self._new_formats = (
             new_formats  # Will be collected and cleaned up by attach_new_formats.
         )

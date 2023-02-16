@@ -62,20 +62,6 @@ def simple_osmosis_line_string():
     ])
 
 
-@pytest.fixture(params=format_list)
-def conversion_parametrization_data(request, persisted_valid_clipping_area, detail_level, out_srs):
-    out_format = request.param
-    clipping_area = persisted_valid_clipping_area.id
-    return {'out_format': out_format, 'out_srs': out_srs, 'clipping_area': clipping_area, 'detail_level': detail_level}
-
-
-@pytest.fixture(params=format_list)
-def conversion_parametrization(request, persisted_valid_clipping_area, detail_level, out_srs):
-    out_format = request.param
-    from osmaxx.conversion.models import Parametrization
-    return Parametrization.objects.create(out_format=out_format, detail_level=detail_level, out_srs=out_srs, clipping_area=persisted_valid_clipping_area)
-
-
 @pytest.fixture
 def server_url():
     return 'http://backends.own.url.example.com'
@@ -97,54 +83,6 @@ def empty_zip(request):
             pass
     request.addfinalizer(remove_tmp_file)
     return zip_file
-
-
-@pytest.fixture
-def conversion_job_data(conversion_parametrization):
-    conversion_parametrization = conversion_parametrization.id
-    return {'callback_url': 'http://callback.example.com', 'parametrization': conversion_parametrization}
-
-
-@pytest.fixture
-def conversion_job(conversion_parametrization, server_url):
-    from osmaxx.conversion.models import Job
-    return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization)
-
-
-@pytest.fixture
-def started_conversion_job(conversion_parametrization, server_url, fake_rq_id):
-    from osmaxx.conversion.models import Job
-    return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=status.STARTED)
-
-
-@pytest.fixture
-def failed_conversion_job(conversion_parametrization, server_url, fake_rq_id):
-    from osmaxx.conversion.models import Job
-    return Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=status.FAILED)
-
-
-@pytest.fixture
-def finished_conversion_job(request, conversion_parametrization, server_url, fake_rq_id, empty_zip):
-    from osmaxx.conversion.models import Job
-    conversion_job = Job.objects.create(own_base_url=server_url, parametrization=conversion_parametrization, rq_job_id=fake_rq_id, status=status.FAILED)
-    conversion_job.status = status.FINISHED
-    from osmaxx.conversion.management.commands.result_harvester import add_file_to_job
-    empty_zip_path = add_file_to_job(conversion_job=conversion_job, result_zip_file=empty_zip.name)
-
-    def remove_empty_zip_path():
-        try:
-            os.unlink(empty_zip_path)
-        except FileNotFoundError:  # already removed by some test
-            pass
-    request.addfinalizer(remove_empty_zip_path)
-
-    def remove_result_path():
-        import shutil
-        shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'job_result_files'))
-    request.addfinalizer(remove_result_path)
-
-    conversion_job.save()
-    return conversion_job
 
 
 @pytest.fixture

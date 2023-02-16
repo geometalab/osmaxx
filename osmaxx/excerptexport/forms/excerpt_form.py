@@ -5,7 +5,7 @@ from crispy_forms.layout import Layout, Fieldset, Field, Submit
 from django import forms
 from django.core.exceptions import ValidationError
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from osmaxx.excerptexport.models import Excerpt, ExtractionOrder
 from osmaxx.utils.dict_helpers import select_keys

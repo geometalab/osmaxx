@@ -1,17 +1,19 @@
-from django.conf.urls import url, include
+from django.conf.urls import include
 from django.views.generic import TemplateView
+
+from django.urls import path
 
 app_name = "osmaxx.core.pages"
 
 pages_patterns = (
     [
-        url(
-            r"^about/$",
+        path(
+            "about",
             TemplateView.as_view(template_name="pages/about_us.html"),
             name="about",
         ),
-        url(
-            r"^downloads/$",
+        path(
+            "downloads",
             TemplateView.as_view(template_name="pages/downloads.html"),
             name="downloads",
         ),
@@ -20,4 +22,4 @@ pages_patterns = (
 )
 
 
-urlpatterns = [url("", include(pages_patterns))]
+urlpatterns = [path("", include(pages_patterns))]
