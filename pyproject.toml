@@ -43,6 +43,7 @@ django-celery-results = "*"
 django-celery-beat = "*"
 pymemcache = "*"
 social-auth-app-django = "*"
+crispy-bootstrap3 = "^2022.1"
 
 [tool.poetry.dev-dependencies]
 pytest-django = "*"

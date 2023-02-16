@@ -32,7 +32,7 @@ class ExcerptViewSet(
 
 excerpt_detail = ExcerptViewSet.as_view(
     {"get": "retrieve"}
-)  # noqa: E305 expected 2 blank lines after class or function definition, found 0
+)
 
 
 class ExportViewSet(viewsets.mixins.DestroyModelMixin, viewsets.GenericViewSet):
@@ -46,7 +46,7 @@ class ExportViewSet(viewsets.mixins.DestroyModelMixin, viewsets.GenericViewSet):
 
 export_detail = ExportViewSet.as_view(
     {"delete": "destroy"}
-)  # noqa: E305 expected 2 blank lines after class or function definition, found 0
+)
 
 
 def estimated_file_size(request):

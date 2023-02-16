@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
     "social_django",
     # better forms
     "crispy_forms",
+    "crispy_bootstrap3",
     # rest API Framework
     "rest_framework",
     "rest_framework_gis",
@@ -145,13 +146,13 @@ DATABASES = {
 }
 # enable persistent connections:
 # https://docs.djangoproject.com/en/4.0/ref/settings/#conn-max-age
-DATABASES["default"]["CONN_MAX_AGE"] = None
+DATABASES["default"]["CONN_MAX_AGE"] = 0
 
-CONNECT_TIMEOUT_IN_SECONDS = 60 * 60 * 10 # ten hours
-
-DATABASES["default"]["OPTIONS"] = {
-    'connect_timeout': CONNECT_TIMEOUT_IN_SECONDS,
-}
+# CONNECT_TIMEOUT_IN_SECONDS = 60 * 60 * 10 # ten hours
+# 
+# DATABASES["default"]["OPTIONS"] = {
+#     'connect_timeout': CONNECT_TIMEOUT_IN_SECONDS,
+# }
 
 # disble atomic request, don't remember why we enabled it
 # DATABASES["default"]["ATOMIC_REQUESTS"] = True
@@ -301,8 +302,7 @@ SOCIAL_AUTH_PIPELINE = (
 
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "",
+        "BACKEND": 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
 
@@ -411,6 +411,7 @@ OSMAXX = {
     "SECURED_PROXY": env.bool("DJANGO_OSMAXX_SECURED_PROXY", False),
 }
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap3"
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 # Security - defaults taken from Django 1.8 (not secure enough for production)
@@ -441,31 +442,9 @@ CSRF_COOKIE_PATH = env.str("DJANGO_CSRF_COOKIE_PATH", default="/")
 CSRF_FAILURE_VIEW = env.str(
     "DJANGO_CSRF_FAILURE_VIEW", default="django.views.csrf.csrf_failure"
 )
-
+CSRF_TRUSTED_ORIGINS = env.list("DJANGO_CSRF_TRUSTED_ORIGINS", default=[])
 ## Sessions
-SESSION_CACHE_ALIAS = env.str("DJANGO_SESSION_CACHE_ALIAS", default="default")
-SESSION_COOKIE_AGE = env.int(
-    "DJANGO_SESSION_COOKIE_AGE", default=timedelta(weeks=2).total_seconds()
-)
-SESSION_COOKIE_DOMAIN = env.str("DJANGO_SESSION_COOKIE_DOMAIN", default=None)
-SESSION_COOKIE_HTTPONLY = env.bool("DJANGO_SESSION_COOKIE_HTTPONLY", default=True)
-SESSION_COOKIE_NAME = env.str("DJANGO_SESSION_COOKIE_NAME", default="sessionid")
-SESSION_COOKIE_PATH = env.str("DJANGO_SESSION_COOKIE_PATH", default="/")
 SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=True)
-SESSION_ENGINE = env.str(
-    "DJANGO_SESSION_ENGINE", default="django.contrib.sessions.backends.db"
-)
-SESSION_EXPIRE_AT_BROWSER_CLOSE = env.bool(
-    "DJANGO_SESSION_EXPIRE_AT_BROWSER_CLOSE", default=False
-)
-SESSION_FILE_PATH = env.str("DJANGO_SESSION_FILE_PATH", default=None)
-SESSION_SAVE_EVERY_REQUEST = env.bool(
-    "DJANGO_SESSION_SAVE_EVERY_REQUEST", default=False
-)
-SESSION_SERIALIZER = env.str(
-    "DJANGO_SESSION_SERIALIZER",
-    default="django.contrib.sessions.serializers.JSONSerializer",
-)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
