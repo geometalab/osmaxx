@@ -14,6 +14,7 @@ from pathlib import Path
 from django.conf import settings
 from django.utils import timezone
 from django.utils.text import slugify
+from django.db import connection
 from osmaxx.clipping_area.to_polyfile import create_poly_file_string
 from osmaxx.conversion.conversion_settings import CONVERSION_SETTINGS
 from osmaxx.conversion.constants import output_format
@@ -78,6 +79,8 @@ class ConversionHelper:
         now = timezone.now()
         unzipped_size = None
         try:
+            # force connetion close, since this can take very long
+            connection.close()
             unzipped_size = self._converter[export.file_format](export)
             of = OutputFile.objects.get(pk=of_id)
             of.file.name = self._relative_zip_result_path
