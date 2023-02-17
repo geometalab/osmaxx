@@ -107,19 +107,16 @@ FIXTURE_DIRS = [
 
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
-EMAIL_BACKEND = env.str(
-    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
+# https://django-environ.readthedocs.io/en/latest/types.html#environ-env-email-url
+EMAIL_CONFIG = env.email(
+    'DJANGO_EMAIL_URL',
+    default='consolemail://'
 )
-EMAIL_HOST = env.str("DJANGO_EMAIL_HOST", default="localhost")
-EMAIL_HOST_PASSWORD = env.str("DJANGO_EMAIL_HOST_PASSWORD", default="")
-EMAIL_HOST_USER = env.str("DJANGO_EMAIL_HOST_USER", default="")
-EMAIL_PORT = env.int("DJANGO_EMAIL_PORT", default=25)
+
+vars().update(EMAIL_CONFIG)
+
 EMAIL_SUBJECT_PREFIX = env.str("DJANGO_EMAIL_SUBJECT_PREFIX", default="[OSMaxx] ")
-EMAIL_USE_TLS = env.bool("DJANGO_EMAIL_USE_TLS", default=False)
-EMAIL_USE_SSL = env.bool("DJANGO_EMAIL_USE_SSL", default=False)
 EMAIL_TIMEOUT = env.int("DJANGO_EMAIL_TIMEOUT", default=None)
-EMAIL_SSL_CERTFILE = env.bool("DJANGO_EMAIL_SSL_CERTFILET", default=None)
-EMAIL_SSL_KEYFILE = env.bool("DJANGO_EMAIL_SSL_KEYFILE", default=None)
 DEFAULT_FROM_EMAIL = env.str("DJANGO_DEFAULT_FROM_EMAIL", default="webmaster@localhost")
 SERVER_EMAIL = env.str("DJANGO_SERVER_EMAIL", default="root@localhost")
 
