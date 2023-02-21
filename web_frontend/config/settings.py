@@ -462,7 +462,8 @@ CELERY_WORKER_CONCURRENCY = env.int("CELERY_WORKER_CONCURRENCY", default=1)
 CELERY_TASK_TIME_LIMIT = 60 * 60 * 24  # in seconds; default 24 hours
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_WORKER_CANCEL_LONG_RUNNING_TASKS_ON_CONNECTION_LOSS = True
-
+# default 24G
+WORKER_CACHE_MEGABYTES = env.int("WORKER_CACHE_MEGABYTES", default=24000)
 
 class glob_list(list):  # noqa
     def __contains__(self, key):

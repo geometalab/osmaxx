@@ -68,8 +68,7 @@ class Garmin:
             os.path.join(_path_to_commandline_utils, "splitter", "splitter.jar")
         )
 
-        logged_check_call(
-            [
+        logged_check_call(command=[
                 "java",
                 memory_option,
                 "-jar",
@@ -107,7 +106,7 @@ class Garmin:
             "--route",
         ]
 
-        logged_check_call(mkg_map_command + output_dir + config)
+        logged_check_call(command=mkg_map_command + output_dir + config)
         self._unzipped_result_size = recursive_getsize(out_dir)
 
     def _create_zip(self, data_dir):

@@ -41,13 +41,26 @@ def recursive_getsize(path):
     return size
 
 
-def logged_check_call(*args, **kwargs):
-    try:
-        print(subprocess.run(*args, **kwargs, check=True, capture_output=True))
-    except subprocess.CalledProcessError as e:
-        err = f"Command `{e.cmd}` exited with return value {e.returncode}\nOutput:\n{e.output}"
-        print(err)
-        print(e.stderr)
-        print(e.stdout)
-        logger.error(err)
-        raise
+def logged_check_call(*, command: list):
+    import os
+    # yes, this seems insecure. But: subprocess.run, even with bufsize=0, does
+    # use buffering. It then crashes on (some) large exports.
+    # It then has no error message.
+    # It then becomes a nightmare to debug.
+    # Please leave this as it is now to keep your sanity, I lost mine here ;-).
+    os.system(' '.join(command))
+
+    # leaving this code here, for future reference:
+    # we tried it this way, but it fails as above.
+    # We need the output, since else we loose
+    # the information on what might have been going wrong
+    # with the osm2pgsql itself.
+    # try:
+    #     print(subprocess.run(command, check=True, capture_output=True, bufsize=0))
+    # except subprocess.CalledProcessError as e:
+    #     err = f"Command `{e.cmd}` exited with return value {e.returncode}\nOutput:\n{e.output}"
+    #     print(err)
+    #     print(e.stderr)
+    #     print(e.stdout)
+    #     logger.error(err)
+    #     raise

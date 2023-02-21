@@ -165,5 +165,5 @@ class ConversionHelper:
             "-o",
             f"{self._pbf.name}",
         ]
-        logged_check_call(command)
+        logged_check_call(command=command)
         return self._pbf.name

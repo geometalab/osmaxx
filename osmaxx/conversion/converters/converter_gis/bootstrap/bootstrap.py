@@ -18,7 +18,7 @@ from osmaxx.conversion.converters.converter_gis.helper.osm_boundaries_importer i
 )
 from osmaxx.conversion.converters.utils import logged_check_call
 from osmaxx.utils import polyfile_helpers
-from osmaxx.conversion.conversion_settings import DBConfig
+from osmaxx.conversion.conversion_settings import DBConfig, WORKER_CACHE_MEGABYTES
 
 
 def get_random_string(length):
@@ -226,11 +226,15 @@ class BootStrapper:
             f"{db_host}",
             "--port",
             f"{db_port}",
+            "--cache",
+            f"{WORKER_CACHE_MEGABYTES}",
             "--create",
             "--extra-attributes",
             "--slim",
             "--latlon",
             "--prefix=osm",
+            "--log-level=debug",
+            "--log-sql",
             f"--style={self._terminal_style_path}",
             f"--tag-transform-script={self._style_path}",
             "--number-processes=4",
@@ -239,4 +243,4 @@ class BootStrapper:
             "pbf",
             self._pbf_file_path,
         ]
-        logged_check_call(osm_2_pgsql_command)
+        logged_check_call(command=osm_2_pgsql_command)
