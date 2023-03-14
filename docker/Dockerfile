@@ -1,5 +1,5 @@
 # load additional data without downloading it everytime osmaxx sources change!
-FROM ubuntu:focal-20221130 as extra-data
+FROM ubuntu:focal-20230301 as extra-data
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
@@ -13,26 +13,38 @@ WORKDIR /additional_data/
 RUN wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O /additional_data/bounds.zip http://osm.thkukuk.de/data/bounds-latest.zip \
     && wget -nv --show-progress --progress=bar:force:noscroll -c --tries=20 --read-timeout=20 -O /additional_data/sea.zip http://osm.thkukuk.de/data/sea-latest.zip
 
-# This GDAL image comes with support for FileGDB and has Python 3.10.6 already installed.
+# This GDAL image comes w/o support for FileGDB and has Python 3.10.6 already installed. 14.03.2023/nj
 # Based on image osgeo/gdal (which itself is derived from _/ubuntu).
+# https://hub.docker.com/r/osgeo/gdal/tags?page=1&name=ubuntu-full-latest
+# always use sha sum for reproduceability!
 # FROM osgeo/gdal:ubuntu-full-latest as base
-FROM osgeo/gdal@sha256:2156ef6155a2db81add85e7c919f43fe8c8dc48b1aa643364a509d316f469ac7 as base
+FROM osgeo/gdal@sha256:42f2cdac816afbefff77a1fe7a2814a3a089e7f18d58c7237e11769cc3121492 as base
 USER root
 
-ENV PYTHONUNBUFFERED=rununbuffered \
-    PYTHONIOENCODING=utf-8 \
-    SHELL=/bin/bash \
+# set default environment settings
+# system settings
+ENV SHELL=/bin/bash \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
+    PATH=/usr/bin/poetry/bin:$PATH \
+    # python specific settings
+    PYTHONUNBUFFERED=1 \
+    PYTHONIOENCODING=utf-8 \
     PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
+    PYTHONDONTWRITEBYTECODE=1 \
+    # pip settings
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    MAX_POETRY_VERSION=2 \
-    DOCKERIZE_VERSION=v0.6.1
+    # poetry settings
+    POETRY_VERSION=1.4.0 \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    POETRY_HOME=/usr/bin/poetry
 
+# install OS dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get install -y \
@@ -43,16 +55,24 @@ RUN apt-get update \
     ca-certificates \
     python3-distutils \
     python3-pip \
+    gosu \
+    super \
+    curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-    && locale-gen
+    && locale-gen \
+    && rm -rf /var/lib/apt/lists/* \
+    # verify that gosu the binary works
+	gosu nobody true
 
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    # Enable prompt color in the skeleton .bashrc before creating the default USERNAME
-    && sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc
+# install poetry
+RUN curl -sSL https://install.python-poetry.org > ./install-poetry.py \
+    && python ./install-poetry.py \
+    && rm ./install-poetry.py
+
+# install dockerize
+RUN curl -sfL https://github.com/powerman/dockerize/releases/download/v0.19.0/dockerize-`uname -s`-`uname -m` | install /dev/stdin /usr/local/bin/dockerize
 
 # use a more recent pip version to avoid issues 
 # with certificates being too old and stuff like that...
@@ -60,26 +80,18 @@ RUN wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py \
     && python get-pip.py \
     && rm get-pip.py
 
-ENV USER=py \
-    HOME=/home/py \
-    WORKDIR=/home/py/osmaxx
-
-RUN useradd -d $HOME --uid 1000 --gid 100 -m $USER
+# setup osmaxx project
+ENV PROJECT_FOLDER=osmaxx
+ENV POETRY_CACHE_DIR=/app/.cache USERNAME=py HOME=/app WORKDIR=/app/${PROJECT_FOLDER}
+RUN mkdir -p ${POETRY_CACHE_DIR}
 
 WORKDIR ${WORKDIR}
 
-ENV PYTHONPATH="${PYTHONPATH}:${WORKDIR}"
+COPY ./poetry.lock ./pyproject.toml ${HOME}
 
-RUN pip install -U "poetry<$MAX_POETRY_VERSION" \
-    && poetry config virtualenvs.create false
+ADD docker-entrypoint.sh /entrypoint/entrypoint.sh
 
-COPY ./poetry.lock ./pyproject.toml ${WORKDIR}/
-
-RUN poetry install --no-interaction --no-ansi
-
-# RUN python -m pip install --no-cache-dir install "poetry<$MAX_POETRY_VERSION" \
-#     && poetry export --dev -f requirements.txt --output requirements.txt \
-#     && pip install -r requirements.txt
+ENTRYPOINT ["/entrypoint/entrypoint.sh"]
 
 ########################
 ##### FRONTEND #########
@@ -93,11 +105,6 @@ ENV NUM_WORKERS=5 \
 
 EXPOSE 8000
 
-COPY ./osmaxx ${WORKDIR}/osmaxx
-COPY ./web_frontend ${WORKDIR}/web_frontend
-
-WORKDIR ${WORKDIR}/web_frontend
-
 CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
 
 ########################
@@ -106,7 +113,6 @@ CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
 
 FROM base as worker
 
-WORKDIR /var/data/garmin/additional_data/
 COPY --from=extra-data /additional_data /var/data/garmin/additional_data
 
 # make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
@@ -136,7 +142,20 @@ RUN apt-get update && \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-COPY ./osmaxx ${WORKDIR}/osmaxx
-COPY ./web_frontend ${WORKDIR}/web_frontend
+########################
+##### PRODUCTION #######
+########################
 
-WORKDIR ${WORKDIR}/web_frontend
+# prod frontend
+FROM frontend as frontend-prod
+
+RUN cd ../ && poetry install --no-interaction --no-ansi --no-root
+
+ADD osmaxx ${WORKDIR}
+
+# prod worker
+FROM worker as worker-prod
+
+RUN cd ../ && poetry install --no-interaction --no-ansi --no-root
+
+ADD osmaxx ${WORKDIR}
