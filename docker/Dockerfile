@@ -66,6 +66,38 @@ RUN apt-get update \
     # verify that gosu the binary works
 	gosu nobody true
 
+# worker dependencies
+COPY --from=extra-data /additional_data /var/data/garmin/additional_data
+
+# worker dependencies
+# make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
+RUN apt-get update \
+    && apt-get install -y \
+    apt-utils \
+    locales \
+    gpg \
+    curl \
+    ca-certificates \
+    gnupg \
+    osm2pgsql \
+    && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+# worker dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    \
+    make cmake g++ libboost-dev libboost-system-dev \
+    libboost-filesystem-dev libexpat1-dev zlib1g-dev \
+    libbz2-dev libpq-dev lua5.2 liblua5.2-dev \
+    libproj-dev \
+    curl git wget \
+    libstdc++6 \
+    osmctools \
+    osmium-tool \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # install poetry
 RUN curl -sSL https://install.python-poetry.org > ./install-poetry.py \
     && python ./install-poetry.py \
@@ -82,80 +114,59 @@ RUN wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py \
 
 # setup osmaxx project
 ENV PROJECT_FOLDER=osmaxx
-ENV POETRY_CACHE_DIR=/app/.cache USERNAME=py HOME=/app WORKDIR=/app/${PROJECT_FOLDER}
+ENV POETRY_CACHE_DIR=/app/.cache \
+    USERNAME=py \
+    HOME=/app WORKDIR=/app/${PROJECT_FOLDER}
+# one can only used a defined variable, else this is None
+ENV PYTHONPATH=${WORKDIR}
 RUN mkdir -p ${POETRY_CACHE_DIR}
 
 WORKDIR ${WORKDIR}
 
 COPY ./poetry.lock ./pyproject.toml ${HOME}
 
+FROM base as dev
+
 ADD docker-entrypoint.sh /entrypoint/entrypoint.sh
 
 ENTRYPOINT ["/entrypoint/entrypoint.sh"]
 
 ########################
-##### FRONTEND #########
+###### PRODUCTION ######
 ########################
 
-FROM base as frontend
+# prod-base
+FROM base as prod-base
 
-ENV NUM_WORKERS=5 \
-    DATABASE_HOST=frontenddatabase \
-    DATABASE_PORT=5432
+RUN poetry install --no-interaction --no-ansi --no-root
 
-EXPOSE 8000
+ADD . ${WORKDIR}
 
-CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
+ADD docker-entrypoint.sh /entrypoint/entrypoint.sh
 
-########################
+ENTRYPOINT ["/entrypoint/entrypoint.sh"]
+
+# The differences lie in the default start command.
+
+####### FRONTEND #######
+FROM prod-base as frontend
+CMD poetry run gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
+
+######## SETUP #########
+FROM prod-base as setup
+# sleep 30s to be sure the database is up
+CMD bash -c 'sleep 30s \
+      && poetry run python manage.py migrate --noinput \
+      && poetry run python manage.py collectstatic --noinput'
+
+######## FILE PURGE #########
+FROM prod-base as file-purge
+CMD poetry run python manage.py purge_expired_result_files
+
 ####### WORKER #########
-########################
+FROM prod-base as worker
+CMD poetry run celery -A config worker -l INFO
 
-FROM base as worker
-
-COPY --from=extra-data /additional_data /var/data/garmin/additional_data
-
-# make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
-RUN apt-get update \
-    && apt-get install -y \
-    apt-utils \
-    locales \
-    gpg \
-    curl \
-    ca-certificates \
-    gnupg \
-    osm2pgsql \
-    && rm -rf /var/lib/apt/lists/* \
-    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-
-RUN apt-get update && \
-    apt-get install -y \
-    \
-    make cmake g++ libboost-dev libboost-system-dev \
-    libboost-filesystem-dev libexpat1-dev zlib1g-dev \
-    libbz2-dev libpq-dev lua5.2 liblua5.2-dev \
-    libproj-dev \
-    curl git wget \
-    libstdc++6 \
-    osmctools \
-    osmium-tool \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-########################
-##### PRODUCTION #######
-########################
-
-# prod frontend
-FROM frontend as frontend-prod
-
-RUN cd ../ && poetry install --no-interaction --no-ansi --no-root
-
-ADD osmaxx ${WORKDIR}
-
-# prod worker
-FROM worker as worker-prod
-
-RUN cd ../ && poetry install --no-interaction --no-ansi --no-root
-
-ADD osmaxx ${WORKDIR}
+###### SCHEDULER #######
+FROM prod-base as scheduler
+CMD poetry run celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler

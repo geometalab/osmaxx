@@ -24,8 +24,6 @@ or simply
 ./runtests.py --webapp-tests
 ```
 
-More about testing can be found in the [Testing](testing.md) documentation.
-
 ## Use backend
 
 ### Create superuser

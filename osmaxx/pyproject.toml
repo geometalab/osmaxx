@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "osmaxx"
-version = "4.0.0"
+version = "5.0.0"
 description = ""
 authors = ["Geometa Lab <geometalab@ost.ch>"]
 
@@ -64,3 +64,17 @@ black = "*"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+    "tests",
+    "integration",
+]
+DJANGO_SETTINGS_MODULE = ''
+python_files = [
+    "tests",
+    "tests.py",
+    "test_*.py",
+    "*_tests.py",
+]

@@ -6,6 +6,6 @@ def test_version_view(client):
     import osmaxx
 
     assert osmaxx.__version__ in str(response.content)
-    # removed: we don't include git in the docker images anymore.
-    # TODO: find another solution to provide more accurate version information
     assert 'actual_version' not in str(response.content)
+    assert 'osmaxx' in str(response.content)
+    assert '5' in str(response.content)

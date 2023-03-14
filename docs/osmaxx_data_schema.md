@@ -27,7 +27,7 @@ These are possible enhancements in next releases:
 * Adding attribute height to tables like poi_p from external digital terrain model data
       like SRTM3.
 
-## How OSM data is being curated (discussion) ###
+## How OSM data is being curated (discussion)
 
 Semicolons in tag values:
 

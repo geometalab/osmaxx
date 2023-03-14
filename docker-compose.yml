@@ -62,26 +62,30 @@ services:
       - default
     logging:
       <<: *logging
+
   ##### frontend START ########
   frontend: &frontend
     # image: geometalab/osmaxx-frontend:latest
     image: registry.gitlab.ost.ch:45023/ifs/geometalab/osmaxx/osmaxx-frontend:latest
     build:
-      context: .
-      dockerfile: Dockerfile
-      target: frontend
-    entrypoint: dockerize -wait tcp://frontenddatabase:5432 -timeout 60s
-    # command: ./manage.py runserver_plus 0.0.0.0:8000
-    command: gunicorn -w 3 --reload -b 0.0.0.0:8000 --timeout 360 config.wsgi:application
-    user: "1000"
+      context: osmaxx/
+      dockerfile: ../docker/Dockerfile
+      target: dev
+    # on first start (development) you might probably get "module not found" exception.
+    # this is because we mount the folder and poetry hasn't installed the dependencies yet.
+    # this speeds up the development process (docker builds) when developing,
+    # and isn't an issue in production
+    command: >-
+      poetry run gunicorn -w 3 --reload -b 0.0.0.0:8000 --timeout 360 config.wsgi:application
     volumes:
-      - ./osmaxx:/home/py/osmaxx/osmaxx
-      - ./web_frontend:/home/py/osmaxx/web_frontend
+      - ./osmaxx:/app/osmaxx
       - frontend-media:/data/media
       - frontend-static:/data/static
       - worker-data:/data/media/job_result_files
       - osm_data:/var/data/osm-planet
     environment: &baseenv
+      # override this when your user is not 1000 for development
+      ? USER_ID=1000
       ? DJANGO_ALLOWED_HOSTS=*
       ? DJANGO_SECRET_KEY=insecure!1
       ? DJANGO_SETTINGS_MODULE=config.settings
@@ -106,16 +110,24 @@ services:
       - .env
     networks:
       - default
+    restart: on-failure
     logging:
       <<: *logging
 
   frontend-setup:
     <<: *frontend
-    command: bash -c "./manage.py migrate --noinput && ./manage.py collectstatic --noinput"
+    # poetry install --no-interaction --no-ansi is needed for development only
+    # since we mount the folder
+    command: >-
+      bash -c '
+      dockerize -wait tcp://frontenddatabase:5432 -timeout 60s
+      && poetry install --no-interaction --no-ansi --no-root
+      && poetry run python manage.py migrate --noinput 
+      && poetry run python manage.py collectstatic --noinput'
 
   frontend-purge-files:
     <<: *frontend
-    command: ./manage.py purge_expired_result_files
+    command: poetry run python manage.py purge_expired_result_files
 
   frontenddatabase:
     image: postgis/postgis:15-3.3
@@ -130,6 +142,7 @@ services:
       - default
     logging:
       <<: *logging
+
   redis:
     image: redis
     networks:
@@ -142,12 +155,11 @@ services:
     # image: geometalab/osmaxx-worker:latest
     image: registry.gitlab.ost.ch:45023/ifs/geometalab/osmaxx/osmaxx-worker:latest
     build:
-      context: .
-      dockerfile: Dockerfile
-      target: worker
-    entrypoint: dockerize -wait tcp://worker-db:5432 -timeout 60s
-    user: "1000"
-    command: celery -A config worker -l INFO
+      context: osmaxx/
+      dockerfile: ../docker/Dockerfile
+      target: dev
+    command: >-
+      poetry run celery -A config worker -l INFO
     environment: 
       <<: *baseenv
       ? DJANGO_SECRET_KEY=insecure!3
@@ -164,9 +176,11 @@ services:
       - default
     logging:
       <<: *logging
+
   scheduler:
     <<: *worker
-    command: celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: >-
+      poetry run celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
 
   worker-db:
     # image: geometalab/osmaxx-worker-db:latest
@@ -227,6 +241,7 @@ services:
       - default
     logging:
       <<: *logging
+
   ##### WORLD PBF UPDATER END ########
 volumes:
   # osmaxx

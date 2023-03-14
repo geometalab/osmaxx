@@ -11,7 +11,7 @@ GROUP_ID=${GROUP_ID:-100}
 
 echo "Starting with UID : $USER_ID as user ${USERNAME}"
 
-useradd -s /bin/bash --uid ${USER_ID}  --no-create-home --gid ${GROUP_ID} -d ${HOME} ${USERNAME}
+id -u ${USERNAME} &>/dev/null || useradd -s /bin/bash --uid ${USER_ID}  --no-create-home --gid ${GROUP_ID} -d ${HOME} ${USERNAME}
 
 chown -R ${USERNAME} ${HOME}
 

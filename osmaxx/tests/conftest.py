@@ -41,6 +41,8 @@ def pytest_configure():
             "django.template.loaders.filesystem.Loader",
             "django.template.loaders.app_directories.Loader",
         ),
+        CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap3",
+        CRISPY_TEMPLATE_PACK = "bootstrap3",
         TEMPLATES=[
             {
                 "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -81,7 +83,9 @@ def pytest_configure():
             "rest_framework",
             "rest_framework_gis",
             "rest_framework.authtoken",
+            # better forms
             "crispy_forms",
+            "crispy_bootstrap3",
             "tests",
             # version app
             "osmaxx.version",
@@ -147,6 +151,7 @@ def pytest_configure():
             "EXCLUSIVE_USER_GROUP": "dev",
             "ACCOUNT_MANAGER_EMAIL": "accountmanager@example.com",
         },
+        WORKER_CACHE_MEGABYTES=200,  # 200MB, only OK for tests!
         OSMAXX_FRONTEND_USER_GROUP="osmaxx_frontend_users",
         CACHES={
             "default": {

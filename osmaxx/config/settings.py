@@ -2,14 +2,10 @@
 Django settings for osmaxx project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/1.10/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.10/ref/settings/
+https://docs.djangoproject.com/en/4.1/topics/settings/
 """
 # flake8: noqa
 import os
-from datetime import timedelta
 from fnmatch import fnmatch
 import environ
 
@@ -476,10 +472,6 @@ class glob_list(list):  # noqa
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
 INTERNAL_IPS = glob_list(env.tuple("DJANGO_INTERNAL_IPS", default=("127.0.0.1",)))
-
-# TESTING
-# ------------------------------------------------------------------------------
-TEST_RUNNER = "django.test.runner.DiscoverRunner"
 
 # SENTRY
 SENTRY_DSN = env.str("SENTRY_DSN", default=None)
