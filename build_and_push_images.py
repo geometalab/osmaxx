@@ -76,6 +76,6 @@ if __name__ == "__main__":
         release = f'{release}-dirty'
     for image in IMAGES:
         docker_build(release=release, **image)
-    # for image in IMAGES:
-    #     docker_push(release=release, **image)
-    # print(release, " has been pushed, you can now use that in your deployment!")
+    for image in IMAGES:
+        docker_push(release=release, **image)
+    print(release, " has been pushed, you can now use that in your deployment!")
