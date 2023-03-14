@@ -25,6 +25,13 @@ Uses docker for all steps, and except the last one is quite common to be using n
 
 ## Developing
 
+### Database Migrations
+
+Whenever models are changed, run (and check into git) the changes:
+
+```bash
+docker compose run --rm frontend bash -c 'poetry run ./manage.py makemigrations'
+```
 
 ## Testing
 
@@ -68,28 +75,17 @@ If a version bump should be made, update the file in [`osmaxx/pyproject.toml`](.
 
 FIXME: Make example here.
 
-## Update persistence
+## Update database schema
 
 ### Update migration information
 
 ```shell
-docker-compose run webapp /bin/bash -c 'python3 manage.py makemigrations'
+docker-compose run frontend bash -c 'poetry run ./manage.py makemigrations'
 ```
 
 ### Run migrations on database
 ```shell
-docker-compose run webapp /bin/bash -c 'python3 manage.py migrate'
-```
-
-
-## Run unit-tests
-
-```shell
-docker-compose run webapp /bin/bash -c 'DJANGO_SETTINGS_MODULE=config.settings python3 manage.py test'
-```
-or simply
-```shell
-./runtests.py --webapp-tests
+docker-compose run frontend bash -c 'poetry run ./manage.py migrate'
 ```
 
 ## Use backend
@@ -97,12 +93,12 @@ or simply
 ### Create superuser
 
 ```shell
-docker-compose run webapp /bin/bash -c 'python3 manage.py createsuperuser'
+docker-compose run frontend bash -c 'poetry run ./manage.py createsuperuser'
 ```
 
 ### Update locales
 Please update locales only on release. Otherwise you will get huge diffs in feature pull requests.
 
 ```shell
-docker-compose run webapp /bin/bash -c 'python3 manage.py makemessages -a'
+docker-compose run frontend bash -c 'poetry run ./manage.py makemessages -a'
 ```
