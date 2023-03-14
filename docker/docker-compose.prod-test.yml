@@ -58,7 +58,7 @@ services:
     # image: geometalab/osmaxx-frontend:latest
     image: registry.gitlab.ost.ch:45023/ifs/geometalab/osmaxx/osmaxx-frontend:latest
     build:
-      context: ../osmaxx/
+      context: ../src/
       dockerfile: ../docker/Dockerfile
       target: frontend
     volumes:
@@ -99,7 +99,7 @@ services:
     <<: *frontend
     image: registry.gitlab.ost.ch:45023/ifs/geometalab/osmaxx/osmaxx-setup:latest
     build:
-      context: ../osmaxx/
+      context: ../src/
       dockerfile: ../docker/Dockerfile
       target: setup
 
@@ -107,7 +107,7 @@ services:
     <<: *frontend
     image: registry.gitlab.ost.ch:45023/ifs/geometalab/osmaxx/osmaxx-file-purger:latest
     build:
-      context: ../osmaxx/
+      context: ../src/
       dockerfile: ../docker/Dockerfile
       target: file-purge
 
@@ -136,7 +136,7 @@ services:
     <<: *frontend
     image: registry.gitlab.ost.ch:45023/ifs/geometalab/osmaxx/osmaxx-worker:latest
     build:
-      context: ../osmaxx/
+      context: ../src/
       dockerfile: ../docker/Dockerfile
       target: worker
     environment:
@@ -160,7 +160,7 @@ services:
     <<: *worker
     image: registry.gitlab.ost.ch:45023/ifs/geometalab/osmaxx/osmaxx-scheduler:latest
     build:
-      context: ../osmaxx/
+      context: ../src/
       dockerfile: ../docker/Dockerfile
       target: scheduler
     command: >-

@@ -68,7 +68,7 @@ services:
     # image: geometalab/osmaxx-frontend:latest
     image: registry.gitlab.ost.ch:45023/ifs/geometalab/osmaxx/osmaxx-frontend:latest
     build:
-      context: osmaxx/
+      context: src/
       dockerfile: ../docker/Dockerfile
       target: dev
     # on first start (development) you might probably get "module not found" exception.
@@ -78,7 +78,7 @@ services:
     command: >-
       poetry run gunicorn -w 3 --reload -b 0.0.0.0:8000 --timeout 360 config.wsgi:application
     volumes:
-      - ./osmaxx:/app/osmaxx
+      - ./src:/app/osmaxx
       - frontend-media:/data/media
       - frontend-static:/data/static
       - worker-data:/data/media/job_result_files
@@ -155,7 +155,7 @@ services:
     # image: geometalab/osmaxx-worker:latest
     image: registry.gitlab.ost.ch:45023/ifs/geometalab/osmaxx/osmaxx-worker:latest
     build:
-      context: osmaxx/
+      context: src/
       dockerfile: ../docker/Dockerfile
       target: dev
     command: >-

@@ -13,8 +13,8 @@
 ├── LICENSE
 ├── MANIFEST.in
 ├── mkdocs.yml
-├── osmaxx
-├── osmaxx/tests
+├── src
+├── src/tests
 └── README.md
 ```
 
@@ -25,8 +25,8 @@
 * `LICENSE`: MIT Licence for OSMaxx
 * `MANIFEST.in`: Python description file (https://packaging.python.org/en/latest/guides/using-manifest-in/)
 * `mkdocs.yml`: Documentation generator (https://www.mkdocs.org/)
-* `osmaxx`: The source files of the osmaxx project
-* `osmaxx/tests`: test for osmaxx
+* `src`: The source files of the osmaxx project
+* `src/tests`: test for osmaxx
 * `README.md`: The Readme, "standard" starting point for a OS project
 
 ## Development
