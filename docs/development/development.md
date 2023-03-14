@@ -70,10 +70,11 @@ docker compose -f docker/docker-compose.prod-test.yml down -v
 
 ## Releasing
 
-There is no special magic, just push new images.
-If a version bump should be made, update the file in [`osmaxx/pyproject.toml`](../../osmaxx/pyproject.toml).
+Update the version, and release new docker images.
 
-FIXME: Make example here.
+Version bumps should be made in the pyproject file at [`osmaxx/pyproject.toml`](../../osmaxx/pyproject.toml).
+
+FIXME: Create a release script, and/or automate the process.
 
 ## Update database schema
 
