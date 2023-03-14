@@ -96,4 +96,18 @@ if __name__ == "__main__":
         docker_build(release=release, **image)
     for image in IMAGES:
         docker_push(release=release, **image)
+
+    # release versions that do not contain breaking changes
+    if git_version == release:
+        shorter_release = release[:-2]
+        for image in IMAGES:
+            docker_build(release=shorter_release, **image)
+        for image in IMAGES:
+            docker_push(release=shorter_release, **image)
+        shorter_release = shorter_release[:-2]
+        for image in IMAGES:
+            docker_build(release=shorter_release, **image)
+        for image in IMAGES:
+            docker_push(release=shorter_release, **image)
+
     print(release, " has been pushed, you can now use that in your deployment!")
