@@ -39,7 +39,7 @@ IMAGES = [
     ),
     # osmboundaries needs special files,
     # to udpate please follow the instructions there
-    # (especially regarding the update_shaepfiles.sh!)
+    # (especially regarding the update_shapfiles.sh!)
 ]
 
 
