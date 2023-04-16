@@ -1,3 +1,10 @@
+# !ARCHIVED!
+
+**ARCHIVED: Development for this project has moved to [https://gitlab.com/geometalab/osmaxx](https://gitlab.com/geometalab/osmaxx)**
+
+All issues should have been moved as well.
+
+
 [![Build Status](https://travis-ci.org/geometalab/osmaxx.svg?branch=master)](https://travis-ci.org/geometalab/osmaxx) ([branch `master`](https://github.com/geometalab/osmaxx/tree/master))
 
 Django-based Web Frontend for **osmaxx**.
